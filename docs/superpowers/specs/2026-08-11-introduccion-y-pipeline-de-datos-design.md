@@ -321,28 +321,51 @@ propia entrada de calendario. **Las tareas se escriben una sola vez**, como
 
 - **Dónde vive todo** — el repositorio, el sitio, cómo se entregan las tareas.
 
-### `2_pipeline_de_datos/` — cinco páginas
+### `2_pipeline_de_datos/` — siete páginas, reescritas
 
-Adaptada del deck `clase/02_pipeline_de_datos/01_pipeline_de_datos.pdf` (33 slides).
-El contenido conceptual se conserva; la organización, los diagramas y la prosa se
-rehacen.
+El deck de p26 (`clase/02_pipeline_de_datos/01_pipeline_de_datos.pdf`, 33 slides) es
+un diccionario de definiciones y está desactualizado. **No se adapta: se reescribe.**
+Se conserva el temario conceptual, se descarta la organización.
 
-| Página | `id` | Contenido | Origen en el deck |
+Qué está mal con el deck, concretamente:
+
+1. **Nunca menciona ELT.** Presenta ETL como *la* forma, cuando el orden se invirtió
+   cuando el almacenamiento se abarató y el cómputo del warehouse se volvió elástico.
+2. **Data lake vs data warehouse como binario.** El lakehouse colapsó esa distinción.
+3. **Solo batch.** Ni streaming ni CDC — salvo una imagen de terceros que dice "CDC"
+   sin explicarlo.
+4. **Nada de lo que realmente rompe un pipeline**: idempotencia, backfills, evolución
+   de esquema, contratos de datos, orquestación, linaje, costo.
+5. **Un pipeline no es una flecha, es un DAG.** El deck nunca lo dice.
+6. **El dato de CrowdFlower** (60 % del tiempo limpiando) es de ~2016 y a estas
+   alturas es folklore reciclado de la industria.
+7. **Faltan roles**: analytics engineer y los de la era de los LLM.
+
+El eje nuevo: cada concepto aparece **como respuesta a una falla concreta**, no como
+definición suelta. El hilo conductor es que **el sitio del curso es un pipeline** —
+fuente en Markdown/YAML → validación → build → artifact → deploy. Tiene contrato
+(`raya validate`), es idempotente (misma fuente, mismo artifact) y corre orquestado
+en un DAG de GitHub Actions. Los alumnos lo pueden inspeccionar, y el link al
+repositorio ya se los dio la unidad de introducción.
+
+| Página | `id` | Pregunta que responde | Contenido |
 |---|---|---|---|
-| `0_index.md` | `pipeline-de-datos` | Qué es un pipeline. El flujo de 9 pasos, de la generación al consumo. Las cuatro etapas (ETL, EDA, entrenamiento, producción). Advertencia: son abstracciones, y el proceso no es lineal. | slides 2, 4, 5 |
-| `1_conceptos.md` | `conceptos-de-datos` | Datalake, base de datos, data warehouse. Pre-procesamiento vs procesamiento (la distinción es si afecta supuestos estadísticos). Algoritmo vs modelo. | slide 3 |
-| `2_etl.md` | `etl` | Extract (fuentes, conectividad, validación, metadatos), Transform (estandarización, nulos, duplicados, atípicos), Load. Datos tabulares y tidy data. | slides 11–16 |
-| `3_eda.md` | `eda` | Qué es el EDA y qué se busca. Calidad de datos en seis dimensiones. Viabilidad, conocimiento del negocio, visualización, herramientas. El dato del 60 % del tiempo en limpieza. | slides 6, 17–22 |
-| `4_posiciones.md` | `posiciones` | Los roles alrededor de un pipeline: ingeniere de datos, científique de datos, ML engineer, analista, MLOps, DevOps, developer (backend/frontend), PM, product owner. | slides 23–31 |
-| `5_presentacion.md` | `presentacion-pipeline` | El deck original, **abrir y descargar**. | — |
+| `0_index.md` | `pipeline-de-datos` | ¿Qué separa un pipeline de un script? | Que vuelve a correr mañana. El pipeline como DAG, no como flecha. El sitio del curso como ejemplo vivo. Las cuatro etapas y la advertencia de que no es lineal |
+| `1_el_viaje.md` | `el-viaje-de-los-datos` | ¿Esquema al escribir o al leer? | Datalake, base de datos, data warehouse **y lakehouse**, como respuestas a una pregunta de costo y de forma. Pre-procesamiento vs procesamiento. Algoritmo vs modelo |
+| `2_etl_elt.md` | `etl-y-elt` | ¿Por qué ETL se volvió ELT? | La historia económica del costo de almacenamiento. Extract, Transform y **la L que el deck nunca explica**. Tidy data como el objetivo de la T |
+| `3_eda.md` | `eda` | ¿El proyecto es siquiera viable? | EDA como control de viabilidad, no paso decorativo. Calidad de datos en seis dimensiones. Herramientas. El dato de limpieza citado con fecha y marcado como folklore |
+| `4_cuando_se_rompe.md` | `cuando-se-rompe` | ¿Por qué el mismo código dio otro número? | **Página nueva.** Idempotencia y backfills; evolución de esquema y contratos de datos; batch vs micro-batch vs streaming vs CDC; orquestación; linaje y observabilidad; costo |
+| `5_posiciones.md` | `posiciones` | ¿Quién es responsable de qué? | Los roles del deck, actualizados con analytics engineer y los de la era LLM, y la honestidad de que en una empresa chica una persona hace siete |
+| `6_presentacion.md` | `presentacion-pipeline` | — | El deck original, **abrir y descargar**, marcado como material histórico |
 
-Mejoras respecto a p26, explícitas:
+`4_cuando_se_rompe.md` es la que justifica el rediseño: idempotencia, contratos y
+orquestación son lo que separa a alguien que corrió un notebook de alguien que
+sostiene un pipeline.
 
-- El deck nunca explica la **L de ETL** (pasa de Transform a tidy data). Se escribe.
-- Las capturas en inglés y de terceros ("Caricatura Empresarial", StreamSets, la
-  gráfica de calidad de datos) se sustituyen por diagramas propios en español.
-- El dato de CrowdFlower (60 % del tiempo limpiando) se presenta con su fuente
-  citada, no como captura de pantalla de un blog.
+Cada página **apunta hacia adelante en el temario**: el módulo de terminal existe
+porque los datos llegan en archivos que hay que mover; el de Docker, porque un
+pipeline tiene que correr igual en tu máquina y en el servidor. La unidad es el mapa
+conceptual del semestre, no una clase suelta.
 
 ## Imágenes
 
@@ -354,13 +377,14 @@ tal cual: son arte de plantilla y capturas de terceros sin licencia clara.
 SVG propios y deterministas, en español, con los colores de la skin. El generador es
 la fuente de verdad; editar un SVG a mano es un error que la prueba detecta.
 
-1. El flujo de datos de nueve pasos.
-2. Las cuatro etapas: ETL → EDA → entrenamiento → producción, con el ciclo de vuelta.
-3. Ciclo de vida de un proyecto de datos (siete fases).
+1. El pipeline como DAG, no como flecha.
+2. Schema-on-write vs schema-on-read: BD, lake, warehouse, lakehouse.
+3. ETL vs ELT lado a lado, con la curva del costo de almacenamiento.
 4. Tidy data: variables, observaciones, valores.
 5. Calidad de datos: seis dimensiones.
-6. Distribución del tiempo del científico de datos (60/19/9/3/4/5), como gráfica real.
-7. Arquitectura moderna de integración de datos.
+6. Idempotencia: la misma corrida dos veces.
+7. Batch vs micro-batch vs streaming vs CDC — cuándo un dato es verdad.
+8. Ciclo de vida de un proyecto de datos.
 
 ### Ilustraciones — `tools/gen_ilustraciones.py`
 
