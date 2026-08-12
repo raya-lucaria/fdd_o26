@@ -1,0 +1,150 @@
+id: pipeline-de-datos-quiz
+type: quiz
+authority: official
+content:
+  questions:
+    - id: pipeline-vs-script
+      prompt: >-
+        ¿Qué separa a un pipeline de datos de un script que produjo el mismo
+        resultado una vez?
+      options:
+        - label: >-
+            Que el pipeline está hecho para volver a correr: tiene un contrato
+            sobre lo que entra y lo que sale, se puede reintentar sin ensuciar
+            el resultado y su ejecución está orquestada, no disparada a mano
+          correct: true
+        - label: >-
+            Que el pipeline usa herramientas especializadas y el script no; con
+            las mismas librerías serían lo mismo
+          correct: false
+        - label: >-
+            Que el pipeline procesa volúmenes grandes de datos y el script
+            volúmenes pequeños
+          correct: false
+        - label: >-
+            Que el pipeline corre en la nube y el script corre en la máquina de
+            quien lo escribió
+          correct: false
+
+    - id: schema-on-read-write
+      prompt: >-
+        Un equipo guarda archivos crudos tal como llegan de la fuente y decide
+        la estructura hasta el momento de consultarlos. ¿Qué está eligiendo, y
+        qué cuesta esa elección?
+      options:
+        - label: >-
+            Schema-on-read, propio del datalake: abarata y acelera la ingesta
+            porque nada se rechaza al escribir, pero traslada el costo a la
+            lectura, donde cada consumidor debe interpretar y validar los datos
+            por su cuenta
+          correct: true
+        - label: >-
+            Schema-on-write, propio del data warehouse: garantiza que todo dato
+            almacenado ya cumple un contrato
+          correct: false
+        - label: >-
+            Una elección sin consecuencias: el esquema es un detalle de
+            implementación que no afecta ni el costo ni la confiabilidad
+          correct: false
+        - label: >-
+            Schema-on-read, que elimina el problema de la calidad de datos
+            porque nunca se rechaza nada en la ingesta
+          correct: false
+
+    - id: por-que-elt
+      prompt: >-
+        ¿Por qué ETL se volvió ELT en buena parte de la industria?
+      options:
+        - label: >-
+            Porque el almacenamiento se abarató y el cómputo del warehouse se
+            volvió elástico, así que dejó de ser razonable transformar y
+            descartar antes de cargar: conviene guardar el crudo y transformar
+            en el destino, donde la transformación se puede rehacer sin volver
+            a la fuente
+          correct: true
+        - label: >-
+            Porque las transformaciones dejaron de ser necesarias cuando
+            aparecieron los data warehouses modernos
+          correct: false
+        - label: >-
+            Porque ETL producía resultados incorrectos y ELT los corrige
+          correct: false
+        - label: >-
+            Porque es solo un cambio de nombre comercial: las mismas etapas en
+            el mismo orden, vendidas de otra forma
+          correct: false
+
+    - id: preproceso-frontera
+      prompt: >-
+        Un compañero imputa los valores faltantes de una columna con su media y
+        lo llama "pre-procesamiento, nada que reportar". ¿Qué objeción cabe?
+      options:
+        - label: >-
+            Que imputar con la media altera la distribución —reduce la varianza
+            y puede sesgar las relaciones entre variables—, así que toca los
+            supuestos estadísticos y pertenece al procesamiento: hay que
+            justificarlo y documentarlo
+          correct: true
+        - label: >-
+            Ninguna: cualquier operación anterior al modelado es
+            pre-procesamiento por definición cronológica
+          correct: false
+        - label: >-
+            Que el problema es la herramienta: sería pre-procesamiento si se
+            hiciera en SQL en vez de en Python
+          correct: false
+        - label: >-
+            Que imputar faltantes nunca es aceptable y siempre hay que
+            descartar los renglones incompletos
+          correct: false
+
+    - id: idempotencia-reintento
+      prompt: >-
+        Un job de ingesta falla a la mitad, se reintenta, y al final del día la
+        tabla tiene renglones duplicados. ¿Qué propiedad faltaba y cómo se
+        obtiene?
+      options:
+        - label: >-
+            Faltaba idempotencia: el paso debe dejar el mismo estado corriendo
+            una o varias veces, y se consigue reemplazando la partición
+            completa o haciendo upsert contra una llave, en lugar de insertar a
+            ciegas
+          correct: true
+        - label: >-
+            Faltaba capacidad de cómputo: con más memoria el job habría
+            terminado a la primera y el problema no aparece
+          correct: false
+        - label: >-
+            Faltaba validación de esquema: si las columnas hubieran estado bien
+            tipadas no habría duplicados
+          correct: false
+        - label: >-
+            No faltaba nada: los duplicados son inevitables en cualquier
+            reintento y se limpian después, aguas abajo
+          correct: false
+
+    - id: dag-no-lineal
+      prompt: >-
+        ¿Por qué se insiste en que un pipeline es un DAG y en que el ciclo de
+        vida de un proyecto de datos no es lineal?
+      options:
+        - label: >-
+            Porque las etapas tienen dependencias que se ramifican y vuelven a
+            unirse —varias fuentes alimentan varias salidas, y el orden lo fija
+            la dependencia, no la narración—, y porque lo que se descubre en
+            exploración o en producción obliga a regresar a etapas anteriores
+          correct: true
+        - label: >-
+            Porque el término DAG es el nombre técnico correcto de cualquier
+            secuencia de pasos, aunque sea estrictamente lineal
+          correct: false
+        - label: >-
+            Porque los pipelines deben tener ciclos: un paso que se alimenta a
+            sí mismo es lo que los hace robustos
+          correct: false
+        - label: >-
+            Porque así lo exigen los orquestadores; conceptualmente el proceso
+            sí es una secuencia lineal de cuatro etapas
+          correct: false
+retrieval:
+  kind: concept-check

@@ -1,0 +1,14 @@
+id: cuentas-llms-datacamp
+type: assignment
+authority: official
+content:
+  title: "Crear cuentas: LLMs y DataCamp"
+  instructions: >-
+    Crea cuentas en las plataformas de LLM y únete al grupo de DataCamp con tu
+    correo @itam.mx. Verifica que puedas abrir un curso.
+  due: "2026-08-13"
+  points: 0
+  status: published
+  tags:
+    - cuentas
+    - setup

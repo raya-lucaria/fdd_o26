@@ -1,0 +1,15 @@
+id: etl-vs-elt
+type: card
+authority: official
+content:
+  front: ¿Qué diferencia a ETL de ELT y por qué se invirtió el orden?
+  back: >-
+    En ETL se transforma antes de cargar: al destino solo llega el dato ya
+    modelado. En ELT se carga el dato crudo primero y se transforma dentro del
+    destino. El orden cambió por economía: el almacenamiento se abarató varios
+    órdenes de magnitud y el cómputo del warehouse se volvió elástico, así que
+    dejó de tener sentido descartar datos antes de cargarlos. ELT preserva el
+    crudo, lo que permite rehacer una transformación sin volver a la fuente; a
+    cambio, se paga por gobernar y limpiar más adelante.
+retrieval:
+  kind: recall

@@ -1,0 +1,28 @@
+id: fdd-eva
+name: FDD Eva
+tokens:
+  color:
+    page: "#0b0f12"
+    surface: "#141b20"
+    text: "#e8f0e8"
+    muted: "#a7b8ad"
+    accent: "#7ef29d"
+    accent_soft: "#16302a"
+    border: "#4a7a63"
+    success: "#7ef29d"
+    warning: "#ffc857"
+    danger: "#ff8a7a"
+  graph:
+    group_1: "#7ef29d"
+    group_2: "#ffc857"
+    group_3: "#6fd8e8"
+    group_4: "#c9a7ff"
+    group_5: "#b8e986"
+    group_6: "#ff9f6b"
+    group_7: "#5fe0c0"
+    group_8: "#a7b8ad"
+  font:
+    body: "system-ui"
+    heading: "system-ui"
+    mono: "ui-monospace"
+  density: comfortable

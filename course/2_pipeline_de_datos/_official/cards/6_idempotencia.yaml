@@ -1,0 +1,16 @@
+id: idempotencia-en-pipelines
+type: card
+authority: official
+content:
+  front: >-
+    ¿Qué significa que un paso del pipeline sea idempotente y por qué importa?
+  back: >-
+    Que correrlo dos veces con la misma entrada deja el mismo resultado que
+    correrlo una vez. Importa porque los pipelines fallan a la mitad y hay que
+    reintentarlos: un paso que hace INSERT ciego duplica renglones en cada
+    reintento, mientras que uno que reemplaza la partición del día o hace
+    upsert por llave converge al mismo estado. Sin idempotencia no hay
+    reintentos seguros ni backfills, y el mismo código empieza a dar números
+    distintos según cuántas veces se ejecutó.
+retrieval:
+  kind: recall

@@ -1,0 +1,16 @@
+id: prompt-proceso-ciclico
+type: prompt
+authority: official
+content:
+  prompt: >-
+    El pipeline de datos se enseña casi siempre como una secuencia —extraer,
+    transformar, cargar, analizar— aunque en la práctica sea cíclico: lo que
+    se descubre explorando cambia lo que hay que extraer, y lo que falla en
+    producción reescribe las transformaciones. ¿Qué se pierde al presentarlo
+    como lineal? Piensa en qué decisiones se toman demasiado pronto y quedan
+    congeladas, qué señales del final del proceso nunca llegan al principio, y
+    cómo se reparte la culpa cuando un número sale mal. Después argumenta lo
+    contrario: qué gana un equipo al fingir que el proceso es lineal, y en qué
+    momento del proyecto esa ficción deja de ser útil.
+retrieval:
+  kind: reflection

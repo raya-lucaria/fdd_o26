@@ -1,0 +1,253 @@
+id: fdd-o26-calendar
+type: calendar
+authority: official
+scope:
+  quantum: course-root
+events:
+  - id: session-01
+    kind: session
+    date: "2026-08-11"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Introducción"
+    page: el-curso
+
+  - id: session-02
+    kind: session
+    date: "2026-08-13"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Pipeline de Datos"
+    page: pipeline-de-datos
+
+  - id: session-03
+    kind: session
+    date: "2026-08-18"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Sistemas Operativos"
+
+  - id: session-04
+    kind: session
+    date: "2026-08-20"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Terminal"
+
+  - id: session-05
+    kind: session
+    date: "2026-08-25"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Bash & Shell"
+
+  - id: session-06
+    kind: session
+    date: "2026-08-27"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Regex"
+
+  - id: session-07
+    kind: session
+    date: "2026-09-01"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Git"
+
+  - id: session-08
+    kind: session
+    date: "2026-09-03"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "GitHub"
+
+  - id: session-09
+    kind: session
+    date: "2026-09-08"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Docker I"
+
+  - id: session-10
+    kind: session
+    date: "2026-09-10"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Docker II"
+
+  - id: session-11
+    kind: session
+    date: "2026-09-15"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Python Basics"
+
+  - id: session-12
+    kind: session
+    date: "2026-09-22"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "IDEs"
+
+  - id: session-13
+    kind: session
+    date: "2026-09-24"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Gestión de dependencias (uv)"
+
+  - id: session-14
+    kind: session
+    date: "2026-09-29"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Memoria y referencias"
+
+  - id: session-15
+    kind: session
+    date: "2026-10-01"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Pydantic"
+
+  - id: session-16
+    kind: session
+    date: "2026-10-06"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Patrones funcionales"
+
+  - id: session-17
+    kind: session
+    date: "2026-10-08"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Metaprogramación"
+
+  - id: session-18
+    kind: session
+    date: "2026-10-13"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Logging"
+
+  - id: session-19
+    kind: session
+    date: "2026-10-15"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Configuración"
+
+  - id: session-20
+    kind: session
+    date: "2026-10-20"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Arquitectura de software"
+
+  - id: session-21
+    kind: session
+    date: "2026-10-22"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Testing"
+
+  - id: session-22
+    kind: session
+    date: "2026-10-27"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Despliegue"
+
+  - id: session-23
+    kind: session
+    date: "2026-10-29"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Arquitectura de computadoras"
+
+  - id: session-24
+    kind: session
+    date: "2026-11-03"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Concurrencia I"
+
+  - id: session-25
+    kind: session
+    date: "2026-11-05"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Concurrencia II"
+
+  - id: session-26
+    kind: session
+    date: "2026-11-10"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Concurrencia III"
+
+  - id: session-27
+    kind: session
+    date: "2026-11-12"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Arquitectura de sistemas I"
+
+  - id: session-28
+    kind: session
+    date: "2026-11-17"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Arquitectura de sistemas II"
+
+  - id: session-29
+    kind: session
+    date: "2026-11-19"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Arquitectura de sistemas III"
+
+  - id: session-30
+    kind: session
+    date: "2026-11-24"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Por determinar"
+
+  - id: session-31
+    kind: session
+    date: "2026-11-26"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Por determinar"
+
+  - id: session-32
+    kind: session
+    date: "2026-12-01"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Cierre y proyecto final"
+
+  - id: descanso-obligatorio-septiembre
+    kind: cancellation
+    date: "2026-09-17"
+    title: "Descanso obligatorio — no hay clase"
+    summary: "El jueves 17 de septiembre no hay sesión de Fuentes de Datos."
+
+  - id: inicio-de-cursos
+    kind: milestone
+    date: "2026-08-10"
+    title: "Inicio de cursos"
+
+  - id: fin-de-cursos
+    kind: milestone
+    date: "2026-12-02"
+    title: "Fin de cursos"
+
+  - id: examenes-finales
+    kind: milestone
+    date: "2026-12-07"
+    title: "Período de exámenes finales"
+    summary: "Del 7 al 19 de diciembre."

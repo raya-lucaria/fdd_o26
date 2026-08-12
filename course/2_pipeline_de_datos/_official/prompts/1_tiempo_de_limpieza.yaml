@@ -1,0 +1,18 @@
+id: prompt-tiempo-de-limpieza
+type: prompt
+authority: official
+content:
+  prompt: >-
+    Se repite en la industria que la mayor parte del tiempo de un proyecto de
+    datos se va en limpiar y preparar datos —la cifra que más se cita viene de
+    una encuesta de CrowdFlower de alrededor de 2016 y desde entonces se
+    recicla sin actualizar. Suponiendo que el orden de magnitud sea cierto,
+    ¿qué revela eso sobre el resto del proceso? Considera al menos dos
+    lecturas opuestas: que es un síntoma de fallas evitables aguas arriba
+    —fuentes sin contrato, esquemas que cambian sin avisar, capturas manuales—
+    o que es trabajo irreducible, porque decidir qué cuenta como dato válido
+    es ya una decisión analítica y no una tarea previa al análisis. Argumenta
+    cuál pesa más y qué cambiarías en un pipeline para moverte en esa
+    dirección.
+retrieval:
+  kind: reflection

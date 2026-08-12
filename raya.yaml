@@ -1,0 +1,18 @@
+course_id: fdd_o26
+title: "Fuentes de Datos — Otoño 2026 (ITAM)"
+description: "Curso de Fuentes de Datos del ITAM, Otoño 2026."
+language: "es"
+source: course
+artifact: artifact
+calendar:
+  timezone: America/Mexico_City
+render:
+  skin: fdd-eva
+  numbered_objects:
+    numbering: page-hierarchy
+    sequences:
+      figure: { label: "Figura", style: caption }
+      table: { label: "Tabla", style: caption }
+    families:
+      figure: { sequence: figure, label: "Figura" }
+      table: { sequence: table, label: "Tabla" }

@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Andamiaje Raya Lucaria
+artifact/
+.env
+__pycache__/
+.pytest_cache/

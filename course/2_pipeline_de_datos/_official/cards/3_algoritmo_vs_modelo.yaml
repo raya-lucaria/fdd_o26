@@ -1,0 +1,14 @@
+id: algoritmo-vs-modelo
+type: card
+authority: official
+content:
+  front: ¿En qué se diferencia un algoritmo de un modelo?
+  back: >-
+    El algoritmo es el procedimiento — la receta de pasos que consume datos y
+    ajusta parámetros. El modelo es el resultado de correr ese procedimiento
+    sobre unos datos concretos: los parámetros ya ajustados, más la estructura
+    que los sostiene. Un mismo algoritmo produce modelos distintos con datos
+    distintos; el algoritmo se elige, el modelo se obtiene. Por eso el modelo
+    hereda todo lo que traían los datos, incluidos sus sesgos.
+retrieval:
+  kind: recall

@@ -1,0 +1,16 @@
+id: ai-assisted-coding
+type: assignment
+authority: official
+content:
+  title: "Curso: AI Assisted Coding for Developers"
+  instructions: >-
+    Completa las dos primeras unidades del curso de DataCamp — "Unlocking the
+    Power of AI in Code" y "Prompt Engineering for Real-World Coding Tasks". La
+    evidencia se sube más adelante, al cerrar el módulo de Git; el curso hay que
+    hacerlo ahora porque se usa en las tareas siguientes.
+  due: "2026-08-13"
+  points: 20
+  status: published
+  tags:
+    - datacamp
+    - llms

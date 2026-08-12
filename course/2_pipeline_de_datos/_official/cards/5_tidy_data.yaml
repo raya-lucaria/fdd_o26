@@ -1,0 +1,14 @@
+id: que-hace-tidy-a-una-tabla
+type: card
+authority: official
+content:
+  front: ¿Qué hace que una tabla sea tidy?
+  back: >-
+    Tres reglas, en el sentido de Hadley Wickham: cada variable es una columna,
+    cada observación es un renglón, y cada tipo de unidad observacional vive en
+    su propia tabla. Una tabla con los años como columnas, o con "10 kg" en una
+    sola celda, viola la primera. El punto no es estético: tidy es la forma que
+    esperan las herramientas de análisis y graficado, así que ordenar una vez
+    ahorra reacomodos en cada paso posterior. Es el objetivo de la T de ETL.
+retrieval:
+  kind: recall

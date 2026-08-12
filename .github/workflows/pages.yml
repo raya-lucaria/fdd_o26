@@ -1,0 +1,40 @@
+name: Verify and publish course
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # Guardas de regresión del contenido: todo archivo de imagen tiene fila en
+  # CREDITOS.md y todo SVG coincide con lo que su generador produce hoy.
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install pytest pillow pyyaml
+      - run: python -m pytest tools/ -q
+
+  # `needs: checks` es lo que convierte las pruebas en una compuerta real. Sin
+  # esa línea ambos trabajos corren en paralelo y el sitio se publica aunque la
+  # suite falle.
+  course-pages:
+    needs: checks
+    uses: raya-lucaria/raya-lucaria.github.io/.github/workflows/reusable-course-pages.yml@b0ec778371c9d18a7178e35ebd356d9e3dba7d20
+    with:
+      course_path: .
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
