@@ -15,7 +15,7 @@ tags: [curso, evaluacion, temario, tareas]
 - El curso trata de **cómo los datos llegan desde donde se generan hasta donde se responde una pregunta**, y de hacer ese viaje repetible.
 - No es un catálogo de tecnologías: **cada módulo responde a una falla concreta**.
 - Son **32 sesiones en cinco fases**; el temario es provisional, el calendario no.
-- El 20 % de tareas y controles es **el mínimo de los dos**, no el promedio.
+- El 30 % de tareas y controles es **el mínimo de los dos**, no el promedio.
 - Hay **tres tareas para la segunda clase**, todas del jueves 13 de agosto de 2026.
 
 ## De qué trata
@@ -113,14 +113,14 @@ Qué hace la máquina de verdad, y qué pasa cuando el problema crece.
 | Peso | Componente |
 |---:|---|
 | 30 % | Proyecto final |
-| 20 % | **El mínimo** entre el promedio de tareas y el promedio de controles |
-| 10 % | Examen parcial 1 |
-| 10 % | Examen parcial 2 |
-| 10 % | Proyecto 1 |
-| 10 % | Proyecto 2 |
-| 10 % | Participación |
+| 30 % | **El mínimo** entre el promedio de tareas y el promedio de controles |
+| 8 % | Examen parcial 1 |
+| 8 % | Examen parcial 2 |
+| 8 % | Proyecto 1 |
+| 8 % | Proyecto 2 |
+| 8 % | Participación |
 
-### El 20 % es el mínimo, no el promedio
+### El 30 % es el mínimo, no el promedio
 
 Si terminas con 9 en tareas y 6 en controles, el componente se calcula **sobre 6**.
 
@@ -128,7 +128,8 @@ Las tareas se hacen con tiempo, con apuntes y con ayuda; los controles se respon
 
 ### El resto
 
-- **Los proyectos son la mitad de la calificación.** Este es un curso sobre construir cosas que funcionan más de una vez, y eso no se demuestra en un examen.
+- **Los proyectos son casi la mitad de la calificación** (46 %). Este es un curso sobre construir cosas que funcionan más de una vez, y eso no se demuestra en un examen.
+- **El trabajo continuo pesa 30 %**, tanto como el proyecto final. Sostener el ritmo semana a semana cuenta igual que la entrega grande del cierre.
 - **Los dos exámenes** cubren lo que hay que tener en la cabeza sin consultar: qué hace cada herramienta, qué supone, cuándo aplica y cuándo no.
 - **La participación** depende de que llegues con el entorno funcionando y el material leído.
 
@@ -191,7 +192,7 @@ Toma unos minutos y sirve para saber con qué llega el grupo —qué han program
 ## Qué te llevas
 
 - El curso enseña a hacer **repetible** un proceso de datos; cada módulo responde a una falla concreta.
-- **Los proyectos pesan la mitad**, y el bloque de tareas y controles se cuenta por el mínimo de los dos.
+- **Los proyectos pesan casi la mitad**, y el bloque de tareas y controles vale otro 30 %, contado por el mínimo de los dos.
 - **Este sitio es el primer pipeline del curso**: fuente en texto, validación, build determinista, despliegue automático.
 
 **Una acción:** contesta ahora el [cuestionario de introducción](https://forms.gle/dut5ZY8Y9FcUJYnZ7) — son unos minutos. Las cuentas y Claude 101, antes del jueves 13 de agosto.

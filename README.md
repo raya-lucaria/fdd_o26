@@ -26,14 +26,14 @@ calendario completo, con el tema de cada sesión y las fechas de entrega, está 
 | Peso | Componente |
 |---:|---|
 | 30 % | Proyecto final |
-| 20 % | **El mínimo** entre el promedio de tareas y el promedio de controles |
-| 10 % | Examen parcial 1 |
-| 10 % | Examen parcial 2 |
-| 10 % | Proyecto 1 |
-| 10 % | Proyecto 2 |
-| 10 % | Participación |
+| 30 % | **El mínimo** entre el promedio de tareas y el promedio de controles |
+| 8 % | Examen parcial 1 |
+| 8 % | Examen parcial 2 |
+| 8 % | Proyecto 1 |
+| 8 % | Proyecto 2 |
+| 8 % | Participación |
 
-Ese 20 % es la **menor** de las dos notas, no el promedio. La explicación está en
+Ese 30 % es la **menor** de las dos notas, no el promedio. La explicación está en
 [El curso](https://rayalucaria.org/fdd_o26/introduccion/el-curso/).
 
 ## Estructura
