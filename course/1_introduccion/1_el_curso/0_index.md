@@ -16,7 +16,7 @@ tags: [curso, evaluacion, temario, tareas]
 - No es un catálogo de tecnologías: **cada módulo responde a una falla concreta**.
 - Son **32 sesiones en cinco fases**; el temario es provisional, el calendario no.
 - El 20 % de tareas y controles es **el mínimo de los dos**, no el promedio.
-- Hay **dos tareas para la segunda clase**, ambas del jueves 13 de agosto de 2026.
+- Hay **tres tareas para la segunda clase**, todas del jueves 13 de agosto de 2026.
 
 ## De qué trata
 
@@ -145,9 +145,15 @@ Las tareas se entregan **en Canvas**. El repositorio y este sitio son de dónde 
 
 **Entrega de esta semana:** https://itam.instructure.com/courses/17979/assignments/225402
 
-## Las primeras dos tareas
+## Las primeras tres tareas
 
-Ambas vencen el **jueves 13 de agosto de 2026**, para la segunda clase. Sin ellas, la segunda sesión no te va a servir de mucho.
+Las tres vencen el **jueves 13 de agosto de 2026**, para la segunda clase. Sin ellas, la segunda sesión no te va a servir de mucho.
+
+| # | Tarea | Dónde |
+|:-:|---|---|
+| 1 | Crear cuentas: LLMs y DataCamp | En cada plataforma |
+| 2 | Curso Claude 101 | Evidencia a Canvas |
+| 3 | Cuestionario de introducción | Formulario de Google |
 
 ### Tarea 1 — Crear cuentas: LLMs y DataCamp
 
@@ -176,10 +182,16 @@ Completa el curso [Claude 101](https://academy.claude.com/courses/claude-101) de
 
 Hazlo **ahora**: las tareas de las siguientes semanas dan por hecho que sabes pedirle código a un modelo y, más importante, **revisar lo que te devuelve**.
 
+### Tarea 3 — Cuestionario de introducción
+
+Contesta el cuestionario: **https://forms.gle/dut5ZY8Y9FcUJYnZ7**
+
+Toma unos minutos y sirve para saber con qué llega el grupo —qué han programado antes, con qué herramientas— y ajustar el ritmo de las primeras semanas.
+
 ## Qué te llevas
 
 - El curso enseña a hacer **repetible** un proceso de datos; cada módulo responde a una falla concreta.
 - **Los proyectos pesan la mitad**, y el bloque de tareas y controles se cuenta por el mínimo de los dos.
 - **Este sitio es el primer pipeline del curso**: fuente en texto, validación, build determinista, despliegue automático.
 
-**Una acción:** crea hoy las cuentas de la Tarea 1 y termina Claude 101 antes del jueves 13 de agosto.
+**Una acción:** contesta ahora el [cuestionario de introducción](https://forms.gle/dut5ZY8Y9FcUJYnZ7) — son unos minutos. Las cuentas y Claude 101, antes del jueves 13 de agosto.

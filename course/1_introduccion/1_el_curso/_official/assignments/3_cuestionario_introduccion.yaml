@@ -1,0 +1,13 @@
+id: cuestionario-introduccion
+type: assignment
+authority: official
+content:
+  title: "Cuestionario de introducción"
+  instructions: >-
+    Contesta el cuestionario de introducción del curso:
+    https://forms.gle/dut5ZY8Y9FcUJYnZ7 Sirve para saber con qué llega el
+    grupo y ajustar el ritmo de las primeras semanas.
+  due: "2026-08-13"
+  points: 0
+  status: published
+  tags: [introduccion, cuestionario]
