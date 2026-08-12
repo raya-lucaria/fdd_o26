@@ -5,11 +5,11 @@ content:
   title: "Curso: Claude 101"
   instructions: >-
     Completa el curso Claude 101 de Claude Academy
-    (https://academy.claude.com/courses/claude-101). La evidencia se sube más
-    adelante, al cerrar el módulo de Git; el curso hay que hacerlo ahora porque
-    las tareas de las siguientes semanas dan por hecho que sabes pedirle código
-    a un modelo y revisar lo que devuelve.
+    (https://academy.claude.com/courses/claude-101) y sube la evidencia a
+    Canvas: https://itam.instructure.com/courses/17979/assignments/225402
+    Hazlo ahora porque las tareas de las siguientes semanas dan por hecho que
+    sabes pedirle código a un modelo y revisar lo que devuelve.
   due: "2026-08-13"
   points: 20
   status: published
-  tags: [llms, claude]
+  tags: [llms, claude, canvas]

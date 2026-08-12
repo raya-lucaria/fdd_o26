@@ -6,7 +6,8 @@ Este repositorio es la fuente del sitio. No es una copia de respaldo: el sitio s
 construye a partir de estos archivos en cada push a `main`, así que lo que lees en
 la web y lo que está aquí son la misma cosa vista de dos maneras.
 
-También es donde se entregan las tareas, por pull request.
+Las tareas **se entregan en Canvas**, no aquí:
+https://itam.instructure.com/courses/17979/assignments/225402
 
 ## Datos del curso
 

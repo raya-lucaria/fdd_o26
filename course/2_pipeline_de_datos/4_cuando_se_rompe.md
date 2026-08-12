@@ -4,7 +4,7 @@ title: "Cuando se rompe"
 nav_title: "Cuando se rompe"
 summary: "Idempotencia, contratos, latencia, orquestación, linaje y costo: lo que separa correr un notebook de sostener un pipeline."
 status: ready
-estimated_time: 25m
+estimated_time: 15m
 tags: [idempotencia, contratos, streaming, orquestacion, linaje, costo]
 prerequisites: [etl-y-elt]
 ---
@@ -15,13 +15,24 @@ prerequisites: [etl-y-elt]
 ![Tubería principal fracturada por la mitad con el caudal luminoso escapando por la grieta, y junto a ella un collarín de reparación con bridas y tornillos listos para cerrarla](_assets/ilus-ruptura.jpg)
 :::
 
-Las páginas anteriores describen un pipeline que funciona. Esta describe uno que
-lleva ocho meses corriendo, que alimenta un reporte que alguien mira todos los
-lunes, y del que dependen decisiones. Es la página que justifica que esta unidad
-se haya reescrito, porque es lo que separa a alguien que corrió un notebook de
-alguien que sostiene un sistema de datos.
+## En corto
 
-Seis problemas, en el orden en que suelen aparecer.
+- Las páginas anteriores describen un pipeline que funciona. Esta, **uno que lleva ocho meses corriendo**.
+- Seis fallas, en el orden en que aparecen, con el remedio que la industria le puso a cada una.
+- **La idempotencia sostiene todo lo demás**: sin ella no puedes reintentar nada.
+- Las fallas **silenciosas** son las peligrosas: alimentan decisiones durante semanas sin lanzar un error.
+- En un warehouse elástico, **el costo es una decisión de diseño**.
+
+## El mapa de las seis fallas
+
+| Síntoma | Causa | Qué lo evita |
+|---|---|---|
+| Las ventas del martes salen duplicadas | Se relanzó una corrida que escribe con `append` | **Idempotencia** |
+| El reporte dice cero y nadie ve un error | El origen renombró una columna | **Contrato de datos** ejecutable |
+| «El dato de ahora» significa cosas distintas | Régimen temporal mal elegido | **Batch, micro-batch, streaming o CDC** según la decisión |
+| El paso 4 falló y los pasos 5 a 9 corrieron | Nadie conoce el grafo | Un **orquestador** |
+| Nadie sabe de dónde sale la cifra | No hay registro de qué produjo qué | **Linaje** y **observabilidad** |
+| La factura del mes se disparó | Consultas que recorren todo, a destiempo | **Particionar y materializar** |
 
 ## 1. El mismo código dio otro número
 
@@ -29,68 +40,42 @@ Seis problemas, en el orden en que suelen aparecer.
 ![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](_assets/d-idempotencia.svg)
 :::
 
-El pipeline falló a mitad de la carga del martes. Alguien lo volvió a lanzar. El
-miércoles, las ventas del martes aparecen duplicadas.
+El pipeline falló a mitad de la carga del martes. Alguien lo relanzó. El miércoles las ventas del martes aparecen duplicadas.
 
-La propiedad que faltaba se llama **idempotencia**: correr el proceso una vez o
-correrlo cinco veces sobre la misma entrada deja el sistema en el mismo estado.
-No es una virtud abstracta, es la condición sin la cual **no puedes reintentar
-nada**, y en un sistema distribuido los reintentos no son opcionales: la red se
-cae, el proveedor devuelve un error transitorio, el orquestador reinicia una
-tarea que creía muerta y en realidad seguía viva.
+Faltaba la **idempotencia**: correr el proceso una vez o cinco sobre la misma entrada deja el sistema igual. Sin ella **no puedes reintentar nada**, y en un sistema distribuido los reintentos no son opcionales: la red se cae, el proveedor da un error transitorio, el orquestador reinicia una tarea que creía muerta.
 
-Se consigue de tres maneras, casi siempre combinadas: escribir con `upsert` en
-lugar de `append`, de modo que la segunda escritura actualice en vez de
-duplicar; **particionar por período** y sobrescribir la partición completa, de
-modo que reprocesar el 5 de agosto reemplace exactamente los datos del 5 de
-agosto; y hacer que cada corrida esté **parametrizada por su período**, no por
-«hoy». Un pipeline que internamente llama a la función que devuelve la fecha
-actual no se puede reejecutar para el pasado: da otro resultado cada día que
-corre.
+### Cómo se consigue
 
-Y reejecutar el pasado es exactamente lo que hace falta cuando aparece el
-**backfill**: descubres que la lógica de conversión de moneda estaba mal desde
-marzo y hay que recalcular cinco meses. Con un pipeline idempotente y
-particionado, un backfill es un bucle sobre fechas. Sin él, es un proyecto de
-dos semanas con intervención manual, y cada intervención manual es una nueva
-oportunidad de introducir una inconsistencia distinta.
+- **Escribir con `upsert`** en vez de `append`, para que la segunda escritura actualice.
+- **Particionar por período** y sobrescribir la partición entera: reprocesar el 5 de agosto reemplaza exactamente ese día.
+- **Parametrizar cada corrida por su período**, no por «hoy». Un pipeline que pregunta la fecha actual no se puede reejecutar para el pasado.
 
-El sitio de este curso es idempotente por construcción: `raya build` sobre la
-misma fuente produce el mismo `artifact/`, hoy y en tres meses. Por eso
-`artifact/` está en el `.gitignore` —no tiene sentido versionar algo
-reproducible— y por eso la publicación no depende de que nadie recuerde qué
-pasos corrió.
+### Para qué sirve: el backfill
+
+Descubres que la conversión de moneda estaba mal desde marzo y hay que recalcular cinco meses. Con un pipeline idempotente y particionado, ese **backfill** es un bucle sobre fechas. Sin él es un proyecto de dos semanas a mano, y cada intervención manual introduce una inconsistencia nueva.
+
+> [!NOTE]
+> El sitio de este curso es idempotente por construcción: `raya build` sobre la misma fuente produce el mismo `artifact/`. Por eso `artifact/` está en el `.gitignore` y publicar no depende de que nadie recuerde qué pasos corrió.
 
 ## 2. Alguien cambió una columna
 
-El lunes el pipeline funcionaba. El martes falla, o peor, no falla: el equipo
-que mantiene el sistema origen renombró `user_id` a `customer_id`, y tu `join`
-ahora no casa con nada, así que produce una tabla vacía y un reporte que dice
-cero.
+El lunes el pipeline funcionaba. El martes falla. O peor: no falla. El origen renombró `user_id` a `customer_id`, tu `join` ya no casa, y sale una tabla vacía y un reporte que dice cero.
 
-Esto se llama **evolución de esquema**, y es inevitable: los sistemas origen
-cambian porque el negocio cambia. Lo que no es inevitable es enterarse tarde. Los
-cambios se clasifican en dos:
+Esto es **evolución de esquema**, y es inevitable: los sistemas origen cambian porque el negocio cambia. Lo que no es inevitable es enterarse tarde.
 
-- **Compatibles hacia atrás** — añadir una columna nueva, ampliar un tipo. El
-  consumidor que no la conoce sigue funcionando.
-- **Incompatibles** — renombrar, borrar, cambiar el tipo, cambiar el significado
-  de un valor sin cambiar su nombre. Esta última es la peor, porque no hay error:
-  solo números distintos.
+| Tipo de cambio | Ejemplos | Efecto |
+|---|---|---|
+| **Compatible hacia atrás** | Añadir columna, ampliar un tipo | Quien no la conoce sigue funcionando |
+| **Incompatible** | Renombrar, borrar, cambiar el tipo | Se rompe con error visible |
+| **Incompatible silencioso** | Cambiar el significado de un valor | No hay error: solo números distintos. Es la peor |
 
-La respuesta organizacional es el **contrato de datos**: un acuerdo explícito y
-verificable entre quien produce el dato y quien lo consume, que declara qué
-campos existen, de qué tipo son, qué garantías de calidad ofrecen y con qué
-aviso previo pueden cambiar. Lo importante no es el documento sino que sea
-**ejecutable**: un contrato que solo vive en una wiki es una intención; uno que
-corre como validación en cada carga y detiene el pipeline es un contrato.
+### El contrato de datos
 
-Otra vez, el sitio del curso es el ejemplo más cercano. `raya validate` es el
-contrato: si una página no declara `id`, si dos páginas declaran el mismo, si un
-wikilink apunta a un identificador que no existe, la validación falla y el build
-no ocurre. La alternativa —publicar un sitio con enlaces rotos y descubrirlo
-cuando un alumno hace clic— es exactamente la falla silenciosa que un contrato
-previene.
+Es un acuerdo explícito y verificable entre quien produce el dato y quien lo consume: qué campos existen, de qué tipo, qué calidad garantizan y con cuánto aviso pueden cambiar.
+
+Lo importante no es el documento sino que sea **ejecutable**. Un contrato en una wiki es una intención; uno que corre en cada carga y detiene el pipeline es un contrato.
+
+`raya validate` es el de este sitio: si un wikilink apunta a un `id` inexistente, el build no ocurre, en vez de publicar enlaces rotos y enterarse cuando un alumno hace clic.
 
 ## 3. Tres mentiras distintas sobre cuándo un dato es verdad
 
@@ -98,127 +83,74 @@ previene.
 ![Diagrama comparativo de cuatro regímenes temporales de procesamiento, con la latencia entre el evento y su disponibilidad](_assets/d-tiempo.svg)
 :::
 
-«El dato de ayer» y «el dato de ahora» no son el mismo problema con distinta
-velocidad: son arquitecturas distintas. Hay cuatro regímenes, y cada uno cuenta
-una mentira distinta sobre en qué momento algo es verdad.
+«El dato de ayer» y «el dato de ahora» no son el mismo problema con distinta velocidad: **son arquitecturas distintas**. Cada régimen miente distinto sobre cuándo algo es verdad.
 
-**Batch.** Se procesa un lote completo cada cierto tiempo, típicamente una vez
-al día. La mentira es que **el mundo se detiene a medianoche**: el reporte dice
-«ventas del 4 de agosto» como si el 4 de agosto fuera un objeto cerrado, cuando
-en realidad hubo devoluciones el día 5 que corrigen esas ventas. Es el régimen
-más simple, el más barato y el que basta para la enorme mayoría de los casos.
+| Régimen | Latencia | Su mentira | Cuándo conviene |
+|---|---|---|---|
+| **Batch** | Horas o un día | Que el mundo se detiene a medianoche: hay devoluciones el día 5 que corrigen el 4 | Lo más simple y barato; basta casi siempre |
+| **Micro-batch** | Minutos | La misma, más pequeña | Casi tiempo real con casi la simplicidad del batch |
+| **Streaming** | Segundos | Que los eventos llegan en orden. No lo hacen | Cuando la decisión ocurre en el momento |
+| **CDC** | Milisegundos | Que hay un solo estado actual: siempre ves el pasado | Para capturar modificaciones que lo incremental no ve |
 
-**Micro-batch.** El mismo modelo, con lotes de minutos en vez de días. No cambia
-la naturaleza del problema, solo su tamaño. Es el compromiso pragmático más
-frecuente, porque da casi la sensación de tiempo real con casi la simplicidad del
-batch.
+### Streaming y CDC, con más detalle
 
-**Streaming.** Cada evento se procesa conforme llega. La mentira aquí es más
-sutil: **que los eventos llegan en orden**. No lo hacen. Un evento generado a las
-10:00 en un teléfono sin señal puede llegar al servidor a las 14:00. Eso obliga a
-distinguir entre el **tiempo del evento** —cuándo ocurrió— y el **tiempo de
-procesamiento** —cuándo lo vimos—, y a decidir cuánto se espera a los rezagados
-antes de cerrar una ventana. Esa decisión es un compromiso entre exactitud y
-latencia que no tiene solución correcta, solo una elegida a conciencia.
+En **streaming**, el desorden obliga a distinguir el **tiempo del evento** —cuándo ocurrió— del **tiempo de procesamiento** —cuándo lo vimos—. Un evento generado a las 10:00 en un teléfono sin señal llega a las 14:00. Hay que decidir cuánto esperar a los rezagados antes de cerrar una ventana: un compromiso entre exactitud y latencia sin solución correcta, solo elegida a conciencia.
 
-**CDC** (*change data capture*). En lugar de consultar la base origen, se lee su
-registro de transacciones y se replican los cambios. La mentira es que **hay un
-solo estado actual**: el consumidor siempre está viendo el pasado, con un retraso
-de replicación que existe aunque sea de milisegundos. CDC resuelve elegantemente
-el problema de las modificaciones que la extracción incremental no detecta —una
-fila vieja que alguien editó ayer no tiene fecha de creación nueva, pero sí
-aparece en el log de transacciones— y a cambio acopla tu pipeline a los detalles
-internos del sistema origen.
+En **CDC** (*change data capture*) no se consulta la base origen: se lee su registro de transacciones. Así se detecta la fila vieja que alguien editó ayer, que no tiene fecha de creación nueva pero sí aparece en el log. A cambio, **acopla tu pipeline a los detalles internos del origen**.
 
-La regla práctica: **elige el régimen por el tiempo de la decisión, no por la
-tecnología**. Si nadie va a actuar sobre ese número hasta la junta del lunes,
-streaming es un costo operativo sin beneficio. Si el sistema decide en tiempo
-real si una transacción es fraude, batch no es una opción.
+> [!TIP]
+> Elige el régimen por **el tiempo de la decisión**, no por la tecnología. Si nadie actúa sobre ese número hasta la junta del lunes, streaming es costo sin beneficio. Si el sistema decide en tiempo real si algo es fraude, batch no es opción.
 
 ## 4. Quién corre qué, y qué pasa si falla
 
-Un pipeline con un solo paso se resuelve con una tarea programada en el sistema
-operativo. Con veinte pasos que dependen entre sí, no.
+Un pipeline de un paso se resuelve con una tarea programada. Con veinte pasos que dependen entre sí, no.
 
-Aquí vuelve el DAG de la primera página, ahora con consecuencias operativas. Un
-**orquestador** —Airflow, Dagster, Prefect, o el propio motor de GitHub Actions
-para casos pequeños— es el componente que conoce el grafo y responde cinco
-preguntas que a mano no se sostienen: en qué orden corre cada nodo; cuáles pueden
-correr en paralelo; qué se reintenta y cuántas veces cuando algo falla; qué queda
-bloqueado aguas abajo de un nodo caído; y a quién se le avisa.
+Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect, o GitHub Actions para casos pequeños— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué va en paralelo, qué se reintenta, qué queda bloqueado aguas abajo y a quién se le avisa.
 
-La pregunta que revela si un pipeline está orquestado de verdad no es «¿corre
-solo?» sino **«¿qué pasa si el paso 4 de 9 falla a las 3 de la mañana?»**. Las
-respuestas malas son: nadie se entera hasta el lunes; los pasos 5 a 9 corren
-igual sobre datos incompletos; alguien tiene que recordar qué pasos ya
-terminaron para lanzar el resto a mano. Las respuestas buenas dependen todas de
-la idempotencia del punto 1.
+La pregunta que revela si está orquestado no es «¿corre solo?», sino **«¿qué pasa si el paso 4 de 9 falla a las 3 de la mañana?»**.
 
-El despliegue de este sitio es un DAG orquestado mínimo pero real: un trabajo de
-verificación, un trabajo de construcción que declara `needs` sobre el anterior, y
-una publicación que solo ocurre si los dos anteriores pasaron. Es el mismo
-principio que Airflow, con tres nodos en vez de doscientos.
+Respuestas malas: nadie se entera hasta el lunes; los pasos 5 a 9 corren sobre datos incompletos; alguien tiene que recordar qué terminó. Las buenas dependen todas de la idempotencia del punto 1. El despliegue de este sitio es el mismo principio que Airflow, con tres nodos en vez de doscientos.
 
 ## 5. De dónde salió este número
 
-Alguien en una junta señala una cifra en un tablero y pregunta de dónde sale. La
-respuesta honesta en muchas organizaciones es que nadie lo sabe con certeza sin
-dedicarle medio día a rastrear consultas.
+Alguien señala una cifra en un tablero y pregunta de dónde sale. En muchas organizaciones nadie lo sabe sin dedicarle medio día.
 
-**Linaje** es la respuesta a esa pregunta: el mapa de qué tabla se construyó a
-partir de qué tablas, con qué transformación y en qué corrida. Sirve en dos
-direcciones. Hacia atrás, para auditar un número. Hacia adelante, para el
-**análisis de impacto**: si voy a cambiar esta columna, ¿qué se rompe? Sin
-linaje, esa pregunta se responde con una búsqueda de texto y con esperanza.
+**Linaje** es el mapa de qué tabla salió de qué tablas, con qué transformación y en qué corrida. Sirve hacia atrás, para **auditar** un número, y hacia adelante, para el **análisis de impacto**: si cambio esta columna, ¿qué se rompe? Sin linaje eso se responde con una búsqueda de texto y con esperanza.
 
-**Observabilidad** es lo que hace que un problema se note antes de que lo note el
-consumidor. Un pipeline observable registra, en cada corrida, cuánto tardó,
-cuántas filas procesó, cuántas se rechazaron, y **cómo se comparan esos números
-con los de las corridas anteriores**. Esa última parte es la que detecta las
-fallas silenciosas: un pipeline que normalmente carga cien mil filas y hoy cargó
-ochocientas no lanzó ningún error, y aun así algo se rompió.
+### Observabilidad y las dos formas de fallar
 
-Conviene distinguir dos formas de fallar. La **ruidosa** —una excepción, un
-proceso que se muere— es incómoda y benigna: se nota. La **silenciosa** —el
-`join` que devuelve vacío, la columna que ahora llega en nulos, el filtro que
-descarta de más— es la peligrosa, porque alimenta decisiones durante semanas.
-Casi toda la ingeniería de observabilidad existe para convertir fallas
-silenciosas en ruidosas.
+Un pipeline **observable** registra en cada corrida cuánto tardó, cuántas filas procesó y cuántas rechazó, y **compara esos números con las corridas anteriores**. Esa comparación detecta lo invisible: el pipeline que carga cien mil filas y hoy cargó ochocientas no lanzó ningún error, y aun así algo se rompió.
+
+| Forma de fallar | Ejemplos | Por qué |
+|---|---|---|
+| **Ruidosa** | Una excepción, un proceso que muere | Incómoda y benigna: se nota |
+| **Silenciosa** | El `join` vacío, la columna que llega en nulos, el filtro que descarta de más | Peligrosa: alimenta decisiones durante semanas |
+
+Casi toda la observabilidad existe para **convertir fallas silenciosas en ruidosas**.
 
 ## 6. Por qué la consulta bonita costó 400 dólares
 
-En un warehouse elástico, el cómputo se paga por uso, y el uso lo genera
-cualquiera con acceso a una consola. Alguien escribe un `SELECT *` sobre una
-tabla de varios terabytes para «echarle un ojo», y esa curiosidad aparece en la
-factura del mes. Alguien programa un tablero que refresca cada cinco minutos una
-consulta que recorre el histórico completo, y esa consulta corre 288 veces al
-día para responderle a nadie de madrugada.
+En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualquiera con una consola. Un `SELECT *` sobre varios terabytes «para echarle un ojo» aparece en la factura. Un tablero que refresca cada cinco minutos una consulta sobre todo el histórico corre 288 veces al día para responderle a nadie de madrugada.
 
-El costo es una propiedad del diseño, no un detalle administrativo, y hay cuatro
-palancas concretas:
+### Cuatro palancas
 
-- **Particionar** por fecha y **filtrar por partición**, para que la consulta
-  toque solo el trozo relevante en lugar de la tabla entera.
-- **Seleccionar columnas** en vez de `SELECT *`; en formatos columnares como
-  Parquet, leer tres columnas de cien es leer el 3 % de los bytes.
-- **Materializar** los resultados intermedios que se consultan muchas veces, en
-  lugar de recalcularlos en cada consulta.
-- **Ajustar la frecuencia a la decisión**: un tablero que se mira una vez al día
-  no necesita refrescarse cada cinco minutos.
+- **Particionar** por fecha y **filtrar por partición**, para tocar solo el trozo relevante.
+- **Seleccionar columnas** en vez de `SELECT *`: en Parquet, tres columnas de cien es el 3 % de los bytes.
+- **Materializar** los resultados intermedios que se consultan muchas veces.
+- **Ajustar la frecuencia a la decisión**: un tablero diario no se refresca cada cinco minutos.
 
-Hay una consecuencia cultural que vale la pena nombrar. Cuando el cómputo era
-fijo, una consulta ineficiente era lenta y el castigo era esperar. Ahora es
-rápida y el castigo llega treinta días después en una factura que nadie asocia
-con quién la escribió. Por eso el costo dejó de ser problema del área de
-finanzas y pasó a ser criterio de ingeniería.
+Hay una consecuencia cultural. Cuando el cómputo era fijo, una consulta ineficiente era lenta y el castigo era esperar. Ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
 
 ## Hacia adelante
 
-Reproducibilidad, aislamiento y «corre igual aquí que allá» son la razón por la
-que **Docker** aparece en este curso. Un pipeline idempotente cuyo entorno de
-ejecución cambia entre tu laptop y el servidor no es idempotente: es un pipeline
-con una variable oculta más.
+Reproducibilidad y «corre igual aquí que allá» son la razón por la que **Docker** aparece en este curso. Un pipeline idempotente cuyo entorno cambia entre tu laptop y el servidor no es idempotente: tiene una variable oculta más.
 
-La siguiente página, [[posiciones|Posiciones]], reparte todo lo que llevamos
-—extracción, transformación, contratos, orquestación, modelos, costo— entre las
-personas que en una organización se hacen responsables de cada trozo.
+La siguiente página, [[posiciones|Posiciones]], reparte todo lo anterior entre las personas responsables de cada trozo.
+
+## Qué te llevas
+
+- **La idempotencia sostiene todo lo demás**: sin ella no hay reintentos, ni backfills, ni orquestación que valga.
+- Un contrato que no se ejecuta es una intención; **el que detiene el pipeline es el contrato**.
+- Lo que hay que cazar es **la falla silenciosa**, comparando cada corrida con las anteriores.
+
+**Una acción:** toma un proceso tuyo que escriba datos y pregúntate qué pasa si lo corres dos veces seguidas. Si la respuesta es «se duplica», ya sabes qué arreglar primero.

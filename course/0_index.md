@@ -31,10 +31,9 @@ lees aquí y lo que está en el repositorio son la misma cosa vista de dos maner
 Ahí están las notas de cada sesión, el material de apoyo, el calendario y la
 definición de cada tarea.
 
-También es **el lugar donde se entregan las tareas**. No hay correo de entrega ni
-plataforma aparte: el trabajo se entrega abriendo un pull request contra ese
-repositorio. En la segunda clase vemos el mecanismo completo; por ahora basta con
-que lo tengas abierto y le des una vuelta.
+**Las tareas se entregan en Canvas**, no aquí. El repositorio es de dónde sacas el
+material; Canvas es a dónde subes la evidencia:
+https://itam.instructure.com/courses/17979/assignments/225402
 
 ## Fechas académicas que afectan al curso
 
