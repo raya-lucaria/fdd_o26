@@ -11,6 +11,10 @@ prerequisites: [pipeline-de-datos]
 
 # Presentación
 
+::: figure {#ilus-archivo title="Material histórico, conservado y consultable"}
+![Estantería de archivo metálica con cajones abiertos, carretes de microfilm, planos enrollados y láminas apiladas cubiertas de una capa fina de polvo](_assets/ilus-archivo.jpg)
+:::
+
 Hasta el semestre de Primavera 2026, esta unidad se daba con una presentación de
 **33 diapositivas**. Esa presentación sigue disponible aquí, y esta página
 explica en qué condición se ofrece.

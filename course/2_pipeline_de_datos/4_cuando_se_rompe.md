@@ -11,6 +11,10 @@ prerequisites: [etl-y-elt]
 
 # Cuando se rompe
 
+::: figure {#ilus-ruptura title="Toda fractura tiene su collarín de reparación"}
+![Tubería principal fracturada por la mitad con el caudal luminoso escapando por la grieta, y junto a ella un collarín de reparación con bridas y tornillos listos para cerrarla](_assets/ilus-ruptura.jpg)
+:::
+
 Las páginas anteriores describen un pipeline que funciona. Esta describe uno que
 lleva ocho meses corriendo, que alimenta un reporte que alguien mira todos los
 lunes, y del que dependen decisiones. Es la página que justifica que esta unidad

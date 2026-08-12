@@ -11,6 +11,10 @@ prerequisites: [cuando-se-rompe]
 
 # Posiciones
 
+::: figure {#ilus-oficios title="Siete estaciones, siete instrumentales distintos"}
+![Taller industrial vacío con siete estaciones de trabajo contiguas, cada una con su banco y su tablero de herramientas colgadas: llaves, manómetros, soldadura, instrumentos de medición](_assets/ilus-oficios.jpg)
+:::
+
 Un pipeline roto a las tres de la mañana tiene una pregunta más urgente que la
 técnica: **a quién se le avisa**. Esta página recorre los papeles que existen en
 un equipo de datos, no como catálogo de puestos para una feria de empleo, sino

@@ -11,6 +11,10 @@ prerequisites: [pipeline-de-datos]
 
 # El viaje de los datos
 
+::: figure {#ilus-viaje title="Cada escala guarda el mismo caudal de otra manera"}
+![Cuatro depósitos industriales de forma distinta —una cisterna sellada, un estanque abierto, un silo de compartimentos y un tanque híbrido— conectados por tuberías que llevan el mismo caudal luminoso](_assets/ilus-viaje.jpg)
+:::
+
 Un dato nace en algún lado —un formulario que alguien llenó, un sensor, una API
 de un proveedor, un log de un servidor— y termina en otro lado —una gráfica, una
 decisión, un modelo—. Entre esos dos puntos hay un viaje, y en cada escala hay

@@ -39,17 +39,74 @@ durante el semestre según el ritmo del grupo y los temas que resulten más úti
 El calendario, en cambio, sí está completo desde hoy, y ahí aparece el tema
 asignado a cada sesión.
 
-| Fase | De qué va |
-|---|---|
-| **1. Fundamentos de infraestructura** | La máquina antes del código: pipeline de datos, sistemas operativos, terminal, bash y shell scripting, expresiones regulares |
-| **2. Control de versiones y contenedores** | Git y GitHub como el sustrato del trabajo reproducible; Docker e imágenes como la forma de que el entorno viaje con el proceso |
-| **3. Python profesional** | De escribir Python a sostenerlo: gestión de dependencias con uv, memoria y referencias, Pydantic, patrones funcionales, metaprogramación, logging, configuración, arquitectura, testing y despliegue |
-| **4. Computación y concurrencia** | Qué hace la máquina de verdad: arquitectura de computadoras, concurrencia y paralelismo, y diseño de sistemas distribuidos, APIs y almacenamiento |
-| **5. Integración** | Temas avanzados según los intereses del grupo, y el cierre con el proyecto final |
+Son 32 sesiones repartidas en cinco fases. La progresión es deliberada: primero la
+máquina, luego la disciplina de trabajo, luego el lenguaje bien usado, y al final
+lo que pasa cuando el problema deja de caber en una sola computadora.
 
-La progresión es deliberada: primero la máquina, luego la disciplina de trabajo,
-luego el lenguaje bien usado, luego lo que pasa cuando el problema deja de caber
-en una sola computadora.
+### Fase 1 — Fundamentos de infraestructura
+
+La máquina antes del código.
+
+| # | Tema | De qué va |
+|:-:|---|---|
+| 1 | Introducción | Presentación del curso, objetivos y metodología |
+| 2 | Pipeline de datos | Arquitectura de flujos de datos, ETL y ELT, principios de diseño |
+| 3 | Sistemas operativos | Procesos, memoria, sistema de archivos, permisos |
+| 4 | Terminal | Línea de comandos, navegación, manipulación de archivos |
+| 5 | Bash & Shell | Scripting, variables, control de flujo, automatización |
+| 6 | Regex | Expresiones regulares, patrones, búsqueda y transformación de texto |
+
+### Fase 2 — Control de versiones y contenedores
+
+Cómo se vuelve reproducible y colaborable lo que haces.
+
+| # | Tema | De qué va |
+|:-:|---|---|
+| 7 | Git | Control de versiones, commits, ramas, merges |
+| 8 | GitHub | Colaboración, pull requests, revisión de código, CI/CD |
+| 9 | Docker I | Contenedores, imágenes, Dockerfile |
+| 10 | Docker II | Docker Compose, redes, volúmenes, orquestación básica |
+
+### Fase 3 — Python profesional
+
+De escribir Python a sostenerlo.
+
+| # | Tema | De qué va |
+|:-:|---|---|
+| 11 | Python básico | Sintaxis, tipos de datos, estructuras de control |
+| 12 | IDEs | Entornos de desarrollo, depuración, extensiones |
+| 13 | Gestión de dependencias | Entorno profesional con `uv`, ambientes virtuales, `pyproject.toml` |
+| 14 | Memoria y referencias | Mecánica interna de Python, mutabilidad, referencias |
+| 15 | Pydantic | Modelado de datos, validación, serialización |
+| 16 | Patrones funcionales | Iteradores, generadores, comprehensions, `functools` |
+| 17 | Metaprogramación | Decoradores, context managers, descriptores |
+| 18 | Logging | Robustez y observabilidad, logging estructurado |
+| 19 | Configuración | Variables de entorno, gestión de configuración, 12-Factor App |
+| 20 | Arquitectura de software | Patrón repositorio, servicios, clean architecture |
+| 21 | Testing | Testing profesional, `pytest`, mocking, fixtures |
+| 22 | Despliegue | Docker multi-stage, producción, pipelines de CI/CD |
+
+### Fase 4 — Computación y concurrencia
+
+Qué hace la máquina de verdad, y qué pasa cuando el problema crece.
+
+| # | Tema | De qué va |
+|:-:|---|---|
+| 23 | Arquitectura de computadoras | CPU, memoria, caché, fundamentos de hardware |
+| 24 | Concurrencia I | Asíncrono vs concurrente vs paralelo |
+| 25 | Concurrencia II | Threading, multiprocessing, el GIL |
+| 26 | Concurrencia III | `asyncio`, event loops, `async`/`await` |
+| 27 | Arquitectura de sistemas I | Diseño de sistemas distribuidos, escalabilidad |
+| 28 | Arquitectura de sistemas II | Patrones de comunicación, APIs, microservicios |
+| 29 | Arquitectura de sistemas III | Bases de datos, caching, colas de mensajes |
+
+### Fase 5 — Integración
+
+| # | Tema | De qué va |
+|:-:|---|---|
+| 30 | Por determinar | Tema avanzado según los intereses del grupo |
+| 31 | Por determinar | Tema avanzado según los intereses del grupo |
+| 32 | Cierre y proyecto final | Síntesis del curso y entrega del proyecto final |
 
 ## Evaluación
 
@@ -146,16 +203,14 @@ tu correo `@itam.mx`:
 2. Ya con la sesión correcta, únete al grupo de la clase con este enlace de
    invitación:
    https://www.datacamp.com/groups/shared_links/af811a55e5f91a7c05c65caeafacc2bd784d36a969bc062cc73c7397fb47ce6f
-3. Verifica el acceso abriendo cualquier curso. Te sugiero abrir directamente el
-   de la tarea siguiente para matar dos pájaros de un tiro.
+3. Verifica el acceso abriendo cualquier curso. Con que abra, basta: por ahora no
+   hay ningún curso de DataCamp asignado, solo comprobamos que la cuenta quedó
+   bien conectada al grupo antes de que la necesitemos.
 
-### Tarea 2 — Curso: AI Assisted Coding for Developers
+### Tarea 2 — Curso: Claude 101
 
-En DataCamp, completa **solo las dos primeras unidades** del curso
-[AI Assisted Coding for Developers](https://app.datacamp.com/learn/courses/ai-assisted-coding-for-developers):
-
-1. *Unlocking the Power of AI in Code*
-2. *Prompt Engineering for Real-World Coding Tasks*
+Completa el curso [Claude 101](https://academy.claude.com/courses/claude-101) de
+Claude Academy.
 
 La evidencia de haberlo hecho se sube más adelante, al cerrar el módulo de Git,
 cuando ya sepas abrir un pull request. El curso, en cambio, hay que hacerlo

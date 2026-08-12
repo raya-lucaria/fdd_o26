@@ -10,6 +10,10 @@ tags: [pipeline, dag, mapa-del-curso]
 
 # Pipeline de datos
 
+::: figure {#ilus-portada title="Un pipeline es lo que vuelve a correr mañana"}
+![Circuito industrial cerrado de tuberías y válvulas donde el caudal luminoso sale por un extremo y vuelve a entrar por el otro, recorriendo el mismo trazo una y otra vez](_assets/ilus-portada.jpg)
+:::
+
 Un viernes por la tarde alguien abre un notebook, lee tres archivos, los cruza,
 limpia lo que estorba y produce un número. El número es correcto. Lo pega en una
 presentación y se va a casa. El lunes le piden el mismo número con los datos de

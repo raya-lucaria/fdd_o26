@@ -11,6 +11,10 @@ prerequisites: [el-viaje-de-los-datos]
 
 # ETL y ELT
 
+::: figure {#ilus-etl-elt title="Las mismas estaciones, recorridas en orden invertido"}
+![Dos rutas de tubería paralelas que atraviesan las mismas tres estaciones en orden opuesto, una imagen especular de la otra](_assets/ilus-etl-elt.jpg)
+:::
+
 Tres letras: **E** de *extract*, **T** de *transform*, **L** de *load*. Extraer
 los datos de donde estén, transformarlos para que sirvan, cargarlos donde se van
 a consumir. Es el proceso más común de toda la ingeniería de datos y el que casi

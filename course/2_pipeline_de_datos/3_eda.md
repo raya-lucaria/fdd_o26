@@ -11,6 +11,10 @@ prerequisites: [etl-y-elt]
 
 # EDA
 
+::: figure {#ilus-eda title="Inspeccionar el material antes de confiar en él"}
+![Tramo de tubería transparente abierto sobre una mesa de inspección iluminada, rodeado de lentes de aumento y calibradores que examinan el caudal antes de dejarlo seguir](_assets/ilus-eda.jpg)
+:::
+
 Un equipo dedica seis semanas a construir un modelo de predicción de abandono de
 clientes. En la semana siete, alguien pregunta cuántos clientes de la base
 efectivamente se dieron de baja el año pasado. La respuesta es once. Con once
