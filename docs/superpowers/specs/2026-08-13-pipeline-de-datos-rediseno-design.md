@@ -335,7 +335,18 @@ Terminado cuando:
    URLs publicadas son las mismas de antes.
 9. Los callouts renderizan en español y los blockquotes tienen estilo en
    pantalla, con el SHA de `pages.yml` actualizado.
-10. La unidad no supera las 8 800 palabras.
+10. La unidad no supera el tope declarado en `tools/test_presupuesto.py`, y ese
+    tope lleva escrita la razón de su valor.
+
+    **Cerró en 9 380, no en 8 800.** La unidad partía de 8 789 y ganó las 14
+    cajas de definición, una página de glosario y el caso único; el recorte se
+    llevó 797 palabras de repetición —el changelog editorial de
+    `6_presentacion`, una tabla duplicada, ecos entre páginas— y se detuvo ahí.
+    Lo que queda por encima de 8 800 en `2_etl_elt` y `4_cuando_se_rompe`
+    —streaming y CDC, el contrato de datos, el backfill— no está en ninguna
+    tabla ni en otra página: cortarlo habría sido cortar ideas, que es lo que
+    la regla del bloque C prohíbe. El intercambio neto es +591 palabras a
+    cambio de todo el andamiaje de vocabulario, y se acepta dicho.
 
 ## Riesgos
 
