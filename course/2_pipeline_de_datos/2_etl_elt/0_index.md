@@ -39,15 +39,15 @@ Sin staging no hay una máquina intermedia que pagar ni mantener: la
 transformación ocurre en otro lugar, dentro del propio destino.
 :::
 
-Durante décadas el almacenamiento fue **caro** y el cómputo del warehouse fue **fijo**: se compraba un servidor con una capacidad, y esa era la capacidad, en el pico y en el valle.
+Durante décadas el almacenamiento fue **caro** y el cómputo del warehouse fue **fijo**: se compraba un servidor con una capacidad, la misma en el pico y en el valle.
 
-Así que se extraía, se transformaba en una máquina intermedia de *staging* —más barata— y se cargaba **solo lo que se iba a usar, limpio y agregado**. Nadie pagaba por guardar crudo en el sistema caro ni gastaba cómputo escaso en limpiar texto.
+Así que se extraía, se transformaba en una máquina intermedia de *staging* —más barata— y se cargaba **solo lo que se iba a usar, limpio y agregado**.
 
 ### Qué cambió
 
 Dos cosas, ninguna técnica: el **costo por gigabyte** cayó hasta volverse despreciable, y el warehouse pasó de máquina a servicio **elástico** que se paga por consulta y escala a cero.
 
-Con las condiciones invertidas, el cálculo se invirtió. Transformar dentro del warehouse pasó a ser lo más barato y rápido: ese motor está optimizado para recorrer millones de filas. Así nació **ELT**: extraer, cargar el crudo tal cual, y transformar después con SQL, dentro del destino.
+Con las condiciones invertidas, transformar dentro del warehouse pasó a ser lo más barato y rápido: ese motor está optimizado para recorrer millones de filas. Así nació **ELT**: extraer, cargar el crudo tal cual, y transformar después con SQL, dentro del destino.
 
 | | ETL | ELT |
 |---|---|---|
@@ -57,14 +57,14 @@ Con las condiciones invertidas, el cálculo se invirtió. Transformar dentro del
 | Rehacer una transformación | Exige volver a extraer del origen | Se rehace sobre el crudo ya cargado |
 | Supone que | Guardar es caro, el cómputo es fijo | Guardar es barato, el cómputo es elástico |
 
-La fila que más cuesta entender es la penúltima. En **ETL**, un error de lógica descubierto seis meses después es irreparable: el crudo que lo habría corregido nunca se guardó. En **ELT** sigue ahí. Esa capacidad de **rehacer el pasado** reaparece en [[cuando-se-rompe|Cuando se rompe]] como *backfill*.
+La fila que más cuesta entender es la penúltima: en **ETL** ese crudo nunca se guardó, así que un error de lógica descubierto meses después es irreparable; en **ELT** sigue ahí. Esa capacidad de **rehacer el pasado** reaparece en [[cuando-se-rompe|Cuando se rompe]] como *backfill*.
 
 > [!NOTE]
 > ETL no está muerto. Sigue siendo lo correcto cuando el dato no puede cruzar un límite sin transformarse —anonimizar datos personales, requisitos de residencia— o cuando el volumen no compensa cargarlo entero. La pregunta no es cuál es mejor, sino **qué es caro en tu caso**.
 
 ## Extract
 
-Extraer es obtener los datos de donde vivan: bases relacionales, CSV, JSON, APIs, colas de eventos, scrapers, hojas de cálculo hechas a mano. Es lo más aburrido de explicar y **lo que más falla en producción**, porque depende de sistemas que no controlas.
+Extraer es obtener los datos de donde vivan: bases relacionales, CSV, APIs, colas de eventos, hojas de cálculo hechas a mano. Es lo más aburrido de explicar y **lo que más falla en producción**, porque depende de sistemas que no controlas.
 
 **Credenciales.** Cada origen exige contraseña, llave de API, token o certificado, y **nada de eso se escribe en el código**: vive en variables de entorno o en un gestor de secretos. Un token en un repositorio es un incidente esperando su turno.
 
@@ -79,10 +79,13 @@ Transformar es aplicar reglas para limpiar, combinar, filtrar y cambiar la estru
 El trabajo real casi siempre es:
 
 - unificar formatos de fecha y de número;
-- resolver que «CDMX», «Ciudad de México» y «D.F.» son lo mismo;
+- resolver que «CDMX» y «D.F.» son lo mismo;
 - deduplicar registros que llegaron dos veces;
 - unir por llave y descubrir que el diez por ciento no casa;
 - decidir qué hacer con los nulos.
+
+Sobre `ventas.csv`: aquí es donde `D.F.` pasa a `CDMX` y las dos formas de
+fecha pasan a una sola, dejando cada columna con un solo significado.
 
 Esa última es donde muerde la distinción anterior. Rellenar nulos con la media es **procesamiento, no pre-procesamiento**: cambia la distribución y altera cualquier prueba posterior. Se puede hacer, pero **explícito, documentado y aguas abajo del crudo**.
 
@@ -137,7 +140,7 @@ Que unos datos sean **tabulares** no los hace utilizables: una hoja con años co
 
 El caso típico de datos no tidy es la tabla con una columna por año: `2024`, `2025`, `2026`. El año no es tres variables, es una variable con tres valores. En forma tidy hay dos columnas —`anio` y `valor`— y tres filas.
 
-La razón no es estética: **todas las herramientas del ecosistema esperan esa forma**, del `GROUP BY` de SQL al `groupby` de polars, de seaborn a la matriz de entrada de casi cualquier algoritmo. Con datos tidy, agregar por año es una línea; sin ellos, un script que se reescribe cada vez que aparece un año nuevo.
+La razón no es estética: **todas las herramientas del ecosistema esperan esa forma**, del `GROUP BY` de SQL a la matriz de entrada de casi cualquier algoritmo. Con datos tidy, agregar por año es una línea; sin ellos, un script que se reescribe cada vez que aparece un año nuevo.
 
 Tidy no es la única forma de destino. Cuando lo que se alimenta es un warehouse,
 la transformación suele apuntar a un **modelo dimensional**: una tabla de hechos

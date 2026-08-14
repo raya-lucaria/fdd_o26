@@ -41,7 +41,7 @@ Si algo de eso es no, el proyecto **se redefine o se cancela**, y cada semana qu
 
 ### 2. ¿Qué está pasando en el negocio?
 
-Los datos registran un proceso real con reglas que nadie escribió. Un pico de pedidos cada día 15 no es una anomalía: es la quincena. Un hueco de tres semanas en 2025 no es falla de captura: es cuando cambiaron de sistema.
+Los datos registran un proceso real con reglas que nadie escribió. Un pico de pedidos cada día 15 no es una anomalía: es la quincena.
 
 ### 3. ¿Cómo se ven los datos?
 
@@ -58,7 +58,7 @@ Aquí entran las gráficas, y su función **no es ilustrar sino detectar**: dist
 
 ### 4. ¿Qué hay que preguntarle a quien sabe?
 
-El producto más subestimado del EDA es **una lista de preguntas para quien conoce el dominio**. «¿Por qué el 12 % de los pedidos tiene monto cero?» no lo responde ninguna estadística, y alguien de operaciones lo contesta en treinta segundos.
+El producto más subestimado del EDA es **una lista de preguntas para quien conoce el dominio**. «¿Por qué hay pedidos con monto cero?» no lo responde ninguna estadística, y alguien de operaciones lo contesta en treinta segundos.
 
 ## Calidad de datos: seis dimensiones
 

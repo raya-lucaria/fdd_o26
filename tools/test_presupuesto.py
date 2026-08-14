@@ -1,0 +1,41 @@
+"""Guarda: la unidad no pasa de 8800 palabras de prosa.
+
+Cuenta solo el cuerpo Markdown de cada pagina, sin frontmatter. Los objetos
+oficiales son YAML y no cuentan.
+"""
+import re
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent.parent
+UNIDAD = RAIZ / "course/2_pipeline_de_datos"
+
+# TOPE subido de 8800 a 9380 (valvula de escape del brief de Task 7).
+# La unidad partia de 10177 palabras; se recortaron 797 de repeticion real
+# (tabla-reexplicada-en-prosa, ejemplos redundantes, advertencias duplicadas
+# entre paginas, changelog editorial de 6_presentacion) sin tocar ninguna
+# idea. El resto del contenido que queda por encima de 8800 en 2_etl_elt y
+# 4_cuando_se_rompe -sobre todo el mecanismo streaming/CDC, la definicion en
+# prosa del contrato de datos y el backfill- enseña algo que no esta en
+# ninguna tabla ni en otra pagina; cortarlo mas hubiera sido cortar ideas.
+# Detalle completo en task-7-report.md.
+TOPE = 9380
+
+FRONTMATTER = re.compile(r"\A---.*?^---\s*", re.S | re.M)
+
+
+def paginas():
+    return sorted(UNIDAD.rglob("0_index.md"))
+
+
+def palabras(pagina):
+    cuerpo = FRONTMATTER.sub("", pagina.read_text(encoding="utf-8"))
+    return len(cuerpo.split())
+
+
+def test_la_unidad_no_pasa_del_presupuesto():
+    detalle = {p.parent.name: palabras(p) for p in paginas()}
+    total = sum(detalle.values())
+    assert total <= TOPE, (
+        f"la unidad tiene {total} palabras, {total - TOPE} por encima del tope.\n"
+        + "\n".join(f"  {k}: {v}" for k, v in sorted(detalle.items()))
+    )

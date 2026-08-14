@@ -74,7 +74,7 @@ Guardar por columna permite leer solo las columnas que pediste; en un CSV, en
 cambio, hay que recorrer todas las filas enteras para llegar a un solo dato.
 :::
 
-Guarda el dato **en bruto y en su formato original**: CSV, JSON, Parquet, imágenes, logs sin parsear. Su virtud es no obligar a decidir de antemano qué se hará con él. Cuando la pregunta de negocio todavía no existe, **imponer esquema es apostar a ciegas**.
+Guarda el dato **en bruto y en su formato original**: CSV, Parquet, imágenes, logs sin parsear. Su virtud es no obligar a decidir de antemano qué se hará con él. Cuando la pregunta de negocio todavía no existe, **imponer esquema es apostar a ciegas**.
 
 Su riesgo tiene nombre: el **data swamp**. Un lake sin catálogo, metadatos ni gobierno es un disco duro gigante donde nadie sabe qué hay ni si sigue siendo válido.
 
@@ -107,8 +107,6 @@ archivos: nadie puede versionarlos ni consultarlos como una sola cosa.
 Tratar lake y warehouse como elección binaria describe la arquitectura de hace una década. Tener los dos costaba **duplicación**: los mismos datos crudos en el lake y modelados en el warehouse, con una copia en medio que se atrasaba y producía discrepancias entre números que deberían ser el mismo.
 
 El **lakehouse** colapsa la distinción: conserva el almacenamiento barato y abierto del lake, y encima añade lo que hacía útil al warehouse —transacciones, evolución controlada de esquema, viajes en el tiempo—.
-
-La idea central es simple: el esquema deja de ser propiedad del sistema de almacenamiento y pasa a ser **metadatos versionados encima de archivos**.
 
 ## Dos distinciones que ahorran discusiones
 

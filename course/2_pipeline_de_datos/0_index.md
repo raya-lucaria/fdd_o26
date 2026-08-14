@@ -4,7 +4,7 @@ title: Pipeline de datos
 nav_title: Pipeline de datos
 summary: "Qué separa un pipeline de un script que funcionó una vez, y por qué el resto del semestre existe para sostenerlo."
 status: ready
-estimated_time: 12m
+estimated_time: 11m
 tags: [pipeline, dag, mapa-del-curso]
 ---
 
@@ -36,10 +36,6 @@ El notebook no estaba mal. Simplemente no era un pipeline.
 
 > [!NOTE]
 > La diferencia no es de tamaño ni de herramientas: **un pipeline vuelve a correr mañana, sin ti, y da el mismo resultado o falla de forma que se note.** Etapas, formatos, contratos y orquestación existen para sostener esa frase.
-
-### El eje de esta unidad
-
-Cada concepto aparece **como respuesta a una falla concreta**, no como definición de diccionario. Un término técnico repetido sin decir qué falla evita es ruido; en cuanto sabes qué falla evita, es una herramienta.
 
 ## Vocabulario mínimo
 
@@ -140,9 +136,6 @@ regenerable.
 
 **El despliegue lo orquesta GitHub Actions**, un DAG donde la publicación declara `needs: checks`. Esa línea convierte una prueba en compuerta real; sin ella el sitio se publica aunque la suite falle.
 
-Fuente, contrato, transformación, producto, orquestación: cuando alguno suene
-abstracto, abre ese repositorio.
-
 ## Las cuatro etapas, y la advertencia
 
 ::: figure {#ciclo title="El ciclo de vida de un proyecto de datos"}
@@ -158,7 +151,7 @@ abstracto, abre ese repositorio.
 
 ### La advertencia importa más que la tabla
 
-**Esto no es una secuencia lineal.** El EDA descubre columnas que faltan y devuelve a la extracción. El entrenamiento revela una variable objetivo mal definida y devuelve al EDA. Producción detecta degradación y devuelve al principio.
+**Esto no es una secuencia lineal.** El EDA descubre columnas que faltan y devuelve a la extracción. Producción detecta degradación y devuelve al principio.
 
 Las flechas de retorno de @ciclo son **el modo normal de operación**, no signos de mal trabajo. Tratar un proceso cíclico como lineal tiene un costo predecible: se estima sumando etapas y se llega tarde, porque nadie contó las tres vueltas.
 
@@ -167,17 +160,13 @@ Las flechas de retorno de @ciclo son **el modo normal de operación**, no signos
 
 ## Por qué esta unidad es el mapa del semestre
 
-Lo que sigue no es una lista de herramientas de moda. Cada módulo existe porque alguna parte del pipeline lo exige.
+Cada módulo del curso existe porque alguna parte del pipeline lo exige: la
+terminal porque los datos llegan como archivos en máquinas ajenas, Git porque
+las transformaciones son código que hay que auditar, Docker porque tiene que
+correr igual aquí y allá. El reparto completo está en [[el-curso|El curso]].
 
-| Módulo | La parte del pipeline que lo exige |
-|---|---|
-| **Terminal** y **shell** | Los datos llegan en archivos que hay que mover e inspeccionar en un servidor sin ratón |
-| **Git** y **GitHub** | Las transformaciones son código, y código sin historia no se puede auditar |
-| **Docker** | Un pipeline debe correr igual en tu máquina y en el servidor |
-| **Python**, testing, logging, configuración | Cada nodo del DAG es un programa que hay que probar, observar y parametrizar |
-| **Concurrencia** y arquitectura de sistemas | Las ramas paralelas y el volumen obligan a pensar en ellas |
-
-Si te preguntas por qué estamos aprendiendo algo, la respuesta casi siempre está aquí.
+Si te preguntas por qué estamos aprendiendo algo, la respuesta casi siempre
+está en esta página.
 
 ## Recorrido
 

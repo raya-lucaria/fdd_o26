@@ -4,7 +4,7 @@ title: "Cuando se rompe"
 nav_title: "Cuando se rompe"
 summary: "Idempotencia, contratos, latencia, orquestación, linaje y costo: lo que separa correr un notebook de sostener un pipeline."
 status: ready
-estimated_time: 15m
+estimated_time: 14m
 tags: [idempotencia, contratos, streaming, orquestacion, linaje, costo]
 prerequisites: [etl-y-elt]
 ---
@@ -68,14 +68,14 @@ no es un caso raro sino la operación normal.
 
 ### Para qué sirve: el backfill
 
-Descubres que la conversión de moneda estaba mal desde marzo y hay que recalcular cinco meses. Con un pipeline idempotente y particionado, ese **backfill** es un bucle sobre fechas. Sin él es un proyecto de dos semanas a mano, y cada intervención manual introduce una inconsistencia nueva.
+La conversión de moneda estaba mal desde marzo: hay que recalcular cinco meses. Con un pipeline idempotente y particionado, ese **backfill** es un bucle sobre fechas; sin él, dos semanas a mano, y cada intervención manual mete una inconsistencia nueva.
 
 > [!NOTE]
-> El sitio de este curso es idempotente por construcción: `raya build` sobre la misma fuente produce el mismo `artifact/`. Por eso `artifact/` está en el `.gitignore` y publicar no depende de que nadie recuerde qué pasos corrió.
+> El sitio de este curso es idempotente por construcción, como ya viste: `raya build` repetido sobre la misma fuente no cambia el resultado.
 
 ## 2. Alguien cambió una columna
 
-El lunes el pipeline funcionaba. El martes falla. O peor: no falla. El origen renombró `user_id` a `customer_id`, tu `join` ya no casa, y sale una tabla vacía y un reporte que dice cero.
+El lunes el pipeline funcionaba, el martes no: el origen renombró `user_id` a `customer_id`, tu `join` ya no casa, y sale un reporte que dice cero.
 
 Esto es **evolución de esquema**, y es inevitable: los sistemas origen cambian porque el negocio cambia. Lo que no es inevitable es enterarse tarde.
 
@@ -87,11 +87,11 @@ Esto es **evolución de esquema**, y es inevitable: los sistemas origen cambian 
 
 ### El contrato de datos
 
-Es un acuerdo explícito y verificable entre quien produce el dato y quien lo consume: qué campos existen, de qué tipo, qué calidad garantizan y con cuánto aviso pueden cambiar.
+Es un acuerdo verificable entre quien produce el dato y quien lo consume: qué campos existen, de qué tipo, qué calidad garantizan y con cuánto aviso pueden cambiar.
 
 Lo importante no es el documento sino que sea **ejecutable**. Un contrato en una wiki es una intención; uno que corre en cada carga y detiene el pipeline es un contrato.
 
-`raya validate` es el de este sitio: si un wikilink apunta a un `id` inexistente, el build no ocurre, en vez de publicar enlaces rotos y enterarse cuando un alumno hace clic.
+`raya validate` es el de este sitio: un `id` inexistente detiene el build, en vez de publicar un enlace roto.
 
 ## 3. Tres mentiras distintas sobre cuándo un dato es verdad
 
@@ -109,14 +109,13 @@ Lo importante no es el documento sino que sea **ejecutable**. Un contrato en una
 
 ### Streaming y CDC, con más detalle
 
-En **streaming**, el desorden obliga a distinguir el **tiempo del evento** —cuándo ocurrió— del **tiempo de procesamiento** —cuándo lo vimos—. Un evento generado a las 10:00 en un teléfono sin señal llega a las 14:00. Hay que decidir cuánto esperar a los rezagados antes de cerrar una ventana: un compromiso entre exactitud y latencia sin solución correcta, solo elegida a conciencia.
+En **streaming** hay que distinguir el **tiempo del evento** —cuándo ocurrió— del **tiempo de procesamiento** —cuándo lo vimos—: un evento sin señal a las 10:00 puede llegar hasta las 14:00, y hay que decidir cuánto esperar a los rezagados antes de cerrar una ventana, un compromiso sin solución correcta.
 
-**CDC no es un cuarto régimen: es una forma de *capturar* los cambios**, y lo
-capturado se entrega por batch o por streaming, según convenga. En vez de
-consultar la base origen, lee su registro de transacciones. Así detecta la fila
-vieja que alguien editó ayer, que no tiene fecha de creación nueva pero sí
-aparece en el log. A cambio, **acopla tu pipeline a los detalles internos del
-origen**.
+**CDC no es un cuarto régimen: es una forma de *capturar* los cambios**, que
+luego se entrega por batch o por streaming. En vez de consultar la base
+origen, lee su registro de transacciones, y así detecta hasta la fila vieja
+que alguien editó ayer sin fecha de creación nueva. A cambio, **acopla tu
+pipeline a los detalles internos del origen**.
 
 > [!TIP]
 > Elige el régimen por **el tiempo de la decisión**, no por la tecnología. Si nadie actúa sobre ese número hasta la junta del lunes, streaming es costo sin beneficio. Si el sistema decide en tiempo real si algo es fraude, batch no es opción.
@@ -125,21 +124,19 @@ origen**.
 
 Un pipeline de un paso se resuelve con una tarea programada. Con veinte pasos que dependen entre sí, no.
 
-Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect, o GitHub Actions para casos pequeños— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué va en paralelo, qué se reintenta, qué queda bloqueado aguas abajo y a quién se le avisa.
+Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué va en paralelo, qué se reintenta, qué queda bloqueado aguas abajo y a quién se le avisa.
 
 La pregunta que revela si está orquestado no es «¿corre solo?», sino **«¿qué pasa si el paso 4 de 9 falla a las 3 de la mañana?»**.
 
-Respuestas malas: nadie se entera hasta el lunes; los pasos 5 a 9 corren sobre datos incompletos; alguien tiene que recordar qué terminó. Las buenas dependen todas de la idempotencia del punto 1. El despliegue de este sitio es el mismo principio que Airflow, con tres nodos en vez de doscientos.
+Respuestas malas: nadie se entera hasta el lunes, o los pasos 5 a 9 corren sobre datos incompletos. Las buenas dependen todas de la idempotencia del punto 1.
 
 ## 5. De dónde salió este número
 
-Alguien señala una cifra en un tablero y pregunta de dónde sale. En muchas organizaciones nadie lo sabe sin dedicarle medio día.
-
-**Linaje** es el mapa de qué tabla salió de qué tablas, con qué transformación y en qué corrida. Sirve hacia atrás, para **auditar** un número, y hacia adelante, para el **análisis de impacto**: si cambio esta columna, ¿qué se rompe? Sin linaje eso se responde con una búsqueda de texto y con esperanza.
+**Linaje** es el mapa de qué tabla salió de qué tablas, con qué transformación y en qué corrida: sin él, saber de dónde sale una cifra en un tablero cuesta medio día en vez de un clic. Sirve hacia atrás, para **auditar** un número, y hacia adelante, para el **análisis de impacto**: si cambio esta columna, ¿qué se rompe? Sin linaje eso se responde con una búsqueda de texto y con esperanza.
 
 ### Observabilidad y las dos formas de fallar
 
-Un pipeline **observable** registra en cada corrida cuánto tardó, cuántas filas procesó y cuántas rechazó, y **compara esos números con las corridas anteriores**. Esa comparación detecta lo invisible: el pipeline que carga cien mil filas y hoy cargó ochocientas no lanzó ningún error, y aun así algo se rompió.
+Un pipeline **observable** registra en cada corrida cuánto tardó, cuántas filas procesó y cuántas rechazó, y **compara esos números con las corridas anteriores**, para detectar lo invisible: un error que no lanza ninguna excepción.
 
 | Forma de fallar | Ejemplos | Por qué |
 |---|---|---|
@@ -150,7 +147,7 @@ Casi toda la observabilidad existe para **convertir fallas silenciosas en ruidos
 
 ## 6. Por qué la consulta bonita costó 400 dólares
 
-En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualquiera con una consola. Un `SELECT *` sobre varios terabytes «para echarle un ojo» aparece en la factura. Un tablero que refresca cada cinco minutos una consulta sobre todo el histórico corre 288 veces al día para responderle a nadie de madrugada.
+En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualquiera con una consola. Un `SELECT *` sobre varios terabytes «para echarle un ojo» aparece en la factura.
 
 ### Cuatro palancas
 
@@ -168,7 +165,7 @@ Sin materializar, un tablero que se consulta cien veces al día recorre cien
 veces el mismo histórico y lo cobra cien veces.
 :::
 
-Hay una consecuencia cultural. Cuando el cómputo era fijo, una consulta ineficiente era lenta y el castigo era esperar. Ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
+Cuando el cómputo era fijo, una consulta ineficiente era lenta y el castigo era esperar; ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
 
 ## Hacia adelante
 

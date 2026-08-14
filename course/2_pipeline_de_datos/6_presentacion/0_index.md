@@ -4,7 +4,7 @@ title: Presentación
 nav_title: Presentación
 summary: "El deck de 33 diapositivas del semestre pasado, disponible como material histórico, y el mapa de qué se conservó y qué se reescribió."
 status: ready
-estimated_time: 5m
+estimated_time: 3m
 tags: [material-historico, presentacion]
 prerequisites: [pipeline-de-datos]
 ---
@@ -20,13 +20,12 @@ prerequisites: [pipeline-de-datos]
 - Hasta Primavera 2026 esta unidad se daba con un deck de **33 diapositivas**. Aquí está.
 - Es **material histórico, no material de estudio**: las seis páginas anteriores lo reemplazan.
 - El temario conceptual se conservó entero, redistribuido entre esas páginas.
-- Ocho omisiones motivaron el rediseño, y son una lista de errores comunes en cualquier material sobre pipelines.
 
 ## El archivo
 
 **[Abrir la presentación en el navegador](../_assets/01_pipeline_de_datos.pdf)** — el visor de PDF la muestra sin descargarla.
 
-**[Descargar el archivo](../_assets/01_pipeline_de_datos.pdf)** — es el mismo archivo, guardado con «Guardar como». Son **4.2 MB**, así que conviene saberlo si estás con datos móviles.
+**[Descargar el archivo](../_assets/01_pipeline_de_datos.pdf)** — el mismo archivo. Son **4.2 MB**, así que conviene saberlo con datos móviles.
 
 > [!WARNING]
 > **Es material del semestre pasado, y las seis páginas anteriores lo reemplazan.** No es un resumen ni una versión condensada para repasar antes del examen. Lo que se evalúa es el texto, no las diapositivas.
@@ -52,35 +51,6 @@ prerequisites: [pipeline-de-datos]
 | El catálogo de posiciones | [[posiciones]] |
 
 Se conservó también una de sus mejores advertencias, repetida en esta unidad: todos estos conceptos son **abstracciones útiles para poder hablar**, no categorías con fronteras naturales.
-
-## Qué se reescribió, y por qué
-
-### Lo que faltaba sobre mover datos
-
-| Omisión | Por qué importa | Ahora en |
-|---|---|---|
-| **No mencionaba ELT** | Daba ETL como *la* forma de mover datos, sin la historia económica que invirtió el orden | [[etl-y-elt]] |
-| **No explicaba la L** | La carga es donde ocurren los errores que duplican dinero | [[etl-y-elt]] |
-| **Lake contra warehouse, binario** | El lakehouse colapsó esa distinción, y el eje real —schema-on-write contra schema-on-read— no aparecía | [[el-viaje-de-los-datos]] |
-
-### Lo que faltaba sobre sostener un pipeline
-
-| Omisión | Por qué importa | Ahora en |
-|---|---|---|
-| **Solo contemplaba batch** | Ni streaming ni CDC, salvo una imagen ajena que decía «CDC» sin explicarlo | [[cuando-se-rompe]] |
-| **Nada de lo que rompe un pipeline** | Faltaban idempotencia, backfills, contratos, orquestación, linaje, observabilidad y costo | [[cuando-se-rompe]] |
-| **El pipeline como una flecha** | Es un grafo: de su forma dependen el paralelismo, la propagación de fallas y el reinicio | [[pipeline-de-datos]] |
-| **Le faltaban roles** | Ni analytics engineer ni los papeles de la era de los modelos de lenguaje | [[posiciones]] |
-
-Hay una octava corrección, más pequeña y más instructiva: el deck **citaba el 60 % del tiempo sin fecha**. El dato viene de una encuesta de CrowdFlower de alrededor de 2016, y en [[eda|EDA]] se cita con su año y se marca como lo que es —folklore reciclado de la industria—. El argumento funciona sin el número.
-
-## Sobre las imágenes
-
-Ninguna imagen del deck se reutilizó. Los diagramas de esta unidad los genera un script del repositorio, en español y con los colores del curso, lo que los hace **reproducibles y corregibles**: si uno está mal, se corrige el generador.
-
-Las del deck eran arte de plantilla y capturas de terceros sin licencia clara, justo el tipo de dependencia que no conviene arrastrar de un semestre al siguiente.
-
-Es el mismo principio que [[pipeline-de-datos|abre la unidad]]: la fuente es el generador, la imagen es el artifact, y el artifact se regenera. Una imagen que no se puede volver a producir es un dato sin linaje.
 
 ## Qué te llevas
 

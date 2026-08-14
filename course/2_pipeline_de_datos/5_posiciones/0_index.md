@@ -4,7 +4,7 @@ title: Posiciones
 nav_title: Posiciones
 summary: "Quién se hace responsable de cada tramo del pipeline, y por qué en una empresa chica una sola persona hace siete de estos papeles."
 status: ready
-estimated_time: 10m
+estimated_time: 9m
 tags: [roles, carrera, equipos]
 prerequisites: [cuando-se-rompe]
 ---
@@ -54,7 +54,7 @@ Sobre `ventas.csv`: rechazar o aceptar el `04/08/2026` y no duplicar la corrida 
 
 Es el papel más reciente y el que menos se entiende. Nació de una brecha concreta: el ingeniere entrega tablas crudas, el analista necesita tablas con significado de negocio, y durante años esa capa intermedia la hacía cada analista por su cuenta, con su propia definición de «cliente activo». El resultado eran **cinco números distintos en la misma junta**.
 
-El analytics engineer construye esa capa como **código versionado, probado y documentado**: la T de ELT, dentro del warehouse. La creó **dbt**, que llevó al SQL prácticas normales del software —versiones, pruebas sobre los datos, documentación generada, linaje explícito—. Si te interesa dónde se tocan la ingeniería de software y el análisis, este es el papel.
+El analytics engineer construye esa capa como **código versionado, probado y documentado**: la T de ELT, dentro del warehouse. La creó **dbt**, que llevó al SQL esas prácticas de software, más linaje explícito. Si te interesa dónde se tocan la ingeniería de software y el análisis, este es el papel.
 
 ### Analista y científique de datos
 
@@ -84,21 +84,21 @@ El **project manager** gestiona tiempos, recursos y riesgos, y —con franqueza�
 
 ## Los papeles de la era de los modelos de lenguaje
 
-Desde 2023 aparecieron títulos nuevos alrededor de los sistemas construidos sobre modelos de lenguaje. Trátalos como responsabilidades emergentes, no como carreras consolidadas.
+Desde 2023 hay títulos nuevos alrededor de los sistemas construidos sobre
+modelos de lenguaje: **AI engineer**, que construye aplicaciones sobre modelos
+que no entrenó; **ingeniere de plataforma de modelos**, que los despliega y
+optimiza; y **evaluación de sistemas de IA**, que mide si funcionan. Trátalos
+como responsabilidades emergentes, no como carreras consolidadas.
 
-**AI engineer.** Construye aplicaciones sobre modelos que no entrenó: recuperación aumentada, agentes que usan herramientas, integraciones con productos existentes. Se parece más a sistemas distribuidos que a aprendizaje máquina clásico, y la recuperación aumentada es, vista de cerca, **un pipeline de datos** —extraer documentos, fragmentarlos, cargarlos a un índice vectorial, mantenerlos al día—.
-
-**Ingeniere de plataforma de modelos.** Despliega, sirve y optimiza modelos propios o abiertos: cuantización, servicio en GPU, latencia y costo. Es MLOps con restricciones de hardware más severas.
-
-**Evaluación y calidad de sistemas de IA.** Mide si un sistema generativo funciona, cosa que no resuelve una métrica de exactitud: conjuntos de evaluación, detección de regresiones, monitoreo en producción.
-
-Ninguno reemplaza a los anteriores. Quien construye recuperación aumentada sobre documentos corporativos sigue necesitando que alguien garantice que esos documentos llegan completos, actualizados y con permisos correctos. Eso es ingeniería de datos con otro nombre.
+Ninguno reemplaza a los anteriores, y los tres son más parecidos a lo que ya
+leíste de lo que su nombre sugiere: la recuperación aumentada, vista de cerca,
+**es un pipeline de datos** —extraer documentos, fragmentarlos, cargarlos a un
+índice, mantenerlos al día—. Quien la construye sigue necesitando que alguien
+garantice que esos documentos llegan completos y actualizados.
 
 ## La honestidad que falta en estas listas
 
-Todo lo anterior describe una organización grande. En una empresa chica, en una startup o en la mayoría de los primeros trabajos, **una sola persona hace siete de estos papeles a la vez**.
-
-Escribe la extracción, la orquesta, la transforma, hace el EDA, entrena el modelo, arma el tablero y lo explica en la junta. No por experta en las siete cosas, sino porque no hay nadie más.
+Todo lo anterior describe una organización grande. En una startup o en la mayoría de los primeros trabajos, **una sola persona hace siete de estos papeles a la vez**: escribe la extracción, la orquesta, la transforma, hace el EDA, entrena el modelo, arma el tablero y lo explica en la junta. No por experta en las siete cosas, sino porque no hay nadie más.
 
 - **La especialización temprana es un riesgo.** Si solo sabes entrenar modelos, en un equipo de tres eres inservible seis días de cada siete.
 - **Las habilidades transversales te desbloquean.** Terminal, Git, Docker, SQL, Python, saber leer un log: son lo que te permite hacer el trabajo interesante sin depender de que otro te habilite el entorno. Ese conjunto es, exactamente, el temario de este curso.
