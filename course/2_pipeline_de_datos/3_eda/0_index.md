@@ -49,6 +49,15 @@ Los datos registran un proceso real con reglas que nadie escribió. Un pico de p
 
 Aquí entran las gráficas, y su función **no es ilustrar sino detectar**: distribuciones sesgadas, colas largas, bimodalidades que delatan dos poblaciones mezcladas, correlaciones que anuncian fuga de información.
 
+::: definition {#def-fuga title="Fuga de información"}
+Hay fuga cuando una columna contiene, de forma disfrazada, la respuesta que se
+quiere predecir: predecir si un cliente se dio de baja usando la columna «fecha
+de baja».
+
+El modelo sale con una exactitud excelente en la prueba y sirve para nada en
+producción, donde esa columna todavía no existe.
+:::
+
 ### 4. ¿Qué hay que preguntarle a quien sabe?
 
 El producto más subestimado del EDA es **una lista de preguntas para quien conoce el dominio**. «¿Por qué el 12 % de los pedidos tiene monto cero?» no lo responde ninguna estadística, y alguien de operaciones lo contesta en treinta segundos.

@@ -23,6 +23,14 @@ prerequisites: [pipeline-de-datos]
 - El lakehouse borra la elección binaria: esquema como **metadatos versionados sobre archivos**.
 - Dos distinciones que ahorran discusiones: **pre-procesamiento contra procesamiento**, **algoritmo contra modelo**.
 
+::: definition {#def-esquema title="Esquema"}
+El esquema es la declaración de qué columnas tiene una tabla, cómo se llaman y
+de qué tipo es cada una: `fecha` es una fecha, `monto` es un número.
+
+Sin esquema declarado, cada quien interpreta los datos a su manera, y dos
+personas obtienen dos números distintos de la misma tabla.
+:::
+
 ## La falla que abre el tema
 
 Llega un archivo nuevo de un proveedor. Trae una columna extra y una fecha en otro formato. Hay dos comportamientos posibles, y ambos existen.
@@ -60,6 +68,14 @@ Su límite aparece con el primer análisis: una consulta que recorre tres años 
 
 Guarda el dato **en bruto y en su formato original**: CSV, JSON, Parquet, imágenes, logs sin parsear. Su virtud es no obligar a decidir de antemano qué se hará con él. Cuando la pregunta de negocio todavía no existe, **imponer esquema es apostar a ciegas**.
 
+::: definition {#def-parquet title="Parquet"}
+Parquet es un formato de archivo que guarda los datos **por columna** en vez de
+por fila, y comprimidos.
+
+Guardar por columna permite leer solo las columnas que pediste; en un CSV, en
+cambio, hay que recorrer todas las filas enteras para llegar a un solo dato.
+:::
+
 Su riesgo tiene nombre: el **data swamp**. Un lake sin catálogo, metadatos ni gobierno es un disco duro gigante donde nadie sabe qué hay ni si sigue siendo válido.
 
 ### Data warehouse
@@ -67,6 +83,24 @@ Su riesgo tiene nombre: el **data swamp**. Un lake sin catálogo, metadatos ni g
 Es una base de datos especializada en análisis: datos limpios, modelados y con historia.
 
 Impone esquema al escribir, pero por otra razón que la base operacional: no para garantizar una transacción, sino para que las consultas sean rápidas y para que **toda la empresa mida lo mismo** al decir «ingreso mensual».
+
+::: definition {#def-formato-tabla title="Formato de tabla abierto"}
+Es una capa de metadatos que se pone encima de archivos sueltos y los hace
+comportarse como una tabla: sabe qué archivos la componen, qué esquema tienen y
+cómo cambió con el tiempo. Delta Lake, Iceberg y Hudi son los tres nombres.
+
+Sin esa capa, un montón de archivos en un directorio es solo un montón de
+archivos: nadie puede versionarlos ni consultarlos como una sola cosa.
+:::
+
+::: definition {#def-transaccion title="Transacción y escritura atómica"}
+Una escritura es **atómica** cuando ocurre completa o no ocurre: no existe un
+estado a medias que alguien pueda leer. Una transacción es el mecanismo que lo
+garantiza.
+
+Sin ella, quien consulte la tabla mientras se carga verá medio día de datos y
+creerá que las ventas se desplomaron.
+:::
 
 ### Lakehouse
 

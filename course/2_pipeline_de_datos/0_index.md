@@ -39,7 +39,42 @@ El notebook no estaba mal. Simplemente no era un pipeline.
 
 ### El eje de esta unidad
 
-Cada concepto aparece **como respuesta a una falla concreta**, no como definición de diccionario. «Hay que hacerlo idempotente» es ruido si no sabes qué falla evita, y una herramienta si lo sabes.
+Cada concepto aparece **como respuesta a una falla concreta**, no como definición de diccionario. Un término técnico repetido sin decir qué falla evita es ruido; en cuanto sabes qué falla evita, es una herramienta.
+
+## Vocabulario mínimo
+
+Cuatro palabras que el resto de la unidad da por sabidas.
+
+::: definition {#def-tabla title="Tabla, fila, columna"}
+Una tabla guarda datos en una rejilla: cada **fila** es una cosa registrada —una
+venta, un cliente— y cada **columna** es un dato de esa cosa —la fecha, el monto—.
+
+Si una columna guarda dos datos distintos, o una fila mezcla dos cosas, todo lo
+que venga después tiene que adivinar.
+:::
+
+::: definition {#def-llave title="Llave"}
+Una llave es la columna —o el conjunto de columnas— cuyo valor identifica sin
+ambigüedad a una fila: el número de pedido, la matrícula.
+
+Sin una llave de verdad única no se puede saber si dos filas son la misma cosa
+registrada dos veces o dos cosas distintas.
+:::
+
+::: definition {#def-join title="Join"}
+Un `join` pega dos tablas emparejando las filas que comparten el mismo valor de
+llave: los pedidos con los datos del cliente que los hizo.
+
+Cuando la llave no casa, el `join` no avisa: simplemente devuelve menos filas de
+las que esperabas.
+:::
+
+::: definition {#def-corrida title="Corrida"}
+Una corrida es una ejecución completa del proceso, de principio a fin, sobre un
+período de datos: la corrida del martes.
+
+Casi todo lo que falla en esta unidad falla entre una corrida y la siguiente.
+:::
 
 ## No es una flecha, es un grafo
 
@@ -79,11 +114,14 @@ raya preview .    # el consumo: ver el producto antes de publicarlo
 
 **`raya validate` es un contrato de datos.** Exige un `id` en kebab-case y único, enlaces internos que resuelvan, índice en cada directorio. Si algo no cumple, no hay sitio a medias: falla y dice dónde.
 
-**`raya build` es la transformación, y es idempotente.** Misma fuente, mismo artifact, hoy y en tres meses. Por eso `artifact/` no se versiona: es regenerable.
+**`raya build` es la transformación, y es repetible.** Misma fuente, mismo
+`artifact/`, hoy y en tres meses. Por eso `artifact/` no se versiona: es
+regenerable.
 
 **El despliegue lo orquesta GitHub Actions**, un DAG donde la publicación declara `needs: checks`. Esa línea convierte una prueba en compuerta real; sin ella el sitio se publica aunque la suite falle.
 
-Fuente, contrato, transformación, producto, orquestación, idempotencia: cuando alguno suene abstracto, abre ese repositorio.
+Fuente, contrato, transformación, producto, orquestación: cuando alguno suene
+abstracto, abre ese repositorio.
 
 ## Las cuatro etapas, y la advertencia
 
@@ -131,6 +169,7 @@ Si te preguntas por qué estamos aprendiendo algo, la respuesta casi siempre est
 | [[cuando-se-rompe]] | Idempotencia, contratos, tiempo, orquestación, linaje y costo |
 | [[posiciones]] | Quién es responsable de qué |
 | [[presentacion-pipeline]] | El material histórico que esta unidad reemplaza |
+| [[glosario]] | Las catorce palabras que la unidad define, en un solo lugar |
 
 ## Qué te llevas
 

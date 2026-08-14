@@ -42,7 +42,23 @@ prerequisites: [etl-y-elt]
 
 El pipeline falló a mitad de la carga del martes. Alguien lo relanzó. El miércoles las ventas del martes aparecen duplicadas.
 
-Faltaba la **idempotencia**: correr el proceso una vez o cinco sobre la misma entrada deja el sistema igual. Sin ella **no puedes reintentar nada**, y en un sistema distribuido los reintentos no son opcionales: la red se cae, el proveedor da un error transitorio, el orquestador reinicia una tarea que creía muerta.
+Faltaba la **idempotencia**.
+
+::: definition {#def-idempotencia title="Idempotencia"}
+Un paso es idempotente cuando correrlo una vez o cinco sobre la misma entrada
+deja el sistema exactamente igual.
+
+Sin idempotencia no puedes reintentar nada, y sin reintentos no hay orquestación
+ni backfills que sirvan.
+:::
+
+::: definition {#def-sistema-distribuido title="Sistema distribuido"}
+Es un sistema cuyas piezas corren en máquinas distintas y se hablan por la red:
+tu proceso, la base origen, el almacenamiento y el orquestador.
+
+La consecuencia práctica es que la red **se cae**, así que un error transitorio
+no es un caso raro sino la operación normal.
+:::
 
 ### Cómo se consigue
 
@@ -143,6 +159,14 @@ En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualqu
   las columnas que pediste, y las demás ni se tocan.
 - **Materializar** los resultados intermedios que se consultan muchas veces.
 - **Ajustar la frecuencia a la decisión**: un tablero diario no se refresca cada cinco minutos.
+
+::: definition {#def-materializar title="Materializar"}
+Materializar es guardar el resultado de una consulta como una tabla, en vez de
+recalcularlo cada vez que alguien pregunta.
+
+Sin materializar, un tablero que se consulta cien veces al día recorre cien
+veces el mismo histórico y lo cobra cien veces.
+:::
 
 Hay una consecuencia cultural. Cuando el cómputo era fijo, una consulta ineficiente era lenta y el castigo era esperar. Ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
 

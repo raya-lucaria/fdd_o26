@@ -35,6 +35,14 @@ Durante décadas el almacenamiento fue **caro** y el cómputo del warehouse fue 
 
 Así que se extraía, se transformaba en una máquina intermedia de *staging* —más barata— y se cargaba **solo lo que se iba a usar, limpio y agregado**. Nadie pagaba por guardar crudo en el sistema caro ni gastaba cómputo escaso en limpiar texto.
 
+::: definition {#def-staging title="Staging"}
+El *staging* es el lugar de paso donde los datos se transforman antes de entrar
+a su destino final: una máquina o un directorio intermedio.
+
+Es la pieza que ELT elimina, y por eso su desaparición cambia toda la economía
+del proceso.
+:::
+
 ### Qué cambió
 
 Dos cosas, ninguna técnica: el **costo por gigabyte** cayó hasta volverse despreciable, y el warehouse pasó de máquina a servicio **elástico** que se paga por consulta y escala a cero.
@@ -78,6 +86,13 @@ El trabajo real casi siempre es:
 
 Esa última es donde muerde la distinción anterior. Rellenar nulos con la media es **procesamiento, no pre-procesamiento**: cambia la distribución y altera cualquier prueba posterior. Se puede hacer, pero **explícito, documentado y aguas abajo del crudo**.
 
+::: definition {#def-particion title="Partición"}
+Una partición es un trozo de una tabla separado por el valor de una columna,
+casi siempre la fecha: las filas del 5 de agosto viven aparte de las del 6.
+
+Sin particiones, corregir un solo día obliga a reescribir la tabla entera.
+:::
+
 ## Load: la letra que nadie explica
 
 Casi todo el material salta de la transformación a *tidy data* sin decir qué es cargar. Es una omisión rara: la carga es donde ocurren los errores que **duplican dinero**.
@@ -89,7 +104,7 @@ Casi todo el material salta de la transformación a *tidy data* sin decir qué e
 | **Append** | Añade las filas nuevas al final | Si la corrida se repite, los datos se duplican |
 | **Overwrite** | Borra todo y escribe de nuevo | Destruye el histórico; si falla a la mitad, queda incompleta |
 | **Upsert** o *merge* | Actualiza si la llave existe, inserta si no | Es lo que casi siempre se quiere, y exige una llave única de verdad |
-| **Overwrite por partición** | Reescribe solo el período procesado | Base práctica de la idempotencia |
+| **Overwrite por partición** | Reescribe solo el período procesado | Es lo que hace segura una reejecución, y por eso reaparece en [[cuando-se-rompe]] |
 
 ### Visibilidad y verificación
 
@@ -117,7 +132,7 @@ La razón no es estética: **todas las herramientas del ecosistema esperan esa f
 
 Tidy no es la única forma de destino. Cuando lo que se alimenta es un warehouse,
 la transformación suele apuntar a un **modelo dimensional**: una tabla de hechos
-con las métricas y varias tablas de dimensión con sus atributos. @dag ya dibuja
+con las métricas y una tabla de dimensión con sus atributos. @dag ya dibuja
 hechos y dimensiones, y el tema se ve a fondo más adelante en el curso.
 
 ## Hacia adelante
@@ -130,4 +145,5 @@ La siguiente página, [[eda|EDA]], trata el análisis exploratorio como el contr
 
 - El orden ETL/ELT no es preferencia técnica: **responde a qué es caro en tu caso**, guardar o rehacer.
 - Guardar el crudo compra la opción de **rehacer el pasado**: la ventaja estructural de ELT.
-- **La carga tiene estrategia.** Append duplica; overwrite por partición hace segura una reejecución.
+- **La carga tiene estrategia.** Append duplica; sobrescribir por partición hace
+  segura una reejecución.
