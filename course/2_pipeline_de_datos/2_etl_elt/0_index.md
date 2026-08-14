@@ -117,8 +117,8 @@ La razón no es estética: **todas las herramientas del ecosistema esperan esa f
 
 Tidy no es la única forma de destino. Cuando lo que se alimenta es un warehouse,
 la transformación suele apuntar a un **modelo dimensional**: una tabla de hechos
-con las métricas y varias tablas de dimensión con sus atributos. Es lo que dibuja
-@dag a la derecha, y se ve a fondo más adelante en el curso.
+con las métricas y varias tablas de dimensión con sus atributos. @dag ya dibuja
+hechos y dimensiones, y el tema se ve a fondo más adelante en el curso.
 
 ## Hacia adelante
 

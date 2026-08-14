@@ -13,6 +13,8 @@ render:
     sequences:
       figure: { label: "Figura", style: caption }
       table: { label: "Tabla", style: caption }
+      definicion: { label: "Definición", style: scannable }
     families:
       figure: { sequence: figure, label: "Figura" }
       table: { sequence: table, label: "Tabla" }
+      definition: { sequence: definicion, label: "Definición" }

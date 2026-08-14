@@ -4,7 +4,7 @@ title: Pipeline de datos
 nav_title: Pipeline de datos
 summary: "Qué separa un pipeline de un script que funcionó una vez, y por qué el resto del semestre existe para sostenerlo."
 status: ready
-estimated_time: 6m
+estimated_time: 12m
 tags: [pipeline, dag, mapa-del-curso]
 ---
 
