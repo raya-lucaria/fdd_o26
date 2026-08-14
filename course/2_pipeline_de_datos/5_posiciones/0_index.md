@@ -4,7 +4,7 @@ title: Posiciones
 nav_title: Posiciones
 summary: "Quién se hace responsable de cada tramo del pipeline, y por qué en una empresa chica una sola persona hace siete de estos papeles."
 status: ready
-estimated_time: 9m
+estimated_time: 12m
 tags: [roles, carrera, equipos]
 prerequisites: [cuando-se-rompe]
 ---

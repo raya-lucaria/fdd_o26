@@ -4,7 +4,7 @@ title: Pipeline de datos
 nav_title: Pipeline de datos
 summary: "Qué separa un pipeline de un script que funcionó una vez, y por qué el resto del semestre existe para sostenerlo."
 status: ready
-estimated_time: 11m
+estimated_time: 13m
 tags: [pipeline, dag, mapa-del-curso]
 ---
 
@@ -153,7 +153,7 @@ regenerable.
 
 **Esto no es una secuencia lineal.** El EDA descubre columnas que faltan y devuelve a la extracción. Producción detecta degradación y devuelve al principio.
 
-Las flechas de retorno de @ciclo son **el modo normal de operación**, no signos de mal trabajo. Tratar un proceso cíclico como lineal tiene un costo predecible: se estima sumando etapas y se llega tarde, porque nadie contó las tres vueltas.
+Las flechas de retorno de @ciclo son **el modo normal de operación**, no signos de mal trabajo. Tratar un proceso cíclico como lineal tiene un costo predecible: se estima sumando etapas y se llega tarde, porque nadie contó las vueltas.
 
 > [!TIP]
 > Desconfía de toda taxonomía nítida, incluida esta. La pregunta útil no es «¿esto es EDA o transformación?», sino **«¿qué falla estoy tratando de evitar aquí?»**.

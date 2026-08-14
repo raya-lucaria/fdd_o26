@@ -4,7 +4,7 @@ title: "Cuando se rompe"
 nav_title: "Cuando se rompe"
 summary: "Idempotencia, contratos, latencia, orquestación, linaje y costo: lo que separa correr un notebook de sostener un pipeline."
 status: ready
-estimated_time: 14m
+estimated_time: 16m
 tags: [idempotencia, contratos, streaming, orquestacion, linaje, costo]
 prerequisites: [etl-y-elt]
 ---

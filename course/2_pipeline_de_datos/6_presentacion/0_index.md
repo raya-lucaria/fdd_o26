@@ -4,7 +4,7 @@ title: Presentación
 nav_title: Presentación
 summary: "El deck de 33 diapositivas del semestre pasado, disponible como material histórico, y el mapa de qué se conservó y qué se reescribió."
 status: ready
-estimated_time: 3m
+estimated_time: 4m
 tags: [material-historico, presentacion]
 prerequisites: [pipeline-de-datos]
 ---

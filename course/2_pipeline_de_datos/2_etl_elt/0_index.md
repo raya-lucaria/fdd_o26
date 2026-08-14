@@ -4,7 +4,7 @@ title: ETL y ELT
 nav_title: ETL y ELT
 summary: "Por qué el orden de las tres letras se invirtió cuando cambió el precio del almacenamiento, y qué hace cada una."
 status: ready
-estimated_time: 13m
+estimated_time: 14m
 tags: [etl, elt, tidy-data, transformacion]
 prerequisites: [el-viaje-de-los-datos]
 ---
@@ -84,10 +84,10 @@ El trabajo real casi siempre es:
 - unir por llave y descubrir que el diez por ciento no casa;
 - decidir qué hacer con los nulos.
 
+Esa última es donde muerde la distinción anterior. Rellenar nulos con la media es **procesamiento, no pre-procesamiento**: cambia la distribución y altera cualquier prueba posterior. Se puede hacer, pero **explícito, documentado y aguas abajo del crudo**.
+
 Sobre `ventas.csv`: aquí es donde `D.F.` pasa a `CDMX` y las dos formas de
 fecha pasan a una sola, dejando cada columna con un solo significado.
-
-Esa última es donde muerde la distinción anterior. Rellenar nulos con la media es **procesamiento, no pre-procesamiento**: cambia la distribución y altera cualquier prueba posterior. Se puede hacer, pero **explícito, documentado y aguas abajo del crudo**.
 
 ::: definition {#def-particion title="Partición"}
 Una partición es un trozo de una tabla separado por el valor de una columna,

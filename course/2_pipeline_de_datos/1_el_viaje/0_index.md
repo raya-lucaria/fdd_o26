@@ -4,7 +4,7 @@ title: "El viaje de los datos"
 nav_title: "El viaje"
 summary: "Dónde viven los datos y por qué hay cuatro respuestas distintas: el eje real es esquema al escribir contra esquema al leer."
 status: ready
-estimated_time: 12m
+estimated_time: 11m
 tags: [almacenamiento, datalake, warehouse, lakehouse, esquema]
 prerequisites: [pipeline-de-datos]
 ---

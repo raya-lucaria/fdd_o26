@@ -4,7 +4,7 @@ title: Glosario
 nav_title: Glosario
 summary: "Las catorce palabras que esta unidad define, en orden alfabético, cada una con el enlace a donde se explica."
 status: ready
-estimated_time: 4m
+estimated_time: 3m
 tags: [glosario, vocabulario]
 prerequisites: [pipeline-de-datos]
 ---
