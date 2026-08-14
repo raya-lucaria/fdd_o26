@@ -77,3 +77,35 @@ def test_svg_es_xml_bien_formado(slug):
     from xml.etree import ElementTree
 
     ElementTree.fromstring((GEN.ASSETS / f"{slug}.svg").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("slug", SLUGS)
+def test_ningun_texto_del_svg_es_una_frase(slug):
+    """El texto largo va al pie de figura en Markdown, no pintado dentro del SVG.
+
+    Dentro del SVG solo caben etiquetas: a 880px reducidos a un movil, una frase
+    de 11.5px queda en unos 5px y es ilegible. Se exceptuan los <text> con
+    font-size de 14 o mas: a esa talla un rotulo corto (el titulo del
+    encabezado, una etiqueta de eje) sigue siendo legible reducido y no es un
+    parrafo. Se extrae el font-size de cada nodo en vez de exceptuar por
+    posicion: es mas robusto que asumir que los dos primeros <text> son
+    siempre encabezado y subtitulo.
+    """
+    import re
+
+    texto = (GEN.ASSETS / f"{slug}.svg").read_text(encoding="utf-8")
+    nodos = re.findall(r'<text[^>]*font-size="([\d.]+)"[^>]*>([^<]*)</text>', texto)
+    largos = [
+        contenido for size, contenido in nodos
+        if float(size) < 14 and len(contenido.split()) > 6
+    ]
+    assert not largos, (
+        f"{slug}: hay texto de mas de 6 palabras a menos de 14px dentro del SVG: {largos}"
+    )
+
+
+def test_el_generador_no_pinta_pies_de_figura():
+    fuente = (RAIZ / "tools/gen_diagramas.py").read_text(encoding="utf-8")
+    assert "def pie(" not in fuente, (
+        "pie() volvio a gen_diagramas.py: el texto largo va al Markdown"
+    )

@@ -29,7 +29,7 @@ personajes con derechos**: todas son escenas industriales abstractas y
 | d-tidy.svg | Tidy data: variables en cian, observaciones en ámbar y valores en violeta, cada concepto teñido en la tabla | Diagrama propio, generado por `tools/gen_diagramas.py` | Material del curso |
 | d-calidad.svg | Las seis dimensiones de la calidad de los datos, cada una con su color y su falla típica | Diagrama propio, generado por `tools/gen_diagramas.py` | Material del curso |
 | d-idempotencia.svg | La misma corrida dos veces: verde la idempotente, rojo las filas que duplica la que no lo es | Diagrama propio, generado por `tools/gen_diagramas.py` | Material del curso |
-| d-tiempo.svg | Batch, micro-batch, streaming y CDC sobre una línea de tiempo, coloreados con una rampa de latencia | Diagrama propio, generado por `tools/gen_diagramas.py` | Material del curso |
+| d-tiempo.svg | Batch, micro-batch y streaming sobre una línea de tiempo, coloreados con una rampa de latencia | Diagrama propio, generado por `tools/gen_diagramas.py` | Material del curso |
 | d-ciclo.svg | Ciclo de vida de un proyecto de datos: seis etapas con un gradiente de color que avanza y cierra el lazo | Diagrama propio, generado por `tools/gen_diagramas.py` | Material del curso |
 | ilus-portada.jpg | Verde y ámbar: un conducto que se bifurca en tres ramales, reconverge y vuelve a entrar por el origen | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
 | ilus-viaje.jpg | Azul profundo y turquesa: cuatro depósitos distintos conteniendo el mismo caudal de maneras diferentes | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |

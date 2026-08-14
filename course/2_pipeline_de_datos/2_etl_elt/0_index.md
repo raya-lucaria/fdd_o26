@@ -27,6 +27,14 @@ prerequisites: [el-viaje-de-los-datos]
 
 ::: figure {#etl-elt title="ETL contra ELT: el mismo trabajo en distinto orden"}
 ![Comparación lado a lado de un flujo ETL y uno ELT, con la curva descendente del costo de almacenamiento como eje de la transición](../_assets/d-etl-elt.svg)
+
+Guardar dejó de ser lo caro; lo caro pasó a ser el cómputo y el tiempo de
+quien modela.
+
+El eje va en potencias de diez: la caída es de unos **cinco órdenes de
+magnitud**, no de un factor de dos. Son cifras de orden de magnitud tomadas de
+las series históricas de precio de disco, no una serie exacta — lo que importa
+aquí es la forma de la curva, y esa no está en duda.
 :::
 
 ### Por qué ETL era lo único razonable
@@ -128,6 +136,9 @@ La carga es también donde ocurre la **verificación de llegada**: contar filas 
 
 ::: figure {#tidy title="Tidy data: variables en columnas, observaciones en filas, un valor por celda"}
 ![Diagrama de una tabla desordenada transformada en una tabla tidy, con variables como columnas y observaciones como filas](../_assets/d-tidy.svg)
+
+Si una celda guarda dos cosas, o una fila mezcla dos observaciones, la tabla
+todavía no está lista.
 :::
 
 Que unos datos sean **tabulares** no los hace utilizables: una hoja con años como columnas, totales intercalados y celdas combinadas es tabular y es inservible.

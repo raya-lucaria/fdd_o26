@@ -48,6 +48,9 @@ Ninguno es correcto en abstracto. Son dos ubicaciones del mismo costo: **schema-
 
 ::: figure {#schema title="Schema-on-write contra schema-on-read: base de datos, lake, warehouse y lakehouse"}
 ![Diagrama comparativo de cuatro sistemas de almacenamiento situados según cuándo imponen esquema y para qué carga de trabajo están optimizados](../_assets/d-schema.svg)
+
+La pregunta útil no es qué producto usar, sino en qué momento alguien se
+compromete con la forma del dato.
 :::
 
 | | Base de datos | Data lake | Data warehouse | Lakehouse |

@@ -180,10 +180,6 @@ def encabezado(titulo, subtitulo=None):
     return "".join(p)
 
 
-def pie(alto, texto):
-    return txt(30, alto - 18, texto, fill=SUAVE, size=11.5)
-
-
 def leyenda(x, y, entradas, size=11.5, color_texto=SUAVE):
     """Fila de fichas de color con su etiqueta.
 
@@ -244,7 +240,7 @@ def dag():
 
     p = [marco(alto, titulo)]
     p.append(encabezado("Un pipeline es un DAG, no una flecha",
-                        "El orden no lo pone el autor: lo imponen las dependencias."))
+                        "El orden lo imponen las dependencias."))
 
     for origen, destino, color in aristas:
         co, yo, _, _ = nodos[origen]
@@ -277,8 +273,6 @@ def dag():
         (CONFLUENCIA, "donde reconvergen"),
     ]))
 
-    p.append(pie(alto, "Si una rama falla, solo se vuelve a correr esa rama: "
-                       "no hace falta rehacer el pipeline entero."))
     p.append("</svg>")
     return "".join(p)
 
@@ -293,30 +287,30 @@ def schema():
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "Dónde vive el esquema",
-        "Schema-on-write valida al escribir; schema-on-read acepta todo y valida al leer."))
+        "Antes de escribir, o al leer."))
 
     # Un color por almacenamiento: el mismo color identifica a cada uno en
     # todo el diagrama. Rojo queda reservado a lo que se paga, no a un almacén.
     C_BD, C_WAREHOUSE, C_LAKE, C_LAKEHOUSE = CIAN, VERDE, AMBAR, VIOLETA
 
     paneles = [
-        (30, "Schema-on-write", "El esquema se declara antes. Lo que no encaja, no entra.",
+        (30, "Schema-on-write", "Valida antes de guardar.",
          [
              (C_BD, "Base de datos relacional",
               ["Esquema fijo y transacciones.",
-               "Sirve a la aplicación, no al análisis."]),
+               "Para la app, no el análisis."]),
              (C_WAREHOUSE, "Data warehouse",
               ["Esquema modelado para consultar.",
                "Entra dato ya limpio y conformado."]),
          ]),
-        (460, "Schema-on-read", "El dato se guarda tal cual llegó. La forma se impone al leerlo.",
+        (460, "Schema-on-read", "Valida al leer, no antes.",
          [
              (C_LAKE, "Data lake",
               ["Archivos crudos, cualquier formato.",
                "Barato, flexible, sin promesas."]),
              (ROJO, "El costo de no tener contrato",
               ["Nadie garantiza la forma:",
-               "quien lee paga la limpieza, cada vez."]),
+               "Quien lee paga la limpieza."]),
          ]),
     ]
 
@@ -343,14 +337,11 @@ def schema():
     p.append(rect(31, 386, 5, 58, C_LAKEHOUSE, None, rx=2.5))
     p.append(txt(50, 400, "Lakehouse", fill=C_LAKEHOUSE, size=15, weight="700"))
     p.append(txt(50, 422,
-                 "Los archivos crudos del lake, más una capa de tablas con esquema, "
-                 "transacciones y versiones.", fill=TEXTO, size=12))
+                 "Lake crudo más tablas con esquema.", fill=TEXTO, size=12))
     p.append(txt(50, 442,
-                 "La frontera entre lake y warehouse dejó de ser una elección binaria.",
+                 "Ya no es una elección binaria.",
                  fill=SUAVE, size=11.5))
 
-    p.append(pie(alto, "La pregunta útil no es qué producto usar, sino en qué momento "
-                       "alguien se compromete con la forma del dato."))
     p.append("</svg>")
     return "".join(p)
 
@@ -365,7 +356,7 @@ def etl_elt():
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "ETL y ELT: el mismo trabajo, otro orden",
-        "Extract, Transform y Load no cambiaron. Cambió cuando conviene transformar."))
+        "Lo que cambió es el orden."))
 
     # ETL y ELT en dos colores francamente opuestos, y el paso que se mueve
     # —Transform— resaltado en ámbar en las dos filas, para que el ojo lo siga
@@ -374,11 +365,9 @@ def etl_elt():
 
     filas = [
         ("ETL", 84, C_ETL, ["Extract", "Transform", "Load"],
-         "Transformar antes de cargar: el almacenamiento era caro, "
-         "así que solo entraba lo ya modelado."),
+         "Se transforma antes: guardar era caro."),
         ("ELT", 194, C_ELT, ["Extract", "Load", "Transform"],
-         "Cargar crudo y transformar dentro del warehouse: el cómputo es elástico "
-         "y guardar ya casi no cuesta."),
+         "Carga cruda: guardar ya no cuesta."),
     ]
     xs = [150, 340, 530]
     for nombre, y, color, chips, nota in filas:
@@ -406,16 +395,37 @@ def etl_elt():
     p.append(txt(40, 320, "Costo del almacenamiento por GB", fill=C_COSTO,
                  size=14, weight="600"))
 
-    x0, x1, base, tope = 120, 830, 440, 344
+    # Costo por GB de almacenamiento en disco, ordenes de magnitud aproximados
+    # a partir de las series historicas de precio de HDD. Es una curva de
+    # magnitud, no una serie exacta: por eso el eje va en potencias de diez y
+    # el pie declara de donde sale.
+    anios = [1990, 1995, 2000, 2005, 2010, 2015, 2020, 2026]
+    usd_gb = [9000.0, 900.0, 16.0, 1.2, 0.09, 0.04, 0.023, 0.015]
+
+    x0, x1, base, tope = 150, 830, 440, 336
     p.append(linea(x0, tope, x0, base, SUAVE, ancho=1))
     p.append(linea(x0, base, x1, base, SUAVE, ancho=1))
 
-    valores = [1.0, 0.42, 0.19, 0.09, 0.045, 0.022, 0.012]
+    # Eje logaritmico: de 10^-2 a 10^4 USD/GB, una marca por decada.
+    lo, hi = -2, 4
+
+    def _y(v):
+        return base - (math.log10(v) - lo) / (hi - lo) * (base - tope)
+
+    for exp in range(lo, hi + 1):
+        y = _y(10.0 ** exp)
+        p.append(linea(x0 - 4, y, x0, y, SUAVE, ancho=1))
+        etiqueta = {
+            -2: "$0.01", -1: "$0.10", 0: "$1", 1: "$10",
+            2: "$100", 3: "$1k", 4: "$10k",
+        }[exp]
+        p.append(txt(x0 - 8, y + 4, etiqueta, fill=SUAVE, size=10, anchor="end"))
+    p.append(txt(x0 - 8, tope - 12, "USD / GB", fill=SUAVE, size=10, anchor="end"))
+
     puntos = []
-    for i, v in enumerate(valores):
-        px = x0 + i * (700 / (len(valores) - 1))
-        py = base - v * 88
-        puntos.append((px, py))
+    for i, v in enumerate(usd_gb):
+        px = x0 + i * ((x1 - x0 - 20) / (len(usd_gb) - 1))
+        puntos.append((px, _y(v)))
     # La curva de costo lleva su propio color, distinto del de ETL y del de ELT:
     # es la causa del cambio de orden, no una de las dos rutas.
     d = "M" + " L".join(f"{px:.1f},{py:.1f}" for px, py in puntos)
@@ -424,15 +434,14 @@ def etl_elt():
     for px, py in puntos:
         p.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="3.5" fill="{C_COSTO}"/>')
 
-    for px, etq in [(120, "1990"), (353, "2005"), (587, "2020"), (820, "hoy")]:
-        p.append(txt(px, 458, etq, fill=SUAVE, size=11, anchor="middle"))
+    for i in (0, 2, 4, 6, 7):
+        px = x0 + i * ((x1 - x0 - 20) / (len(usd_gb) - 1))
+        p.append(txt(px, 458, str(anios[i]), fill=SUAVE, size=11, anchor="middle"))
 
-    p.append(txt(450, 378, "Esta caída es la causa del cambio de orden",
+    p.append(txt(470, 378, "La causa del cambio de orden",
                  fill=C_COSTO, size=12, weight="600"))
-    p.append(linea(448, 384, 406, 420, C_COSTO, ancho=1.2, flecha=True))
+    p.append(linea(468, 384, 418, 402, C_COSTO, ancho=1.2, flecha=True))
 
-    p.append(pie(alto, "Guardar dejó de ser lo caro; lo caro pasó a ser el cómputo "
-                       "y el tiempo de quien modela."))
     p.append("</svg>")
     return "".join(p)
 
@@ -447,7 +456,7 @@ def tidy():
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "Tidy data",
-        "Una variable por columna, una observación por fila, un valor por celda."))
+        "Columna es variable; fila es observación."))
 
     tx, ty, cw, rh = 210, 130, 145, 46
     cabecera = ["país", "año", "casos", "población"]
@@ -507,8 +516,6 @@ def tidy():
     p.append(txt(cx + cw / 2, 408, "Valores: uno por celda", fill=C_VALOR,
                  size=12.5, anchor="middle", weight="600"))
 
-    p.append(pie(alto, "Si una celda guarda dos cosas, o una fila mezcla dos "
-                       "observaciones, la tabla todavía no está lista."))
     p.append("</svg>")
     return "".join(p)
 
@@ -523,19 +530,19 @@ def calidad():
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "Seis dimensiones de la calidad de los datos",
-        "Cada dimensión se revisa con una pregunta distinta; ninguna cubre a las otras."))
+        "Cada una se revisa por separado."))
 
     tarjetas = [
         ("Exactitud", VERDE, "¿El valor corresponde a la realidad?",
          "Falla típica: un precio negativo."),
         ("Completitud", AMBAR, "¿Faltan valores, o faltan filas enteras?",
-         "Falla típica: 30% de la columna vacía."),
+         "Falla típica: columna casi vacía."),
         ("Formato", CIAN, "¿La forma es la esperada?",
          "Falla típica: fechas en dos formatos."),
         ("Consistencia", VIOLETA, "¿Las fuentes dicen lo mismo?",
-         "Falla típica: el CRM y el ERP no cuadran."),
+         "Falla típica: CRM y ERP distintos."),
         ("Duplicación", MAGENTA, "¿La misma entidad aparece dos veces?",
-         "Falla típica: dos IDs para un cliente."),
+         "Falla típica: dos IDs, un cliente."),
         ("Integridad", NARANJA, "¿Las relaciones entre tablas se sostienen?",
          "Falla típica: una venta sin cliente."),
     ]
@@ -552,8 +559,6 @@ def calidad():
         p.append(txt(x + 20, y + 66, pregunta, fill=TEXTO, size=11.5))
         p.append(txt(x + 20, y + 88, falla, fill=SUAVE, size=11))
 
-    p.append(pie(alto, "Un dato puede estar completo y bien formado y aún así "
-                       "ser falso: las dimensiones no se sustituyen entre sí."))
     p.append("</svg>")
     return "".join(p)
 
@@ -568,7 +573,7 @@ def idempotencia():
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "La misma corrida, dos veces",
-        "Un paso idempotente se puede reintentar. Uno que no lo es, castiga cada reintento."))
+        "Uno se reintenta; el otro castiga."))
 
     # Verde es la corrida que se puede repetir; rojo es la que duplica. Nada
     # mas en el diagrama usa esos dos colores.
@@ -592,12 +597,12 @@ def idempotencia():
          "Escribe reemplazando la partición del día.",
          3, None,
          "3 filas", "3 filas",
-         "El resultado no cambia: se puede reintentar sin miedo."),
+         "El resultado no cambia nunca."),
         (460, "No idempotente", C_MAL,
-         "Inserta filas sin llave ni borrado previo.",
+         "Inserta sin llave ni borrado.",
          6, 3,
          "3 filas", "6 filas (3 duplicadas)",
-         "Cada reintento inventa datos que nadie produjo."),
+         "Duplica lo que no debía."),
     ]
 
     for px, nombre, color, metodo, n2, dup, c1, c2, veredicto in paneles:
@@ -619,75 +624,69 @@ def idempotencia():
     p.append(txt(225, 208, "=", fill=C_BIEN, size=28, anchor="middle", weight="700"))
     p.append(txt(655, 250, "\u2260", fill=C_MAL, size=28, anchor="middle", weight="700"))
 
-    p.append(pie(alto, "El reintento no es un caso raro: es la operación normal de "
-                       "cualquier orquestador."))
     p.append("</svg>")
     return "".join(p)
 
 
 # --------------------------------------------------------------------------
-# 7. Batch, micro-batch, streaming y CDC
+# 7. Batch, micro-batch y streaming
 # --------------------------------------------------------------------------
 def tiempo():
     """Los carriles van en el orden del texto; el color, en orden de latencia.
 
     LATENCIA es una rampa de frío a caliente: azul es lo más lento y rojo lo
     más fresco. El carril de cada modo toma el tono que le corresponde por su
-    latencia, y la escala del pie repite la rampa ya ordenada.
+    latencia. CDC no aparece como carril: es una técnica de captura, no un
+    régimen temporal, y se entrega por batch o por streaming (ver prosa).
     """
     alto = 470
-    titulo = ("Batch, micro-batch, streaming y CDC sobre una línea de tiempo, "
+    titulo = ("Batch, micro-batch y streaming sobre una línea de tiempo, "
               "con la latencia de cada uno")
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "Cuando un dato se vuelve verdad",
-        "Los cuatro modos mueven los mismos datos; los separa cuánto tardan en estar disponibles."))
+        "Los tres separan cuánto tardan."))
 
-    lento, medio, rapido, inmediato = LATENCIA
+    lento, medio, _, inmediato = LATENCIA
     x0, x1 = 230, 830
     carriles = [
         ("Batch", "latencia ~24 h", lento,
          [(250, 60), (560, 60)],
-         "Una corrida al día sobre todo el período."),
+         "Una corrida al día."),
         ("Micro-batch", "latencia ~5 min", medio,
          [(248 + i * 72, 18) for i in range(9)],
-         "Lotes pequeños y frecuentes; misma lógica que batch."),
+         "Lotes pequeños y frecuentes."),
         ("Streaming", "latencia < 1 s", inmediato,
          [(240 + i * 24, 4) for i in range(25)],
-         "Cada evento se procesa al llegar."),
-        ("CDC", "latencia de segundos", rapido,
-         [(252, 10), (300, 10), (388, 10), (402, 10), (470, 10),
-          (560, 10), (604, 10), (690, 10), (770, 10)],
-         "Solo viaja lo que cambió en la fuente."),
+         "Cada evento, al llegar."),
     ]
 
+    # Tres carriles en vez de cuatro: el espacio que suelta CDC se reparte
+    # entre los tres para que respiren, no para meter mas texto.
     for i, (nombre, latencia, color, marcas, nota) in enumerate(carriles):
-        cy = 120 + i * 74
-        p.append(txt(24, cy - 6, nombre, fill=color, size=14, weight="700"))
-        p.append(txt(24, cy + 12, latencia, fill=SUAVE, size=11.5))
-        p.append(txt(24, cy + 30, nota, fill=SUAVE, size=10, opacity="0.85"))
-        p.append(rect(x0, cy - 17, x1 - x0, 34, PANEL, color, rx=8, ancho_borde=1,
+        cy = 150 + i * 105
+        p.append(txt(24, cy - 8, nombre, fill=color, size=15, weight="700"))
+        p.append(txt(24, cy + 13, latencia, fill=SUAVE, size=12))
+        p.append(txt(24, cy + 33, nota, fill=SUAVE, size=11, opacity="0.85"))
+        p.append(rect(x0, cy - 19, x1 - x0, 38, PANEL, color, rx=8, ancho_borde=1,
                       opacidad="0.95"))
         for mx, mw in marcas:
             if mx + mw > x1 - 6:
                 continue
-            p.append(rect(mx, cy - 11, mw, 22, color, None, rx=3, opacidad="0.9"))
+            p.append(rect(mx, cy - 12, mw, 24, color, None, rx=3, opacidad="0.9"))
 
-    p.append(linea(x0, 384, x1, 384, SUAVE, ancho=1.2, flecha=True))
-    p.append(txt(x0, 404, "tiempo", fill=SUAVE, size=11.5))
+    p.append(linea(x0, 410, x1, 410, SUAVE, ancho=1.2, flecha=True))
+    p.append(txt(x0, 430, "tiempo", fill=SUAVE, size=11.5))
 
     # La rampa, ya ordenada por latencia: es la lectura que los carriles no dan,
     # porque esos siguen el orden en que el texto los explica.
-    p.append(txt(24, 434, "de más lento a más fresco:", fill=SUAVE, size=11.5))
-    p.append(leyenda(196, 431, [
+    p.append(txt(24, 456, "de más lento a más fresco:", fill=SUAVE, size=11.5))
+    p.append(leyenda(196, 453, [
         (lento, "batch"),
         (medio, "micro-batch"),
-        (rapido, "CDC"),
         (inmediato, "streaming"),
     ]))
 
-    p.append(pie(alto, "Elegir el modo es elegir cuánta frescura se paga: más "
-                       "frescura, más maquinaria que sostener."))
     p.append("</svg>")
     return "".join(p)
 
@@ -702,7 +701,7 @@ def ciclo():
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "Ciclo de vida de un proyecto de datos",
-        "No es una lista de pasos que se terminan: es un lazo que vuelve a la pregunta."))
+        "Un lazo, no una lista."))
 
     cx, cy, rx, ry = 440, 250, 290, 145
     bw, bh = 210, 52
@@ -768,11 +767,9 @@ def ciclo():
                  anchor="middle", weight="700"))
     p.append(txt(cx, 264, "cada vuelta cambia la pregunta", fill=SUAVE, size=12.5,
                  anchor="middle"))
-    p.append(txt(cx, 300, "el color avanza con la etapa y vuelve al principio",
+    p.append(txt(cx, 300, "el color avanza y regresa",
                  fill=SUAVE, size=11, anchor="middle"))
 
-    p.append(pie(alto, "El monitoreo no cierra el proyecto: es lo que produce la "
-                       "siguiente pregunta."))
     p.append("</svg>")
     return "".join(p)
 

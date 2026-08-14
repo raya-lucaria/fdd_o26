@@ -64,6 +64,9 @@ El producto más subestimado del EDA es **una lista de preguntas para quien cono
 
 ::: figure {#calidad title="Las seis dimensiones de la calidad de los datos"}
 ![Diagrama de seis dimensiones de calidad de datos: completitud, unicidad, validez, consistencia, exactitud y oportunidad](../_assets/d-calidad.svg)
+
+Un dato puede estar completo y bien formado y aún así ser falso: las
+dimensiones no se sustituyen entre sí.
 :::
 
 «Los datos están sucios» no es accionable. Descomponer la calidad sí lo es, porque **cada dimensión se mide y se arregla distinto**.

@@ -96,6 +96,9 @@ La llave es `pedido` — ver @def-llave.
 
 ::: figure {#dag title="El pipeline como grafo de dependencias"}
 ![Diagrama de un pipeline como DAG: nodos que se bifurcan y reconvergen](_assets/d-dag.svg)
+
+Si una rama falla, solo se vuelve a correr esa rama: no hace falta rehacer el
+pipeline entero.
 :::
 
 Casi todo diagrama de pipeline es una fila de cajas con flechas de izquierda a derecha. Es una **mentira cómoda**.
@@ -140,6 +143,8 @@ regenerable.
 
 ::: figure {#ciclo title="El ciclo de vida de un proyecto de datos"}
 ![Diagrama del ciclo de vida de un proyecto de datos: ETL, EDA, entrenamiento y producción conectados en ciclo, con retornos entre etapas](_assets/d-ciclo.svg)
+
+El monitoreo no cierra el proyecto: es lo que produce la siguiente pregunta.
 :::
 
 | Etapa | Qué produce | Pregunta que responde |

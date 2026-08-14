@@ -17,10 +17,10 @@ prerequisites: [etl-y-elt]
 
 ## En corto
 
-- Las páginas anteriores describen un pipeline que funciona. Esta, **uno que lleva ocho meses corriendo**.
-- Seis fallas, en el orden en que aparecen, con el remedio que la industria le puso a cada una.
+- Esta página trata **un pipeline que ya lleva ocho meses corriendo**.
+- Seis fallas, en orden, con su remedio.
 - **La idempotencia sostiene todo lo demás**: sin ella no puedes reintentar nada.
-- Las fallas **silenciosas** son las peligrosas: alimentan decisiones durante semanas sin lanzar un error.
+- Las fallas **silenciosas** son las peligrosas: no lanzan ningún error.
 - En un warehouse elástico, **el costo es una decisión de diseño**.
 
 ## El mapa de las seis fallas
@@ -37,47 +37,45 @@ prerequisites: [etl-y-elt]
 ## 1. El mismo código dio otro número
 
 ::: definition {#def-idempotencia title="Idempotencia"}
-Un paso es idempotente cuando correrlo una vez o cinco sobre la misma entrada
-deja el sistema exactamente igual.
+Un paso es idempotente si correrlo una o cinco veces deja el sistema igual.
 
-Sin idempotencia no puedes reintentar nada, y sin reintentos no hay orquestación
-ni backfills que sirvan.
+Sin idempotencia no se puede reintentar con seguridad.
 :::
 
 ::: figure {#idempotencia title="Idempotencia: la misma corrida dos veces"}
 ![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](../_assets/d-idempotencia.svg)
+
+El reintento no es un caso raro: es la operación normal de cualquier
+orquestador. Sin idempotencia, cada reintento inventa datos que nadie produjo.
 :::
 
-La corrida del 4 de agosto sobre `ventas.csv` falla a la mitad. Alguien la relanza. Los tres pedidos del día 4 aparecen dos veces: seis filas en vez de tres.
-
-Faltaba la **idempotencia**.
+La corrida del 4 de agosto sobre `ventas.csv` falla a la mitad; al relanzarla, sus tres pedidos aparecen dos veces: seis filas en vez de tres. Faltaba la **idempotencia**.
 
 ::: definition {#def-sistema-distribuido title="Sistema distribuido"}
 Es un sistema cuyas piezas corren en máquinas distintas y se hablan por la red:
 tu proceso, la base origen, el almacenamiento y el orquestador.
 
-La consecuencia práctica es que la red **se cae**, así que un error transitorio
-no es un caso raro sino la operación normal.
+La consecuencia práctica: la red **se cae**, y eso es normal, no una excepción.
 :::
 
 ### Cómo se consigue
 
-- **Escribir con `upsert`** en vez de `append`, para que la segunda escritura actualice.
-- **Particionar por período** y sobrescribir la partición entera: reprocesar el 5 de agosto reemplaza exactamente ese día.
+- **Escribir con `upsert`**, no `append`, para que la segunda escritura actualice.
+- **Particionar por período** y sobrescribir la partición entera: reprocesar el 5 de agosto reemplaza ese día.
 - **Parametrizar cada corrida por su período**, no por «hoy». Un pipeline que pregunta la fecha actual no se puede reejecutar para el pasado.
 
 ### Para qué sirve: el backfill
 
-La conversión de moneda estaba mal desde marzo: hay que recalcular cinco meses. Con un pipeline idempotente y particionado, ese **backfill** es un bucle sobre fechas; sin él, dos semanas a mano, y cada intervención manual mete una inconsistencia nueva.
+La conversión de moneda estaba mal desde marzo: hay que recalcular cinco meses. Con un pipeline idempotente y particionado, ese **backfill** es un bucle sobre fechas; sin él, dos semanas a mano, con una inconsistencia nueva cada vez.
 
 > [!NOTE]
 > El sitio de este curso es idempotente por construcción, como ya viste: `raya build` repetido sobre la misma fuente no cambia el resultado.
 
 ## 2. Alguien cambió una columna
 
-El lunes el pipeline funcionaba, el martes no: el origen renombró `user_id` a `customer_id`, tu `join` ya no casa, y sale un reporte que dice cero.
+El lunes el pipeline funcionaba, el martes no: el origen renombró `user_id` a `customer_id`, y tu `join` ya no casa.
 
-Esto es **evolución de esquema**, y es inevitable: los sistemas origen cambian porque el negocio cambia. Lo que no es inevitable es enterarse tarde.
+Esto es **evolución de esquema**: inevitable porque el negocio cambia. Lo que no es inevitable es enterarse tarde.
 
 | Tipo de cambio | Ejemplos | Efecto |
 |---|---|---|
@@ -95,11 +93,14 @@ Lo importante no es el documento sino que sea **ejecutable**. Un contrato en una
 
 ## 3. Tres mentiras distintas sobre cuándo un dato es verdad
 
-::: figure {#tiempo title="Batch, micro-batch, streaming y CDC: cuándo un dato es verdad"}
-![Diagrama comparativo de cuatro regímenes temporales de procesamiento, con la latencia entre el evento y su disponibilidad](../_assets/d-tiempo.svg)
+::: figure {#tiempo title="Batch, micro-batch y streaming: cuándo un dato es verdad"}
+![Diagrama comparativo de tres regímenes temporales de procesamiento, con la latencia entre el evento y su disponibilidad](../_assets/d-tiempo.svg)
+
+Elegir el modo es elegir cuánta frescura se paga: más frescura, más
+maquinaria que sostener.
 :::
 
-«El dato de ayer» y «el dato de ahora» no son el mismo problema con distinta velocidad: **son arquitecturas distintas**. Cada régimen miente distinto sobre cuándo algo es verdad.
+«El dato de ayer» y «el dato de ahora» no son el mismo problema: **son arquitecturas distintas**, y cada régimen miente distinto sobre cuándo algo es verdad.
 
 | Régimen | Latencia | Su mentira | Cuándo conviene |
 |---|---|---|---|
@@ -118,25 +119,25 @@ que alguien editó ayer sin fecha de creación nueva. A cambio, **acopla tu
 pipeline a los detalles internos del origen**.
 
 > [!TIP]
-> Elige el régimen por **el tiempo de la decisión**, no por la tecnología. Si nadie actúa sobre ese número hasta la junta del lunes, streaming es costo sin beneficio. Si el sistema decide en tiempo real si algo es fraude, batch no es opción.
+> Elige el régimen por **el tiempo de la decisión**, no por la tecnología: streaming sin nadie que actúe a tiempo es costo sin beneficio; fraude en tiempo real no admite batch.
 
 ## 4. Quién corre qué, y qué pasa si falla
 
 Un pipeline de un paso se resuelve con una tarea programada. Con veinte pasos que dependen entre sí, no.
 
-Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué va en paralelo, qué se reintenta, qué queda bloqueado aguas abajo y a quién se le avisa.
+Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué se reintenta y a quién se le avisa.
 
 La pregunta que revela si está orquestado no es «¿corre solo?», sino **«¿qué pasa si el paso 4 de 9 falla a las 3 de la mañana?»**.
 
-Respuestas malas: nadie se entera hasta el lunes, o los pasos 5 a 9 corren sobre datos incompletos. Las buenas dependen todas de la idempotencia del punto 1.
+Respuestas malas: nadie se entera hasta el lunes. Las buenas dependen de la idempotencia del punto 1.
 
 ## 5. De dónde salió este número
 
-**Linaje** es el mapa de qué tabla salió de qué tablas, con qué transformación y en qué corrida: sin él, saber de dónde sale una cifra en un tablero cuesta medio día en vez de un clic. Sirve hacia atrás, para **auditar** un número, y hacia adelante, para el **análisis de impacto**: si cambio esta columna, ¿qué se rompe? Sin linaje eso se responde con una búsqueda de texto y con esperanza.
+**Linaje** es el mapa de qué tabla salió de qué tablas, con qué transformación y en qué corrida: sin él, saber de dónde sale una cifra cuesta medio día, no un clic. Sirve hacia atrás, para **auditar** un número, y hacia adelante, para el **análisis de impacto**: si cambio esta columna, ¿qué se rompe? Sin linaje, se adivina.
 
 ### Observabilidad y las dos formas de fallar
 
-Un pipeline **observable** registra en cada corrida cuánto tardó, cuántas filas procesó y cuántas rechazó, y **compara esos números con las corridas anteriores**, para detectar lo invisible: un error que no lanza ninguna excepción.
+Un pipeline **observable** registra en cada corrida cuánto tardó, cuántas filas procesó y cuántas rechazó, y **compara esos números con las corridas anteriores**.
 
 | Forma de fallar | Ejemplos | Por qué |
 |---|---|---|
@@ -153,7 +154,7 @@ En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualqu
 
 - **Particionar** por fecha y **filtrar por partición**, para tocar solo el trozo relevante.
 - **Seleccionar columnas** en vez de `SELECT *`: un formato columnar solo lee
-  las columnas que pediste, y las demás ni se tocan.
+  las columnas que pediste.
 - **Materializar** los resultados intermedios que se consultan muchas veces.
 - **Ajustar la frecuencia a la decisión**: un tablero diario no se refresca cada cinco minutos.
 
@@ -165,7 +166,7 @@ Sin materializar, un tablero que se consulta cien veces al día recorre cien
 veces el mismo histórico y lo cobra cien veces.
 :::
 
-Cuando el cómputo era fijo, una consulta ineficiente era lenta y el castigo era esperar; ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
+**El costo pasó de problema de finanzas a criterio de ingeniería.**
 
 ## Hacia adelante
 
@@ -175,8 +176,8 @@ La siguiente página, [[posiciones|Posiciones]], reparte todo lo anterior entre 
 
 ## Qué te llevas
 
-- **La idempotencia sostiene todo lo demás**: sin ella no hay reintentos, ni backfills, ni orquestación que valga.
-- Un contrato que no se ejecuta es una intención; **el que detiene el pipeline es el contrato**.
-- Lo que hay que cazar es **la falla silenciosa**, comparando cada corrida con las anteriores.
+- **La idempotencia sostiene todo lo demás.**
+- **El contrato que cuenta es el que se ejecuta.**
+- Lo que hay que cazar es **la falla silenciosa**.
 
-**Una acción:** toma un proceso tuyo que escriba datos y pregúntate qué pasa si lo corres dos veces seguidas. Si la respuesta es «se duplica», ya sabes qué arreglar primero.
+**Una acción:** corre dos veces un proceso tuyo que escriba datos. Si se duplica, ya sabes qué arreglar primero.
