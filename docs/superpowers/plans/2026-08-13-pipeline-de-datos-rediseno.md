@@ -265,7 +265,7 @@ Todo el contenido posterior se edita sobre las rutas finales, así que este movi
 
 Un objeto oficial colocado **debe** apuntar a la página índice de su directorio (`packages/schema/src/raya_schema/official.py`, `_resolve_scope`). Hoy las tarjetas y el quiz cuelgan de la raíz de la unidad y solo aparecen en el índice y en `/_raya/practice/`.
 
-**Las URLs no cambian:** `4_cuando_se_rompe.md` y `4_cuando_se_rompe/0_index.md` resuelven ambos a `/pipeline-de-datos/cuando-se-rompe/`. `_assets/` se queda en la raíz de la unidad, que es un ancestro, así que **ninguna ruta de imagen cambia**.
+**Las URLs no cambian:** `4_cuando_se_rompe.md` y `4_cuando_se_rompe/0_index.md` resuelven ambos a `/pipeline-de-datos/cuando-se-rompe/`. `_assets/` se queda en la raíz de la unidad, que es un ancestro **válido para leer, pero no para resolver**: el resolutor (`packages/schema/src/raya_schema/links.py`, `resolve_local_markdown_target`) hace resolución relativa literal y sólo comprueba que la ruta ya resuelta caiga bajo un `_assets/` permitido — no busca el archivo en ancestros. Así que las 14 referencias de las 6 páginas promovidas pasan de `_assets/x.svg` a `../_assets/x.svg`. La `0_index.md` de la raíz de la unidad no se toca.
 
 **Files:**
 - Modify (git mv): las 7 `course/2_pipeline_de_datos/*.md` → `course/2_pipeline_de_datos/<mismo_nombre>/0_index.md`

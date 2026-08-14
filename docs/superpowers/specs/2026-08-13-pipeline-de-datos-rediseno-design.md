@@ -247,8 +247,12 @@ página pasa a ser directorio con su propio soporte:
 **Las URLs no cambian**: `4_cuando_se_rompe.md` y `4_cuando_se_rompe/0_index.md`
 resuelven ambos a `/pipeline-de-datos/cuando-se-rompe/`.
 
-`_assets/` se queda en la raíz de la unidad —el contrato permite leer del propio
-quantum o de un ancestro—, así que **ninguna ruta de imagen cambia**.
+`_assets/` se queda en la raíz de la unidad. El contrato permite leer del propio
+quantum o de un ancestro, **pero la ruta escrita en el Markdown sí cambia**: el
+resolutor hace resolución relativa literal y sólo comprueba que la ruta ya
+resuelta caiga bajo un `_assets/` válido — no busca el archivo en ancestros. Las
+seis páginas promovidas pasan de `_assets/x.svg` a `../_assets/x.svg`; la
+`0_index.md` de la raíz de la unidad se queda igual.
 
 **Dos tarjetas y dos preguntas por página de contenido** —índice, viaje,
 ETL/ELT, EDA, cuando se rompe, posiciones—, es decir 12 y 12. `6_presentacion`
