@@ -9,6 +9,8 @@ content:
     su propia tabla. Una tabla con los años como columnas, o con "10 kg" en una
     sola celda, viola la primera. El punto no es estético: tidy es la forma que
     esperan las herramientas de análisis y graficado, así que ordenar una vez
-    ahorra reacomodos en cada paso posterior. Es el objetivo de la T de ETL.
+    ahorra reacomodos en cada paso posterior. Es la forma que busca la T cuando
+    el destino es análisis tabular; cuando el destino es un warehouse, la T
+    suele apuntar a un modelo dimensional — hechos y dimensiones.
 retrieval:
   kind: recall

@@ -21,7 +21,7 @@ prerequisites: [el-viaje-de-los-datos]
 - Lo interesante no son las letras: es que **su orden cambió, por razones económicas**.
 - ELT guarda el crudo, así que permite **rehacer el pasado**. ETL no.
 - La **L** es la letra que nadie explica, y es donde ocurren los errores que duplican dinero.
-- El objetivo de la transformación tiene nombre: **tidy data**.
+- Para análisis tabular, la forma que se busca tiene nombre: **tidy data**.
 
 ## La historia económica del orden
 
@@ -114,6 +114,11 @@ Que unos datos sean **tabulares** no los hace utilizables: una hoja con años co
 El caso típico de datos no tidy es la tabla con una columna por año: `2024`, `2025`, `2026`. El año no es tres variables, es una variable con tres valores. En forma tidy hay dos columnas —`anio` y `valor`— y tres filas.
 
 La razón no es estética: **todas las herramientas del ecosistema esperan esa forma**, del `GROUP BY` de SQL al `groupby` de polars, de seaborn a la matriz de entrada de casi cualquier algoritmo. Con datos tidy, agregar por año es una línea; sin ellos, un script que se reescribe cada vez que aparece un año nuevo.
+
+Tidy no es la única forma de destino. Cuando lo que se alimenta es un warehouse,
+la transformación suele apuntar a un **modelo dimensional**: una tabla de hechos
+con las métricas y varias tablas de dimensión con sus atributos. Es lo que dibuja
+@dag a la derecha, y se ve a fondo más adelante en el curso.
 
 ## Hacia adelante
 

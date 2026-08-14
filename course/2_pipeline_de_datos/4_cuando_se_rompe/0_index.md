@@ -29,7 +29,7 @@ prerequisites: [etl-y-elt]
 |---|---|---|
 | Las ventas del martes salen duplicadas | Se relanzó una corrida que escribe con `append` | **Idempotencia** |
 | El reporte dice cero y nadie ve un error | El origen renombró una columna | **Contrato de datos** ejecutable |
-| «El dato de ahora» significa cosas distintas | Régimen temporal mal elegido | **Batch, micro-batch, streaming o CDC** según la decisión |
+| «El dato de ahora» significa cosas distintas | Régimen temporal mal elegido | **Batch, micro-batch o streaming** según la decisión |
 | El paso 4 falló y los pasos 5 a 9 corrieron | Nadie conoce el grafo | Un **orquestador** |
 | Nadie sabe de dónde sale la cifra | No hay registro de qué produjo qué | **Linaje** y **observabilidad** |
 | La factura del mes se disparó | Consultas que recorren todo, a destiempo | **Particionar y materializar** |
@@ -90,13 +90,17 @@ Lo importante no es el documento sino que sea **ejecutable**. Un contrato en una
 | **Batch** | Horas o un día | Que el mundo se detiene a medianoche: hay devoluciones el día 5 que corrigen el 4 | Lo más simple y barato; basta casi siempre |
 | **Micro-batch** | Minutos | La misma, más pequeña | Casi tiempo real con casi la simplicidad del batch |
 | **Streaming** | Segundos | Que los eventos llegan en orden. No lo hacen | Cuando la decisión ocurre en el momento |
-| **CDC** | Milisegundos | Que hay un solo estado actual: siempre ves el pasado | Para capturar modificaciones que lo incremental no ve |
 
 ### Streaming y CDC, con más detalle
 
 En **streaming**, el desorden obliga a distinguir el **tiempo del evento** —cuándo ocurrió— del **tiempo de procesamiento** —cuándo lo vimos—. Un evento generado a las 10:00 en un teléfono sin señal llega a las 14:00. Hay que decidir cuánto esperar a los rezagados antes de cerrar una ventana: un compromiso entre exactitud y latencia sin solución correcta, solo elegida a conciencia.
 
-En **CDC** (*change data capture*) no se consulta la base origen: se lee su registro de transacciones. Así se detecta la fila vieja que alguien editó ayer, que no tiene fecha de creación nueva pero sí aparece en el log. A cambio, **acopla tu pipeline a los detalles internos del origen**.
+**CDC no es un cuarto régimen: es una forma de *capturar* los cambios**, y lo
+capturado se entrega por batch o por streaming, según convenga. En vez de
+consultar la base origen, lee su registro de transacciones. Así detecta la fila
+vieja que alguien editó ayer, que no tiene fecha de creación nueva pero sí
+aparece en el log. A cambio, **acopla tu pipeline a los detalles internos del
+origen**.
 
 > [!TIP]
 > Elige el régimen por **el tiempo de la decisión**, no por la tecnología. Si nadie actúa sobre ese número hasta la junta del lunes, streaming es costo sin beneficio. Si el sistema decide en tiempo real si algo es fraude, batch no es opción.
@@ -135,7 +139,8 @@ En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualqu
 ### Cuatro palancas
 
 - **Particionar** por fecha y **filtrar por partición**, para tocar solo el trozo relevante.
-- **Seleccionar columnas** en vez de `SELECT *`: en Parquet, tres columnas de cien es el 3 % de los bytes.
+- **Seleccionar columnas** en vez de `SELECT *`: un formato columnar solo lee
+  las columnas que pediste, y las demás ni se tocan.
 - **Materializar** los resultados intermedios que se consultan muchas veces.
 - **Ajustar la frecuencia a la decisión**: un tablero diario no se refresca cada cinco minutos.
 

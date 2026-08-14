@@ -135,8 +135,8 @@ content:
             exploración o en producción obliga a regresar a etapas anteriores
           correct: true
         - label: >-
-            Porque el término DAG es el nombre técnico correcto de cualquier
-            secuencia de pasos, aunque sea estrictamente lineal
+            Porque el nombre DAG exige que el pipeline tenga al menos dos ramas
+            en paralelo: una sola cadena de pasos encadenados no calificaría
           correct: false
         - label: >-
             Porque los pipelines deben tener ciclos: un paso que se alimenta a
