@@ -125,7 +125,7 @@ pipeline a los detalles internos del origen**.
 
 Un pipeline de un paso se resuelve con una tarea programada. Con veinte pasos que dependen entre sí, no.
 
-Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué se reintenta y a quién se le avisa.
+Aquí vuelve el DAG con consecuencias operativas. Un **orquestador** —Airflow, Dagster, Prefect— conoce el grafo y responde lo que a mano no se sostiene: qué orden, qué va en paralelo, qué se reintenta, qué queda bloqueado aguas abajo y a quién se le avisa.
 
 La pregunta que revela si está orquestado no es «¿corre solo?», sino **«¿qué pasa si el paso 4 de 9 falla a las 3 de la mañana?»**.
 
@@ -166,7 +166,7 @@ Sin materializar, un tablero que se consulta cien veces al día recorre cien
 veces el mismo histórico y lo cobra cien veces.
 :::
 
-**El costo pasó de problema de finanzas a criterio de ingeniería.**
+Con cómputo fijo, una consulta ineficiente era lenta y el castigo era esperar; ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
 
 ## Hacia adelante
 

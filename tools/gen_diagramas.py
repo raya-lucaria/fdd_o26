@@ -337,7 +337,7 @@ def schema():
     p.append(rect(31, 386, 5, 58, C_LAKEHOUSE, None, rx=2.5))
     p.append(txt(50, 400, "Lakehouse", fill=C_LAKEHOUSE, size=15, weight="700"))
     p.append(txt(50, 422,
-                 "Lake crudo más tablas con esquema.", fill=TEXTO, size=12))
+                 "Más tablas con transacciones y versiones.", fill=TEXTO, size=12))
     p.append(txt(50, 442,
                  "Ya no es una elección binaria.",
                  fill=SUAVE, size=11.5))

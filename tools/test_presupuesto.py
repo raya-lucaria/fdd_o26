@@ -18,7 +18,15 @@ UNIDAD = RAIZ / "course/2_pipeline_de_datos"
 # prosa del contrato de datos y el backfill- enseña algo que no esta en
 # ninguna tabla ni en otra pagina; cortarlo mas hubiera sido cortar ideas.
 # Detalle completo en task-7-report.md.
-TOPE = 9380
+#
+# TOPE subido de 9380 a 9424 (ronda de arreglo 1 de Task 8). Al mover los ocho
+# pies de figura del SVG al Markdown, un recorte de presupuesto anterior en
+# 4_cuando_se_rompe se llevo de mas dos ideas -las responsabilidades de
+# paralelismo y bloqueo aguas abajo del orquestador, y la analogia del castigo
+# inmediato contra el castigo diferido que sostenia la conclusion del costo-
+# que no estaban repetidas en ningun otro lugar de la pagina. Se repusieron;
+# el tope sube para no volver a recortarlas. Detalle en task-8-report.md.
+TOPE = 9424
 
 FRONTMATTER = re.compile(r"\A---.*?^---\s*", re.S | re.M)
 
