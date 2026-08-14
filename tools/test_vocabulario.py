@@ -3,6 +3,24 @@
 La regla del spec es que una definicion solo puede usar vocabulario ya definido,
 y que ninguna pagina puede usar un termino que se define mas adelante. El orden
 de las paginas lo da el prefijo numerico del directorio.
+
+Ronda de arreglo 1: la comprobacion "no se usa antes de definirse" opera en dos
+niveles.
+
+- Entre paginas: si una pagina anterior (indice menor) a la que define el
+  termino lo usa en cualquier parte, es una falla — sin excepciones. Esto no
+  cambio respecto a la primera version de la guarda.
+- Dentro de la misma pagina que define el termino: cualquier linea de prosa
+  ANTES de la caja `::: definition` que lo usa tambien es una falla, porque el
+  lector la lee antes de llegar a la definicion. Aqui hay tres exenciones,
+  porque no son prosa que se lea en orden:
+    (a) el frontmatter (YAML entre los `---`) — es metadato para la
+        maquinaria del sitio, nadie lo lee como texto corrido;
+    (b) la seccion `## En corto` — es un resumen que adelanta vocabulario por
+        diseno, para que el lector sepa que viene antes de leer los detalles;
+    (c) las filas de tabla (lineas que empiezan por `|`) — se consultan por
+        columna, no se leen en orden, y sus "Ejemplos" son ilustrativos, no
+        prosa que ensena el termino.
 """
 import re
 from pathlib import Path
@@ -47,6 +65,43 @@ def texto(pagina):
     return pagina.read_text(encoding="utf-8")
 
 
+def _lineas_exentas(lineas):
+    """Numeros de linea (0-index) exentos de la comprobacion intra-pagina.
+
+    Ver las tres exenciones documentadas en el docstring del modulo:
+    frontmatter, seccion "## En corto" y filas de tabla.
+    """
+    exentas = set()
+
+    # (a) Frontmatter: del primer "---" al siguiente "---", ambos incluidos.
+    if lineas and lineas[0].strip() == "---":
+        for i in range(1, len(lineas)):
+            if lineas[i].strip() == "---":
+                exentas.update(range(0, i + 1))
+                break
+
+    # (b) Seccion "## En corto": del encabezado al siguiente "## " (exclusivo).
+    inicio_en_corto = None
+    for i, linea in enumerate(lineas):
+        if linea.strip() == "## En corto":
+            inicio_en_corto = i
+            break
+    if inicio_en_corto is not None:
+        fin_en_corto = len(lineas)
+        for i in range(inicio_en_corto + 1, len(lineas)):
+            if lineas[i].startswith("## "):
+                fin_en_corto = i
+                break
+        exentas.update(range(inicio_en_corto, fin_en_corto))
+
+    # (c) Filas de tabla: cualquier linea que empiece por "|".
+    for i, linea in enumerate(lineas):
+        if linea.lstrip().startswith("|"):
+            exentas.add(i)
+
+    return exentas
+
+
 def test_cada_termino_tiene_exactamente_una_definicion():
     encontrados = []
     for pagina in paginas():
@@ -64,19 +119,47 @@ def test_ninguna_pagina_pasa_de_cuatro_definiciones():
 
 
 def test_ningun_termino_se_usa_antes_de_definirse():
+    todas = paginas()
     indice_definicion = {}
-    for i, pagina in enumerate(paginas()):
-        for encontrado in APERTURA.findall(texto(pagina)):
-            indice_definicion[encontrado] = i
+    linea_definicion = {}
+    for i, pagina in enumerate(todas):
+        contenido = texto(pagina)
+        for m in APERTURA.finditer(contenido):
+            termino = m.group("id")
+            indice_definicion[termino] = i
+            linea_definicion[termino] = contenido.count("\n", 0, m.start())
 
     for termino, patron in TERMINOS.items():
         assert termino in indice_definicion, f"{termino} no se define en ninguna pagina"
-        for i, pagina in enumerate(paginas()):
+        i_definicion = indice_definicion[termino]
+        pagina_definicion = todas[i_definicion]
+
+        # Entre paginas: ninguna pagina anterior a la que define el termino
+        # puede usarlo en ningun lugar. Sin exenciones.
+        for i, pagina in enumerate(todas):
             if pagina.name == "0_index.md" and pagina.parent.name == "7_glosario":
                 continue  # el glosario recapitula todo
-            if re.search(patron, texto(pagina)) and i < indice_definicion[termino]:
+            if i >= i_definicion:
+                continue
+            if re.search(patron, texto(pagina)):
                 raise AssertionError(
                     f"{pagina.parent.name} usa '{termino}', que se define despues"
+                )
+
+        # Dentro de la pagina que lo define: ninguna linea de prosa antes de
+        # la caja puede usarlo, salvo las exentas (frontmatter, En corto,
+        # filas de tabla).
+        lineas = texto(pagina_definicion).splitlines()
+        exentas = _lineas_exentas(lineas)
+        limite = linea_definicion[termino]
+        for num in range(limite):
+            if num in exentas:
+                continue
+            if re.search(patron, lineas[num]):
+                raise AssertionError(
+                    f"{pagina_definicion.parent.name}:{num + 1} usa '{termino}' "
+                    f"en prosa antes de su propia caja de definicion "
+                    f"(linea {limite + 1})"
                 )
 
 

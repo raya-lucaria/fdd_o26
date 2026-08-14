@@ -31,17 +31,17 @@ prerequisites: [el-viaje-de-los-datos]
 
 ### Por qué ETL era lo único razonable
 
-Durante décadas el almacenamiento fue **caro** y el cómputo del warehouse fue **fijo**: se compraba un servidor con una capacidad, y esa era la capacidad, en el pico y en el valle.
-
-Así que se extraía, se transformaba en una máquina intermedia de *staging* —más barata— y se cargaba **solo lo que se iba a usar, limpio y agregado**. Nadie pagaba por guardar crudo en el sistema caro ni gastaba cómputo escaso en limpiar texto.
-
 ::: definition {#def-staging title="Staging"}
 El *staging* es el lugar de paso donde los datos se transforman antes de entrar
 a su destino final: una máquina o un directorio intermedio.
 
-Es la pieza que ELT elimina, y por eso su desaparición cambia toda la economía
-del proceso.
+Sin staging no hay una máquina intermedia que pagar ni mantener: la
+transformación ocurre en otro lugar, dentro del propio destino.
 :::
+
+Durante décadas el almacenamiento fue **caro** y el cómputo del warehouse fue **fijo**: se compraba un servidor con una capacidad, y esa era la capacidad, en el pico y en el valle.
+
+Así que se extraía, se transformaba en una máquina intermedia de *staging* —más barata— y se cargaba **solo lo que se iba a usar, limpio y agregado**. Nadie pagaba por guardar crudo en el sistema caro ni gastaba cómputo escaso en limpiar texto.
 
 ### Qué cambió
 
@@ -132,8 +132,9 @@ La razón no es estética: **todas las herramientas del ecosistema esperan esa f
 
 Tidy no es la única forma de destino. Cuando lo que se alimenta es un warehouse,
 la transformación suele apuntar a un **modelo dimensional**: una tabla de hechos
-con las métricas y una tabla de dimensión con sus atributos. @dag ya dibuja
-hechos y dimensiones, y el tema se ve a fondo más adelante en el curso.
+con las métricas y varias tablas de dimensión con sus atributos. @dag dibuja un
+ejemplo simplificado con una sola tabla de dimensión; el tema se ve a fondo más
+adelante en el curso.
 
 ## Hacia adelante
 

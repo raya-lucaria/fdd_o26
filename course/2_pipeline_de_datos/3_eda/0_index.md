@@ -47,8 +47,6 @@ Los datos registran un proceso real con reglas que nadie escribió. Un pico de p
 
 ### 3. ¿Cómo se ven los datos?
 
-Aquí entran las gráficas, y su función **no es ilustrar sino detectar**: distribuciones sesgadas, colas largas, bimodalidades que delatan dos poblaciones mezcladas, correlaciones que anuncian fuga de información.
-
 ::: definition {#def-fuga title="Fuga de información"}
 Hay fuga cuando una columna contiene, de forma disfrazada, la respuesta que se
 quiere predecir: predecir si un cliente se dio de baja usando la columna «fecha
@@ -57,6 +55,8 @@ de baja».
 El modelo sale con una exactitud excelente en la prueba y sirve para nada en
 producción, donde esa columna todavía no existe.
 :::
+
+Aquí entran las gráficas, y su función **no es ilustrar sino detectar**: distribuciones sesgadas, colas largas, bimodalidades que delatan dos poblaciones mezcladas, correlaciones que anuncian fuga de información.
 
 ### 4. ¿Qué hay que preguntarle a quien sabe?
 

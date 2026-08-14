@@ -66,8 +66,6 @@ Su límite aparece con el primer análisis: una consulta que recorre tres años 
 
 ### Data lake
 
-Guarda el dato **en bruto y en su formato original**: CSV, JSON, Parquet, imágenes, logs sin parsear. Su virtud es no obligar a decidir de antemano qué se hará con él. Cuando la pregunta de negocio todavía no existe, **imponer esquema es apostar a ciegas**.
-
 ::: definition {#def-parquet title="Parquet"}
 Parquet es un formato de archivo que guarda los datos **por columna** en vez de
 por fila, y comprimidos.
@@ -76,7 +74,18 @@ Guardar por columna permite leer solo las columnas que pediste; en un CSV, en
 cambio, hay que recorrer todas las filas enteras para llegar a un solo dato.
 :::
 
+Guarda el dato **en bruto y en su formato original**: CSV, JSON, Parquet, imágenes, logs sin parsear. Su virtud es no obligar a decidir de antemano qué se hará con él. Cuando la pregunta de negocio todavía no existe, **imponer esquema es apostar a ciegas**.
+
 Su riesgo tiene nombre: el **data swamp**. Un lake sin catálogo, metadatos ni gobierno es un disco duro gigante donde nadie sabe qué hay ni si sigue siendo válido.
+
+::: definition {#def-transaccion title="Transacción y escritura atómica"}
+Una escritura es **atómica** cuando ocurre completa o no ocurre: no existe un
+estado a medias que alguien pueda leer. Una transacción es el mecanismo que lo
+garantiza.
+
+Sin ella, quien consulte la tabla mientras se carga verá medio día de datos y
+creerá que las ventas se desplomaron.
+:::
 
 ### Data warehouse
 
@@ -91,15 +100,6 @@ cómo cambió con el tiempo. Delta Lake, Iceberg y Hudi son los tres nombres.
 
 Sin esa capa, un montón de archivos en un directorio es solo un montón de
 archivos: nadie puede versionarlos ni consultarlos como una sola cosa.
-:::
-
-::: definition {#def-transaccion title="Transacción y escritura atómica"}
-Una escritura es **atómica** cuando ocurre completa o no ocurre: no existe un
-estado a medias que alguien pueda leer. Una transacción es el mecanismo que lo
-garantiza.
-
-Sin ella, quien consulte la tabla mientras se carga verá medio día de datos y
-creerá que las ventas se desplomaron.
 :::
 
 ### Lakehouse

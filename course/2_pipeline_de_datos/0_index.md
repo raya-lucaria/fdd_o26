@@ -28,7 +28,7 @@ Un viernes alguien lee tres archivos, los cruza y produce un número. Es correct
 
 El lunes le piden el mismo número con datos nuevos, y ahí empieza el problema:
 
-- el archivo de esta semana trae **una columna más**;
+- el archivo de esta semana trae **un dato más**;
 - la ruta apuntaba **al Escritorio de una laptop concreta**;
 - en la celda 14 hay un **filtro a mano** que nadie recuerda por qué está.
 
@@ -65,15 +65,16 @@ registrada dos veces o dos cosas distintas.
 Un `join` pega dos tablas emparejando las filas que comparten el mismo valor de
 llave: los pedidos con los datos del cliente que los hizo.
 
-Cuando la llave no casa, el `join` no avisa: simplemente devuelve menos filas de
-las que esperabas.
+Sin `join`, cada tabla queda aislada: cruzar los pedidos con sus clientes a
+mano, fila por fila, es lo único que queda.
 :::
 
 ::: definition {#def-corrida title="Corrida"}
 Una corrida es una ejecución completa del proceso, de principio a fin, sobre un
 período de datos: la corrida del martes.
 
-Casi todo lo que falla en esta unidad falla entre una corrida y la siguiente.
+Sin distinguir una corrida de otra, no se puede saber cuál produjo qué
+resultado, ni repetir solo la que falló.
 :::
 
 ## No es una flecha, es un grafo

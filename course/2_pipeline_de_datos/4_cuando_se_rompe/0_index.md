@@ -36,14 +36,6 @@ prerequisites: [etl-y-elt]
 
 ## 1. El mismo código dio otro número
 
-::: figure {#idempotencia title="Idempotencia: la misma corrida dos veces"}
-![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](../_assets/d-idempotencia.svg)
-:::
-
-El pipeline falló a mitad de la carga del martes. Alguien lo relanzó. El miércoles las ventas del martes aparecen duplicadas.
-
-Faltaba la **idempotencia**.
-
 ::: definition {#def-idempotencia title="Idempotencia"}
 Un paso es idempotente cuando correrlo una vez o cinco sobre la misma entrada
 deja el sistema exactamente igual.
@@ -51,6 +43,14 @@ deja el sistema exactamente igual.
 Sin idempotencia no puedes reintentar nada, y sin reintentos no hay orquestación
 ni backfills que sirvan.
 :::
+
+::: figure {#idempotencia title="Idempotencia: la misma corrida dos veces"}
+![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](../_assets/d-idempotencia.svg)
+:::
+
+El pipeline falló a mitad de la carga del martes. Alguien lo relanzó. El miércoles las ventas del martes aparecen duplicadas.
+
+Faltaba la **idempotencia**.
 
 ::: definition {#def-sistema-distribuido title="Sistema distribuido"}
 Es un sistema cuyas piezas corren en máquinas distintas y se hablan por la red:
