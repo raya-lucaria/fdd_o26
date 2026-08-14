@@ -27,7 +27,7 @@ prerequisites: [etl-y-elt]
 
 | Síntoma | Causa | Qué lo evita |
 |---|---|---|
-| Las ventas del martes salen duplicadas | Se relanzó una corrida que escribe con `append` | **Idempotencia** |
+| El 4 de agosto sale duplicado | Se relanzó una corrida que escribe con `append` | **Idempotencia** |
 | El reporte dice cero y nadie ve un error | El origen renombró una columna | **Contrato de datos** ejecutable |
 | «El dato de ahora» significa cosas distintas | Régimen temporal mal elegido | **Batch, micro-batch o streaming** según la decisión |
 | El paso 4 falló y los pasos 5 a 9 corrieron | Nadie conoce el grafo | Un **orquestador** |
@@ -48,7 +48,7 @@ ni backfills que sirvan.
 ![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](../_assets/d-idempotencia.svg)
 :::
 
-El pipeline falló a mitad de la carga del martes. Alguien lo relanzó. El miércoles las ventas del martes aparecen duplicadas.
+La corrida del 4 de agosto sobre `ventas.csv` falla a la mitad. Alguien la relanza. Los tres pedidos del día 4 aparecen dos veces: seis filas en vez de tres.
 
 Faltaba la **idempotencia**.
 

@@ -39,6 +39,8 @@ prerequisites: [cuando-se-rompe]
 | Product owner | Qué se construye y en qué orden | ¿Esto resuelve un problema real? |
 | Project manager | Tiempos, recursos, riesgos | ¿Llega, y a qué costo? |
 
+Sobre `ventas.csv`: rechazar o aceptar el `04/08/2026` y no duplicar la corrida del 4, ingeniere de datos; normalizar `D.F.` a `CDMX`, analytics engineer; el pedido 1003 en cero, analista de datos.
+
 > [!NOTE]
 > **Los títulos no son estables.** La misma responsabilidad se llama distinto en dos empresas, y el mismo título cubre trabajos muy distintos. Lo que se mantiene es el reparto de responsabilidades.
 

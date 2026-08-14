@@ -106,6 +106,15 @@ Casi todo el material salta de la transformación a *tidy data* sin decir qué e
 | **Upsert** o *merge* | Actualiza si la llave existe, inserta si no | Es lo que casi siempre se quiere, y exige una llave única de verdad |
 | **Overwrite por partición** | Reescribe solo el período procesado | Es lo que hace segura una reejecución, y por eso reaparece en [[cuando-se-rompe]] |
 
+Con `ventas.csv`, la diferencia se ve en un número. La corrida del 4 de agosto
+trae 3 pedidos, y se relanza:
+
+| Estrategia | Filas del 4 de agosto tras dos corridas |
+|---|---|
+| `append` | 6 — cada pedido aparece dos veces |
+| `upsert` por `pedido` | 3 — la segunda escritura actualiza, no añade |
+| Sobrescribir la partición del 4 | 3 — el día se reemplaza entero |
+
 ### Visibilidad y verificación
 
 Si el consumidor lee la tabla mientras se escribe, verá **estados intermedios**: medio día cargado. Por eso los destinos serios ofrecen transacciones, o se escribe a una tabla temporal y se intercambia de forma atómica al final.

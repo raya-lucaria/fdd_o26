@@ -77,6 +77,25 @@ Sin distinguir una corrida de otra, no se puede saber cuál produjo qué
 resultado, ni repetir solo la que falló.
 :::
 
+## El caso de esta unidad
+
+Toda la unidad usa el mismo ejemplo: **las ventas de una cafetería con tres
+sucursales**, que llegan cada noche en `ventas.csv`.
+
+| pedido | fecha | sucursal | producto | monto |
+|---|---|---|---|---|
+| 1001 | 2026-08-04 | CDMX | Capuchino | 62 |
+| 1002 | 04/08/2026 | D.F. | Latte | 68 |
+| 1003 | 2026-08-04 | Santa Fe | Americano | 0 |
+| 1004 | 2026-08-05 | CDMX | Capuchino | 62 |
+| 1005 | 05/08/2026 | Polanco | Té | 45 |
+
+Se ven tres problemas: **la fecha viene en dos formatos**,
+**«CDMX» y «D.F.» son la misma sucursal escrita de dos maneras**, y **hay un
+pedido de monto cero**. Cada página siguiente se hace cargo de uno.
+
+La llave es `pedido` — ver @def-llave.
+
 ## No es una flecha, es un grafo
 
 ::: figure {#dag title="El pipeline como grafo de dependencias"}

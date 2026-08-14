@@ -23,11 +23,9 @@ prerequisites: [etl-y-elt]
 - «Los datos están sucios» no es un diagnóstico. **Seis dimensiones de calidad** sí lo son.
 - Esas seis dimensiones son el borrador de un **contrato de datos** ejecutable.
 
-## Seis semanas para descubrir once casos
+## El pedido 1003
 
-Un equipo dedica seis semanas a un modelo de abandono de clientes. En la semana siete alguien pregunta cuántos clientes se dieron de baja el año pasado.
-
-La respuesta es **once**. Con once casos positivos no hay modelo posible, y eso se podía saber el primer día con una consulta de dos líneas.
+En `ventas.csv`, el pedido 1003 —un Americano en Santa Fe— tiene `monto` en cero. Antes de construir un reporte de ingresos sobre esa columna, alguien tiene que decidir si ese cero es una cortesía, un pedido cancelado o un error de captura. Nadie lo sabe todavía, y una sola fila ya cambia el resultado.
 
 Ese es el argumento entero de esta página. El **análisis exploratorio de datos** —EDA, *exploratory data analysis*— es **el control de viabilidad del proyecto**.
 

@@ -33,11 +33,11 @@ personas obtienen dos números distintos de la misma tabla.
 
 ## La falla que abre el tema
 
-Llega un archivo nuevo de un proveedor. Trae una columna extra y una fecha en otro formato. Hay dos comportamientos posibles, y ambos existen.
+`ventas.csv` llega crudo cada noche. El pedido 1002 trae la fecha como `04/08/2026`, no como `2026-08-04`. Hay dos comportamientos posibles, y ambos existen.
 
-**El sistema lo rechaza.** «La columna `region_code` no está declarada, la carga falla.» Nada entra roto, pero el dato de hoy no existe hasta que alguien arregle el esquema, y ese alguien quizá esté de vacaciones.
+**El sistema lo rechaza.** «La columna `fecha` no cumple el formato declarado, la carga falla.» Nada entra roto, pero las ventas de esa noche no existen hasta que alguien arregle el formato.
 
-**El sistema lo acepta tal cual.** El problema aparece tres semanas después, cuando una consulta promedia una columna donde conviven `"2026-01-05"` y `"05/01/2026"`.
+**El sistema lo acepta tal cual.** El problema aparece tres semanas después, cuando una consulta promedia una columna donde conviven `2026-08-04` y `04/08/2026`.
 
 Ninguno es correcto en abstracto. Son dos ubicaciones del mismo costo: **schema-on-write** paga por adelantado; **schema-on-read** difiere el pago.
 
