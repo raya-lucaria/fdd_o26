@@ -12,7 +12,7 @@ prerequisites: [etl-y-elt]
 # EDA
 
 ::: figure {#ilus-eda title="Inspeccionar el material antes de confiar en él"}
-![Tramo de tubería transparente abierto sobre una mesa de inspección iluminada, rodeado de lentes de aumento y calibradores que examinan el caudal antes de dejarlo seguir](_assets/ilus-eda.jpg)
+![Tramo de tubería transparente abierto sobre una mesa de inspección iluminada, rodeado de lentes de aumento y calibradores que examinan el caudal antes de dejarlo seguir](../_assets/ilus-eda.jpg)
 :::
 
 ## En corto
@@ -56,7 +56,7 @@ El producto más subestimado del EDA es **una lista de preguntas para quien cono
 ## Calidad de datos: seis dimensiones
 
 ::: figure {#calidad title="Las seis dimensiones de la calidad de los datos"}
-![Diagrama de seis dimensiones de calidad de datos: completitud, unicidad, validez, consistencia, exactitud y oportunidad](_assets/d-calidad.svg)
+![Diagrama de seis dimensiones de calidad de datos: completitud, unicidad, validez, consistencia, exactitud y oportunidad](../_assets/d-calidad.svg)
 :::
 
 «Los datos están sucios» no es accionable. Descomponer la calidad sí lo es, porque **cada dimensión se mide y se arregla distinto**.

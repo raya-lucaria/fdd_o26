@@ -12,7 +12,7 @@ prerequisites: [cuando-se-rompe]
 # Posiciones
 
 ::: figure {#ilus-oficios title="Siete estaciones, siete instrumentales distintos"}
-![Taller industrial vacío con siete estaciones de trabajo contiguas, cada una con su banco y su tablero de herramientas colgadas: llaves, manómetros, soldadura, instrumentos de medición](_assets/ilus-oficios.jpg)
+![Taller industrial vacío con siete estaciones de trabajo contiguas, cada una con su banco y su tablero de herramientas colgadas: llaves, manómetros, soldadura, instrumentos de medición](../_assets/ilus-oficios.jpg)
 :::
 
 ## En corto

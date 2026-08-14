@@ -94,7 +94,7 @@ def test_creditos_marcan_las_generadas():
 
 def test_cada_ilustracion_se_usa_en_una_pagina():
     texto = "\n".join(
-        p.read_text(encoding="utf-8") for p in sorted(PAGINAS.glob("*.md"))
+        p.read_text(encoding="utf-8") for p in sorted(PAGINAS.rglob("*.md"))
     )
     for nombre in nombres():
         assert f"_assets/ilus-{nombre}.jpg" in texto, (
@@ -105,3 +105,19 @@ def test_cada_ilustracion_se_usa_en_una_pagina():
 def test_no_queda_png_de_ilustracion_huerfano():
     huerfanos = sorted(p.name for p in ASSETS.glob("ilus-*.png"))
     assert not huerfanos, f"PNGs de ilustracion sin reemplazar por jpg: {huerfanos}"
+
+
+def test_cada_pagina_es_un_directorio_con_indice():
+    sueltas = sorted(
+        p.name for p in PAGINAS.glob("*.md") if p.name != "0_index.md"
+    )
+    assert not sueltas, f"paginas sin promover a directorio: {sueltas}"
+    directorios = sorted(
+        d.name for d in PAGINAS.iterdir()
+        if d.is_dir() and not d.name.startswith("_")
+    )
+    assert directorios, "la unidad no tiene ninguna pagina"
+    for nombre in directorios:
+        assert (PAGINAS / nombre / "0_index.md").is_file(), (
+            f"{nombre}/ no tiene 0_index.md"
+        )

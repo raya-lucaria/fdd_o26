@@ -12,7 +12,7 @@ prerequisites: [etl-y-elt]
 # Cuando se rompe
 
 ::: figure {#ilus-ruptura title="Toda fractura tiene su collarín de reparación"}
-![Tubería principal fracturada por la mitad con el caudal luminoso escapando por la grieta, y junto a ella un collarín de reparación con bridas y tornillos listos para cerrarla](_assets/ilus-ruptura.jpg)
+![Tubería principal fracturada por la mitad con el caudal luminoso escapando por la grieta, y junto a ella un collarín de reparación con bridas y tornillos listos para cerrarla](../_assets/ilus-ruptura.jpg)
 :::
 
 ## En corto
@@ -37,7 +37,7 @@ prerequisites: [etl-y-elt]
 ## 1. El mismo código dio otro número
 
 ::: figure {#idempotencia title="Idempotencia: la misma corrida dos veces"}
-![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](_assets/d-idempotencia.svg)
+![Diagrama que contrasta un pipeline no idempotente, donde correr dos veces duplica filas, con uno idempotente que produce el mismo estado final](../_assets/d-idempotencia.svg)
 :::
 
 El pipeline falló a mitad de la carga del martes. Alguien lo relanzó. El miércoles las ventas del martes aparecen duplicadas.
@@ -80,7 +80,7 @@ Lo importante no es el documento sino que sea **ejecutable**. Un contrato en una
 ## 3. Tres mentiras distintas sobre cuándo un dato es verdad
 
 ::: figure {#tiempo title="Batch, micro-batch, streaming y CDC: cuándo un dato es verdad"}
-![Diagrama comparativo de cuatro regímenes temporales de procesamiento, con la latencia entre el evento y su disponibilidad](_assets/d-tiempo.svg)
+![Diagrama comparativo de cuatro regímenes temporales de procesamiento, con la latencia entre el evento y su disponibilidad](../_assets/d-tiempo.svg)
 :::
 
 «El dato de ayer» y «el dato de ahora» no son el mismo problema con distinta velocidad: **son arquitecturas distintas**. Cada régimen miente distinto sobre cuándo algo es verdad.

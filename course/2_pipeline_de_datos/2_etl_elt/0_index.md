@@ -12,7 +12,7 @@ prerequisites: [el-viaje-de-los-datos]
 # ETL y ELT
 
 ::: figure {#ilus-etl-elt title="Las mismas estaciones, recorridas en orden invertido"}
-![Dos rutas de tubería paralelas que atraviesan las mismas tres estaciones en orden opuesto, una imagen especular de la otra](_assets/ilus-etl-elt.jpg)
+![Dos rutas de tubería paralelas que atraviesan las mismas tres estaciones en orden opuesto, una imagen especular de la otra](../_assets/ilus-etl-elt.jpg)
 :::
 
 ## En corto
@@ -26,7 +26,7 @@ prerequisites: [el-viaje-de-los-datos]
 ## La historia económica del orden
 
 ::: figure {#etl-elt title="ETL contra ELT: el mismo trabajo en distinto orden"}
-![Comparación lado a lado de un flujo ETL y uno ELT, con la curva descendente del costo de almacenamiento como eje de la transición](_assets/d-etl-elt.svg)
+![Comparación lado a lado de un flujo ETL y uno ELT, con la curva descendente del costo de almacenamiento como eje de la transición](../_assets/d-etl-elt.svg)
 :::
 
 ### Por qué ETL era lo único razonable
@@ -100,7 +100,7 @@ La carga es también donde ocurre la **verificación de llegada**: contar filas 
 ## Tidy data: qué forma debe tener el resultado
 
 ::: figure {#tidy title="Tidy data: variables en columnas, observaciones en filas, un valor por celda"}
-![Diagrama de una tabla desordenada transformada en una tabla tidy, con variables como columnas y observaciones como filas](_assets/d-tidy.svg)
+![Diagrama de una tabla desordenada transformada en una tabla tidy, con variables como columnas y observaciones como filas](../_assets/d-tidy.svg)
 :::
 
 Que unos datos sean **tabulares** no los hace utilizables: una hoja con años como columnas, totales intercalados y celdas combinadas es tabular y es inservible.

@@ -12,7 +12,7 @@ prerequisites: [pipeline-de-datos]
 # Presentación
 
 ::: figure {#ilus-archivo title="Material histórico, conservado y consultable"}
-![Estantería de archivo metálica con cajones abiertos, carretes de microfilm, planos enrollados y láminas apiladas cubiertas de una capa fina de polvo](_assets/ilus-archivo.jpg)
+![Estantería de archivo metálica con cajones abiertos, carretes de microfilm, planos enrollados y láminas apiladas cubiertas de una capa fina de polvo](../_assets/ilus-archivo.jpg)
 :::
 
 ## En corto
@@ -24,9 +24,9 @@ prerequisites: [pipeline-de-datos]
 
 ## El archivo
 
-**[Abrir la presentación en el navegador](_assets/01_pipeline_de_datos.pdf)** — el visor de PDF la muestra sin descargarla.
+**[Abrir la presentación en el navegador](../_assets/01_pipeline_de_datos.pdf)** — el visor de PDF la muestra sin descargarla.
 
-**[Descargar el archivo](_assets/01_pipeline_de_datos.pdf)** — es el mismo archivo, guardado con «Guardar como». Son **4.2 MB**, así que conviene saberlo si estás con datos móviles.
+**[Descargar el archivo](../_assets/01_pipeline_de_datos.pdf)** — es el mismo archivo, guardado con «Guardar como». Son **4.2 MB**, así que conviene saberlo si estás con datos móviles.
 
 > [!WARNING]
 > **Es material del semestre pasado, y las seis páginas anteriores lo reemplazan.** No es un resumen ni una versión condensada para repasar antes del examen. Lo que se evalúa es el texto, no las diapositivas.

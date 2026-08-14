@@ -12,7 +12,7 @@ prerequisites: [pipeline-de-datos]
 # El viaje de los datos
 
 ::: figure {#ilus-viaje title="Cada escala guarda el mismo caudal de otra manera"}
-![Cuatro depósitos industriales de forma distinta —una cisterna sellada, un estanque abierto, un silo de compartimentos y un tanque híbrido— conectados por tuberías que llevan el mismo caudal luminoso](_assets/ilus-viaje.jpg)
+![Cuatro depósitos industriales de forma distinta —una cisterna sellada, un estanque abierto, un silo de compartimentos y un tanque híbrido— conectados por tuberías que llevan el mismo caudal luminoso](../_assets/ilus-viaje.jpg)
 :::
 
 ## En corto
@@ -39,7 +39,7 @@ Ninguno es correcto en abstracto. Son dos ubicaciones del mismo costo: **schema-
 ## Las cuatro escalas
 
 ::: figure {#schema title="Schema-on-write contra schema-on-read: base de datos, lake, warehouse y lakehouse"}
-![Diagrama comparativo de cuatro sistemas de almacenamiento situados según cuándo imponen esquema y para qué carga de trabajo están optimizados](_assets/d-schema.svg)
+![Diagrama comparativo de cuatro sistemas de almacenamiento situados según cuándo imponen esquema y para qué carga de trabajo están optimizados](../_assets/d-schema.svg)
 :::
 
 | | Base de datos | Data lake | Data warehouse | Lakehouse |
