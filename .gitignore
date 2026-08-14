@@ -222,3 +222,6 @@ artifact/
 .env
 __pycache__/
 .pytest_cache/
+
+# Workspace de superpowers/SDD — artefactos de ejecucion, no fuente
+.superpowers/
