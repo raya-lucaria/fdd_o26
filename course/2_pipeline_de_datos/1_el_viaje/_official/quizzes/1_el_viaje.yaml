@@ -10,17 +10,17 @@ content:
         qué cuesta esa elección?
       options:
         - label: >-
-            Schema-on-read, propio del datalake: abarata y acelera la ingesta
-            porque nada se rechaza al escribir, pero traslada el costo a la
-            lectura, donde cada consumidor debe interpretar y validar los datos
-            por su cuenta
-          correct: true
-        - label: >-
             Schema-on-write, propio del data warehouse: garantiza que todo dato
             almacenado ya cumple un contrato, porque el esquema se valida antes
             de escribir y lo que no encaja se rechaza ahí mismo, en vez de
             guardarse para decidir después
           correct: false
+        - label: >-
+            Schema-on-read, propio del datalake: abarata y acelera la ingesta
+            porque nada se rechaza al escribir, pero traslada el costo a la
+            lectura, donde cada consumidor debe interpretar y validar los datos
+            por su cuenta
+          correct: true
         - label: >-
             Una elección sin consecuencias: el esquema es un detalle de
             implementación que un buen equipo puede cambiar más adelante sin
@@ -40,12 +40,6 @@ content:
         lo llama "pre-procesamiento, nada que reportar". ¿Qué objeción cabe?
       options:
         - label: >-
-            Que imputar con la media altera la distribución —reduce la varianza
-            y puede sesgar las relaciones entre variables—, así que toca los
-            supuestos estadísticos y pertenece al procesamiento: hay que
-            justificarlo y documentarlo
-          correct: true
-        - label: >-
             Ninguna: cualquier operación anterior al modelado es
             pre-procesamiento por definición cronológica, sin importar si
             cambia la forma de la distribución o los supuestos con los que
@@ -61,5 +55,11 @@ content:
             descartar los renglones incompletos, aunque eso reduzca el tamaño
             de la muestra y sesgue lo que queda
           correct: false
+        - label: >-
+            Que imputar con la media altera la distribución —reduce la varianza
+            y puede sesgar las relaciones entre variables—, así que toca los
+            supuestos estadísticos y pertenece al procesamiento: hay que
+            justificarlo y documentarlo
+          correct: true
 retrieval:
   kind: concept-check

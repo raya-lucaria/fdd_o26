@@ -40,12 +40,6 @@ content:
         el mismo trabajo que describe el resto de la unidad?
       options:
         - label: >-
-            Porque un sistema RAG es un pipeline de datos: extraer, cargar y
-            mantener actualizado un índice sigue necesitando que alguien
-            garantice que esos documentos llegan completos y a tiempo, igual
-            que cualquier otra extracción y carga
-          correct: true
-        - label: >-
             No lo es: los papeles de IA como AI engineer reemplazan por
             completo a los roles anteriores porque el modelo de lenguaje hace
             el trabajo de transformación
@@ -61,5 +55,11 @@ content:
             que todavía no cuentan como trabajo real de datos, sino como una
             especialidad aparte que solo existe mientras dura la moda de la IA
           correct: false
+        - label: >-
+            Porque un sistema RAG es un pipeline de datos: extraer, cargar y
+            mantener actualizado un índice sigue necesitando que alguien
+            garantice que esos documentos llegan completos y a tiempo, igual
+            que cualquier otra extracción y carga
+          correct: true
 retrieval:
   kind: concept-check

@@ -9,11 +9,6 @@ content:
         baja. ¿Cuál es la primera pregunta del EDA, y por qué esa y no otra?
       options:
         - label: >-
-            Cuántos clientes se dieron de baja en el período disponible: si son
-            once, no hay modelo posible, y saberlo el primer día cuesta una
-            consulta en vez de seis semanas de trabajo
-          correct: true
-        - label: >-
             Qué algoritmo conviene usar, porque de esa elección dependen las
             transformaciones que habrá que aplicar después y conviene fijarla
             antes de gastar tiempo mirando los datos con otro objetivo en mente
@@ -28,6 +23,11 @@ content:
             la primera de las seis dimensiones de calidad y conviene revisarla
             antes que cualquier otra cosa del conjunto de datos
           correct: false
+        - label: >-
+            Cuántos clientes se dieron de baja en el período disponible: si son
+            once, no hay modelo posible, y saberlo el primer día cuesta una
+            consulta en vez de seis semanas de trabajo
+          correct: true
 
     - id: eda-cuando
       prompt: >-

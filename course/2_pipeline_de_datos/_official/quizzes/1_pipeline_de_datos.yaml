@@ -9,11 +9,6 @@ content:
         resultado una vez?
       options:
         - label: >-
-            Que el pipeline está hecho para volver a correr: tiene un contrato
-            sobre lo que entra y lo que sale, se puede reintentar sin ensuciar
-            el resultado y su ejecución está orquestada, no disparada a mano
-          correct: true
-        - label: >-
             Que el pipeline usa herramientas especializadas y el script no; con
             las mismas librerías de manipulación de datos, el resultado y la
             confiabilidad de los dos serían exactamente lo mismo
@@ -23,6 +18,11 @@ content:
             volúmenes pequeños, así que la diferencia es de tamaño y no de
             cómo está construido ni de qué garantiza al volver a correr
           correct: false
+        - label: >-
+            Que el pipeline está hecho para volver a correr: tiene un contrato
+            sobre lo que entra y lo que sale, se puede reintentar sin ensuciar
+            el resultado y su ejecución está orquestada, no disparada a mano
+          correct: true
         - label: >-
             Que el pipeline corre en la nube y el script corre en la máquina de
             quien lo escribió, así que basta con subir el mismo código a un
@@ -35,16 +35,16 @@ content:
         vida de un proyecto de datos no es lineal?
       options:
         - label: >-
+            Porque el nombre DAG exige que el pipeline tenga al menos dos ramas
+            en paralelo: una sola cadena de pasos encadenados sin bifurcación
+            ni reconvergencia no calificaría como DAG bajo ninguna definición
+          correct: false
+        - label: >-
             Porque las etapas tienen dependencias que se ramifican y vuelven a
             unirse —varias fuentes alimentan varias salidas, y el orden lo fija
             la dependencia, no la narración—, y porque lo que se descubre en
             exploración o en producción obliga a regresar a etapas anteriores
           correct: true
-        - label: >-
-            Porque el nombre DAG exige que el pipeline tenga al menos dos ramas
-            en paralelo: una sola cadena de pasos encadenados sin bifurcación
-            ni reconvergencia no calificaría como DAG bajo ninguna definición
-          correct: false
         - label: >-
             Porque los pipelines deben tener ciclos: un paso que se alimenta a
             sí mismo, sin depender de ninguna condición externa, es lo que los

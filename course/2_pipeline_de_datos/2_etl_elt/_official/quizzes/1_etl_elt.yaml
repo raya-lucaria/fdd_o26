@@ -41,11 +41,6 @@ content:
         histórico de días anteriores?
       options:
         - label: >-
-            Se duplican las filas de ese día, porque `append` solo añade sin
-            revisar si ya existían; conviene un `upsert` por llave, o
-            sobrescribir solo la partición de ese día, no la tabla entera
-          correct: true
-        - label: >-
             Nada: `append` siempre revisa antes de escribir si el registro ya
             existe, así que el reintento no tiene efecto y la tabla queda
             exactamente igual que si la corrida se hubiera lanzado una sola
@@ -56,6 +51,11 @@ content:
             sobrescribe la tabla completa en cada corrida en vez de sumar
             filas nuevas a lo que ya estaba guardado desde antes
           correct: false
+        - label: >-
+            Se duplican las filas de ese día, porque `append` solo añade sin
+            revisar si ya existían; conviene un `upsert` por llave, o
+            sobrescribir solo la partición de ese día, no la tabla entera
+          correct: true
         - label: >-
             El problema desaparece solo con particionar la tabla por fecha,
             sin cambiar la estrategia de escritura, porque el simple hecho de

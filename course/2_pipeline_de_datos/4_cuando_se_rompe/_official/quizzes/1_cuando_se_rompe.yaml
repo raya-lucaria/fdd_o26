@@ -10,16 +10,16 @@ content:
         obtiene?
       options:
         - label: >-
+            Faltaba capacidad de cómputo: con más memoria el job habría
+            terminado a la primera, sin fallar a la mitad, y por lo tanto no
+            habría hecho falta relanzarlo ni habrían aparecido los duplicados
+          correct: false
+        - label: >-
             Faltaba idempotencia: el paso debe dejar el mismo estado corriendo
             una o varias veces, y se consigue reemplazando la partición
             completa o haciendo upsert contra una llave, en lugar de insertar a
             ciegas
           correct: true
-        - label: >-
-            Faltaba capacidad de cómputo: con más memoria el job habría
-            terminado a la primera, sin fallar a la mitad, y por lo tanto no
-            habría hecho falta relanzarlo ni habrían aparecido los duplicados
-          correct: false
         - label: >-
             Faltaba validación de esquema: si las columnas hubieran estado
             bien tipadas desde el origen, la segunda corrida habría detectado
@@ -40,12 +40,6 @@ content:
         ruidosa?
       options:
         - label: >-
-            Es una falla silenciosa: no lanza excepción y alimenta decisiones
-            sin que nadie se entere; un pipeline observable, que compara
-            filas procesadas y rechazadas contra corridas anteriores, la
-            habría delatado
-          correct: true
-        - label: >-
             Es una falla ruidosa, porque cualquier error dentro de un `join`
             detiene siempre la ejecución del pipeline y avisa a quien lo
             opera antes de que el reporte llegue a publicarse
@@ -55,6 +49,12 @@ content:
             número en cero es un resultado válido que solo necesita
             explicarse en la siguiente reunión con el negocio
           correct: false
+        - label: >-
+            Es una falla silenciosa: no lanza excepción y alimenta decisiones
+            sin que nadie se entere; un pipeline observable, que compara
+            filas procesadas y rechazadas contra corridas anteriores, la
+            habría delatado
+          correct: true
         - label: >-
             Es un problema de idempotencia: si el paso fuera idempotente, el
             `join` no se habría quedado vacío al cambiar el tipo de la llave
