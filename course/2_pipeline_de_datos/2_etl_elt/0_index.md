@@ -31,7 +31,7 @@ prerequisites: [el-viaje-de-los-datos]
 Guardar dejó de ser lo caro; lo caro pasó a ser el cómputo y el tiempo de
 quien modela.
 
-El eje va en potencias de diez: la caída es de unos **cinco órdenes de
+El eje va en potencias de diez: la caída es de **casi seis órdenes de
 magnitud**, no de un factor de dos. Son cifras de orden de magnitud tomadas de
 las series históricas de precio de disco, no una serie exacta — lo que importa
 aquí es la forma de la curva, y esa no está en duda.
@@ -156,8 +156,7 @@ La razón no es estética: **todas las herramientas del ecosistema esperan esa f
 Tidy no es la única forma de destino. Cuando lo que se alimenta es un warehouse,
 la transformación suele apuntar a un **modelo dimensional**: una tabla de hechos
 con las métricas y varias tablas de dimensión con sus atributos. @dag dibuja un
-ejemplo simplificado con una sola tabla de dimensión; el tema se ve a fondo más
-adelante en el curso.
+ejemplo simplificado con una sola tabla de dimensión, no la forma completa.
 
 ## Hacia adelante
 
