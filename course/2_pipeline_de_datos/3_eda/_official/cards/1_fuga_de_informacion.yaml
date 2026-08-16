@@ -1,0 +1,17 @@
+id: fuga-de-informacion-en-columna-disfrazada
+type: card
+authority: official
+content:
+  front: >-
+    Un modelo que predice si un cliente se dará de baja incluye entre sus
+    columnas `fecha_de_baja`. En las pruebas la exactitud es casi perfecta.
+    ¿Qué problema tiene, y por qué falla en producción?
+  back: >-
+    Es fuga de información: `fecha_de_baja` contiene, disfrazada, la respuesta
+    que se quiere predecir — si esa columna tiene un valor, el cliente ya se
+    dio de baja. El modelo aprende ese atajo y por eso la exactitud en pruebas
+    es excelente. En producción falla porque ahí la pregunta es sobre clientes
+    que todavía no se sabe si se van a dar de baja, así que esa columna
+    todavía no existe: el modelo pierde la única señal que aprendió a usar.
+retrieval:
+  kind: recall

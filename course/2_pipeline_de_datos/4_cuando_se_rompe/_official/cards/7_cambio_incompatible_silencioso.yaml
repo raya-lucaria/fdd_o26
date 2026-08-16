@@ -1,0 +1,22 @@
+id: cambio-incompatible-silencioso
+type: card
+authority: official
+content:
+  front: >-
+    El origen no borró ni renombró ninguna columna, pero cambió el
+    significado de un valor: donde antes `estado = "inactivo"` significaba
+    dado de baja, ahora significa pausado por 30 días. El pipeline sigue
+    corriendo sin ningún error. ¿Qué tipo de cambio es este, y por qué es el
+    más peligroso de los tres?
+  back: >-
+    Es un cambio incompatible silencioso: a diferencia de renombrar o borrar
+    una columna, que rompe con un error visible, este no lanza ninguna
+    excepción — la columna sigue siendo texto válido del mismo tipo, solo que
+    ahora significa otra cosa. Es el más peligroso de los tres tipos de
+    evolución de esquema (compatible hacia atrás, incompatible con error,
+    incompatible silencioso) porque un contrato que solo revisa tipos no lo
+    detecta; lo que sí puede notarlo es la observabilidad, comparando la
+    proporción de cada valor de `estado` contra corridas anteriores hasta que
+    el salto se vuelva visible.
+retrieval:
+  kind: recall

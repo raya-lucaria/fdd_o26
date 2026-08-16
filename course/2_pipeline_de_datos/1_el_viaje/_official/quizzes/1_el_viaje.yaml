@@ -1,0 +1,55 @@
+id: quiz-el-viaje
+type: quiz
+authority: official
+content:
+  questions:
+    - id: schema-on-read-write
+      prompt: >-
+        Un equipo guarda archivos crudos tal como llegan de la fuente y decide
+        la estructura hasta el momento de consultarlos. ¿Qué está eligiendo, y
+        qué cuesta esa elección?
+      options:
+        - label: >-
+            Schema-on-read, propio del datalake: abarata y acelera la ingesta
+            porque nada se rechaza al escribir, pero traslada el costo a la
+            lectura, donde cada consumidor debe interpretar y validar los datos
+            por su cuenta
+          correct: true
+        - label: >-
+            Schema-on-write, propio del data warehouse: garantiza que todo dato
+            almacenado ya cumple un contrato
+          correct: false
+        - label: >-
+            Una elección sin consecuencias: el esquema es un detalle de
+            implementación que no afecta ni el costo ni la confiabilidad
+          correct: false
+        - label: >-
+            Schema-on-read, que elimina el problema de la calidad de datos
+            porque nunca se rechaza nada en la ingesta
+          correct: false
+
+    - id: preproceso-frontera
+      prompt: >-
+        Un compañero imputa los valores faltantes de una columna con su media y
+        lo llama "pre-procesamiento, nada que reportar". ¿Qué objeción cabe?
+      options:
+        - label: >-
+            Que imputar con la media altera la distribución —reduce la varianza
+            y puede sesgar las relaciones entre variables—, así que toca los
+            supuestos estadísticos y pertenece al procesamiento: hay que
+            justificarlo y documentarlo
+          correct: true
+        - label: >-
+            Ninguna: cualquier operación anterior al modelado es
+            pre-procesamiento por definición cronológica
+          correct: false
+        - label: >-
+            Que el problema es la herramienta: sería pre-procesamiento si se
+            hiciera en SQL en vez de en Python
+          correct: false
+        - label: >-
+            Que imputar faltantes nunca es aceptable y siempre hay que
+            descartar los renglones incompletos
+          correct: false
+retrieval:
+  kind: concept-check

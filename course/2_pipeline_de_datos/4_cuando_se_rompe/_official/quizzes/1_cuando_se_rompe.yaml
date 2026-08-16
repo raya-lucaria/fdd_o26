@@ -1,0 +1,58 @@
+id: quiz-cuando-se-rompe
+type: quiz
+authority: official
+content:
+  questions:
+    - id: idempotencia-reintento
+      prompt: >-
+        Un job de ingesta falla a la mitad, se reintenta, y al final del día la
+        tabla tiene renglones duplicados. ¿Qué propiedad faltaba y cómo se
+        obtiene?
+      options:
+        - label: >-
+            Faltaba idempotencia: el paso debe dejar el mismo estado corriendo
+            una o varias veces, y se consigue reemplazando la partición
+            completa o haciendo upsert contra una llave, en lugar de insertar a
+            ciegas
+          correct: true
+        - label: >-
+            Faltaba capacidad de cómputo: con más memoria el job habría
+            terminado a la primera y el problema no aparece
+          correct: false
+        - label: >-
+            Faltaba validación de esquema: si las columnas hubieran estado bien
+            tipadas no habría duplicados
+          correct: false
+        - label: >-
+            No faltaba nada: los duplicados son inevitables en cualquier
+            reintento y se limpian después, aguas abajo
+          correct: false
+
+    - id: fallas-silenciosas
+      prompt: >-
+        Un job de transformación termina sin lanzar ningún error, pero el
+        `join` que cruza pedidos con clientes queda vacío por un cambio de
+        tipo en la llave, y el reporte de esa noche sale en cero sin que nadie
+        lo note. ¿Qué tipo de falla es esta, y qué la habría convertido en
+        ruidosa?
+      options:
+        - label: >-
+            Es una falla silenciosa: no lanza excepción y alimenta decisiones
+            sin que nadie se entere; un pipeline observable, que compara
+            filas procesadas y rechazadas contra corridas anteriores, la
+            habría delatado
+          correct: true
+        - label: >-
+            Es una falla ruidosa, porque cualquier error dentro de un `join`
+            detiene siempre la ejecución del pipeline
+          correct: false
+        - label: >-
+            No es una falla: el pipeline terminó sin errores, así que el
+            número en cero es un resultado válido
+          correct: false
+        - label: >-
+            Es un problema de idempotencia: si el paso fuera idempotente, el
+            `join` no se habría quedado vacío
+          correct: false
+retrieval:
+  kind: concept-check

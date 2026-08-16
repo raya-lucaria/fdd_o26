@@ -3,14 +3,19 @@ type: card
 authority: official
 content:
   front: >-
-    ¿Qué distingue a un datalake de una base de datos y de un data warehouse?
+    Un equipo guarda logs y CSV crudos tal cual llegan, sin decidir su
+    estructura hasta que alguien los consulta. Otro equipo modela sus datos de
+    ventas antes de guardarlos, para que finanzas y ventas midan lo mismo con
+    la misma consulta. ¿En qué escala vive cada uno, y qué eje los separa?
   back: >-
-    Los separa cuándo se impone el esquema. Una base de datos operativa valida
-    al escribir (schema-on-write) y sirve transacciones vivas de una
-    aplicación. Un data warehouse también valida al escribir, pero guarda datos
-    ya modelados para análisis histórico. Un datalake acepta cualquier archivo
-    crudo y difiere la estructura al momento de leer (schema-on-read): sale
-    barato guardar y caro entender. El lakehouse es el intento de tener las dos
-    cosas — almacenamiento barato de lake con garantías de tabla del warehouse.
+    El primer equipo vive en un data lake: acepta cualquier archivo crudo y
+    difiere la estructura al momento de leer (schema-on-read), así que sale
+    barato guardar y caro entender. El segundo vive en un data warehouse: valida
+    al escribir (schema-on-write), precisamente para que toda la empresa mida lo
+    mismo al decir "ingreso mensual". El eje que los separa no es el producto
+    sino cuándo se impone el esquema; una base de datos operativa también valida
+    al escribir, pero para sostener transacciones vivas, no análisis histórico.
+    El lakehouse es el intento de tener las dos cosas — almacenamiento barato de
+    lake con garantías de tabla del warehouse.
 retrieval:
   kind: recall

@@ -3,14 +3,17 @@ type: card
 authority: official
 content:
   front: >-
-    ¿Qué significa que un paso del pipeline sea idempotente y por qué importa?
+    La corrida del 4 de agosto sobre `ventas.csv` falla a la mitad. Se
+    relanza, y ahora hay seis filas para ese día en vez de tres. ¿Qué le
+    faltaba al paso de carga, y qué dos cambios lo arreglan?
   back: >-
-    Que correrlo dos veces con la misma entrada deja el mismo resultado que
-    correrlo una vez. Importa porque los pipelines fallan a la mitad y hay que
-    reintentarlos: un paso que hace INSERT ciego duplica renglones en cada
-    reintento, mientras que uno que reemplaza la partición del día o hace
-    upsert por llave converge al mismo estado. Sin idempotencia no hay
-    reintentos seguros ni backfills, y el mismo código empieza a dar números
-    distintos según cuántas veces se ejecutó.
+    Le faltaba idempotencia: correrlo una o cinco veces debería dejar el
+    sistema igual. El paso hacía un `append` ciego, que duplica renglones en
+    cada reintento. Se arregla escribiendo con `upsert` por llave —para que la
+    segunda escritura actualice en vez de insertar— o particionando por
+    período y sobrescribiendo la partición entera del día, en vez de
+    añadir sobre lo que ya estaba. Sin idempotencia no hay reintentos seguros
+    ni backfills, y el mismo código empieza a dar números distintos según
+    cuántas veces se ejecutó.
 retrieval:
   kind: recall

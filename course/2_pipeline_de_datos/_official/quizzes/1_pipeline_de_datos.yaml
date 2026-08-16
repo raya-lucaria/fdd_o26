@@ -1,0 +1,53 @@
+id: quiz-pipeline
+type: quiz
+authority: official
+content:
+  questions:
+    - id: pipeline-vs-script
+      prompt: >-
+        ¿Qué separa a un pipeline de datos de un script que produjo el mismo
+        resultado una vez?
+      options:
+        - label: >-
+            Que el pipeline está hecho para volver a correr: tiene un contrato
+            sobre lo que entra y lo que sale, se puede reintentar sin ensuciar
+            el resultado y su ejecución está orquestada, no disparada a mano
+          correct: true
+        - label: >-
+            Que el pipeline usa herramientas especializadas y el script no; con
+            las mismas librerías serían lo mismo
+          correct: false
+        - label: >-
+            Que el pipeline procesa volúmenes grandes de datos y el script
+            volúmenes pequeños
+          correct: false
+        - label: >-
+            Que el pipeline corre en la nube y el script corre en la máquina de
+            quien lo escribió
+          correct: false
+
+    - id: dag-no-lineal
+      prompt: >-
+        ¿Por qué se insiste en que un pipeline es un DAG y en que el ciclo de
+        vida de un proyecto de datos no es lineal?
+      options:
+        - label: >-
+            Porque las etapas tienen dependencias que se ramifican y vuelven a
+            unirse —varias fuentes alimentan varias salidas, y el orden lo fija
+            la dependencia, no la narración—, y porque lo que se descubre en
+            exploración o en producción obliga a regresar a etapas anteriores
+          correct: true
+        - label: >-
+            Porque el nombre DAG exige que el pipeline tenga al menos dos ramas
+            en paralelo: una sola cadena de pasos encadenados no calificaría
+          correct: false
+        - label: >-
+            Porque los pipelines deben tener ciclos: un paso que se alimenta a
+            sí mismo es lo que los hace robustos
+          correct: false
+        - label: >-
+            Porque así lo exigen los orquestadores; conceptualmente el proceso
+            sí es una secuencia lineal de cuatro etapas
+          correct: false
+retrieval:
+  kind: concept-check

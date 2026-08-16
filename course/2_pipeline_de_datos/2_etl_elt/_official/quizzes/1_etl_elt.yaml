@@ -1,0 +1,54 @@
+id: quiz-etl-elt
+type: quiz
+authority: official
+content:
+  questions:
+    - id: por-que-elt
+      prompt: >-
+        ¿Por qué ETL se volvió ELT en buena parte de la industria?
+      options:
+        - label: >-
+            Porque el almacenamiento se abarató y el cómputo del warehouse se
+            volvió elástico, así que dejó de ser razonable transformar y
+            descartar antes de cargar: conviene guardar el crudo y transformar
+            en el destino, donde la transformación se puede rehacer sin volver
+            a la fuente
+          correct: true
+        - label: >-
+            Porque las transformaciones dejaron de ser necesarias cuando
+            aparecieron los data warehouses modernos
+          correct: false
+        - label: >-
+            Porque ETL producía resultados incorrectos y ELT los corrige
+          correct: false
+        - label: >-
+            Porque es solo un cambio de nombre comercial: las mismas etapas en
+            el mismo orden, vendidas de otra forma
+          correct: false
+
+    - id: carga-append-duplica
+      prompt: >-
+        Una corrida escribe con `append` las filas nuevas del día, y por un
+        error se relanza dos veces sobre el mismo día. ¿Qué pasa con los
+        datos, y qué estrategia de carga evita el problema sin perder el
+        histórico de días anteriores?
+      options:
+        - label: >-
+            Se duplican las filas de ese día, porque `append` solo añade sin
+            revisar si ya existían; conviene un `upsert` por llave, o
+            sobrescribir solo la partición de ese día, no la tabla entera
+          correct: true
+        - label: >-
+            Nada: `append` siempre revisa antes de escribir si el registro ya
+            existe, así que el reintento no tiene efecto
+          correct: false
+        - label: >-
+            Se pierden las filas de los días anteriores, porque `append`
+            sobrescribe la tabla completa en cada corrida
+          correct: false
+        - label: >-
+            El problema desaparece solo con particionar la tabla por fecha,
+            sin cambiar la estrategia de escritura
+          correct: false
+retrieval:
+  kind: concept-check

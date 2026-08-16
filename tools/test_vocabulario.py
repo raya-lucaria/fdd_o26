@@ -168,3 +168,42 @@ def test_el_glosario_lista_todos_los_terminos():
     cuerpo = texto(GLOSARIO)
     for termino in TERMINOS:
         assert f"@{termino}" in cuerpo, f"el glosario no referencia @{termino}"
+
+
+CONTENIDO = [
+    "0_index", "1_el_viaje", "2_etl_elt", "3_eda",
+    "4_cuando_se_rompe", "5_posiciones",
+]
+
+
+def soporte(nombre):
+    if nombre == "0_index":
+        return UNIDAD / "_official"
+    return UNIDAD / nombre / "_official"
+
+
+def test_cada_pagina_de_contenido_tiene_dos_tarjetas_y_dos_preguntas():
+    import yaml
+
+    for nombre in CONTENIDO:
+        base = soporte(nombre)
+        tarjetas = sorted((base / "cards").glob("*.yaml")) if (base / "cards").is_dir() else []
+        assert len(tarjetas) == 2, f"{nombre}: {len(tarjetas)} tarjetas, deben ser 2"
+
+        quizzes = sorted((base / "quizzes").glob("*.yaml")) if (base / "quizzes").is_dir() else []
+        assert len(quizzes) == 1, f"{nombre}: {len(quizzes)} quizzes, debe ser 1"
+        preguntas = yaml.safe_load(quizzes[0].read_text(encoding="utf-8"))
+        n = len(preguntas["content"]["questions"])
+        assert n == 2, f"{nombre}: el quiz tiene {n} preguntas, deben ser 2"
+
+
+def test_ninguna_pregunta_tiene_dos_opciones_correctas():
+    import yaml
+
+    for ruta in UNIDAD.rglob("_official/quizzes/*.yaml"):
+        datos = yaml.safe_load(ruta.read_text(encoding="utf-8"))
+        for pregunta in datos["content"]["questions"]:
+            correctas = [o for o in pregunta["options"] if o.get("correct")]
+            assert len(correctas) == 1, (
+                f"{ruta.name}/{pregunta['id']}: {len(correctas)} opciones correctas"
+            )

@@ -2,15 +2,20 @@ id: que-hace-tidy-a-una-tabla
 type: card
 authority: official
 content:
-  front: ¿Qué hace que una tabla sea tidy?
+  front: >-
+    Una tabla tiene una columna por año: 2024, 2025, 2026. ¿Por qué no es tidy
+    y qué forma debería tener?
   back: >-
-    Tres reglas, en el sentido de Hadley Wickham: cada variable es una columna,
-    cada observación es un renglón, y cada tipo de unidad observacional vive en
-    su propia tabla. Una tabla con los años como columnas, o con "10 kg" en una
-    sola celda, viola la primera. El punto no es estético: tidy es la forma que
-    esperan las herramientas de análisis y graficado, así que ordenar una vez
-    ahorra reacomodos en cada paso posterior. Es la forma que busca la T cuando
-    el destino es análisis tabular; cuando el destino es un warehouse, la T
-    suele apuntar a un modelo dimensional — hechos y dimensiones.
+    No es tidy porque el año no es tres variables distintas, es una sola
+    variable —"año"— con tres valores posibles, y tidy exige que cada variable
+    sea una columna. La forma correcta tiene dos columnas, `anio` y `valor`, y
+    tres filas en vez de tres columnas. Es una de las tres reglas, en el
+    sentido de Hadley Wickham: cada variable es una columna, cada observación
+    es un renglón, y cada tipo de unidad observacional vive en su propia
+    tabla. El punto no es estético: tidy es la forma que esperan las
+    herramientas de análisis y graficado, así que ordenar una vez ahorra
+    reacomodos en cada paso posterior. Cuando el destino es un warehouse en
+    vez de análisis tabular, la T suele apuntar a un modelo dimensional —
+    hechos y dimensiones — en vez de a tidy.
 retrieval:
   kind: recall

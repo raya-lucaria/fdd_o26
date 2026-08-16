@@ -1,0 +1,18 @@
+id: reparto-de-responsabilidades-sobre-ventas-csv
+type: card
+authority: official
+content:
+  front: >-
+    Sobre `ventas.csv`, alguien debe decidir si rechazar o aceptar el pedido
+    con fecha `04/08/2026` y evitar que la corrida del día 4 se duplique.
+    ¿A qué papel corresponde esa responsabilidad, y a cuál correspondería
+    normalizar "D.F." a "CDMX"?
+  back: >-
+    Decidir si rechazar la fecha mal formada y evitar la duplicación son
+    Extract y Load — le tocan al ingeniere de datos, que responde "¿los datos
+    llegan, completos y a tiempo?". Normalizar "D.F." a "CDMX" es Transform
+    dentro del warehouse — le toca al analytics engineer, que responde "¿las
+    tablas significan lo que dicen significar?". No es jerarquía, es tramo del
+    pipeline: cada pregunta cae del lado de quien la puede responder.
+retrieval:
+  kind: recall

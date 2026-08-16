@@ -1,0 +1,18 @@
+id: especializacion-temprana-es-un-riesgo
+type: card
+authority: official
+content:
+  front: >-
+    En un equipo de tres personas, alguien solo sabe entrenar modelos: no
+    sabe extraer datos, orquestar una corrida ni armar un tablero. ¿Qué riesgo
+    corre, y qué lo protegería?
+  back: >-
+    Corre el riesgo de ser inservible seis días de cada siete: en un equipo
+    chico una sola persona hace de ingeniere de datos, analista, científique y
+    quien explica el resultado en la junta, todo a la vez, porque no hay nadie
+    más. Lo que protege de ese riesgo son las habilidades transversales —
+    terminal, Git, Docker, SQL, Python, saber leer un log —, que no dependen
+    de que otra persona le habilite el entorno y le permiten hacer el trabajo
+    interesante aunque su especialidad no sea la que el día exige.
+retrieval:
+  kind: recall

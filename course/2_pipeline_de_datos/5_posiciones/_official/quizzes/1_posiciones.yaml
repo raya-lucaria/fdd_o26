@@ -1,0 +1,59 @@
+id: quiz-posiciones
+type: quiz
+authority: official
+content:
+  questions:
+    - id: posiciones-analytics-engineer
+      prompt: >-
+        Antes de que existiera un papel dedicado, cada analista construía por
+        su cuenta la tabla de "cliente activo", cada quien con su propia
+        definición, y en la misma junta aparecían cinco cifras distintas para
+        lo mismo. ¿Qué papel se creó para resolver eso, y qué hace
+        exactamente?
+      options:
+        - label: >-
+            El analytics engineer, que construye la capa de transformación
+            dentro del warehouse —la T de ELT— como código versionado, probado
+            y documentado, en vez de dejar que cada analista la reinvente
+          correct: true
+        - label: >-
+            El científique de datos, porque su trabajo es unificar las
+            definiciones estadísticas que usa cada analista
+          correct: false
+        - label: >-
+            El ingeniere de datos, porque su trabajo incluye transformar los
+            datos dentro del warehouse
+          correct: false
+        - label: >-
+            Ningún papel nuevo: dbt automatiza esa tarea sin que haga falta una
+            persona dedicada
+          correct: false
+
+    - id: posiciones-ia-pipeline
+      prompt: >-
+        Alguien construye un sistema de recuperación aumentada (RAG) sobre
+        modelos de lenguaje: extrae documentos, los fragmenta, los carga a un
+        índice y los mantiene al día. ¿Por qué esto sigue siendo, en el fondo,
+        el mismo trabajo que describe el resto de la unidad?
+      options:
+        - label: >-
+            Porque un sistema RAG es un pipeline de datos: extraer, cargar y
+            mantener actualizado un índice sigue necesitando que alguien
+            garantice que esos documentos llegan completos y a tiempo, igual
+            que cualquier otra extracción y carga
+          correct: true
+        - label: >-
+            No lo es: los papeles de IA como AI engineer reemplazan por
+            completo a los roles anteriores porque el modelo de lenguaje hace
+            el trabajo de transformación
+          correct: false
+        - label: >-
+            Es distinto porque los modelos de lenguaje no requieren que los
+            datos tengan esquema ni calidad garantizada
+          correct: false
+        - label: >-
+            Es distinto porque estos papeles son responsabilidades emergentes
+            que todavía no cuentan como trabajo real de datos
+          correct: false
+retrieval:
+  kind: concept-check

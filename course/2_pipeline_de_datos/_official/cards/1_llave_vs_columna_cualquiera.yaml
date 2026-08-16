@@ -1,0 +1,17 @@
+id: llave-identifica-sin-ambiguedad
+type: card
+authority: official
+content:
+  front: >-
+    En `ventas.csv`, dos filas comparten la misma `fecha` y la misma
+    `sucursal`, pero el `producto` es distinto. ¿Podría `fecha` o `sucursal`
+    ser la llave de esa tabla? ¿Cuál columna sí lo es, y por qué?
+  back: >-
+    Ni `fecha` ni `sucursal` sirven solas: varias filas legítimas comparten el
+    mismo valor, así que no identifican sin ambigüedad a una fila. `pedido` sí
+    es la llave, porque cada pedido es único: dos filas con el mismo `pedido`
+    serían la misma venta registrada dos veces, no dos ventas distintas. Sin
+    una llave de verdad única no se puede saber si dos filas son la misma cosa
+    repetida o dos cosas distintas.
+retrieval:
+  kind: recall

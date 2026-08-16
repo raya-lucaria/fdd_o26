@@ -2,14 +2,19 @@ id: etl-vs-elt
 type: card
 authority: official
 content:
-  front: ¿Qué diferencia a ETL de ELT y por qué se invirtió el orden?
+  front: >-
+    Un pipeline transforma los datos en una máquina intermedia y solo carga al
+    warehouse el resultado ya limpio; el crudo nunca se guarda. Seis meses
+    después aparece un error de lógica en esa transformación. ¿Qué complica
+    arreglarlo, y qué arquitectura no tendría ese problema?
   back: >-
-    En ETL se transforma antes de cargar: al destino solo llega el dato ya
-    modelado. En ELT se carga el dato crudo primero y se transforma dentro del
-    destino. El orden cambió por economía: el almacenamiento se abarató varios
-    órdenes de magnitud y el cómputo del warehouse se volvió elástico, así que
-    dejó de tener sentido descartar datos antes de cargarlos. ELT preserva el
-    crudo, lo que permite rehacer una transformación sin volver a la fuente; a
+    Es ETL: como el crudo nunca se guardó, corregir el error exige volver a
+    extraer de la fuente original, que puede ya no estar disponible en ese
+    estado. ELT no tendría ese problema: carga el crudo primero y transforma
+    dentro del destino, así que la transformación se puede rehacer sobre el
+    crudo ya cargado, sin volver a la fuente. El orden cambió por economía —el
+    almacenamiento se abarató y el cómputo del warehouse se volvió elástico—,
+    y esa capacidad de rehacer el pasado es la ventaja estructural de ELT; a
     cambio, se paga por gobernar y limpiar más adelante.
 retrieval:
   kind: recall

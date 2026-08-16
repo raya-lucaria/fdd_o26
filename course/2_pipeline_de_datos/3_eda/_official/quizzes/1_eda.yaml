@@ -1,0 +1,55 @@
+id: quiz-eda
+type: quiz
+authority: official
+content:
+  questions:
+    - id: eda-viabilidad
+      prompt: >-
+        Un equipo va a construir un modelo que prediga qué clientes se dan de
+        baja. ¿Cuál es la primera pregunta del EDA, y por qué esa y no otra?
+      options:
+        - label: >-
+            Cuántos clientes se dieron de baja en el período disponible: si son
+            once, no hay modelo posible, y saberlo el primer día cuesta una
+            consulta en vez de seis semanas de trabajo
+          correct: true
+        - label: >-
+            Qué algoritmo conviene usar, porque de esa elección dependen las
+            transformaciones que habrá que aplicar después
+          correct: false
+        - label: >-
+            Cómo se distribuyen las variables numéricas, porque sin conocer su
+            forma no se pueden interpretar las gráficas posteriores
+          correct: false
+        - label: >-
+            Qué proporción de valores faltantes hay, porque la completitud es la
+            primera de las seis dimensiones de calidad
+          correct: false
+
+    - id: eda-cuando
+      prompt: >-
+        Un equipo hace EDA una sola vez, al principio del proyecto, y lo tacha
+        de su lista de pendientes. Tres semanas después el modelo en
+        producción empieza a dar resultados raros. ¿Qué está mal en su plan?
+      options:
+        - label: >-
+            El EDA no es una casilla que se marca una vez: hay que repetirlo
+            después de transformar, cuando el modelo da un resultado raro y
+            cuando el comportamiento cambia en producción, porque es una de
+            las flechas de retorno del ciclo
+          correct: true
+        - label: >-
+            Nada: el EDA solo tiene sentido al inicio del proyecto, antes de
+            que existan suficientes datos para entrenar un modelo
+          correct: false
+        - label: >-
+            El error fue no usar un generador automático de reportes como
+            ydata-profiling, que sustituye por completo la necesidad de EDA
+            manual
+          correct: false
+        - label: >-
+            El error fue de herramientas: con pandas en vez de polars el
+            resultado no habría cambiado con el tiempo
+          correct: false
+retrieval:
+  kind: concept-check

@@ -1,0 +1,21 @@
+id: exactitud-no-se-verifica-desde-dentro-de-la-tabla
+type: card
+authority: official
+content:
+  front: >-
+    Una tabla de clientes no tiene ningún valor faltante, ningún registro
+    duplicado, todos los correos tienen formato válido y las cifras cuadran
+    entre el reporte financiero y el tablero — pero la mitad de los nombres
+    está mal escrita porque alguien los tecleó de memoria. ¿Qué dimensión de
+    calidad falla, y por qué las otras cinco no la detectan?
+  back: >-
+    Falla la exactitud: si el dato corresponde a la realidad. Las otras cinco
+    —completitud, unicidad, validez, consistencia, oportunidad— no la
+    detectan porque todas se pueden verificar mirando solo la tabla: si hay
+    huecos, si hay repetidos, si el formato es válido, si los sistemas se
+    contradicen entre sí, si llegó a tiempo. Un nombre mal escrito pasa las
+    cinco sin problema — está completo, es único, tiene formato válido, es
+    consistente con el resto y llegó a tiempo — y aun así es falso. La
+    exactitud es la única que exige comparar contra algo fuera de la tabla.
+retrieval:
+  kind: recall

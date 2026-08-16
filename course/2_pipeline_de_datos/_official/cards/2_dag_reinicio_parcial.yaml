@@ -1,0 +1,17 @@
+id: dag-reinicio-parcial
+type: card
+authority: official
+content:
+  front: >-
+    En un pipeline con una extracción de la que salen tres transformaciones
+    independientes que luego convergen en un reporte, una de las tres
+    transformaciones falla. ¿Qué hay que volver a correr, y qué no?
+  back: >-
+    Solo esa rama: la transformación que falló y todo lo que está aguas abajo
+    de ella, hasta el reporte final. Las otras dos transformaciones y su
+    trabajo siguen siendo válidos porque no dependen de la que se cayó — esa
+    es la consecuencia práctica de que el pipeline sea un DAG y no una fila de
+    cajas: la forma dice qué corre en paralelo, qué se invalida cuando algo
+    falla y por dónde hay que volver a empezar.
+retrieval:
+  kind: recall

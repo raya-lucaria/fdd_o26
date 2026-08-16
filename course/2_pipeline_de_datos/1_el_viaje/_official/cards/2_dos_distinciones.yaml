@@ -1,0 +1,20 @@
+id: dos-distinciones-preprocesamiento-algoritmo
+type: card
+authority: official
+content:
+  front: >-
+    Un compañero dice: "ya limpié el dataset —imputé los faltantes con la
+    media— y entrené una regresión logística; el modelo quedó guardado como
+    `model_v3.pkl`." Señala dos errores de vocabulario en esa frase y
+    corrígelos.
+  back: >-
+    Primero: imputar con la media no es "limpieza" inocua, es procesamiento,
+    no pre-procesamiento — altera la distribución (reduce la varianza) y con
+    ella las conclusiones, así que debe justificarse y documentarse, no
+    mencionarse de paso. Segundo: la regresión logística es el algoritmo, la
+    receta de pasos que existe antes de ver un dato; lo que se entrenó y quedó
+    guardado como `model_v3.pkl` —con sus parámetros ya ajustados a estos
+    datos— es el modelo. El algoritmo se elige; el modelo se obtiene y se
+    versiona.
+retrieval:
+  kind: recall
