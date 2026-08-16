@@ -144,7 +144,7 @@ regenerable.
 ::: figure {#ciclo title="El ciclo de vida de un proyecto de datos"}
 ![Diagrama del ciclo de vida de un proyecto de datos: ETL, EDA, entrenamiento y producción conectados en ciclo, con retornos entre etapas](_assets/d-ciclo.svg)
 
-El monitoreo no cierra el proyecto: es lo que produce la siguiente pregunta.
+Las cuatro etapas van en fila, no en círculo: dos flechas discontinuas regresan a ETL/ELT, una cuando el EDA descubre huecos y otra cuando producción se degrada. Esos retornos son la idea central de la figura, no un detalle.
 :::
 
 | Etapa | Qué produce | Pregunta que responde |
