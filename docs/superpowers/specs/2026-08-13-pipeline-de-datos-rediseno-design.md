@@ -105,10 +105,20 @@ el orden sea de dependencia, no alfabético.
 | Página | Definiciones | Nuevas |
 |---|---|:-:|
 | `0_index` — «Vocabulario mínimo» | tabla / fila / columna, llave, `join`, corrida | 4 |
-| `1_el_viaje` | esquema, formato de tabla abierto (cubre Iceberg, Delta, Hudi) | 2 |
-| `2_etl_elt` | partición, Parquet, `staging`, transacción y atómico | 4 |
+| `1_el_viaje` | esquema, Parquet, formato de tabla abierto (cubre Iceberg, Delta, Hudi), transacción y atómico | 4 |
+| `2_etl_elt` | partición, `staging` | 2 |
 | `3_eda` | fuga de información | 1 |
 | `4_cuando_se_rompe` | idempotencia, sistema distribuido, materializar | 3 |
+
+> **Corregido durante la ejecución.** El reparto de arriba no es el que este
+> spec propuso al principio: `Parquet` y `transacción` se mencionan por primera
+> vez en `1_el_viaje` —la lista de formatos del data lake y las garantías del
+> lakehouse—, no en `2_etl_elt`, así que sus definiciones tuvieron que subir de
+> página. Lo destapó la guarda de vocabulario, que compara el orden real de
+> aparición. Lo mismo pasó con `idempotencia`: aparecía en `0_index` y en
+> `2_etl_elt` antes de la página que la enseña, y como `0_index` ya estaba en el
+> tope de cuatro, se quitó el término de esas dos páginas tempranas en vez de
+> adelantar la definición.
 
 Son **14**. Doce nunca estuvieron definidas; idempotencia y esquema existen en
 prosa y se promueven a caja, borrando la definición inline que las duplicaba.
@@ -291,7 +301,7 @@ Merge y push a `raya-lucaria.github.io`, y subir el SHA fijado en
 | 2 | `4_cuando_se_rompe.md:88-93` | CDC sale de la tabla de regímenes temporales: es una **técnica de captura**, entregada por batch o por streaming, no un cuarto régimen con latencia propia |
 | 3 | `4_cuando_se_rompe.md:138` | Se borra «tres columnas de cien es el 3 % de los bytes»: en columnar los bytes dependen de ancho, codificación y compresión |
 | 4 | `2_etl_elt.md:24` y `_official/cards/5_tidy_data.yaml:12` | Tidy data deja de ser «el objetivo de la T». Es una forma útil para análisis tabular; en warehouse la T apunta a modelo dimensional |
-| 5 | `0_index.md` frontmatter | `estimated_time: 60m` → `6m`. Hoy el lector suma 127 minutos porque el índice cuenta la unidad entera y los hijos vuelven a contarse |
+| 5 | `0_index.md` frontmatter | `estimated_time: 60m` → el tiempo de lectura de esa página. Hoy el lector suma 127 minutos porque el índice cuenta la unidad entera y los hijos vuelven a contarse |
 
 El error 4 tiene una consecuencia de contenido: `d-dag.svg` ya dibuja «Dimensión
 producto» y «Tabla de hechos» sin que la unidad nombre nunca el modelado
