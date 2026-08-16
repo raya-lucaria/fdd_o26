@@ -12,7 +12,7 @@ prerequisites: [pipeline-de-datos]
 # Presentación
 
 ::: figure {#ilus-archivo title="Material histórico, conservado y consultable"}
-![Silueta de espaldas de pie en un archivo polvoriento entre estanterías de cintas y planos enrollados, atravesada por un haz de luz de tarde](../_assets/ilus-archivo.jpg)
+![Silueta de espaldas de pie en un archivo polvoriento entre estanterías de cintas y planos enrollados, atravesada por un haz de luz verdosa y parpadeante de un tubo fluorescente viejo](../_assets/ilus-archivo.jpg)
 :::
 
 ## En corto
