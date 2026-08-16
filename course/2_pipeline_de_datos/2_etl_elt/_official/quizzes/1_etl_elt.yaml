@@ -16,14 +16,21 @@ content:
           correct: true
         - label: >-
             Porque las transformaciones dejaron de ser necesarias cuando
-            aparecieron los data warehouses modernos
+            aparecieron los data warehouses modernos, que ya traen motores de
+            consulta tan rápidos que devuelven cualquier reporte directo del
+            dato crudo sin que nadie tenga que limpiarlo antes
           correct: false
         - label: >-
-            Porque ETL producía resultados incorrectos y ELT los corrige
+            Porque ETL producía resultados incorrectos y ELT los corrige, ya
+            que transformar antes de cargar introducía errores de cálculo que
+            solo se descubrían después, mientras que transformar dentro del
+            warehouse permite revisar cada paso sobre el dato ya guardado
           correct: false
         - label: >-
             Porque es solo un cambio de nombre comercial: las mismas etapas en
-            el mismo orden, vendidas de otra forma
+            el mismo orden, vendidas de otra forma por proveedores de
+            warehouse que necesitaban una palabra que sonara más nueva que
+            la que ya usaba todo el mundo
           correct: false
 
     - id: carga-append-duplica
@@ -40,15 +47,20 @@ content:
           correct: true
         - label: >-
             Nada: `append` siempre revisa antes de escribir si el registro ya
-            existe, así que el reintento no tiene efecto
+            existe, así que el reintento no tiene efecto y la tabla queda
+            exactamente igual que si la corrida se hubiera lanzado una sola
+            vez, sin necesidad de tocar la estrategia de carga
           correct: false
         - label: >-
             Se pierden las filas de los días anteriores, porque `append`
-            sobrescribe la tabla completa en cada corrida
+            sobrescribe la tabla completa en cada corrida en vez de sumar
+            filas nuevas a lo que ya estaba guardado desde antes
           correct: false
         - label: >-
             El problema desaparece solo con particionar la tabla por fecha,
-            sin cambiar la estrategia de escritura
+            sin cambiar la estrategia de escritura, porque el simple hecho de
+            aislar cada día en su propia partición evita que una corrida
+            duplique lo que ya existía dentro de esa misma partición
           correct: false
 retrieval:
   kind: concept-check

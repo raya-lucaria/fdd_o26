@@ -18,15 +18,18 @@ content:
           correct: true
         - label: >-
             El científique de datos, porque su trabajo es unificar las
-            definiciones estadísticas que usa cada analista
+            definiciones estadísticas que usa cada analista antes de que
+            cualquiera de ellos construya un modelo sobre esa tabla
           correct: false
         - label: >-
             El ingeniere de datos, porque su trabajo incluye transformar los
-            datos dentro del warehouse
+            datos dentro del warehouse, aunque su foco principal sea mover
+            los datos crudos hasta ahí y mantener la infraestructura corriendo
           correct: false
         - label: >-
-            Ningún papel nuevo: dbt automatiza esa tarea sin que haga falta una
-            persona dedicada
+            Ningún papel nuevo: dbt automatiza esa tarea sin que haga falta
+            una persona dedicada, porque la herramienta decide sola cuál de
+            las cinco definiciones de "cliente activo" es la correcta
           correct: false
 
     - id: posiciones-ia-pipeline
@@ -49,11 +52,14 @@ content:
           correct: false
         - label: >-
             Es distinto porque los modelos de lenguaje no requieren que los
-            datos tengan esquema ni calidad garantizada
+            datos tengan esquema ni calidad garantizada: leen texto libre y
+            resuelven cualquier inconsistencia por su cuenta, sin que nadie
+            tenga que revisar la fuente antes de indexarla
           correct: false
         - label: >-
             Es distinto porque estos papeles son responsabilidades emergentes
-            que todavía no cuentan como trabajo real de datos
+            que todavía no cuentan como trabajo real de datos, sino como una
+            especialidad aparte que solo existe mientras dura la moda de la IA
           correct: false
 retrieval:
   kind: concept-check

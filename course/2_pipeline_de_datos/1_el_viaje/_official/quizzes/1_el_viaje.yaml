@@ -17,15 +17,21 @@ content:
           correct: true
         - label: >-
             Schema-on-write, propio del data warehouse: garantiza que todo dato
-            almacenado ya cumple un contrato
+            almacenado ya cumple un contrato, porque el esquema se valida antes
+            de escribir y lo que no encaja se rechaza ahí mismo, en vez de
+            guardarse para decidir después
           correct: false
         - label: >-
             Una elección sin consecuencias: el esquema es un detalle de
-            implementación que no afecta ni el costo ni la confiabilidad
+            implementación que un buen equipo puede cambiar más adelante sin
+            que le cueste tiempo de ingeniería, dinero de cómputo ni
+            confiabilidad en los datos que ya están guardados
           correct: false
         - label: >-
             Schema-on-read, que elimina el problema de la calidad de datos
-            porque nunca se rechaza nada en la ingesta
+            porque nunca se rechaza nada en la ingesta, así que cualquier
+            análisis posterior parte de datos ya limpios y listos para
+            consultarse sin revisión adicional
           correct: false
 
     - id: preproceso-frontera
@@ -41,15 +47,19 @@ content:
           correct: true
         - label: >-
             Ninguna: cualquier operación anterior al modelado es
-            pre-procesamiento por definición cronológica
+            pre-procesamiento por definición cronológica, sin importar si
+            cambia la forma de la distribución o los supuestos con los que
+            trabajará después el algoritmo
           correct: false
         - label: >-
-            Que el problema es la herramienta: sería pre-procesamiento si se
-            hiciera en SQL en vez de en Python
+            Que el problema es la herramienta: sería pre-procesamiento
+            legítimo si se hiciera en SQL antes de que los datos lleguen a
+            Python, en vez de dentro del mismo script de análisis
           correct: false
         - label: >-
             Que imputar faltantes nunca es aceptable y siempre hay que
-            descartar los renglones incompletos
+            descartar los renglones incompletos, aunque eso reduzca el tamaño
+            de la muestra y sesgue lo que queda
           correct: false
 retrieval:
   kind: concept-check

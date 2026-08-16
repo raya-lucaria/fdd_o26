@@ -15,15 +15,18 @@ content:
           correct: true
         - label: >-
             Qué algoritmo conviene usar, porque de esa elección dependen las
-            transformaciones que habrá que aplicar después
+            transformaciones que habrá que aplicar después y conviene fijarla
+            antes de gastar tiempo mirando los datos con otro objetivo en mente
           correct: false
         - label: >-
             Cómo se distribuyen las variables numéricas, porque sin conocer su
-            forma no se pueden interpretar las gráficas posteriores
+            forma no se pueden interpretar las gráficas posteriores ni decidir
+            si hace falta transformar alguna columna antes de seguir
           correct: false
         - label: >-
-            Qué proporción de valores faltantes hay, porque la completitud es la
-            primera de las seis dimensiones de calidad
+            Qué proporción de valores faltantes hay, porque la completitud es
+            la primera de las seis dimensiones de calidad y conviene revisarla
+            antes que cualquier otra cosa del conjunto de datos
           correct: false
 
     - id: eda-cuando
@@ -40,16 +43,19 @@ content:
           correct: true
         - label: >-
             Nada: el EDA solo tiene sentido al inicio del proyecto, antes de
-            que existan suficientes datos para entrenar un modelo
+            que existan suficientes datos para entrenar un modelo; una vez que
+            el modelo ya corre en producción, no hay nada nuevo que mirar
           correct: false
         - label: >-
             El error fue no usar un generador automático de reportes como
             ydata-profiling, que sustituye por completo la necesidad de EDA
-            manual
+            manual y habría detectado por sí solo cualquier cambio futuro en
+            los datos
           correct: false
         - label: >-
             El error fue de herramientas: con pandas en vez de polars el
-            resultado no habría cambiado con el tiempo
+            resultado no habría cambiado con el tiempo, porque las dos
+            bibliotecas leen los mismos archivos y producen las mismas tablas
           correct: false
 retrieval:
   kind: concept-check

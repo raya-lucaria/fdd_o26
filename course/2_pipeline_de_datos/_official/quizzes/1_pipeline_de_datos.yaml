@@ -15,15 +15,18 @@ content:
           correct: true
         - label: >-
             Que el pipeline usa herramientas especializadas y el script no; con
-            las mismas librerías serían lo mismo
+            las mismas librerías de manipulación de datos, el resultado y la
+            confiabilidad de los dos serían exactamente lo mismo
           correct: false
         - label: >-
             Que el pipeline procesa volúmenes grandes de datos y el script
-            volúmenes pequeños
+            volúmenes pequeños, así que la diferencia es de tamaño y no de
+            cómo está construido ni de qué garantiza al volver a correr
           correct: false
         - label: >-
             Que el pipeline corre en la nube y el script corre en la máquina de
-            quien lo escribió
+            quien lo escribió, así que basta con subir el mismo código a un
+            servidor para convertir uno en el otro
           correct: false
 
     - id: dag-no-lineal
@@ -39,15 +42,18 @@ content:
           correct: true
         - label: >-
             Porque el nombre DAG exige que el pipeline tenga al menos dos ramas
-            en paralelo: una sola cadena de pasos encadenados no calificaría
+            en paralelo: una sola cadena de pasos encadenados sin bifurcación
+            ni reconvergencia no calificaría como DAG bajo ninguna definición
           correct: false
         - label: >-
             Porque los pipelines deben tener ciclos: un paso que se alimenta a
-            sí mismo es lo que los hace robustos
+            sí mismo, sin depender de ninguna condición externa, es lo que los
+            hace robustos frente a fallas de cualquier otra etapa
           correct: false
         - label: >-
             Porque así lo exigen los orquestadores; conceptualmente el proceso
-            sí es una secuencia lineal de cuatro etapas
+            sí es una secuencia lineal de cuatro etapas que conviene dibujar
+            como grafo solo porque las herramientas de software lo requieren
           correct: false
 retrieval:
   kind: concept-check
