@@ -1,4 +1,4 @@
-"""Guarda: la unidad no pasa de 8800 palabras de prosa.
+"""Guarda: la unidad no pasa de 9500 palabras de prosa.
 
 Cuenta solo el cuerpo Markdown de cada pagina, sin frontmatter. Los objetos
 oficiales son YAML y no cuentan.
@@ -28,13 +28,17 @@ UNIDAD = RAIZ / "course/2_pipeline_de_datos"
 # el tope sube para no volver a recortarlas. Detalle en task-8-report.md.
 #
 # TOPE subido de 9424 a 9500 (revision final de rama, antes de publicar).
-# Arreglar los hallazgos de esa revision -sobre todo desengarzar el enlace
-# "unidad anterior"/"capitulo anterior" hacia una formula unica de tres
-# palabras en dos lugares, corregir la premisa del CSV crudo en la tarjeta de
-# llave, y las precisiones de la tabla de almacenamiento y de la grafica de
-# costo- sumo unas pocas palabras netas y dejo la unidad en 9438, tres por
-# encima del tope anterior. Se redondea a 9500 en vez de fijar otra cifra
-# ajustada al vuelo, como piden las dos subidas previas de esta nota.
+# No todos los arreglos de esa revision subieron el conteo: desengarzar el
+# enlace "unidad anterior"/"capitulo anterior" hacia una formula unica de
+# tres palabras en dos lugares es un empate en palabras (se quita una
+# formula y se pone otra del mismo tamaño), y corregir la premisa del CSV
+# crudo en la tarjeta de llave toca YAML, que el contador ya excluye. Los
+# contribuyentes reales fueron las precisiones de la tabla de almacenamiento
+# en 1_el_viaje (+11 palabras) y de la grafica de costo en 6_presentacion
+# (+6 palabras); el resto de la revision fue neutro en palabras. Eso dejo la
+# unidad en 9438, catorce por encima del tope anterior. Se redondea a 9500
+# en vez de fijar otra cifra ajustada al vuelo, como piden las dos subidas
+# previas de esta nota.
 TOPE = 9500
 
 FRONTMATTER = re.compile(r"\A---.*?^---\s*", re.S | re.M)

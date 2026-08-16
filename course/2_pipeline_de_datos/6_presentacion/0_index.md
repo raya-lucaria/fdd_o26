@@ -56,4 +56,4 @@ Se conservó también una de sus mejores advertencias, repetida en esta unidad: 
 
 - El deck está aquí como **archivo, no como resumen**: lo que se evalúa es el texto de esta unidad.
 - El conceptual se conservó entero; lo que se añadió es **todo lo que ocurre cuando el pipeline ya está en producción**.
-- **Comparar las dos versiones es la lección**: ver qué sobrevivió entero y qué se reescribió enseña cómo envejece el material técnico.
+- **El hábito, no el deck**: cuando reescribas algo tuyo, guarda la versión vieja en vez de borrarla — poder compararla después es lo que vale, no memorizar qué cambió en esta unidad.
