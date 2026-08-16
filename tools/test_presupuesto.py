@@ -26,7 +26,16 @@ UNIDAD = RAIZ / "course/2_pipeline_de_datos"
 # inmediato contra el castigo diferido que sostenia la conclusion del costo-
 # que no estaban repetidas en ningun otro lugar de la pagina. Se repusieron;
 # el tope sube para no volver a recortarlas. Detalle en task-8-report.md.
-TOPE = 9424
+#
+# TOPE subido de 9424 a 9500 (revision final de rama, antes de publicar).
+# Arreglar los hallazgos de esa revision -sobre todo desengarzar el enlace
+# "unidad anterior"/"capitulo anterior" hacia una formula unica de tres
+# palabras en dos lugares, corregir la premisa del CSV crudo en la tarjeta de
+# llave, y las precisiones de la tabla de almacenamiento y de la grafica de
+# costo- sumo unas pocas palabras netas y dejo la unidad en 9438, tres por
+# encima del tope anterior. Se redondea a 9500 en vez de fijar otra cifra
+# ajustada al vuelo, como piden las dos subidas previas de esta nota.
+TOPE = 9500
 
 FRONTMATTER = re.compile(r"\A---.*?^---\s*", re.S | re.M)
 
