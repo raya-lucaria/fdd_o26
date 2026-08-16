@@ -21,6 +21,11 @@ PROHIBIDOS = [
     "tukey", "wickham", "codd", "kimball", "inmon", "hadley",
     "musk", "bezos", "zuckerberg",
     "mickey", "pikachu", "mario", "batman", "sherlock",
+    # Las obras de referencia estetica y sus personajes: se cita el registro
+    # visual, nunca el personaje ni el titulo.
+    "ghost in the shell", "kusanagi", "motoko", "batou",
+    "serial experiments", "lain", "akira", "kaneda", "tetsuo",
+    "frieren", "evangelion", "ayanami", "studio ghibli", "ghibli",
 ]
 
 # Terminos que delatan a una figura humana identificable en un prompt.
@@ -73,12 +78,12 @@ def test_ningun_prompt_pide_una_figura_humana_identificable():
             )
 
 
-def test_el_estilo_prohibe_texto_y_figuras_humanas():
+def test_el_estilo_prohibe_texto_y_rostros_identificables():
     estilo = catalogo()["estilo"]
     assert estilo.rstrip().endswith(
         "Sin texto, sin letras, sin marcas de agua, sin firmas."
     ), "el estilo debe cerrar prohibiendo texto, marcas de agua y firmas"
-    assert "sin figuras humanas" in estilo.lower()
+    assert "sin rostros identificables" in estilo.lower()
 
 
 def test_creditos_marcan_las_generadas():
