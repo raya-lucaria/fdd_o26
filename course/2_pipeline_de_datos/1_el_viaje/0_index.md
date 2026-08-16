@@ -12,7 +12,7 @@ prerequisites: [pipeline-de-datos]
 # El viaje de los datos
 
 ::: figure {#ilus-viaje title="Cada escala guarda el mismo caudal de otra manera"}
-![Cuatro depósitos industriales de forma distinta —una cisterna sellada, un estanque abierto, un silo de compartimentos y un tanque híbrido— conectados por tuberías que llevan el mismo caudal luminoso](../_assets/ilus-viaje.jpg)
+![Cuatro edificios-depósito de arquitectura distinta iluminados de turquesa, cada uno conteniendo la misma luz de forma diferente, con una silueta de pie frente a ellos](../_assets/ilus-viaje.jpg)
 :::
 
 ## En corto

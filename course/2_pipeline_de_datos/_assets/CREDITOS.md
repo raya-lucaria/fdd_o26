@@ -16,9 +16,10 @@ bordes duros, grano de película, aberración cromática leve y una sola fuente
 de luz dramática por lámina, con las figuras siempre de espaldas o en silueta,
 nunca de frente— pero **cada una lleva su propia paleta**, para que ninguna
 página se confunda con otra: verde terminal y ámbar en la portada, azul
-medianoche y turquesa en el viaje, magenta y violeta en ETL/ELT, cian de
-laboratorio en el EDA, rojo de alarma sobre gris hierro en la ruptura, latón y
-cobre en los oficios, sepia y ocre en el archivo.
+medianoche y turquesa en el viaje, magenta y violeta en ETL/ELT, blanco
+clínico y gris acero casi monocromo con un solo acento ámbar en el EDA, rojo
+de alarma sobre gris hierro en la ruptura, latón y cobre en los oficios, gris
+polvo y verde desvaído de fluorescente viejo en el archivo.
 
 **Ninguna ilustración representa personas reales, rostros reconocibles ni
 personajes con derechos**: todas son escenas industriales abstractas y
@@ -37,7 +38,7 @@ personajes con derechos**: todas son escenas industriales abstractas y
 | ilus-portada.jpg | Verde terminal y ámbar sobre una ciudad nocturna: un grafo de nodos luminosos que se bifurca y reconverge, no una tubería | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
 | ilus-viaje.jpg | Azul medianoche y turquesa: cuatro edificios-depósito de arquitectura distinta, el mismo caudal de luz entrando de forma diferente en cada uno | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
 | ilus-etl-elt.jpg | Magenta y violeta sobre carbón: un cruce de neón con dos rutas espejadas que recorren las mismas tres estaciones en orden invertido | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
-| ilus-eda.jpg | Cian frío y blanco azulado: una figura de espaldas ante un muro de monitores CRT, midiendo antes de decidir | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
+| ilus-eda.jpg | Blanco clínico y gris acero casi monocromo, con un solo acento ámbar en las lecturas: una figura de espaldas ante un muro de monitores CRT, midiendo antes de decidir | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
 | ilus-ruptura.jpg | Gris hierro con rojo de alarma: un cable troncal reventado con la luz escapando, y la sala de control detrás en alerta | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
 | ilus-oficios.jpg | Latón, cobre y madera cálida: siete estaciones de trabajo contiguas, cada una con su instrumental distinto, sin nadie en ellas | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
-| ilus-archivo.jpg | Sepia y ocre desaturado: un archivo polvoriento de cintas y planos, luz de tarde atravesando el polvo | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |
+| ilus-archivo.jpg | Gris polvo y verde desvaído de fluorescente viejo: un archivo polvoriento de cintas y planos, un haz de luz atravesando el polvo | Generada con gpt-image-2 a partir de `tools/ilustraciones.json` | Material del curso |

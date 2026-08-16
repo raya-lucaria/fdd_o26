@@ -12,7 +12,7 @@ prerequisites: [el-viaje-de-los-datos]
 # ETL y ELT
 
 ::: figure {#ilus-etl-elt title="Las mismas estaciones, recorridas en orden invertido"}
-![Dos rutas de tubería paralelas que atraviesan las mismas tres estaciones en orden opuesto, una imagen especular de la otra](../_assets/ilus-etl-elt.jpg)
+![Vista aérea de un cruce industrial dividido por una línea horizontal, la misma disposición reflejada en magenta arriba y violeta abajo, con una silueta de espaldas contemplándolo](../_assets/ilus-etl-elt.jpg)
 :::
 
 ## En corto

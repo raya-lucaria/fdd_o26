@@ -5,6 +5,7 @@ representar a una persona real, a un rostro reconocible ni a un personaje con
 derechos.
 """
 import json
+import re
 from pathlib import Path
 
 from PIL import Image
@@ -63,10 +64,30 @@ def test_dimensiones_y_peso():
         assert ruta.stat().st_size < 400_000, f"{ruta.name} pesa demasiado"
 
 
+def _menciona(termino, texto):
+    """Coincidencia por limites de palabra: evita falsos positivos como
+    'mario' dentro de 'armario' o 'lain' dentro de 'polaina'."""
+    return re.search(rf"\b{re.escape(termino)}\b", texto) is not None
+
+
 def test_ningun_prompt_pide_persona_real_o_personaje_protegido():
     texto = json.dumps(catalogo(), ensure_ascii=False).lower()
     for termino in PROHIBIDOS:
-        assert termino not in texto, f"el catalogo menciona '{termino}'"
+        assert not _menciona(termino, texto), f"el catalogo menciona '{termino}'"
+
+
+def test_la_guarda_de_prohibidos_no_dispara_con_subcadenas_inocentes():
+    texto = "un armario metalico y unas polainas de cuero en el taller"
+    for termino in PROHIBIDOS:
+        assert not _menciona(termino, texto), (
+            f"'{termino}' disparo un falso positivo contra texto inocente"
+        )
+
+
+def test_la_guarda_de_prohibidos_si_dispara_con_una_obra_prohibida():
+    texto = "una escena inspirada en ghost in the shell"
+    disparo = any(_menciona(termino, texto) for termino in PROHIBIDOS)
+    assert disparo, "la guarda no detecto una obra prohibida citada de verdad"
 
 
 def test_ningun_prompt_pide_una_figura_humana_identificable():

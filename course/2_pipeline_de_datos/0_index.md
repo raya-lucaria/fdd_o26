@@ -11,7 +11,7 @@ tags: [pipeline, dag, mapa-del-curso]
 # Pipeline de datos
 
 ::: figure {#ilus-portada title="Un pipeline es lo que vuelve a correr mañana"}
-![Circuito industrial cerrado de tuberías y válvulas donde el caudal luminoso sale por un extremo y vuelve a entrar por el otro, recorriendo el mismo trazo una y otra vez](_assets/ilus-portada.jpg)
+![Grafo de nodos luminosos verdes y ámbar que se bifurca y reconverge sobre una ciudad nocturna, con una silueta de espaldas en primer plano](_assets/ilus-portada.jpg)
 :::
 
 ## En corto

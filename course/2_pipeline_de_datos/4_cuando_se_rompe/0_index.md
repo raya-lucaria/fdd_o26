@@ -12,7 +12,7 @@ prerequisites: [etl-y-elt]
 # Cuando se rompe
 
 ::: figure {#ilus-ruptura title="Toda fractura tiene su collarín de reparación"}
-![Tubería principal fracturada por la mitad con el caudal luminoso escapando por la grieta, y junto a ella un collarín de reparación con bridas y tornillos listos para cerrarla](../_assets/ilus-ruptura.jpg)
+![Un cable troncal metálico reventado con chispas y luz roja escapando, y detrás, tras un cristal, una sala de control en penumbra con luces de alarma y una silueta de espaldas](../_assets/ilus-ruptura.jpg)
 :::
 
 ## En corto

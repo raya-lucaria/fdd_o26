@@ -12,7 +12,7 @@ prerequisites: [etl-y-elt]
 # EDA
 
 ::: figure {#ilus-eda title="Inspeccionar el material antes de confiar en él"}
-![Tramo de tubería transparente abierto sobre una mesa de inspección iluminada, rodeado de lentes de aumento y calibradores que examinan el caudal antes de dejarlo seguir](../_assets/ilus-eda.jpg)
+![Silueta de espaldas frente a un muro curvo de monitores CRT, cada uno con una gráfica o lectura distinta](../_assets/ilus-eda.jpg)
 :::
 
 ## En corto
