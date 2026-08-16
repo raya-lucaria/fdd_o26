@@ -62,8 +62,8 @@ def _rueda(n, inicio=140, luz=0.72, sat=0.72):
     return tuple(salida)
 
 
-# Gradiente del ciclo de vida: seis etapas que avanzan y vuelven al principio.
-CICLO = _rueda(6)
+# Gradiente del ciclo de vida: cuatro etapas que avanzan y vuelven al principio.
+CICLO = _rueda(4)
 
 # Rampa de latencia: de lo mas lento (azul frio) a lo mas fresco (rojo caliente).
 LATENCIA = ("#5b83d6", "#4fd6c0", "#ffc857", "#ff7a5c")
@@ -525,26 +525,26 @@ def tidy():
 # --------------------------------------------------------------------------
 def calidad():
     alto = 380
-    titulo = ("Las seis dimensiones de la calidad de los datos: exactitud, "
-              "completitud, formato, consistencia, duplicación e integridad")
+    titulo = ("Las seis dimensiones de la calidad de los datos: completitud, "
+              "unicidad, validez, consistencia, exactitud y oportunidad")
     p = [marco(alto, titulo)]
     p.append(encabezado(
         "Seis dimensiones de la calidad de los datos",
         "Cada una se revisa por separado."))
 
     tarjetas = [
-        ("Exactitud", VERDE, "¿El valor corresponde a la realidad?",
-         "Falla típica: un precio negativo."),
         ("Completitud", AMBAR, "¿Faltan valores, o faltan filas enteras?",
          "Falla típica: columna casi vacía."),
-        ("Formato", CIAN, "¿La forma es la esperada?",
-         "Falla típica: fechas en dos formatos."),
+        ("Unicidad", MAGENTA, "¿La misma entidad aparece dos veces?",
+         "Falla típica: dos IDs, un cliente."),
+        ("Validez", CIAN, "¿Respeta las reglas de su dominio?",
+         "Falla típica: edad de 200 años."),
         ("Consistencia", VIOLETA, "¿Las fuentes dicen lo mismo?",
          "Falla típica: CRM y ERP distintos."),
-        ("Duplicación", MAGENTA, "¿La misma entidad aparece dos veces?",
-         "Falla típica: dos IDs, un cliente."),
-        ("Integridad", NARANJA, "¿Las relaciones entre tablas se sostienen?",
-         "Falla típica: una venta sin cliente."),
+        ("Exactitud", VERDE, "¿El valor corresponde a la realidad?",
+         "Falla típica: un precio negativo."),
+        ("Oportunidad", NARANJA, "¿Está disponible cuando se necesita?",
+         "Falla típica: un tablero con retraso."),
     ]
     xs = [20, 305, 590]
     for i, (nombre, color, pregunta, falla) in enumerate(tarjetas):
@@ -695,80 +695,73 @@ def tiempo():
 # 8. Ciclo de vida de un proyecto de datos
 # --------------------------------------------------------------------------
 def ciclo():
-    alto = 470
-    titulo = ("Ciclo de vida de un proyecto de datos: un lazo de seis etapas que "
-              "vuelve a empezar")
+    """Cuatro etapas en fila, con dos retornos explícitos.
+
+    El lazo NO es estrictamente hacia adelante: EDA devuelve a ETL/ELT (faltan
+    columnas) y Producción devuelve a ETL/ELT (degradación). Los retornos se
+    dibujan en un color propio, punteados y curvos por debajo de la fila, para
+    que no se confundan con las flechas de avance — son la idea central de la
+    página, no un adorno.
+    """
+    alto = 440
+    titulo = ("Ciclo de vida de un proyecto de datos: ETL/ELT, EDA, "
+              "entrenamiento o análisis y producción, con dos retornos "
+              "explícitos hacia ETL/ELT")
     p = [marco(alto, titulo)]
     p.append(encabezado(
-        "Ciclo de vida de un proyecto de datos",
-        "Un lazo, no una lista."))
+        "Las cuatro etapas, con sus retornos",
+        "No es una secuencia lineal."))
 
-    cx, cy, rx, ry = 440, 250, 290, 145
-    bw, bh = 210, 52
-    # El color avanza con la etapa: seis pasos de un mismo recorrido de tono
-    # que termina a un paso de donde empezó, igual que el ciclo.
-    nombres = [
-        "Pregunta y alcance",
-        "Adquisición de datos",
-        "Preparación y limpieza",
-        "Análisis y modelado",
-        "Despliegue y entrega",
-        "Monitoreo y aprendizaje",
-    ]
+    # El color avanza con la etapa: cuatro pasos de un mismo recorrido de tono.
+    nombres = ["ETL / ELT", "EDA", "Entrenamiento o análisis", "Producción"]
     etapas = list(zip(nombres, CICLO))
-    angulos = [-90, -30, 30, 90, 150, 210]
-    centros = []
-    for a in angulos:
-        r = math.radians(a)
-        centros.append((cx + rx * math.cos(r), cy + ry * math.sin(r)))
+    bw, bh = 172, 66
+    y = 140
+    xs = [30, 246, 462, 678]
+    centros = [(x + bw / 2, y + bh / 2) for x in xs]
+    base_y = y + bh
 
-    def borde_caja(c, hacia):
-        """Punto donde la recta c->hacia sale de la caja centrada en c."""
-        dx, dy = hacia[0] - c[0], hacia[1] - c[1]
-        hw, hh = bw / 2 + 8, bh / 2 + 8
-        escalas = []
-        if abs(dx) > 1e-6:
-            escalas.append(hw / abs(dx))
-        if abs(dy) > 1e-6:
-            escalas.append(hh / abs(dy))
-        t = min(escalas)
-        return c[0] + dx * t, c[1] + dy * t
-
-    for i in range(6):
-        c1, c2 = centros[i], centros[(i + 1) % 6]
-        inicio = borde_caja(c1, c2)
-        fin = borde_caja(c2, c1)
-        mx, my = (inicio[0] + fin[0]) / 2, (inicio[1] + fin[1]) / 2
-        vx, vy = mx - cx, my - cy
-        norma = math.hypot(vx, vy) or 1.0
-        ctrl = (mx + vx / norma * 34, my + vy / norma * 34)
+    # Flechas de avance: cada etapa alimenta a la siguiente, coloreada por la
+    # etapa de origen. Solo van hacia adelante — el retorno es otra cosa.
+    for i in range(3):
         color = etapas[i][1]
-        p.append(
-            f'<path d="M{inicio[0]:.1f},{inicio[1]:.1f} Q{ctrl[0]:.1f},{ctrl[1]:.1f} '
-            f'{fin[0]:.1f},{fin[1]:.1f}" fill="none" stroke="{color}" '
-            f'stroke-width="1.8" opacity="0.85" '
-            f'marker-end="url(#{_id_flecha(color)})"/>'
-        )
+        p.append(linea(xs[i] + bw, y + bh / 2, xs[i + 1], y + bh / 2, color,
+                       ancho=2, flecha=True))
 
-    for i, ((nombre, color), (px, py)) in enumerate(zip(etapas, centros)):
-        bx, by = px - bw / 2, py - bh / 2
-        p.append(rect(bx, by, bw, bh, CAJA, color, rx=12, ancho_borde=1.5))
-        p.append(f'<circle cx="{bx + 26:.1f}" cy="{by + 26:.1f}" r="12" '
+    for i, (nombre, color) in enumerate(zip(nombres, [c for _, c in etapas])):
+        p.append(caja(xs[i], y, bw, bh, [nombre], color, size=12.5))
+        p.append(f'<circle cx="{xs[i] + 24:.1f}" cy="{y + 20:.1f}" r="11" '
                  f'fill="{color}" opacity="0.9"/>')
-        p.append(txt(bx + 26, by + 31, str(i + 1), fill=FONDO, size=13,
+        p.append(txt(xs[i] + 24, y + 24.5, str(i + 1), fill=FONDO, size=12,
                      anchor="middle", weight="700"))
-        p.append(txt(bx + 46, by + 31, nombre, fill=TEXTO, size=12, weight="600"))
 
-    # Barra del gradiente en el centro: el color como medida del avance.
-    bx0, bw2 = cx - 110, 220
-    for i, (_, color) in enumerate(etapas):
-        p.append(rect(bx0 + i * (bw2 / 6), 276, bw2 / 6, 7, color, None, rx=0))
-    p.append(txt(cx, 240, "El ciclo se repite", fill=CICLO[0], size=15,
-                 anchor="middle", weight="700"))
-    p.append(txt(cx, 264, "cada vuelta cambia la pregunta", fill=SUAVE, size=12.5,
-                 anchor="middle"))
-    p.append(txt(cx, 300, "el color avanza y regresa",
-                 fill=SUAVE, size=11, anchor="middle"))
+    # Retornos: dos flechas hacia atrás, en su propio color, punteadas y
+    # curvas por debajo de la fila. Llegan a puntos distintos del borde
+    # inferior de ETL/ELT para que sus dos puntas no se encimen.
+    C_RETORNO = AMBAR
+    etl_cx, eda_cx, prod_cx = centros[0][0], centros[1][0], centros[3][0]
+
+    def retorno(x1, x2, profundidad):
+        d = (f'M{x1:.1f},{base_y:.1f} C{x1:.1f},{base_y + profundidad:.1f} '
+             f'{x2:.1f},{base_y + profundidad:.1f} {x2:.1f},{base_y:.1f}')
+        return (f'<path d="{d}" fill="none" stroke="{C_RETORNO}" stroke-width="2" '
+                f'stroke-dasharray="6 5" marker-end="url(#{_id_flecha(C_RETORNO)})"/>')
+
+    p.append(retorno(eda_cx, etl_cx + 16, 55))
+    p.append(retorno(prod_cx, etl_cx - 16, 120))
+
+    # Cada etiqueta va justo debajo de la cresta de SU curva (medida por bezier),
+    # y no a medio camino entre las dos cajas: la curva profunda pasa por ahí.
+    p.append(txt((eda_cx + etl_cx) / 2, base_y + 57, "EDA devuelve a extracción",
+                 fill=C_RETORNO, size=11.5, anchor="middle", weight="600"))
+    p.append(txt((prod_cx + etl_cx) / 2, base_y + 114,
+                 "producción devuelve al principio", fill=C_RETORNO, size=11.5,
+                 anchor="middle", weight="600"))
+
+    p.append(leyenda(30, alto - 22, [
+        (etapas[0][1], "avance"),
+        (C_RETORNO, "retorno"),
+    ]))
 
     p.append("</svg>")
     return "".join(p)
