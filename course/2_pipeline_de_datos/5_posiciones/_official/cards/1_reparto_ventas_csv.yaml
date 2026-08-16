@@ -3,16 +3,21 @@ type: card
 authority: official
 content:
   front: >-
-    Sobre `ventas.csv`, alguien debe decidir si rechazar o aceptar el pedido
-    con fecha `04/08/2026` y evitar que la corrida del día 4 se duplique.
-    ¿A qué papel corresponde esa responsabilidad, y a cuál correspondería
-    normalizar "D.F." a "CDMX"?
+    El pipeline de `ventas.csv` corre bien toda la semana, pero un viernes a
+    las tres de la mañana el job de carga falla y nadie se entera hasta el
+    lunes: faltan tres días de datos. Aparte, dos analistas descubren que
+    tienen definiciones distintas de "sucursal activa" en sus reportes, y en
+    la misma junta salen dos cifras para lo mismo. ¿A qué papel le toca cada
+    arreglo?
   back: >-
-    Decidir si rechazar la fecha mal formada y evitar la duplicación son
-    Extract y Load — le tocan al ingeniere de datos, que responde "¿los datos
-    llegan, completos y a tiempo?". Normalizar "D.F." a "CDMX" es Transform
-    dentro del warehouse — le toca al analytics engineer, que responde "¿las
-    tablas significan lo que dicen significar?". No es jerarquía, es tramo del
-    pipeline: cada pregunta cae del lado de quien la puede responder.
+    La llamada de las tres de la mañana se la lleva el ingeniere de datos:
+    Extract, Load y orquestación son su tramo, y notar que un job falló sin
+    que nadie se entere hasta el lunes es justo el tipo de falla silenciosa
+    que su trabajo existe para evitar. Las dos definiciones distintas de
+    "sucursal activa" son el problema del analytics engineer: construir esa
+    definición una sola vez, como código versionado, probado y documentado
+    dentro del warehouse, en vez de dejar que cada analista la reinvente por
+    su cuenta. No es jerarquía, es tramo del pipeline: cada pregunta cae del
+    lado de quien la puede responder.
 retrieval:
   kind: recall

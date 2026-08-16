@@ -4,17 +4,18 @@ authority: official
 content:
   front: >-
     Un compañero dice: "ya limpié el dataset —imputé los faltantes con la
-    media— y entrené una regresión logística; el modelo quedó guardado como
-    `model_v3.pkl`." Señala dos errores de vocabulario en esa frase y
-    corrígelos.
+    media— y guardé el algoritmo ya entrenado como `model_v3.pkl`, listo para
+    producción." Señala dos errores de vocabulario en esa frase y corrígelos.
   back: >-
     Primero: imputar con la media no es "limpieza" inocua, es procesamiento,
     no pre-procesamiento — altera la distribución (reduce la varianza) y con
     ella las conclusiones, así que debe justificarse y documentarse, no
-    mencionarse de paso. Segundo: la regresión logística es el algoritmo, la
-    receta de pasos que existe antes de ver un dato; lo que se entrenó y quedó
-    guardado como `model_v3.pkl` —con sus parámetros ya ajustados a estos
-    datos— es el modelo. El algoritmo se elige; el modelo se obtiene y se
-    versiona.
+    mencionarse de paso. Segundo: lo que quedó guardado en `model_v3.pkl` no
+    es "el algoritmo entrenado" — el algoritmo es la receta de pasos que
+    existe antes de ver un solo dato y no se entrena, se elige; lo que se
+    entrenó y se guardó, con sus parámetros ya ajustados a estos datos, es el
+    modelo. La distinción no es solo de vocabulario: el modelo hereda todo lo
+    que traían los datos que lo entrenaron, incluidos sus sesgos — el
+    algoritmo, que nunca vio un dato, no hereda nada.
 retrieval:
   kind: recall

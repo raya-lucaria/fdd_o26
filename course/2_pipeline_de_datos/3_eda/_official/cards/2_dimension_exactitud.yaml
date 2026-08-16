@@ -9,13 +9,16 @@ content:
     está mal escrita porque alguien los tecleó de memoria. ¿Qué dimensión de
     calidad falla, y por qué las otras cinco no la detectan?
   back: >-
-    Falla la exactitud: si el dato corresponde a la realidad. Las otras cinco
-    —completitud, unicidad, validez, consistencia, oportunidad— no la
-    detectan porque todas se pueden verificar mirando solo la tabla: si hay
-    huecos, si hay repetidos, si el formato es válido, si los sistemas se
-    contradicen entre sí, si llegó a tiempo. Un nombre mal escrito pasa las
-    cinco sin problema — está completo, es único, tiene formato válido, es
-    consistente con el resto y llegó a tiempo — y aun así es falso. La
-    exactitud es la única que exige comparar contra algo fuera de la tabla.
+    Falla la exactitud: si el dato corresponde a la realidad. Las otras
+    cuatro —completitud, unicidad, validez, oportunidad— se verifican
+    mirando solo la tabla: si hay huecos, si hay repetidos, si el formato es
+    válido, si llegó a tiempo. La consistencia exige ya comparar contra otra
+    fuente —si dos sistemas se contradicen— pero sigue siendo una regla
+    mecánica: cuadrar una cifra contra otra. Un nombre mal escrito pasa las
+    cinco sin levantar ninguna alerta —está completo, es único, tiene formato
+    válido, no se contradice con nada y llegó a tiempo— y aun así es falso.
+    Lo que distingue a la exactitud es que ningún dato de la tabla, ni la
+    comparación con otro sistema, la delata por sí sola: verificarla exige
+    salir de los datos y confirmar contra la realidad misma.
 retrieval:
   kind: recall
