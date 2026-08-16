@@ -83,13 +83,16 @@ def test_svg_es_xml_bien_formado(slug):
 def test_ningun_texto_del_svg_es_una_frase(slug):
     """El texto largo va al pie de figura en Markdown, no pintado dentro del SVG.
 
-    Dentro del SVG solo caben etiquetas: a 880px reducidos a un movil, una frase
-    de 11.5px queda en unos 5px y es ilegible. Se exceptuan los <text> con
-    font-size de 14 o mas: a esa talla un rotulo corto (el titulo del
-    encabezado, una etiqueta de eje) sigue siendo legible reducido y no es un
-    parrafo. Se extrae el font-size de cada nodo en vez de exceptuar por
-    posicion: es mas robusto que asumir que los dos primeros <text> son
-    siempre encabezado y subtitulo.
+    Dentro del SVG solo caben etiquetas. El framework ya no encoge estos SVG de
+    figura al ancho del viewport (regla `max-width: none` en el CSS del sitio,
+    con scroll horizontal por debajo del umbral de portatil): el riesgo no es
+    que una frase quede en unos 5px en movil, sino que un parrafo entero
+    pintado a mano en el SVG no se pueda seleccionar, buscar ni traducir como
+    el resto de la prosa. Se exceptuan los <text> con font-size de 14 o mas: a
+    esa talla un rotulo corto (el titulo del encabezado, una etiqueta de eje)
+    sigue siendo una etiqueta y no un parrafo. Se extrae el font-size de cada
+    nodo en vez de exceptuar por posicion: es mas robusto que asumir que los
+    dos primeros <text> son siempre encabezado y subtitulo.
     """
     import re
 

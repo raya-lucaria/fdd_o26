@@ -102,7 +102,7 @@ No hay una herramienta de EDA; hay tres capas que se combinan.
 | Capa | Con qué | El criterio |
 |---|---|---|
 | **Manipulación tabular** | pandas, polars, SQL | pandas es el estándar por inercia; polars es más rápido. Si no cabe en memoria, consulta en el warehouse en vez de traerlo a la laptop |
-| **Visualización** | matplotlib, seaborn, plotly, ggplot, Power BI | seaborn para descriptiva rápida, plotly si hace falta interactividad, Tableau o Power BI cuando el consumidor no escribe código |
+| **Visualización** | matplotlib, seaborn, plotly, ggplot, Tableau, Power BI | seaborn para descriptiva rápida, plotly si hace falta interactividad, Tableau o Power BI cuando el consumidor no escribe código |
 | **Estadística** | No es una biblioteca | Hace que las otras dos signifiquen algo: cuándo la media miente, cuándo una correlación alta es fuga de información |
 
 Los generadores de reportes automáticos —`ydata-profiling` y similares— son **buen punto de partida y mala conclusión**: dan el inventario, no el juicio.

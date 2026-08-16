@@ -55,11 +55,11 @@ compromete con la forma del dato.
 
 | | Base de datos | Data lake | Data warehouse | Lakehouse |
 |---|---|---|---|---|
-| Esquema | Al escribir | Al leer | Al escribir | Al escribir, versionado |
+| Esquema | Al escribir | Al leer | Al escribir | Metadatos versionados, no una elección binaria |
 | Qué guarda | Estado actual | Crudo, cualquier formato | Estructurado e histórico | Crudo y curado en el mismo lugar |
 | Optimizado para | Muchas operaciones pequeñas | Guardar barato | Consultas analíticas | Ambas cosas |
 | Falla típica | Se satura con consultas analíticas | Se vuelve un pantano | Duplica el dato y se atrasa | Complejidad operativa mayor |
-| Ejemplos | PostgreSQL, MySQL | S3, Google Cloud Storage | Snowflake, BigQuery, Redshift | Delta Lake, Iceberg, Hudi |
+| Ejemplos | PostgreSQL, MySQL | S3, Google Cloud Storage | Snowflake, BigQuery, Redshift | Delta Lake, Iceberg, Hudi (los formatos de tabla abierto que lo implementan) |
 
 ### Base de datos operacional
 
