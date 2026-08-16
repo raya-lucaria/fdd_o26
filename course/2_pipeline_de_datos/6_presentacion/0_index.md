@@ -56,4 +56,4 @@ Se conservó también una de sus mejores advertencias, repetida en esta unidad: 
 
 - El deck está aquí como **archivo, no como resumen**: lo que se evalúa es el texto de esta unidad.
 - El conceptual se conservó entero; lo que se añadió es **todo lo que ocurre cuando el pipeline ya está en producción**.
-- **La fuente es el generador, no el resultado.** Vale para diagramas igual que para datos.
+- **Comparar las dos versiones es la lección**: ver qué sobrevivió entero y qué se reescribió enseña cómo envejece el material técnico.
