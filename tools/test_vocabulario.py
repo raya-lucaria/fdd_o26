@@ -141,7 +141,7 @@ def test_ningun_termino_se_usa_antes_de_definirse():
                 continue  # el glosario recapitula todo
             if i >= i_definicion:
                 continue
-            if re.search(patron, texto(pagina)):
+            if re.search(patron, texto(pagina), re.I):
                 raise AssertionError(
                     f"{pagina.parent.name} usa '{termino}', que se define despues"
                 )
@@ -155,7 +155,7 @@ def test_ningun_termino_se_usa_antes_de_definirse():
         for num in range(limite):
             if num in exentas:
                 continue
-            if re.search(patron, lineas[num]):
+            if re.search(patron, lineas[num], re.I):
                 raise AssertionError(
                     f"{pagina_definicion.parent.name}:{num + 1} usa '{termino}' "
                     f"en prosa antes de su propia caja de definicion "

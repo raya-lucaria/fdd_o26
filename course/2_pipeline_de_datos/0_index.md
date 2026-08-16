@@ -180,7 +180,7 @@ está en esta página.
 | [[el-viaje-de-los-datos]] | Dónde viven los datos: lake, base de datos, warehouse o lakehouse |
 | [[etl-y-elt]] | Por qué el orden de las letras se invirtió |
 | [[eda]] | El exploratorio como control de viabilidad, y las seis dimensiones de calidad |
-| [[cuando-se-rompe]] | Idempotencia, contratos, tiempo, orquestación, linaje y costo |
+| [[cuando-se-rompe]] | Repetir sin duplicar, contratos, tiempo, orquestación, linaje y costo |
 | [[posiciones]] | Quién es responsable de qué |
 | [[presentacion-pipeline]] | El material histórico que esta unidad reemplaza |
 | [[glosario]] | Las catorce palabras que la unidad define, en un solo lugar |

@@ -152,12 +152,6 @@ En un warehouse elástico el cómputo se paga por uso, y el uso lo genera cualqu
 
 ### Cuatro palancas
 
-- **Particionar** por fecha y **filtrar por partición**, para tocar solo el trozo relevante.
-- **Seleccionar columnas** en vez de `SELECT *`: un formato columnar solo lee
-  las columnas que pediste.
-- **Materializar** los resultados intermedios que se consultan muchas veces.
-- **Ajustar la frecuencia a la decisión**: un tablero diario no se refresca cada cinco minutos.
-
 ::: definition {#def-materializar title="Materializar"}
 Materializar es guardar el resultado de una consulta como una tabla, en vez de
 recalcularlo cada vez que alguien pregunta.
@@ -165,6 +159,12 @@ recalcularlo cada vez que alguien pregunta.
 Sin materializar, un tablero que se consulta cien veces al día recorre cien
 veces el mismo histórico y lo cobra cien veces.
 :::
+
+- **Particionar** por fecha y **filtrar por partición**, para tocar solo el trozo relevante.
+- **Seleccionar columnas** en vez de `SELECT *`: un formato columnar solo lee
+  las columnas que pediste.
+- **Materializar** los resultados intermedios que se consultan muchas veces.
+- **Ajustar la frecuencia a la decisión**: un tablero diario no se refresca cada cinco minutos.
 
 Con cómputo fijo, una consulta ineficiente era lenta y el castigo era esperar; ahora es rápida, y el castigo llega treinta días después en una factura que nadie asocia con quién la escribió. Por eso **el costo pasó de problema de finanzas a criterio de ingeniería**.
 
