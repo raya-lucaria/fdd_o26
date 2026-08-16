@@ -66,7 +66,7 @@ El valor del analista está en saber qué pregunta vale la pena hacer y en decir
 
 Un modelo en un notebook y uno respondiendo diez mil peticiones por minuto son objetos distintos. El **ML engineer** sostiene el segundo, que es tanto ingeniería de software como aprendizaje máquina.
 
-**MLOps** es más práctica que puesto, aunque se contrate como puesto: reproducibilidad del entrenamiento, registro de versiones, monitoreo de la degradación y capacidad de revertir cuando el modelo nuevo empeora las cosas. Es **la idempotencia y la observabilidad del capítulo anterior, aplicadas a modelos**.
+**MLOps** es más práctica que puesto, aunque se contrate como puesto: reproducibilidad del entrenamiento, registro de versiones, monitoreo de la degradación y capacidad de revertir cuando el modelo nuevo empeora las cosas. Es **la idempotencia y la observabilidad de la página anterior, aplicadas a modelos**.
 
 ### DevOps, backend, frontend
 
@@ -101,7 +101,7 @@ garantice que esos documentos llegan completos y actualizados.
 Todo lo anterior describe una organización grande. En una startup o en la mayoría de los primeros trabajos, **una sola persona hace siete de estos papeles a la vez**: escribe la extracción, la orquesta, la transforma, hace el EDA, entrena el modelo, arma el tablero y lo explica en la junta. No por experta en las siete cosas, sino porque no hay nadie más.
 
 - **La especialización temprana es un riesgo.** Si solo sabes entrenar modelos, en un equipo de tres eres inservible seis días de cada siete.
-- **Las habilidades transversales te desbloquean.** Terminal, Git, Docker, SQL, Python, saber leer un log: son lo que te permite hacer el trabajo interesante sin depender de que otro te habilite el entorno. Ese conjunto es, exactamente, el temario de este curso.
+- **Las habilidades transversales te desbloquean.** Terminal, Git, Docker, SQL, Python, saber leer un log: son lo que te permite hacer el trabajo interesante sin depender de que otro te habilite el entorno. Ese conjunto es, casi palabra por palabra, el temario de este curso.
 - **No elijas por el título ni por el salario de una encuesta**, que envejece más rápido que la tecnología. Elige por qué pregunta de la tabla te resulta interesante contestar a las tres de la mañana.
 
 ## Hacia adelante

@@ -7,11 +7,12 @@ content:
     campo sin avisar, y las cargas del pipeline empiezan a llegar con horas
     de retraso. Alguien tiene que sentarse a acordar con ese equipo qué campos
     existen, de qué tipo son y con cuánto aviso pueden cambiar. ¿A qué papel
-    le toca esa negociación, y a qué otro equipo de los diez de la tabla
+    le toca esa negociación, y a qué otro equipo de los once de la tabla
     conviene sentar del otro lado de la mesa?
   back: >-
     Le toca al ingeniere de datos: Extract y Load son su tramo, y ese acuerdo
-    es lo que en la unidad anterior se llamó contrato de datos. Del otro lado
+    es lo que en la página anterior de esta unidad se llamó contrato de
+    datos. Del otro lado
     conviene sentar a backend, porque construye justo la API que generó el
     campo movido — es la fuente de la que depende esa carga. Antes del
     acuerdo, un cambio de API es indistinguible de una falla; con campos,
