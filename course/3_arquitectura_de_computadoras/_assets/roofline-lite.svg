@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 800" role="img" aria-labelledby="roof-title roof-desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1600" viewBox="0 0 320 800" role="img" aria-labelledby="roof-title roof-desc">
   <title id="roof-title">Roofline numérico: 100 GB/s decimal y 2 TFLOPS FP32 = 2,000 GFLOPS; suma 0.083 FLOP/byte, techo 8.3 GFLOPS y quiebre 20 FLOP/byte</title>
   <desc id="roof-desc">Hardware docente hipotético de 100 GB/s decimal y 2 TFLOPS FP32 = 2,000 GFLOPS. La suma FP32 de 1,000 elementos mueve 12,000 bytes y ejecuta 1,000 FLOP: intensidad 0.083 FLOP/byte y techo de memoria 8.3 GFLOPS, menor que 2,000 GFLOPS. Ambos ejes son logarítmicos; el quiebre es 20 FLOP/byte y un caso matricial sólo podría entrar en cómputo al llegar allí.</desc>
   <defs>

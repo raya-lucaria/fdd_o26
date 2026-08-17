@@ -160,6 +160,8 @@ def test_roofline_svg_declares_log_axes_and_repeats_the_numeric_contract():
     assert alt
     root = ET.parse(ASSETS / "roofline-lite.svg").getroot()
     namespace = {"svg": "http://www.w3.org/2000/svg"}
+    assert root.attrib["width"] == "640"
+    assert root.attrib["height"] == "1600"
     title = root.findtext("svg:title", namespaces=namespace)
     desc = root.findtext("svg:desc", namespaces=namespace)
     svg_text = " ".join(root.itertext())
