@@ -19,7 +19,7 @@ PAGES = [
 ASSETS = UNIT / "_assets"
 ASSIGNMENT = (
     ROOT
-    / "course/3_arquitectura_de_computadoras/_official/assignments/1_notebook_arquitectura.yaml"
+    / "course/3_arquitectura_de_computadoras/_official/assignments/1_videos_hardware.yaml"
 )
 
 
@@ -32,13 +32,14 @@ def body(path: Path) -> str:
     return re.sub(r"\A---.*?^---\s*", "", text, flags=re.S | re.M)
 
 
-def test_assignment_is_the_architecture_notebook_due_august_18():
+def test_assignment_is_three_hardware_videos_due_august_18():
     assignment = load_yaml(ASSIGNMENT)
-    assert assignment["id"] == "notebook-arquitectura"
+    assert assignment["id"] == "videos-hardware"
     assert assignment["content"]["due"] == "2026-08-18"
     instructions = assignment["content"]["instructions"]
-    assert "01_arquitectura.ipynb" in instructions
-    assert "Canvas" in instructions
+    assert instructions.count("https://www.youtube.com/watch?v=") == 3
+    assert "01_arquitectura.ipynb" not in instructions
+    assert not (ASSIGNMENT.parent / "1_notebook_arquitectura.yaml").exists()
 
 
 def test_unit_has_index_and_four_lessons_with_raya_frontmatter():

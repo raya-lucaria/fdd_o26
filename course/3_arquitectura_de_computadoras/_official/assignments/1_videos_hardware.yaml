@@ -1,0 +1,28 @@
+id: videos-hardware
+type: assignment
+authority: official
+content:
+  title: "Ver tres videos: cómo funciona una computadora"
+  instructions: >-
+    Ve estos tres videos antes de la clase del 18 de agosto, que abre el tema
+    de arquitectura de computadoras:
+
+    1. ¿Cómo funciona un PC y qué hace cada pieza? —
+    https://www.youtube.com/watch?v=0zkX6nlpiSk
+
+    2. Introduction to the Memory Hierarchy —
+    https://www.youtube.com/watch?v=JogSnkvENr0
+
+    3. ¿Por qué tantas memorias? —
+    https://www.youtube.com/watch?v=IwUq0RiUank
+
+    El segundo está en inglés. Los tres tratan la misma pregunta desde
+    ángulos distintos: qué hay dentro de la máquina y por qué la memoria está
+    organizada en capas. Son la preparación para entender por qué un proceso
+    ocupa memoria, por qué un archivo que no cabe en RAM cambia el problema y
+    por qué el mismo código corre a distinta velocidad según dónde estén los
+    datos.
+  due: "2026-08-18"
+  points: 0
+  status: published
+  tags: [hardware, memoria, arquitectura, preparacion]
