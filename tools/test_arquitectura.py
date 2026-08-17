@@ -2,6 +2,7 @@
 
 import json
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import yaml
@@ -151,6 +152,31 @@ def test_roofline_uses_a_traceable_numeric_example_without_kitchen_analogy():
     )
     assert "cocina" not in roofline.lower()
     assert "ejemplo de juguete" not in roofline.lower()
+
+
+def test_roofline_svg_declares_log_axes_and_repeats_the_numeric_contract():
+    performance = body(PAGES[3])
+    alt = re.search(r"!\[([^]]+)]\(\.\./_assets/roofline-lite\.svg\)", performance)
+    assert alt
+    root = ET.parse(ASSETS / "roofline-lite.svg").getroot()
+    namespace = {"svg": "http://www.w3.org/2000/svg"}
+    title = root.findtext("svg:title", namespaces=namespace)
+    desc = root.findtext("svg:desc", namespaces=namespace)
+    svg_text = " ".join(root.itertext())
+    required = (
+        "100 GB/s decimal",
+        "2 TFLOPS FP32",
+        "2,000 GFLOPS",
+        "0.083 FLOP/byte",
+        "8.3 GFLOPS",
+        "20 FLOP/byte",
+    )
+    assert all(term in alt.group(1) for term in required)
+    assert all(term in title for term in required)
+    assert all(term in desc for term in required)
+    assert "GFLOPS (log)" in svg_text
+    assert "100" in svg_text
+    assert "font-size:14px" in (ASSETS / "roofline-lite.svg").read_text(encoding="utf-8")
 
 
 def test_notebook_is_executed_and_practice_is_only_at_end():

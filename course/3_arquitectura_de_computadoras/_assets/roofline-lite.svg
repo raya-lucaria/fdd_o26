@@ -1,45 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" role="img" aria-labelledby="roof-title roof-desc">
-  <title id="roof-title">Roofline numérico: la suma vectorial limita por memoria</title>
-  <desc id="roof-desc">Para hardware docente hipotético de 100 GB por segundo y 2,000 GFLOPS FP32, sumar 1,000 elementos usa 12,000 bytes y 1,000 FLOP: intensidad 0.083 FLOP por byte y techo de 8.3 GFLOPS. El quiebre es 20 FLOP por byte; un caso matricial sólo entra en cómputo al llegar allí.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 800" role="img" aria-labelledby="roof-title roof-desc">
+  <title id="roof-title">Roofline numérico: 100 GB/s decimal y 2 TFLOPS FP32 = 2,000 GFLOPS; suma 0.083 FLOP/byte, techo 8.3 GFLOPS y quiebre 20 FLOP/byte</title>
+  <desc id="roof-desc">Hardware docente hipotético de 100 GB/s decimal y 2 TFLOPS FP32 = 2,000 GFLOPS. La suma FP32 de 1,000 elementos mueve 12,000 bytes y ejecuta 1,000 FLOP: intensidad 0.083 FLOP/byte y techo de memoria 8.3 GFLOPS, menor que 2,000 GFLOPS. Ambos ejes son logarítmicos; el quiebre es 20 FLOP/byte y un caso matricial sólo podría entrar en cómputo al llegar allí.</desc>
   <defs>
     <linearGradient id="bg-roof" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0f172a"/><stop offset="1" stop-color="#312e81"/></linearGradient>
   </defs>
   <style>
-    .h{font-family:Arial,sans-serif;font-size:20px;font-weight:800;fill:#fff}.k{font-family:Arial,sans-serif;font-size:14px;font-weight:800;fill:#fff}.t{font-family:Arial,sans-serif;font-size:13px;font-weight:650;fill:#f8fafc}.s{font-family:Arial,sans-serif;font-size:12px;font-weight:600;fill:#dbeafe}.m{font-family:Arial,sans-serif;font-size:11px;font-weight:700;fill:#cbd5e1}.axis{stroke:#e2e8f0;stroke-width:2}.grid{stroke:#94a3b8;stroke-width:1;stroke-dasharray:4 4}.roof{fill:none;stroke:#fbbf24;stroke-width:4;stroke-linejoin:round}.memory{fill:none;stroke:#67e8f9;stroke-width:2;stroke-dasharray:5 4}.diamond{fill:#fbbf24;stroke:#fff;stroke-width:2}.circle{fill:#34d399;stroke:#fff;stroke-width:2}.card{fill:#172554;stroke:#93c5fd;stroke-width:1.5}.panel{fill:url(#bg-roof);stroke:#a5b4fc;stroke-width:1.5}
+    .h{font-family:Arial,sans-serif;font-size:18px;font-weight:800;fill:#fff}.k{font-family:Arial,sans-serif;font-size:16px;font-weight:800;fill:#fff}.t{font-family:Arial,sans-serif;font-size:15px;font-weight:700;fill:#f8fafc}.s{font-family:Arial,sans-serif;font-size:14px;font-weight:700;fill:#dbeafe}.m{font-family:Arial,sans-serif;font-size:14px;font-weight:700;fill:#cbd5e1}.axis{stroke:#e2e8f0;stroke-width:2}.grid{stroke:#94a3b8;stroke-width:1;stroke-dasharray:4 4}.roof{fill:none;stroke:#fbbf24;stroke-width:4;stroke-linejoin:round}.memory{fill:none;stroke:#67e8f9;stroke-width:2;stroke-dasharray:5 4}.diamond{fill:#fbbf24;stroke:#fff;stroke-width:2}.circle{fill:#34d399;stroke:#fff;stroke-width:2}.card{fill:#172554;stroke:#93c5fd;stroke-width:1.5}.panel{fill:url(#bg-roof);stroke:#a5b4fc;stroke-width:1.5}
   </style>
-  <rect width="360" height="720" rx="24" fill="#0f172a"/>
-  <text x="20" y="38" class="h">Roofline: el menor techo limita</text>
+  <rect width="320" height="800" rx="24" fill="#0f172a"/>
+  <text x="16" y="34" class="h">Roofline: limita el menor techo</text>
 
-  <rect x="18" y="56" width="324" height="262" rx="16" class="card"/>
-  <text x="34" y="84" class="k">Cuenta: suma FP32 de 1,000 elementos</text>
-  <line x1="34" y1="98" x2="326" y2="98" class="grid"/>
-  <text x="34" y="123" class="t">A, B y C: 4,000 + 4,000 + 4,000 B</text>
-  <text x="34" y="143" class="k">= 12,000 bytes mínimos</text>
-  <text x="34" y="173" class="t">1,000 sumas</text>
-  <text x="34" y="193" class="k">= 1,000 FLOP</text>
-  <text x="34" y="223" class="t">Intensidad: 1 / 12</text>
-  <text x="34" y="243" class="k">= 0.083 FLOP/byte</text>
-  <text x="34" y="276" class="s">Hardware hipotético: 100 GB/s · 2 TFLOPS FP32</text>
-  <text x="34" y="297" class="k">Memoria: 8.3 GFLOPS &lt; 2,000 GFLOPS</text>
+  <rect x="16" y="52" width="288" height="324" rx="16" class="card"/>
+  <text x="30" y="80" class="k">Suma FP32 · 1,000 elementos</text>
+  <line x1="30" y1="94" x2="290" y2="94" class="grid"/>
+  <text x="30" y="122" class="t">A, B y C: 4,000 B cada uno</text>
+  <text x="30" y="146" class="k">= 12,000 bytes mínimos</text>
+  <text x="30" y="178" class="t">1,000 sumas = 1,000 FLOP</text>
+  <text x="30" y="210" class="t">I = 1 / 12 = 0.083 FLOP/byte</text>
+  <line x1="30" y1="226" x2="290" y2="226" class="grid"/>
+  <text x="30" y="254" class="s">Hardware hipotético</text>
+  <text x="30" y="278" class="t">100 GB/s decimal</text>
+  <text x="30" y="302" class="t">2 TFLOPS FP32 = 2,000 GFLOPS</text>
+  <text x="30" y="338" class="k">Memoria: 8.3 &lt; 2,000 GFLOPS</text>
 
-  <rect x="18" y="342" width="324" height="360" rx="16" class="panel"/>
-  <text x="34" y="370" class="k">Gráfica Roofline</text>
-  <line x1="56" y1="650" x2="326" y2="650" class="axis"/>
-  <line x1="56" y1="650" x2="56" y2="430" class="axis"/>
-  <line x1="56" y1="570" x2="326" y2="570" class="grid"/>
-  <line x1="56" y1="430" x2="326" y2="430" class="grid"/>
-  <text x="61" y="563" class="m">8.3</text><text x="61" y="424" class="m">2,000</text>
-  <text x="61" y="446" class="m">GFLOPS</text>
-  <path d="M56 632 L91 570 L173 500 L273 430 L326 430" class="roof"/>
-  <path d="M56 632 L273 430" class="memory"/>
-  <text x="173" y="492" class="m">B × I</text>
-  <line x1="91" y1="650" x2="91" y2="570" class="grid"/>
-  <line x1="173" y1="650" x2="173" y2="500" class="grid"/>
-  <line x1="273" y1="650" x2="273" y2="430" class="grid"/>
-  <path d="M91 562 l8 8 -8 8 -8 -8z" class="diamond"/>
-  <circle cx="273" cy="430" r="7" class="circle"/>
-  <text x="77" y="589" class="t">suma</text><text x="72" y="605" class="m">0.083 · 8.3</text>
-  <text x="218" y="462" class="t">matriz</text><text x="218" y="478" class="m">posible desde 20</text>
-  <text x="81" y="671" class="m">0.083</text><text x="169" y="671" class="m">1</text><text x="267" y="671" class="m">20</text>
-  <text x="148" y="690" class="s">FLOP/byte (log)</text>
+  <rect x="16" y="398" width="288" height="384" rx="16" class="panel"/>
+  <text x="30" y="426" class="k">Gráfica Roofline</text>
+  <line x1="50" y1="730" x2="298" y2="730" class="axis"/>
+  <line x1="50" y1="730" x2="50" y2="466" class="axis"/>
+  <line x1="50" y1="635" x2="298" y2="635" class="grid"/>
+  <line x1="50" y1="558" x2="298" y2="558" class="grid"/>
+  <line x1="50" y1="480" x2="298" y2="480" class="grid"/>
+  <text x="56" y="628" class="m">8.3</text>
+  <text x="56" y="551" class="m">100</text>
+  <text x="56" y="473" class="m">2,000</text>
+  <text x="56" y="502" class="m">GFLOPS (log)</text>
+  <path d="M50 700 L80 635 L154 558 L244 480 L298 480" class="roof"/>
+  <path d="M50 700 L244 480" class="memory"/>
+  <line x1="80" y1="730" x2="80" y2="635" class="grid"/>
+  <line x1="154" y1="730" x2="154" y2="558" class="grid"/>
+  <line x1="244" y1="730" x2="244" y2="480" class="grid"/>
+  <path d="M80 627 l8 8 -8 8 -8 -8z" class="diamond"/>
+  <circle cx="244" cy="480" r="7" class="circle"/>
+  <text x="62" y="665" class="t">suma</text>
+  <text x="62" y="686" class="m">0.083 · 8.3</text>
+  <text x="194" y="578" class="t">matriz</text>
+  <text x="194" y="599" class="m">desde 20</text>
+  <text x="66" y="753" class="m">0.083</text>
+  <text x="150" y="753" class="m">1</text>
+  <text x="238" y="753" class="m">20</text>
+  <text x="100" y="776" class="s">FLOP/byte (log)</text>
 </svg>

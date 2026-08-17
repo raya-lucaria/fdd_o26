@@ -81,11 +81,11 @@ $$I^* = \frac{2{,}000\ \mathrm{GFLOPS}}{100\ \mathrm{GB/s}} = \mathbf{20\ FLOP/b
 
 Por debajo de 20 FLOP/byte manda la memoria de este ejemplo; a partir de 20, el pico de cómputo puede ser el menor techo.
 
-![Roofline numérico para hardware docente hipotético: la suma FP32 de 1,000 elementos tiene 0.083 FLOP/byte y un techo de memoria de 8.3 GFLOPS, menor que el pico de 2,000 GFLOPS. El quiebre está en 20 FLOP/byte; una multiplicación matricial por bloques sólo podría entrar en la zona de cómputo al alcanzar al menos esa intensidad.](../_assets/roofline-lite.svg)
+![Roofline numérico para hardware docente hipotético de 100 GB/s decimal y 2 TFLOPS FP32 = 2,000 GFLOPS: la suma de 1,000 elementos tiene 0.083 FLOP/byte y un techo de memoria de 8.3 GFLOPS, menor que el pico. El quiebre está en 20 FLOP/byte; una multiplicación matricial por bloques sólo podría entrar en la zona de cómputo al alcanzar al menos esa intensidad.](../_assets/roofline-lite.svg)
 
 *Diagrama propio del curso, SVG accesible, 2026.*
 
-**Lectura visual:** la tarjeta repite 12,000 bytes, 1,000 FLOP y 0.083 FLOP/byte. En la gráfica, el rombo de la suma está en 0.083 FLOP/byte y 8.3 GFLOPS; queda sobre la recta de memoria y muy debajo del techo de 2,000 GFLOPS. El eje horizontal es logarítmico y marca 0.083, 1 y 20 FLOP/byte. El círculo matricial es una posibilidad: necesitaría al menos 20 FLOP/byte para llegar a la zona limitada por cómputo.
+**Lectura visual:** la tarjeta repite 12,000 bytes, 1,000 FLOP y 0.083 FLOP/byte. Ambos ejes son logarítmicos: el horizontal marca 0.083, 1 y 20 FLOP/byte; el vertical marca 8.3, 100 y 2,000 GFLOPS. Por eso la recta de memoria y el techo de cómputo se leen como líneas rectas. El rombo de la suma está en 0.083 FLOP/byte y 8.3 GFLOPS, muy debajo de 2,000; el círculo matricial necesitaría al menos 20 FLOP/byte para llegar a la zona limitada por cómputo.
 
 Una multiplicación matricial por bloques puede reutilizar cada dato en varias operaciones y elevar su intensidad. No es un benchmark universal ni una promesa de rendimiento: con este hardware hipotético sólo podría alcanzar la zona limitada por cómputo si logra al menos 20 FLOP/byte.
 
