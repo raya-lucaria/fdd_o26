@@ -37,7 +37,9 @@ def test_assignment_is_three_hardware_videos_due_august_18():
     assert assignment["id"] == "videos-hardware"
     assert assignment["content"]["due"] == "2026-08-18"
     instructions = assignment["content"]["instructions"]
-    assert instructions.count("https://www.youtube.com/watch?v=") == 3
+    resources = assignment["content"]["resources"]
+    assert len(resources) == 3
+    assert all(item["url"].startswith("https://www.youtube.com/watch?v=") for item in resources)
     assert "01_arquitectura.ipynb" not in instructions
     assert not (ASSIGNMENT.parent / "1_notebook_arquitectura.yaml").exists()
 
