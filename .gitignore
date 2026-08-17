@@ -225,3 +225,4 @@ __pycache__/
 
 # Workspace de superpowers/SDD — artefactos de ejecucion, no fuente
 .superpowers/
+.worktrees/
