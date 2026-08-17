@@ -1,0 +1,11 @@
+id: escenario-entrenamiento-distribuido
+type: example
+authority: official
+content:
+  title: "Escenario 3 — Entrenamiento distribuido"
+  prompt: >-
+    El entrenamiento escala dentro del servidor, pero no entre racks porque
+    las GPU esperan sincronización. Decide entre comprar GPU, reparticionar o
+    mejorar la red. Explica qué tráfico medirías y cómo validarías el cambio.
+  guidance: "Combina all-reduce, medición extremo a extremo, movimiento y energía."
+retrieval: {kind: reflection}

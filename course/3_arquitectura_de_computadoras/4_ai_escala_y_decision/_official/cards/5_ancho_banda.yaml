@@ -1,0 +1,7 @@
+id: card-ancho-banda
+type: card
+authority: official
+content:
+  front: "¿Qué mide el ancho de banda?"
+  back: "Los bytes que cruzan una ruta por intervalo."
+retrieval: {kind: recall}

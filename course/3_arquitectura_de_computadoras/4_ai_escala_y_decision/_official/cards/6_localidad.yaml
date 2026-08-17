@@ -1,0 +1,7 @@
+id: card-localidad
+type: card
+authority: official
+content:
+  front: "¿Qué ventaja ofrece la localidad?"
+  back: "Reutiliza datos cerca del cómputo y evita viajes a capas más lentas."
+retrieval: {kind: recall}

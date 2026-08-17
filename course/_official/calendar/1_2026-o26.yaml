@@ -25,7 +25,8 @@ events:
     date: "2026-08-18"
     start_time: "19:00"
     end_time: "20:30"
-    title: "Sistemas Operativos"
+    title: "Arquitectura de computadoras"
+    page: arquitectura-de-computadoras
 
   - id: session-04
     kind: session

@@ -1,0 +1,7 @@
+id: card-medicion-extremo-extremo
+type: card
+authority: official
+content:
+  front: "¿Qué conserva una medición extremo a extremo?"
+  back: "El mismo escenario para capacidad, latencia, throughput, bytes, potencia y calidad."
+retrieval: {kind: recall}

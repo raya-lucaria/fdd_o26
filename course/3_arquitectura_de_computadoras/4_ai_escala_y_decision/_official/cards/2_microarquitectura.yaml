@@ -1,0 +1,7 @@
+id: card-microarquitectura
+type: card
+authority: official
+content:
+  front: "¿Qué es una microarquitectura?"
+  back: "La organización interna que cumple una ISA y determina cómo se ejecuta."
+retrieval: {kind: recall}

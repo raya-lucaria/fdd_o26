@@ -1,0 +1,7 @@
+id: card-intensidad-aritmetica
+type: card
+authority: official
+content:
+  front: "¿Qué es la intensidad aritmética?"
+  back: "La cantidad de FLOP realizados por byte movido."
+retrieval: {kind: recall}

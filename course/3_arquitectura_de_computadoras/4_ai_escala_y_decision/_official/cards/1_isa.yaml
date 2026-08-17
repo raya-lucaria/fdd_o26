@@ -1,0 +1,7 @@
+id: card-isa
+type: card
+authority: official
+content:
+  front: "¿Qué es una ISA?"
+  back: "El contrato de instrucciones y estado visible que implementa una CPU."
+retrieval: {kind: recall}

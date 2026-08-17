@@ -1,0 +1,13 @@
+id: quiz-potencia-energia
+type: quiz
+authority: official
+content:
+  questions:
+    - id: potencia-vs-energia
+      prompt: "¿Por qué W y Wh no son intercambiables?"
+      options:
+        - {label: "W mide una tasa; Wh integra esa tasa durante un tiempo", correct: true}
+        - {label: "W mide memoria y Wh mide cómputo", correct: false}
+        - {label: "Wh sólo se usa en GPU", correct: false}
+        - {label: "No hay diferencia física entre ambas unidades", correct: false}
+retrieval: {kind: concept-check}

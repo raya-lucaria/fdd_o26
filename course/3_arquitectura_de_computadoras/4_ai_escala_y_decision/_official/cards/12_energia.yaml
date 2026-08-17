@@ -1,0 +1,7 @@
+id: card-energia
+type: card
+authority: official
+content:
+  front: "¿Qué es energía?"
+  back: "Potencia integrada durante un tiempo, expresada por ejemplo en Wh."
+retrieval: {kind: recall}

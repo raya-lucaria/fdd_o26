@@ -1,0 +1,13 @@
+id: quiz-forma-cpu-gpu
+type: quiz
+authority: official
+content:
+  questions:
+    - id: trabajo-cpu-gpu
+      prompt: "¿Qué carga favorece normalmente a una GPU frente a una CPU?"
+      options:
+        - {label: "Muchas operaciones regulares e independientes sobre lotes de datos", correct: true}
+        - {label: "Una secuencia corta con ramas impredecibles", correct: false}
+        - {label: "Cualquier programa escrito en Python", correct: false}
+        - {label: "Toda tarea que use más memoria", correct: false}
+retrieval: {kind: concept-check}

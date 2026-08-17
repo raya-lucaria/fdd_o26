@@ -1,0 +1,7 @@
+id: card-potencia
+type: card
+authority: official
+content:
+  front: "¿Qué es potencia?"
+  back: "Una tasa instantánea de uso de energía, expresada en watts."
+retrieval: {kind: recall}

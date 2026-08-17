@@ -1,0 +1,13 @@
+id: quiz-latencia-throughput
+type: quiz
+authority: official
+content:
+  questions:
+    - id: latencia-vs-throughput
+      prompt: "¿Qué medición distingue mejor latencia de throughput?"
+      options:
+        - {label: "Tiempo de una solicitud frente a solicitudes terminadas por segundo", correct: true}
+        - {label: "GHz frente a número de transistores", correct: false}
+        - {label: "Capacidad de SSD frente a capacidad de RAM", correct: false}
+        - {label: "Watts frente a temperatura", correct: false}
+retrieval: {kind: concept-check}

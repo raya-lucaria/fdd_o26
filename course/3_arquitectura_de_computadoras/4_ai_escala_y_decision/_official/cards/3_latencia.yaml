@@ -1,0 +1,7 @@
+id: card-latencia
+type: card
+authority: official
+content:
+  front: "¿Qué mide la latencia?"
+  back: "El tiempo necesario para terminar una unidad de trabajo."
+retrieval: {kind: recall}

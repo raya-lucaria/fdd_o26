@@ -1,0 +1,7 @@
+id: card-throughput
+type: card
+authority: official
+content:
+  front: "¿Qué mide el throughput?"
+  back: "Las unidades de trabajo terminadas por intervalo."
+retrieval: {kind: recall}

@@ -1,0 +1,7 @@
+id: card-roofline
+type: card
+authority: official
+content:
+  front: "¿Qué representa el modelo Roofline?"
+  back: "El menor límite entre el techo de cómputo y el ancho de banda multiplicado por la intensidad."
+retrieval: {kind: recall}

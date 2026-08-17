@@ -1,0 +1,11 @@
+id: escenario-asistente-local
+type: example
+authority: official
+content:
+  title: "Escenario 1 — Asistente local"
+  prompt: >-
+    Un modelo 70B INT4 debe correr sin red. Sus pesos ocupan 35 GB antes de
+    caché KV y temporales. Decide entre 32 GB de VRAM, hasta 128 GB unificados
+    o un modelo menor. Justifica capacidad, contexto y latencia.
+  guidance: "Combina presupuesto de memoria con latencia, ancho de banda y localidad."
+retrieval: {kind: reflection}

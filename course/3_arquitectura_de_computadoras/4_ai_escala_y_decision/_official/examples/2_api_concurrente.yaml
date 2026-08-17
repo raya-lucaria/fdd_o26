@@ -1,0 +1,12 @@
+id: escenario-api-concurrente
+type: example
+authority: official
+content:
+  title: "Escenario 2 — API concurrente"
+  prompt: >-
+    El modelo cabe, pero más concurrencia causa OOM y empeora el tiempo por
+    token. Elige entre reducir contexto o batch, validar cuantización, añadir
+    réplicas o usar un modelo menor. Propón dos mediciones que separen
+    capacidad, transferencia y cómputo.
+  guidance: "Combina memoria de IA, forma del trabajo CPU/GPU y Roofline."
+retrieval: {kind: reflection}

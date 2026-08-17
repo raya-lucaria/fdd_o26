@@ -1,0 +1,13 @@
+id: quiz-isa-compatibilidad
+type: quiz
+authority: official
+content:
+  questions:
+    - id: isa-contrato
+      prompt: "¿Qué permite que dos microarquitecturas distintas ejecuten el mismo binario?"
+      options:
+        - {label: "Implementar la misma ISA y ABI requeridas por el binario", correct: true}
+        - {label: "Tener exactamente la misma frecuencia de reloj", correct: false}
+        - {label: "Usar la misma cantidad de caché", correct: false}
+        - {label: "Estar fabricadas con el mismo proceso", correct: false}
+retrieval: {kind: concept-check}

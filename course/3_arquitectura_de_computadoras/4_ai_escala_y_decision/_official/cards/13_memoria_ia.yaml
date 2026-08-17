@@ -1,0 +1,7 @@
+id: card-memoria-ia
+type: card
+authority: official
+content:
+  front: "¿Qué integra la memoria de una carga de IA?"
+  back: "Pesos más caché KV o activaciones, gradientes, optimizador, temporales y margen."
+retrieval: {kind: recall}

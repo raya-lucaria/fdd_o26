@@ -1,0 +1,7 @@
+id: card-forma-gpu
+type: card
+authority: official
+content:
+  front: "¿Qué forma de trabajo favorece una GPU?"
+  back: "Muchos flujos regulares e independientes para elevar throughput."
+retrieval: {kind: recall}

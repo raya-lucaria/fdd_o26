@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="roof-title roof-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="roof-title">Roofline simplificado</title>
+  <desc id="roof-desc">Con poca reutilización, el rendimiento está limitado por mover datos desde memoria. Con mayor reutilización, el techo de cómputo se vuelve el límite.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#3f1d2e"/></linearGradient></defs>
+  <style>.head{font:700 46px system-ui,sans-serif;fill:#fff;text-anchor:middle}.label{font:700 40px system-ui,sans-serif;fill:#e2e8f0;text-anchor:middle}.axis{stroke:#cbd5e1;stroke-width:6}.line{fill:none;stroke:#67e8f9;stroke-width:12;stroke-linecap:round}</style>
+  <rect width="960" height="620" rx="36" fill="url(#bg)"/>
+  <text x="480" y="62" class="head">Reutilizar datos cambia el límite</text>
+  <path d="M138 506H864M138 506V126" class="axis"/>
+  <path d="M180 468L496 190H824" class="line"/>
+  <text x="314" y="312" class="label" fill="#67e8f9">memoria</text><text x="692" y="164" class="label" fill="#fde68a">cómputo</text>
+  <text x="480" y="566" class="head">Más ops/byte → reutilización</text>
+  <text x="102" y="330" class="label" transform="rotate(-90 102 330)">rendimiento</text>
+</svg>

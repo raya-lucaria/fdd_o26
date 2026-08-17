@@ -1,0 +1,13 @@
+id: quiz-presupuesto-memoria-ia
+type: quiz
+authority: official
+content:
+  questions:
+    - id: presupuesto-memoria
+      prompt: "¿Qué debe incluir un presupuesto de memoria de entrenamiento además de los pesos?"
+      options:
+        - {label: "Activaciones, gradientes, estados del optimizador, temporales y margen", correct: true}
+        - {label: "Únicamente la caché del navegador", correct: false}
+        - {label: "Sólo el tamaño del archivo descargado", correct: false}
+        - {label: "La potencia nominal expresada en watts", correct: false}
+retrieval: {kind: concept-check}

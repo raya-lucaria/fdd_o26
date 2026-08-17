@@ -1,0 +1,6 @@
+# Unidad 3: Arquitectura de Computadoras
+# Instalar con: pip install -r requirements.txt
+
+numpy>=1.26.0,<3.0.0
+matplotlib>=3.7.0,<4.0.0
+psutil>=5.9.0

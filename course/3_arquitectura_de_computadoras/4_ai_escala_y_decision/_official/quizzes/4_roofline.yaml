@@ -1,0 +1,13 @@
+id: quiz-roofline
+type: quiz
+authority: official
+content:
+  questions:
+    - id: roofline-limite
+      prompt: "¿Cómo separa Roofline un límite de memoria de uno de cómputo?"
+      options:
+        - {label: "Relaciona intensidad aritmética con ancho de banda y techo de cómputo", correct: true}
+        - {label: "Compara sólo la frecuencia de dos procesadores", correct: false}
+        - {label: "Cuenta únicamente los bytes almacenados en disco", correct: false}
+        - {label: "Supone que todo programa alcanza el pico anunciado", correct: false}
+retrieval: {kind: concept-check}

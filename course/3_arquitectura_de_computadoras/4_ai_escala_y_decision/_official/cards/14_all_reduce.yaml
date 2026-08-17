@@ -1,0 +1,7 @@
+id: card-all-reduce
+type: card
+authority: official
+content:
+  front: "¿Qué hace all-reduce?"
+  back: "Combina valores distribuidos, como gradientes, y entrega el resultado a cada participante."
+retrieval: {kind: recall}

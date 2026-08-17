@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="ai-title ai-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="ai-title">La memoria de IA es más que los pesos</title>
+  <desc id="ai-desc">En inferencia importan pesos, caché KV y temporales. En entrenamiento también se añaden activaciones, gradientes y estados del optimizador. Las tarjetas son categorías, no cantidades a escala.</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0f172a"/><stop offset="1" stop-color="#312e81"/></linearGradient></defs>
+  <style>.head{font:700 46px system-ui,sans-serif;fill:#fff;text-anchor:middle}.title{font:800 44px system-ui,sans-serif;fill:#fff;text-anchor:middle}.label{font:700 40px system-ui,sans-serif;fill:#fff;text-anchor:middle}.box{stroke-width:4}</style>
+  <rect width="960" height="620" rx="36" fill="url(#bg)"/>
+  <text x="480" y="60" class="head">Pesos no son toda la memoria</text>
+  <text x="480" y="110" class="head" fill="#fde68a">COMPONENTES, NO A ESCALA</text>
+  <text x="255" y="164" class="title">Inferencia</text><text x="705" y="164" class="title">Entrenamiento</text>
+  <rect x="74" y="200" width="362" height="96" rx="20" fill="#7c3aed" stroke="#ddd6fe" class="box"/><text x="255" y="262" class="label">Pesos</text>
+  <rect x="74" y="316" width="362" height="96" rx="20" fill="#0369a1" stroke="#bae6fd" class="box"/><text x="255" y="378" class="label">Caché KV</text>
+  <rect x="74" y="432" width="362" height="96" rx="20" fill="#0f766e" stroke="#a7f3d0" class="box"/><text x="255" y="494" class="label">Temporales</text>
+  <rect x="524" y="200" width="362" height="72" rx="18" fill="#7c3aed" stroke="#ddd6fe" class="box"/><text x="705" y="248" class="label">Pesos</text>
+  <rect x="524" y="286" width="362" height="72" rx="18" fill="#0f766e" stroke="#a7f3d0" class="box"/><text x="705" y="334" class="label">Activaciones</text>
+  <rect x="524" y="372" width="362" height="72" rx="18" fill="#be123c" stroke="#fecdd3" class="box"/><text x="705" y="420" class="label">Gradientes</text>
+  <rect x="524" y="458" width="362" height="72" rx="18" fill="#b45309" stroke="#fde68a" class="box"/><text x="705" y="506" class="label">Optimizador</text>
+</svg>

@@ -1,0 +1,7 @@
+id: card-forma-cpu
+type: card
+authority: official
+content:
+  front: "¿Qué forma de trabajo favorece una CPU?"
+  back: "Pocos flujos flexibles, control irregular y baja latencia."
+retrieval: {kind: recall}
