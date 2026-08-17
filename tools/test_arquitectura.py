@@ -133,6 +133,26 @@ def test_required_beginner_visual_topics_and_current_models_are_present():
     assert "no divulgado" in ai
 
 
+def test_roofline_uses_a_traceable_numeric_example_without_kitchen_analogy():
+    performance = body(PAGES[3])
+    roofline = performance.split("## Roofline conecta cómputo y memoria", 1)[1]
+    roofline = roofline.split("## Pico, benchmark y aplicación", 1)[0]
+    assert all(
+        term in roofline
+        for term in (
+            "1,000 elementos",
+            "12,000 bytes",
+            "1,000 FLOP",
+            "0.083 FLOP/byte",
+            "100 GB/s",
+            "2 TFLOPS",
+            "8.3 GFLOPS",
+        )
+    )
+    assert "cocina" not in roofline.lower()
+    assert "ejemplo de juguete" not in roofline.lower()
+
+
 def test_notebook_is_executed_and_practice_is_only_at_end():
     notebook = json.loads((UNIT / "code/01_arquitectura.ipynb").read_text())
     notebook_text = json.dumps(notebook, ensure_ascii=False)
