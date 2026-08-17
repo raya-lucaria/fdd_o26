@@ -28,16 +28,16 @@
   <line x1="50" y1="730" x2="298" y2="730" class="axis"/>
   <line x1="50" y1="730" x2="50" y2="466" class="axis"/>
   <line x1="50" y1="635" x2="298" y2="635" class="grid"/>
-  <line x1="50" y1="558" x2="298" y2="558" class="grid"/>
+  <line x1="50" y1="565" x2="298" y2="565" class="grid"/>
   <line x1="50" y1="480" x2="298" y2="480" class="grid"/>
   <text x="56" y="628" class="m">8.3</text>
-  <text x="56" y="551" class="m">100</text>
+  <text x="56" y="558" class="m">100</text>
   <text x="56" y="473" class="m">2,000</text>
   <text x="56" y="502" class="m">GFLOPS (log)</text>
-  <path d="M50 700 L80 635 L154 558 L244 480 L298 480" class="roof"/>
-  <path d="M50 700 L244 480" class="memory"/>
+  <path d="M50 663 L80 635 L154 565 L244 480 L298 480" class="roof"/>
+  <path d="M50 663 L244 480" class="memory"/>
   <line x1="80" y1="730" x2="80" y2="635" class="grid"/>
-  <line x1="154" y1="730" x2="154" y2="558" class="grid"/>
+  <line x1="154" y1="730" x2="154" y2="565" class="grid"/>
   <line x1="244" y1="730" x2="244" y2="480" class="grid"/>
   <path d="M80 627 l8 8 -8 8 -8 -8z" class="diamond"/>
   <circle cx="244" cy="480" r="7" class="circle"/>

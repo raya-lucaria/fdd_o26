@@ -177,6 +177,16 @@ def test_roofline_svg_declares_log_axes_and_repeats_the_numeric_contract():
     assert "GFLOPS (log)" in svg_text
     assert "100" in svg_text
     assert "font-size:14px" in (ASSETS / "roofline-lite.svg").read_text(encoding="utf-8")
+    paths = {node.attrib.get("class"): node.attrib.get("d") for node in root.findall("svg:path", namespace)}
+
+    def points(path):
+        return [tuple(map(int, match)) for match in re.findall(r"[ML](\d+) (\d+)", path)]
+
+    roof = points(paths["roof"])
+    memory = points(paths["memory"])
+    assert roof[:4] == [(50, 663), (80, 635), (154, 565), (244, 480)]
+    assert memory == [roof[0], roof[3]]
+    assert roof[3][1] == roof[4][1]
 
 
 def test_notebook_is_executed_and_practice_is_only_at_end():
