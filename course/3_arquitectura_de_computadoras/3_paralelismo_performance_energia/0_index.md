@@ -51,40 +51,55 @@ Menos bits no garantiza calidad. Un pico *sparse* supone ceros aprovechables y n
 
 ## Roofline conecta cómputo y memoria
 
-### Ejemplo de juguete: la cocina también necesita ingredientes
+### Una suma vectorial con cuentas visibles
 
-Una cocina puede preparar 100 platos por hora, pero el montacargas sólo entrega ingredientes para 20. Contratar cocineros no supera 20 platos por hora. Si cada entrega se reutiliza en cinco platos, el mismo montacargas ya alimenta 100. **Roofline pregunta si faltan manos para calcular o datos para alimentarlas.**
+**Operación.** Sumemos 1,000 elementos FP32: `C[i] = A[i] + B[i]`.
 
-En una computadora, un **FLOP** es una operación de punto flotante, como una suma. Los **FLOPS** expresan cuántas de esas operaciones se completan por segundo. Los bytes describen ingredientes movidos, no cálculo.
+**Bytes.** En la frontera elegida contamos tráfico lógico mínimo: `A`, `B` y `C` por separado. Cada arreglo ocupa 1,000 × 4 bytes, así que hay 4,000 + 4,000 + 4,000 = **12,000 bytes** mínimos. Esta cuenta incluye dos lecturas y una escritura por elemento.
 
-| Trabajo de juguete | Bytes mínimos por resultado | FLOP | Reutilización | Límite probable |
-|---|---:|---:|---|---|
-| `C[i] = A[i] + B[i]` en FP32 | 12: leer 8, escribir 4 | 1 | Cada entrada se usa una vez | Memoria |
-| Bloque matricial mantenido cerca | El bloque se carga una vez | Muchas por dato | Cada número participa repetidamente | Cómputo, si el bloque cabe |
+**FLOP.** Las 1,000 sumas realizan **1,000 FLOP**.
 
-**Intensidad aritmética** significa “cuánto cálculo útil obtenemos por cada byte que viaja desde memoria”. Reutilizar un dato aumenta esa intensidad sin hacer más rápida la memoria.
+**Intensidad.** Por cada elemento hay 1 FLOP y 12 bytes, por lo que
 
-![Roofline simplificado: el rendimiento crece con la reutilización mientras limita la memoria y luego alcanza un techo de cómputo.](../_assets/roofline-lite.svg)
+$$I = \frac{1}{12} = 0.083333\ldots \approx \mathbf{0.083\ FLOP/byte}$$
+
+**Hardware docente hipotético.** Supongamos 100 GB/s decimales de ancho de banda y 2 TFLOPS FP32 de pico, equivalentes a 2,000 GFLOPS. Aquí GB/s usa $10^9$ byte/s y TFLOPS usa $10^{12}$ FLOP/s: no se están usando prefijos binarios.
+
+La memoria puede alimentar esta intensidad hasta
+
+$$
+(100\times10^9\ \mathrm{byte/s})\times\left(\frac{1}{12}\ \mathrm{FLOP/byte}\right)
+= 8.333\ldots\times10^9\ \mathrm{FLOP/s}
+\approx \mathbf{8.3\ GFLOPS}.
+$$
+
+La cuenta cancela la unidad intermedia: `(byte/s) × (FLOP/byte) = FLOP/s`. Comparamos 8.3 GFLOPS con 2,000 GFLOPS antes de elegir: el menor limita, así que para esta suma el techo del modelo es 8.3 GFLOPS, limitado por memoria.
+
+El cambio de régimen ocurre en
+
+$$I^* = \frac{2{,}000\ \mathrm{GFLOPS}}{100\ \mathrm{GB/s}} = \mathbf{20\ FLOP/byte}.$$
+
+Por debajo de 20 FLOP/byte manda la memoria de este ejemplo; a partir de 20, el pico de cómputo puede ser el menor techo.
+
+![Roofline numérico para hardware docente hipotético: la suma FP32 de 1,000 elementos tiene 0.083 FLOP/byte y un techo de memoria de 8.3 GFLOPS, menor que el pico de 2,000 GFLOPS. El quiebre está en 20 FLOP/byte; una multiplicación matricial por bloques sólo podría entrar en la zona de cómputo al alcanzar al menos esa intensidad.](../_assets/roofline-lite.svg)
 
 *Diagrama propio del curso, SVG accesible, 2026.*
 
-**Lectura visual:** el eje horizontal representa operaciones por byte y el vertical, rendimiento. Con poca reutilización manda el ancho de banda; con mucha se alcanza el techo de cómputo. La ejecución real queda debajo de ambos.
+**Lectura visual:** la tarjeta repite 12,000 bytes, 1,000 FLOP y 0.083 FLOP/byte. En la gráfica, el rombo de la suma está en 0.083 FLOP/byte y 8.3 GFLOPS; queda sobre la recta de memoria y muy debajo del techo de 2,000 GFLOPS. El eje horizontal es logarítmico y marca 0.083, 1 y 20 FLOP/byte. El círculo matricial es una posibilidad: necesitaría al menos 20 FLOP/byte para llegar a la zona limitada por cómputo.
 
-Después de la intuición aparece la unidad formal. La intensidad es trabajo dividido entre tráfico:
+Una multiplicación matricial por bloques puede reutilizar cada dato en varias operaciones y elevar su intensidad. No es un benchmark universal ni una promesa de rendimiento: con este hardware hipotético sólo podría alcanzar la zona limitada por cómputo si logra al menos 20 FLOP/byte.
+
+En general, la intensidad es trabajo dividido entre tráfico y el Roofline-lite expresa el límite:
 
 $$I = \frac{\text{FLOP}}{\text{bytes movidos}}$$
 
-El modelo Roofline-lite expresa un límite:
-
 $$P \leq \min(P_{pico},\ B_{memoria}\times I)$$
 
-**DERIVED (modelo simplificado):** sumar dos vectores FP32 para producir un tercero mueve al menos 12 bytes por elemento, dos lecturas y una escritura, y realiza 1 FLOP. Su intensidad es aproximadamente **0.083 FLOP/byte**, sin contar tráfico adicional. Reutilizar bloques de una multiplicación de matrices puede elevar mucho la intensidad.
-
-**Cómo leer la fórmula, paso a paso:** $B_{memoria}\times I$ convierte bytes/s por FLOP/byte en FLOP/s. Ese es el máximo que la memoria puede alimentar. $P_{pico}$ es el máximo que las unidades pueden ejecutar. `min` elige el techo más bajo; un programa real queda debajo por latencia, ramas y coordinación.
+El valor de 8.3 GFLOPS es un techo del modelo, no rendimiento observado para un arreglo de 12 kB. Los 12,000 bytes son tráfico lógico mínimo en esta frontera: caché, *write-allocate*, *writeback*, alineación y *prefetch* pueden cambiar el tráfico observado; si los datos residen en caché, el tráfico DRAM puede ser menor.
 
 En la pendiente conviene mover menos bytes, mejorar localidad o ancho de banda. En la meseta conviene usar mejor las unidades, aumentar paralelismo o elegir otra precisión compatible.
 
-Roofline no predice una solicitud pequeña: latencia, arranque, dependencias, ramas y sincronización pueden alejarla del techo. Ancho de banda es volumen por tiempo; latencia es espera. Ambos se miden.
+Roofline no predice por sí solo una solicitud pequeña: latencia, arranque, dependencias, ramas y sincronización también alejan una ejecución del techo. Ancho de banda es volumen por tiempo; latencia es espera. Ambos se miden.
 
 ## Pico, benchmark y aplicación son capas distintas
 

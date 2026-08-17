@@ -1,15 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" role="img" aria-labelledby="roof-title roof-desc">
-  <title id="roof-title">Roofline explicado con suma vectorial y multiplicación de matrices</title>
-  <desc id="roof-desc">El rendimiento máximo es el menor entre la recta de ancho de banda y el techo horizontal de cómputo. La suma vectorial aparece a la izquierda, limitada por memoria; una multiplicación de matrices con bloques reutilizados aparece cerca del techo de cómputo.</desc>
-  <defs><linearGradient id="bg-roof" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#3f1d2e"/></linearGradient></defs>
-  <style>.h{font:800 36px system-ui,sans-serif;fill:#fff;text-anchor:middle}.t{font:750 22px system-ui,sans-serif;fill:#fff}.s{font:600 19px system-ui,sans-serif;fill:#cbd5e1}.axis{stroke:#cbd5e1;stroke-width:5}.roof{fill:none;stroke:#67e8f9;stroke-width:10;stroke-linecap:round}.guide{stroke:#64748b;stroke-width:2;stroke-dasharray:8 8}.pt{stroke:#fff;stroke-width:3}</style>
-  <rect width="960" height="700" rx="32" fill="url(#bg-roof)"/><text x="480" y="46" class="h">Roofline: el techo más bajo gana</text>
-  <rect x="120" y="105" width="375" height="420" rx="18" fill="#164e63" opacity=".32"/><rect x="495" y="105" width="345" height="420" rx="18" fill="#6d28d9" opacity=".24"/>
-  <text x="290" y="138" class="t" text-anchor="middle">LIMITA MEMORIA</text><text x="675" y="138" class="t" text-anchor="middle">LIMITA CÓMPUTO</text>
-  <path d="M130 525H865M130 525V105" class="axis"/><path d="M165 485L510 190H825" class="roof"/>
-  <text x="300" y="305" class="t" transform="rotate(-40 300 305)">B × intensidad</text><text x="660" y="174" class="t">pico de cómputo</text>
-  <line x1="300" y1="525" x2="300" y2="370" class="guide"/><circle cx="300" cy="370" r="13" fill="#fbbf24" class="pt"/><text x="185" y="350" class="t">A + B → C</text><text x="185" y="377" class="s">1 FLOP / 12 B</text>
-  <line x1="665" y1="525" x2="665" y2="190" class="guide"/><circle cx="665" cy="190" r="13" fill="#34d399" class="pt"/><text x="685" y="235" class="t">matmul en bloques</text><text x="685" y="262" class="s">reutiliza datos</text>
-  <text x="500" y="575" class="t" text-anchor="middle">Intensidad aritmética · FLOP por byte →</text><text x="72" y="335" class="t" transform="rotate(-90 72 335)" text-anchor="middle">Rendimiento · FLOPS</text>
-  <rect x="105" y="615" width="750" height="54" rx="16" fill="#78350f" stroke="#fbbf24" stroke-width="3"/><text x="480" y="648" class="s" text-anchor="middle">La ejecución real queda debajo: latencia, ramas y sincronización también cuestan.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 720" role="img" aria-labelledby="roof-title roof-desc">
+  <title id="roof-title">Roofline numérico: la suma vectorial limita por memoria</title>
+  <desc id="roof-desc">Para hardware docente hipotético de 100 GB por segundo y 2,000 GFLOPS FP32, sumar 1,000 elementos usa 12,000 bytes y 1,000 FLOP: intensidad 0.083 FLOP por byte y techo de 8.3 GFLOPS. El quiebre es 20 FLOP por byte; un caso matricial sólo entra en cómputo al llegar allí.</desc>
+  <defs>
+    <linearGradient id="bg-roof" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0f172a"/><stop offset="1" stop-color="#312e81"/></linearGradient>
+  </defs>
+  <style>
+    .h{font-family:Arial,sans-serif;font-size:20px;font-weight:800;fill:#fff}.k{font-family:Arial,sans-serif;font-size:14px;font-weight:800;fill:#fff}.t{font-family:Arial,sans-serif;font-size:13px;font-weight:650;fill:#f8fafc}.s{font-family:Arial,sans-serif;font-size:12px;font-weight:600;fill:#dbeafe}.m{font-family:Arial,sans-serif;font-size:11px;font-weight:700;fill:#cbd5e1}.axis{stroke:#e2e8f0;stroke-width:2}.grid{stroke:#94a3b8;stroke-width:1;stroke-dasharray:4 4}.roof{fill:none;stroke:#fbbf24;stroke-width:4;stroke-linejoin:round}.memory{fill:none;stroke:#67e8f9;stroke-width:2;stroke-dasharray:5 4}.diamond{fill:#fbbf24;stroke:#fff;stroke-width:2}.circle{fill:#34d399;stroke:#fff;stroke-width:2}.card{fill:#172554;stroke:#93c5fd;stroke-width:1.5}.panel{fill:url(#bg-roof);stroke:#a5b4fc;stroke-width:1.5}
+  </style>
+  <rect width="360" height="720" rx="24" fill="#0f172a"/>
+  <text x="20" y="38" class="h">Roofline: el menor techo limita</text>
+
+  <rect x="18" y="56" width="324" height="262" rx="16" class="card"/>
+  <text x="34" y="84" class="k">Cuenta: suma FP32 de 1,000 elementos</text>
+  <line x1="34" y1="98" x2="326" y2="98" class="grid"/>
+  <text x="34" y="123" class="t">A, B y C: 4,000 + 4,000 + 4,000 B</text>
+  <text x="34" y="143" class="k">= 12,000 bytes mínimos</text>
+  <text x="34" y="173" class="t">1,000 sumas</text>
+  <text x="34" y="193" class="k">= 1,000 FLOP</text>
+  <text x="34" y="223" class="t">Intensidad: 1 / 12</text>
+  <text x="34" y="243" class="k">= 0.083 FLOP/byte</text>
+  <text x="34" y="276" class="s">Hardware hipotético: 100 GB/s · 2 TFLOPS FP32</text>
+  <text x="34" y="297" class="k">Memoria: 8.3 GFLOPS &lt; 2,000 GFLOPS</text>
+
+  <rect x="18" y="342" width="324" height="360" rx="16" class="panel"/>
+  <text x="34" y="370" class="k">Gráfica Roofline</text>
+  <line x1="56" y1="650" x2="326" y2="650" class="axis"/>
+  <line x1="56" y1="650" x2="56" y2="430" class="axis"/>
+  <line x1="56" y1="570" x2="326" y2="570" class="grid"/>
+  <line x1="56" y1="430" x2="326" y2="430" class="grid"/>
+  <text x="61" y="563" class="m">8.3</text><text x="61" y="424" class="m">2,000</text>
+  <text x="61" y="446" class="m">GFLOPS</text>
+  <path d="M56 632 L91 570 L173 500 L273 430 L326 430" class="roof"/>
+  <path d="M56 632 L273 430" class="memory"/>
+  <text x="173" y="492" class="m">B × I</text>
+  <line x1="91" y1="650" x2="91" y2="570" class="grid"/>
+  <line x1="173" y1="650" x2="173" y2="500" class="grid"/>
+  <line x1="273" y1="650" x2="273" y2="430" class="grid"/>
+  <path d="M91 562 l8 8 -8 8 -8 -8z" class="diamond"/>
+  <circle cx="273" cy="430" r="7" class="circle"/>
+  <text x="77" y="589" class="t">suma</text><text x="72" y="605" class="m">0.083 · 8.3</text>
+  <text x="218" y="462" class="t">matriz</text><text x="218" y="478" class="m">posible desde 20</text>
+  <text x="81" y="671" class="m">0.083</text><text x="169" y="671" class="m">1</text><text x="267" y="671" class="m">20</text>
+  <text x="148" y="690" class="s">FLOP/byte (log)</text>
 </svg>
