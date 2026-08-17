@@ -4,7 +4,7 @@ title: "Arquitectura de computadoras"
 nav_title: "Arquitectura"
 summary: "Cómo el cómputo, la memoria y el movimiento de datos determinan qué puede hacer una máquina y a qué costo."
 status: ready
-estimated_time: "125 minutos"
+estimated_time: "90 minutos"
 tags: [hardware, memoria, cpu, gpu, arquitectura]
 ---
 
@@ -20,7 +20,7 @@ Esta unidad construye un mapa para leer una laptop, una GPU o un centro de datos
 
 ## Notebook de la unidad
 
-[Descarga el notebook de arquitectura](code/01_arquitectura.ipynb) y conserva una copia propia. El recorrido reproduce mediciones pequeñas de hardware, vectorización, caché, multiplicación de matrices y memoria de modelos. Las celdas explicativas se pueden ejecutar durante la lectura; la única práctica que debes entregar está rotulada **«Práctica FINAL — post-clase»** y aparece al final.
+[Descarga el notebook de arquitectura](code/01_arquitectura.ipynb) si quieres experimentar. El recorrido reproduce mediciones pequeñas de hardware, vectorización, caché, multiplicación de matrices y memoria de modelos. Es un recurso opcional: **no es una entrega**. La única tarea publicada para esta unidad es ver los tres videos de preparación.
 
 Para reproducir el entorno, instala las dependencias listadas en `code/requirements.txt`. Los tiempos cambiarán entre máquinas: esa variación es parte del dato, no un error que debas ocultar.
 
@@ -28,20 +28,21 @@ Para reproducir el entorno, instala las dependencias listadas en `code/requireme
 
 Podrás explicar por qué un programa compatible necesita la ISA correcta; distinguir reloj, ciclos, latencia y throughput; razonar sobre RAM, VRAM, caché y almacenamiento; y elegir una dirección de optimización a partir de mediciones, no de slogans.
 
-## Ruta en dos sesiones
+## Ruta principal de 90 minutos
 
-**ESTIMATE (diseño docente):** la ruta requiere 125 minutos netos en dos sesiones nominales de 90. Los escenarios se trabajan en grupos pequeños y en paralelo; las flashcards quedan para después de clase.
+**ESTIMATE (diseño docente):** los tiempos son una guía, no una obligación. La página de IA contiene material opcional adicional para que el profesor elija profundidad sin perder el hilo principal.
 
-### Sesión 1 — De la máquina al movimiento
+| Minutos | Parada | Pregunta que organiza la explicación | Si falta tiempo |
+|---:|---|---|---|
+| 0–5 | Este mapa | Lo que una computadora calcula, guarda y mueve | Conservar |
+| 5–23 | [[compute-instrucciones-cpu|Compute, instrucciones y CPU]] | Conversión de un programa en trabajo físico | Conservar juguetes y diagramas |
+| 23–40 | [[memoria-y-datos|Memoria y movimiento de datos]] | Costo de acercar un dato | Omitir detalles de DMA |
+| 40–61 | [[paralelismo-performance-energia|Paralelismo, performance y energía]] | Diagnóstico entre memoria, cómputo y potencia | Conservar Roofline de juguete |
+| 61–86 | [[ia-escala-decision|IA, escala y selección de hardware]] | Recursos para alojar y servir un modelo | Usar sólo tabla comparativa |
+| 86–90 | Cierre | Evidencia necesaria antes de comprar hardware | Conservar |
 
-1. **Orientación** — este mapa de la unidad (~5 min).
-2. [[compute-instrucciones-cpu|**Compute, instrucciones y CPU**]] — piezas físicas, ISA, reloj, ciclos, cores, threads y SIMD (~20 min).
-3. [[memoria-y-datos|**Memoria y movimiento de datos**]] — jerarquía, latencia, ancho de banda y rutas CPU↔GPU (~25 min).
-
-### Sesión 2 — Del paralelismo a la decisión
-
-1. [[paralelismo-performance-energia|**Paralelismo, performance y energía**]] — CPU, GPU, aceleradores, Roofline y potencia (~43 min).
-2. [[ia-escala-decision|**IA, escala y selección de hardware**]] — memoria de modelos, comunicación, selección y repaso final (~32 min).
+> [!TIP]
+> Para una lectura ADHD-friendly, detente después de cada visual y di en una frase qué cambió. La meta no es memorizar números: es aprender a localizar el costo.
 
 ## Siete modelos mentales
 
@@ -60,3 +61,10 @@ Podrás explicar por qué un programa compatible necesita la ISA correcta; disti
 - **ESTIMATE**: supuesto o escenario útil, no una medición.
 
 Estas etiquetas importan: una especificación máxima, una derivación y una observación real no responden la misma pregunta.
+
+## Qué debes recordar
+
+- Todo programa necesita **cómputo, memoria y movimiento**.
+- El recurso más lento en la ruta determina qué optimización ayuda.
+- Las cifras sólo son comparables cuando conservan tarea, unidad y frontera del sistema.
+- La ruta esencial dura 90 minutos; las ampliaciones quedan disponibles para elegir en clase.

@@ -4,7 +4,7 @@ title: "Paralelismo, performance y energía"
 nav_title: "Paralelismo y energía"
 summary: "Por qué CPU, GPU y aceleradores favorecen trabajos distintos y cómo separar cómputo, memoria y energía."
 status: ready
-estimated_time: "43 minutos"
+estimated_time: "21 minutos"
 tags: [paralelismo, gpu, roofline, energia]
 ---
 
@@ -51,13 +51,26 @@ Menos bits no garantiza calidad. Un pico *sparse* supone ceros aprovechables y n
 
 ## Roofline conecta cómputo y memoria
 
+### Ejemplo de juguete: la cocina también necesita ingredientes
+
+Una cocina puede preparar 100 platos por hora, pero el montacargas sólo entrega ingredientes para 20. Contratar cocineros no supera 20 platos por hora. Si cada entrega se reutiliza en cinco platos, el mismo montacargas ya alimenta 100. **Roofline pregunta si faltan manos para calcular o datos para alimentarlas.**
+
+En una computadora, un **FLOP** es una operación de punto flotante, como una suma. Los **FLOPS** expresan cuántas de esas operaciones se completan por segundo. Los bytes describen ingredientes movidos, no cálculo.
+
+| Trabajo de juguete | Bytes mínimos por resultado | FLOP | Reutilización | Límite probable |
+|---|---:|---:|---|---|
+| `C[i] = A[i] + B[i]` en FP32 | 12: leer 8, escribir 4 | 1 | Cada entrada se usa una vez | Memoria |
+| Bloque matricial mantenido cerca | El bloque se carga una vez | Muchas por dato | Cada número participa repetidamente | Cómputo, si el bloque cabe |
+
+**Intensidad aritmética** significa “cuánto cálculo útil obtenemos por cada byte que viaja desde memoria”. Reutilizar un dato aumenta esa intensidad sin hacer más rápida la memoria.
+
 ![Roofline simplificado: el rendimiento crece con la reutilización mientras limita la memoria y luego alcanza un techo de cómputo.](../_assets/roofline-lite.svg)
 
 *Diagrama propio del curso, SVG accesible, 2026.*
 
 **Lectura visual:** el eje horizontal representa operaciones por byte y el vertical, rendimiento. Con poca reutilización manda el ancho de banda; con mucha se alcanza el techo de cómputo. La ejecución real queda debajo de ambos.
 
-La **intensidad aritmética** es trabajo dividido entre tráfico de memoria:
+Después de la intuición aparece la unidad formal. La intensidad es trabajo dividido entre tráfico:
 
 $$I = \frac{\text{FLOP}}{\text{bytes movidos}}$$
 
@@ -66,6 +79,8 @@ El modelo Roofline-lite expresa un límite:
 $$P \leq \min(P_{pico},\ B_{memoria}\times I)$$
 
 **DERIVED (modelo simplificado):** sumar dos vectores FP32 para producir un tercero mueve al menos 12 bytes por elemento, dos lecturas y una escritura, y realiza 1 FLOP. Su intensidad es aproximadamente **0.083 FLOP/byte**, sin contar tráfico adicional. Reutilizar bloques de una multiplicación de matrices puede elevar mucho la intensidad.
+
+**Cómo leer la fórmula, paso a paso:** $B_{memoria}\times I$ convierte bytes/s por FLOP/byte en FLOP/s. Ese es el máximo que la memoria puede alimentar. $P_{pico}$ es el máximo que las unidades pueden ejecutar. `min` elige el techo más bajo; un programa real queda debajo por latencia, ramas y coordinación.
 
 En la pendiente conviene mover menos bytes, mejorar localidad o ancho de banda. En la meseta conviene usar mejor las unidades, aumentar paralelismo o elegir otra precisión compatible.
 
@@ -95,6 +110,33 @@ TGP referencia una tarjeta; TDP guía diseño térmico y varía por fabricante. 
 
 **DERIVED (escenario, no consumo medido):** 575 W sostenidos durante una hora equivalen a **0.575 kWh** para la tarjeta. El host y las pérdidas quedan fuera. La duración transforma una tasa en energía.
 
+| Término | Responde | Ejemplo correcto | No significa |
+|---|---|---|---|
+| W | Potencia en un instante | Una tarjeta opera cerca de 575 W | Energía anual |
+| Wh o kWh | Potencia integrada en tiempo | 100 W × 10 h = 1 kWh | Potencia máxima |
+| TDP | Referencia térmica del fabricante | Dimensionar enfriamiento de un chip | Consumo exacto de pared |
+| TGP | Potencia de la tarjeta gráfica | RTX 5090 de referencia: 575 W | Consumo del servidor |
+| Pared AC | Sistema completo y pérdidas | Medidor del enchufe durante una tarea | Potencia exclusiva del chip |
+
+### Escalas conocidas para construir intuición
+
+| Equipo o aparato | Potencia orientativa | Duración de ejemplo | Energía derivada |
+|---|---:|---:|---:|
+| Foco LED | 8–12 W | 5 h | 0.04–0.06 kWh |
+| SoC/CPU móvil | 5–30 W | 8 h | 0.04–0.24 kWh |
+| Laptop completa | 30–100 W | 8 h | 0.24–0.80 kWh |
+| Refrigerador, mientras comprime | 100–300 W | Ciclos, no 24 h continuas | Depende del ciclo |
+| CPU de escritorio | 65–250 W | 2 h | 0.13–0.50 kWh |
+| RTX 5090, TGP | hasta 575 W | 1 h | hasta 0.575 kWh |
+| Microondas | 1–1.8 kW | 10 min | 0.17–0.30 kWh |
+| Aire acondicionado | 1–5 kW | 6 h | 6–30 kWh |
+| Rack GB300 NVL72 | hasta 142 kW | 1 día | hasta 3.408 MWh |
+| Centro de datos | MW–GW | 1 año | potencia × 8,760 h |
+
+**FACT** identifica especificaciones publicadas de RTX 5090 y GB300. **ESTIMATE (confianza media)** identifica rangos ilustrativos de aparatos: modelo, clima, ciclo y carga cambian el consumo. **DERIVED** identifica las multiplicaciones de potencia por tiempo. Un refrigerador es el recordatorio importante: su potencia activa no permanece constante todo el día.
+
+La comparación incluye un foco LED, un microondas y un aire acondicionado para anclar las escalas; no implica que sus perfiles de uso sean iguales a los de un chip.
+
 ## El power wall cambió la estrategia
 
 **FACT (síntesis histórica):** durante décadas, reducir el tamaño de los transistores permitió elevar frecuencia sin aumentar igual la densidad de potencia. Al fallar ese escalamiento de voltaje, cerca de 2005, calor y potencia limitaron la frecuencia. La respuesta combinó multicore, SIMD, aceleradores y eficiencia.
@@ -114,6 +156,13 @@ La escala encadena dispositivo en W, rack en kW y centro de datos en MW. Cada ni
 En el nivel global se acumula energía, no sólo potencia. **ESTIMATE (IEA 2026, proyección central):** el consumo eléctrico de centros de datos pasa de **485 TWh en 2025** a alrededor de **950 TWh en 2030**; dentro de esa proyección, el consumo de centros enfocados en IA se triplica. Son estimaciones con incertidumbre, no lecturas de medidor ni potencia instantánea.
 
 Escalar amplifica movimiento, refrigeración y energía. Sigue [[ia-escala-decision|IA, escala y selección de hardware]].
+
+## Qué debes recordar
+
+- Roofline compara dos techos: datos que memoria puede entregar y operaciones que el chip puede ejecutar.
+- FLOP es trabajo; FLOPS es tasa; FLOP/byte mide reutilización.
+- Pico teórico, benchmark y aplicación observada son evidencias distintas.
+- W mide potencia; Wh y kWh miden energía acumulada. Siempre declara frontera y duración.
 
 ## Fuentes
 

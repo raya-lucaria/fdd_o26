@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="energia-title energia-desc" preserveAspectRatio="xMidYMid meet">
-  <title id="energia-title">Potencia por tiempo produce energía</title>
-  <desc id="energia-desc">La potencia en watts es una tasa instantánea. Sostenida durante un tiempo acumula energía en watt-hora; la potencia aumenta desde un chip hacia un centro de datos.</desc>
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172554"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs>
-  <style>.head{font:700 46px system-ui,sans-serif;fill:#fff;text-anchor:middle}.big{font:800 58px system-ui,sans-serif;fill:#fff;text-anchor:middle}.label{font:700 40px system-ui,sans-serif;fill:#e2e8f0;text-anchor:middle}.box{stroke-width:4}</style>
-  <rect width="960" height="620" rx="36" fill="url(#bg)"/>
-  <text x="480" y="62" class="head">Potencia × tiempo = energía</text>
-  <rect x="72" y="132" width="240" height="164" rx="28" fill="#1e3a8a" stroke="#93c5fd" class="box"/><text x="192" y="205" class="big">W</text><text x="192" y="258" class="label">potencia</text>
-  <text x="372" y="224" class="big">×</text>
-  <rect x="438" y="132" width="160" height="164" rx="28" fill="#4338ca" stroke="#c7d2fe" class="box"/><text x="518" y="205" class="big">h</text><text x="518" y="258" class="label">tiempo</text>
-  <text x="662" y="224" class="big">=</text>
-  <rect x="728" y="132" width="160" height="164" rx="28" fill="#9a3412" stroke="#fed7aa" class="box"/><text x="808" y="205" class="big">Wh</text><text x="808" y="258" class="label">energía</text>
-  <rect x="72" y="350" width="240" height="142" rx="24" fill="#0e7490" stroke="#a5f3fc" class="box"/><text x="192" y="405" class="label">Chip</text><text x="192" y="459" class="label">W</text>
-  <rect x="360" y="350" width="240" height="142" rx="24" fill="#7e22ce" stroke="#e9d5ff" class="box"/><text x="480" y="405" class="label">Rack</text><text x="480" y="459" class="label">kW</text>
-  <rect x="648" y="350" width="240" height="142" rx="24" fill="#b45309" stroke="#fde68a" class="box"/><text x="768" y="405" class="label">Centro</text><text x="768" y="459" class="label">MW</text>
-  <text x="480" y="558" class="head">El tiempo conecta ambas</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="energia-title energia-desc">
+  <title id="energia-title">Escala logarítmica de potencia desde un foco hasta un rack de IA</title>
+  <desc id="energia-desc">Barras comparan un foco LED de diez watts, una laptop de decenas de watts, un refrigerador de cientos, una GPU RTX 5090 de 575 watts, un microondas de alrededor de 1.5 kilowatts, un aire acondicionado de varios kilowatts y un rack GB300 de hasta 142 kilowatts.</desc>
+  <defs><linearGradient id="bg-en" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172554"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs>
+  <style>.h{font:800 36px system-ui,sans-serif;fill:#fff;text-anchor:middle}.t{font:750 22px system-ui,sans-serif;fill:#fff}.s{font:600 19px system-ui,sans-serif;fill:#cbd5e1}.n{font:800 21px ui-monospace,monospace;fill:#fde68a;text-anchor:end}.axis{stroke:#cbd5e1;stroke-width:4}.grid{stroke:#64748b;stroke-width:2;stroke-dasharray:7 7}.bar{stroke-width:3}</style>
+  <rect width="960" height="720" rx="32" fill="url(#bg-en)"/><text x="480" y="46" class="h">Potencia: una tasa, no una factura</text>
+  <path d="M250 590H890M250 100V590" class="axis"/><path d="M390 100V590M540 100V590M690 100V590M840 100V590" class="grid"/>
+  <text x="250" y="625" class="s" text-anchor="middle">1 W</text><text x="390" y="625" class="s" text-anchor="middle">10 W</text><text x="540" y="625" class="s" text-anchor="middle">100 W</text><text x="690" y="625" class="s" text-anchor="middle">1 kW</text><text x="840" y="625" class="s" text-anchor="middle">100 kW</text>
+  <text x="30" y="137" class="t">Foco LED</text><rect x="250" y="112" width="140" height="32" rx="9" fill="#047857" stroke="#6ee7b7" class="bar"/><text x="885" y="137" class="n">~10 W</text>
+  <text x="30" y="207" class="t">Laptop</text><rect x="250" y="182" width="230" height="32" rx="9" fill="#0e7490" stroke="#a5f3fc" class="bar"/><text x="885" y="207" class="n">~30–100 W</text>
+  <text x="30" y="277" class="t">Refrigerador</text><rect x="250" y="252" width="300" height="32" rx="9" fill="#0369a1" stroke="#bae6fd" class="bar"/><text x="885" y="277" class="n">~100–300 W</text>
+  <text x="30" y="347" class="t">RTX 5090</text><rect x="250" y="322" width="390" height="32" rx="9" fill="#6d28d9" stroke="#ddd6fe" class="bar"/><text x="885" y="347" class="n">575 W TGP</text>
+  <text x="30" y="417" class="t">Microondas</text><rect x="250" y="392" width="455" height="32" rx="9" fill="#9a3412" stroke="#fed7aa" class="bar"/><text x="885" y="417" class="n">~1–1.8 kW</text>
+  <text x="30" y="487" class="t">Aire acond.</text><rect x="250" y="462" width="515" height="32" rx="9" fill="#b45309" stroke="#fde68a" class="bar"/><text x="885" y="487" class="n">~1–5 kW</text>
+  <text x="30" y="557" class="t">Rack GB300</text><rect x="250" y="532" width="610" height="32" rx="9" fill="#7f1d1d" stroke="#fecaca" class="bar"/><text x="885" y="557" class="n">hasta 142 kW</text>
+  <text x="480" y="676" class="h" style="font-size:28px">energía = potencia × tiempo · 575 W × 1 h = 0.575 kWh</text>
 </svg>

@@ -4,7 +4,7 @@ title: "Memoria y movimiento de datos"
 nav_title: "Memoria y datos"
 summary: "Cómo capacidad, latencia, ancho de banda y localidad explican dónde se detiene un programa."
 status: ready
-estimated_time: "25 minutos"
+estimated_time: "17 minutos"
 tags: [memoria, almacenamiento, ancho-de-banda, localidad]
 ---
 
@@ -14,9 +14,13 @@ La intuición central es esta: **guardar un dato y llevarlo al cómputo son trab
 
 ## Una jerarquía, no una bodega
 
+### Ejemplo de juguete: buscar una palabra
+
+Imagina que necesitas una palabra para terminar una oración. Puede estar abierta frente a ti, en un libro sobre la mesa, en una caja del edificio o en una biblioteca de otra ciudad. La palabra ocupa lo mismo; **el costo de alcanzarla cambia**. La computadora combina memorias pequeñas y cercanas con otras grandes y lejanas por esa razón.
+
 ![Jerarquía de memoria desde registros hasta almacenamiento o red; flechas verdes llevan datos y operandos hacia arriba, y flechas ámbar llevan resultados y desalojos hacia abajo.](../_assets/jerarquia-memoria-datos.svg)
 
-*Diagrama propio del curso, SVG accesible, 2026.*
+*Diagrama propio del curso, SVG accesible, 2026. Usa escala logarítmica de latencia: cada salto horizontal representa aproximadamente diez veces más espera.*
 
 **Lectura visual:** de arriba abajo aparecen registros, cachés, RAM o VRAM y SSD o red. Para calcular, los datos recorren esas capas hacia arriba; resultados y datos desalojados también pueden bajar. Al acercarse al cómputo suele disminuir la capacidad y la latencia, mientras sube el costo por byte. Ninguna capa lejana alimenta instantáneamente a las unidades de ejecución.
 
@@ -27,6 +31,28 @@ Cada nivel resuelve un compromiso:
 - **RAM:** conjunto de trabajo activo del sistema y de los procesos. Es volátil y mucho mayor que las cachés.
 - **Almacenamiento local:** SSD u otro medio persistente. Conserva más datos, pero entregarlos tarda más.
 - **Almacenamiento remoto:** objetos, archivos o bloques alcanzados por red. Puede crecer mucho, a cambio de más etapas y variabilidad.
+
+| Nivel | Latencia típica orientativa | Capacidad común | Si 1 ns fuera 1 s | Costo relativo por byte |
+|---|---:|---:|---:|---|
+| Registro | menos de 1 ns | bytes–KB por core | menos de 1 s | Muy alto |
+| L1 | cerca de 1 ns | decenas–cientos de KiB | cerca de 1 s | Muy alto |
+| L2 | 3–5 ns | cientos de KiB–MiB | 3–5 s | Alto |
+| L3 | 10–30 ns | decenas–cientos de MiB | 10–30 s | Alto |
+| RAM/VRAM | 60–150 ns | GB–TB | 1–2.5 min | Medio |
+| SSD NVMe | 50–300 µs | cientos de GB–TB | 14 h–3.5 días | Bajo |
+| Red | 0.5–100 ms | remota, potencialmente PB | 6 días–3 años | Variable |
+
+**ESTIMATE (confianza media):** son órdenes de magnitud docentes. Arquitectura, carga, congestión, aciertos de caché y dispositivo cambian cada cifra. La analogía multiplica todas las latencias por $10^9$; permite sentir la distancia, no predecir un equipo.
+
+### Recorrido de un dato
+
+1. El programa solicita un elemento de un archivo.
+2. Si no está en RAM, el sistema espera al SSD o a la red.
+3. La CPU carga una línea de RAM a sus cachés.
+4. La instrucción coloca el operando en un registro.
+5. La unidad de ejecución opera y el resultado puede recorrer la jerarquía en sentido contrario.
+
+Un acierto en caché omite pasos. Un fallo obliga a bajar. El programa ve una carga; la máquina puede realizar varias transferencias.
 
 “Cerca” describe una ruta física y lógica, no una dirección en el código. Un arreglo puede tener un nombre local y, aun así, provocar lecturas desde RAM, migraciones entre memorias o tráfico de red.
 
@@ -45,6 +71,12 @@ La proximidad tampoco es gratuita. Memoria más cercana al cómputo suele ofrece
 | Se estanca un bloque grande | Ancho de banda |
 
 ## Dos caminos hacia el cómputo
+
+![Dos rutas paralelas muestran los escalones desde SSD o red hasta una operación: la CPU atraviesa RAM, cachés y registros; la GPU dedicada añade interconexión, VRAM, cachés y registros propios.](../_assets/rutas-cpu-gpu.svg)
+
+*Diagrama propio del curso, SVG accesible, 2026.*
+
+**Lectura visual:** ambos caminos terminan en registros. La ruta GPU agrega una frontera visible entre RAM y VRAM. Evitar o amortizar ese cruce puede importar más que acelerar una operación aislada.
 
 En una ruta centrada en CPU, el camino conceptual es **SSD o red → RAM → cachés CPU → registros CPU → operación**.
 
@@ -97,6 +129,13 @@ Una carga revela su límite por síntomas distintos:
 - Repetición de copias del mismo bloque: colocación y reutilización deficientes.
 
 Primero se mide el camino completo. Después se decide entre reducir bytes, agrupar I/O, mejorar localidad, conservar datos cerca del cómputo o elegir otra capacidad e interconexión. La siguiente lección conecta este movimiento con [[paralelismo-performance-energia|paralelismo, performance y energía]].
+
+## Qué debes recordar
+
+- Capacidad responde cuánto cabe; latencia, cuánto espera un acceso; ancho de banda, cuántos bytes avanzan por segundo.
+- Los datos deben llegar a registros antes de participar en una operación.
+- Cachés y reutilización evitan viajes caros; no aumentan la capacidad total del sistema.
+- “Directo” y “unificado” simplifican rutas, pero no eliminan movimiento, sincronización ni límites físicos.
 
 ## Fuentes
 

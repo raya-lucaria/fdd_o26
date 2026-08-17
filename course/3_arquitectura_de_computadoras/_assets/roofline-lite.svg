@@ -1,13 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="roof-title roof-desc" preserveAspectRatio="xMidYMid meet">
-  <title id="roof-title">Roofline simplificado</title>
-  <desc id="roof-desc">Con poca reutilización, el rendimiento está limitado por mover datos desde memoria. Con mayor reutilización, el techo de cómputo se vuelve el límite.</desc>
-  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#3f1d2e"/></linearGradient></defs>
-  <style>.head{font:700 46px system-ui,sans-serif;fill:#fff;text-anchor:middle}.label{font:700 40px system-ui,sans-serif;fill:#e2e8f0;text-anchor:middle}.axis{stroke:#cbd5e1;stroke-width:6}.line{fill:none;stroke:#67e8f9;stroke-width:12;stroke-linecap:round}</style>
-  <rect width="960" height="620" rx="36" fill="url(#bg)"/>
-  <text x="480" y="62" class="head">Reutilizar datos cambia el límite</text>
-  <path d="M138 506H864M138 506V126" class="axis"/>
-  <path d="M180 468L496 190H824" class="line"/>
-  <text x="314" y="312" class="label" fill="#67e8f9">memoria</text><text x="692" y="164" class="label" fill="#fde68a">cómputo</text>
-  <text x="480" y="566" class="head">Más ops/byte → reutilización</text>
-  <text x="102" y="330" class="label" transform="rotate(-90 102 330)">rendimiento</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" role="img" aria-labelledby="roof-title roof-desc">
+  <title id="roof-title">Roofline explicado con suma vectorial y multiplicación de matrices</title>
+  <desc id="roof-desc">El rendimiento máximo es el menor entre la recta de ancho de banda y el techo horizontal de cómputo. La suma vectorial aparece a la izquierda, limitada por memoria; una multiplicación de matrices con bloques reutilizados aparece cerca del techo de cómputo.</desc>
+  <defs><linearGradient id="bg-roof" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#3f1d2e"/></linearGradient></defs>
+  <style>.h{font:800 36px system-ui,sans-serif;fill:#fff;text-anchor:middle}.t{font:750 22px system-ui,sans-serif;fill:#fff}.s{font:600 19px system-ui,sans-serif;fill:#cbd5e1}.axis{stroke:#cbd5e1;stroke-width:5}.roof{fill:none;stroke:#67e8f9;stroke-width:10;stroke-linecap:round}.guide{stroke:#64748b;stroke-width:2;stroke-dasharray:8 8}.pt{stroke:#fff;stroke-width:3}</style>
+  <rect width="960" height="700" rx="32" fill="url(#bg-roof)"/><text x="480" y="46" class="h">Roofline: el techo más bajo gana</text>
+  <rect x="120" y="105" width="375" height="420" rx="18" fill="#164e63" opacity=".32"/><rect x="495" y="105" width="345" height="420" rx="18" fill="#6d28d9" opacity=".24"/>
+  <text x="290" y="138" class="t" text-anchor="middle">LIMITA MEMORIA</text><text x="675" y="138" class="t" text-anchor="middle">LIMITA CÓMPUTO</text>
+  <path d="M130 525H865M130 525V105" class="axis"/><path d="M165 485L510 190H825" class="roof"/>
+  <text x="300" y="305" class="t" transform="rotate(-40 300 305)">B × intensidad</text><text x="660" y="174" class="t">pico de cómputo</text>
+  <line x1="300" y1="525" x2="300" y2="370" class="guide"/><circle cx="300" cy="370" r="13" fill="#fbbf24" class="pt"/><text x="185" y="350" class="t">A + B → C</text><text x="185" y="377" class="s">1 FLOP / 12 B</text>
+  <line x1="665" y1="525" x2="665" y2="190" class="guide"/><circle cx="665" cy="190" r="13" fill="#34d399" class="pt"/><text x="685" y="235" class="t">matmul en bloques</text><text x="685" y="262" class="s">reutiliza datos</text>
+  <text x="500" y="575" class="t" text-anchor="middle">Intensidad aritmética · FLOP por byte →</text><text x="72" y="335" class="t" transform="rotate(-90 72 335)" text-anchor="middle">Rendimiento · FLOPS</text>
+  <rect x="105" y="615" width="750" height="54" rx="16" fill="#78350f" stroke="#fbbf24" stroke-width="3"/><text x="480" y="648" class="s" text-anchor="middle">La ejecución real queda debajo: latencia, ramas y sincronización también cuestan.</text>
 </svg>

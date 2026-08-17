@@ -11,6 +11,12 @@
 | escala-energia.svg | Escalas de potencia y energía | Diagrama propio del curso, 2026 |
 | memoria-ai.svg | Componentes de memoria de inferencia y entrenamiento | Diagrama propio del curso, 2026 |
 | escala-decision.svg | Escala del chip al centro de datos | Diagrama propio del curso, 2026 |
+| threads-cores-simd.svg | Flujo de programa a threads, cores, SIMD y datos | Diagrama propio del curso, 2026 |
+| latencia-throughput.svg | Líneas de tiempo y cocina para latencia y throughput | Diagrama propio del curso, 2026 |
+| rutas-cpu-gpu.svg | Rutas de datos desde SSD o red hasta CPU y GPU | Diagrama propio del curso, 2026 |
+| precision-parametros.svg | Bytes por parámetro en cinco precisiones | Diagrama propio del curso, 2026 |
+| dense-moe.svg | Activación de parámetros en modelos densos y MoE | Diagrama propio del curso, 2026 |
+| prefill-decode.svg | Fases de prefill, caché KV y decode | Diagrama propio del curso, 2026 |
 | real-macbook-m5.webp | MacBook Pro de 14 pulgadas con M5 | AzureSaturn, Wikimedia Commons, CC0 1.0; redimensionada |
 | real-rtx-5090.webp | Palit GeForce RTX 5090 GameRock | PantheraLeo1359531, Wikimedia Commons, CC BY 4.0; redimensionada |
 | real-tsubame4-node.webp | Nodo de TSUBAME 4.0 con cuatro GPU H100 | Fukumoto, Wikimedia Commons, CC BY-SA 4.0; redimensionada |

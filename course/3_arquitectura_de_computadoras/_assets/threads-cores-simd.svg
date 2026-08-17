@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 660" role="img" aria-labelledby="tcs-title tcs-desc">
+  <title id="tcs-title">De un programa a datos procesados con threads, cores y SIMD</title>
+  <desc id="tcs-desc">Un programa se divide en dos threads. Cada thread avanza en un core y una instrucción SIMD aplica la misma suma a cuatro datos. Una barrera final recuerda que el paralelismo sólo ayuda cuando existe trabajo independiente.</desc>
+  <defs><linearGradient id="bg-tcs" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#172554"/></linearGradient><marker id="arr-tcs" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9Z" fill="#67e8f9"/></marker></defs>
+  <style>.h{font:800 38px system-ui,sans-serif;fill:#fff;text-anchor:middle}.t{font:700 27px system-ui,sans-serif;fill:#fff;text-anchor:middle}.s{font:600 22px system-ui,sans-serif;fill:#cbd5e1;text-anchor:middle}.b{stroke-width:3}.a{fill:none;stroke:#67e8f9;stroke-width:5;marker-end:url(#arr-tcs)}</style>
+  <rect width="960" height="660" rx="32" fill="url(#bg-tcs)"/><text x="480" y="50" class="h">Tres escalas de paralelismo</text>
+  <rect x="350" y="78" width="260" height="68" rx="18" fill="#6d28d9" stroke="#ddd6fe" class="b"/><text x="480" y="121" class="t">Programa</text>
+  <path d="M440 146L250 205M520 146L710 205" class="a"/>
+  <rect x="90" y="205" width="320" height="72" rx="18" fill="#164e63" stroke="#67e8f9" class="b"/><text x="250" y="249" class="t">Thread A · flujo</text>
+  <rect x="550" y="205" width="320" height="72" rx="18" fill="#164e63" stroke="#67e8f9" class="b"/><text x="710" y="249" class="t">Thread B · flujo</text>
+  <path d="M250 277V326M710 277V326" class="a"/>
+  <rect x="105" y="326" width="290" height="76" rx="20" fill="#0e7490" stroke="#a5f3fc" class="b"/><text x="250" y="373" class="t">Core 1</text>
+  <rect x="565" y="326" width="290" height="76" rx="20" fill="#0e7490" stroke="#a5f3fc" class="b"/><text x="710" y="373" class="t">Core 2</text>
+  <path d="M250 402V448M710 402V448" class="a"/>
+  <rect x="70" y="448" width="360" height="110" rx="20" fill="#4338ca" stroke="#c7d2fe" class="b"/><text x="250" y="486" class="t">SIMD: sumar +1</text><text x="250" y="527" class="s">[2, 4, 6, 8] → [3, 5, 7, 9]</text>
+  <rect x="530" y="448" width="360" height="110" rx="20" fill="#4338ca" stroke="#c7d2fe" class="b"/><text x="710" y="486" class="t">SIMD: sumar +1</text><text x="710" y="527" class="s">[1, 3, 5, 7] → [2, 4, 6, 8]</text>
+  <rect x="115" y="590" width="730" height="46" rx="16" fill="#78350f" stroke="#fbbf24" class="b"/><text x="480" y="621" class="s">Sólo acelera si hay flujos y datos independientes</text>
+</svg>

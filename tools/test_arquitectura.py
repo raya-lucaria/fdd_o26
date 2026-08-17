@@ -61,12 +61,15 @@ def test_unit_has_index_and_four_lessons_with_raya_frontmatter():
 def test_unit_keeps_scope_and_adhd_friendly_shape():
     prose = "\n".join(body(path) for path in PAGES)
     words = len(prose.split())
-    assert 5700 <= words <= 6300
-    assert "125 minutos" in prose
-    assert prose.count("**FACT") >= 8
-    assert prose.count("**DERIVED") >= 5
-    assert prose.count("**ESTIMATE") >= 1
+    assert 7500 <= words <= 13000
+    assert "90 minutos" in prose
+    assert prose.count("**FACT") >= 15
+    assert prose.count("**DERIVED") >= 10
+    assert prose.count("**ESTIMATE") >= 5
     assert "## Siete modelos mentales" in prose
+    assert prose.count("## Qué debes recordar") == 5
+    assert prose.count("|---") >= 12
+    assert "Ejemplo de juguete" in prose
     assert not re.search(r"<(?:img|div|figure|span|details)\b", prose)
     for paragraph in re.split(r"\n\s*\n", prose):
         if not paragraph.startswith(("|", "-", "1.", "2.", "3.", "4.", "5.")):
@@ -98,6 +101,12 @@ def test_assets_have_exact_credits_alt_and_text_fallbacks():
         "real-rtx-5090.webp",
         "real-tsubame4-node.webp",
         "roofline-lite.svg",
+        "threads-cores-simd.svg",
+        "latencia-throughput.svg",
+        "rutas-cpu-gpu.svg",
+        "precision-parametros.svg",
+        "dense-moe.svg",
+        "prefill-decode.svg",
     }
     actual = {path.name for path in ASSETS.iterdir() if path.name != "CREDITOS.md"}
     assert actual == expected
@@ -105,8 +114,23 @@ def test_assets_have_exact_credits_alt_and_text_fallbacks():
     for name in expected:
         assert f"| {name} |" in credits
     prose = "\n".join(body(path) for path in PAGES)
-    assert prose.count("![") == 12
-    assert prose.count("**Lectura visual:**") == 9
+    assert prose.count("![") >= 18
+    assert prose.count("**Lectura visual:**") >= 15
+
+
+def test_required_beginner_visual_topics_and_current_models_are_present():
+    compute = body(PAGES[1])
+    memory = body(PAGES[2])
+    performance = body(PAGES[3])
+    ai = body(PAGES[4])
+    assert all(term in compute for term in ("threads-cores-simd.svg", "latencia-throughput.svg"))
+    assert "rutas-cpu-gpu.svg" in memory
+    assert all(term in memory for term in ("L1", "L2", "L3", "escala logarítmica"))
+    assert all(term in performance for term in ("FLOP/byte", "foco LED", "microondas", "aire acondicionado"))
+    assert all(term in ai for term in ("precision-parametros.svg", "dense-moe.svg", "prefill-decode.svg"))
+    assert all(term in ai for term in ("GPT-5.6", "Claude Fable 5", "Gemini 3.6 Flash", "Kimi K3", "Qwen3.7"))
+    assert "Confianza" in ai
+    assert "no divulgado" in ai
 
 
 def test_notebook_is_executed_and_practice_is_only_at_end():

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 650" role="img" aria-labelledby="pp-title pp-desc">
+  <title id="pp-title">Diez parámetros ocupan distinta memoria según su precisión</title>
+  <desc id="pp-desc">Diez parámetros requieren cuarenta bytes en FP32, veinte en BF16, diez en INT8 y cinco en INT4. Reducir bits reduce memoria de pesos, pero no todos los demás buffers.</desc>
+  <defs><linearGradient id="bg-pp" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#3b0764"/></linearGradient></defs>
+  <style>.h{font:800 38px system-ui,sans-serif;fill:#fff;text-anchor:middle}.t{font:750 25px system-ui,sans-serif;fill:#fff}.s{font:600 21px system-ui,sans-serif;fill:#cbd5e1}.bar{stroke-width:3}</style>
+  <rect width="960" height="650" rx="32" fill="url(#bg-pp)"/><text x="480" y="50" class="h">Mismos 10 números, distinto espacio</text>
+  <text x="75" y="118" class="t">FP32 · 32 bits</text><rect x="300" y="88" width="560" height="48" rx="14" fill="#7e22ce" stroke="#e9d5ff" class="bar"/><text x="580" y="120" class="t" text-anchor="middle">10 × 4 bytes = 40 bytes</text>
+  <text x="75" y="218" class="t">BF16 · 16 bits</text><rect x="300" y="188" width="280" height="48" rx="14" fill="#4338ca" stroke="#c7d2fe" class="bar"/><text x="440" y="220" class="t" text-anchor="middle">20 bytes</text>
+  <text x="75" y="318" class="t">INT8 · 8 bits</text><rect x="300" y="288" width="140" height="48" rx="14" fill="#0e7490" stroke="#a5f3fc" class="bar"/><text x="370" y="320" class="t" text-anchor="middle">10 B</text>
+  <text x="75" y="418" class="t">INT4 · 4 bits</text><rect x="300" y="388" width="70" height="48" rx="14" fill="#047857" stroke="#6ee7b7" class="bar"/><text x="395" y="420" class="t">5 B</text>
+  <rect x="90" y="500" width="780" height="105" rx="20" fill="#78350f" stroke="#fbbf24" class="bar"/><text x="480" y="540" class="t" text-anchor="middle">8 bits = 1 byte</text><text x="480" y="576" class="s" text-anchor="middle">Cuantizar pesos no reduce automáticamente KV, activaciones ni temporales.</text>
+</svg>
