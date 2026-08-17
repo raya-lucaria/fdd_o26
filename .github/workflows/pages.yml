@@ -31,7 +31,7 @@ jobs:
   # suite falle.
   course-pages:
     needs: checks
-    uses: raya-lucaria/raya-lucaria.github.io/.github/workflows/reusable-course-pages.yml@dd1fdba995870b817020732674c81e4b55f4fa4a
+    uses: raya-lucaria/raya-lucaria.github.io/.github/workflows/reusable-course-pages.yml@dd1fdba4e16cb79fa5515eb689fabbc74014f3b6
     with:
       course_path: .
     permissions:
