@@ -1,0 +1,29 @@
+id: videos-terminal
+type: assignment
+authority: official
+content:
+  title: "Ver cinco videos: de registros a sistemas de archivos"
+  instructions: >-
+    Ve estos cinco videos antes de la clase del 20 de agosto. Siguen el camino
+    de una instrucción: desde los registros y la CPU hasta el sistema operativo,
+    el almacenamiento y los archivos.
+  resources:
+    - title: "Registers and RAM: Crash Course Computer Science #6"
+      url: "https://www.youtube.com/watch?v=fpnE6UAfbtU"
+      note: "Distingue los registros de la RAM y su papel durante la ejecución."
+    - title: "The Central Processing Unit (CPU): Crash Course Computer Science #7"
+      url: "https://www.youtube.com/watch?v=FZGugFqdr60"
+      note: "Explica cómo la CPU ejecuta instrucciones y coordina sus componentes."
+    - title: "Operating Systems: Crash Course Computer Science #18"
+      url: "https://www.youtube.com/watch?v=26QPDBe-NB8"
+      note: "Presenta al sistema operativo como intermediario entre programas y hardware."
+    - title: "Memory & Storage: Crash Course Computer Science #19"
+      url: "https://www.youtube.com/watch?v=TQCr9RV7twk"
+      note: "Relaciona memoria temporal, almacenamiento persistente y sus diferencias."
+    - title: "Files & File Systems: Crash Course Computer Science #20"
+      url: "https://www.youtube.com/watch?v=KN8YgJnShPM"
+      note: "Muestra cómo el sistema de archivos organiza y localiza los datos guardados."
+  due: "2026-08-20"
+  points: 0
+  status: published
+  tags: [hardware, cpu, memoria, almacenamiento, preparacion]
