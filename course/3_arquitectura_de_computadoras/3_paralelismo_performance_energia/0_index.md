@@ -51,55 +51,72 @@ Menos bits no garantiza calidad. Un pico *sparse* supone ceros aprovechables y n
 
 ## Roofline conecta cómputo y memoria
 
-### Una suma vectorial con cuentas visibles
+Roofline responde una pregunta concreta: **queremos saber si este trabajo queda limitado por la velocidad de la memoria o por la capacidad de cálculo del chip.** Sigamos una suma real, primero en una posición y después en una lista completa.
 
-**Operación.** Sumemos 1,000 elementos FP32: `C[i] = A[i] + B[i]`.
+### 1. Una posición: qué entra y qué sale
 
-**Bytes.** En la frontera elegida contamos tráfico lógico mínimo: `A`, `B` y `C` por separado. Cada arreglo ocupa 1,000 × 4 bytes, así que hay 4,000 + 4,000 + 4,000 = **12,000 bytes** mínimos. Esta cuenta incluye dos lecturas y una escritura por elemento.
+Tenemos tres listas de números: `A`, `B` y `C`. Los corchetes indican una posición; `[0]` es la **primera posición**.
 
-**FLOP.** Las 1,000 sumas realizan **1,000 FLOP**.
+`C[0] = A[0] + B[0]`
 
-**Intensidad.** Por cada elemento hay 1 FLOP y 12 bytes, por lo que
+Cada número está en **FP32**, un formato que ocupa **4 bytes**. Para hacer una cuenta sencilla, contamos dos lecturas y una escritura entre la memoria y el chip:
 
-$$I = \frac{1}{12} = 0.083333\ldots \approx \mathbf{0.083\ FLOP/byte}$$
+1. leer `A[0]`: 4 bytes;
+2. leer `B[0]`: 4 bytes;
+3. sumar ambos números: 1 FLOP;
+4. guardar `C[0]`: 4 bytes.
 
-**Hardware docente hipotético.** Supongamos 100 GB/s decimales de ancho de banda y 2 TFLOPS FP32 de pico, equivalentes a 2,000 GFLOPS. Aquí GB/s usa $10^9$ byte/s y TFLOPS usa $10^{12}$ FLOP/s: no se están usando prefijos binarios.
+Por tanto, mueve 4 + 4 + 4 = **12 bytes** y hace **1 FLOP**. Movemos muchos datos para hacer poco cálculo.
 
-La memoria puede alimentar esta intensidad hasta
+### 2. La misma cuenta para 1,000 posiciones
 
-$$
-(100\times10^9\ \mathrm{byte/s})\times\left(\frac{1}{12}\ \mathrm{FLOP/byte}\right)
-= 8.333\ldots\times10^9\ \mathrm{FLOP/s}
-\approx \mathbf{8.3\ GFLOPS}.
-$$
+Para **1,000 elementos**, multiplicamos ambas cantidades por 1,000:
 
-La cuenta cancela la unidad intermedia: `(byte/s) × (FLOP/byte) = FLOP/s`. Comparamos 8.3 GFLOPS con 2,000 GFLOPS antes de elegir: el menor limita, así que para esta suma el techo del modelo es 8.3 GFLOPS, limitado por memoria.
+- datos: 12 bytes × 1,000 = **12,000 bytes**;
+- cálculo: 1 FLOP × 1,000 = **1,000 FLOP**.
 
-El cambio de régimen ocurre en
+La proporción no cambia: `1,000 ÷ 12,000 = 1 ÷ 12 ≈ 0.083`. En palabras: hacemos **1 suma por cada 12 bytes movidos**. Su abreviatura es **0.083 FLOP/byte**. Esa proporción entre cálculo y datos se llama **intensidad aritmética**.
 
-$$I^* = \frac{2{,}000\ \mathrm{GFLOPS}}{100\ \mathrm{GB/s}} = \mathbf{20\ FLOP/byte}.$$
+### 3. Cuánto trabajo puede alimentar la memoria
 
-Por debajo de 20 FLOP/byte manda la memoria de este ejemplo; a partir de 20, el pico de cómputo puede ser el menor techo.
+Supongamos un hardware hipotético con dos límites:
 
-![Roofline numérico para hardware docente hipotético de 100 GB/s decimal y 2 TFLOPS FP32 = 2,000 GFLOPS: la suma de 1,000 elementos tiene 0.083 FLOP/byte y un techo de memoria de 8.3 GFLOPS, menor que el pico. El quiebre está en 20 FLOP/byte; una multiplicación matricial por bloques sólo podría entrar en la zona de cómputo al alcanzar al menos esa intensidad.](../_assets/roofline-lite.svg)
+- **100 GB/s:** datos que la memoria puede entregar por segundo;
+- **2 TFLOPS FP32 = 2,000 GFLOPS:** operaciones que el chip podría calcular por segundo.
+
+Ahora calculamos cuántas operaciones por segundo puede sostener la memoria para esta suma.
+
+`100 GB/s × 0.083 FLOP/byte ≈ 8.3 GFLOPS`
+
+Los bytes se cancelan: `(bytes/s) × (FLOP/byte) = FLOP/s`. Aquí usamos prefijos decimales: 1 GB son $10^9$ bytes y 1 GFLOP son $10^9$ FLOP.
+
+### 4. Elegir el techo que realmente limita
+
+| Techo | Resultado para esta suma |
+|---|---:|
+| Memoria | 8.3 GFLOPS |
+| Cómputo del chip | 2,000 GFLOPS |
+| **Limita memoria: elige el menor** | **8.3 GFLOPS** |
+
+`min` significa **escoger el número menor**. En este caso, `min(2,000, 8.3) = 8.3`. El chip podría calcular mucho más rápido, pero la memoria sólo puede entregarle datos suficientes para sostener unos 8.3 GFLOPS.
+
+![Resumen Roofline de hardware hipotético con 100 GB/s y 2 TFLOPS FP32, equivalentes a 2,000 GFLOPS: para una suma de intensidad 0.083 FLOP/byte, el techo de memoria es 8.3 GFLOPS y limita el rendimiento; ambos techos se igualan en 20 FLOP/byte.](../_assets/roofline-lite.svg)
 
 *Diagrama propio del curso, SVG accesible, 2026.*
 
-**Lectura visual:** la tarjeta repite 12,000 bytes, 1,000 FLOP y 0.083 FLOP/byte. Ambos ejes son logarítmicos: el horizontal marca 0.083, 1 y 20 FLOP/byte; el vertical marca 8.3, 100 y 2,000 GFLOPS. Por eso la recta de memoria y el techo de cómputo se leen como líneas rectas. El rombo de la suma está en 0.083 FLOP/byte y 8.3 GFLOPS, muy debajo de 2,000; el círculo matricial necesitaría al menos 20 FLOP/byte para llegar a la zona limitada por cómputo.
+**Lectura visual:** la línea inclinada es lo que puede alimentar la memoria; la línea horizontal es lo que puede calcular el chip. El punto de la suma cae en 8.3 GFLOPS. Como está muy por debajo del techo de 2,000 GFLOPS, limita la memoria. El **quiebre, 20 FLOP/byte**, es el punto donde ambos techos se igualan; no hace falta calcularlo para entender esta suma.
 
-Una multiplicación matricial por bloques puede reutilizar cada dato en varias operaciones y elevar su intensidad. No es un benchmark universal ni una promesa de rendimiento: con este hardware hipotético sólo podría alcanzar la zona limitada por cómputo si logra al menos 20 FLOP/byte.
+### Resumen opcional: la fórmula general
 
-En general, la intensidad es trabajo dividido entre tráfico y el Roofline-lite expresa el límite:
+La intensidad $I$ es el número de FLOP dividido entre los bytes movidos:
 
 $$I = \frac{\text{FLOP}}{\text{bytes movidos}}$$
 
 $$P \leq \min(P_{pico},\ B_{memoria}\times I)$$
 
-El valor de 8.3 GFLOPS es un techo del modelo, no rendimiento observado para un arreglo de 12 kB. Los 12,000 bytes son tráfico lógico mínimo en esta frontera: caché, *write-allocate*, *writeback*, alineación y *prefetch* pueden cambiar el tráfico observado; si los datos residen en caché, el tráfico DRAM puede ser menor.
+$P$ es el rendimiento posible, $P_{pico}$ es el techo de cálculo y $B_{memoria}\times I$ es el techo impuesto por la memoria. La función $\min$ elige el menor de esos dos techos.
 
-En la pendiente conviene mover menos bytes, mejorar localidad o ancho de banda. En la meseta conviene usar mejor las unidades, aumentar paralelismo o elegir otra precisión compatible.
-
-Roofline no predice por sí solo una solicitud pequeña: latencia, arranque, dependencias, ramas y sincronización también alejan una ejecución del techo. Ancho de banda es volumen por tiempo; latencia es espera. Ambos se miden.
+Roofline da una **estimación favorable**, no un rendimiento medido. Los 12 bytes son una cuenta mínima de dos lecturas y una escritura; las cachés y la forma de guardar los datos pueden cambiar el tráfico real. La máquina también pierde tiempo al iniciar y coordinar el trabajo.
 
 ## Pico, benchmark y aplicación son capas distintas
 

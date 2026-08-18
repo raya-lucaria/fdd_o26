@@ -141,6 +141,9 @@ def test_roofline_uses_a_traceable_numeric_example_without_kitchen_analogy():
     assert all(
         term in roofline
         for term in (
+            "C[0] = A[0] + B[0]",
+            "primera posición",
+            "4 + 4 + 4 = **12 bytes**",
             "1,000 elementos",
             "12,000 bytes",
             "1,000 FLOP",
@@ -148,25 +151,32 @@ def test_roofline_uses_a_traceable_numeric_example_without_kitchen_analogy():
             "100 GB/s",
             "2 TFLOPS",
             "8.3 GFLOPS",
+            "elige el menor",
         )
     )
+    assert all(label in roofline for label in ("Memoria", "Cómputo del chip", "Limita memoria"))
     assert "cocina" not in roofline.lower()
     assert "ejemplo de juguete" not in roofline.lower()
+    assert "write-allocate" not in roofline.lower()
+    assert "writeback" not in roofline.lower()
+    assert "prefetch" not in roofline.lower()
+    assert "multiplicación matricial" not in roofline.lower()
 
 
-def test_roofline_svg_declares_log_axes_and_repeats_the_numeric_contract():
+def test_roofline_svg_is_compact_and_summarizes_without_repeating_the_arithmetic():
     performance = body(PAGES[3])
     alt = re.search(r"!\[([^]]+)]\(\.\./_assets/roofline-lite\.svg\)", performance)
     assert alt
     root = ET.parse(ASSETS / "roofline-lite.svg").getroot()
     namespace = {"svg": "http://www.w3.org/2000/svg"}
     assert root.attrib["width"] == "640"
-    assert root.attrib["height"] == "1600"
+    assert root.attrib["height"] == "720"
+    assert root.attrib["viewBox"] == "0 0 320 360"
     title = root.findtext("svg:title", namespaces=namespace)
     desc = root.findtext("svg:desc", namespaces=namespace)
     svg_text = " ".join(root.itertext())
     required = (
-        "100 GB/s decimal",
+        "100 GB/s",
         "2 TFLOPS FP32",
         "2,000 GFLOPS",
         "0.083 FLOP/byte",
@@ -176,19 +186,10 @@ def test_roofline_svg_declares_log_axes_and_repeats_the_numeric_contract():
     assert all(term in alt.group(1) for term in required)
     assert all(term in title for term in required)
     assert all(term in desc for term in required)
-    assert "GFLOPS (log)" in svg_text
-    assert "100" in svg_text
-    assert "font-size:14px" in (ASSETS / "roofline-lite.svg").read_text(encoding="utf-8")
-    paths = {node.attrib.get("class"): node.attrib.get("d") for node in root.findall("svg:path", namespace)}
-
-    def points(path):
-        return [tuple(map(int, match)) for match in re.findall(r"[ML](\d+) (\d+)", path)]
-
-    roof = points(paths["roof"])
-    memory = points(paths["memory"])
-    assert roof[:4] == [(50, 663), (80, 635), (154, 565), (244, 480)]
-    assert memory == [roof[0], roof[3]]
-    assert roof[3][1] == roof[4][1]
+    assert "12,000 bytes" not in svg_text
+    assert "1,000 sumas" not in svg_text
+    assert "multiplicación matricial" not in svg_text
+    assert "limita memoria" in svg_text.lower()
 
 
 def test_notebook_is_executed_and_practice_is_only_at_end():
