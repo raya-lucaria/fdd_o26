@@ -70,7 +70,7 @@ rendimiento pico teórico = aceleradores homogéneos × FLOP/s pico por acelerad
 potencia nominal de aceleradores = aceleradores × watts nominales por acelerador
 accelerator-hours = aceleradores asignados promedio × horas calendario
 CAPEX accelerator-only = aceleradores × precio de la unidad transable
-CAPEX system-based = sistemas completos + red intersistema no incluida
+CAPEX system-based = sistemas × precio/sistema + Σ(componentes de red no incluidos × precio/componente)
 ```
 
 El pico teórico sólo se sumará para hardware homogéneo con idéntica precisión, modalidad tensorial, dense/sparse y acumulación; FP64, TF32, FP16, BF16 y FP8 serán series distintas. Nunca se tratará como rendimiento observado ni se multiplicará por tiempo para afirmar cómputo real; el cómputo de entrenamiento en FLOP aparecerá sólo publicado o derivado con eficiencia explícita. Se añadirá MFU o tasa sostenida únicamente si existe fuente.
@@ -84,7 +84,7 @@ HBM física instalada no equivale a HBM utilizable. Se separarán HBM total, HBM
 3. Entrenamientos documentados, divididos en tabla esencial y ledger: modelo, alcance, fecha, parámetros, tokens, hardware, aceleradores concurrentes, accelerator-hours, duración, HBM física, pico teórico por precisión, watts y CAPEX con base homogénea.
 4. Modelos actuales: hechos públicos y estados de no-identificabilidad; escenarios comparables en una tabla separada, nunca atribuidos al modelo.
 5. Inferencia de capacidad: artefacto, formato, piso de pesos, escalas/metadata, runtime, KV por capa/token, batch, contexto, activaciones/workspace, reserva, topología y sistema adquirible mínimo; se rotulará “cabe, sin SLA”.
-6. Inferencia operacional: sólo con throughput medido/publicado; carga docente fija, tokens entrada/salida, concurrencia, TTFT/p95, batch, contexto, utilización máxima, interconexión y N+1. Sin throughput se omitirá el CAPEX de producción comparable.
+6. Inferencia operacional: sólo con mediciones conjuntas de throughput de salida y TTFT p95 bajo el mismo artefacto, runtime, hardware, scheduler, batch, warmup, contexto, concurrencia y utilización. N+1 declarará unidad y dominio de falla. Si falta una dimensión, se mostrarán únicamente resultados parciales y el cumplimiento/CAPEX operacional será `ESTIMATION_NOT_IDENTIFIABLE`.
 7. Supuestos de precio con `price_basis`, fecha, moneda, región, condición, canal, impuestos, soporte y componentes.
 
 Las celdas usarán los estados definidos; nunca quedarán vacías. Una fila podrá mezclar estados porque cada cifra conservará su ID de evidencia.
@@ -104,7 +104,7 @@ No conectar modelos distintos como serie temporal. Una serie exigirá misma fron
 
 ## Inferencia
 
-La capacidad mínima se calculará por componentes y se redondeará a una topología realmente adquirible; “cabe” no implica latencia o throughput aceptable. El escenario docente de producción usará 16 solicitudes concurrentes, 2,048 tokens de entrada y hasta 256 de salida, objetivo agregado de 100 tokens/s, TTFT p95 máximo de 2 s, utilización máxima de 70 % y redundancia N+1. Sólo se dimensionará cuando exista throughput observado compatible para el artefacto, runtime y hardware; de lo contrario se mostrará `ESTIMATION_NOT_IDENTIFIABLE`. No se inferirá throughput desde FLOP/s pico ni costo por token desde CAPEX sin utilización, vida útil y medición.
+La capacidad mínima se calculará por componentes y se redondeará a una topología realmente adquirible; “cabe” no implica latencia o throughput aceptable. El escenario docente de producción usará 16 solicitudes concurrentes, 2,048 tokens de entrada y hasta 256 de salida, objetivo agregado de **100 tokens de salida/s**, TTFT p95 máximo de 2 s y utilización máxima de 70 %. La redundancia será N servidores activos + 1 servidor en un dominio de falla distinto. Sólo se afirmará cumplimiento cuando throughput de salida y distribución de TTFT se midan conjuntamente con el mismo artefacto, runtime, hardware, scheduler, batch, warmup y longitudes; si falta cualquier dimensión, los resultados parciales se conservarán y el cumplimiento/CAPEX operacional será `ESTIMATION_NOT_IDENTIFIABLE`. No se inferirá throughput desde FLOP/s pico ni costo por token desde CAPEX sin utilización, vida útil y medición.
 
 ## Accesibilidad y formato
 
