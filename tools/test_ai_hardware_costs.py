@@ -548,7 +548,16 @@ def test_eight_accelerator_example_preserves_each_quantity_boundary():
 def test_system_capex_counts_each_component_once():
     """Adding each network component once prevents an accidental double count."""
     network = [(2, Decimal("12000")), (1, Decimal("8000"))]
-    assert system_capex(4, Decimal("400000"), network) == Decimal("1632000")
+    assert system_capex(
+        4,
+        Decimal("400000"),
+        network,
+        price_basis={
+            "boundary": "system-based",
+            "transaction_unit": "server",
+            "network": "excluded",
+        },
+    ) == Decimal("1632000")
 
 
 def test_mixed_peak_conventions_are_rejected_before_values_are_aggregated():
@@ -660,3 +669,162 @@ def test_negative_quantities_and_prices_are_rejected():
         accelerator_capex(1, Decimal("-1"))
     with pytest.raises(ValueError, match="non-negative"):
         weight_floor_gb(Decimal("1e9"), -8)
+
+
+def test_system_capex_reads_canonical_network_basis_before_adding_parts():
+    """Ignoring the ledger's network field would double count included network."""
+    with pytest.raises(ValueError, match="network_parts"):
+        system_capex(
+            1,
+            Decimal("400000"),
+            [(1, Decimal("12000"))],
+            price_basis={
+                "boundary": "system-based",
+                "transaction_unit": "server",
+                "network": "included",
+            },
+        )
+
+
+def test_system_capex_requires_a_network_basis_when_adding_network_parts():
+    """Unknown network inclusion cannot establish the system CAPEX boundary."""
+    with pytest.raises(ValueError, match="price_basis"):
+        system_capex(1, Decimal("400000"), [(1, Decimal("12000"))])
+
+
+def test_aggregate_peaks_normalizes_convention_strings_before_comparing():
+    """Whitespace alone must not split an otherwise homogeneous peak series."""
+    entries = [
+        {
+            "hardware_id": "A100-SXM-80GB",
+            "precision": " BF16 ",
+            "sparsity": " dense ",
+            "accumulation": " FP32 ",
+            "tflops": Decimal("312"),
+        },
+        {
+            "hardware_id": "A100-SXM-80GB",
+            "precision": "BF16",
+            "sparsity": "dense",
+            "accumulation": "FP32",
+            "tflops": Decimal("312"),
+        },
+    ]
+    assert aggregate_peaks(entries) == Decimal("624")
+
+
+def test_aggregate_peaks_rejects_unhashable_convention_values_as_value_errors():
+    """A malformed convention must not escape as a set/hash implementation error."""
+    entries = [
+        {
+            "hardware_id": "A100-SXM-80GB",
+            "precision": ["BF16"],
+            "sparsity": "dense",
+            "accumulation": "FP32",
+            "tflops": Decimal("312"),
+        }
+    ]
+    with pytest.raises(ValueError, match="peak convention requires precision"):
+        aggregate_peaks(entries)
+
+
+def test_peak_rate_calculates_one_complete_theoretical_rate_series():
+    """Using a rate as if it were work would require a different, forbidden calculation."""
+    assert peak_rate_tflops(
+        8,
+        Decimal("312"),
+        {"precision": "BF16", "sparsity": "dense", "accumulation": "FP32"},
+    ) == Decimal("2496")
+
+
+@pytest.mark.parametrize(
+    ("call", "invalid"),
+    [
+        (lambda value: installed_hbm_gb(1, value), 0.5),
+        (
+            lambda value: peak_rate_tflops(
+                1,
+                value,
+                {"precision": "BF16", "sparsity": "dense", "accumulation": "FP32"},
+            ),
+            0.5,
+        ),
+        (
+            lambda value: aggregate_peaks(
+                [
+                    {
+                        "hardware_id": "A100-SXM-80GB",
+                        "precision": "BF16",
+                        "sparsity": "dense",
+                        "accumulation": "FP32",
+                        "tflops": value,
+                    }
+                ]
+            ),
+            0.5,
+        ),
+        (lambda value: accelerator_hours(1, value), 0.5),
+        (lambda value: accelerator_capex(1, value), 0.5),
+        (
+            lambda value: system_capex(
+                1,
+                value,
+                [],
+                price_basis={
+                    "boundary": "system-based",
+                    "transaction_unit": "server",
+                    "network": "excluded",
+                },
+            ),
+            0.5,
+        ),
+        (lambda value: weight_floor_gb(value, 8), 0.5),
+    ],
+)
+def test_calculation_interfaces_reject_binary_floats(call, invalid):
+    """Accepting a float would silently inject binary rounding into a Decimal ledger."""
+    with pytest.raises(TypeError, match="not float"):
+        call(invalid)
+
+
+@pytest.mark.parametrize("invalid", [Decimal("NaN"), Decimal("Infinity")])
+@pytest.mark.parametrize(
+    "call",
+    [
+        lambda value: installed_hbm_gb(1, value),
+        lambda value: peak_rate_tflops(
+            1,
+            value,
+            {"precision": "BF16", "sparsity": "dense", "accumulation": "FP32"},
+        ),
+        lambda value: aggregate_peaks(
+            [
+                {
+                    "hardware_id": "A100-SXM-80GB",
+                    "precision": "BF16",
+                    "sparsity": "dense",
+                    "accumulation": "FP32",
+                    "tflops": value,
+                }
+            ]
+        ),
+        lambda value: accelerator_hours(1, value),
+        lambda value: accelerator_capex(1, value),
+        lambda value: system_capex(
+            1,
+            value,
+            [],
+            price_basis={
+                "boundary": "system-based",
+                "transaction_unit": "server",
+                "network": "excluded",
+            },
+        ),
+        lambda value: weight_floor_gb(value, 8),
+        lambda value: bits_to_bytes(value),
+    ],
+)
+def test_decimal_interfaces_reject_non_finite_values(call, invalid):
+    """NaN and infinity cannot represent a physical quantity or price."""
+    with pytest.raises(ValueError, match="finite"):
+        call(invalid)

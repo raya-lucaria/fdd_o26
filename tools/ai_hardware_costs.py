@@ -101,13 +101,23 @@ def _entry_convention(entry: Mapping[str, Any]) -> tuple[str, ...]:
     return _convention(convention)
 
 
-def _raw_entry_convention(entry: Mapping[str, Any]) -> tuple[Any, ...]:
-    """Compare declared conventions before reporting a missing shared field."""
+def _normalized_entry_convention(entry: Mapping[str, Any]) -> tuple[str | None, ...]:
+    """Normalize declared fields before comparing incomplete peak conventions."""
     convention = entry.get("convention", entry)
     if not isinstance(convention, Mapping):
         raise TypeError("peak entry convention must be a mapping")
+
     fields = _PEAK_CONVENTION_FIELDS + _OPTIONAL_PEAK_CONVENTION_FIELDS
-    return tuple(convention.get(field) for field in fields)
+    values: list[str | None] = []
+    for field in fields:
+        value = convention.get(field)
+        if value is None:
+            values.append(None)
+        elif isinstance(value, str) and value.strip():
+            values.append(value.strip())
+        else:
+            raise ValueError(f"peak convention requires {field}")
+    return tuple(values)
 
 
 def _entry_hardware(entry: Mapping[str, Any]) -> str:
@@ -135,8 +145,8 @@ def aggregate_peaks(entries: Iterable[Mapping[str, Any]]) -> Decimal:
     if not all(isinstance(entry, Mapping) for entry in entries):
         raise TypeError("entries must contain peak mappings")
 
-    raw_conventions = [_raw_entry_convention(entry) for entry in entries]
-    if len(set(raw_conventions)) != 1:
+    normalized_conventions = [_normalized_entry_convention(entry) for entry in entries]
+    if len(set(normalized_conventions)) != 1:
         raise ValueError("aggregate_peaks requires a homogeneous peak convention")
     _entry_convention(entries[0])
 
@@ -209,11 +219,23 @@ def accelerator_capex(
     return _count(count, "count") * _nonnegative(unit_price_usd, "unit_price_usd")
 
 
-def _network_is_included(price_basis: Mapping[str, Any] | None) -> bool:
+def _network_is_explicitly_outside_system(
+    price_basis: Mapping[str, Any] | None,
+) -> bool:
+    """Whether the ledger proves that network parts are outside the system price."""
     if price_basis is None:
         return False
-    value = _basis_value(price_basis.get("network_included", False))
-    return value is True or value in {"included", "included_in_system"}
+    if "network" in price_basis:
+        value = _basis_value(price_basis["network"])
+        return isinstance(value, str) and value in {
+            "excluded",
+            "not_included",
+            "outside_system",
+        }
+
+    # Compatibility for callers that used the original provisional alias.
+    value = _basis_value(price_basis.get("network_included"))
+    return value is False or value in {"excluded", "not_included"}
 
 
 def system_capex(
@@ -227,8 +249,11 @@ def system_capex(
     _validate_price_basis(price_basis, "system-based")
     if not isinstance(network_parts, Sequence) or isinstance(network_parts, (str, bytes)):
         raise TypeError("network_parts must be a sequence of (quantity, unit price)")
-    if network_parts and _network_is_included(price_basis):
-        raise ValueError("network_parts must exclude network already included in system price")
+    if network_parts and not _network_is_explicitly_outside_system(price_basis):
+        raise ValueError(
+            "network_parts require price_basis.network to declare network outside "
+            "the system price"
+        )
 
     network_total = Decimal("0")
     for part in network_parts:
