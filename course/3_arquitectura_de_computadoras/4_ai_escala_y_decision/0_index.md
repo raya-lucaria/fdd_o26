@@ -62,9 +62,40 @@ En **entrenamiento**, *forward* crea activaciones, *backward* gradientes y el op
 
 ## La cuenta mínima de los pesos
 
-Para parámetros almacenados con precisión uniforme, sea $N_p$ su cantidad y $b$ sus bits. **FACT (convención decimal):** B representa $10^9$ y T representa $10^{12}$; GB y TB aquí también son decimales.
+Primero definimos cada símbolo:
+
+| Símbolo | Significado | Unidad |
+|---|---|---|
+| $N_p$ | número de parámetros del modelo | parámetros |
+| $b$ | bits usados por cada parámetro | bits/parámetro |
+| $M_{pesos}$ | memoria total ocupada sólo por los pesos | bytes |
+
+### Por qué dividimos entre ocho
+
+La precisión suele expresarse en **bits**, pero la memoria se cuenta en **bytes**. La conversión es:
+
+`8 bits = 1 byte`
+
+Por eso dividimos los bits entre ocho:
+
+| Precisión | Bits por parámetro | Cuenta | Bytes por parámetro |
+|---|---:|---:|---:|
+| FP32 | 32 bits | `32 ÷ 8 = 4 bytes` | 4 bytes |
+| BF16 | 16 bits | `16 ÷ 8 = 2 bytes` | 2 bytes |
+| INT8 | 8 bits | `8 ÷ 8 = 1 byte` | 1 byte |
+| INT4 | 4 bits | `4 ÷ 8 = 0.5 byte` | 0.5 byte en promedio |
+
+Ahora usemos diez parámetros FP32:
+
+`10 parámetros × 4 bytes = 40 bytes`
+
+La fórmula general sólo abrevia esa misma cuenta. Primero convierte $b$ bits a bytes con $b\div8$; después multiplica por los $N_p$ parámetros:
 
 $$M_{pesos}=N_p\times\frac{b}{8}$$
+
+Se lee así: **memoria de los pesos = cantidad de parámetros × bytes por parámetro**.
+
+**FACT (convención decimal):** en nombres como 7B, B representa $10^9$ parámetros y T representa $10^{12}$. En tamaños de almacenamiento, GB y TB también se usan aquí en escala decimal.
 
 **DERIVED (GB decimales, sólo pesos):**
 

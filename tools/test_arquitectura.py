@@ -134,6 +134,31 @@ def test_required_beginner_visual_topics_and_current_models_are_present():
     assert "no divulgado" in ai
 
 
+def test_weight_memory_formula_defines_symbols_and_converts_bits_before_formula():
+    ai = body(PAGES[4])
+    section = ai.split("## La cuenta mínima de los pesos", 1)[1]
+    section = section.split("## Cuantizar cambia más que capacidad", 1)[0]
+    required = (
+        "$N_p$",
+        "número de parámetros",
+        "$b$",
+        "bits usados por cada parámetro",
+        "$M_{pesos}$",
+        "memoria total",
+        "8 bits = 1 byte",
+        "32 ÷ 8 = 4 bytes",
+        "10 parámetros × 4 bytes = 40 bytes",
+        "FP32",
+        "BF16",
+        "INT8",
+        "INT4",
+    )
+    assert all(term in section for term in required)
+    formula = section.index("$$M_{pesos}")
+    assert section.index("8 bits = 1 byte") < formula
+    assert section.index("10 parámetros × 4 bytes = 40 bytes") < formula
+
+
 def test_latency_throughput_uses_a_traceable_numeric_task_example():
     compute = body(PAGES[1])
     section = compute.split("## Latencia y throughput no son sinónimos", 1)[1]
