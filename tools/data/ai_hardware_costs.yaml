@@ -1,0 +1,994 @@
+# Ledger verificable para la unidad de costos de hardware de IA.
+# Las magnitudes positivas siempre declaran unidad, incluso fechas y documentos.
+# FLOP representa trabajo; FLOP/s representa tasa. HBM física no implica HBM utilizable.
+cutoff: "2026-08-18"
+
+sources:
+  S_COURSE_DESIGN:
+    claim_owner: course_design
+    source_class: binding_specification
+    title: "Costos de hardware para modelos de IA — especificación de diseño"
+    url: "docs/superpowers/specs/2026-08-18-costos-hardware-modelos-ia-design.md"
+    accessed: "2026-08-18"
+    primary_for: [didactic_scenarios, scope_rules, inference_target]
+  S_OPENAI_GPT3_PAPER:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Language Models are Few-Shot Learners"
+    url: "https://arxiv.org/abs/2005.14165"
+    accessed: "2026-08-18"
+    primary_for: [parameters, training_tokens, training_compute, hardware_type]
+  S_OPENAI_GPT3_REPOSITORY:
+    claim_owner: model_creator
+    source_class: primary
+    title: "openai/gpt-3"
+    url: "https://github.com/openai/gpt-3"
+    accessed: "2026-08-18"
+    primary_for: [repository_audit]
+  S_BIGSCIENCE_BLOOM_PAPER:
+    claim_owner: model_creator
+    source_class: primary
+    title: "BLOOM: A 176B-Parameter Open-Access Multilingual Language Model"
+    url: "https://arxiv.org/abs/2211.05100"
+    accessed: "2026-08-18"
+    primary_for: [parameters, training_tokens, training_hardware, precision]
+  S_BIGSCIENCE_BLOOM_CARBON:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Estimating the Carbon Footprint of BLOOM"
+    url: "https://arxiv.org/abs/2211.02001"
+    accessed: "2026-08-18"
+    primary_for: [accelerator_hours, training_duration]
+  S_BIGSCIENCE_BLOOM_CARD:
+    claim_owner: model_creator
+    source_class: primary
+    title: "bigscience/bloom model card"
+    url: "https://huggingface.co/bigscience/bloom/blob/main/README.md"
+    accessed: "2026-08-18"
+    primary_for: [availability, training_hardware, release]
+  S_GOOGLE_PALM_PAPER:
+    claim_owner: model_creator
+    source_class: primary
+    title: "PaLM: Scaling Language Modeling with Pathways"
+    url: "https://arxiv.org/abs/2204.02311"
+    accessed: "2026-08-18"
+    primary_for: [parameters, training_tokens, training_hardware, training_compute, mfu]
+  S_META_LLAMA31_PAPER:
+    claim_owner: model_creator
+    source_class: primary
+    title: "The Llama 3 Herd of Models"
+    url: "https://ai.meta.com/research/publications/the-llama-3-herd-of-models/"
+    accessed: "2026-08-18"
+    primary_for: [parameters, training_tokens, training_hardware, training_compute, mfu]
+  S_META_LLAMA31_CARD:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Llama 3.1 405B Instruct model card"
+    url: "https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct"
+    accessed: "2026-08-18"
+    primary_for: [accelerator_hours, availability, release]
+  S_META_LLAMA_REPOSITORY:
+    claim_owner: model_creator
+    source_class: primary
+    title: "meta-llama/llama-models"
+    url: "https://github.com/meta-llama/llama-models"
+    accessed: "2026-08-18"
+    primary_for: [repository_configuration]
+  S_DEEPSEEK_V3_PAPER:
+    claim_owner: model_creator
+    source_class: primary
+    title: "DeepSeek-V3 Technical Report"
+    url: "https://arxiv.org/abs/2412.19437"
+    accessed: "2026-08-18"
+    primary_for: [parameters, training_tokens, training_hardware, accelerator_hours, precision]
+  S_DEEPSEEK_V3_REPOSITORY:
+    claim_owner: model_creator
+    source_class: primary
+    title: "deepseek-ai/DeepSeek-V3"
+    url: "https://github.com/deepseek-ai/DeepSeek-V3"
+    accessed: "2026-08-18"
+    primary_for: [availability, release, repository_configuration]
+  S_OPENAI_GPT56_ANNOUNCEMENT:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Previewing GPT-5.6 Sol: a next-generation model"
+    url: "https://openai.com/index/previewing-gpt-5-6-sol/"
+    accessed: "2026-08-18"
+    primary_for: [canonical_name, release]
+  S_OPENAI_GPT56_AVAILABILITY:
+    claim_owner: model_creator
+    source_class: primary
+    title: "GPT-5.6: Frontier intelligence that scales with your ambition"
+    url: "https://openai.com/index/gpt-5-6/"
+    accessed: "2026-08-18"
+    primary_for: [availability, region]
+  S_OPENAI_GPT56_SYSTEM_CARD:
+    claim_owner: model_creator
+    source_class: primary
+    title: "GPT-5.6 Preview System Card"
+    url: "https://deploymentsafety.openai.com/gpt-5-6/gpt-5-6.pdf"
+    accessed: "2026-08-18"
+    primary_for: [system_card_audit]
+  S_ANTHROPIC_SONNET5_ANNOUNCEMENT:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Introducing Claude Sonnet 5"
+    url: "https://www.anthropic.com/news/claude-sonnet-5"
+    accessed: "2026-08-18"
+    primary_for: [canonical_name, release, availability, region]
+  S_ANTHROPIC_SONNET5_SYSTEM_CARD:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Claude Sonnet 5 System Card"
+    url: "https://www-cdn.anthropic.com/73ad94ca3c0502e75e46637cc62c8bd9532a7f2c/Claude%20Sonnet%205%20System%20Card.pdf"
+    accessed: "2026-08-18"
+    primary_for: [system_card_audit]
+  S_GOOGLE_GEMINI31_CARD:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Gemini 3.1 Pro model card"
+    url: "https://deepmind.google/models/model-cards/gemini-3-1-pro/"
+    accessed: "2026-08-18"
+    primary_for: [canonical_name, release, availability, region, model_card_audit]
+  S_GOOGLE_GEMINI31_PAGE:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Gemini 3.1 Pro"
+    url: "https://deepmind.google/models/gemini/pro/"
+    accessed: "2026-08-18"
+    primary_for: [announcement_audit, availability]
+  S_MOONSHOT_KIMI_K3_BLOG:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Kimi K3: Open Frontier Intelligence"
+    url: "https://www.kimi.com/blog/kimi-k3"
+    accessed: "2026-08-18"
+    primary_for: [canonical_name, release, parameters, availability, region]
+  S_MOONSHOT_KIMI_K3_PAPER:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Kimi K3 Technical Report"
+    url: "https://arxiv.org/abs/2607.24653"
+    accessed: "2026-08-18"
+    primary_for: [parameters, architecture, technical_paper_audit]
+  S_MOONSHOT_KIMI_K3_REPOSITORY:
+    claim_owner: model_creator
+    source_class: primary
+    title: "MoonshotAI/Kimi-K3"
+    url: "https://github.com/MoonshotAI/Kimi-K3"
+    accessed: "2026-08-18"
+    primary_for: [repository_configuration, availability]
+  S_MOONSHOT_KIMI_K3_CARD:
+    claim_owner: model_creator
+    source_class: primary
+    title: "moonshotai/Kimi-K3 model card"
+    url: "https://huggingface.co/moonshotai/Kimi-K3"
+    accessed: "2026-08-18"
+    primary_for: [model_card_audit, availability]
+  S_QWEN38_ANNOUNCEMENT:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Qwen3.8-Max: A New Bar for Coding and Cowork"
+    url: "https://qwen.ai/blog?id=qwen3.8"
+    accessed: "2026-08-18"
+    primary_for: [canonical_name, release, parameters, availability]
+  S_QWEN38_MODELSCOPE:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Qwen/Qwen3.8-2.4T-A95B"
+    url: "https://www.modelscope.cn/models/Qwen/Qwen3.8-2.4T-A95B"
+    accessed: "2026-08-18"
+    primary_for: [model_card_audit, availability, region]
+  S_NVIDIA_V100_DATASHEET:
+    claim_owner: hardware_manufacturer
+    source_class: primary
+    title: "NVIDIA Tesla V100 GPU Accelerator datasheet"
+    url: "https://images.nvidia.com/content/technologies/volta/pdf/tesla-volta-v100-datasheet.pdf"
+    accessed: "2026-08-18"
+    primary_for: [hbm_physical, peak_theoretical_rate, nominal_power]
+  S_NVIDIA_A100_DATASHEET:
+    claim_owner: hardware_manufacturer
+    source_class: primary
+    title: "NVIDIA A100 Tensor Core GPU datasheet"
+    url: "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf"
+    accessed: "2026-08-18"
+    primary_for: [hbm_physical, peak_theoretical_rate, nominal_power]
+  S_NVIDIA_H100_PAGE:
+    claim_owner: hardware_manufacturer
+    source_class: primary
+    title: "NVIDIA H100 Tensor Core GPU"
+    url: "https://www.nvidia.com/es-la/data-center/h100/"
+    accessed: "2026-08-18"
+    primary_for: [hbm_physical, peak_theoretical_rate, nominal_power]
+  S_NVIDIA_H800_RELEASE_NOTES:
+    claim_owner: hardware_manufacturer
+    source_class: primary
+    title: "NVIDIA Trusted Computing Solutions release notes"
+    url: "https://docs.nvidia.com/590trd1-trusted-computing-solutions-release-notes.pdf"
+    accessed: "2026-08-18"
+    primary_for: [h800_hbm_physical]
+  S_GOOGLE_TPU_V4_DOCS:
+    claim_owner: hardware_manufacturer
+    source_class: primary
+    title: "Cloud TPU v4 specifications"
+    url: "https://docs.cloud.google.com/tpu/docs/v4"
+    accessed: "2026-08-18"
+    primary_for: [hbm_physical, peak_theoretical_rate, nominal_power]
+  S_THINKMATE_HGX_H100_CONFIGURATOR:
+    claim_owner: seller
+    source_class: primary
+    title: "Thinkmate GPX QH14-28E4-8HGX online configurator"
+    url: "https://www.thinkmate.com/system/gpx-qh14-28e4-8hgx"
+    accessed: "2026-08-18"
+    primary_for: [replacement_price, included_components]
+
+hardware:
+  - id: H_NVIDIA_V100_SXM2_32GB
+    canonical_name: "NVIDIA Tesla V100 SXM2 32 GB"
+    kind: accelerator
+    form_factor: SXM2_module
+    specs:
+      hbm_physical:
+        status: FACT
+        value: 32
+        unit: GB_HBM2_per_module
+        source_ids: [S_NVIDIA_V100_DATASHEET]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_reserve, parallelism_topology, model_state]
+      peak_theoretical_rate:
+        status: FACT
+        value: 125
+        unit: TFLOP_per_second_FP16_tensor_per_module
+        source_ids: [S_NVIDIA_V100_DATASHEET]
+      nominal_power:
+        status: FACT
+        value: 300
+        unit: W_per_module
+        source_ids: [S_NVIDIA_V100_DATASHEET]
+  - id: H_NVIDIA_A100_SXM_80GB
+    canonical_name: "NVIDIA A100 SXM 80 GB"
+    kind: accelerator
+    form_factor: SXM_module
+    specs:
+      hbm_physical:
+        status: FACT
+        value: 80
+        unit: GB_HBM2e_per_module
+        source_ids: [S_NVIDIA_A100_DATASHEET]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_reserve, parallelism_topology, model_state]
+      peak_theoretical_rate:
+        status: FACT
+        value: 312
+        unit: TFLOP_per_second_BF16_dense_per_module
+        source_ids: [S_NVIDIA_A100_DATASHEET]
+      nominal_power:
+        status: FACT
+        value: 400
+        unit: W_per_module
+        source_ids: [S_NVIDIA_A100_DATASHEET]
+        note: "La hoja también permite 500 W en diseños personalizados; 400 W es la especificación estándar usada aquí."
+  - id: H_GOOGLE_TPU_V4_CHIP
+    canonical_name: "Google TPU v4 chip"
+    kind: accelerator
+    form_factor: TPU_chip
+    specs:
+      hbm_physical:
+        status: FACT
+        value: 32
+        unit: GiB_HBM2_per_chip
+        source_ids: [S_GOOGLE_TPU_V4_DOCS]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_reserve, parallelism_topology, model_state]
+      peak_theoretical_rate:
+        status: FACT
+        value: 275
+        unit: TFLOP_per_second_BF16_per_chip
+        source_ids: [S_GOOGLE_TPU_V4_DOCS]
+      nominal_power:
+        status: FACT
+        value: 192
+        unit: W_measured_max_per_chip
+        source_ids: [S_GOOGLE_TPU_V4_DOCS]
+        note: "La fuente publica 90/170/192 W mínimo/promedio/máximo medidos; no es potencia de sistema."
+  - id: H_NVIDIA_H100_SXM_80GB
+    canonical_name: "NVIDIA H100 SXM 80 GB"
+    kind: accelerator
+    form_factor: SXM5_module
+    specs:
+      hbm_physical:
+        status: FACT
+        value: 80
+        unit: GB_HBM_per_module
+        source_ids: [S_NVIDIA_H100_PAGE]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_reserve, parallelism_topology, model_state]
+      peak_theoretical_rate:
+        status: DERIVED
+        value: 989.5
+        unit: TFLOP_per_second_BF16_dense_per_module
+        source_ids: [S_NVIDIA_H100_PAGE]
+        formula: "1,979 TFLOP/s BF16 con sparsity / 2"
+        inputs: [1979_TFLOP_per_second_BF16_sparse, sparsity_multiplier_2]
+      nominal_power:
+        status: FACT
+        value: 700
+        unit: W_per_module
+        source_ids: [S_NVIDIA_H100_PAGE]
+  - id: H_NVIDIA_H800_SXM_80GB
+    canonical_name: "NVIDIA H800 SXM 80 GB"
+    kind: accelerator
+    form_factor: SXM_module
+    specs:
+      hbm_physical:
+        status: FACT
+        value: 80
+        unit: GB_per_module
+        source_ids: [S_NVIDIA_H800_RELEASE_NOTES]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_reserve, parallelism_topology, model_state]
+      peak_theoretical_rate:
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [NVIDIA_product_pages, NVIDIA_datasheets, NVIDIA_documentation]
+      nominal_power:
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [NVIDIA_product_pages, NVIDIA_datasheets, NVIDIA_documentation]
+
+models:
+  - id: M_GPT3_175B
+    canonical_name: "GPT-3 175B"
+    provider: OpenAI
+    source_ids: [S_OPENAI_GPT3_PAPER, S_OPENAI_GPT3_REPOSITORY]
+    facts:
+      canonical_name: {status: FACT, value: "GPT-3 175B", unit: model_name, source_ids: [S_OPENAI_GPT3_PAPER]}
+      release_date: {status: FACT, value: "2020-05-28", unit: ISO_8601_date, source_ids: [S_OPENAI_GPT3_PAPER]}
+      availability: {status: FACT, value: closed_weights, unit: distribution_state, source_ids: [S_OPENAI_GPT3_PAPER]}
+      region: &region_not_found
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [official_announcement, official_model_card, official_system_card, official_paper, official_repository]
+      parameters_total: {status: FACT, value: 174600000000, unit: parameter, source_ids: [S_OPENAI_GPT3_PAPER]}
+    corpus:
+      announcement: &corpus_not_found
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [official_announcement, official_model_card, official_system_card, official_technical_paper, official_repository_configuration, official_documentation]
+      model_card: *corpus_not_found
+      system_card: *corpus_not_found
+      technical_paper: {status: FACT, value: S_OPENAI_GPT3_PAPER, unit: document, source_ids: [S_OPENAI_GPT3_PAPER]}
+      repository_configuration: {status: FACT, value: repository_without_training_configuration, unit: document, source_ids: [S_OPENAI_GPT3_REPOSITORY]}
+
+  - id: M_BLOOM_176B
+    canonical_name: "BLOOM 176B"
+    provider: BigScience
+    source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_BIGSCIENCE_BLOOM_CARBON, S_BIGSCIENCE_BLOOM_CARD]
+    facts:
+      canonical_name: {status: FACT, value: "BLOOM 176B", unit: model_name, source_ids: [S_BIGSCIENCE_BLOOM_PAPER]}
+      release_date: {status: FACT, value: "2022-07-12", unit: ISO_8601_date, source_ids: [S_BIGSCIENCE_BLOOM_CARD]}
+      availability: {status: FACT, value: open_weights, unit: distribution_state, source_ids: [S_BIGSCIENCE_BLOOM_CARD]}
+      region: {status: FACT, value: public_repository_download, unit: distribution_scope, source_ids: [S_BIGSCIENCE_BLOOM_CARD]}
+      parameters_total: {status: FACT, value: 176247000000, unit: parameter, source_ids: [S_BIGSCIENCE_BLOOM_PAPER]}
+    corpus:
+      announcement: *corpus_not_found
+      model_card: {status: FACT, value: S_BIGSCIENCE_BLOOM_CARD, unit: document, source_ids: [S_BIGSCIENCE_BLOOM_CARD]}
+      system_card: *corpus_not_found
+      technical_paper: {status: FACT, value: S_BIGSCIENCE_BLOOM_PAPER, unit: document, source_ids: [S_BIGSCIENCE_BLOOM_PAPER]}
+      repository_configuration: {status: FACT, value: S_BIGSCIENCE_BLOOM_CARD, unit: document, source_ids: [S_BIGSCIENCE_BLOOM_CARD]}
+
+  - id: M_PALM_540B
+    canonical_name: "PaLM 540B"
+    provider: Google
+    source_ids: [S_GOOGLE_PALM_PAPER]
+    facts:
+      canonical_name: {status: FACT, value: "PaLM 540B", unit: model_name, source_ids: [S_GOOGLE_PALM_PAPER]}
+      release_date: {status: FACT, value: "2022-04-05", unit: ISO_8601_date, source_ids: [S_GOOGLE_PALM_PAPER]}
+      availability: {status: FACT, value: research_report_no_weights, unit: distribution_state, source_ids: [S_GOOGLE_PALM_PAPER]}
+      region:
+        status: NOT_APPLICABLE
+        value: null
+        note: "El paper no constituyó una distribución del artefacto por región."
+      parameters_total: {status: FACT, value: 540350000000, unit: parameter, source_ids: [S_GOOGLE_PALM_PAPER]}
+    corpus:
+      announcement: *corpus_not_found
+      model_card: *corpus_not_found
+      system_card: *corpus_not_found
+      technical_paper: {status: FACT, value: S_GOOGLE_PALM_PAPER, unit: document, source_ids: [S_GOOGLE_PALM_PAPER]}
+      repository_configuration: *corpus_not_found
+
+  - id: M_LLAMA31_405B
+    canonical_name: "Llama 3.1 405B"
+    provider: Meta
+    source_ids: [S_META_LLAMA31_PAPER, S_META_LLAMA31_CARD, S_META_LLAMA_REPOSITORY]
+    facts:
+      canonical_name: {status: FACT, value: "Llama 3.1 405B", unit: model_name, source_ids: [S_META_LLAMA31_PAPER]}
+      release_date: {status: FACT, value: "2024-07-23", unit: ISO_8601_date, source_ids: [S_META_LLAMA31_CARD]}
+      availability: {status: FACT, value: open_weights_under_license, unit: distribution_state, source_ids: [S_META_LLAMA31_CARD]}
+      region: {status: FACT, value: licensed_repository_download, unit: distribution_scope, source_ids: [S_META_LLAMA31_CARD]}
+      parameters_total: {status: FACT, value: 405000000000, unit: trainable_parameter, source_ids: [S_META_LLAMA31_PAPER]}
+    corpus:
+      announcement: {status: FACT, value: S_META_LLAMA31_CARD, unit: document, source_ids: [S_META_LLAMA31_CARD]}
+      model_card: {status: FACT, value: S_META_LLAMA31_CARD, unit: document, source_ids: [S_META_LLAMA31_CARD]}
+      system_card: *corpus_not_found
+      technical_paper: {status: FACT, value: S_META_LLAMA31_PAPER, unit: document, source_ids: [S_META_LLAMA31_PAPER]}
+      repository_configuration: {status: FACT, value: S_META_LLAMA_REPOSITORY, unit: document, source_ids: [S_META_LLAMA_REPOSITORY]}
+
+  - id: M_DEEPSEEK_V3
+    canonical_name: "DeepSeek-V3"
+    provider: DeepSeek
+    source_ids: [S_DEEPSEEK_V3_PAPER, S_DEEPSEEK_V3_REPOSITORY]
+    facts:
+      canonical_name: {status: FACT, value: "DeepSeek-V3", unit: model_name, source_ids: [S_DEEPSEEK_V3_PAPER]}
+      release_date: {status: FACT, value: "2024-12-26", unit: ISO_8601_date, source_ids: [S_DEEPSEEK_V3_REPOSITORY]}
+      availability: {status: FACT, value: open_weights, unit: distribution_state, source_ids: [S_DEEPSEEK_V3_REPOSITORY]}
+      region: {status: FACT, value: public_repository_download, unit: distribution_scope, source_ids: [S_DEEPSEEK_V3_REPOSITORY]}
+      parameters_total: {status: FACT, value: 671000000000, unit: parameter, source_ids: [S_DEEPSEEK_V3_PAPER]}
+      parameters_active: {status: FACT, value: 37000000000, unit: parameter_per_token, source_ids: [S_DEEPSEEK_V3_PAPER]}
+    corpus:
+      announcement: {status: FACT, value: S_DEEPSEEK_V3_REPOSITORY, unit: document, source_ids: [S_DEEPSEEK_V3_REPOSITORY]}
+      model_card: {status: FACT, value: S_DEEPSEEK_V3_REPOSITORY, unit: document, source_ids: [S_DEEPSEEK_V3_REPOSITORY]}
+      system_card: *corpus_not_found
+      technical_paper: {status: FACT, value: S_DEEPSEEK_V3_PAPER, unit: document, source_ids: [S_DEEPSEEK_V3_PAPER]}
+      repository_configuration: {status: FACT, value: S_DEEPSEEK_V3_REPOSITORY, unit: document, source_ids: [S_DEEPSEEK_V3_REPOSITORY]}
+
+  - id: M_GPT56_SOL
+    canonical_name: "GPT-5.6 Sol"
+    provider: OpenAI
+    source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT, S_OPENAI_GPT56_AVAILABILITY, S_OPENAI_GPT56_SYSTEM_CARD]
+    facts:
+      canonical_name: {status: FACT, value: "GPT-5.6 Sol", unit: model_name, source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT]}
+      release_date: {status: FACT, value: "2026-06-26", unit: ISO_8601_date, source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT]}
+      availability: {status: FACT, value: hosted_products_no_weights, unit: distribution_state, source_ids: [S_OPENAI_GPT56_AVAILABILITY]}
+      region: {status: FACT, value: global_rollout, unit: distribution_scope, source_ids: [S_OPENAI_GPT56_AVAILABILITY]}
+      parameters_total: *corpus_not_found
+    corpus:
+      announcement: {status: FACT, value: S_OPENAI_GPT56_ANNOUNCEMENT, unit: document, source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT]}
+      model_card: *corpus_not_found
+      system_card: {status: FACT, value: S_OPENAI_GPT56_SYSTEM_CARD, unit: document, source_ids: [S_OPENAI_GPT56_SYSTEM_CARD]}
+      technical_paper: *corpus_not_found
+      repository_configuration: *corpus_not_found
+
+  - id: M_CLAUDE_SONNET5
+    canonical_name: "Claude Sonnet 5"
+    provider: Anthropic
+    source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT, S_ANTHROPIC_SONNET5_SYSTEM_CARD]
+    facts:
+      canonical_name: {status: FACT, value: "Claude Sonnet 5", unit: model_name, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT]}
+      release_date: {status: FACT, value: "2026-06-30", unit: ISO_8601_date, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT]}
+      availability: {status: FACT, value: hosted_products_no_weights, unit: distribution_state, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT]}
+      region: {status: FACT, value: available_everywhere_claim, unit: distribution_scope, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT]}
+      parameters_total: *corpus_not_found
+    corpus:
+      announcement: {status: FACT, value: S_ANTHROPIC_SONNET5_ANNOUNCEMENT, unit: document, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT]}
+      model_card: *corpus_not_found
+      system_card: {status: FACT, value: S_ANTHROPIC_SONNET5_SYSTEM_CARD, unit: document, source_ids: [S_ANTHROPIC_SONNET5_SYSTEM_CARD]}
+      technical_paper: *corpus_not_found
+      repository_configuration: *corpus_not_found
+
+  - id: M_GEMINI31_PRO
+    canonical_name: "Gemini 3.1 Pro"
+    provider: Google DeepMind
+    source_ids: [S_GOOGLE_GEMINI31_CARD, S_GOOGLE_GEMINI31_PAGE]
+    facts:
+      canonical_name: {status: FACT, value: "Gemini 3.1 Pro", unit: model_name, source_ids: [S_GOOGLE_GEMINI31_CARD]}
+      release_date: {status: FACT, value: "2026-02-19", unit: ISO_8601_date, source_ids: [S_GOOGLE_GEMINI31_CARD]}
+      availability: {status: FACT, value: preview_hosted_products_no_weights, unit: distribution_state, source_ids: [S_GOOGLE_GEMINI31_CARD, S_GOOGLE_GEMINI31_PAGE]}
+      region: {status: FACT, value: listed_Google_products, unit: distribution_scope, source_ids: [S_GOOGLE_GEMINI31_CARD]}
+      parameters_total: *corpus_not_found
+    corpus:
+      announcement: {status: FACT, value: S_GOOGLE_GEMINI31_PAGE, unit: document, source_ids: [S_GOOGLE_GEMINI31_PAGE]}
+      model_card: {status: FACT, value: S_GOOGLE_GEMINI31_CARD, unit: document, source_ids: [S_GOOGLE_GEMINI31_CARD]}
+      system_card: *corpus_not_found
+      technical_paper: *corpus_not_found
+      repository_configuration: *corpus_not_found
+
+  - id: M_KIMI_K3
+    canonical_name: "Kimi K3"
+    provider: Moonshot AI
+    source_ids: [S_MOONSHOT_KIMI_K3_BLOG, S_MOONSHOT_KIMI_K3_PAPER, S_MOONSHOT_KIMI_K3_REPOSITORY, S_MOONSHOT_KIMI_K3_CARD]
+    facts:
+      canonical_name: {status: FACT, value: "Kimi K3", unit: model_name, source_ids: [S_MOONSHOT_KIMI_K3_BLOG]}
+      release_date: {status: FACT, value: "2026-07-16", unit: ISO_8601_date, source_ids: [S_MOONSHOT_KIMI_K3_BLOG]}
+      availability: {status: FACT, value: open_weights_and_hosted_products, unit: distribution_state, source_ids: [S_MOONSHOT_KIMI_K3_REPOSITORY, S_MOONSHOT_KIMI_K3_CARD]}
+      region: {status: FACT, value: public_repository_download, unit: distribution_scope, source_ids: [S_MOONSHOT_KIMI_K3_CARD]}
+      parameters_total: {status: FACT, value: 2800000000000, unit: parameter, source_ids: [S_MOONSHOT_KIMI_K3_BLOG, S_MOONSHOT_KIMI_K3_PAPER]}
+      parameters_active: {status: FACT, value: 104200000000, unit: parameter_per_token, source_ids: [S_MOONSHOT_KIMI_K3_PAPER]}
+    corpus:
+      announcement: {status: FACT, value: S_MOONSHOT_KIMI_K3_BLOG, unit: document, source_ids: [S_MOONSHOT_KIMI_K3_BLOG]}
+      model_card: {status: FACT, value: S_MOONSHOT_KIMI_K3_CARD, unit: document, source_ids: [S_MOONSHOT_KIMI_K3_CARD]}
+      system_card: *corpus_not_found
+      technical_paper: {status: FACT, value: S_MOONSHOT_KIMI_K3_PAPER, unit: document, source_ids: [S_MOONSHOT_KIMI_K3_PAPER]}
+      repository_configuration: {status: FACT, value: S_MOONSHOT_KIMI_K3_REPOSITORY, unit: document, source_ids: [S_MOONSHOT_KIMI_K3_REPOSITORY]}
+
+  - id: M_QWEN38_MAX
+    canonical_name: "Qwen3.8-Max"
+    provider: Qwen Team
+    source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]
+    facts:
+      canonical_name: {status: FACT, value: "Qwen3.8-Max", unit: model_name, source_ids: [S_QWEN38_ANNOUNCEMENT]}
+      release_date: {status: FACT, value: "2026-08-03", unit: ISO_8601_date, source_ids: [S_QWEN38_ANNOUNCEMENT]}
+      availability: {status: FACT, value: hosted_service_with_open_weights_announced_but_release_not_verified, unit: distribution_state, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE], note: "El anuncio promete pesos para la semana siguiente; la página de ModelScope auditada aún los presenta como esperados. No se equipara una promesa con un artefacto descargable."}
+      region: {status: FACT, value: QwenCloud_hosted_and_ModelScope_pre_release_listing, unit: distribution_scope, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]}
+      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]}
+      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]}
+    corpus:
+      announcement: {status: FACT, value: S_QWEN38_ANNOUNCEMENT, unit: document, source_ids: [S_QWEN38_ANNOUNCEMENT]}
+      model_card: {status: FACT, value: pre_release_ModelScope_listing, unit: document, source_ids: [S_QWEN38_MODELSCOPE]}
+      system_card: *corpus_not_found
+      technical_paper: *corpus_not_found
+      repository_configuration: *corpus_not_found
+
+training_cases:
+  - id: T_GPT3_175B_PRETRAINING
+    model_id: M_GPT3_175B
+    category: historical_incomplete
+    scope: GPT_3_175B_pretraining
+    include_in_documented_table: false
+    exclusion_reason: "La fuente identifica V100, pero no publica cantidad concurrente ni accelerator-hours/duración del mismo alcance."
+    metrics:
+      parameters_total: {status: FACT, value: 174600000000, unit: parameter, source_ids: [S_OPENAI_GPT3_PAPER], scope: GPT_3_175B_pretraining}
+      parameters_active:
+        status: NOT_APPLICABLE
+        value: null
+        note: "GPT-3 175B es un modelo denso; no corresponde un subconjunto MoE activo por token."
+      training_tokens: {status: FACT, value: 300000000000, unit: token, source_ids: [S_OPENAI_GPT3_PAPER], scope: GPT_3_175B_pretraining}
+      hardware_type: {status: FACT, value: NVIDIA_V100_unspecified_variant, unit: accelerator_type, source_ids: [S_OPENAI_GPT3_PAPER], scope: GPT_3_175B_pretraining}
+      accelerators_concurrent: &training_not_found
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [official_announcement, official_model_card, official_system_card, official_technical_paper, official_repository_configuration]
+      accelerator_hours: *training_not_found
+      duration_hours: *training_not_found
+      training_precision: *training_not_found
+      training_compute_flop: {status: FACT, value: 3.14e23, unit: FLOP_training_work, source_ids: [S_OPENAI_GPT3_PAPER], scope: GPT_3_175B_pretraining, note: "Estimación publicada en el apéndice del paper; no es FLOP/s. El paper indica que simplifica al ignorar atención."}
+      mfu: *training_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [accelerator_count, V100_memory_variant]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [parallelism_topology, replicas, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [accelerator_count, V100_form_factor, arithmetic_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [accelerator_count, V100_form_factor]
+      historical_acquisition_price: *training_not_found
+      attributed_training_capex: &capex_not_identifiable
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [contemporaneous_transaction_price, purchased_quantity, included_components, ownership_boundary]
+
+  - id: T_BLOOM_176B_TRAINING
+    model_id: M_BLOOM_176B
+    category: documented
+    scope: BLOOM_176B_training_run
+    include_in_documented_table: true
+    metrics:
+      parameters_total: {status: FACT, value: 176247000000, unit: parameter, source_ids: [S_BIGSCIENCE_BLOOM_PAPER], scope: BLOOM_176B_training_run}
+      parameters_active:
+        status: NOT_APPLICABLE
+        value: null
+        note: "BLOOM es denso; no corresponde un subconjunto MoE activo por token."
+      training_tokens: {status: FACT, value: 366000000000, unit: token, source_ids: [S_BIGSCIENCE_BLOOM_PAPER], scope: BLOOM_176B_training_run}
+      hardware_type: {status: FACT, value: H_NVIDIA_A100_SXM_80GB, unit: accelerator_type, source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_BIGSCIENCE_BLOOM_CARD], scope: BLOOM_176B_training_run}
+      accelerators_concurrent: {status: FACT, value: 384, unit: GPU, source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_BIGSCIENCE_BLOOM_CARD], scope: BLOOM_176B_training_run, note: "48 nodos con 8 GPU por nodo."}
+      accelerator_hours: {status: FACT, value: 1082990, unit: A100_GPU_hour, source_ids: [S_BIGSCIENCE_BLOOM_CARBON], scope: BLOOM_176B_training_run, allocation_basis: reported_compute_hours}
+      duration_hours: {status: DERIVED, value: 2837.6833333333, unit: wall_clock_hour, source_ids: [S_BIGSCIENCE_BLOOM_CARBON], scope: BLOOM_176B_training_run, formula: "118 days × 24 h/day + 5 h + 41 min × 1 h/60 min", inputs: [118_days, 5_hours, 41_minutes]}
+      training_precision: {status: FACT, value: bfloat16_mixed_precision, unit: arithmetic_mode, source_ids: [S_BIGSCIENCE_BLOOM_PAPER], scope: BLOOM_176B_training_run}
+      training_compute_flop: *training_not_found
+      mfu: *training_not_found
+      hbm_physical_installed: {status: DERIVED, value: 30720, unit: GB_HBM2e, source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_NVIDIA_A100_DATASHEET], formula: "384 GPU × 80 GB/GPU", inputs: [384_GPU, 80_GB_per_GPU], boundary: accelerator-only}
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [tensor_parallelism, pipeline_parallelism, data_parallelism, replicas, runtime_reserve, optimizer_state_distribution]
+      peak_theoretical_rate: {status: DERIVED, value: 119808, unit: TFLOP_per_second_BF16_dense, source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_NVIDIA_A100_DATASHEET], formula: "384 GPU × 312 TFLOP/s/GPU", inputs: [384_GPU, 312_TFLOP_per_second_BF16_dense_per_GPU], boundary: accelerator-only, note: "Tasa pico teórica, no rendimiento observado ni trabajo realizado."}
+      nominal_accelerator_power: {status: DERIVED, value: 153600, unit: W_accelerator_nameplate, source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_NVIDIA_A100_DATASHEET], formula: "384 GPU × 400 W/GPU", inputs: [384_GPU, 400_W_per_GPU], boundary: accelerator-only}
+      historical_acquisition_price: *training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_PALM_540B_PRETRAINING
+    model_id: M_PALM_540B
+    category: documented
+    scope: PaLM_540B_training
+    include_in_documented_table: true
+    metrics:
+      parameters_total: {status: FACT, value: 540350000000, unit: parameter, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training}
+      parameters_active:
+        status: NOT_APPLICABLE
+        value: null
+        note: "PaLM 540B es denso; no corresponde un subconjunto MoE activo por token."
+      training_tokens: {status: FACT, value: 780000000000, unit: token, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training}
+      hardware_type: {status: FACT, value: H_GOOGLE_TPU_V4_CHIP, unit: accelerator_type, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training}
+      accelerators_concurrent: {status: FACT, value: 6144, unit: TPU_v4_chip_peak_concurrent, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training, note: "Pico de la fase de 1,200 h; la fase adicional usó 3,072 chips durante 336 h."}
+      accelerator_hours: {status: DERIVED, value: 8404992, unit: TPU_v4_chip_hour, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training, formula: "6,144 × 1,200 h + 3,072 × 336 h", inputs: [6144_chips_for_1200_hours, 3072_chips_for_336_hours], allocation_basis: assigned_phase_hours}
+      duration_hours: {status: DERIVED, value: 1536, unit: wall_clock_hour, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training, formula: "1,200 h + 336 h", inputs: [1200_hours, 336_hours], note: "El paper indica que las horas incluyen cierto downtime y pasos repetidos."}
+      training_precision: {status: FACT, value: bfloat16, unit: arithmetic_mode, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training}
+      training_compute_flop: {status: FACT, value: 2.56e24, unit: FLOP_training_work, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training, note: "Trabajo publicado; no es una tasa FLOP/s."}
+      mfu: {status: FACT, value: 46.2, unit: percent_model_flop_utilization, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training}
+      hbm_physical_installed: {status: DERIVED, value: 196608, unit: GiB_HBM2_at_peak_configuration, source_ids: [S_GOOGLE_PALM_PAPER, S_GOOGLE_TPU_V4_DOCS], formula: "6,144 chips × 32 GiB/chip", inputs: [6144_TPU_v4_chips, 32_GiB_per_chip], boundary: accelerator-only}
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_reserve, sharding_memory_accounting, replicas, model_state]
+      peak_theoretical_rate: {status: DERIVED, value: 1689600, unit: TFLOP_per_second_BF16_at_peak_configuration, source_ids: [S_GOOGLE_PALM_PAPER, S_GOOGLE_TPU_V4_DOCS], formula: "6,144 chips × 275 TFLOP/s/chip", inputs: [6144_TPU_v4_chips, 275_TFLOP_per_second_BF16_per_chip], boundary: accelerator-only, note: "Tasa pico teórica, no rendimiento observado ni FLOP de entrenamiento."}
+      nominal_accelerator_power: {status: DERIVED, value: 1179648, unit: W_chip_measured_max_at_peak_configuration, source_ids: [S_GOOGLE_PALM_PAPER, S_GOOGLE_TPU_V4_DOCS], formula: "6,144 chips × 192 W/chip", inputs: [6144_TPU_v4_chips, 192_W_measured_max_per_chip], boundary: accelerator-only}
+      historical_acquisition_price: *training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_LLAMA31_405B_PRETRAINING
+    model_id: M_LLAMA31_405B
+    category: documented
+    scope: Llama_3_1_405B_pretraining
+    include_in_documented_table: true
+    metrics:
+      parameters_total: {status: FACT, value: 405000000000, unit: trainable_parameter, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining}
+      parameters_active:
+        status: NOT_APPLICABLE
+        value: null
+        note: "Llama 3.1 405B es denso; no corresponde un subconjunto MoE activo por token."
+      training_tokens: {status: FACT, value: 15600000000000, unit: text_token, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining}
+      hardware_type: {status: FACT, value: H_NVIDIA_H100_SXM_80GB, unit: accelerator_type, source_ids: [S_META_LLAMA31_PAPER, S_META_LLAMA31_CARD], scope: Llama_3_1_405B_pretraining}
+      accelerators_concurrent: {status: FACT, value: 16384, unit: H100_GPU_peak_concurrent, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining, note: "La fuente publica configuraciones de 8,192 y 16,384 GPU; se conserva el pico, no se supone que toda hora usó el pico."}
+      accelerator_hours: {status: FACT, value: 30840000, unit: H100_80GB_GPU_hour, source_ids: [S_META_LLAMA31_CARD], scope: Llama_3_1_405B_pretraining, allocation_basis: model_card_reported_training_time}
+      duration_hours:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [GPU_hours_split_between_8192_and_16384_GPU_configurations, downtime]
+      training_precision: {status: FACT, value: BF16_mixed_precision, unit: arithmetic_mode, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining}
+      training_compute_flop: {status: FACT, value: 3.8e25, unit: FLOP_training_work, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining, note: "Trabajo publicado; no es una tasa FLOP/s."}
+      mfu: {status: FACT, value: [38, 43], unit: percent_model_flop_utilization_range, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining}
+      hbm_physical_installed: {status: DERIVED, value: 1310720, unit: GB_HBM_at_peak_configuration, source_ids: [S_META_LLAMA31_PAPER, S_NVIDIA_H100_PAGE], formula: "16,384 GPU × 80 GB/GPU", inputs: [16384_H100_GPU, 80_GB_per_GPU], boundary: accelerator-only}
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [tensor_parallelism, pipeline_parallelism, data_parallelism, replicas, runtime_reserve, model_state]
+      peak_theoretical_rate: {status: DERIVED, value: 16211968, unit: TFLOP_per_second_BF16_dense_at_peak_configuration, source_ids: [S_META_LLAMA31_PAPER, S_NVIDIA_H100_PAGE], formula: "16,384 GPU × 989.5 TFLOP/s/GPU", inputs: [16384_H100_GPU, 989.5_TFLOP_per_second_BF16_dense_per_GPU], boundary: accelerator-only, note: "Tasa pico teórica, no rendimiento observado ni trabajo realizado."}
+      nominal_accelerator_power: {status: DERIVED, value: 11468800, unit: W_accelerator_nameplate_at_peak_configuration, source_ids: [S_META_LLAMA31_PAPER, S_NVIDIA_H100_PAGE], formula: "16,384 GPU × 700 W/GPU", inputs: [16384_H100_GPU, 700_W_per_GPU], boundary: accelerator-only}
+      historical_acquisition_price: *training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_DEEPSEEK_V3_PRETRAINING
+    model_id: M_DEEPSEEK_V3
+    category: documented
+    scope: DeepSeek_V3_pretraining
+    include_in_documented_table: true
+    metrics:
+      parameters_total: {status: FACT, value: 671000000000, unit: parameter, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      parameters_active: {status: FACT, value: 37000000000, unit: parameter_per_token, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      training_tokens: {status: FACT, value: 14800000000000, unit: token, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      hardware_type: {status: FACT, value: H_NVIDIA_H800_SXM_80GB, unit: accelerator_type, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      accelerators_concurrent: {status: FACT, value: 2048, unit: H800_GPU, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      accelerator_hours: {status: FACT, value: 2664000, unit: H800_GPU_hour, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining, allocation_basis: reported_pretraining_GPU_hours}
+      duration_hours:
+        status: NOT_APPLICABLE
+        value: null
+        note: "La fuente sólo publica un límite abierto de menos de dos meses, no una duración exacta en horas."
+      reported_duration_bound: {status: FACT, value: "<2", unit: calendar_month, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      training_precision: {status: FACT, value: FP8_mixed_precision_with_higher_precision_components, unit: arithmetic_mode, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
+      training_compute_flop: *training_not_found
+      mfu: *training_not_found
+      hbm_physical_installed: {status: DERIVED, value: 163840, unit: GB_physical_HBM, source_ids: [S_DEEPSEEK_V3_PAPER, S_NVIDIA_H800_RELEASE_NOTES], formula: "2,048 GPU × 80 GB/GPU", inputs: [2048_H800_GPU, 80_GB_per_GPU], boundary: accelerator-only}
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [parallelism_topology, replicas, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [manufacturer_H800_rate_for_matching_precision_and_dense_sparse_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [manufacturer_H800_nominal_power_for_exact_form_factor]
+      historical_acquisition_price: *training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_GPT56_SOL_TRAINING_AUDIT
+    model_id: M_GPT56_SOL
+    category: current_closed
+    scope: GPT_5_6_Sol_actual_training
+    include_in_documented_table: false
+    exclusion_reason: "El corpus oficial no publica observables suficientes del entrenamiento real."
+    metrics:
+      parameters_total: &current_training_not_found
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [official_announcement, official_model_card, official_system_card, official_technical_paper, official_repository_configuration]
+      parameters_active:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [architecture_type, expert_count, routing_policy]
+      training_tokens: *current_training_not_found
+      hardware_type: *current_training_not_found
+      accelerators_concurrent: *current_training_not_found
+      accelerator_hours: *current_training_not_found
+      duration_hours: *current_training_not_found
+      training_precision: *current_training_not_found
+      training_compute_flop: *current_training_not_found
+      mfu: *current_training_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, topology, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, arithmetic_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, form_factor]
+      historical_acquisition_price: *current_training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_CLAUDE_SONNET5_TRAINING_AUDIT
+    model_id: M_CLAUDE_SONNET5
+    category: current_closed
+    scope: Claude_Sonnet_5_actual_training
+    include_in_documented_table: false
+    exclusion_reason: "El corpus oficial no publica observables suficientes del entrenamiento real."
+    metrics:
+      parameters_total: *current_training_not_found
+      parameters_active:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [architecture_type, expert_count, routing_policy]
+      training_tokens: *current_training_not_found
+      hardware_type: *current_training_not_found
+      accelerators_concurrent: *current_training_not_found
+      accelerator_hours: *current_training_not_found
+      duration_hours: *current_training_not_found
+      training_precision: *current_training_not_found
+      training_compute_flop: *current_training_not_found
+      mfu: *current_training_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, topology, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, arithmetic_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, form_factor]
+      historical_acquisition_price: *current_training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_GEMINI31_PRO_TRAINING_AUDIT
+    model_id: M_GEMINI31_PRO
+    category: current_closed
+    scope: Gemini_3_1_Pro_actual_training
+    include_in_documented_table: false
+    exclusion_reason: "El corpus oficial no publica observables suficientes del entrenamiento real."
+    metrics:
+      parameters_total: *current_training_not_found
+      parameters_active:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [architecture_type, expert_count, routing_policy]
+      training_tokens: *current_training_not_found
+      hardware_type: *current_training_not_found
+      accelerators_concurrent: *current_training_not_found
+      accelerator_hours: *current_training_not_found
+      duration_hours: *current_training_not_found
+      training_precision: *current_training_not_found
+      training_compute_flop: *current_training_not_found
+      mfu: *current_training_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, topology, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, arithmetic_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, form_factor]
+      historical_acquisition_price: *current_training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_KIMI_K3_TRAINING_AUDIT
+    model_id: M_KIMI_K3
+    category: current_open
+    scope: Kimi_K3_actual_training
+    include_in_documented_table: false
+    exclusion_reason: "El artefacto abierto verifica arquitectura y parámetros, pero no tipo/cantidad concurrente y tiempo del entrenamiento real."
+    metrics:
+      parameters_total: {status: FACT, value: 2800000000000, unit: parameter, source_ids: [S_MOONSHOT_KIMI_K3_BLOG, S_MOONSHOT_KIMI_K3_PAPER], scope: Kimi_K3_actual_training}
+      parameters_active: {status: FACT, value: 104200000000, unit: parameter_per_token, source_ids: [S_MOONSHOT_KIMI_K3_PAPER], scope: Kimi_K3_actual_training}
+      training_tokens: *current_training_not_found
+      hardware_type: *current_training_not_found
+      accelerators_concurrent: *current_training_not_found
+      accelerator_hours: *current_training_not_found
+      duration_hours: *current_training_not_found
+      training_precision: *current_training_not_found
+      training_compute_flop: *current_training_not_found
+      mfu: *current_training_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, topology, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, arithmetic_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, form_factor]
+      historical_acquisition_price: *current_training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_QWEN38_MAX_TRAINING_AUDIT
+    model_id: M_QWEN38_MAX
+    category: current_closed
+    scope: Qwen3_8_Max_actual_training
+    include_in_documented_table: false
+    exclusion_reason: "Al corte, el servicio está disponible y los pesos fueron anunciados, pero el artefacto descargable no quedó verificado; tampoco se publican tipo/cantidad concurrente y tiempo del entrenamiento real."
+    metrics:
+      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE], scope: Qwen3_8_Max_actual_training}
+      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE], scope: Qwen3_8_Max_actual_training}
+      training_tokens: *current_training_not_found
+      hardware_type: *current_training_not_found
+      accelerators_concurrent: *current_training_not_found
+      accelerator_hours: *current_training_not_found
+      duration_hours: *current_training_not_found
+      training_precision: *current_training_not_found
+      training_compute_flop: *current_training_not_found
+      mfu: *current_training_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, topology, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, arithmetic_mode]
+      nominal_accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, form_factor]
+      historical_acquisition_price: *current_training_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+inference_scenarios:
+  - id: I_PRODUCTION_DIDACTIC_TARGET
+    category: production_target
+    model_id: null
+    scope: didactic_production_inference
+    metrics:
+      concurrent_requests: {status: SCENARIO, value: 16, unit: request, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
+      input_tokens_per_request: {status: SCENARIO, value: 2048, unit: input_token_per_request, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
+      max_output_tokens_per_request: {status: SCENARIO, value: 256, unit: output_token_per_request, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
+      target_output_throughput: {status: SCENARIO, value: 100, unit: output_token_per_second_aggregate, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
+      ttft_p95_max: {status: SCENARIO, value: 2, unit: second, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
+      utilization_max: {status: SCENARIO, value: 70, unit: percent, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
+      redundancy: {status: SCENARIO, value: "N active servers + 1 server", unit: server_topology, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference, failure_domain: distinct}
+      sla_compliance:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [joint_output_throughput_measurement, joint_TTFT_p95_measurement, artifact, runtime, hardware, scheduler, batch, warmup, context_lengths, utilization]
+      operational_capex:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [SLA_compliant_server_count, purchasable_topology, complete_price_basis]
+
+valuations:
+  - id: V_H100_30K_DIDACTIC_SCENARIO
+    hardware_id: H_NVIDIA_H100_SXM_80GB
+    series: didactic_scenario_2026
+    purpose: worked_example_assumption
+    boundary: accelerator-only
+    price:
+      status: SCENARIO
+      value: 30000
+      unit: USD
+      source_ids: [S_COURSE_DESIGN]
+      note: "Supuesto docente por módulo; no es MSRP, cotización ni precio de mercado observado."
+    price_basis:
+      transaction_unit: module
+      minimum_quantity: 1
+      price_date: "2026-08-18"
+      geography: didactic_US_basis
+      currency: USD
+      condition: new_hypothetical
+      channel: didactic_assumption
+      taxes: excluded
+      support: excluded
+      network: excluded
+      storage: excluded
+      included_components: [H100_SXM_module, onboard_physical_HBM]
+      excluded_components: [server, CPU, system_RAM, chassis, network, storage, shipping, taxes, support, electricity, personnel, data, buildings, financing]
+
+  - id: V_THINKMATE_QH14_H100_REPLACEMENT_20260818
+    hardware_id: H_NVIDIA_H100_SXM_80GB
+    series: replacement_system_2026
+    purpose: replacement_cost_at_cutoff
+    boundary: system-based
+    price:
+      status: FACT
+      value: 404126
+      unit: USD
+      source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+      note: "Precio inicial de la configuración completa seleccionada en el configurador; excluye envío, manejo e impuestos aplicables."
+    accelerators_per_transaction:
+      status: FACT
+      value: 8
+      unit: H100_SXM_module_per_server
+      source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+    system_configuration:
+      status: FACT
+      value:
+        chassis: "8U, 8 GPU, 16 × 2.5-inch hot-swap, redundant 3000 W supplies"
+        accelerators: "HGX H100 with 8 × H100 SXM5 and 640 GB HBM3"
+        cpu: "2 × AMD EPYC 9554 64-core"
+        system_memory: "16 × 128 GB DDR5 ECC (2 TB)"
+        storage: "1 × 1.6 TB Solidigm P5620 NVMe"
+        network_adapter: "1 × ConnectX-7 200G NDR200 InfiniBand"
+        operating_system: none
+        assembly: included
+        warranty: "1-year onsite NBD plus 3-year advanced parts replacement zone 0"
+      unit: configured_server_bill_of_materials
+      source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+    price_basis:
+      transaction_unit: server
+      minimum_quantity: 1
+      price_date: "2026-08-18"
+      geography: United_States_online_configurator
+      currency: USD
+      condition: new
+      channel: seller_online_configurator
+      taxes: excluded
+      support: included_as_configured
+      network: one_ConnectX_7_adapter_included_external_fabric_excluded
+      storage: one_1_6_TB_NVMe_included
+      included_components: [configured_8U_server, eight_H100_SXM5_modules, two_CPUs, 2_TB_system_RAM, one_NVMe_drive, one_ConnectX_7_adapter, redundant_power_supplies, assembly_and_testing, configured_support]
+      excluded_components: [accelerators_already_inside_system, external_intersystem_network, external_network_switches_and_cables, additional_storage, shipping, handling, applicable_taxes, operating_system, electricity, personnel, data, buildings, financing]
