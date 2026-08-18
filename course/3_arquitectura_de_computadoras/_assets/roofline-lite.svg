@@ -16,7 +16,8 @@
   <line x1="44" y1="256" x2="296" y2="256" class="axis"/>
   <line x1="44" y1="256" x2="44" y2="112" class="axis"/>
   <path d="M44 242 L238 126 L296 126" class="roof"/>
-  <text x="166" y="119" class="s">techo del chip · 2,000</text>
+  <text x="176" y="106" class="s">meseta · chip al máximo</text>
+  <text x="224" y="119" class="s">2,000 GFLOPS</text>
 
   <line x1="74" y1="224" x2="74" y2="256" class="guide"/>
   <line x1="44" y1="224" x2="74" y2="224" class="guide"/>

@@ -106,6 +106,32 @@ Los bytes se cancelan: `(bytes/s) × (FLOP/byte) = FLOP/s`. Aquí usamos prefijo
 
 **Lectura visual:** la línea inclinada es lo que puede alimentar la memoria; la línea horizontal es lo que puede calcular el chip. El punto de la suma cae en 8.3 GFLOPS. Como está muy por debajo del techo de 2,000 GFLOPS, limita la memoria. El **quiebre, 20 FLOP/byte**, es el punto donde ambos techos se igualan; no hace falta calcularlo para entender esta suma.
 
+### Cómo interpretar la altura y la meseta
+
+En el eje vertical, estar más arriba significa poder terminar más operaciones por segundo. Pero la línea Roofline muestra un **techo**, no el rendimiento que el programa alcanzó realmente.
+
+Con el mismo hardware del ejemplo, multiplicamos la intensidad por 100 GB/s hasta encontrar el máximo del chip:
+
+| Intensidad del trabajo | Techo por memoria | Techo que manda |
+|---:|---:|---:|
+| 1 FLOP/byte | 100 GFLOPS | 100 GFLOPS, memoria |
+| 10 FLOP/byte | 1,000 GFLOPS | 1,000 GFLOPS, memoria |
+| 20 FLOP/byte | 2,000 GFLOPS | 2,000 GFLOPS, ambos |
+| 30 FLOP/byte | 3,000 GFLOPS | **2,000 GFLOPS, chip** |
+
+La línea sube mientras la memoria es el límite: reutilizar datos permite hacer más operaciones con los mismos bytes. En 20 FLOP/byte llegamos al máximo de 2,000 GFLOPS del chip. A partir de ahí aparece la **meseta**: la memoria podría sostener más trabajo, pero el chip no puede ejecutar más de 2,000 GFLOPS.
+
+### Cuándo puede decirse que un resultado es bueno
+
+Una intensidad alta **no significa por sí sola** que un programa sea bueno, rápido o eficiente. Algunos algoritmos necesitan mover muchos datos y naturalmente tienen intensidad baja. Tampoco sería válido cambiar el resultado que se calcula sólo para subir en la gráfica.
+
+La comparación útil mantiene el **mismo trabajo**, hardware y precisión, y mide qué fracción del techo correspondiente se alcanzó. Por ejemplo, para nuestra suma el techo es 8.3 GFLOPS:
+
+- rendimiento medido de 6 GFLOPS: `6 ÷ 8.3 ≈ 72% del techo`;
+- rendimiento medido de 7.5 GFLOPS: `7.5 ÷ 8.3 ≈ 90% del techo`.
+
+Ese **porcentaje del techo** permite decir que 90% aprovecha mejor este hardware que 72%. No permite afirmar que la suma sea mejor algoritmo que otro programa ni que 7.5 GFLOPS sea rápido en cualquier computadora.
+
 ### Resumen opcional: la fórmula general
 
 La intensidad $I$ es el número de FLOP dividido entre los bytes movidos:

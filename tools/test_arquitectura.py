@@ -186,6 +186,19 @@ def test_roofline_uses_a_traceable_numeric_example_without_kitchen_analogy():
     assert "writeback" not in roofline.lower()
     assert "prefetch" not in roofline.lower()
     assert "multiplicación matricial" not in roofline.lower()
+    assert all(
+        term in roofline
+        for term in (
+            "1 FLOP/byte",
+            "10 FLOP/byte",
+            "20 FLOP/byte",
+            "30 FLOP/byte",
+            "meseta",
+            "no significa por sí sola",
+            "porcentaje del techo",
+            "mismo trabajo",
+        )
+    )
 
 
 def test_roofline_svg_is_compact_and_summarizes_without_repeating_the_arithmetic():
