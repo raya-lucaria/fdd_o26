@@ -1,6 +1,24 @@
+from decimal import Decimal
 from pathlib import Path
 
+import pytest
 import yaml
+
+from ai_hardware_costs import (
+    accelerator_capex,
+    accelerator_hours,
+    aggregate_peaks,
+    bits_to_bytes,
+    gb_to_gib,
+    gib_to_gb,
+    installed_hbm_gb,
+    installed_hbm_gib,
+    kw_to_mw,
+    peak_rate_tflops,
+    system_capex,
+    watts_to_kw,
+    weight_floor_gb,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -518,3 +536,127 @@ def test_power_evidence_preserves_basis_and_boundary():
         if power["status"] in POSITIVE:
             assert power["power_basis"] in allowed_aggregate_bases
             assert power["boundary"] == "accelerator-only"
+
+
+def test_eight_accelerator_example_preserves_each_quantity_boundary():
+    """A wrong multiplier would break the physical example students reconstruct."""
+    assert installed_hbm_gb(8, 80) == Decimal("640")
+    assert accelerator_hours(8, 24) == Decimal("192")
+    assert accelerator_capex(8, 30_000) == Decimal("240000")
+
+
+def test_system_capex_counts_each_component_once():
+    """Adding each network component once prevents an accidental double count."""
+    network = [(2, Decimal("12000")), (1, Decimal("8000"))]
+    assert system_capex(4, Decimal("400000"), network) == Decimal("1632000")
+
+
+def test_mixed_peak_conventions_are_rejected_before_values_are_aggregated():
+    """Changing precision must not produce a single comparable peak series."""
+    with pytest.raises(ValueError, match="homogeneous peak convention"):
+        aggregate_peaks([{"precision": "BF16"}, {"precision": "FP8"}])
+
+
+def test_peak_rate_requires_complete_dense_precision_and_accumulation_convention():
+    """Omitting sparsity could silently mix dense and sparse manufacturer peaks."""
+    with pytest.raises(ValueError, match="sparsity"):
+        peak_rate_tflops(
+            8,
+            Decimal("312"),
+            {"precision": "BF16", "accumulation": "FP32"},
+        )
+
+
+def test_aggregate_peaks_rejects_different_hardware_even_when_precision_matches():
+    """Per-chip peak values are only additive for homogeneous hardware."""
+    entries = [
+        {
+            "hardware_id": "A100-SXM-80GB",
+            "precision": "BF16",
+            "sparsity": "dense",
+            "accumulation": "FP32",
+            "tflops": Decimal("312"),
+        },
+        {
+            "hardware_id": "H100-SXM-80GB",
+            "precision": "BF16",
+            "sparsity": "dense",
+            "accumulation": "FP32",
+            "tflops": Decimal("989.5"),
+        },
+    ]
+    with pytest.raises(ValueError, match="homogeneous hardware"):
+        aggregate_peaks(entries)
+
+
+def test_aggregate_peaks_adds_only_one_homogeneous_peak_series():
+    """Dropping an entry would understate a peak series with compatible conventions."""
+    entries = [
+        {
+            "hardware_id": "A100-SXM-80GB",
+            "precision": "BF16",
+            "sparsity": "dense",
+            "accumulation": "FP32",
+            "tflops": Decimal("312"),
+        },
+        {
+            "hardware_id": "A100-SXM-80GB",
+            "precision": "BF16",
+            "sparsity": "dense",
+            "accumulation": "FP32",
+            "tflops": Decimal("312"),
+        },
+    ]
+    assert aggregate_peaks(entries) == Decimal("624")
+
+
+def test_weight_floor_uses_decimal_gb_and_never_binary_gib_implicitly():
+    """Treating GB as GiB changes the reported floor without a visible unit change."""
+    assert weight_floor_gb(Decimal("35e9"), 8) == Decimal("35")
+    assert installed_hbm_gib(8, 80) == Decimal("640")
+    assert gb_to_gib(Decimal("14")) == Decimal("13.03851604461669921875")
+    assert gib_to_gb(Decimal("13.03851604461669921875")) == Decimal("14")
+
+
+def test_unit_conversions_keep_power_energy_bits_and_accelerator_time_distinct():
+    """Changing a divisor or labeling accelerator-hours as energy is a category error."""
+    assert watts_to_kw(1000) == Decimal("1")
+    assert kw_to_mw(1000) == Decimal("1")
+    assert bits_to_bytes(32) == Decimal("4")
+    with pytest.raises(ValueError, match="accelerator-hours are not kWh"):
+        accelerator_hours(8, 24, unit="kWh")
+
+
+def test_capex_boundaries_reject_a_system_price_as_an_accelerator_price():
+    """Adding a server price under accelerator-only would double count its GPUs."""
+    with pytest.raises(ValueError, match="accelerator-only"):
+        accelerator_capex(
+            8,
+            Decimal("30000"),
+            price_basis={"boundary": "system-based", "transaction_unit": "server"},
+        )
+
+
+def test_system_boundary_requires_network_outside_the_system_price():
+    """A network item already included in a server price must not be added again."""
+    with pytest.raises(ValueError, match="network_parts"):
+        system_capex(
+            1,
+            Decimal("400000"),
+            [(1, Decimal("12000"))],
+            price_basis={
+                "boundary": "system-based",
+                "transaction_unit": "server",
+                "network_included": True,
+            },
+        )
+
+
+def test_negative_quantities_and_prices_are_rejected():
+    """A negative accelerator, HBM, or price would make a physical total nonsensical."""
+    with pytest.raises(ValueError, match="non-negative"):
+        installed_hbm_gb(-1, 80)
+    with pytest.raises(ValueError, match="non-negative"):
+        accelerator_capex(1, Decimal("-1"))
+    with pytest.raises(ValueError, match="non-negative"):
+        weight_floor_gb(Decimal("1e9"), -8)
