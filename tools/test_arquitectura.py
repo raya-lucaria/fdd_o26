@@ -129,9 +129,41 @@ def test_required_beginner_visual_topics_and_current_models_are_present():
     assert all(term in memory for term in ("L1", "L2", "L3", "escala logarítmica"))
     assert all(term in performance for term in ("FLOP/byte", "foco LED", "microondas", "aire acondicionado"))
     assert all(term in ai for term in ("precision-parametros.svg", "dense-moe.svg", "prefill-decode.svg"))
-    assert all(term in ai for term in ("GPT-5.6", "Claude Fable 5", "Gemini 3.6 Flash", "Kimi K3", "Qwen3.7"))
+    assert all(
+        term in ai
+        for term in (
+            "GPT-5.6 Sol",
+            "Claude Sonnet 5",
+            "Gemini 3.1 Pro",
+            "Kimi K3",
+            "Qwen3.8-Max",
+            "Qwen3.8-2.4T-A95B",
+        )
+    )
     assert "Confianza" in ai
-    assert "no divulgado" in ai
+    assert "no divulgado" in ai.lower()
+
+
+def test_ai_hardware_tables_separate_facts_from_scenarios():
+    section = body(PAGES[4]).split("## Costo físico del hardware", 1)[1]
+    assert "8 × 80 GB = 640 GB" in section
+    assert "8 × USD 30,000 = USD 240,000" in section
+    assert "Casos con hardware documentado" in section
+    assert "Modelos actuales: hechos y límites" in section
+    assert "Escenarios equivalentes, no entrenamientos atribuidos" in section
+    assert "ESTIMATION_NOT_IDENTIFIABLE" in section
+
+
+def test_ai_hardware_section_excludes_api_and_non_hardware_costs():
+    ai = body(PAGES[4])
+    section = ai.split("## Costo físico del hardware", 1)[1]
+    section = section.split("## Guía de decisión", 1)[0]
+    forbidden = ("precio API", "electricidad", "personal", "datos", "edificios")
+    assert not any(term in section for term in forbidden)
+    assert "accelerator-hours no son energía" in section
+    assert "HBM física no es HBM utilizable" in section
+    assert "FLOP es trabajo" in section
+    assert "FLOP/s es una tasa" in section
 
 
 def test_weight_memory_formula_defines_symbols_and_converts_bits_before_formula():

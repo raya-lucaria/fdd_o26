@@ -193,51 +193,90 @@ La cadena es **chip → board → servidor → rack → cluster → centro de da
 
 No son un ranking: la aplicación y la medición completa deciden.
 
-## Modelos actuales: comparar sin inventar
+## Costo físico del hardware
 
-Una ficha pública suele revelar precio y contexto, pero no parámetros, precisión de servicio, chips ni energía. Una publicación de pesos abiertos permite calcular memoria, pero todavía no determina el costo de entrenamiento. La tabla conserva esos huecos.
+Aquí **costo** significa compra equivalente de hardware dentro de una frontera declarada. No es el costo total de crear u operar un modelo. Una cifra sin estado e ID no entra en las tablas.
 
-| Familia vigente al 17-08-2026 | Tipo y fecha pública | Parámetros total/activos | Contexto | Precio API publicado por 1M tokens | Evidencia y confianza |
-|---|---|---:|---:|---:|---|
-| OpenAI GPT-5.6 Sol | Cerrado, 2026 | No divulgado | 1,050,000 | USD 5 entrada / 30 salida | **FACT**, alta para ficha y precio; tamaño no divulgado |
-| Anthropic Claude Fable 5 | Cerrado, 2026 | No divulgado | Publicado en su ficha; depende de modalidad | USD 10 / 50 | **FACT**, alta para precio; tamaño no divulgado |
-| Google Gemini 3.6 Flash | Cerrado, 2026 | No divulgado | 1,000,000 | USD 0.75 / 3.75 hasta 31-12-2026 | **FACT**, alta para API; chips no divulgados |
-| Moonshot Kimi K3 | MoE con pesos, 16-07-2026 | 2.8T / 104B | 1,048,576 | CNY 20 entrada sin caché / 100 salida | **FACT**, alta para model card; precio por región |
-| Alibaba Qwen3.7 Max | Cerrado, 2026 | No divulgado | Hasta 1,000,000 según endpoint | Desde USD 1.65 / 4.951 | **FACT**, media; región y tramo cambian precio |
-| Qwen3.6-35B-A3B | MoE con pesos abiertos, 16-04-2026 | 35B / 3B | 262,144 nativo; extensible a 1,010,000 | Autoalojado; no existe un precio API universal | **FACT**, alta para model card; operación depende del sistema |
+La etiqueta dice qué sabemos: **FACT** fue publicado por la fuente responsable; **DERIVED** es una cuenta reproducible; **SCENARIO** es un supuesto docente; **NOT_FOUND** registra una búsqueda sin resultado; y **ESTIMATION_NOT_IDENTIFIABLE** indica que faltan observables para defender un rango. El ID permite volver al registro y a sus fuentes. **Confianza** no sustituye esa trazabilidad.
 
-“No divulgado” es un resultado, no un dato faltante que deba rellenarse. Los nombres, límites y precios cambian; cada fila enlaza abajo a la ficha primaria y debe fecharse al enseñarla.
+### De un acelerador a una cuenta visible
 
-### Una cuenta verificable con pesos abiertos
+Tomemos un módulo NVIDIA H100 SXM con 80 GB de HBM física, pico de 989.5 TFLOP/s BF16 tensorial denso y potencia configurable de 700 W. Esas especificaciones pertenecen al módulo, no al servidor: **FACT** para HBM y potencia, **DERIVED** para la tasa densa; `H_NVIDIA_H100_SXM_80GB`, `S_NVIDIA_H100_PAGE`.
 
-**DERIVED (confianza alta para la aritmética):** si Qwen3.6-35B-A3B almacenara sus 35B parámetros uniformemente en BF16, el piso sería $35\times2=70$ GB decimales. En INT8 serían 35 GB. Los 3B activos indican cálculo aproximado por token, **no** que sólo deban almacenarse 3 GB.
+Supongamos ocho módulos. La cantidad y el precio unitario son **SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`, `S_COURSE_DESIGN`.
 
-**ESTIMATE (confianza media):** añadiendo 10–25 % para cuantización por grupos, escalas, buffers y runtime, una representación INT8 de 35 GB podría requerir aproximadamente **39–44 GB**, antes de KV cache. Supuesto: pesos uniformes y overhead multiplicativo; debe medirse con el runtime elegido.
+- HBM física: `8 × 80 GB = 640 GB` (**SCENARIO** aplicado a una especificación **FACT**; `V_H100_30K_DIDACTIC_SCENARIO`, `H_NVIDIA_H100_SXM_80GB`).
+- Pico BF16 denso: `8 × 989.5 TFLOP/s = 7,916 TFLOP/s` (**SCENARIO** aplicado a una tasa **DERIVED**; mismos IDs). Es una tasa teórica homogénea, no trabajo realizado.
+- Potencia nominal de aceleradores: `8 × 700 W = 5,600 W = 5.6 kW` (**SCENARIO** aplicado a potencia **FACT**; mismos IDs). La frontera termina en los módulos.
+- Asignación durante un día: `8 × 24 h = 192 H100-module-hours` (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Los accelerator-hours no son energía.
+- CAPEX `accelerator-only`: `8 × USD 30,000 = USD 240,000` (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Compra ocho módulos hipotéticos con su HBM incorporada; excluye servidor, CPU, RAM, chasis, red, almacenamiento, envío, impuestos y soporte.
 
-### Chips, TFLOPS, energía y entrenamiento
+La cuenta general aparece después del ejemplo:
 
-| Pregunta | Lo que sí puede afirmarse | Lo que no se puede concluir |
-|---|---|---|
-| Qué chip sirvió una respuesta | El proveedor puede publicar familias de infraestructura | Que una solicitud usó un modelo o número exacto de chips |
-| Cuántos TFLOPS entrenaron un modelo | Un chip publica picos por precisión | Pico × tiempo no equivale a trabajo útil sin utilización |
-| Cuánta energía consumió entrenar | Requiere potencia de pared, tiempo y frontera | Parámetros o precio API no revelan kWh |
-| Cuánto cuesta inferir | Precio API es verificable para el cliente | Precio no equivale a costo interno ni energía |
+`HBM física instalada = aceleradores × HBM física por acelerador`
 
-**FACT (confianza alta):** OpenAI declara que GPT-5.5 fue entrenado en Stargate Abilene con sistemas NVIDIA GB200. No publica una asignación completa por modelo de chips, horas ni kWh. **FACT:** OpenAI también anunció compromisos de infraestructura de 3 GW para inferencia y 2 GW para entrenamiento con Vera Rubin. Son capacidades agregadas futuras, no la potencia de GPT-5.6.
+`pico teórico homogéneo = aceleradores × FLOP/s pico por acelerador`
 
-**ESTIMATE reproducible, no afirmación sobre esos modelos:** un entrenamiento hipotético con 4,096 aceleradores que promedian 700 W durante 60 días usa sólo en aceleradores:
+`potencia nominal de aceleradores = aceleradores × W nominales por acelerador`
 
-$$4{,}096\times0.7\ \mathrm{kW}\times24\times60=4.13\ \mathrm{GWh}$$
+`accelerator-hours = aceleradores asignados promedio × horas calendario`
 
-Con un PUE supuesto de 1.2, la instalación consumiría cerca de **4.95 GWh** para esa frontera. Confianza alta en la multiplicación y baja en su aplicación a un modelo real: cantidad, potencia media, duración, reinicios, CPU, red y PUE pueden ser distintos.
+`CAPEX accelerator-only = aceleradores × precio de la unidad transable`
 
-### Ejemplo de costo de inferencia
+Dos preguntas evitan sobreinterpretar la suma. ¿Los 640 GB demuestran que hay 640 GB disponibles para una sola copia del modelo? No: **HBM física no es HBM utilizable**; faltan particionado, réplicas, estados y reserva del runtime (**ESTIMATION_NOT_IDENTIFIABLE**; `H_NVIDIA_H100_SXM_80GB`). ¿Los 7,916 TFLOP/s demuestran cuánto trabajo terminó? No: **FLOP es trabajo** y **FLOP/s es una tasa**; faltan utilización y medición sostenida.
 
-**DERIVED:** con el precio promocional de Gemini 3.6 Flash vigente el 17-08-2026, USD 0.75 por millón de tokens de entrada y USD 3.75 por millón de salida, una solicitud de 10,000 tokens de entrada y 2,000 de salida costaría:
+### Casos con hardware documentado
 
-$$0.01\times0.75+0.002\times3.75=\$0.015$$
+La tabla esencial incluye sólo alcances cuyo creador publicó tipo y cantidad concurrente de aceleradores, más accelerator-hours o duración para el mismo entrenamiento. Desliza horizontalmente si tu pantalla es estrecha; la primera columna identifica siempre modelo y alcance.
 
-Ese es costo facturado bajo el supuesto indicado. No revela watts, número de chips ni latencia. Para comparar proveedores deben coincidir región, modalidad, caché, lote, calidad y fecha.
+| Modelo y alcance | Hardware concurrente | Accelerator-hours | HBM física instalada | Potencia nominal de aceleradores | CAPEX/base |
+|---|---|---|---|---|---|
+| BLOOM 176B, corrida completa (**FACT**; `M_BLOOM_176B`, `T_BLOOM_176B_TRAINING`) | 384 GPU A100 SXM 80 GB (**FACT**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_BIGSCIENCE_BLOOM_CARD`) | 1,082,990 A100 GPU-h (**FACT**; `S_BIGSCIENCE_BLOOM_CARBON`) | 30,720 GB HBM2e (**DERIVED**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_NVIDIA_A100_DATASHEET`) | 153,600 W, suma de TDP estándar (**DERIVED**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_NVIDIA_A100_DATASHEET`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_BLOOM_176B_TRAINING` |
+| PaLM 540B, entrenamiento (**FACT**; `M_PALM_540B`, `T_PALM_540B_PRETRAINING`) | pico de 6,144 chips TPU v4 (**FACT**; `S_GOOGLE_PALM_PAPER`) | 8,404,992 TPU-v4-chip-h asignadas (**DERIVED**; `S_GOOGLE_PALM_PAPER`) | 196,608 GiB HBM2 en el pico (**DERIVED**; `S_GOOGLE_PALM_PAPER`, `S_GOOGLE_TPU_V4_DOCS`) | 1,179,648 W, suma de máximos medidos por chip (**DERIVED**; `S_GOOGLE_PALM_PAPER`, `S_GOOGLE_TPU_V4_DOCS`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_PALM_540B_PRETRAINING` |
+| Llama 3.1 405B, preentrenamiento (**FACT**; `M_LLAMA31_405B`, `T_LLAMA31_405B_PRETRAINING`) | pico de 16,384 GPU H100 80 GB (**FACT**; `S_META_LLAMA31_PAPER`, `S_META_LLAMA31_CARD`) | 30,840,000 H100 GPU-h (**FACT**; `S_META_LLAMA31_CARD`) | 1,310,720 GB HBM en el pico (**DERIVED**; `S_META_LLAMA31_PAPER`, `S_NVIDIA_H100_PAGE`) | 11,468,800 W, suma de TDP configurables (**DERIVED**; `S_META_LLAMA31_PAPER`, `S_NVIDIA_H100_PAGE`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_LLAMA31_405B_PRETRAINING` |
+| DeepSeek-V3, preentrenamiento (**FACT**; `M_DEEPSEEK_V3`, `T_DEEPSEEK_V3_PRETRAINING`) | 2,048 GPU H800 80 GB (**FACT**; `S_DEEPSEEK_V3_PAPER`) | 2,664,000 H800 GPU-h (**FACT**; `S_DEEPSEEK_V3_PAPER`) | 163,840 GB HBM física (**DERIVED**; `S_DEEPSEEK_V3_PAPER`, `S_NVIDIA_H800_RELEASE_NOTES`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_DEEPSEEK_V3_PRETRAINING` | **ESTIMATION_NOT_IDENTIFIABLE**; `T_DEEPSEEK_V3_PRETRAINING` |
+
+Las bases de potencia no forman una sola serie: TDP estándar, máximo medido y TDP configurable responden preguntas distintas. Tampoco se suma potencia de aceleradores a una potencia de servidor que ya los contenga.
+
+La HBM utilizable es **ESTIMATION_NOT_IDENTIFIABLE** en cada caso documentado; IDs `T_BLOOM_176B_TRAINING`, `T_PALM_540B_PRETRAINING`, `T_LLAMA31_405B_PRETRAINING` y `T_DEEPSEEK_V3_PRETRAINING`. La HBM física agregada no revela TP, PP, DP, réplicas, shards ni reserva del runtime. GB y GiB permanecen separados.
+
+#### Ledger visible: escala del modelo y trabajo
+
+Esta subtabla conserva detalles que volverían ilegible la tabla principal. FLOP nombra trabajo de entrenamiento; TFLOP/s, mostrado arriba, nombra una tasa pico.
+
+| Modelo/alcance | Parámetros y tokens | Precisión | FLOP de entrenamiento publicado | MFU | ID del caso |
+|---|---|---|---|---|---|
+| BLOOM 176B | 176.247B parámetros y 366B tokens (**FACT**; `S_BIGSCIENCE_BLOOM_PAPER`) | bfloat16 mixta (**FACT**; mismo ID) | **NOT_FOUND**; `T_BLOOM_176B_TRAINING` | **NOT_FOUND**; `T_BLOOM_176B_TRAINING` | `T_BLOOM_176B_TRAINING` |
+| PaLM 540B | 540.35B parámetros y 780B tokens (**FACT**; `S_GOOGLE_PALM_PAPER`) | bfloat16 (**FACT**; mismo ID) | 2.56 × 10^24 FLOP (**FACT**; mismo ID) | 46.2 % (**FACT**; mismo ID) | `T_PALM_540B_PRETRAINING` |
+| Llama 3.1 405B | 405B parámetros y 15.6T tokens (**FACT**; `S_META_LLAMA31_PAPER`) | BF16 mixta (**FACT**; mismo ID) | 3.8 × 10^25 FLOP (**FACT**; mismo ID) | 38–43 % (**FACT**; mismo ID) | `T_LLAMA31_405B_PRETRAINING` |
+| DeepSeek-V3 | 671B parámetros totales, 37B activos y 14.8T tokens (**FACT**; `S_DEEPSEEK_V3_PAPER`) | FP8 mixta con componentes de mayor precisión (**FACT**; mismo ID) | **NOT_FOUND**; `T_DEEPSEEK_V3_PRETRAINING` | **NOT_FOUND**; `T_DEEPSEEK_V3_PRETRAINING` | `T_DEEPSEEK_V3_PRETRAINING` |
+
+PaLM usó dos fases: `6,144 × 1,200 h + 3,072 × 336 h = 8,404,992 TPU-v4-chip-h` (**DERIVED**; `T_PALM_540B_PRETRAINING`, `S_GOOGLE_PALM_PAPER`). La cantidad concurrente del cuadro es el pico, no una cantidad constante. BLOOM duró 2,837.68 h de pared (**DERIVED**; `T_BLOOM_176B_TRAINING`, `S_BIGSCIENCE_BLOOM_CARBON`); Llama no publica duración suficiente para reconstruirla (**ESTIMATION_NOT_IDENTIFIABLE**; `T_LLAMA31_405B_PRETRAINING`). GPU-h y TPU-chip-h no se convierten ni se suman.
+
+### Modelos actuales: hechos y límites
+
+El corte es 2026-08-18 (**FACT**; `tools/data/ai_hardware_costs.yaml`). “No divulgado” o **NOT_FOUND** no autoriza rellenar huecos. Para entrenamientos cerrados, sin tipo, cantidad y tiempo compatibles, el resultado físico y económico es **ESTIMATION_NOT_IDENTIFIABLE**, no una banda inventada.
+
+| Modelo vigente o artefacto | Lanzamiento y disponibilidad | Parámetros públicos | Hardware y tiempo publicados | CAPEX atribuido |
+|---|---|---|---|---|
+| GPT-5.6 Sol (**FACT**; `M_GPT56_SOL`) | 2026-06-26, productos alojados sin pesos (**FACT**; `S_OPENAI_GPT56_ANNOUNCEMENT`, `S_OPENAI_GPT56_AVAILABILITY`) | **NOT_FOUND**; `T_GPT56_SOL_TRAINING_AUDIT` | **NOT_FOUND**; `T_GPT56_SOL_TRAINING_AUDIT` | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+| Claude Sonnet 5 (**FACT**; `M_CLAUDE_SONNET5`) | 2026-06-30, productos alojados sin pesos (**FACT**; `S_ANTHROPIC_SONNET5_ANNOUNCEMENT`) | **NOT_FOUND**; `T_CLAUDE_SONNET5_TRAINING_AUDIT` | **NOT_FOUND**; `T_CLAUDE_SONNET5_TRAINING_AUDIT` | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+| Gemini 3.1 Pro (**FACT**; `M_GEMINI31_PRO`) | 2026-02-19, vista previa alojada sin pesos (**FACT**; `S_GOOGLE_GEMINI31_CARD`, `S_GOOGLE_GEMINI31_PAGE`) | **NOT_FOUND**; `T_GEMINI31_PRO_TRAINING_AUDIT` | **NOT_FOUND**; `T_GEMINI31_PRO_TRAINING_AUDIT` | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+| Kimi K3 (**FACT**; `M_KIMI_K3`) | 2026-07-16, pesos abiertos y servicio alojado (**FACT**; `S_MOONSHOT_KIMI_K3_BLOG`, `S_MOONSHOT_KIMI_K3_REPOSITORY`, `S_MOONSHOT_KIMI_K3_CARD`) | 2.8T totales y 104.2B activos (**FACT**; `S_MOONSHOT_KIMI_K3_PAPER`) | **NOT_FOUND**; `T_KIMI_K3_TRAINING_AUDIT` | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+| Qwen3.8-Max, servicio (**FACT**; `M_QWEN38_MAX_SERVICE`) | 2026-08-03, alojado en QwenCloud (**FACT**; `S_QWEN38_ANNOUNCEMENT`) | 2.4T totales y 95B activos (**FACT**; `S_QWEN38_ANNOUNCEMENT`) | **NOT_FOUND**; `T_QWEN38_MAX_SERVICE_TRAINING_AUDIT` | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+| Qwen3.8-2.4T-A95B, artefacto base (**FACT**; `M_QWEN38_2_4T_A95B`) | 2026-08-12, pesos abiertos en ModelScope (**FACT**; `S_QWEN38_MODELSCOPE`) | 2.4T totales y 95B activos (**FACT**; `S_QWEN38_MODELSCOPE`) | **NOT_FOUND**; `T_QWEN38_2_4T_A95B_TRAINING_AUDIT` | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+
+Los parámetros verificables de un artefacto abierto permiten calcular un piso de pesos. No revelan por sí solos aceleradores concurrentes, duración, HBM utilizable, potencia observada ni precio de compra del entrenamiento real.
+
+### Escenarios equivalentes, no entrenamientos atribuidos
+
+Un escenario responde “¿qué compraría bajo estos supuestos?”, no “¿qué costó entrenar el modelo?”. Por eso esta tabla no contiene nombres de modelos.
+
+| Atribución | Hardware hipotético | Asignación | HBM física | Pico teórico y potencia nominal | CAPEX/base |
+|---|---|---|---|---|---|
+| Sin modelo atribuido (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`) | 8 módulos H100 SXM 80 GB (**SCENARIO**; mismo ID; especificaciones `H_NVIDIA_H100_SXM_80GB`) | 192 H100-module-hours para 24 h (**SCENARIO**; mismo ID) | 640 GB (**SCENARIO**; mismo ID) | 7,916 TFLOP/s BF16 denso y 5.6 kW de módulos (**SCENARIO**; mismo ID) | USD 240,000, `accelerator-only` (**SCENARIO**; mismo ID) |
+
+La valoración supone USD 30,000 por módulo, unidad transable “module”, cantidad mínima uno, condición nueva hipotética, fecha 2026-08-18 y base didáctica en USD (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Incluye el módulo y su HBM; excluye los componentes enumerados en el ejemplo. No existe aquí una valoración `system-based`, y no se suma un sistema completo sobre estos módulos.
 
 ## Guía de decisión
 
@@ -254,7 +293,7 @@ La decisión no comienza con una marca o una ficha técnica. Comienza con una ca
 
 Después se identifica la escala donde aparece el límite. Dentro de un core importan instrucciones, pipeline y caché. Entre CPU y acelerador importan copias, sincronización y tamaño de lote. Entre dispositivos o racks importan las colectivas, la red y el trabajo que queda disponible entre sincronizaciones. El mismo síntoma —GPU con baja utilización— puede venir de causas distintas en cada escala.
 
-Por último se conserva el contexto de la cifra. Un máximo de producto es **FACT**, una cuenta explícita es **DERIVED** y un escenario docente es **ESTIMATE**. Ninguna de esas etiquetas convierte el número en rendimiento observado. Una comparación útil mantiene constantes tarea, precisión, calidad, lote, contexto y frontera energética; luego registra capacidad máxima, latencia, throughput, bytes movidos y potencia de pared.
+Por último se conserva el contexto de la cifra. Un máximo de producto es **FACT**, una cuenta explícita es **DERIVED** y una configuración hipotética es **SCENARIO**. Un rango construido con supuestos declarados es **ESTIMATE**. Ninguna etiqueta convierte el número en rendimiento observado.
 
 La práctica oficial aparece a continuación, al final de la unidad. Incluye seis preguntas conceptuales, tres escenarios de decisión y quince flashcards. Los escenarios se resuelven en tres grupos pequeños, en paralelo, durante siete minutos; las tarjetas quedan como recuperación postclase y no añaden tiempo al bloque presencial.
 
@@ -264,7 +303,7 @@ La práctica oficial aparece a continuación, al final de la unidad. Incluye sei
 - Pesos son sólo el piso: inferencia añade KV y temporales; entrenamiento añade activaciones, gradientes y optimizador.
 - Parámetros totales determinan almacenamiento; activos aproximan trabajo por token en MoE.
 - Más contexto, batch o chips cambian memoria, espera y comunicación; no garantizan aceleración lineal.
-- FACT, DERIVED y ESTIMATE responden preguntas distintas. “No divulgado” evita convertir rumores en hechos.
+- FACT, DERIVED, ESTIMATE y SCENARIO responden preguntas distintas. “No divulgado” evita convertir rumores en hechos.
 
 ## Fuentes
 
@@ -277,8 +316,9 @@ La práctica oficial aparece a continuación, al final de la unidad. Incluye sei
 - [NVIDIA — GeForce RTX 5090](https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/): capacidad y TGP; [arquitectura RTX Blackwell](https://images.nvidia.com/aem-dam/Solutions/geforce/blackwell/nvidia-rtx-blackwell-gpu-architecture.pdf): bandwidth.
 - [Google Cloud — TPU7x Ironwood](https://docs.cloud.google.com/tpu/docs/tpu7x): HBM, picos por precisión, interconexión y tamaño de pod.
 - [NVIDIA — DGX GB300](https://www.nvidia.com/en-us/data-center/dgx-gb300/): composición, memoria y bandwidth; [NVL72 System Components](https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/components.html): NVLink, refrigeración y potencia máxima.
-- [OpenAI — GPT-5.6](https://openai.com/index/gpt-5-6/) y [modelos API](https://developers.openai.com/api/docs/models/compare): versión, contexto y precios; [infraestructura para la era de inteligencia](https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age/): entrenamiento en GB200; [Scaling AI for everyone](https://openai.com/index/scaling-ai-for-everyone/): compromisos agregados de infraestructura.
-- [Anthropic — Claude Fable 5](https://www.anthropic.com/claude/fable) y [anuncio Fable 5](https://www.anthropic.com/news/claude-fable-5-mythos-5): ficha y precio del modelo.
-- [Google AI — modelos Gemini](https://ai.google.dev/gemini-api/docs/latest-model) y [precios](https://ai.google.dev/gemini-api/docs/pricing): contexto, disponibilidad y precio de Gemini 3.6 Flash.
-- [Moonshot AI — Kimi K3](https://huggingface.co/moonshotai/Kimi-K3) y [plataforma Kimi](https://platform.kimi.com/): arquitectura, parámetros, contexto y precio regional.
-- [Qwen — Qwen3.6](https://github.com/QwenLM/Qwen3.6) y [Alibaba Model Studio — precios](https://www.alibabacloud.com/help/en/model-studio/model-pricing): pesos abiertos, parámetros activos y precios regionales de Qwen3.7.
+- [NVIDIA H100](https://www.nvidia.com/es-la/data-center/h100/) y [A100 datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf): HBM, tasas pico por precisión y potencia del módulo; [Cloud TPU v4](https://docs.cloud.google.com/tpu/docs/v4): HBM, tasa BF16 y potencia medida por chip.
+- Entrenamientos documentados: [BLOOM](https://arxiv.org/abs/2211.05100), [horas de BLOOM](https://arxiv.org/abs/2211.02001), [PaLM](https://arxiv.org/abs/2204.02311), [Llama 3](https://ai.meta.com/research/publications/the-llama-3-herd-of-models/) y [DeepSeek-V3](https://arxiv.org/abs/2412.19437).
+- [OpenAI — GPT-5.6 Sol](https://openai.com/index/previewing-gpt-5-6-sol/) y [disponibilidad de GPT-5.6](https://openai.com/index/gpt-5-6/): nombre, lanzamiento, disponibilidad y región.
+- [Anthropic — Claude Sonnet 5](https://www.anthropic.com/news/claude-sonnet-5): nombre, lanzamiento y disponibilidad; [Gemini 3.1 Pro](https://deepmind.google/models/model-cards/gemini-3-1-pro/): ficha y disponibilidad del modelo.
+- [Moonshot AI — Kimi K3](https://www.kimi.com/blog/kimi-k3), [reporte técnico](https://arxiv.org/abs/2607.24653) y [repositorio](https://github.com/MoonshotAI/Kimi-K3): lanzamiento, parámetros y artefacto abierto.
+- [Qwen — Qwen3.8-Max](https://qwen.ai/blog?id=qwen3.8) y [Qwen3.8-2.4T-A95B](https://www.modelscope.cn/models/Qwen/Qwen3.8-2.4T-A95B): servicio alojado y artefacto base abierto, tratados como registros distintos.

@@ -23,6 +23,13 @@ from ai_hardware_costs import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "tools" / "data" / "ai_hardware_costs.yaml"
+PAGE = (
+    ROOT
+    / "course"
+    / "3_arquitectura_de_computadoras"
+    / "4_ai_escala_y_decision"
+    / "0_index.md"
+)
 ALLOWED = {
     "FACT",
     "DERIVED",
@@ -78,6 +85,51 @@ PRICE_BASIS_FIELDS = {
 
 def load_yaml(path: Path):
     return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+def test_training_tables_expose_ledger_ids_for_each_included_case():
+    """Dropping an ID would make a displayed training figure untraceable."""
+    data = load_yaml(DATA)
+    section = PAGE.read_text(encoding="utf-8").split(
+        "## Costo físico del hardware", 1
+    )[1]
+
+    documented = [
+        case for case in data["training_cases"] if case["include_in_documented_table"]
+    ]
+    assert documented
+    for case in documented:
+        assert case["id"] in section
+        assert case["model_id"] in section
+        for field in (
+            "accelerators_concurrent",
+            "accelerator_hours",
+            "hbm_physical_installed",
+            "accelerator_power",
+            "attributed_training_capex",
+        ):
+            cell = case["metrics"][field]
+            assert cell["status"] in section
+            for source_id in cell.get("source_ids", []):
+                assert source_id in section
+
+
+def test_training_scenario_is_unattributed_and_uses_the_ledger_valuation():
+    """Attaching the didactic valuation to a model would turn a scenario into fact."""
+    data = load_yaml(DATA)
+    section = PAGE.read_text(encoding="utf-8").split(
+        "### Escenarios equivalentes, no entrenamientos atribuidos", 1
+    )[1]
+    valuation = next(
+        item
+        for item in data["valuations"]
+        if item["id"] == "V_H100_30K_DIDACTIC_SCENARIO"
+    )
+
+    assert valuation["id"] in section
+    assert "Sin modelo atribuido" in section
+    assert "SCENARIO" in section
+    assert "Thinkmate" not in section
 
 
 def test_ledger_has_cutoff_and_cell_level_evidence():
