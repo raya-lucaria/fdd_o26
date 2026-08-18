@@ -152,6 +152,14 @@ def test_weight_memory_formula_defines_symbols_and_converts_bits_before_formula(
         "BF16",
         "INT8",
         "INT4",
+        "contenido numérico",
+        "no el tamaño total",
+        "objeto `float` de Python",
+        "NumPy `float32`",
+        "metadatos",
+        "alineación",
+        "buffers",
+        "`sys.getsizeof`",
     )
     assert all(term in section for term in required)
     formula = section.index("$$M_{pesos}")
