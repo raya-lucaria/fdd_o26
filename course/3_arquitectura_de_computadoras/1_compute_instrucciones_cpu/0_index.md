@@ -99,13 +99,21 @@ La vectorización de NumPy suele ganar por dos razones: evita repetir la coordin
 
 **Latencia** es el tiempo para terminar una unidad de trabajo. **Throughput** es cuántas unidades se terminan por intervalo. Un core rápido puede reducir la latencia de una tarea secuencial; más cores pueden elevar el throughput de muchas tareas independientes.
 
-Imagina una cocina. Preparar antes un solo plato reduce su latencia. Servir más platos por hora aumenta el throughput. Agregar cocineros ayuda sólo si hay estaciones, ingredientes y pedidos suficientes; en la computadora, esos límites aparecen como dependencias, memoria y coordinación.
+### Ejemplo de juguete con números
 
-![Dos líneas de tiempo comparan un plato terminado en tres minutos con cuatro platos terminados en seis; una despensa vacía deja cocineros ociosos.](../_assets/latencia-throughput.svg)
+Supongamos que **1 tarea tarda 4 segundos** de principio a fin.
+
+- **Latencia:** seguimos una sola tarea. Empieza en el segundo 0 y termina en el segundo 4. Su latencia es **4 segundos**.
+- **Throughput con un worker:** en una ventana de 12 segundos caben `12 ÷ 4 = 3 tareas`. El throughput es `3 ÷ 12 = 0.25 tareas/s`.
+- **Throughput con dos workers:** cada worker termina tres tareas, así que juntos terminan seis. El throughput es `6 ÷ 12 = 0.5 tareas/s`.
+
+**La latencia sigue siendo 4 segundos** para cada tarea. Lo que se duplicó fue el throughput: pasamos de 0.25 a 0.5 tareas por segundo.
+
+![Ejemplo numérico: una tarea tarda cuatro segundos. Un worker termina tres tareas en doce segundos, equivalentes a 0.25 tareas por segundo; dos workers terminan seis en el mismo intervalo, equivalentes a 0.5 tareas por segundo. La latencia individual permanece en cuatro segundos.](../_assets/latencia-throughput.svg)
 
 *Diagrama propio del curso, SVG accesible, 2026.*
 
-**Lectura visual:** la fila superior observa una sola orden desde inicio hasta fin. La inferior cuenta cuántas órdenes salen durante una ventana. Reducir una no garantiza mejorar la otra. Si la despensa no entrega ingredientes, agregar cocineros sólo agrega espera.
+**Lectura visual:** la primera fila sigue una tarea y mide sus cuatro segundos. Las siguientes filas mantienen esa misma duración, pero cuentan cuántas tareas terminan en doce segundos. Dos workers duplican las salidas, no aceleran cada tarea.
 
 | Cambio | Latencia de una tarea | Throughput del sistema |
 |---|---|---|

@@ -134,6 +134,31 @@ def test_required_beginner_visual_topics_and_current_models_are_present():
     assert "no divulgado" in ai
 
 
+def test_latency_throughput_uses_a_traceable_numeric_task_example():
+    compute = body(PAGES[1])
+    section = compute.split("## Latencia y throughput no son sinónimos", 1)[1]
+    section = section.split("## Puente a memoria", 1)[0]
+    required = (
+        "1 tarea tarda 4 segundos",
+        "12 ÷ 4 = 3 tareas",
+        "3 ÷ 12 = 0.25 tareas/s",
+        "6 ÷ 12 = 0.5 tareas/s",
+        "La latencia sigue siendo 4 segundos",
+    )
+    assert all(term in section for term in required)
+    assert "cocina" not in section.lower()
+    assert "plato" not in section.lower()
+
+    svg = (ASSETS / "latencia-throughput.svg").read_text(encoding="utf-8")
+    assert all(term in svg for term in ("4 s por tarea", "3 tareas / 12 s", "6 tareas / 12 s"))
+    root = ET.parse(ASSETS / "latencia-throughput.svg").getroot()
+    assert root.attrib["width"] == "720"
+    assert root.attrib["height"] == "600"
+    assert root.attrib["viewBox"] == "0 0 360 300"
+    assert "cocina" not in svg.lower()
+    assert "plato" not in svg.lower()
+
+
 def test_roofline_uses_a_traceable_numeric_example_without_kitchen_analogy():
     performance = body(PAGES[3])
     roofline = performance.split("## Roofline conecta cómputo y memoria", 1)[1]

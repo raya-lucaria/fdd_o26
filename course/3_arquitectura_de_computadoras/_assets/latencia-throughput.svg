@@ -1,16 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 650" role="img" aria-labelledby="lt-title lt-desc">
-  <title id="lt-title">Latencia y throughput comparados con una cocina</title>
-  <desc id="lt-desc">Arriba, un plato termina en tres minutos y representa latencia. Abajo, cuatro platos terminan en seis minutos y representan throughput. Una despensa lenta deja cocineros ociosos.</desc>
-  <defs><linearGradient id="bg-lt" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#064e3b"/></linearGradient></defs>
-  <style>.h{font:800 38px system-ui,sans-serif;fill:#fff;text-anchor:middle}.l{font:800 28px system-ui,sans-serif;fill:#fff}.t{font:650 23px system-ui,sans-serif;fill:#e2e8f0}.axis{stroke:#94a3b8;stroke-width:4}.tick{stroke:#64748b;stroke-width:2}.work{stroke-width:20;stroke-linecap:round}.done{fill:#34d399}</style>
-  <rect width="960" height="650" rx="32" fill="url(#bg-lt)"/><text x="480" y="48" class="h">Una tarea rápida ≠ muchas tareas por minuto</text>
-  <text x="55" y="112" class="l">LATENCIA</text><text x="55" y="146" class="t">¿Cuánto tarda un plato?</text>
-  <path d="M260 130H880" class="axis"/><path d="M260 120V140M460 120V140M660 120V140M860 120V140" class="tick"/>
-  <path d="M280 190H560" stroke="#67e8f9" class="work"/><circle cx="580" cy="190" r="18" class="done"/><text x="610" y="198" class="t">1 plato · 3 min</text>
-  <text x="55" y="290" class="l">THROUGHPUT</text><text x="55" y="324" class="t">¿Cuántos salen por intervalo?</text>
-  <path d="M260 308H880" class="axis"/><path d="M260 298V318M460 298V318M660 298V318M860 298V318" class="tick"/>
-  <path d="M280 370H430M430 420H580M580 370H730M730 420H860" stroke="#a78bfa" class="work"/>
-  <circle cx="450" cy="370" r="16" class="done"/><circle cx="600" cy="420" r="16" class="done"/><circle cx="750" cy="370" r="16" class="done"/><circle cx="880" cy="420" r="16" class="done"/>
-  <text x="480" y="485" class="t">4 platos · 6 min → más salidas, no menor espera individual</text>
-  <rect x="90" y="530" width="780" height="82" rx="20" fill="#78350f" stroke="#fbbf24" stroke-width="3"/><text x="480" y="564" class="h" style="font-size:26px">Despensa vacía = CPU esperando memoria</text><text x="480" y="596" class="t" text-anchor="middle">Más cocineros no crean ingredientes ni estaciones</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="600" viewBox="0 0 360 300" role="img" aria-labelledby="lt-title lt-desc">
+  <title id="lt-title">Latencia de cuatro segundos y throughput de uno o dos workers</title>
+  <desc id="lt-desc">Una tarea siempre tarda cuatro segundos. En doce segundos, un worker termina tres tareas, 0.25 tareas por segundo; dos workers terminan seis, 0.5 tareas por segundo.</desc>
+  <style>
+    .title{font:800 15px system-ui,sans-serif;fill:#f8fafc}.head{font:800 12px system-ui,sans-serif;fill:#f8fafc}.text{font:700 10px system-ui,sans-serif;fill:#dbeafe}.small{font:700 9px system-ui,sans-serif;fill:#bfdbfe}.axis{stroke:#94a3b8;stroke-width:1.5}.tick{stroke:#64748b;stroke-width:1}.task{fill:#164e63;stroke:#67e8f9;stroke-width:1.5}.task2{fill:#4c1d95;stroke:#c4b5fd;stroke-width:1.5}.result{fill:#064e3b;stroke:#34d399;stroke-width:1.5}
+  </style>
+  <rect width="360" height="300" rx="16" fill="#0f172a"/>
+  <text x="18" y="27" class="title">Misma latencia, distinto throughput</text>
+
+  <text x="18" y="53" class="head">Latencia</text>
+  <text x="91" y="53" class="text">seguir una tarea: 4 s por tarea</text>
+  <rect x="91" y="62" width="80" height="24" rx="6" class="task"/>
+  <text x="131" y="78" text-anchor="middle" class="text">tarea 1 · 4 s</text>
+
+  <line x1="91" y1="105" x2="331" y2="105" class="axis"/>
+  <path d="M91 100v10M171 100v10M251 100v10M331 100v10" class="tick"/>
+  <text x="91" y="120" text-anchor="middle" class="small">0 s</text>
+  <text x="171" y="120" text-anchor="middle" class="small">4 s</text>
+  <text x="251" y="120" text-anchor="middle" class="small">8 s</text>
+  <text x="331" y="120" text-anchor="middle" class="small">12 s</text>
+
+  <text x="18" y="149" class="head">1 worker</text>
+  <rect x="91" y="132" width="80" height="22" rx="5" class="task"/>
+  <rect x="171" y="132" width="80" height="22" rx="5" class="task"/>
+  <rect x="251" y="132" width="80" height="22" rx="5" class="task"/>
+  <text x="211" y="170" text-anchor="middle" class="text">3 tareas / 12 s = 0.25 tareas/s</text>
+
+  <text x="18" y="204" class="head">2 workers</text>
+  <rect x="91" y="186" width="80" height="18" rx="5" class="task2"/>
+  <rect x="171" y="186" width="80" height="18" rx="5" class="task2"/>
+  <rect x="251" y="186" width="80" height="18" rx="5" class="task2"/>
+  <rect x="91" y="208" width="80" height="18" rx="5" class="task2"/>
+  <rect x="171" y="208" width="80" height="18" rx="5" class="task2"/>
+  <rect x="251" y="208" width="80" height="18" rx="5" class="task2"/>
+  <text x="211" y="244" text-anchor="middle" class="text">6 tareas / 12 s = 0.5 tareas/s</text>
+
+  <rect x="18" y="263" width="324" height="24" rx="7" class="result"/>
+  <text x="180" y="279" text-anchor="middle" class="text">Latencia: 4 s en ambos · throughput: se duplica</text>
 </svg>
