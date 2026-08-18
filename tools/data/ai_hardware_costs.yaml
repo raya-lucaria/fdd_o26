@@ -17,21 +17,21 @@ sources:
     title: "Language Models are Few-Shot Learners"
     url: "https://arxiv.org/abs/2005.14165"
     accessed: "2026-08-18"
-    primary_for: [parameters, training_tokens, training_compute, hardware_type]
+    primary_for: [canonical_name, release, availability, parameters, training_tokens, training_compute, training_hardware, technical_paper_audit]
   S_OPENAI_GPT3_REPOSITORY:
     claim_owner: model_creator
     source_class: primary
     title: "openai/gpt-3"
     url: "https://github.com/openai/gpt-3"
     accessed: "2026-08-18"
-    primary_for: [repository_audit]
+    primary_for: [repository_configuration]
   S_BIGSCIENCE_BLOOM_PAPER:
     claim_owner: model_creator
     source_class: primary
     title: "BLOOM: A 176B-Parameter Open-Access Multilingual Language Model"
     url: "https://arxiv.org/abs/2211.05100"
     accessed: "2026-08-18"
-    primary_for: [parameters, training_tokens, training_hardware, precision]
+    primary_for: [canonical_name, parameters, training_tokens, training_hardware, training_precision, technical_paper_audit]
   S_BIGSCIENCE_BLOOM_CARBON:
     claim_owner: model_creator
     source_class: primary
@@ -45,28 +45,28 @@ sources:
     title: "bigscience/bloom model card"
     url: "https://huggingface.co/bigscience/bloom/blob/main/README.md"
     accessed: "2026-08-18"
-    primary_for: [availability, training_hardware, release]
+    primary_for: [release, availability, region, training_hardware, model_card_audit, repository_configuration]
   S_GOOGLE_PALM_PAPER:
     claim_owner: model_creator
     source_class: primary
     title: "PaLM: Scaling Language Modeling with Pathways"
     url: "https://arxiv.org/abs/2204.02311"
     accessed: "2026-08-18"
-    primary_for: [parameters, training_tokens, training_hardware, training_compute, mfu]
+    primary_for: [canonical_name, release, availability, parameters, training_tokens, training_hardware, accelerator_hours, training_duration, training_precision, training_compute, mfu, technical_paper_audit]
   S_META_LLAMA31_PAPER:
     claim_owner: model_creator
     source_class: primary
     title: "The Llama 3 Herd of Models"
     url: "https://ai.meta.com/research/publications/the-llama-3-herd-of-models/"
     accessed: "2026-08-18"
-    primary_for: [parameters, training_tokens, training_hardware, training_compute, mfu]
+    primary_for: [canonical_name, parameters, training_tokens, training_hardware, training_precision, training_compute, mfu, technical_paper_audit]
   S_META_LLAMA31_CARD:
     claim_owner: model_creator
     source_class: primary
     title: "Llama 3.1 405B Instruct model card"
     url: "https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct"
     accessed: "2026-08-18"
-    primary_for: [accelerator_hours, availability, release]
+    primary_for: [release, availability, region, training_hardware, accelerator_hours, announcement_audit, model_card_audit]
   S_META_LLAMA_REPOSITORY:
     claim_owner: model_creator
     source_class: primary
@@ -80,21 +80,21 @@ sources:
     title: "DeepSeek-V3 Technical Report"
     url: "https://arxiv.org/abs/2412.19437"
     accessed: "2026-08-18"
-    primary_for: [parameters, training_tokens, training_hardware, accelerator_hours, precision]
+    primary_for: [canonical_name, parameters, training_tokens, training_hardware, accelerator_hours, training_duration, training_precision, technical_paper_audit]
   S_DEEPSEEK_V3_REPOSITORY:
     claim_owner: model_creator
     source_class: primary
     title: "deepseek-ai/DeepSeek-V3"
     url: "https://github.com/deepseek-ai/DeepSeek-V3"
     accessed: "2026-08-18"
-    primary_for: [availability, release, repository_configuration]
+    primary_for: [release, availability, region, announcement_audit, model_card_audit, repository_configuration]
   S_OPENAI_GPT56_ANNOUNCEMENT:
     claim_owner: model_creator
     source_class: primary
     title: "Previewing GPT-5.6 Sol: a next-generation model"
     url: "https://openai.com/index/previewing-gpt-5-6-sol/"
     accessed: "2026-08-18"
-    primary_for: [canonical_name, release]
+    primary_for: [canonical_name, release, announcement_audit]
   S_OPENAI_GPT56_AVAILABILITY:
     claim_owner: model_creator
     source_class: primary
@@ -115,7 +115,7 @@ sources:
     title: "Introducing Claude Sonnet 5"
     url: "https://www.anthropic.com/news/claude-sonnet-5"
     accessed: "2026-08-18"
-    primary_for: [canonical_name, release, availability, region]
+    primary_for: [canonical_name, release, availability, region, announcement_audit]
   S_ANTHROPIC_SONNET5_SYSTEM_CARD:
     claim_owner: model_creator
     source_class: primary
@@ -143,7 +143,7 @@ sources:
     title: "Kimi K3: Open Frontier Intelligence"
     url: "https://www.kimi.com/blog/kimi-k3"
     accessed: "2026-08-18"
-    primary_for: [canonical_name, release, parameters, availability, region]
+    primary_for: [canonical_name, release, parameters, availability, region, announcement_audit]
   S_MOONSHOT_KIMI_K3_PAPER:
     claim_owner: model_creator
     source_class: primary
@@ -164,14 +164,14 @@ sources:
     title: "moonshotai/Kimi-K3 model card"
     url: "https://huggingface.co/moonshotai/Kimi-K3"
     accessed: "2026-08-18"
-    primary_for: [model_card_audit, availability]
+    primary_for: [model_card_audit, availability, region]
   S_QWEN38_ANNOUNCEMENT:
     claim_owner: model_creator
     source_class: primary
     title: "Qwen3.8-Max: A New Bar for Coding and Cowork"
     url: "https://qwen.ai/blog?id=qwen3.8"
     accessed: "2026-08-18"
-    primary_for: [canonical_name, release, parameters, availability]
+    primary_for: [canonical_name, release, parameters, availability, region, announcement_audit]
   S_QWEN38_MODELSCOPE:
     claim_owner: model_creator
     source_class: primary
@@ -180,7 +180,7 @@ sources:
     accessed: "2026-08-18"
     document_updated: "2026-08-12"
     observed_artifacts: [model_index, configuration, model_safetensors_shards]
-    primary_for: [model_card_audit, open_weight_artifact, artifact_release, availability, region]
+    primary_for: [canonical_name, release, parameters, availability, region, open_weight_artifact, artifact_release, model_card_audit, repository_configuration]
   S_NVIDIA_V100_DATASHEET:
     claim_owner: hardware_manufacturer
     source_class: primary
@@ -208,7 +208,7 @@ sources:
     title: "NVIDIA Trusted Computing Solutions release notes"
     url: "https://docs.nvidia.com/590trd1-trusted-computing-solutions-release-notes.pdf"
     accessed: "2026-08-18"
-    primary_for: [h800_hbm_physical]
+    primary_for: [hbm_physical]
   S_GOOGLE_TPU_V4_DOCS:
     claim_owner: hardware_manufacturer
     source_class: primary
@@ -222,7 +222,7 @@ sources:
     title: "Thinkmate GPX QH14-28E4-8HGX online configurator"
     url: "https://www.thinkmate.com/system/gpx-qh14-28e4-8hgx"
     accessed: "2026-08-18"
-    primary_for: [seller_product_page_audit]
+    primary_for: [seller_product_page_audit, transaction_unit, geography, currency, channel]
 
 hardware:
   - id: H_NVIDIA_V100_SXM2_32GB
@@ -553,30 +553,49 @@ models:
       technical_paper: {status: FACT, value: S_MOONSHOT_KIMI_K3_PAPER, unit: document, source_ids: [S_MOONSHOT_KIMI_K3_PAPER]}
       repository_configuration: {status: FACT, value: S_MOONSHOT_KIMI_K3_REPOSITORY, unit: document, source_ids: [S_MOONSHOT_KIMI_K3_REPOSITORY]}
 
-  - id: M_QWEN38_MAX
+  - id: M_QWEN38_MAX_SERVICE
     canonical_name: "Qwen3.8-Max"
     provider: Qwen Team
-    source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]
+    source_ids: [S_QWEN38_ANNOUNCEMENT]
     facts:
       canonical_name: {status: FACT, value: "Qwen3.8-Max", unit: model_name, source_ids: [S_QWEN38_ANNOUNCEMENT]}
       release_date: {status: FACT, value: "2026-08-03", unit: ISO_8601_date, source_ids: [S_QWEN38_ANNOUNCEMENT]}
-      availability: {status: FACT, value: hosted_Qwen3.8-Max_with_open_Qwen3.8-2.4T-A95B_base_artifact, unit: distribution_state, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE], note: "Qwen3.8-Max nombra el servicio multimodal. ModelScope publica por separado el artefacto base abierto Qwen3.8-2.4T-A95B; no se los trata como el mismo objeto."}
-      service_availability: {status: FACT, value: Qwen3.8-Max_on_QwenCloud, unit: hosted_service, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3.8-Max_multimodal_service}
-      region: {status: FACT, value: QwenCloud_hosted_and_public_ModelScope_artifact, unit: distribution_scope, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]}
-      open_weight_artifact: {status: FACT, value: "Qwen3.8-2.4T-A95B", unit: artifact_name, source_ids: [S_QWEN38_MODELSCOPE]}
-      artifact_release_date: {status: FACT, value: "2026-08-12", unit: ISO_8601_date, source_ids: [S_QWEN38_MODELSCOPE]}
-      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]}
-      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]}
+      availability: {status: FACT, value: hosted_on_QwenCloud, unit: distribution_state, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3.8-Max_multimodal_service}
+      region: {status: FACT, value: QwenCloud_service, unit: distribution_scope, source_ids: [S_QWEN38_ANNOUNCEMENT]}
+      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3.8-Max_multimodal_service}
+      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3.8-Max_multimodal_service}
     corpus:
       announcement: {status: FACT, value: S_QWEN38_ANNOUNCEMENT, unit: document, source_ids: [S_QWEN38_ANNOUNCEMENT]}
-      model_card: {status: FACT, value: S_QWEN38_MODELSCOPE, unit: document, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3.8-2.4T-A95B_open_base_artifact}
-      system_card: &qwen38_not_found
+      model_card: &qwen38_service_not_found
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [S_QWEN38_ANNOUNCEMENT, "https://github.com/QwenLM/", "https://huggingface.co/Qwen"]
+      system_card: *qwen38_service_not_found
+      technical_paper: *qwen38_service_not_found
+      repository_configuration: *qwen38_service_not_found
+
+  - id: M_QWEN38_2_4T_A95B
+    canonical_name: "Qwen3.8-2.4T-A95B"
+    provider: Qwen Team
+    source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]
+    facts:
+      canonical_name: {status: FACT, value: "Qwen3.8-2.4T-A95B", unit: model_name, source_ids: [S_QWEN38_MODELSCOPE]}
+      release_date: {status: FACT, value: "2026-08-12", unit: ISO_8601_date, source_ids: [S_QWEN38_MODELSCOPE]}
+      availability: {status: FACT, value: open_weights, unit: distribution_state, source_ids: [S_QWEN38_MODELSCOPE]}
+      region: {status: FACT, value: public_ModelScope_artifact, unit: distribution_scope, source_ids: [S_QWEN38_MODELSCOPE]}
+      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_MODELSCOPE]}
+      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_MODELSCOPE]}
+    corpus:
+      announcement: {status: FACT, value: S_QWEN38_ANNOUNCEMENT, unit: document, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3.8_open_weight_release}
+      model_card: {status: FACT, value: S_QWEN38_MODELSCOPE, unit: document, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3.8-2.4T-A95B_open_artifact}
+      system_card: &qwen38_artifact_not_found
         status: NOT_FOUND
         value: null
         searched_on: "2026-08-18"
         corpus_checked: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE, "https://github.com/QwenLM/", "https://huggingface.co/Qwen"]
-      technical_paper: *qwen38_not_found
-      repository_configuration: *qwen38_not_found
+      technical_paper: *qwen38_artifact_not_found
+      repository_configuration: {status: FACT, value: S_QWEN38_MODELSCOPE, unit: document, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3.8-2.4T-A95B_open_artifact, note: "La ficha contiene configuración y shards model-*.safetensors observados al corte."}
 
 training_cases:
   - id: T_GPT3_175B_PRETRAINING
@@ -900,23 +919,23 @@ training_cases:
       historical_acquisition_price: *kimi_k3_not_found
       attributed_training_capex: *capex_not_identifiable
 
-  - id: T_QWEN38_MAX_TRAINING_AUDIT
-    model_id: M_QWEN38_MAX
-    category: current_open
-    scope: Qwen3_8_2_4T_A95B_base_training
+  - id: T_QWEN38_MAX_SERVICE_TRAINING_AUDIT
+    model_id: M_QWEN38_MAX_SERVICE
+    category: current_closed
+    scope: Qwen3_8_Max_service_actual_training
     include_in_documented_table: false
-    exclusion_reason: "El artefacto base abierto verifica parámetros, pero no publica tipo/cantidad concurrente y accelerator-hours o duración de su entrenamiento real; no se atribuye el entrenamiento del servicio Qwen3.8-Max al artefacto base."
+    exclusion_reason: "El servicio alojado publica parámetros, pero no artefacto propio ni tipo/cantidad concurrente y accelerator-hours o duración del entrenamiento real."
     metrics:
-      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE], scope: Qwen3_8_2_4T_A95B_base_training}
-      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE], scope: Qwen3_8_2_4T_A95B_base_training}
-      training_tokens: *qwen38_not_found
-      hardware_type: *qwen38_not_found
-      accelerators_concurrent: *qwen38_not_found
-      accelerator_hours: *qwen38_not_found
-      duration_hours: *qwen38_not_found
-      training_precision: *qwen38_not_found
-      training_compute_flop: *qwen38_not_found
-      mfu: *qwen38_not_found
+      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3_8_Max_service_actual_training}
+      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3_8_Max_service_actual_training}
+      training_tokens: *qwen38_service_not_found
+      hardware_type: *qwen38_service_not_found
+      accelerators_concurrent: *qwen38_service_not_found
+      accelerator_hours: *qwen38_service_not_found
+      duration_hours: *qwen38_service_not_found
+      training_precision: *qwen38_service_not_found
+      training_compute_flop: *qwen38_service_not_found
+      mfu: *qwen38_service_not_found
       hbm_physical_installed:
         status: ESTIMATION_NOT_IDENTIFIABLE
         value: null
@@ -933,7 +952,43 @@ training_cases:
         status: ESTIMATION_NOT_IDENTIFIABLE
         value: null
         missing_observables: [hardware_type, accelerator_count, form_factor]
-      historical_acquisition_price: *qwen38_not_found
+      historical_acquisition_price: *qwen38_service_not_found
+      attributed_training_capex: *capex_not_identifiable
+
+  - id: T_QWEN38_2_4T_A95B_TRAINING_AUDIT
+    model_id: M_QWEN38_2_4T_A95B
+    category: current_open
+    scope: Qwen3_8_2_4T_A95B_base_training
+    include_in_documented_table: false
+    exclusion_reason: "El artefacto base abierto verifica parámetros y configuración, pero no publica tipo/cantidad concurrente y accelerator-hours o duración de su entrenamiento real."
+    metrics:
+      parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3_8_2_4T_A95B_base_training}
+      parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3_8_2_4T_A95B_base_training}
+      training_tokens: *qwen38_artifact_not_found
+      hardware_type: *qwen38_artifact_not_found
+      accelerators_concurrent: *qwen38_artifact_not_found
+      accelerator_hours: *qwen38_artifact_not_found
+      duration_hours: *qwen38_artifact_not_found
+      training_precision: *qwen38_artifact_not_found
+      training_compute_flop: *qwen38_artifact_not_found
+      mfu: *qwen38_artifact_not_found
+      hbm_physical_installed:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count]
+      hbm_usable:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, topology, runtime_reserve, model_state]
+      peak_theoretical_rate:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, arithmetic_mode]
+      accelerator_power:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [hardware_type, accelerator_count, form_factor]
+      historical_acquisition_price: *qwen38_artifact_not_found
       attributed_training_capex: *capex_not_identifiable
 
 inference_scenarios:
@@ -1010,16 +1065,70 @@ valuations:
       source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
       missing_observables: [persistent_parameterized_configuration_URL, vendor_quote_identifier, timestamped_vendor_capture]
     price_basis:
-      transaction_unit: server
-      minimum_quantity: 1
-      price_date: "2026-08-18"
-      geography: United_States_online_configurator
-      currency: USD
-      condition: new
-      channel: seller_online_configurator
-      taxes: excluded
-      support: included_as_configured
-      network: one_ConnectX_7_adapter_included_external_fabric_excluded
-      storage: one_1_6_TB_NVMe_included
-      included_components: [configured_8U_server, eight_H100_SXM5_modules, two_CPUs, 2_TB_system_RAM, one_NVMe_drive, one_ConnectX_7_adapter, redundant_power_supplies, assembly_and_testing, configured_support]
-      excluded_components: [accelerators_already_inside_system, external_intersystem_network, external_network_switches_and_cables, additional_storage, shipping, handling, applicable_taxes, operating_system, electricity, personnel, data, buildings, financing]
+      transaction_unit:
+        status: FACT
+        value: server
+        unit: transaction_unit
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+      minimum_quantity:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_minimum_order_statement]
+      price_date:
+        status: SCENARIO
+        value: "2026-08-18"
+        unit: ISO_8601_date
+        source_ids: [S_COURSE_DESIGN]
+        note: "Fecha de corte de la valoración, no fecha de una cotización persistente."
+      geography:
+        status: FACT
+        value: United_States_online_storefront
+        unit: sales_region
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+      currency:
+        status: FACT
+        value: USD
+        unit: currency_code
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+      condition:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_condition_statement_for_selected_configuration]
+      channel:
+        status: FACT
+        value: seller_online_configurator
+        unit: sales_channel
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+      taxes:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_parameterized_configuration_URL, vendor_quote_identifier, timestamped_vendor_capture]
+      support:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_parameterized_configuration_URL, vendor_quote_identifier, timestamped_vendor_capture]
+      network:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_parameterized_configuration_URL, vendor_quote_identifier, timestamped_vendor_capture]
+      storage:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_parameterized_configuration_URL, vendor_quote_identifier, timestamped_vendor_capture]
+      included_components:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        source_ids: [S_THINKMATE_HGX_H100_CONFIGURATOR]
+        missing_observables: [persistent_parameterized_configuration_URL, vendor_quote_identifier, timestamped_vendor_capture]
+      excluded_components:
+        status: SCENARIO
+        value: [accelerators_already_inside_system, electricity, personnel, data, buildings, financing]
+        unit: component_list
+        source_ids: [S_COURSE_DESIGN]
+        note: "Exclusiones de la frontera económica, no afirmaciones sobre la selección interactiva del vendedor."
