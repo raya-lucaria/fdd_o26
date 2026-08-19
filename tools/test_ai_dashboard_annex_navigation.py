@@ -4,9 +4,11 @@ from pathlib import Path
 import re
 import subprocess
 
+from tools.raya_test_support import resolve_raya_checkout
+
 
 ROOT = Path(__file__).resolve().parents[1]
-RAYA = ROOT.parents[2] / "raya_lucaria/.worktrees/navigation-first-course-rail"
+RAYA = resolve_raya_checkout(ROOT)
 MAIN = (
     ROOT
     / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/0_index.md"

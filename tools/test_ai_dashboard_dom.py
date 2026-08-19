@@ -9,9 +9,11 @@ from threading import Thread
 
 from playwright.sync_api import sync_playwright
 
+from tools.raya_test_support import resolve_raya_checkout
+
 
 ROOT = Path(__file__).resolve().parents[1]
-RAYA = ROOT.parents[2] / "raya_lucaria" / ".worktrees" / "navigation-first-course-rail"
+RAYA = resolve_raya_checkout(ROOT)
 URL = "/arquitectura-de-computadoras/ai-escala-y-decision/index.html"
 
 
