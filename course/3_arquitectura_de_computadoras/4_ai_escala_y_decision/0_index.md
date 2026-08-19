@@ -326,7 +326,7 @@ Esta última vista devuelve la comparación al tamaño del modelo. Un MoE puede 
 
 [![Frontera de Pareto entre capacidad general ECI y CAPEX mínimo del escenario de inferencia local.](../_assets/ai-pareto-inference.svg)](../_assets/ai-pareto-inference.svg)
 
-Entrenamiento está vacío porque falta un costo comparable; sin ambos ejes no hay puntos que ordenar. Inferencia sí tiene ocho candidatos. Un punto domina si cuesta igual o menos y logra ECI igual o mayor. La línea sólida conserva casos seguros; la punteada, posibles ante los rangos. **ECI no es IQ**: resume evaluaciones versionadas.
+Entrenamiento queda vacío: falta un costo comparable. En inferencia, **Qwen3-235B-A22B y Gemma 3 27B** son seguros; **DeepSeek-R1** es posible por sus rangos. Dominar significa costar no más y lograr ECI no menor. **ECI no es IQ**: resume evaluaciones versionadas.
 
 ### Qué sí y qué no puedes concluir
 

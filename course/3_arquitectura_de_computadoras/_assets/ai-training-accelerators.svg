@@ -5,68 +5,68 @@
   <rect width="600" height="300" rx="24" fill="#111827" />
   <text x="24" y="38" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Aceleradores y horas</text>
   <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">4 modelos · 8 observaciones</text>
-  <text x="20" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-axis-label="true">Y log · ×; igual distancia = multiplicar</text>
+  <text x="580" y="108" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-layout-role="axis-scale">Y log · ×</text>
   <g data-series-panel="concurrent accelerators">
-    <line x1="100" x2="380" y1="180.0" y2="180.0" stroke="#334155" stroke-width="2" />
-    <line x1="100" x2="380" y1="135.0" y2="135.0" stroke="#334155" stroke-width="2" />
-    <line x1="100.0" x2="100.0" y1="135" y2="180" stroke="#1e293b" stroke-width="2" />
-    <line x1="240.0" x2="240.0" y1="135" y2="180" stroke="#1e293b" stroke-width="2" />
-    <line x1="380.0" x2="380.0" y1="135" y2="180" stroke="#1e293b" stroke-width="2" />
+    <line x1="100" x2="380" y1="175.0" y2="175.0" stroke="#334155" stroke-width="2" />
+    <line x1="100" x2="380" y1="140.0" y2="140.0" stroke="#334155" stroke-width="2" />
+    <line x1="100.0" x2="100.0" y1="140" y2="175" stroke="#1e293b" stroke-width="2" />
+    <line x1="240.0" x2="240.0" y1="140" y2="175" stroke="#1e293b" stroke-width="2" />
+    <line x1="380.0" x2="380.0" y1="140" y2="175" stroke="#1e293b" stroke-width="2" />
     <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="FACT" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="384" data-unit="A100_80GB_GPU" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="concurrent accelerators" data-series-marker="single" aria-label="DM_BLOOM_176B: 384 A100_80GB_GPU, FACT">
       <title>DM_BLOOM_176B: 384 A100_80GB_GPU, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="171.2" r="8" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="168.2" r="8" />
     </g>
     <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="FACT" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="6144" data-unit="TPU_v4_chip_peak" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="concurrent accelerators" data-series-marker="single" aria-label="DM_PALM_540B: 6144 TPU_v4_chip_peak, FACT">
       <title>DM_PALM_540B: 6144 TPU_v4_chip_peak, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="240.0" cy="153.2" r="8" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="240.0" cy="154.1" r="8" />
     </g>
     <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="2048" data-unit="H800_GPU" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="concurrent accelerators" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 2048 H800_GPU, FACT">
       <title>DM_DEEPSEEK_V3: 2048 H800_GPU, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="160.3" r="8" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="159.7" r="8" />
     </g>
     <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="16384" data-unit="H100_80GB_GPU_peak" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="concurrent accelerators" data-series-marker="single" aria-label="DM_LLAMA31_405B: 16384 H100_80GB_GPU_peak, FACT">
       <title>DM_LLAMA31_405B: 16384 H100_80GB_GPU_peak, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="310.0" cy="146.8" r="8" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="310.0" cy="149.2" r="8" />
     </g>
   </g>
-  <text x="20" y="117" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="concurrent accelerators">● concurrentes</text>
-  <text x="88" y="188.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100</text>
-  <text x="88" y="143.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100k</text>
+  <text x="20" y="108" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="concurrent accelerators" data-layout-role="legend">● chips</text>
+  <text x="88" y="183.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100</text>
+  <text x="88" y="148.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100k</text>
   <g data-series-panel="accelerator-hours">
-    <line x1="100" x2="380" y1="260.0" y2="260.0" stroke="#334155" stroke-width="2" />
-    <line x1="100" x2="380" y1="215.0" y2="215.0" stroke="#334155" stroke-width="2" />
-    <line x1="100.0" x2="100.0" y1="215" y2="260" stroke="#1e293b" stroke-width="2" />
-    <line x1="240.0" x2="240.0" y1="215" y2="260" stroke="#1e293b" stroke-width="2" />
-    <line x1="380.0" x2="380.0" y1="215" y2="260" stroke="#1e293b" stroke-width="2" />
+    <line x1="100" x2="380" y1="253.0" y2="253.0" stroke="#334155" stroke-width="2" />
+    <line x1="100" x2="380" y1="218.0" y2="218.0" stroke="#334155" stroke-width="2" />
+    <line x1="100.0" x2="100.0" y1="218" y2="253" stroke="#1e293b" stroke-width="2" />
+    <line x1="240.0" x2="240.0" y1="218" y2="253" stroke="#1e293b" stroke-width="2" />
+    <line x1="380.0" x2="380.0" y1="218" y2="253" stroke="#1e293b" stroke-width="2" />
     <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="FACT" data-source-ids="S_BIGSCIENCE_BLOOM_CARBON" data-value="1082990" data-unit="A100_GPU_hour" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="accelerator-hours" data-series-marker="underline" aria-label="DM_BLOOM_176B: 1082990 A100_GPU_hour, FACT">
       <title>DM_BLOOM_176B: 1082990 A100_GPU_hour, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="259.2" r="8" />
-      <line data-series-hour-mark="true" x1="220.0" x2="246.0" y1="274.2" y2="274.2" stroke="#cbd5e1" stroke-width="3" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="252.4" r="8" />
+      <line data-series-hour-mark="true" x1="220.0" x2="246.0" y1="267.4" y2="267.4" stroke="#cbd5e1" stroke-width="3" />
     </g>
     <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="DERIVED" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="8404992" data-unit="TPU_v4_chip_hour" data-claim-scope="native_accelerator_units_kept_separate" data-marker="square" data-series="accelerator-hours" data-series-marker="underline" aria-label="DM_PALM_540B: 8404992 TPU_v4_chip_hour, DERIVED">
       <title>DM_PALM_540B: 8404992 TPU_v4_chip_hour, DERIVED</title>
-      <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="232.0" y="231.2" width="16" height="16" />
-      <line data-series-hour-mark="true" x1="227.0" x2="253.0" y1="254.2" y2="254.2" stroke="#cbd5e1" stroke-width="3" />
+      <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="232.0" y="228.8" width="16" height="16" />
+      <line data-series-hour-mark="true" x1="227.0" x2="253.0" y1="251.8" y2="251.8" stroke="#cbd5e1" stroke-width="3" />
     </g>
     <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="2664000" data-unit="H800_GPU_hour" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="accelerator-hours" data-series-marker="underline" aria-label="DM_DEEPSEEK_V3: 2664000 H800_GPU_hour, FACT">
       <title>DM_DEEPSEEK_V3: 2664000 H800_GPU_hour, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="250.4" r="8" />
-      <line data-series-hour-mark="true" x1="290.0" x2="316.0" y1="265.4" y2="265.4" stroke="#cbd5e1" stroke-width="3" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="245.6" r="8" />
+      <line data-series-hour-mark="true" x1="290.0" x2="316.0" y1="260.6" y2="260.6" stroke="#cbd5e1" stroke-width="3" />
     </g>
     <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="FACT" data-source-ids="S_META_LLAMA31_CARD" data-value="30840000" data-unit="H100_80GB_GPU_hour" data-claim-scope="native_accelerator_units_kept_separate" data-marker="circle" data-series="accelerator-hours" data-series-marker="underline" aria-label="DM_LLAMA31_405B: 30840000 H100_80GB_GPU_hour, FACT">
       <title>DM_LLAMA31_405B: 30840000 H100_80GB_GPU_hour, FACT</title>
-      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="310.0" cy="226.5" r="8" />
-      <line data-series-hour-mark="true" x1="297.0" x2="323.0" y1="241.5" y2="241.5" stroke="#cbd5e1" stroke-width="3" />
+      <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="310.0" cy="226.9" r="8" />
+      <line data-series-hour-mark="true" x1="297.0" x2="323.0" y1="241.9" y2="241.9" stroke="#cbd5e1" stroke-width="3" />
     </g>
   </g>
-  <text x="20" y="197" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="accelerator-hours">↔ accelerator-hours</text>
-  <text x="88" y="268.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0M</text>
-  <text x="88" y="223.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100M</text>
-  <text x="100.0" y="290" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
-  <text x="240.0" y="290" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
-  <text x="380.0" y="290" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
-  <path d="M243.0,171.2 L395,150 L400,150" fill="none" stroke="#2dd4bf" stroke-width="2" data-leader="true" data-model-id="DM_BLOOM_176B" />
-  <text x="410" y="158" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_BLOOM_176B">BLOOM176</text>
-  <path d="M320.0,146.8 L395,185 L400,185" fill="none" stroke="#2dd4bf" stroke-width="2" data-leader="true" data-model-id="DM_LLAMA31_405B" />
-  <text x="410" y="193" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_LLAMA31_405B">L3 405B</text>
+  <text x="120" y="185" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="accelerator-hours" data-layout-role="legend">↔ chip-hours</text>
+  <text x="88" y="261.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0M</text>
+  <text x="88" y="226.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100M</text>
+  <text x="100.0" y="286" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
+  <text x="240.0" y="286" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
+  <text x="380.0" y="286" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
+  <path d="M243.0,168.2 L395,147 L400,147" fill="none" stroke="#2dd4bf" stroke-width="2" data-leader="true" data-model-id="DM_BLOOM_176B" />
+  <text x="410" y="155" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_BLOOM_176B" data-layout-role="direct-label">BLOOM176</text>
+  <path d="M320.0,149.2 L395,187 L400,187" fill="none" stroke="#2dd4bf" stroke-width="2" data-leader="true" data-model-id="DM_LLAMA31_405B" />
+  <text x="410" y="195" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_LLAMA31_405B" data-layout-role="direct-label">L3 405B</text>
 </svg>

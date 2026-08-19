@@ -798,3 +798,44 @@ def test_dashboard_chromium_bbox_y_texto_390_1440(tmp_path):
                 assert not result["obstacleOverlaps"], (path.name, result["obstacleOverlaps"])
                 assert not result["axisOverlaps"], (path.name, result["axisOverlaps"])
         browser.close()
+
+
+def test_dashboard_chromium_separa_todos_los_roles_visuales(tmp_path):
+    """La presencia de rótulos no basta: ningún rol semántico puede tapar otro."""
+    playwright = pytest.importorskip("playwright.sync_api")
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "assets"
+    )
+
+    with playwright.sync_playwright() as runtime:
+        browser = runtime.chromium.launch(headless=True)
+        page = browser.new_page()
+        for container in (334, 600):
+            for path in paths:
+                page.set_content(f'<main style="width:{container}px">{path.read_text()}</main>')
+                result = page.locator("svg").evaluate(
+                    """svg => {
+                      const box = n => { const b=n.getBBox(); return {x:b.x,y:b.y,r:b.x+b.width,b:b.y+b.height,t:n.textContent||'', role:n.getAttribute('data-layout-role')||''}; };
+                      const hit = (a,b,pad=1) => Math.min(a.r,b.r)-Math.max(a.x,b.x)>pad && Math.min(a.b,b.b)-Math.max(a.y,b.y)>pad;
+                      const texts=[...svg.querySelectorAll('text')].filter(n => getComputedStyle(n).display !== 'none').map(box);
+                      const textHits=[];
+                      for(let i=0;i<texts.length;i++) for(let j=i+1;j<texts.length;j++) if(hit(texts[i],texts[j])) textHits.push([texts[i],texts[j]]);
+                      const labels=[...svg.querySelectorAll('[data-direct-label="true"]')].map(box);
+                      const nodes=[...svg.querySelectorAll('[data-quantitative="true"], [data-interval-geometry="true"]')].map(box);
+                      const labelNodeHits=[];
+                      for(const a of labels) for(const b of nodes) if(hit(a,b)) labelNodeHits.push([a,b]);
+                      const leaders=[...svg.querySelectorAll('[data-pareto-leader="true"]')].map(n => ({x1:+n.getAttribute('x1'),y1:+n.getAttribute('y1'),x2:+n.getAttribute('x2'),y2:+n.getAttribute('y2')}));
+                      function cross(a,c){
+                        const o=(p,q,r)=>(q.y-p.y)*(r.x-q.x)-(q.x-p.x)*(r.y-q.y);
+                        const p={x:a.x1,y:a.y1},q={x:a.x2,y:a.y2},r={x:c.x1,y:c.y1},s={x:c.x2,y:c.y2};
+                        return o(p,q,r)*o(p,q,s)<0 && o(r,s,p)*o(r,s,q)<0;
+                      }
+                      const leaderHits=[]; for(let i=0;i<leaders.length;i++) for(let j=i+1;j<leaders.length;j++) if(cross(leaders[i],leaders[j])) leaderHits.push([i,j]);
+                      return {textHits,labelNodeHits,leaderHits};
+                    }"""
+                )
+                assert not result["textHits"], (path.name, container, result["textHits"])
+                assert not result["labelNodeHits"], (path.name, container, result["labelNodeHits"])
+                assert not result["leaderHits"], (path.name, container, result["leaderHits"])
+        browser.close()

@@ -4,15 +4,15 @@
   <desc id="desc">Frontera de Pareto entre Valor de reemplazo (USD) y capacidad general según ECI, snapshot 2026-08-18. Un borde sólido marca una frontera segura en todo el rango; un borde punteado marca una frontera posible en algún valor del rango; n=0. Capacidad general según ECI es el eje vertical.</desc>
   <rect width="600" height="300" rx="24" fill="#111827" />
   <text x="24" y="38" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Pareto · entrenamiento</text>
-  <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">ECI 2026-08-18 · 0 modelos</text>
+  <text x="580" y="38" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-layout-role="count">n=0</text>
   <g id="frontera-segura" />
   <g id="frontera-posible" />
   <g id="fuera-de-frontera" />
-  <text x="20" y="103" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#2dd4bf" text-anchor="start" font-weight="400" data-legend="true" data-series="safe">━ segura</text>
-  <text x="180" y="103" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-legend="true" data-series="possible">┅ posible</text>
-  <text x="300.0" y="180" font-size="30" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="700">Frontera no identificable</text>
-  <text x="300.0" y="220" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400">Falta un costo comparable</text>
-  <text x="200" y="132" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-axis-label="true">ECI</text>
-  <text x="580" y="95" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="end" font-weight="600" data-axis-label="true" data-axis-role="x-title">Reemplazo (USD)</text>
-  <text x="580" y="132" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-axis-role="x-log-note">X log</text>
+  <text x="20" y="76" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#2dd4bf" text-anchor="start" font-weight="400" data-legend="true" data-series="safe" data-layout-role="legend">━ segura</text>
+  <text x="175" y="76" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-legend="true" data-series="possible" data-layout-role="legend">┅ posible</text>
+  <text x="300.0" y="184" font-size="30" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="700">Frontera no identificable</text>
+  <text x="300.0" y="226" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400">Falta un costo comparable</text>
+  <text x="320" y="76" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-axis-label="true" data-layout-role="axis-y">ECI</text>
+  <text x="380" y="76" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-axis-label="true" data-axis-role="x-title">CAPEX</text>
+  <text x="580" y="76" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-axis-role="x-log-note">X log</text>
 </svg>
