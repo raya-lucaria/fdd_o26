@@ -535,8 +535,14 @@ def test_dashboard_svg_no_depende_solo_del_color_y_no_inventa_ausencias(tmp_path
     assert statuses["SCENARIO"] == {"triangle"}
 
     replacement = (tmp_path / "ai-training-replacement-value.svg").read_text()
-    assert "No hay una serie comparable" in replacement
-    assert 'data-quantitative="true"' not in replacement
+    replacement_root = ET.fromstring(replacement)
+    replacement_points = [
+        node for node in replacement_root.iter()
+        if node.attrib.get("data-quantitative") == "true"
+    ]
+    assert len(replacement_points) == 4
+    assert all(node.attrib["data-status"] == "SCENARIO" for node in replacement_points)
+    assert all(node.attrib["data-confidence"] == "not_applicable" for node in replacement_points)
 
 
 def test_dashboard_ejes_y_pareto_dic_en_exactamente_que_comparan(tmp_path):

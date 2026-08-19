@@ -166,10 +166,11 @@ def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal], 
         "data-value": str(point.value),
         "data-unit": point.unit,
         "data-claim-scope": point.claim_scope,
+        "data-confidence": point.confidence,
         "data-marker": MARKERS[point.status],
         "data-series": point.label,
         "data-series-marker": "outer-ring" if ring else "underline" if hour_mark else "single",
-        "aria-label": f"{point.model_id}: {point.value} {point.unit}{range_text}, {point.status}",
+        "aria-label": f"{point.model_id}: {point.value} {point.unit}{range_text}, {point.status}; confianza {point.confidence}",
     }
     if point.low is not None and point.high is not None:
         attrs.update({"data-low": str(point.low), "data-high": str(point.high)})
@@ -545,6 +546,7 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
             "data-status": point.status, "data-source-ids": " ".join((*point.source_ids, snapshot["scores_source_id"])),
             "data-value": str(point.value), "data-unit": point.unit,
             "data-claim-scope": f"{point.claim_scope};eci_exact_variant",
+            "data-confidence": point.confidence,
             "data-marker": MARKERS[point.status], "data-eci": str(score["score"]),
             "data-low": str(item.cost_low), "data-high": str(item.cost_high),
             "data-pareto-interval": "true", "data-cost-low": str(item.cost_low),

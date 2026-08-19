@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Valor de reemplazo — dashboard de modelos de IA</title>
-  <desc id="desc">No existe una serie cuantitativa comparable por Año de publicación. Las ausencias no se convierten en cero ni reciben una posición inventada.</desc>
+  <desc id="desc">Serie por Año de publicación, logarítmica, de USD comparables. Cada punto conserva estado, fuente, unidad y alcance; n=4. Igual distancia = multiplicar.</desc>
   <rect width="600" height="300" rx="24" fill="#111827" />
   <text x="24" y="38" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Valor de reemplazo</text>
-  <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">0 modelos · 0 observaciones</text>
-  <text x="300.0" y="175" font-size="30" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="700">No hay una serie comparable</text>
-  <text x="300.0" y="215" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400">La ausencia no equivale a cero</text>
+  <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">4 modelos · 4 observaciones</text>
+  <line x1="100" x2="380" y1="232.0" y2="232.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="240.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0M</text>
+  <line x1="100" x2="380" y1="145.0" y2="145.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="153.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0G</text>
+  <line x1="100.0" x2="100.0" y1="145" y2="232" stroke="#1e293b" stroke-width="2" />
+  <text x="100.0" y="278" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2018</text>
+  <line x1="240.0" x2="240.0" y1="145" y2="232" stroke="#1e293b" stroke-width="2" />
+  <text x="240.0" y="278" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
+  <line x1="380.0" x2="380.0" y1="145" y2="232" stroke="#1e293b" stroke-width="2" />
+  <text x="380.0" y="278" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2026</text>
+  <text x="20" y="108" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true" data-layout-role="axis-unit">USD comparables</text>
+  <text x="580" y="282" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-layout-role="axis-scale">Y log · ×</text>
+  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="SCENARIO" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER S_COURSE_DESIGN" data-value="11520000" data-unit="USD" data-claim-scope="accelerator_only_common_date_replacement_scenario_not_historical_training_cost" data-confidence="not_applicable" data-marker="triangle" data-series="A100_80GB_GPU × common 2026 slot price" data-series-marker="single" aria-label="DM_BLOOM_176B: 11520000 USD; rango 7680000–15360000 USD, SCENARIO; confianza not_applicable" data-low="7680000" data-high="15360000">
+    <title>DM_BLOOM_176B: 11520000 USD; rango 7680000–15360000 USD, SCENARIO; confianza not_applicable</title>
+    <line data-interval-geometry="true" x1="226.0" x2="226.0" y1="206.3" y2="197.6" stroke="#c084fc" stroke-width="7" stroke-opacity=".45" />
+    <line x1="218.0" x2="234.0" y1="206.3" y2="206.3" stroke="#c084fc" stroke-width="3" />
+    <line x1="218.0" x2="234.0" y1="197.6" y2="197.6" stroke="#c084fc" stroke-width="3" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M226.0,191.2 L236.0,210.2 L216.0,210.2 Z" />
+  </g>
+  <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="SCENARIO" data-source-ids="S_GOOGLE_PALM_PAPER S_COURSE_DESIGN" data-value="184320000" data-unit="USD" data-claim-scope="accelerator_only_common_date_replacement_scenario_not_historical_training_cost" data-confidence="not_applicable" data-marker="triangle" data-series="TPU_v4_chip_peak × common 2026 slot price" data-series-marker="single" aria-label="DM_PALM_540B: 184320000 USD; rango 122880000–245760000 USD, SCENARIO; confianza not_applicable" data-low="122880000" data-high="245760000">
+    <title>DM_PALM_540B: 184320000 USD; rango 122880000–245760000 USD, SCENARIO; confianza not_applicable</title>
+    <line data-interval-geometry="true" x1="226.0" x2="226.0" y1="171.4" y2="162.7" stroke="#c084fc" stroke-width="7" stroke-opacity=".45" />
+    <line x1="218.0" x2="234.0" y1="171.4" y2="171.4" stroke="#c084fc" stroke-width="3" />
+    <line x1="218.0" x2="234.0" y1="162.7" y2="162.7" stroke="#c084fc" stroke-width="3" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M226.0,156.3 L236.0,175.3 L216.0,175.3 Z" />
+  </g>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="SCENARIO" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-value="61440000" data-unit="USD" data-claim-scope="accelerator_only_common_date_replacement_scenario_not_historical_training_cost" data-confidence="not_applicable" data-marker="triangle" data-series="H800_GPU × common 2026 slot price" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 61440000 USD; rango 40960000–81920000 USD, SCENARIO; confianza not_applicable" data-low="40960000" data-high="81920000">
+    <title>DM_DEEPSEEK_V3: 61440000 USD; rango 40960000–81920000 USD, SCENARIO; confianza not_applicable</title>
+    <line data-interval-geometry="true" x1="296.0" x2="296.0" y1="185.2" y2="176.5" stroke="#c084fc" stroke-width="7" stroke-opacity=".45" />
+    <line x1="288.0" x2="304.0" y1="185.2" y2="185.2" stroke="#c084fc" stroke-width="3" />
+    <line x1="288.0" x2="304.0" y1="176.5" y2="176.5" stroke="#c084fc" stroke-width="3" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,170.1 L306.0,189.1 L286.0,189.1 Z" />
+  </g>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="SCENARIO" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-value="491520000" data-unit="USD" data-claim-scope="accelerator_only_common_date_replacement_scenario_not_historical_training_cost" data-confidence="not_applicable" data-marker="triangle" data-series="H100_80GB_GPU_peak × common 2026 slot price" data-series-marker="single" aria-label="DM_LLAMA31_405B: 491520000 USD; rango 327680000–655360000 USD, SCENARIO; confianza not_applicable" data-low="327680000" data-high="655360000">
+    <title>DM_LLAMA31_405B: 491520000 USD; rango 327680000–655360000 USD, SCENARIO; confianza not_applicable</title>
+    <line data-interval-geometry="true" x1="296.0" x2="296.0" y1="159.1" y2="150.3" stroke="#c084fc" stroke-width="7" stroke-opacity=".45" />
+    <line x1="288.0" x2="304.0" y1="159.1" y2="159.1" stroke="#c084fc" stroke-width="3" />
+    <line x1="288.0" x2="304.0" y1="150.3" y2="150.3" stroke="#c084fc" stroke-width="3" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,143.9 L306.0,162.9 L286.0,162.9 Z" />
+  </g>
+  <path d="M236.0,201.2 L395,147 L400,147" fill="none" stroke="#c084fc" stroke-width="2" data-leader="true" data-model-id="DM_BLOOM_176B" />
+  <text x="410" y="155" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_BLOOM_176B" data-layout-role="direct-label">BLOOM176</text>
+  <path d="M306.0,153.9 L395,187 L400,187" fill="none" stroke="#c084fc" stroke-width="2" data-leader="true" data-model-id="DM_LLAMA31_405B" />
+  <text x="410" y="195" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_LLAMA31_405B" data-layout-role="direct-label">L3 405B</text>
 </svg>

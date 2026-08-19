@@ -19,314 +19,314 @@
   <text x="380.0" y="278" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2026</text>
   <text x="20" y="108" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true" data-layout-role="axis-unit">Parámetros</text>
   <text x="580" y="282" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-layout-role="axis-scale">Y log · ×</text>
-  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="336000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_BERT_LARGE: 336000000 parameter_per_token, DERIVED">
-    <title>DM_BERT_LARGE: 336000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="336000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_BERT_LARGE: 336000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_BERT_LARGE: 336000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="110.0" y="214.8" width="16" height="16" />
     <circle data-series-ring="true" cx="118.0" cy="222.8" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="FACT" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="336000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_BERT_LARGE: 336000000 parameter, FACT">
-    <title>DM_BERT_LARGE: 336000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="FACT" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="336000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_BERT_LARGE: 336000000 parameter, FACT; confianza high">
+    <title>DM_BERT_LARGE: 336000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="118.0" cy="222.8" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="11000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_T5_11B: 11000000000 parameter_per_token, DERIVED">
-    <title>DM_T5_11B: 11000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="11000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_T5_11B: 11000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_T5_11B: 11000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="113.0" y="188.5" width="16" height="16" />
     <circle data-series-ring="true" cx="121.0" cy="196.5" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="11000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_T5_11B: 11000000000 parameter, FACT">
-    <title>DM_T5_11B: 11000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="11000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_T5_11B: 11000000000 parameter, FACT; confianza high">
+    <title>DM_T5_11B: 11000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="128.0" cy="196.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GPT3_175B" data-status="DERIVED" data-source-ids="S_OPENAI_GPT3_PAPER" data-value="174600000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GPT3_175B: 174600000000 parameter_per_token, DERIVED">
-    <title>DM_GPT3_175B: 174600000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GPT3_175B" data-status="DERIVED" data-source-ids="S_OPENAI_GPT3_PAPER" data-value="174600000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GPT3_175B: 174600000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_GPT3_175B: 174600000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="148.0" y="167.6" width="16" height="16" />
     <circle data-series-ring="true" cx="156.0" cy="175.6" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GPT3_175B" data-status="FACT" data-source-ids="S_OPENAI_GPT3_PAPER" data-value="174600000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GPT3_175B: 174600000000 parameter, FACT">
-    <title>DM_GPT3_175B: 174600000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GPT3_175B" data-status="FACT" data-source-ids="S_OPENAI_GPT3_PAPER" data-value="174600000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GPT3_175B: 174600000000 parameter, FACT; confianza high">
+    <title>DM_GPT3_175B: 174600000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="163.0" cy="175.6" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GOPHER_280B" data-status="DERIVED" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-value="280000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GOPHER_280B: 280000000000 parameter_per_token, DERIVED">
-    <title>DM_GOPHER_280B: 280000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GOPHER_280B" data-status="DERIVED" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-value="280000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GOPHER_280B: 280000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_GOPHER_280B: 280000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="183.0" y="164.0" width="16" height="16" />
     <circle data-series-ring="true" cx="191.0" cy="172.0" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GOPHER_280B" data-status="FACT" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-value="280000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GOPHER_280B: 280000000000 parameter, FACT">
-    <title>DM_GOPHER_280B: 280000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GOPHER_280B" data-status="FACT" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-value="280000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GOPHER_280B: 280000000000 parameter, FACT; confianza high">
+    <title>DM_GOPHER_280B: 280000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="198.0" cy="172.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="DERIVED" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="176247000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_BLOOM_176B: 176247000000 parameter_per_token, DERIVED">
-    <title>DM_BLOOM_176B: 176247000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="DERIVED" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="176247000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_BLOOM_176B: 176247000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_BLOOM_176B: 176247000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="167.5" width="16" height="16" />
     <circle data-series-ring="true" cx="226.0" cy="175.5" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="FACT" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="176247000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_BLOOM_176B: 176247000000 parameter, FACT">
-    <title>DM_BLOOM_176B: 176247000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="FACT" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="176247000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_BLOOM_176B: 176247000000 parameter, FACT; confianza high">
+    <title>DM_BLOOM_176B: 176247000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="175.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_CHINCHILLA_70B" data-status="DERIVED" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-value="70000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_CHINCHILLA_70B: 70000000000 parameter_per_token, DERIVED">
-    <title>DM_CHINCHILLA_70B: 70000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_CHINCHILLA_70B" data-status="DERIVED" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-value="70000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_CHINCHILLA_70B: 70000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_CHINCHILLA_70B: 70000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="174.5" width="16" height="16" />
     <circle data-series-ring="true" cx="226.0" cy="182.5" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_CHINCHILLA_70B" data-status="FACT" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-value="70000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_CHINCHILLA_70B: 70000000000 parameter, FACT">
-    <title>DM_CHINCHILLA_70B: 70000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_CHINCHILLA_70B" data-status="FACT" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-value="70000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_CHINCHILLA_70B: 70000000000 parameter, FACT; confianza high">
+    <title>DM_CHINCHILLA_70B: 70000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="182.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LAMDA_137B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_LAMDA_REPORT" data-value="137000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LAMDA_137B: 137000000000 parameter_per_token, DERIVED">
-    <title>DM_LAMDA_137B: 137000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LAMDA_137B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_LAMDA_REPORT" data-value="137000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LAMDA_137B: 137000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_LAMDA_137B: 137000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="169.4" width="16" height="16" />
     <circle data-series-ring="true" cx="226.0" cy="177.4" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LAMDA_137B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_LAMDA_REPORT" data-value="137000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LAMDA_137B: 137000000000 parameter, FACT">
-    <title>DM_LAMDA_137B: 137000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LAMDA_137B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_LAMDA_REPORT" data-value="137000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LAMDA_137B: 137000000000 parameter, FACT; confianza high">
+    <title>DM_LAMDA_137B: 137000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="177.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="DERIVED" data-source-ids="S_DASH_META_OPT_REPORT" data-value="175000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_OPT_175B: 175000000000 parameter_per_token, DERIVED">
-    <title>DM_OPT_175B: 175000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="DERIVED" data-source-ids="S_DASH_META_OPT_REPORT" data-value="175000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_OPT_175B: 175000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_OPT_175B: 175000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="232.0" y="167.6" width="16" height="16" />
     <circle data-series-ring="true" cx="240.0" cy="175.6" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="FACT" data-source-ids="S_DASH_META_OPT_REPORT" data-value="175000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_OPT_175B: 175000000000 parameter, FACT">
-    <title>DM_OPT_175B: 175000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="FACT" data-source-ids="S_DASH_META_OPT_REPORT" data-value="175000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_OPT_175B: 175000000000 parameter, FACT; confianza high">
+    <title>DM_OPT_175B: 175000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="247.0" cy="175.6" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="DERIVED" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="540350000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_PALM_540B: 540350000000 parameter_per_token, DERIVED">
-    <title>DM_PALM_540B: 540350000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="DERIVED" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="540350000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_PALM_540B: 540350000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_PALM_540B: 540350000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="159.1" width="16" height="16" />
     <circle data-series-ring="true" cx="226.0" cy="167.1" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="FACT" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="540350000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_PALM_540B: 540350000000 parameter, FACT">
-    <title>DM_PALM_540B: 540350000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="FACT" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="540350000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_PALM_540B: 540350000000 parameter, FACT; confianza high">
+    <title>DM_PALM_540B: 540350000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="167.1" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="67000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_LLM_67B: 67000000000 parameter_per_token, DERIVED">
-    <title>DM_DEEPSEEK_LLM_67B: 67000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="67000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_LLM_67B: 67000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_DEEPSEEK_LLM_67B: 67000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="174.8" width="16" height="16" />
     <circle data-series-ring="true" cx="261.0" cy="182.8" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="67000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 67000000000 parameter, FACT">
-    <title>DM_DEEPSEEK_LLM_67B: 67000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="67000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 67000000000 parameter, FACT; confianza high">
+    <title>DM_DEEPSEEK_LLM_67B: 67000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="182.8" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="65000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA1_65B: 65000000000 parameter_per_token, DERIVED">
-    <title>DM_LLAMA1_65B: 65000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="65000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA1_65B: 65000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_LLAMA1_65B: 65000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="267.0" y="175.1" width="16" height="16" />
     <circle data-series-ring="true" cx="275.0" cy="183.1" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="FACT" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="65000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA1_65B: 65000000000 parameter, FACT">
-    <title>DM_LLAMA1_65B: 65000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="FACT" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="65000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA1_65B: 65000000000 parameter, FACT; confianza high">
+    <title>DM_LLAMA1_65B: 65000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="282.0" cy="183.1" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="70000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA2_70B: 70000000000 parameter_per_token, DERIVED">
-    <title>DM_LLAMA2_70B: 70000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="70000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA2_70B: 70000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_LLAMA2_70B: 70000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="281.0" y="174.5" width="16" height="16" />
     <circle data-series-ring="true" cx="289.0" cy="182.5" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="FACT" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="70000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA2_70B: 70000000000 parameter, FACT">
-    <title>DM_LLAMA2_70B: 70000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="FACT" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="70000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA2_70B: 70000000000 parameter, FACT; confianza high">
+    <title>DM_LLAMA2_70B: 70000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="261.0" cy="182.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL7_REPORT" data-value="7241732096" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_MISTRAL_7B_V01: 7241732096 parameter_per_token, DERIVED">
-    <title>DM_MISTRAL_7B_V01: 7241732096 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL7_REPORT" data-value="7241732096" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_MISTRAL_7B_V01: 7241732096 parameter_per_token, DERIVED; confianza high">
+    <title>DM_MISTRAL_7B_V01: 7241732096 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="191.6" width="16" height="16" />
     <circle data-series-ring="true" cx="261.0" cy="199.6" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="FACT" data-source-ids="S_DASH_MISTRAL7_REPORT" data-value="7241732096" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 7241732096 parameter, FACT">
-    <title>DM_MISTRAL_7B_V01: 7241732096 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="FACT" data-source-ids="S_DASH_MISTRAL7_REPORT" data-value="7241732096" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 7241732096 parameter, FACT; confianza high">
+    <title>DM_MISTRAL_7B_V01: 7241732096 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="199.6" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="FACT" data-source-ids="S_DASH_MIXTRAL_REPORT" data-value="12900000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_MIXTRAL_8X7B: 12900000000 parameter_per_token, FACT">
-    <title>DM_MIXTRAL_8X7B: 12900000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="FACT" data-source-ids="S_DASH_MIXTRAL_REPORT" data-value="12900000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_MIXTRAL_8X7B: 12900000000 parameter_per_token, FACT; confianza high">
+    <title>DM_MIXTRAL_8X7B: 12900000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="261.0" cy="195.3" r="8" />
     <circle data-series-ring="true" cx="261.0" cy="195.3" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="FACT" data-source-ids="S_DASH_MIXTRAL_REPORT" data-value="46702792704" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 46702792704 parameter, FACT">
-    <title>DM_MIXTRAL_8X7B: 46702792704 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="FACT" data-source-ids="S_DASH_MIXTRAL_REPORT" data-value="46702792704" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 46702792704 parameter, FACT; confianza high">
+    <title>DM_MIXTRAL_8X7B: 46702792704 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="261.0" cy="185.6" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN_REPORT" data-value="72000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN_72B: 72000000000 parameter_per_token, DERIVED">
-    <title>DM_QWEN_72B: 72000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN_REPORT" data-value="72000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN_72B: 72000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_QWEN_72B: 72000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="174.3" width="16" height="16" />
     <circle data-series-ring="true" cx="261.0" cy="182.3" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="FACT" data-source-ids="S_DASH_QWEN_REPORT" data-value="72000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN_72B: 72000000000 parameter, FACT">
-    <title>DM_QWEN_72B: 72000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="FACT" data-source-ids="S_DASH_QWEN_REPORT" data-value="72000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN_72B: 72000000000 parameter, FACT; confianza high">
+    <title>DM_QWEN_72B: 72000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="182.3" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT" data-value="21000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_V2: 21000000000 parameter_per_token, FACT">
-    <title>DM_DEEPSEEK_V2: 21000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT" data-value="21000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_V2: 21000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_DEEPSEEK_V2: 21000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="191.6" r="8" />
     <circle data-series-ring="true" cx="296.0" cy="191.6" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT" data-value="236000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 236000000000 parameter, FACT">
-    <title>DM_DEEPSEEK_V2: 236000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT" data-value="236000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 236000000000 parameter, FACT; confianza high">
+    <title>DM_DEEPSEEK_V2: 236000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="173.3" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="37000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_V3: 37000000000 parameter_per_token, FACT">
-    <title>DM_DEEPSEEK_V3: 37000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="37000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_V3: 37000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_DEEPSEEK_V3: 37000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="187.3" r="8" />
     <circle data-series-ring="true" cx="296.0" cy="187.3" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="671000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 671000000000 parameter, FACT">
-    <title>DM_DEEPSEEK_V3: 671000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="671000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 671000000000 parameter, FACT; confianza high">
+    <title>DM_DEEPSEEK_V3: 671000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="165.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="27000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GEMMA2_27B: 27000000000 parameter_per_token, DERIVED">
-    <title>DM_GEMMA2_27B: 27000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="27000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GEMMA2_27B: 27000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_GEMMA2_27B: 27000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="181.7" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="189.7" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="27000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GEMMA2_27B: 27000000000 parameter, FACT">
-    <title>DM_GEMMA2_27B: 27000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="27000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GEMMA2_27B: 27000000000 parameter, FACT; confianza high">
+    <title>DM_GEMMA2_27B: 27000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="189.7" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="7000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GEMMA_7B: 7000000000 parameter_per_token, DERIVED">
-    <title>DM_GEMMA_7B: 7000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="7000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GEMMA_7B: 7000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_GEMMA_7B: 7000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="191.9" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="199.9" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="7000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GEMMA_7B: 7000000000 parameter, FACT">
-    <title>DM_GEMMA_7B: 7000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="7000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GEMMA_7B: 7000000000 parameter, FACT; confianza high">
+    <title>DM_GEMMA_7B: 7000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="199.9" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GROK1" data-status="FACT" data-source-ids="S_DASH_XAI_GROK1_REPO" data-value="314000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GROK1: 314000000000 parameter, FACT">
-    <title>DM_GROK1: 314000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GROK1" data-status="FACT" data-source-ids="S_DASH_XAI_GROK1_REPO" data-value="314000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GROK1: 314000000000 parameter, FACT; confianza high">
+    <title>DM_GROK1: 314000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="171.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="405000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA31_405B: 405000000000 parameter_per_token, DERIVED">
-    <title>DM_LLAMA31_405B: 405000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="405000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA31_405B: 405000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_LLAMA31_405B: 405000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="161.2" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="169.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="405000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA31_405B: 405000000000 parameter, FACT">
-    <title>DM_LLAMA31_405B: 405000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="405000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA31_405B: 405000000000 parameter, FACT; confianza high">
+    <title>DM_LLAMA31_405B: 405000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="169.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="70000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA31_70B: 70000000000 parameter_per_token, DERIVED">
-    <title>DM_LLAMA31_70B: 70000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="70000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA31_70B: 70000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_LLAMA31_70B: 70000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="174.5" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="182.5" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="70000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA31_70B: 70000000000 parameter, FACT">
-    <title>DM_LLAMA31_70B: 70000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="70000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA31_70B: 70000000000 parameter, FACT; confianza high">
+    <title>DM_LLAMA31_70B: 70000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="182.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="8000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA31_8B: 8000000000 parameter_per_token, DERIVED">
-    <title>DM_LLAMA31_8B: 8000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="8000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA31_8B: 8000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_LLAMA31_8B: 8000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="190.9" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="198.9" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="8000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA31_8B: 8000000000 parameter, FACT">
-    <title>DM_LLAMA31_8B: 8000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="FACT" data-source-ids="S_META_LLAMA31_PAPER" data-value="8000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA31_8B: 8000000000 parameter, FACT; confianza high">
+    <title>DM_LLAMA31_8B: 8000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="198.9" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD" data-value="123000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_MISTRAL_LARGE2_2407: 123000000000 parameter_per_token, DERIVED">
-    <title>DM_MISTRAL_LARGE2_2407: 123000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD" data-value="123000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_MISTRAL_LARGE2_2407: 123000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_MISTRAL_LARGE2_2407: 123000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="170.2" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="178.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="FACT" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD" data-value="123000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 123000000000 parameter, FACT">
-    <title>DM_MISTRAL_LARGE2_2407: 123000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="FACT" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD" data-value="123000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 123000000000 parameter, FACT; confianza high">
+    <title>DM_MISTRAL_LARGE2_2407: 123000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="178.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN25_REPORT" data-value="72700000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN25_72B: 72700000000 parameter_per_token, DERIVED">
-    <title>DM_QWEN25_72B: 72700000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN25_REPORT" data-value="72700000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN25_72B: 72700000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_QWEN25_72B: 72700000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="174.2" width="16" height="16" />
     <circle data-series-ring="true" cx="296.0" cy="182.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="FACT" data-source-ids="S_DASH_QWEN25_REPORT" data-value="72700000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN25_72B: 72700000000 parameter, FACT">
-    <title>DM_QWEN25_72B: 72700000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="FACT" data-source-ids="S_DASH_QWEN25_REPORT" data-value="72700000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN25_72B: 72700000000 parameter, FACT; confianza high">
+    <title>DM_QWEN25_72B: 72700000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="182.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN2_REPORT" data-value="72710000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN2_72B: 72710000000 parameter_per_token, DERIVED">
-    <title>DM_QWEN2_72B: 72710000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN2_REPORT" data-value="72710000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN2_72B: 72710000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_QWEN2_72B: 72710000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="302.0" y="174.2" width="16" height="16" />
     <circle data-series-ring="true" cx="310.0" cy="182.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="FACT" data-source-ids="S_DASH_QWEN2_REPORT" data-value="72710000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN2_72B: 72710000000 parameter, FACT">
-    <title>DM_QWEN2_72B: 72710000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="FACT" data-source-ids="S_DASH_QWEN2_REPORT" data-value="72710000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN2_72B: 72710000000 parameter, FACT; confianza high">
+    <title>DM_QWEN2_72B: 72710000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="317.0" cy="182.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT" data-value="37000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_R1: 37000000000 parameter_per_token, FACT">
-    <title>DM_DEEPSEEK_R1: 37000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT" data-value="37000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_DEEPSEEK_R1: 37000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_DEEPSEEK_R1: 37000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="187.3" r="8" />
     <circle data-series-ring="true" cx="331.0" cy="187.3" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT" data-value="671000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 671000000000 parameter, FACT">
-    <title>DM_DEEPSEEK_R1: 671000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="FACT" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT" data-value="671000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 671000000000 parameter, FACT; confianza high">
+    <title>DM_DEEPSEEK_R1: 671000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="165.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="27000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GEMMA3_27B: 27000000000 parameter_per_token, DERIVED">
-    <title>DM_GEMMA3_27B: 27000000000 parameter_per_token, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="27000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="square" data-series="active" data-series-marker="outer-ring" aria-label="DM_GEMMA3_27B: 27000000000 parameter_per_token, DERIVED; confianza high">
+    <title>DM_GEMMA3_27B: 27000000000 parameter_per_token, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="181.7" width="16" height="16" />
     <circle data-series-ring="true" cx="331.0" cy="189.7" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="27000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GEMMA3_27B: 27000000000 parameter, FACT">
-    <title>DM_GEMMA3_27B: 27000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="FACT" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="27000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_GEMMA3_27B: 27000000000 parameter, FACT; confianza high">
+    <title>DM_GEMMA3_27B: 27000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="338.0" cy="189.7" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="FACT" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT" data-value="32000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_KIMI_K2: 32000000000 parameter_per_token, FACT">
-    <title>DM_KIMI_K2: 32000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="FACT" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT" data-value="32000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_KIMI_K2: 32000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_KIMI_K2: 32000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="188.4" r="8" />
     <circle data-series-ring="true" cx="331.0" cy="188.4" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="FACT" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT" data-value="1000000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_KIMI_K2: 1000000000000 parameter, FACT">
-    <title>DM_KIMI_K2: 1000000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="FACT" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT" data-value="1000000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_KIMI_K2: 1000000000000 parameter, FACT; confianza high">
+    <title>DM_KIMI_K2: 1000000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="162.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="FACT" data-source-ids="S_DASH_META_LLAMA4_CARD" data-value="17000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA4_SCOUT: 17000000000 parameter_per_token, FACT">
-    <title>DM_LLAMA4_SCOUT: 17000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="FACT" data-source-ids="S_DASH_META_LLAMA4_CARD" data-value="17000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_LLAMA4_SCOUT: 17000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_LLAMA4_SCOUT: 17000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="193.2" r="8" />
     <circle data-series-ring="true" cx="331.0" cy="193.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="FACT" data-source-ids="S_DASH_META_LLAMA4_CARD" data-value="109000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 109000000000 parameter, FACT">
-    <title>DM_LLAMA4_SCOUT: 109000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="FACT" data-source-ids="S_DASH_META_LLAMA4_CARD" data-value="109000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 109000000000 parameter, FACT; confianza high">
+    <title>DM_LLAMA4_SCOUT: 109000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="179.1" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="22000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN3_235B_A22B: 22000000000 parameter_per_token, FACT">
-    <title>DM_QWEN3_235B_A22B: 22000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="22000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN3_235B_A22B: 22000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_QWEN3_235B_A22B: 22000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="191.2" r="8" />
     <circle data-series-ring="true" cx="331.0" cy="191.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="235000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 235000000000 parameter, FACT">
-    <title>DM_QWEN3_235B_A22B: 235000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="235000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 235000000000 parameter, FACT; confianza high">
+    <title>DM_QWEN3_235B_A22B: 235000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="173.3" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="3300000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN3_30B_A3B: 3300000000 parameter_per_token, FACT">
-    <title>DM_QWEN3_30B_A3B: 3300000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="3300000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN3_30B_A3B: 3300000000 parameter_per_token, FACT; confianza high">
+    <title>DM_QWEN3_30B_A3B: 3300000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="205.6" r="8" />
     <circle data-series-ring="true" cx="331.0" cy="205.6" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="30500000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 30500000000 parameter, FACT">
-    <title>DM_QWEN3_30B_A3B: 30500000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="FACT" data-source-ids="S_DASH_QWEN3_REPORT" data-value="30500000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 30500000000 parameter, FACT; confianza high">
+    <title>DM_QWEN3_30B_A3B: 30500000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="338.0" cy="188.8" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="104200000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_KIMI_K3: 104200000000 parameter_per_token, FACT">
-    <title>DM_KIMI_K3: 104200000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="104200000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_KIMI_K3: 104200000000 parameter_per_token, FACT; confianza high">
+    <title>DM_KIMI_K3: 104200000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="179.5" r="8" />
     <circle data-series-ring="true" cx="362.0" cy="179.5" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="2800000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_KIMI_K3: 2800000000000 parameter, FACT">
-    <title>DM_KIMI_K3: 2800000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="2800000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_KIMI_K3: 2800000000000 parameter, FACT; confianza high">
+    <title>DM_KIMI_K3: 2800000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="154.6" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="FACT" data-source-ids="S_QWEN38_MODELSCOPE" data-value="95000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN38_24T_A95B: 95000000000 parameter_per_token, FACT">
-    <title>DM_QWEN38_24T_A95B: 95000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="FACT" data-source-ids="S_QWEN38_MODELSCOPE" data-value="95000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN38_24T_A95B: 95000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_QWEN38_24T_A95B: 95000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="180.2" r="8" />
     <circle data-series-ring="true" cx="362.0" cy="180.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="FACT" data-source-ids="S_QWEN38_MODELSCOPE" data-value="2400000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN38_24T_A95B: 2400000000000 parameter, FACT">
-    <title>DM_QWEN38_24T_A95B: 2400000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="FACT" data-source-ids="S_QWEN38_MODELSCOPE" data-value="2400000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN38_24T_A95B: 2400000000000 parameter, FACT; confianza high">
+    <title>DM_QWEN38_24T_A95B: 2400000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="155.8" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN38_MAX_SERVICE" data-status="FACT" data-source-ids="S_QWEN38_ANNOUNCEMENT" data-value="95000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN38_MAX_SERVICE: 95000000000 parameter_per_token, FACT">
-    <title>DM_QWEN38_MAX_SERVICE: 95000000000 parameter_per_token, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN38_MAX_SERVICE" data-status="FACT" data-source-ids="S_QWEN38_ANNOUNCEMENT" data-value="95000000000" data-unit="parameter_per_token" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="active" data-series-marker="outer-ring" aria-label="DM_QWEN38_MAX_SERVICE: 95000000000 parameter_per_token, FACT; confianza high">
+    <title>DM_QWEN38_MAX_SERVICE: 95000000000 parameter_per_token, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="180.2" r="8" />
     <circle data-series-ring="true" cx="362.0" cy="180.2" r="13" fill="none" stroke="#cbd5e1" stroke-width="3" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN38_MAX_SERVICE" data-status="FACT" data-source-ids="S_QWEN38_ANNOUNCEMENT" data-value="2400000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN38_MAX_SERVICE: 2400000000000 parameter, FACT">
-    <title>DM_QWEN38_MAX_SERVICE: 2400000000000 parameter, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN38_MAX_SERVICE" data-status="FACT" data-source-ids="S_QWEN38_ANNOUNCEMENT" data-value="2400000000000" data-unit="parameter" data-claim-scope="published_parameter_counts" data-confidence="high" data-marker="circle" data-series="total" data-series-marker="single" aria-label="DM_QWEN38_MAX_SERVICE: 2400000000000 parameter, FACT; confianza high">
+    <title>DM_QWEN38_MAX_SERVICE: 2400000000000 parameter, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="155.8" r="8" />
   </g>
   <path d="M128.0,222.8 L395,147 L400,147" fill="none" stroke="#60a5fa" stroke-width="2" data-leader="true" data-model-id="DM_BERT_LARGE" />

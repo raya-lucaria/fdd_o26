@@ -2832,6 +2832,20 @@ dashboard_models:
       weight_floor_int8: {status: DERIVED, value: 2400000000000, unit: byte, source_ids: [S_QWEN38_MODELSCOPE], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int4: {status: DERIVED, value: 1200000000000, unit: byte, source_ids: [S_QWEN38_MODELSCOPE], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 4, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
 
+dashboard_training_replacement_scenario:
+  id: DS_TRAINING_REPLACEMENT_2026_08_18
+  status: SCENARIO
+  as_of: "2026-08-18"
+  currency: USD
+  boundary: accelerator-only
+  unit_price_usd: {low: 20000, base: 30000, high: 40000}
+  native_quantity_metric: accelerators_concurrent
+  formula: native_concurrent_accelerator_count * assumed_common_slot_price
+  source_ids: [S_COURSE_DESIGN]
+  basis: "Banda docente común por plaza de acelerador a la fecha de corte; permite comparar escala de flota, no equivalencia de rendimiento ni precio observado."
+  includes: [native_accelerator_quantity_only]
+  excludes: [server, network, storage, energy, labor, taxes, support, financing]
+
 dashboard_training_series:
   - {id: parameters_total_active, inputs: [parameters_total, parameters_active], claim_scope: published_parameter_counts}
   - {id: training_flop, inputs: [training_flop], claim_scope: training_work_fact_derived_or_estimate}

@@ -1,5 +1,6 @@
 from decimal import Decimal
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import pytest
 import yaml
@@ -10,6 +11,7 @@ from ai_model_dashboard import (
     PlotPoint,
     build_inference_series,
     build_training_series,
+    cell_confidence,
     pareto_frontier,
 )
 
@@ -69,6 +71,91 @@ def sample_ledger():
     }
 
 
+def test_confidence_policy_is_cell_level_reproducible_and_mutation_sensitive():
+    cells = {
+        "published": metric("FACT", 10, "item", ("S_PRIMARY",)),
+        "derived": metric(
+            "DERIVED", 20, "item", ("S_PRIMARY",),
+            formula="2 * published", input_metric_ids=["published"],
+        ),
+        "bounded": metric(
+            "ESTIMATE", 20, "item", ("S_PRIMARY",), low=10, high=30,
+            assumptions=["bounded from a published input"],
+        ),
+        "scenario": metric("SCENARIO", 30, "USD", ("S_COURSE_DESIGN",)),
+        "negative": metric(
+            "NOT_FOUND", source_ids=("S_PRIMARY",), corpus_checked=["S_PRIMARY"],
+            searched_on="2026-08-18",
+        ),
+    }
+    assert cell_confidence(cells["published"], cells) == "high"
+    assert cell_confidence(cells["derived"], cells) == "high"
+    assert cell_confidence(cells["bounded"], cells) == "medium"
+    assert cell_confidence(cells["scenario"], cells) == "not_applicable"
+    assert cell_confidence(cells["negative"], cells) == "high"
+
+    cells["published"]["source_ids"] = []
+    assert cell_confidence(cells["published"], cells) == "low"
+    assert cell_confidence(cells["derived"], cells) == "low"
+    cells["negative"].pop("searched_on")
+    cells["negative"].pop("corpus_checked")
+    assert cell_confidence(cells["negative"], cells) == "low"
+
+
+def test_every_dashboard_cell_resolves_confidence_and_annex_exposes_it():
+    ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
+    annex = ANNEX.read_text(encoding="utf-8")
+    for model in ledger["dashboard_models"]:
+        cells = {"year": model["year"], "architecture": model["architecture"], **model["metrics"]}
+        section = annex.split(f"### {model['canonical_name']} — `{model['id']}`", 1)[1].split("\n### ", 1)[0]
+        for metric_id, cell in cells.items():
+            confidence = cell_confidence(cell, cells)
+            assert confidence in {"high", "medium", "low", "not_applicable"}
+            line = next(line for line in section.splitlines() if line.startswith(f"- **{metric_id}:**"))
+            assert f"**confianza:** {confidence}" in line
+
+
+def test_training_replacement_scenario_uses_only_documented_concurrent_fleets():
+    ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
+    scenario = ledger["dashboard_training_replacement_scenario"]
+    assert scenario["as_of"] == "2026-08-18"
+    assert scenario["unit_price_usd"] == {"low": 20000, "base": 30000, "high": 40000}
+    assert scenario["status"] == "SCENARIO"
+    assert scenario["boundary"] == "accelerator-only"
+    assert scenario["source_ids"]
+    assert {"server", "network", "storage", "energy", "labor"} <= set(scenario["excludes"])
+    points = build_training_series(ledger)["replacement_value"]
+    documented = {
+        model["id"]
+        for model in ledger["dashboard_models"]
+        if model["metrics"]["accelerators_concurrent"]["status"] == "FACT"
+    }
+    assert {point.model_id for point in points} == documented
+    assert points
+    assert all(point.status == "SCENARIO" for point in points)
+    assert all(point.confidence == "not_applicable" for point in points)
+    counts = {
+        model["id"]: Decimal(str(model["metrics"]["accelerators_concurrent"]["value"]))
+        for model in ledger["dashboard_models"]
+        if model["metrics"]["accelerators_concurrent"]["status"] == "FACT"
+    }
+    assert all(point.low == counts[point.model_id] * 20_000 for point in points)
+    assert all(point.value == counts[point.model_id] * 30_000 for point in points)
+    assert all(point.high == counts[point.model_id] * 40_000 for point in points)
+    assert all("not_historical_training_cost" in point.claim_scope for point in points)
+
+
+def test_generated_quantitative_nodes_expose_cell_confidence():
+    assets = ROOT / "course/3_arquitectura_de_computadoras/_assets"
+    for path in (*assets.glob("ai-training-*.svg"), *assets.glob("ai-inference-*.svg"), *assets.glob("ai-pareto-*.svg")):
+        root = ET.parse(path).getroot()
+        for node in root.iter():
+            if node.attrib.get("data-quantitative") == "true":
+                assert node.attrib.get("data-confidence") in {
+                    "high", "medium", "low", "not_applicable"
+                }
+
+
 def test_annex_tables_reconstruct_every_generated_non_pareto_point():
     ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
     annex = ANNEX.read_text(encoding="utf-8")
@@ -100,13 +187,12 @@ def test_annex_tables_reconstruct_every_generated_non_pareto_point():
             row = (
                 f"| {names[point.model_id]} · {point.year} · {point.label} | "
                 f"`{point.status}` · {value} {point.unit} | {point.claim_scope} · "
-                f"{', '.join(point.source_ids)} |"
+                f"{', '.join(point.source_ids)} · confianza: `{point.confidence}` |"
             )
             assert row in section
-    assert "ai-training-replacement-value.svg` · 0 puntos" in annex
 
 
-def test_annex_reconstructs_empty_training_and_exact_inference_pareto_membership():
+def test_annex_reconstructs_training_nonintersection_and_exact_inference_pareto_membership():
     ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
     eci = yaml.safe_load((ROOT / "tools/data/eci_snapshot_2026-08-18.yaml").read_text())
     annex = ANNEX.read_text(encoding="utf-8")
@@ -129,7 +215,7 @@ def test_annex_reconstructs_empty_training_and_exact_inference_pareto_membership
     ]
     frontier = pareto_frontier(inputs)
     assert "ai-pareto-training.svg` · 0 puntos compatibles" in annex
-    assert "falta eje de costo comparable" in annex
+    assert "sin intersección exacta entre ECI y las cuatro flotas documentadas" in annex
     section = annex.split("### `ai-pareto-inference.svg`", 1)[1].split("\n## ", 1)[0]
     assert len(inputs) == 8
     for point in inputs:
@@ -173,7 +259,7 @@ def test_training_series_excludes_missing_and_preserves_native_units():
     assert all(point.value > 0 for points in series.values() for point in points)
 
 
-def test_training_power_bases_are_not_combined_and_unsupported_replacement_is_empty():
+def test_training_power_bases_are_not_combined_and_replacement_is_a_separate_scenario():
     series = build_training_series(sample_ledger())
 
     power = series["power_or_energy_envelope"][0]
@@ -185,7 +271,11 @@ def test_training_power_bases_are_not_combined_and_unsupported_replacement_is_em
     )
     assert power.status == "DERIVED"
     assert set(power.source_ids) == {"S_A"}
-    assert series["replacement_value"] == []
+    replacement = series["replacement_value"][0]
+    assert (replacement.low, replacement.value, replacement.high) == (
+        Decimal("80000"), Decimal("120000"), Decimal("160000")
+    )
+    assert replacement.status == "SCENARIO"
 
 
 def test_training_power_propagates_estimated_input_ranges():

@@ -17,220 +17,220 @@
   <text x="380.0" y="278" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2026</text>
   <text x="20" y="108" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true" data-layout-role="axis-unit">Bytes</text>
   <text x="580" y="282" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-layout-role="axis-scale">Y log · ×</text>
-  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="672000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_BERT_LARGE: 672000000 byte, DERIVED">
-    <title>DM_BERT_LARGE: 672000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="672000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_BERT_LARGE: 672000000 byte, DERIVED; confianza high">
+    <title>DM_BERT_LARGE: 672000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="110.0" y="209.6" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="FACT" data-source-ids="S_ARTIFACT_BERT_LARGE" data-value="1344952014" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_BERT_LARGE: 1344952014 byte, FACT">
-    <title>DM_BERT_LARGE: 1344952014 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="FACT" data-source-ids="S_ARTIFACT_BERT_LARGE" data-value="1344952014" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_BERT_LARGE: 1344952014 byte, FACT; confianza high">
+    <title>DM_BERT_LARGE: 1344952014 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="118.0" cy="212.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="22000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_T5_11B: 22000000000 byte, DERIVED">
-    <title>DM_T5_11B: 22000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="22000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_T5_11B: 22000000000 byte, DERIVED; confianza high">
+    <title>DM_T5_11B: 22000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="113.0" y="183.2" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="FACT" data-source-ids="S_ARTIFACT_T5_11B" data-value="45229452544" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_T5_11B: 45229452544 byte, FACT">
-    <title>DM_T5_11B: 45229452544 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="FACT" data-source-ids="S_ARTIFACT_T5_11B" data-value="45229452544" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_T5_11B: 45229452544 byte, FACT; confianza high">
+    <title>DM_T5_11B: 45229452544 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="121.0" cy="185.8" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="DERIVED" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="352494000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_BLOOM_176B: 352494000000 byte, DERIVED">
-    <title>DM_BLOOM_176B: 352494000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="DERIVED" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="352494000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_BLOOM_176B: 352494000000 byte, DERIVED; confianza high">
+    <title>DM_BLOOM_176B: 352494000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="162.3" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="FACT" data-source-ids="S_ARTIFACT_BLOOM" data-value="352494635619" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_BLOOM_176B: 352494635619 byte, FACT">
-    <title>DM_BLOOM_176B: 352494635619 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="FACT" data-source-ids="S_ARTIFACT_BLOOM" data-value="352494635619" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_BLOOM_176B: 352494635619 byte, FACT; confianza high">
+    <title>DM_BLOOM_176B: 352494635619 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="233.0" cy="170.3" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="DERIVED" data-source-ids="S_DASH_META_OPT_REPORT" data-value="350000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_OPT_175B: 350000000000 byte, DERIVED">
-    <title>DM_OPT_175B: 350000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="DERIVED" data-source-ids="S_DASH_META_OPT_REPORT" data-value="350000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_OPT_175B: 350000000000 byte, DERIVED; confianza high">
+    <title>DM_OPT_175B: 350000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="232.0" y="162.3" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="134000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 134000000000 byte, DERIVED">
-    <title>DM_DEEPSEEK_LLM_67B: 134000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="134000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 134000000000 byte, DERIVED; confianza high">
+    <title>DM_DEEPSEEK_LLM_67B: 134000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="169.6" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_LLM_67B" data-value="134850303988" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 134850303988 byte, FACT">
-    <title>DM_DEEPSEEK_LLM_67B: 134850303988 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_LLM_67B" data-value="134850303988" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 134850303988 byte, FACT; confianza high">
+    <title>DM_DEEPSEEK_LLM_67B: 134850303988 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="177.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="130000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA1_65B: 130000000000 byte, DERIVED">
-    <title>DM_LLAMA1_65B: 130000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="130000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA1_65B: 130000000000 byte, DERIVED; confianza high">
+    <title>DM_LLAMA1_65B: 130000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="267.0" y="169.8" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="140000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA2_70B: 140000000000 byte, DERIVED">
-    <title>DM_LLAMA2_70B: 140000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="140000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA2_70B: 140000000000 byte, DERIVED; confianza high">
+    <title>DM_LLAMA2_70B: 140000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="274.0" y="169.3" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA2_70B" data-value="137953408928" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA2_70B: 137953408928 byte, FACT">
-    <title>DM_LLAMA2_70B: 137953408928 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA2_70B" data-value="137953408928" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA2_70B: 137953408928 byte, FACT; confianza high">
+    <title>DM_LLAMA2_70B: 137953408928 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="289.0" cy="177.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL7_REPORT" data-value="14483464192" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 14483464192 byte, DERIVED">
-    <title>DM_MISTRAL_7B_V01: 14483464192 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL7_REPORT" data-value="14483464192" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 14483464192 byte, DERIVED; confianza high">
+    <title>DM_MISTRAL_7B_V01: 14483464192 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="186.4" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="FACT" data-source-ids="S_ARTIFACT_MISTRAL7" data-value="14483498040" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 14483498040 byte, FACT">
-    <title>DM_MISTRAL_7B_V01: 14483498040 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="FACT" data-source-ids="S_ARTIFACT_MISTRAL7" data-value="14483498040" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 14483498040 byte, FACT; confianza high">
+    <title>DM_MISTRAL_7B_V01: 14483498040 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="194.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="DERIVED" data-source-ids="S_DASH_MIXTRAL_REPORT" data-value="93405585408" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 93405585408 byte, DERIVED">
-    <title>DM_MIXTRAL_8X7B: 93405585408 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="DERIVED" data-source-ids="S_DASH_MIXTRAL_REPORT" data-value="93405585408" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 93405585408 byte, DERIVED; confianza high">
+    <title>DM_MIXTRAL_8X7B: 93405585408 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="172.3" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="FACT" data-source-ids="S_ARTIFACT_MIXTRAL8X7B" data-value="93405713504" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 93405713504 byte, FACT">
-    <title>DM_MIXTRAL_8X7B: 93405713504 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="FACT" data-source-ids="S_ARTIFACT_MIXTRAL8X7B" data-value="93405713504" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 93405713504 byte, FACT; confianza high">
+    <title>DM_MIXTRAL_8X7B: 93405713504 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="180.3" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN_REPORT" data-value="144000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN_72B: 144000000000 byte, DERIVED">
-    <title>DM_QWEN_72B: 144000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN_REPORT" data-value="144000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN_72B: 144000000000 byte, DERIVED; confianza high">
+    <title>DM_QWEN_72B: 144000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="169.0" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN_72B" data-value="144575911576" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN_72B: 144575911576 byte, FACT">
-    <title>DM_QWEN_72B: 144575911576 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN_72B" data-value="144575911576" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN_72B: 144575911576 byte, FACT; confianza high">
+    <title>DM_QWEN_72B: 144575911576 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="268.0" cy="177.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT" data-value="472000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 472000000000 byte, DERIVED">
-    <title>DM_DEEPSEEK_V2: 472000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT" data-value="472000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 472000000000 byte, DERIVED; confianza high">
+    <title>DM_DEEPSEEK_V2: 472000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="160.1" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_V2" data-value="471486512925" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 471486512925 byte, FACT">
-    <title>DM_DEEPSEEK_V2: 471486512925 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_V2" data-value="471486512925" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 471486512925 byte, FACT; confianza high">
+    <title>DM_DEEPSEEK_V2: 471486512925 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="168.1" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="DERIVED" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="1342000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 1342000000000 byte, DERIVED">
-    <title>DM_DEEPSEEK_V3: 1342000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="DERIVED" data-source-ids="S_DEEPSEEK_V3_PAPER" data-value="1342000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 1342000000000 byte, DERIVED; confianza high">
+    <title>DM_DEEPSEEK_V3: 1342000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="152.2" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_V3" data-value="688586727753" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 688586727753 byte, FACT">
-    <title>DM_DEEPSEEK_V3: 688586727753 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_V3" data-value="688586727753" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 688586727753 byte, FACT; confianza high">
+    <title>DM_DEEPSEEK_V3: 688586727753 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="165.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="54000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GEMMA2_27B: 54000000000 byte, DERIVED">
-    <title>DM_GEMMA2_27B: 54000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="54000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GEMMA2_27B: 54000000000 byte, DERIVED; confianza high">
+    <title>DM_GEMMA2_27B: 54000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="176.5" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="FACT" data-source-ids="S_ARTIFACT_GEMMA2_27B_IT" data-value="54454316552" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_GEMMA2_27B: 54454316552 byte, FACT">
-    <title>DM_GEMMA2_27B: 54454316552 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="FACT" data-source-ids="S_ARTIFACT_GEMMA2_27B_IT" data-value="54454316552" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_GEMMA2_27B: 54454316552 byte, FACT; confianza high">
+    <title>DM_GEMMA2_27B: 54454316552 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="184.4" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="14000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GEMMA_7B: 14000000000 byte, DERIVED">
-    <title>DM_GEMMA_7B: 14000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="14000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GEMMA_7B: 14000000000 byte, DERIVED; confianza high">
+    <title>DM_GEMMA_7B: 14000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="186.7" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="FACT" data-source-ids="S_ARTIFACT_GEMMA_7B" data-value="17075391360" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_GEMMA_7B: 17075391360 byte, FACT">
-    <title>DM_GEMMA_7B: 17075391360 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="FACT" data-source-ids="S_ARTIFACT_GEMMA_7B" data-value="17075391360" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_GEMMA_7B: 17075391360 byte, FACT; confianza high">
+    <title>DM_GEMMA_7B: 17075391360 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="296.0" cy="193.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GROK1" data-status="DERIVED" data-source-ids="S_DASH_XAI_GROK1_REPO" data-value="628000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GROK1: 628000000000 byte, DERIVED">
-    <title>DM_GROK1: 628000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GROK1" data-status="DERIVED" data-source-ids="S_DASH_XAI_GROK1_REPO" data-value="628000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GROK1: 628000000000 byte, DERIVED; confianza high">
+    <title>DM_GROK1: 628000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="295.0" y="157.9" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="810000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA31_405B: 810000000000 byte, DERIVED">
-    <title>DM_LLAMA31_405B: 810000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="810000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA31_405B: 810000000000 byte, DERIVED; confianza high">
+    <title>DM_LLAMA31_405B: 810000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="156.0" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA31_405B" data-value="811706916800" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA31_405B: 811706916800 byte, FACT">
-    <title>DM_LLAMA31_405B: 811706916800 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA31_405B" data-value="811706916800" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA31_405B: 811706916800 byte, FACT; confianza high">
+    <title>DM_LLAMA31_405B: 811706916800 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="164.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="140000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA31_70B: 140000000000 byte, DERIVED">
-    <title>DM_LLAMA31_70B: 140000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="140000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA31_70B: 140000000000 byte, DERIVED; confianza high">
+    <title>DM_LLAMA31_70B: 140000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="169.3" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA31_70B_INSTRUCT" data-value="141107497872" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA31_70B: 141107497872 byte, FACT">
-    <title>DM_LLAMA31_70B: 141107497872 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA31_70B_INSTRUCT" data-value="141107497872" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA31_70B: 141107497872 byte, FACT; confianza high">
+    <title>DM_LLAMA31_70B: 141107497872 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="177.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="16000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA31_8B: 16000000000 byte, DERIVED">
-    <title>DM_LLAMA31_8B: 16000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="16000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA31_8B: 16000000000 byte, DERIVED; confianza high">
+    <title>DM_LLAMA31_8B: 16000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="295.0" y="185.6" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA31_8B_INSTRUCT" data-value="16060556376" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA31_8B: 16060556376 byte, FACT">
-    <title>DM_LLAMA31_8B: 16060556376 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA31_8B_INSTRUCT" data-value="16060556376" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA31_8B: 16060556376 byte, FACT; confianza high">
+    <title>DM_LLAMA31_8B: 16060556376 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="310.0" cy="193.6" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD" data-value="246000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 246000000000 byte, DERIVED">
-    <title>DM_MISTRAL_LARGE2_2407: 246000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="DERIVED" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD" data-value="246000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 246000000000 byte, DERIVED; confianza high">
+    <title>DM_MISTRAL_LARGE2_2407: 246000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="165.0" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="FACT" data-source-ids="S_ARTIFACT_MISTRAL_LARGE2" data-value="245220233776" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 245220233776 byte, FACT">
-    <title>DM_MISTRAL_LARGE2_2407: 245220233776 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="FACT" data-source-ids="S_ARTIFACT_MISTRAL_LARGE2" data-value="245220233776" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 245220233776 byte, FACT; confianza high">
+    <title>DM_MISTRAL_LARGE2_2407: 245220233776 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="173.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN25_REPORT" data-value="145400000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN25_72B: 145400000000 byte, DERIVED">
-    <title>DM_QWEN25_72B: 145400000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN25_REPORT" data-value="145400000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN25_72B: 145400000000 byte, DERIVED; confianza high">
+    <title>DM_QWEN25_72B: 145400000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="169.0" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN25_72B" data-value="145412518888" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN25_72B: 145412518888 byte, FACT">
-    <title>DM_QWEN25_72B: 145412518888 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN25_72B" data-value="145412518888" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN25_72B: 145412518888 byte, FACT; confianza high">
+    <title>DM_QWEN25_72B: 145412518888 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="303.0" cy="177.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN2_REPORT" data-value="145420000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN2_72B: 145420000000 byte, DERIVED">
-    <title>DM_QWEN2_72B: 145420000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN2_REPORT" data-value="145420000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN2_72B: 145420000000 byte, DERIVED; confianza high">
+    <title>DM_QWEN2_72B: 145420000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="302.0" y="169.0" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN2_72B" data-value="145412518888" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN2_72B: 145412518888 byte, FACT">
-    <title>DM_QWEN2_72B: 145412518888 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN2_72B" data-value="145412518888" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN2_72B: 145412518888 byte, FACT; confianza high">
+    <title>DM_QWEN2_72B: 145412518888 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="317.0" cy="177.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT" data-value="1342000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 1342000000000 byte, DERIVED">
-    <title>DM_DEEPSEEK_R1: 1342000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT" data-value="1342000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 1342000000000 byte, DERIVED; confianza high">
+    <title>DM_DEEPSEEK_R1: 1342000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="152.2" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_R1" data-value="688586727753" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 688586727753 byte, FACT">
-    <title>DM_DEEPSEEK_R1: 688586727753 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="FACT" data-source-ids="S_ARTIFACT_DEEPSEEK_R1" data-value="688586727753" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 688586727753 byte, FACT; confianza high">
+    <title>DM_DEEPSEEK_R1: 688586727753 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="165.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="54000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GEMMA3_27B: 54000000000 byte, DERIVED">
-    <title>DM_GEMMA3_27B: 54000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="54000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_GEMMA3_27B: 54000000000 byte, DERIVED; confianza high">
+    <title>DM_GEMMA3_27B: 54000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="176.5" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="FACT" data-source-ids="S_ARTIFACT_GEMMA3_27B_IT" data-value="54864980440" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_GEMMA3_27B: 54864980440 byte, FACT">
-    <title>DM_GEMMA3_27B: 54864980440 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="FACT" data-source-ids="S_ARTIFACT_GEMMA3_27B_IT" data-value="54864980440" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_GEMMA3_27B: 54864980440 byte, FACT; confianza high">
+    <title>DM_GEMMA3_27B: 54864980440 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="338.0" cy="184.3" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="DERIVED" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT" data-value="2000000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_KIMI_K2: 2000000000000 byte, DERIVED">
-    <title>DM_KIMI_K2: 2000000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="DERIVED" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT" data-value="2000000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_KIMI_K2: 2000000000000 byte, DERIVED; confianza high">
+    <title>DM_KIMI_K2: 2000000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="149.2" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="FACT" data-source-ids="S_ARTIFACT_KIMI_K2" data-value="1029190981272" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_KIMI_K2: 1029190981272 byte, FACT">
-    <title>DM_KIMI_K2: 1029190981272 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="FACT" data-source-ids="S_ARTIFACT_KIMI_K2" data-value="1029190981272" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_KIMI_K2: 1029190981272 byte, FACT; confianza high">
+    <title>DM_KIMI_K2: 1029190981272 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="331.0" cy="162.2" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA4_CARD" data-value="218000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 218000000000 byte, DERIVED">
-    <title>DM_LLAMA4_SCOUT: 218000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA4_CARD" data-value="218000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 218000000000 byte, DERIVED; confianza high">
+    <title>DM_LLAMA4_SCOUT: 218000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="165.9" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA4_SCOUT" data-value="217283738720" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 217283738720 byte, FACT">
-    <title>DM_LLAMA4_SCOUT: 217283738720 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="FACT" data-source-ids="S_ARTIFACT_LLAMA4_SCOUT" data-value="217283738720" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 217283738720 byte, FACT; confianza high">
+    <title>DM_LLAMA4_SCOUT: 217283738720 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="338.0" cy="173.9" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="DERIVED" data-source-ids="S_DASH_QWEN3_REPORT" data-value="470000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 470000000000 byte, DERIVED">
-    <title>DM_QWEN3_235B_A22B: 470000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="DERIVED" data-source-ids="S_DASH_QWEN3_REPORT" data-value="470000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 470000000000 byte, DERIVED; confianza high">
+    <title>DM_QWEN3_235B_A22B: 470000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="160.1" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN3_235B" data-value="470191875096" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 470191875096 byte, FACT">
-    <title>DM_QWEN3_235B_A22B: 470191875096 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN3_235B" data-value="470191875096" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 470191875096 byte, FACT; confianza high">
+    <title>DM_QWEN3_235B_A22B: 470191875096 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="338.0" cy="168.1" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="DERIVED" data-source-ids="S_DASH_QWEN3_REPORT" data-value="61000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 61000000000 byte, DERIVED">
-    <title>DM_QWEN3_30B_A3B: 61000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="DERIVED" data-source-ids="S_DASH_QWEN3_REPORT" data-value="61000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 61000000000 byte, DERIVED; confianza high">
+    <title>DM_QWEN3_30B_A3B: 61000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="175.5" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN3_30B" data-value="61066575648" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 61066575648 byte, FACT">
-    <title>DM_QWEN3_30B_A3B: 61066575648 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="FACT" data-source-ids="S_ARTIFACT_QWEN3_30B" data-value="61066575648" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 61066575648 byte, FACT; confianza high">
+    <title>DM_QWEN3_30B_A3B: 61066575648 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="338.0" cy="183.5" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="DERIVED" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="5600000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_KIMI_K3: 5600000000000 byte, DERIVED">
-    <title>DM_KIMI_K3: 5600000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="DERIVED" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="5600000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_KIMI_K3: 5600000000000 byte, DERIVED; confianza high">
+    <title>DM_KIMI_K3: 5600000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="354.0" y="141.4" width="16" height="16" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_ARTIFACT_KIMI_K3" data-value="1560936091448" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_KIMI_K3: 1560936091448 byte, FACT">
-    <title>DM_KIMI_K3: 1560936091448 byte, FACT</title>
+  <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_ARTIFACT_KIMI_K3" data-value="1560936091448" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-confidence="high" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_KIMI_K3: 1560936091448 byte, FACT; confianza high">
+    <title>DM_KIMI_K3: 1560936091448 byte, FACT; confianza high</title>
     <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="159.0" r="8" />
   </g>
-  <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="DERIVED" data-source-ids="S_QWEN38_MODELSCOPE" data-value="4800000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN38_24T_A95B: 4800000000000 byte, DERIVED">
-    <title>DM_QWEN38_24T_A95B: 4800000000000 byte, DERIVED</title>
+  <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="DERIVED" data-source-ids="S_QWEN38_MODELSCOPE" data-value="4800000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-confidence="high" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN38_24T_A95B: 4800000000000 byte, DERIVED; confianza high">
+    <title>DM_QWEN38_24T_A95B: 4800000000000 byte, DERIVED; confianza high</title>
     <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="354.0" y="142.5" width="16" height="16" />
   </g>
   <path d="M128.0,217.6 L395,147 L400,147" fill="none" stroke="#60a5fa" stroke-width="2" data-leader="true" data-model-id="DM_BERT_LARGE" />

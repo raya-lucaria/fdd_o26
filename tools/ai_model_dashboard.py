@@ -11,6 +11,10 @@ from typing import Iterable
 
 
 POSITIVE_STATUSES = {"FACT", "DERIVED", "ESTIMATE", "SCENARIO"}
+NEGATIVE_STATUSES = {
+    "UNDISCLOSED_BY_CREATOR", "NOT_FOUND", "ESTIMATION_NOT_IDENTIFIABLE",
+    "NOT_APPLICABLE",
+}
 TRAINING_KEYS = (
     "parameters_total_active",
     "training_flop",
@@ -29,6 +33,52 @@ CAPACITY_SCOPE = "physical_capacity_floor_not_topology_not_sla"
 TDP_SCOPE = "accelerator_only_tdp_scenario_not_wall_power"
 CAPEX_SCOPE = "accelerator_equivalent_scenario_not_api_not_system_price"
 SCENARIO_SOURCE = "S_COURSE_DESIGN"
+TRAINING_REPLACEMENT_SCOPE = (
+    "accelerator_only_common_date_replacement_scenario_not_historical_training_cost"
+)
+
+
+def cell_confidence(
+    cell: dict,
+    cells: dict[str, dict] | None = None,
+    _seen: frozenset[str] = frozenset(),
+) -> str:
+    """Rate evidence/reproducibility for one cell, never model quality.
+
+    ``not_applicable`` is deliberate for scenarios: their arithmetic can be
+    reproduced, but the hypothetical premise has no empirical confidence.
+    """
+    status = cell.get("status")
+    sources = tuple(cell.get("source_ids") or ())
+    if status == "FACT":
+        return "high" if sources else "low"
+    if status == "DERIVED":
+        inputs = tuple(cell.get("input_metric_ids") or cell.get("inputs") or ())
+        if not cell.get("formula") or not sources:
+            return "low"
+        if not inputs or not cells:
+            return "medium"
+        levels = []
+        for metric_id in inputs:
+            if metric_id in _seen or metric_id not in cells:
+                return "low"
+            levels.append(
+                cell_confidence(cells[metric_id], cells, _seen | {metric_id})
+            )
+        if "low" in levels or "not_applicable" in levels:
+            return "low"
+        return "medium" if "medium" in levels else "high"
+    if status == "ESTIMATE":
+        bounded = cell.get("low") is not None and cell.get("high") is not None
+        anchored = bool(sources and cell.get("assumptions"))
+        return "medium" if bounded and anchored else "low"
+    if status == "SCENARIO":
+        return "not_applicable"
+    if status in NEGATIVE_STATUSES:
+        audited = bool(cell.get("corpus_checked") or cell.get("missing_observables"))
+        dated = bool(cell.get("searched_on") or status == "UNDISCLOSED_BY_CREATOR")
+        return "high" if sources and audited and dated else "low"
+    return "low"
 
 
 def _decimal(value) -> Decimal:
@@ -56,6 +106,7 @@ class PlotPoint:
     source_ids: tuple[str, ...]
     label: str
     claim_scope: str
+    confidence: str = "medium"
 
     def __post_init__(self):
         if isinstance(self.year, bool) or not isinstance(self.year, int) or self.year <= 0:
@@ -70,6 +121,8 @@ class PlotPoint:
             raise ValueError("plot points require traceability, labels, and claim scope")
         if self.status not in POSITIVE_STATUSES:
             raise ValueError("plot point status must describe positive evidence")
+        if self.confidence not in {"high", "medium", "low", "not_applicable"}:
+            raise ValueError("plot point confidence must use the documented policy")
         value = _positive_finite_decimal(self.value, "log-axis values")
         low = (
             _positive_finite_decimal(self.low, "log-axis lower bound")
@@ -136,6 +189,27 @@ class CapacityScenario:
         object.__setattr__(self, "precision", precision)
 
 
+@dataclass(frozen=True)
+class TrainingReplacementScenario:
+    as_of: str = "2026-08-18"
+    unit_price_low_usd: Decimal = Decimal("20000")
+    unit_price_base_usd: Decimal = Decimal("30000")
+    unit_price_high_usd: Decimal = Decimal("40000")
+    source_ids: tuple[str, ...] = (SCENARIO_SOURCE,)
+
+    def __post_init__(self):
+        prices = tuple(
+            _positive_finite_decimal(getattr(self, field), "replacement scenario price")
+            for field in ("unit_price_low_usd", "unit_price_base_usd", "unit_price_high_usd")
+        )
+        if not prices[0] <= prices[1] <= prices[2]:
+            raise ValueError("replacement scenario prices must be ordered")
+        for field, value in zip(
+            ("unit_price_low_usd", "unit_price_base_usd", "unit_price_high_usd"), prices
+        ):
+            object.__setattr__(self, field, value)
+
+
 def _is_positive_cell(cell: dict | None) -> bool:
     return bool(
         cell
@@ -164,6 +238,11 @@ def _product_status(*statuses: str) -> str:
 
 
 def _point(model: dict, cell: dict, label: str, claim_scope: str, **overrides) -> PlotPoint:
+    cells = {
+        "year": model["year"],
+        "architecture": model.get("architecture", {}),
+        **model.get("metrics", {}),
+    }
     return PlotPoint(
         model_id=model["id"],
         year=int(model["year"]["value"]),
@@ -175,6 +254,7 @@ def _point(model: dict, cell: dict, label: str, claim_scope: str, **overrides) -
         source_ids=tuple(overrides.get("source_ids", cell.get("source_ids", ()))),
         label=label,
         claim_scope=claim_scope,
+        confidence=overrides.get("confidence", cell_confidence(cell, cells)),
     )
 
 
@@ -206,8 +286,21 @@ def _parameter_points(model: dict) -> list[PlotPoint]:
     return points
 
 
-def build_training_series(ledger: dict) -> dict[str, list[PlotPoint]]:
+def build_training_series(
+    ledger: dict,
+    replacement_scenario: TrainingReplacementScenario | None = None,
+) -> dict[str, list[PlotPoint]]:
     """Build five training series without normalizing unlike hardware units."""
+    if replacement_scenario is None:
+        raw = ledger.get("dashboard_training_replacement_scenario", {})
+        prices = raw.get("unit_price_usd", {})
+        replacement_scenario = TrainingReplacementScenario(
+            as_of=str(raw.get("as_of", "2026-08-18")),
+            unit_price_low_usd=prices.get("low", 20000),
+            unit_price_base_usd=prices.get("base", 30000),
+            unit_price_high_usd=prices.get("high", 40000),
+            source_ids=tuple(raw.get("source_ids", (SCENARIO_SOURCE,))),
+        )
     series = {key: [] for key in TRAINING_KEYS}
     for model in ledger.get("dashboard_models", ()):
         metrics = model["metrics"]
@@ -253,6 +346,31 @@ def build_training_series(ledger: dict) -> dict[str, list[PlotPoint]]:
                     * _decimal(power.get("low", power_value)),
                     high=_decimal(count.get("high", count_value))
                     * _decimal(power.get("high", power_value)),
+                )
+            )
+
+        # A common 2026 dollar base makes fleet scale comparable without
+        # pretending to reconstruct procurement history or hardware parity.
+        if _is_positive_cell(count) and count.get("status") == "FACT":
+            count_value = _decimal(count["value"])
+            sources = tuple(
+                dict.fromkeys(
+                    (*count.get("source_ids", ()), *replacement_scenario.source_ids)
+                )
+            )
+            series["replacement_value"].append(
+                _point(
+                    model,
+                    count,
+                    f"{count['unit']} × common 2026 slot price",
+                    TRAINING_REPLACEMENT_SCOPE,
+                    value=count_value * replacement_scenario.unit_price_base_usd,
+                    low=count_value * replacement_scenario.unit_price_low_usd,
+                    high=count_value * replacement_scenario.unit_price_high_usd,
+                    unit="USD",
+                    status="SCENARIO",
+                    source_ids=sources,
+                    confidence="not_applicable",
                 )
             )
 
