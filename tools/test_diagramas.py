@@ -24,6 +24,21 @@ AI_SVG_NAMES = (
     "ai-capex-hardware.svg",
     "ai-inferencia-capacidad.svg",
 )
+DASHBOARD_GENERATOR = RAIZ / "tools/gen_ai_model_dashboard.py"
+DASHBOARD_SVG_NAMES = (
+    "ai-training-parameters.svg",
+    "ai-training-flop.svg",
+    "ai-training-accelerators.svg",
+    "ai-training-power.svg",
+    "ai-training-replacement-value.svg",
+    "ai-inference-memory.svg",
+    "ai-inference-accelerators.svg",
+    "ai-inference-power.svg",
+    "ai-inference-capex.svg",
+    "ai-inference-parameters.svg",
+    "ai-pareto-training.svg",
+    "ai-pareto-inference.svg",
+)
 
 
 def _cargar_generador():
@@ -42,6 +57,19 @@ def _cargar_generador_ai():
     )
     spec = importlib.util.spec_from_file_location(
         "gen_ai_hardware_costs", AI_GENERATOR
+    )
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def _cargar_generador_dashboard():
+    assert DASHBOARD_GENERATOR.is_file(), (
+        "falta tools/gen_ai_model_dashboard.py: el dashboard debe salir de "
+        "un generador determinista"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "gen_ai_model_dashboard", DASHBOARD_GENERATOR
     )
     modulo = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(modulo)
@@ -421,3 +449,190 @@ def test_ai_capex_nota_ausente_queda_dentro_de_su_panel():
     note_bottom = float(note.attrib["y"]) + float(note.attrib["font-size"]) * 0.25
     panel_bottom = float(system_panel.attrib["y"]) + float(system_panel.attrib["height"])
     assert note_bottom <= panel_bottom - 4
+
+
+def test_dashboard_generator_produce_exactamente_doce_assets(tmp_path):
+    """Omitir o agregar una gráfica rompe el recorrido de 5+5+2 aprobado."""
+    generador = _cargar_generador_dashboard()
+
+    creados = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    )
+
+    assert tuple(generador.SVG_FILENAMES) == DASHBOARD_SVG_NAMES
+    assert [path.name for path in creados] == list(DASHBOARD_SVG_NAMES)
+    assert {path.name for path in tmp_path.glob("*.svg")} == set(DASHBOARD_SVG_NAMES)
+
+
+def test_dashboard_svg_conserva_semantica_accesible_y_mobile(tmp_path):
+    """Perder fuentes, alcance o talla móvil vuelve ambiguo el dato dibujado."""
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    )
+    ns = "{http://www.w3.org/2000/svg}"
+    allowed = {"FACT", "DERIVED", "ESTIMATE", "SCENARIO"}
+
+    for path in paths:
+        root = ET.parse(path).getroot()
+        width = float(root.attrib["viewBox"].split()[2])
+        title = root.find(f"{ns}title")
+        desc = root.find(f"{ns}desc")
+        sizes = [
+            float(node.attrib["font-size"])
+            for node in root.iter()
+            if "font-size" in node.attrib
+        ]
+        quantitative = [
+            node for node in root.iter()
+            if node.attrib.get("data-quantitative") == "true"
+        ]
+
+        assert width <= 640
+        assert title is not None and title.text and len(title.text) > 20
+        assert desc is not None and desc.text and len(desc.text) > 60
+        assert root.attrib.get("role") == "img"
+        assert root.attrib.get("aria-labelledby") == "title desc"
+        assert sizes and min(sizes) * min(1, 390 / width) >= 16
+        for node in quantitative:
+            assert node.attrib["data-model-id"].startswith("DM_")
+            assert node.attrib["data-status"] in allowed
+            assert node.attrib["data-source-ids"]
+            assert node.attrib["data-value"]
+            assert node.attrib["data-unit"]
+            assert node.attrib["data-claim-scope"]
+            assert node.attrib["data-marker"]
+
+
+def test_dashboard_svg_no_depende_solo_del_color_y_no_inventa_ausencias(tmp_path):
+    """Quitar color no debe confundir estados ni convertir missing en cero."""
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    )
+
+    statuses = {}
+    for path in paths:
+        root = ET.parse(path).getroot()
+        for node in root.iter():
+            status = node.attrib.get("data-status")
+            marker = node.attrib.get("data-marker")
+            if status and marker:
+                statuses.setdefault(status, set()).add(marker)
+            if node.attrib.get("data-quantitative") == "true":
+                assert float(node.attrib["data-value"]) > 0
+    assert statuses["FACT"] == {"circle"}
+    assert statuses["DERIVED"] == {"square"}
+    assert statuses["ESTIMATE"] == {"diamond"}
+    assert statuses["SCENARIO"] == {"triangle"}
+
+    replacement = (tmp_path / "ai-training-replacement-value.svg").read_text()
+    assert "No hay una serie comparable" in replacement
+    assert 'data-quantitative="true"' not in replacement
+
+
+def test_dashboard_ejes_y_pareto_dic_en_exactamente_que_comparan(tmp_path):
+    """Un eje sin año, log o ECI permite leer una comparación distinta."""
+    generador = _cargar_generador_dashboard()
+    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
+
+    for name in DASHBOARD_SVG_NAMES[:10]:
+        xml = (tmp_path / name).read_text(encoding="utf-8")
+        assert "Año de publicación" in xml
+        if name != "ai-training-replacement-value.svg":
+            assert "Igual distancia = multiplicar" in xml
+    for name in DASHBOARD_SVG_NAMES[10:]:
+        xml = (tmp_path / name).read_text(encoding="utf-8")
+        assert "Capacidad general según ECI" in xml
+        assert "inteligencia" not in xml.lower()
+        assert "frontera-segura" in xml
+        assert "frontera-posible" in xml
+
+
+def test_dashboard_series_dobles_no_mezclan_total_activo_ni_conteo_horas(tmp_path):
+    """Dos magnitudes en un panel necesitan una segunda marca, no sólo color."""
+    generador = _cargar_generador_dashboard()
+    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
+    for name, expected in (
+        ("ai-training-parameters.svg", {"total", "active"}),
+        ("ai-training-accelerators.svg", {"concurrent accelerators", "accelerator-hours"}),
+    ):
+        root = ET.parse(tmp_path / name).getroot()
+        nodes = [
+            node for node in root.iter()
+            if node.attrib.get("data-quantitative") == "true"
+        ]
+        assert {node.attrib["data-series"] for node in nodes} == expected
+        series_markers = {
+            series: {node.attrib["data-series-marker"] for node in nodes
+                     if node.attrib["data-series"] == series}
+            for series in expected
+        }
+        assert len({tuple(markers) for markers in series_markers.values()}) == 2
+
+
+def test_dashboard_generacion_es_byte_a_byte_determinista(tmp_path):
+    """Orden de diccionarios o timestamps no deben alterar el artefacto."""
+    generador = _cargar_generador_dashboard()
+    first = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "a"
+    )
+    second = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "b"
+    )
+
+    assert [path.read_bytes() for path in first] == [path.read_bytes() for path in second]
+    assert all(
+        path.read_bytes() == (AI_ASSETS / path.name).read_bytes()
+        for path in first
+    )
+
+
+def test_dashboard_chromium_bbox_y_texto_390_1440(tmp_path):
+    """Recortes o etiquetas directas superpuestas hacen ilegible la gráfica real."""
+    playwright = pytest.importorskip("playwright.sync_api")
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "assets"
+    )
+
+    with playwright.sync_playwright() as runtime:
+        browser = runtime.chromium.launch(headless=True)
+        page = browser.new_page()
+        for viewport in (390, 1440):
+            page.set_viewport_size({"width": viewport, "height": 900})
+            for path in paths:
+                svg = path.read_text(encoding="utf-8")
+                page.set_content(
+                    f'<main style="width:min(600px,100%);margin:0">{svg}</main>'
+                )
+                result = page.locator("svg").evaluate(
+                    """svg => {
+                      const vb = svg.viewBox.baseVal;
+                      const scale = svg.getBoundingClientRect().width / vb.width;
+                      const texts = [...svg.querySelectorAll('text')];
+                      const boxes = texts.map(node => {
+                        const box = node.getBBox();
+                        return {x: box.x, y: box.y, right: box.x + box.width,
+                                bottom: box.y + box.height,
+                                px: parseFloat(node.getAttribute('font-size')) * scale,
+                                text: node.textContent};
+                      });
+                      const direct = [...svg.querySelectorAll('[data-direct-label="true"]')]
+                        .map(node => node.getBBox());
+                      const overlaps = [];
+                      for (let i=0; i<direct.length; i++) for (let j=i+1; j<direct.length; j++) {
+                        const a=direct[i], b=direct[j];
+                        if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
+                            Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) overlaps.push([i,j]);
+                      }
+                      return {boxes, overlaps, width: vb.width, height: vb.height};
+                    }"""
+                )
+                assert result["boxes"], path.name
+                assert min(box["px"] for box in result["boxes"]) >= 16, path.name
+                for box in result["boxes"]:
+                    assert box["x"] >= -1 and box["right"] <= result["width"] + 1, (path.name, box)
+                    assert box["y"] >= -1 and box["bottom"] <= result["height"] + 1, (path.name, box)
+                assert not result["overlaps"], (path.name, result["overlaps"])
+        browser.close()

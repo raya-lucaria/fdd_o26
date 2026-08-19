@@ -200,6 +200,18 @@ def test_assets_have_exact_credits_alt_and_text_fallbacks():
         "ai-potencia-hardware.svg",
         "ai-capex-hardware.svg",
         "ai-inferencia-capacidad.svg",
+        "ai-training-parameters.svg",
+        "ai-training-flop.svg",
+        "ai-training-accelerators.svg",
+        "ai-training-power.svg",
+        "ai-training-replacement-value.svg",
+        "ai-inference-memory.svg",
+        "ai-inference-accelerators.svg",
+        "ai-inference-power.svg",
+        "ai-inference-capex.svg",
+        "ai-inference-parameters.svg",
+        "ai-pareto-training.svg",
+        "ai-pareto-inference.svg",
     }
     actual = {path.name for path in ASSETS.iterdir() if path.name != "CREDITOS.md"}
     assert actual == expected

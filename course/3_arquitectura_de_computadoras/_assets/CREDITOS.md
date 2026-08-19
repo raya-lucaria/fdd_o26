@@ -25,3 +25,15 @@
 | ai-potencia-hardware.svg | Potencia de aceleradores separada de servidor e IT | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
 | ai-capex-hardware.svg | CAPEX separado por frontera y base de valoración | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
 | ai-inferencia-capacidad.svg | Piso de memoria de inferencia frente a capacidad física | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
+| ai-training-parameters.svg | Evolución temporal de parámetros totales y activos | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-training-flop.svg | Evolución temporal del trabajo de entrenamiento | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-training-accelerators.svg | Aceleradores concurrentes y horas documentadas | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-training-power.svg | Envolventes documentadas de potencia de aceleradores | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-training-replacement-value.svg | Ausencia explícita de una serie comparable de valor de reemplazo | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-inference-memory.svg | Artefactos y pisos teóricos de memoria para inferencia | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-inference-accelerators.svg | Piso físico de aceleradores H100-equivalentes | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-inference-power.svg | Escenario de TDP accelerator-only para inferencia | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-inference-capex.svg | Escenario de CAPEX accelerator-equivalent para inferencia | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-inference-parameters.svg | Parámetros totales y activos de modelos con inferencia local | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-pareto-training.svg | No-identificabilidad de Pareto de entrenamiento sin costo comparable | Dashboard propio generado desde el ledger y snapshot ECI, 2026; material del curso |
+| ai-pareto-inference.svg | Fronteras segura y posible entre capacidad local y ECI | Dashboard propio generado desde el ledger y snapshot ECI de Epoch AI (CC BY), 2026; material del curso |
