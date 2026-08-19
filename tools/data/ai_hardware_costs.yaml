@@ -427,6 +427,13 @@ sources:
     url: "https://epoch.ai/data/eci_scores.csv"
     accessed: "2026-08-18"
     primary_for: [dashboard_identity, dashboard_metrics, negative_audit, benchmark_snapshot, methodology]
+  S_EPOCH_ECI_BENCHMARKS:
+    claim_owner: benchmark_provider
+    source_class: primary
+    title: "Epoch Capabilities Index benchmark inputs dataset"
+    url: "https://epoch.ai/data/eci_benchmarks.csv"
+    accessed: "2026-08-18"
+    primary_for: [benchmark_snapshot, model_version_identity, benchmark_inputs]
   S_EPOCH_ECI_METHOD:
     claim_owner: benchmark_provider
     source_class: primary
@@ -437,12 +444,13 @@ sources:
   S_ARTIFACT_BERT_LARGE:
     claim_owner: model_creator
     source_class: primary_artifact_repository
-    title: "google-bert/bert-large-uncased immutable artifact"
-    url: "https://huggingface.co/google-bert/bert-large-uncased/tree/6da4b6a26a1877e173fca3225479512db81a5e5b"
+    title: "google-bert/bert-large-uncased-whole-word-masking immutable artifact"
+    url: "https://huggingface.co/google-bert/bert-large-uncased-whole-word-masking/tree/bf1420893378c390773c9452c3602fcee89f9241"
     accessed: "2026-08-18"
-    revision: 6da4b6a26a1877e173fca3225479512db81a5e5b
-    observed_weight_bytes: 1344951957
+    revision: bf1420893378c390773c9452c3602fcee89f9241
+    observed_weight_bytes: 1344952014
     observed_weight_format: safetensors
+    selected_manifest: {id: model_safetensors, include_pattern: model.safetensors, shard_count: 1, observed_weight_bytes: 1344952014}
     primary_for: [artifact_revision, artifact_bytes, repository_configuration]
   S_ARTIFACT_T5_11B:
     claim_owner: model_creator
@@ -601,8 +609,80 @@ sources:
     url: "https://huggingface.co/mistralai/Mistral-Large-Instruct-2407/tree/a286006d554cb37a61d13c7ae61bc90cc1d372fc"
     accessed: "2026-08-18"
     revision: a286006d554cb37a61d13c7ae61bc90cc1d372fc
-    observed_weight_bytes: 490440459448
+    observed_weight_bytes: 245220233776
     observed_weight_format: safetensors
+    selected_manifest:
+      id: model_safetensors
+      include_pattern: "model-*-of-*.safetensors"
+      index_file: model.safetensors.index.json
+      shard_count: 51
+      observed_weight_bytes: 245220233776
+    excluded_complete_manifests:
+      - id: consolidated_safetensors
+        include_pattern: "consolidated-*-of-*.safetensors"
+        shard_count: 51
+        observed_weight_bytes: 245220225672
+        reason: "alternate complete representation; excluded to prevent double counting"
+    observed_repository_weight_bytes_all_formats: 490440459448
+    primary_for: [artifact_revision, artifact_bytes, repository_configuration]
+  S_ARTIFACT_GEMMA_7B:
+    claim_owner: model_creator
+    source_class: primary_artifact_repository
+    title: "google/gemma-7b immutable artifact metadata"
+    url: "https://huggingface.co/google/gemma-7b/tree/ff6768d9368919a1f025a54f9f5aa0ee591730bb"
+    accessed: "2026-08-18"
+    revision: ff6768d9368919a1f025a54f9f5aa0ee591730bb
+    observed_weight_bytes: 17075391360
+    observed_weight_format: safetensors
+    access_condition: gated_weight_download_public_repository_metadata
+    bytes_evidence: public_repository_sibling_lfs_metadata
+    metadata_api_url: "https://huggingface.co/api/models/google/gemma-7b/revision/ff6768d9368919a1f025a54f9f5aa0ee591730bb?blobs=true"
+    selected_manifest: {id: model_safetensors, include_pattern: "model-*-of-*.safetensors", index_file: model.safetensors.index.json, shard_count: 4, observed_weight_bytes: 17075391360}
+    primary_for: [artifact_revision, artifact_bytes, repository_configuration]
+  S_ARTIFACT_LLAMA2_70B:
+    claim_owner: model_creator
+    source_class: primary_artifact_repository
+    title: "meta-llama/Llama-2-70b-hf immutable artifact metadata"
+    url: "https://huggingface.co/meta-llama/Llama-2-70b-hf/tree/3aba440b59558f995867ba6e1f58f21d0336b5bb"
+    accessed: "2026-08-18"
+    revision: 3aba440b59558f995867ba6e1f58f21d0336b5bb
+    observed_weight_bytes: 137953408928
+    observed_weight_format: safetensors
+    access_condition: gated_weight_download_public_repository_metadata
+    bytes_evidence: public_repository_sibling_lfs_metadata
+    metadata_api_url: "https://huggingface.co/api/models/meta-llama/Llama-2-70b-hf/revision/3aba440b59558f995867ba6e1f58f21d0336b5bb?blobs=true"
+    selected_manifest: {id: model_safetensors, include_pattern: "model-*-of-*.safetensors", index_file: model.safetensors.index.json, shard_count: 15, observed_weight_bytes: 137953408928}
+    excluded_complete_manifests:
+      - {id: pytorch_bin, include_pattern: "pytorch_model-*-of-*.bin", reason: "alternate complete representation; excluded to prevent double counting"}
+    primary_for: [artifact_revision, artifact_bytes, repository_configuration]
+  S_ARTIFACT_LLAMA31_405B:
+    claim_owner: model_creator
+    source_class: primary_artifact_repository
+    title: "meta-llama/Llama-3.1-405B immutable artifact metadata"
+    url: "https://huggingface.co/meta-llama/Llama-3.1-405B/tree/b906e4dc842aa489c962f9db26554dcfdde901fe"
+    accessed: "2026-08-18"
+    revision: b906e4dc842aa489c962f9db26554dcfdde901fe
+    observed_weight_bytes: 811706916800
+    observed_weight_format: safetensors
+    access_condition: gated_weight_download_public_repository_metadata
+    bytes_evidence: public_repository_sibling_lfs_metadata
+    metadata_api_url: "https://huggingface.co/api/models/meta-llama/Llama-3.1-405B/revision/b906e4dc842aa489c962f9db26554dcfdde901fe?blobs=true"
+    selected_manifest: {id: model_safetensors, include_pattern: "model-*-of-*.safetensors", index_file: model.safetensors.index.json, shard_count: 191, observed_weight_bytes: 811706916800}
+    excluded_repository_trees: [original/mp8, original/mp16]
+    primary_for: [artifact_revision, artifact_bytes, repository_configuration]
+  S_ARTIFACT_LLAMA4_SCOUT:
+    claim_owner: model_creator
+    source_class: primary_artifact_repository
+    title: "meta-llama/Llama-4-Scout-17B-16E immutable artifact metadata"
+    url: "https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E/tree/14d516bdff6ac06cec40678529222f193386189c"
+    accessed: "2026-08-18"
+    revision: 14d516bdff6ac06cec40678529222f193386189c
+    observed_weight_bytes: 217283738720
+    observed_weight_format: safetensors
+    access_condition: gated_weight_download_public_repository_metadata
+    bytes_evidence: public_repository_sibling_lfs_metadata
+    metadata_api_url: "https://huggingface.co/api/models/meta-llama/Llama-4-Scout-17B-16E/revision/14d516bdff6ac06cec40678529222f193386189c?blobs=true"
+    selected_manifest: {id: model_safetensors, include_pattern: "model-*-of-*.safetensors", index_file: model.safetensors.index.json, shard_count: 50, observed_weight_bytes: 217283738720}
     primary_for: [artifact_revision, artifact_bytes, repository_configuration]
   S_ARTIFACT_GEMMA2_27B_IT:
     claim_owner: model_creator
@@ -1821,7 +1901,7 @@ dashboard_models:
     release_date: "2018-10-11"
     variant: "uncased whole-word pretraining"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_GOOGLE_BERT_REPORT]}
     identity_source_ids: [S_DASH_GOOGLE_BERT_REPORT, S_ARTIFACT_BERT_LARGE]
     year: {value: "2018", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_BERT_REPORT, S_ARTIFACT_BERT_LARGE], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1833,8 +1913,8 @@ dashboard_models:
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_BERT_REPORT], corpus_checked: [S_DASH_GOOGLE_BERT_REPORT], checked_for_model_id: DM_BERT_LARGE, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_BERT_REPORT], corpus_checked: [S_DASH_GOOGLE_BERT_REPORT], checked_for_model_id: DM_BERT_LARGE, reason: applicable_accelerator_power_basis_not_identified}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_BERT_REPORT], corpus_checked: [S_DASH_GOOGLE_BERT_REPORT], checked_for_model_id: DM_BERT_LARGE, reason: calendar_training_date_not_disclosed}
-      artifact_revision: {status: FACT, value: "6da4b6a26a1877e173fca3225479512db81a5e5b", unit: git_commit, source_ids: [S_ARTIFACT_BERT_LARGE], revision_scope: exact_creator_repository_tree}
-      artifact_bytes: {status: FACT, value: 1344951957, unit: byte, source_ids: [S_ARTIFACT_BERT_LARGE], artifact_format: safetensors, boundary: creator_repository_weight_files_only}
+      artifact_revision: {status: FACT, value: "bf1420893378c390773c9452c3602fcee89f9241", unit: git_commit, source_ids: [S_ARTIFACT_BERT_LARGE], revision_scope: exact_creator_repository_tree}
+      artifact_bytes: {status: FACT, value: 1344952014, unit: byte, source_ids: [S_ARTIFACT_BERT_LARGE], artifact_format: safetensors, manifest_id: model_safetensors, boundary: selected_complete_weight_manifest_only}
       weight_floor_bf16: {status: DERIVED, value: 672000000, unit: byte, source_ids: [S_DASH_GOOGLE_BERT_REPORT], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_fp8: {status: DERIVED, value: 336000000, unit: byte, source_ids: [S_DASH_GOOGLE_BERT_REPORT], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int8: {status: DERIVED, value: 336000000, unit: byte, source_ids: [S_DASH_GOOGLE_BERT_REPORT], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -1845,7 +1925,7 @@ dashboard_models:
     release_date: "2019-10-23"
     variant: "11B base checkpoint"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_GOOGLE_T5_REPORT]}
     identity_source_ids: [S_DASH_GOOGLE_T5_REPORT, S_ARTIFACT_T5_11B]
     year: {value: "2019", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_T5_REPORT, S_ARTIFACT_T5_11B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1869,7 +1949,7 @@ dashboard_models:
     release_date: "2020-05-28"
     variant: "davinci-scale base model"
     availability: closed_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_OPENAI_GPT3_PAPER]}
     identity_source_ids: [S_OPENAI_GPT3_PAPER]
     year: {value: "2020", unit: year, status: DERIVED, source_ids: [S_OPENAI_GPT3_PAPER], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1893,7 +1973,7 @@ dashboard_models:
     release_date: "2021-12-08"
     variant: "280B language model"
     availability: closed_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_DEEPMIND_GOPHER_REPORT]}
     identity_source_ids: [S_DASH_DEEPMIND_GOPHER_REPORT]
     year: {value: "2021", unit: year, status: DERIVED, source_ids: [S_DASH_DEEPMIND_GOPHER_REPORT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1917,7 +1997,7 @@ dashboard_models:
     release_date: "2022-01-20"
     variant: "137B dialogue model"
     availability: closed_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_GOOGLE_LAMDA_REPORT]}
     identity_source_ids: [S_DASH_GOOGLE_LAMDA_REPORT]
     year: {value: "2022", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_LAMDA_REPORT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1941,7 +2021,7 @@ dashboard_models:
     release_date: "2022-03-29"
     variant: "70B compute-optimal model"
     availability: closed_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_DEEPMIND_CHINCHILLA_REPORT]}
     identity_source_ids: [S_DASH_DEEPMIND_CHINCHILLA_REPORT]
     year: {value: "2022", unit: year, status: DERIVED, source_ids: [S_DASH_DEEPMIND_CHINCHILLA_REPORT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1965,7 +2045,7 @@ dashboard_models:
     release_date: "2022-04-05"
     variant: "540B dense model"
     availability: closed_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_GOOGLE_PALM_PAPER]}
     identity_source_ids: [S_GOOGLE_PALM_PAPER]
     year: {value: "2022", unit: year, status: DERIVED, source_ids: [S_GOOGLE_PALM_PAPER], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -1974,7 +2054,7 @@ dashboard_models:
       training_tokens: {status: FACT, value: 780000000000, unit: training_token, source_ids: [S_GOOGLE_PALM_PAPER]}
       training_flop: {status: DERIVED, value: 2528838000000000000000000, unit: FLOP, source_ids: [S_GOOGLE_PALM_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
       accelerators_concurrent: {status: FACT, value: 6144, unit: TPU_v4_chip_peak, source_ids: [S_GOOGLE_PALM_PAPER]}
-      accelerator_hours: {status: FACT, value: 8404992, unit: TPU_v4_chip_hour, source_ids: [S_GOOGLE_PALM_PAPER]}
+      accelerator_hours: {status: DERIVED, value: 8404992, unit: TPU_v4_chip_hour, source_ids: [S_GOOGLE_PALM_PAPER], formula: "6,144 * 1,200 + 3,072 * 336", input_values: [6144, 1200, 3072, 336], allocation_basis: assigned_phase_hours}
       accelerator_power_basis: {status: FACT, value: "measured_max", unit: power_basis, source_ids: [S_GOOGLE_PALM_PAPER, S_GOOGLE_TPU_V4_DOCS], boundary: accelerator_only_not_wall_power}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_GOOGLE_PALM_PAPER], corpus_checked: [S_GOOGLE_PALM_PAPER], checked_for_model_id: DM_PALM_540B, reason: calendar_training_date_not_disclosed}
       artifact_revision: {status: NOT_FOUND, value: null, source_ids: [S_GOOGLE_PALM_PAPER], corpus_checked: [S_GOOGLE_PALM_PAPER], checked_for_model_id: DM_PALM_540B, reason: immutable_weight_artifact_revision_not_found, searched_on: "2026-08-18"}
@@ -1989,7 +2069,7 @@ dashboard_models:
     release_date: "2022-05-02"
     variant: "175B base checkpoint"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_META_OPT_REPORT]}
     identity_source_ids: [S_DASH_META_OPT_REPORT]
     year: {value: "2022", unit: year, status: DERIVED, source_ids: [S_DASH_META_OPT_REPORT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2013,7 +2093,7 @@ dashboard_models:
     release_date: "2022-07-12"
     variant: "176B multilingual base model"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_BIGSCIENCE_BLOOM_PAPER]}
     identity_source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_ARTIFACT_BLOOM]
     year: {value: "2022", unit: year, status: DERIVED, source_ids: [S_BIGSCIENCE_BLOOM_PAPER, S_ARTIFACT_BLOOM], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2037,7 +2117,7 @@ dashboard_models:
     release_date: "2023-02-24"
     variant: "65B base model"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_META_LLAMA1_REPORT]}
     identity_source_ids: [S_DASH_META_LLAMA1_REPORT]
     year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_META_LLAMA1_REPORT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2061,9 +2141,9 @@ dashboard_models:
     release_date: "2023-07-18"
     variant: "70B base model"
     availability: open_weights
-    architecture: dense
-    identity_source_ids: [S_DASH_META_LLAMA2_REPORT]
-    year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_META_LLAMA2_REPORT], formula: "year(release_date)", input_metric_ids: [release_date]}
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_META_LLAMA2_REPORT]}
+    identity_source_ids: [S_DASH_META_LLAMA2_REPORT, S_ARTIFACT_LLAMA2_70B]
+    year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_META_LLAMA2_REPORT, S_ARTIFACT_LLAMA2_70B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 70000000000, unit: parameter, source_ids: [S_DASH_META_LLAMA2_REPORT]}
       parameters_active: {status: DERIVED, value: 70000000000, unit: parameter_per_token, source_ids: [S_DASH_META_LLAMA2_REPORT], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
@@ -2073,8 +2153,8 @@ dashboard_models:
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_META_LLAMA2_REPORT], corpus_checked: [S_DASH_META_LLAMA2_REPORT], checked_for_model_id: DM_LLAMA2_70B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_META_LLAMA2_REPORT], corpus_checked: [S_DASH_META_LLAMA2_REPORT], checked_for_model_id: DM_LLAMA2_70B, reason: applicable_accelerator_power_basis_not_identified}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_META_LLAMA2_REPORT], corpus_checked: [S_DASH_META_LLAMA2_REPORT], checked_for_model_id: DM_LLAMA2_70B, reason: calendar_training_date_not_disclosed}
-      artifact_revision: {status: NOT_FOUND, value: null, source_ids: [S_DASH_META_LLAMA2_REPORT], corpus_checked: [S_DASH_META_LLAMA2_REPORT], checked_for_model_id: DM_LLAMA2_70B, reason: immutable_weight_artifact_revision_not_found, searched_on: "2026-08-18"}
-      artifact_bytes: {status: NOT_FOUND, value: null, source_ids: [S_DASH_META_LLAMA2_REPORT], corpus_checked: [S_DASH_META_LLAMA2_REPORT], checked_for_model_id: DM_LLAMA2_70B, reason: versioned_weight_file_bytes_not_found, searched_on: "2026-08-18"}
+      artifact_revision: {status: FACT, value: "3aba440b59558f995867ba6e1f58f21d0336b5bb", unit: git_commit, source_ids: [S_ARTIFACT_LLAMA2_70B], revision_scope: exact_creator_repository_tree}
+      artifact_bytes: {status: FACT, value: 137953408928, unit: byte, source_ids: [S_ARTIFACT_LLAMA2_70B], artifact_format: safetensors, manifest_id: model_safetensors, boundary: selected_complete_weight_manifest_only, access_condition: gated_weight_download_public_repository_metadata}
       weight_floor_bf16: {status: DERIVED, value: 140000000000, unit: byte, source_ids: [S_DASH_META_LLAMA2_REPORT], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_fp8: {status: DERIVED, value: 70000000000, unit: byte, source_ids: [S_DASH_META_LLAMA2_REPORT], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int8: {status: DERIVED, value: 70000000000, unit: byte, source_ids: [S_DASH_META_LLAMA2_REPORT], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -2085,7 +2165,7 @@ dashboard_models:
     release_date: "2023-11-30"
     variant: "72B base model"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_QWEN_REPORT]}
     identity_source_ids: [S_DASH_QWEN_REPORT, S_ARTIFACT_QWEN_72B]
     year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_QWEN_REPORT, S_ARTIFACT_QWEN_72B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2109,7 +2189,7 @@ dashboard_models:
     release_date: "2023-11-29"
     variant: "67B base model"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_DEEPSEEK_LLM_REPORT]}
     identity_source_ids: [S_DASH_DEEPSEEK_LLM_REPORT, S_ARTIFACT_DEEPSEEK_LLM_67B]
     year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_DEEPSEEK_LLM_REPORT, S_ARTIFACT_DEEPSEEK_LLM_67B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2133,7 +2213,7 @@ dashboard_models:
     release_date: "2023-09-27"
     variant: "base v0.1"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_MISTRAL7_REPORT]}
     identity_source_ids: [S_DASH_MISTRAL7_REPORT, S_ARTIFACT_MISTRAL7]
     year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_MISTRAL7_REPORT, S_ARTIFACT_MISTRAL7], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2157,7 +2237,7 @@ dashboard_models:
     release_date: "2023-12-11"
     variant: "base v0.1"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_MIXTRAL_REPORT]}
     identity_source_ids: [S_DASH_MIXTRAL_REPORT, S_ARTIFACT_MIXTRAL8X7B]
     year: {value: "2023", unit: year, status: DERIVED, source_ids: [S_DASH_MIXTRAL_REPORT, S_ARTIFACT_MIXTRAL8X7B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2181,9 +2261,9 @@ dashboard_models:
     release_date: "2024-02-21"
     variant: "7B pretrained model"
     availability: open_weights
-    architecture: dense
-    identity_source_ids: [S_DASH_GOOGLE_GEMMA1_CARD]
-    year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], formula: "year(release_date)", input_metric_ids: [release_date]}
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD]}
+    identity_source_ids: [S_DASH_GOOGLE_GEMMA1_CARD, S_ARTIFACT_GEMMA_7B]
+    year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD, S_ARTIFACT_GEMMA_7B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 7000000000, unit: parameter, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD]}
       parameters_active: {status: DERIVED, value: 7000000000, unit: parameter_per_token, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
@@ -2193,8 +2273,8 @@ dashboard_models:
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], corpus_checked: [S_DASH_GOOGLE_GEMMA1_CARD], checked_for_model_id: DM_GEMMA_7B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], corpus_checked: [S_DASH_GOOGLE_GEMMA1_CARD], checked_for_model_id: DM_GEMMA_7B, reason: applicable_accelerator_power_basis_not_identified}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], corpus_checked: [S_DASH_GOOGLE_GEMMA1_CARD], checked_for_model_id: DM_GEMMA_7B, reason: calendar_training_date_not_disclosed}
-      artifact_revision: {status: NOT_FOUND, value: null, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], corpus_checked: [S_DASH_GOOGLE_GEMMA1_CARD], checked_for_model_id: DM_GEMMA_7B, reason: immutable_weight_artifact_revision_not_found, searched_on: "2026-08-18"}
-      artifact_bytes: {status: NOT_FOUND, value: null, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], corpus_checked: [S_DASH_GOOGLE_GEMMA1_CARD], checked_for_model_id: DM_GEMMA_7B, reason: versioned_weight_file_bytes_not_found, searched_on: "2026-08-18"}
+      artifact_revision: {status: FACT, value: "ff6768d9368919a1f025a54f9f5aa0ee591730bb", unit: git_commit, source_ids: [S_ARTIFACT_GEMMA_7B], revision_scope: exact_creator_repository_tree}
+      artifact_bytes: {status: FACT, value: 17075391360, unit: byte, source_ids: [S_ARTIFACT_GEMMA_7B], artifact_format: safetensors, manifest_id: model_safetensors, boundary: selected_complete_weight_manifest_only, access_condition: gated_weight_download_public_repository_metadata}
       weight_floor_bf16: {status: DERIVED, value: 14000000000, unit: byte, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_fp8: {status: DERIVED, value: 7000000000, unit: byte, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int8: {status: DERIVED, value: 7000000000, unit: byte, source_ids: [S_DASH_GOOGLE_GEMMA1_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -2205,7 +2285,7 @@ dashboard_models:
     release_date: "2024-03-17"
     variant: "314B base checkpoint"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_XAI_GROK1_REPO]}
     identity_source_ids: [S_DASH_XAI_GROK1_REPO]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_XAI_GROK1_REPO], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2229,7 +2309,7 @@ dashboard_models:
     release_date: "2024-05-06"
     variant: "236B-A21B base model"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_DEEPSEEK_V2_REPORT]}
     identity_source_ids: [S_DASH_DEEPSEEK_V2_REPORT, S_ARTIFACT_DEEPSEEK_V2]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_DEEPSEEK_V2_REPORT, S_ARTIFACT_DEEPSEEK_V2], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2253,14 +2333,14 @@ dashboard_models:
     release_date: "2024-06-07"
     variant: "72B Instruct"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_QWEN2_REPORT]}
     identity_source_ids: [S_DASH_QWEN2_REPORT, S_ARTIFACT_QWEN2_72B]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_QWEN2_REPORT, S_ARTIFACT_QWEN2_72B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 72710000000, unit: parameter, source_ids: [S_DASH_QWEN2_REPORT]}
       parameters_active: {status: DERIVED, value: 72710000000, unit: parameter_per_token, source_ids: [S_DASH_QWEN2_REPORT], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
-      training_tokens: {status: FACT, value: 7000000000000, unit: training_token, source_ids: [S_DASH_QWEN2_REPORT]}
-      training_flop: {status: DERIVED, value: 3053820000000000000000000, unit: FLOP, source_ids: [S_DASH_QWEN2_REPORT], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
+      training_tokens: {status: FACT, value: 7000000000000, unit: training_token, source_ids: [S_DASH_QWEN2_REPORT], claim_scope: pretraining_backbone_excluding_post_training}
+      training_flop: {status: DERIVED, value: 3053820000000000000000000, unit: FLOP, source_ids: [S_DASH_QWEN2_REPORT], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens], claim_scope: pretraining_backbone_excluding_post_training}
       accelerators_concurrent: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_QWEN2_REPORT], corpus_checked: [S_DASH_QWEN2_REPORT], checked_for_model_id: DM_QWEN2_72B, reason: not_disclosed_in_creator_corpus}
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_QWEN2_REPORT], corpus_checked: [S_DASH_QWEN2_REPORT], checked_for_model_id: DM_QWEN2_72B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_QWEN2_REPORT], corpus_checked: [S_DASH_QWEN2_REPORT], checked_for_model_id: DM_QWEN2_72B, reason: applicable_accelerator_power_basis_not_identified}
@@ -2277,14 +2357,14 @@ dashboard_models:
     release_date: "2024-06-27"
     variant: "27B instruction-tuned"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT]}
     identity_source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT, S_ARTIFACT_GEMMA2_27B_IT]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT, S_ARTIFACT_GEMMA2_27B_IT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 27000000000, unit: parameter, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT]}
       parameters_active: {status: DERIVED, value: 27000000000, unit: parameter_per_token, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
-      training_tokens: {status: FACT, value: 13000000000000, unit: training_token, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT]}
-      training_flop: {status: DERIVED, value: 2106000000000000000000000, unit: FLOP, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
+      training_tokens: {status: FACT, value: 13000000000000, unit: training_token, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], claim_scope: pretraining_backbone_excluding_post_training}
+      training_flop: {status: DERIVED, value: 2106000000000000000000000, unit: FLOP, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens], claim_scope: pretraining_backbone_excluding_post_training}
       accelerators_concurrent: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], corpus_checked: [S_DASH_GOOGLE_GEMMA2_REPORT], checked_for_model_id: DM_GEMMA2_27B, reason: not_disclosed_in_creator_corpus}
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], corpus_checked: [S_DASH_GOOGLE_GEMMA2_REPORT], checked_for_model_id: DM_GEMMA2_27B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA2_REPORT], corpus_checked: [S_DASH_GOOGLE_GEMMA2_REPORT], checked_for_model_id: DM_GEMMA2_27B, reason: applicable_accelerator_power_basis_not_identified}
@@ -2301,14 +2381,14 @@ dashboard_models:
     release_date: "2024-07-23"
     variant: "8B Instruct"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_META_LLAMA31_PAPER]}
     identity_source_ids: [S_META_LLAMA31_PAPER, S_ARTIFACT_LLAMA31_8B_INSTRUCT]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_META_LLAMA31_PAPER, S_ARTIFACT_LLAMA31_8B_INSTRUCT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 8000000000, unit: parameter, source_ids: [S_META_LLAMA31_PAPER]}
       parameters_active: {status: DERIVED, value: 8000000000, unit: parameter_per_token, source_ids: [S_META_LLAMA31_PAPER], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
-      training_tokens: {status: FACT, value: 15000000000000, unit: training_token, source_ids: [S_META_LLAMA31_PAPER]}
-      training_flop: {status: DERIVED, value: 720000000000000000000000, unit: FLOP, source_ids: [S_META_LLAMA31_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
+      training_tokens: {status: FACT, value: 15000000000000, unit: training_token, source_ids: [S_META_LLAMA31_PAPER], claim_scope: pretraining_backbone_excluding_post_training}
+      training_flop: {status: DERIVED, value: 720000000000000000000000, unit: FLOP, source_ids: [S_META_LLAMA31_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens], claim_scope: pretraining_backbone_excluding_post_training}
       accelerators_concurrent: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_8B, reason: not_disclosed_in_creator_corpus}
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_8B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_8B, reason: applicable_accelerator_power_basis_not_identified}
@@ -2325,14 +2405,14 @@ dashboard_models:
     release_date: "2024-07-23"
     variant: "70B Instruct"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_META_LLAMA31_PAPER]}
     identity_source_ids: [S_META_LLAMA31_PAPER, S_ARTIFACT_LLAMA31_70B_INSTRUCT]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_META_LLAMA31_PAPER, S_ARTIFACT_LLAMA31_70B_INSTRUCT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 70000000000, unit: parameter, source_ids: [S_META_LLAMA31_PAPER]}
       parameters_active: {status: DERIVED, value: 70000000000, unit: parameter_per_token, source_ids: [S_META_LLAMA31_PAPER], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
-      training_tokens: {status: FACT, value: 15000000000000, unit: training_token, source_ids: [S_META_LLAMA31_PAPER]}
-      training_flop: {status: DERIVED, value: 6300000000000000000000000, unit: FLOP, source_ids: [S_META_LLAMA31_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
+      training_tokens: {status: FACT, value: 15000000000000, unit: training_token, source_ids: [S_META_LLAMA31_PAPER], claim_scope: pretraining_backbone_excluding_post_training}
+      training_flop: {status: DERIVED, value: 6300000000000000000000000, unit: FLOP, source_ids: [S_META_LLAMA31_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens], claim_scope: pretraining_backbone_excluding_post_training}
       accelerators_concurrent: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_70B, reason: not_disclosed_in_creator_corpus}
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_70B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_70B, reason: applicable_accelerator_power_basis_not_identified}
@@ -2349,20 +2429,20 @@ dashboard_models:
     release_date: "2024-07-23"
     variant: "405B base model"
     availability: open_weights
-    architecture: dense
-    identity_source_ids: [S_META_LLAMA31_PAPER]
-    year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_META_LLAMA31_PAPER], formula: "year(release_date)", input_metric_ids: [release_date]}
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_META_LLAMA31_PAPER]}
+    identity_source_ids: [S_META_LLAMA31_PAPER, S_ARTIFACT_LLAMA31_405B]
+    year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_META_LLAMA31_PAPER, S_ARTIFACT_LLAMA31_405B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 405000000000, unit: parameter, source_ids: [S_META_LLAMA31_PAPER]}
       parameters_active: {status: DERIVED, value: 405000000000, unit: parameter_per_token, source_ids: [S_META_LLAMA31_PAPER], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
-      training_tokens: {status: FACT, value: 15000000000000, unit: training_token, source_ids: [S_META_LLAMA31_PAPER]}
-      training_flop: {status: DERIVED, value: 36450000000000000000000000, unit: FLOP, source_ids: [S_META_LLAMA31_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
+      training_tokens: {status: FACT, value: 15600000000000, unit: training_token, source_ids: [S_META_LLAMA31_PAPER], claim_scope: pretraining_backbone_excluding_post_training}
+      training_flop: {status: DERIVED, value: 37908000000000000000000000, unit: FLOP, source_ids: [S_META_LLAMA31_PAPER], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens], claim_scope: pretraining_backbone_excluding_post_training}
       accelerators_concurrent: {status: FACT, value: 16384, unit: H100_80GB_GPU_peak, source_ids: [S_META_LLAMA31_PAPER]}
       accelerator_hours: {status: FACT, value: 30840000, unit: H100_80GB_GPU_hour, source_ids: [S_META_LLAMA31_CARD]}
       accelerator_power_basis: {status: FACT, value: "configurable_TDP", unit: power_basis, source_ids: [S_META_LLAMA31_PAPER, S_NVIDIA_H100_PAGE], boundary: accelerator_only_not_wall_power}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_405B, reason: calendar_training_date_not_disclosed}
-      artifact_revision: {status: NOT_FOUND, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_405B, reason: immutable_weight_artifact_revision_not_found, searched_on: "2026-08-18"}
-      artifact_bytes: {status: NOT_FOUND, value: null, source_ids: [S_META_LLAMA31_PAPER], corpus_checked: [S_META_LLAMA31_PAPER], checked_for_model_id: DM_LLAMA31_405B, reason: versioned_weight_file_bytes_not_found, searched_on: "2026-08-18"}
+      artifact_revision: {status: FACT, value: "b906e4dc842aa489c962f9db26554dcfdde901fe", unit: git_commit, source_ids: [S_ARTIFACT_LLAMA31_405B], revision_scope: exact_creator_repository_tree}
+      artifact_bytes: {status: FACT, value: 811706916800, unit: byte, source_ids: [S_ARTIFACT_LLAMA31_405B], artifact_format: safetensors, manifest_id: model_safetensors, boundary: selected_complete_weight_manifest_only, access_condition: gated_weight_download_public_repository_metadata}
       weight_floor_bf16: {status: DERIVED, value: 810000000000, unit: byte, source_ids: [S_META_LLAMA31_PAPER], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_fp8: {status: DERIVED, value: 405000000000, unit: byte, source_ids: [S_META_LLAMA31_PAPER], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int8: {status: DERIVED, value: 405000000000, unit: byte, source_ids: [S_META_LLAMA31_PAPER], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -2373,7 +2453,7 @@ dashboard_models:
     release_date: "2024-07-24"
     variant: "Instruct 2407"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_MISTRAL_LARGE2_CARD]}
     identity_source_ids: [S_DASH_MISTRAL_LARGE2_CARD, S_ARTIFACT_MISTRAL_LARGE2]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_MISTRAL_LARGE2_CARD, S_ARTIFACT_MISTRAL_LARGE2], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2386,7 +2466,7 @@ dashboard_models:
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_MISTRAL_LARGE2_CARD], corpus_checked: [S_DASH_MISTRAL_LARGE2_CARD], checked_for_model_id: DM_MISTRAL_LARGE2_2407, reason: applicable_accelerator_power_basis_not_identified}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_MISTRAL_LARGE2_CARD], corpus_checked: [S_DASH_MISTRAL_LARGE2_CARD], checked_for_model_id: DM_MISTRAL_LARGE2_2407, reason: calendar_training_date_not_disclosed}
       artifact_revision: {status: FACT, value: "a286006d554cb37a61d13c7ae61bc90cc1d372fc", unit: git_commit, source_ids: [S_ARTIFACT_MISTRAL_LARGE2], revision_scope: exact_creator_repository_tree}
-      artifact_bytes: {status: FACT, value: 490440459448, unit: byte, source_ids: [S_ARTIFACT_MISTRAL_LARGE2], artifact_format: safetensors, boundary: creator_repository_weight_files_only}
+      artifact_bytes: {status: FACT, value: 245220233776, unit: byte, source_ids: [S_ARTIFACT_MISTRAL_LARGE2], artifact_format: safetensors, manifest_id: model_safetensors, boundary: selected_complete_weight_manifest_only}
       weight_floor_bf16: {status: DERIVED, value: 246000000000, unit: byte, source_ids: [S_DASH_MISTRAL_LARGE2_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_fp8: {status: DERIVED, value: 123000000000, unit: byte, source_ids: [S_DASH_MISTRAL_LARGE2_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int8: {status: DERIVED, value: 123000000000, unit: byte, source_ids: [S_DASH_MISTRAL_LARGE2_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -2397,7 +2477,7 @@ dashboard_models:
     release_date: "2024-09-19"
     variant: "72B base model"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_QWEN25_REPORT]}
     identity_source_ids: [S_DASH_QWEN25_REPORT, S_ARTIFACT_QWEN25_72B]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DASH_QWEN25_REPORT, S_ARTIFACT_QWEN25_72B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2421,7 +2501,7 @@ dashboard_models:
     release_date: "2024-12-26"
     variant: "V3 base 671B-A37B"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DEEPSEEK_V3_PAPER]}
     identity_source_ids: [S_DEEPSEEK_V3_PAPER, S_ARTIFACT_DEEPSEEK_V3]
     year: {value: "2024", unit: year, status: DERIVED, source_ids: [S_DEEPSEEK_V3_PAPER, S_ARTIFACT_DEEPSEEK_V3], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2432,7 +2512,7 @@ dashboard_models:
       accelerators_concurrent: {status: FACT, value: 2048, unit: H800_GPU, source_ids: [S_DEEPSEEK_V3_PAPER]}
       accelerator_hours: {status: FACT, value: 2664000, unit: H800_GPU_hour, source_ids: [S_DEEPSEEK_V3_PAPER]}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DEEPSEEK_V3_PAPER], corpus_checked: [S_DEEPSEEK_V3_PAPER], checked_for_model_id: DM_DEEPSEEK_V3, reason: applicable_accelerator_power_basis_not_identified}
-      training_date: {status: FACT, value: "less_than_two_calendar_months", unit: reported_duration_bound, source_ids: [S_DEEPSEEK_V3_PAPER]}
+      training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DEEPSEEK_V3_PAPER], corpus_checked: [S_DEEPSEEK_V3_PAPER], checked_for_model_id: DM_DEEPSEEK_V3, reason: calendar_training_date_not_disclosed_duration_bound_is_recorded_only_in_training_case}
       artifact_revision: {status: FACT, value: "afb92e1fa402c2be2a9eb085312bb02e0384d6c7", unit: git_commit, source_ids: [S_ARTIFACT_DEEPSEEK_V3], revision_scope: exact_creator_repository_tree}
       artifact_bytes: {status: FACT, value: 688586727753, unit: byte, source_ids: [S_ARTIFACT_DEEPSEEK_V3], artifact_format: safetensors, boundary: creator_repository_weight_files_only}
       weight_floor_bf16: {status: DERIVED, value: 1342000000000, unit: byte, source_ids: [S_DEEPSEEK_V3_PAPER], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -2445,7 +2525,7 @@ dashboard_models:
     release_date: "2025-01-20"
     variant: "R1 full model"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_DEEPSEEK_R1_REPORT]}
     identity_source_ids: [S_DASH_DEEPSEEK_R1_REPORT, S_ARTIFACT_DEEPSEEK_R1]
     year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_DEEPSEEK_R1_REPORT, S_ARTIFACT_DEEPSEEK_R1], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2469,14 +2549,14 @@ dashboard_models:
     release_date: "2025-03-12"
     variant: "27B instruction-tuned"
     availability: open_weights
-    architecture: dense
+    architecture: {status: FACT, value: dense, unit: architecture_class, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT]}
     identity_source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT, S_ARTIFACT_GEMMA3_27B_IT]
     year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT, S_ARTIFACT_GEMMA3_27B_IT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 27000000000, unit: parameter, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT]}
       parameters_active: {status: DERIVED, value: 27000000000, unit: parameter_per_token, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], formula: "parameters_active = total_parameters for a dense model", input_metric_ids: [parameters_total]}
-      training_tokens: {status: FACT, value: 14000000000000, unit: training_token, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT]}
-      training_flop: {status: DERIVED, value: 2268000000000000000000000, unit: FLOP, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens]}
+      training_tokens: {status: FACT, value: 14000000000000, unit: training_token, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], claim_scope: pretraining_backbone_excluding_post_training}
+      training_flop: {status: DERIVED, value: 2268000000000000000000000, unit: FLOP, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], formula: "6 * total_parameters * training_tokens", input_metric_ids: [parameters_total, training_tokens], claim_scope: pretraining_backbone_excluding_post_training}
       accelerators_concurrent: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], corpus_checked: [S_DASH_GOOGLE_GEMMA3_REPORT], checked_for_model_id: DM_GEMMA3_27B, reason: not_disclosed_in_creator_corpus}
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], corpus_checked: [S_DASH_GOOGLE_GEMMA3_REPORT], checked_for_model_id: DM_GEMMA3_27B, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_GOOGLE_GEMMA3_REPORT], corpus_checked: [S_DASH_GOOGLE_GEMMA3_REPORT], checked_for_model_id: DM_GEMMA3_27B, reason: applicable_accelerator_power_basis_not_identified}
@@ -2493,9 +2573,9 @@ dashboard_models:
     release_date: "2025-04-05"
     variant: "17B active, 16 experts"
     availability: open_weights
-    architecture: MoE
-    identity_source_ids: [S_DASH_META_LLAMA4_CARD]
-    year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_META_LLAMA4_CARD], formula: "year(release_date)", input_metric_ids: [release_date]}
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_META_LLAMA4_CARD]}
+    identity_source_ids: [S_DASH_META_LLAMA4_CARD, S_ARTIFACT_LLAMA4_SCOUT]
+    year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_META_LLAMA4_CARD, S_ARTIFACT_LLAMA4_SCOUT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
       parameters_total: {status: FACT, value: 109000000000, unit: parameter, source_ids: [S_DASH_META_LLAMA4_CARD]}
       parameters_active: {status: FACT, value: 17000000000, unit: parameter_per_token, source_ids: [S_DASH_META_LLAMA4_CARD]}
@@ -2505,8 +2585,8 @@ dashboard_models:
       accelerator_hours: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_META_LLAMA4_CARD], corpus_checked: [S_DASH_META_LLAMA4_CARD], checked_for_model_id: DM_LLAMA4_SCOUT, reason: not_disclosed_in_creator_corpus}
       accelerator_power_basis: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_META_LLAMA4_CARD], corpus_checked: [S_DASH_META_LLAMA4_CARD], checked_for_model_id: DM_LLAMA4_SCOUT, reason: applicable_accelerator_power_basis_not_identified}
       training_date: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_META_LLAMA4_CARD], corpus_checked: [S_DASH_META_LLAMA4_CARD], checked_for_model_id: DM_LLAMA4_SCOUT, reason: calendar_training_date_not_disclosed}
-      artifact_revision: {status: NOT_FOUND, value: null, source_ids: [S_DASH_META_LLAMA4_CARD], corpus_checked: [S_DASH_META_LLAMA4_CARD], checked_for_model_id: DM_LLAMA4_SCOUT, reason: immutable_weight_artifact_revision_not_found, searched_on: "2026-08-18"}
-      artifact_bytes: {status: NOT_FOUND, value: null, source_ids: [S_DASH_META_LLAMA4_CARD], corpus_checked: [S_DASH_META_LLAMA4_CARD], checked_for_model_id: DM_LLAMA4_SCOUT, reason: versioned_weight_file_bytes_not_found, searched_on: "2026-08-18"}
+      artifact_revision: {status: FACT, value: "14d516bdff6ac06cec40678529222f193386189c", unit: git_commit, source_ids: [S_ARTIFACT_LLAMA4_SCOUT], revision_scope: exact_creator_repository_tree}
+      artifact_bytes: {status: FACT, value: 217283738720, unit: byte, source_ids: [S_ARTIFACT_LLAMA4_SCOUT], artifact_format: safetensors, manifest_id: model_safetensors, boundary: selected_complete_weight_manifest_only, access_condition: gated_weight_download_public_repository_metadata}
       weight_floor_bf16: {status: DERIVED, value: 218000000000, unit: byte, source_ids: [S_DASH_META_LLAMA4_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 16, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_fp8: {status: DERIVED, value: 109000000000, unit: byte, source_ids: [S_DASH_META_LLAMA4_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
       weight_floor_int8: {status: DERIVED, value: 109000000000, unit: byte, source_ids: [S_DASH_META_LLAMA4_CARD], formula: "ceil(total_parameters * precision_bits / 8)", input_metric_ids: [parameters_total], precision_bits: 8, claim_scope: theoretical_weight_payload_floor_not_artifact_not_runtime}
@@ -2517,7 +2597,7 @@ dashboard_models:
     release_date: "2025-04-29"
     variant: "base 30B-A3B"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_QWEN3_REPORT]}
     identity_source_ids: [S_DASH_QWEN3_REPORT, S_ARTIFACT_QWEN3_30B]
     year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_QWEN3_REPORT, S_ARTIFACT_QWEN3_30B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2541,7 +2621,7 @@ dashboard_models:
     release_date: "2025-04-29"
     variant: "base 235B-A22B"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_QWEN3_REPORT]}
     identity_source_ids: [S_DASH_QWEN3_REPORT, S_ARTIFACT_QWEN3_235B]
     year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_QWEN3_REPORT, S_ARTIFACT_QWEN3_235B], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2565,7 +2645,7 @@ dashboard_models:
     release_date: "2025-07-11"
     variant: "Instruct (Jul 2025)"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_DASH_MOONSHOT_KIMI_K2_REPORT]}
     identity_source_ids: [S_DASH_MOONSHOT_KIMI_K2_REPORT, S_ARTIFACT_KIMI_K2]
     year: {value: "2025", unit: year, status: DERIVED, source_ids: [S_DASH_MOONSHOT_KIMI_K2_REPORT, S_ARTIFACT_KIMI_K2], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2589,7 +2669,7 @@ dashboard_models:
     release_date: "2026-02-19"
     variant: "Pro preview"
     availability: closed_weights
-    architecture: MoE
+    architecture: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_GOOGLE_GEMINI31_CARD], corpus_checked: [S_GOOGLE_GEMINI31_CARD], checked_for_model_id: DM_GEMINI31_PRO, reason: architecture_not_disclosed_in_creator_corpus}
     identity_source_ids: [S_GOOGLE_GEMINI31_CARD]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_GOOGLE_GEMINI31_CARD], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2613,7 +2693,7 @@ dashboard_models:
     release_date: "2026-06-26"
     variant: "Sol"
     availability: closed_weights
-    architecture: MoE
+    architecture: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT, S_OPENAI_GPT56_SYSTEM_CARD], corpus_checked: [S_OPENAI_GPT56_ANNOUNCEMENT, S_OPENAI_GPT56_SYSTEM_CARD], checked_for_model_id: DM_GPT56_SOL, reason: architecture_not_disclosed_in_creator_corpus}
     identity_source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_OPENAI_GPT56_ANNOUNCEMENT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2637,7 +2717,7 @@ dashboard_models:
     release_date: "2026-06-30"
     variant: "Sonnet 5"
     availability: closed_weights
-    architecture: MoE
+    architecture: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT, S_ANTHROPIC_SONNET5_SYSTEM_CARD], corpus_checked: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT, S_ANTHROPIC_SONNET5_SYSTEM_CARD], checked_for_model_id: DM_CLAUDE_SONNET5, reason: architecture_not_disclosed_in_creator_corpus}
     identity_source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_ANTHROPIC_SONNET5_ANNOUNCEMENT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2661,7 +2741,7 @@ dashboard_models:
     release_date: "2026-07-16"
     variant: "2.8T-A104.2B base"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_MOONSHOT_KIMI_K3_PAPER]}
     identity_source_ids: [S_MOONSHOT_KIMI_K3_PAPER, S_ARTIFACT_KIMI_K3]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_MOONSHOT_KIMI_K3_PAPER, S_ARTIFACT_KIMI_K3], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2685,7 +2765,7 @@ dashboard_models:
     release_date: "2026-07-16"
     variant: "Grok 4.5 hosted model"
     availability: closed_weights
-    architecture: MoE
+    architecture: {status: UNDISCLOSED_BY_CREATOR, value: null, source_ids: [S_DASH_XAI_GROK45_CARD], corpus_checked: [S_DASH_XAI_GROK45_CARD], checked_for_model_id: DM_GROK45, reason: architecture_not_disclosed_in_creator_corpus}
     identity_source_ids: [S_DASH_XAI_GROK45_CARD]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_DASH_XAI_GROK45_CARD], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2709,7 +2789,7 @@ dashboard_models:
     release_date: "2026-08-03"
     variant: "hosted multimodal service"
     availability: closed_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_QWEN38_ANNOUNCEMENT]}
     identity_source_ids: [S_QWEN38_ANNOUNCEMENT]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_QWEN38_ANNOUNCEMENT], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2733,7 +2813,7 @@ dashboard_models:
     release_date: "2026-08-12"
     variant: "open base artifact, ModelScope update 2026-08-12"
     availability: open_weights
-    architecture: MoE
+    architecture: {status: FACT, value: MoE, unit: architecture_class, source_ids: [S_QWEN38_MODELSCOPE]}
     identity_source_ids: [S_QWEN38_MODELSCOPE]
     year: {value: "2026", unit: year, status: DERIVED, source_ids: [S_QWEN38_MODELSCOPE], formula: "year(release_date)", input_metric_ids: [release_date]}
     metrics:
@@ -2771,4 +2851,4 @@ benchmark_snapshots:
     path: tools/data/eci_snapshot_2026-08-18.yaml
     benchmark: "Epoch Capabilities Index"
     as_of: "2026-08-18"
-    source_ids: [S_EPOCH_ECI_SCORES, S_EPOCH_ECI_METHOD]
+    source_ids: [S_EPOCH_ECI_SCORES, S_EPOCH_ECI_BENCHMARKS, S_EPOCH_ECI_METHOD]

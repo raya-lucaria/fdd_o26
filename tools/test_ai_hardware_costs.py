@@ -1,5 +1,7 @@
 from decimal import Decimal
 from pathlib import Path
+from copy import deepcopy
+import hashlib
 import re
 import importlib.util
 import xml.etree.ElementTree as ET
@@ -646,7 +648,16 @@ def test_dashboard_corpus_is_broad_and_cell_evidenced():
         }
         assert 2018 <= int(model["year"]["value"]) <= 2026
         assert model["availability"] in {"open_weights", "closed_weights"}
-        assert model["architecture"] in {"dense", "MoE"}
+        architecture = model["architecture"]
+        assert architecture["status"] in {"FACT", "UNDISCLOSED_BY_CREATOR", "NOT_FOUND"}
+        assert architecture.get("source_ids")
+        if architecture["status"] == "FACT":
+            assert architecture["value"] in {"dense", "MoE"}
+            assert architecture["unit"] == "architecture_class"
+        else:
+            assert architecture["value"] is None
+            assert architecture["corpus_checked"]
+            assert architecture["checked_for_model_id"] == model["id"]
         assert DASHBOARD_REQUIRED_METRICS == model["metrics"].keys()
 
         for name, metric in model["metrics"].items():
@@ -668,8 +679,14 @@ def test_dashboard_training_compute_respects_dense_and_moe_boundaries():
 
     for model in models:
         metric = model["metrics"]["training_flop"]
+        architecture = model["architecture"]
         if metric["status"] == "DERIVED":
-            assert model["architecture"] == "dense"
+            assert architecture == {
+                "status": "FACT",
+                "value": "dense",
+                "unit": "architecture_class",
+                "source_ids": architecture["source_ids"],
+            }
             assert metric["formula"] == "6 * total_parameters * training_tokens"
             assert metric["input_metric_ids"] == [
                 "parameters_total",
@@ -679,12 +696,249 @@ def test_dashboard_training_compute_respects_dense_and_moe_boundaries():
                 model["metrics"][name]["status"] == "FACT"
                 for name in metric["input_metric_ids"]
             )
-        if model["architecture"] == "MoE" and metric["status"] == "ESTIMATE":
+            total = model["metrics"]["parameters_total"]["value"]
+            tokens = model["metrics"]["training_tokens"]["value"]
+            assert metric["value"] == 6 * total * tokens
+        if architecture.get("value") == "MoE" and metric["status"] == "ESTIMATE":
             assert 0 < metric["low"] <= metric["value"] <= metric["high"]
             assert metric.get("assumptions")
+            proxy = (
+                6
+                * model["metrics"]["parameters_active"]["value"]
+                * model["metrics"]["training_tokens"]["value"]
+            )
+            assert metric["value"] == proxy
+            assert metric["low"] == proxy * 8 // 10
+            assert metric["high"] == proxy * 5 // 4
         assert not (
-            model["architecture"] == "MoE" and metric["status"] == "DERIVED"
+            architecture.get("value") == "MoE" and metric["status"] == "DERIVED"
         )
+
+
+def test_closed_frontier_architecture_is_not_inferred_without_creator_evidence():
+    """A hosted-model announcement cannot silently become an MoE disclosure."""
+    models = {model["id"]: model for model in load_yaml(DATA)["dashboard_models"]}
+    for model_id in {
+        "DM_GEMINI31_PRO",
+        "DM_GPT56_SOL",
+        "DM_CLAUDE_SONNET5",
+        "DM_GROK45",
+    }:
+        architecture = models[model_id]["architecture"]
+        assert architecture["status"] in {"UNDISCLOSED_BY_CREATOR", "NOT_FOUND"}
+        assert architecture["value"] is None
+
+
+def test_reviewed_training_values_and_scope_are_exact():
+    models = {model["id"]: model for model in load_yaml(DATA)["dashboard_models"]}
+
+    llama = models["DM_LLAMA31_405B"]["metrics"]
+    assert llama["training_tokens"]["value"] == 15_600_000_000_000
+    assert llama["training_flop"]["value"] == 37_908_000_000_000_000_000_000_000
+
+    palm_hours = models["DM_PALM_540B"]["metrics"]["accelerator_hours"]
+    assert palm_hours["status"] == "DERIVED"
+    assert palm_hours["value"] == 6_144 * 1_200 + 3_072 * 336
+    assert palm_hours["input_values"] == [6144, 1200, 3072, 336]
+
+    for model_id in {
+        "DM_QWEN2_72B",
+        "DM_GEMMA2_27B",
+        "DM_GEMMA3_27B",
+        "DM_LLAMA31_8B",
+        "DM_LLAMA31_70B",
+    }:
+        for metric_id in ("training_tokens", "training_flop"):
+            cell = models[model_id]["metrics"][metric_id]
+            assert cell["claim_scope"] == "pretraining_backbone_excluding_post_training"
+
+    date = models["DM_DEEPSEEK_V3"]["metrics"]["training_date"]
+    assert date["status"] in {"UNDISCLOSED_BY_CREATOR", "NOT_FOUND"}
+    assert date["value"] is None
+
+
+def test_reviewed_open_artifacts_use_one_complete_manifest():
+    data = load_yaml(DATA)
+    models = {model["id"]: model for model in data["dashboard_models"]}
+    expected = {
+        "DM_GEMMA_7B": ("ff6768d9368919a1f025a54f9f5aa0ee591730bb", 17_075_391_360),
+        "DM_LLAMA2_70B": ("3aba440b59558f995867ba6e1f58f21d0336b5bb", 137_953_408_928),
+        "DM_LLAMA31_405B": ("b906e4dc842aa489c962f9db26554dcfdde901fe", 811_706_916_800),
+        "DM_LLAMA4_SCOUT": ("14d516bdff6ac06cec40678529222f193386189c", 217_283_738_720),
+        "DM_MISTRAL_LARGE2_2407": ("a286006d554cb37a61d13c7ae61bc90cc1d372fc", 245_220_233_776),
+    }
+    for model_id, (revision_value, byte_value) in expected.items():
+        metrics = models[model_id]["metrics"]
+        assert metrics["artifact_revision"]["value"] == revision_value
+        assert metrics["artifact_bytes"]["value"] == byte_value
+        source = data["sources"][metrics["artifact_bytes"]["source_ids"][0]]
+        manifest = source["selected_manifest"]
+        assert metrics["artifact_bytes"]["manifest_id"] == manifest["id"]
+        assert byte_value == manifest["observed_weight_bytes"]
+        assert manifest["include_pattern"]
+        assert manifest["shard_count"] > 0
+        if source.get("access_condition") == "gated_weight_download_public_repository_metadata":
+            assert source["bytes_evidence"] == "public_repository_sibling_lfs_metadata"
+            assert source["metadata_api_url"].endswith(
+                f"/revision/{revision_value}?blobs=true"
+            )
+
+    mistral_source = data["sources"]["S_ARTIFACT_MISTRAL_LARGE2"]
+    assert mistral_source["selected_manifest"]["include_pattern"].startswith("model-")
+    assert mistral_source["excluded_complete_manifests"] == [
+        {
+            "id": "consolidated_safetensors",
+            "include_pattern": "consolidated-*-of-*.safetensors",
+            "shard_count": 51,
+            "observed_weight_bytes": 245_220_225_672,
+            "reason": "alternate complete representation; excluded to prevent double counting",
+        }
+    ]
+    assert mistral_source["observed_repository_weight_bytes_all_formats"] == 490_440_459_448
+
+
+def test_bert_identity_uses_whole_word_masking_artifact():
+    data = load_yaml(DATA)
+    model = next(model for model in data["dashboard_models"] if model["id"] == "DM_BERT_LARGE")
+    source = data["sources"][model["metrics"]["artifact_revision"]["source_ids"][0]]
+    assert "whole-word-masking" in source["url"]
+    assert model["metrics"]["artifact_revision"]["value"] == "bf1420893378c390773c9452c3602fcee89f9241"
+
+
+def test_dashboard_semantic_guards_reject_review_mutations():
+    """Each reviewed error class must have a guard that changes outcome on mutation."""
+    data = load_yaml(DATA)
+    snapshot = load_yaml(ECI)
+
+    def model_index(candidate):
+        return {model["id"]: model for model in candidate["dashboard_models"]}
+
+    def guard(candidate, benchmark):
+        models = model_index(candidate)
+        for model_id in {
+            "DM_GEMINI31_PRO",
+            "DM_GPT56_SOL",
+            "DM_CLAUDE_SONNET5",
+            "DM_GROK45",
+        }:
+            assert models[model_id]["architecture"]["status"] in NEGATIVE
+
+        for model in models.values():
+            metrics = model["metrics"]
+            flop = metrics["training_flop"]
+            if flop["status"] == "DERIVED":
+                assert flop["value"] == (
+                    6
+                    * metrics["parameters_total"]["value"]
+                    * metrics["training_tokens"]["value"]
+                )
+            if flop["status"] == "ESTIMATE":
+                proxy = (
+                    6
+                    * metrics["parameters_active"]["value"]
+                    * metrics["training_tokens"]["value"]
+                )
+                assert (flop["low"], flop["value"], flop["high"]) == (
+                    proxy * 8 // 10,
+                    proxy,
+                    proxy * 5 // 4,
+                )
+            for precision, bits in (("bf16", 16), ("fp8", 8), ("int8", 8), ("int4", 4)):
+                floor = metrics[f"weight_floor_{precision}"]
+                if floor["status"] == "DERIVED":
+                    assert floor["value"] == (
+                        metrics["parameters_total"]["value"] * bits + 7
+                    ) // 8
+
+        palm = models["DM_PALM_540B"]["metrics"]["accelerator_hours"]
+        assert palm["status"] == "DERIVED" and palm["value"] == 8_404_992
+        assert palm["input_values"] == [6144, 1200, 3072, 336]
+
+        expected_artifacts = {
+            "DM_GEMMA_7B": 17_075_391_360,
+            "DM_LLAMA2_70B": 137_953_408_928,
+            "DM_LLAMA31_405B": 811_706_916_800,
+            "DM_LLAMA4_SCOUT": 217_283_738_720,
+            "DM_MISTRAL_LARGE2_2407": 245_220_233_776,
+        }
+        for model_id, expected_bytes in expected_artifacts.items():
+            cell = models[model_id]["metrics"]["artifact_bytes"]
+            source = candidate["sources"][cell["source_ids"][0]]
+            assert cell["value"] == expected_bytes
+            assert source["selected_manifest"]["observed_weight_bytes"] == expected_bytes
+        mistral_source = candidate["sources"]["S_ARTIFACT_MISTRAL_LARGE2"]
+        assert mistral_source["observed_repository_weight_bytes_all_formats"] == (
+            expected_artifacts["DM_MISTRAL_LARGE2_2407"]
+            + mistral_source["excluded_complete_manifests"][0]["observed_weight_bytes"]
+        )
+
+        bert_source = candidate["sources"]["S_ARTIFACT_BERT_LARGE"]
+        assert "whole-word-masking" in bert_source["url"]
+
+        for model_id in {
+            "DM_QWEN2_72B",
+            "DM_GEMMA2_27B",
+            "DM_GEMMA3_27B",
+            "DM_LLAMA31_8B",
+            "DM_LLAMA31_70B",
+        }:
+            for metric_id in ("training_tokens", "training_flop"):
+                assert models[model_id]["metrics"][metric_id]["claim_scope"] == (
+                    "pretraining_backbone_excluding_post_training"
+                )
+        assert models["DM_DEEPSEEK_V3"]["metrics"]["training_date"]["status"] in NEGATIVE
+
+        excluded = {
+            row["source_row_model"]: row["source_model_versions"]
+            for row in benchmark["excluded_variant_aggregates"]
+        }
+        assert "gpt-5.6-sol_promax" in excluded["GPT-5.6 Sol"]
+        assert "claude-sonnet-5_xhigh" in excluded["Claude Sonnet 5"]
+        assert "gemini-3.1-pro-preview-customtools" in excluded["Gemini 3.1 Pro"]
+
+    guard(data, snapshot)
+
+    mutations = [
+        lambda candidate, benchmark: model_index(candidate)["DM_GPT56_SOL"].__setitem__(
+            "architecture", {"status": "FACT", "value": "MoE"}
+        ),
+        lambda candidate, benchmark: model_index(candidate)["DM_LLAMA31_405B"]["metrics"][
+            "training_flop"
+        ].__setitem__("value", 1),
+        lambda candidate, benchmark: model_index(candidate)["DM_PALM_540B"]["metrics"][
+            "accelerator_hours"
+        ].__setitem__("status", "FACT"),
+        lambda candidate, benchmark: model_index(candidate)["DM_MISTRAL_LARGE2_2407"][
+            "metrics"
+        ]["artifact_bytes"].__setitem__("value", 490_440_459_448),
+        lambda candidate, benchmark: model_index(candidate)["DM_GEMMA_7B"]["metrics"][
+            "artifact_bytes"
+        ].__setitem__("value", None),
+        lambda candidate, benchmark: benchmark["excluded_variant_aggregates"][0][
+            "source_model_versions"
+        ].remove("gpt-5.6-sol_promax"),
+        lambda candidate, benchmark: candidate["sources"]["S_ARTIFACT_BERT_LARGE"].__setitem__(
+            "url", "https://huggingface.co/google-bert/bert-large-uncased"
+        ),
+        lambda candidate, benchmark: model_index(candidate)["DM_QWEN2_72B"]["metrics"][
+            "training_tokens"
+        ].pop("claim_scope"),
+        lambda candidate, benchmark: model_index(candidate)["DM_DEEPSEEK_V3"]["metrics"][
+            "training_date"
+        ].__setitem__("status", "FACT"),
+        lambda candidate, benchmark: model_index(candidate)["DM_T5_11B"]["metrics"][
+            "weight_floor_bf16"
+        ].__setitem__("value", 1),
+        lambda candidate, benchmark: model_index(candidate)["DM_DEEPSEEK_V3"]["metrics"][
+            "training_flop"
+        ].__setitem__("low", 1),
+    ]
+    for mutate in mutations:
+        candidate = deepcopy(data)
+        benchmark = deepcopy(snapshot)
+        mutate(candidate, benchmark)
+        with pytest.raises((AssertionError, KeyError)):
+            guard(candidate, benchmark)
 
 
 def test_dashboard_closed_models_have_no_invented_local_capacity():
@@ -719,6 +973,8 @@ def test_dashboard_open_artifacts_are_versioned_and_weight_floors_are_explicit()
             if floor["status"] == "DERIVED":
                 assert floor["precision_bits"] == bits
                 assert floor["formula"] == "ceil(total_parameters * precision_bits / 8)"
+                parameters = model["metrics"]["parameters_total"]["value"]
+                assert floor["value"] == (parameters * bits + 7) // 8
     assert versioned >= 15
 
 
@@ -775,7 +1031,17 @@ def test_eci_snapshot_is_pinned_and_exactly_matches_dashboard_variants():
     assert metadata["id"] == "BS_ECI_2026_08_18"
     assert metadata["as_of"] == data["cutoff"]
     assert metadata["dataset_url"] == "https://epoch.ai/data/eci_scores.csv"
-    assert re.fullmatch(r"[0-9a-f]{64}", metadata["dataset_sha256"])
+    assert metadata["dataset_sha256"] == (
+        "b239acf72f8f8c1ac9b1f6f2ee52a2dff3bc6391ccf43eea0fddb7ca3aa2376b"
+    )
+    assert metadata["benchmark_input_sha256"] == (
+        "b5752fe04275b3980d50d4ee113e997f856eee3a23711804ec90131c3bd4e673"
+    )
+    assert (metadata["dataset_bytes"], metadata["dataset_records"]) == (28_266, 229)
+    assert (
+        metadata["benchmark_input_bytes"],
+        metadata["benchmark_input_records"],
+    ) == (348_820, 2_340)
     assert re.fullmatch(r"[0-9a-f]{40}", metadata["methodology_revision"])
     assert data["benchmark_snapshots"] == [
         {
@@ -783,7 +1049,11 @@ def test_eci_snapshot_is_pinned_and_exactly_matches_dashboard_variants():
             "path": "tools/data/eci_snapshot_2026-08-18.yaml",
             "benchmark": "Epoch Capabilities Index",
             "as_of": metadata["as_of"],
-            "source_ids": ["S_EPOCH_ECI_SCORES", "S_EPOCH_ECI_METHOD"],
+            "source_ids": [
+                "S_EPOCH_ECI_SCORES",
+                "S_EPOCH_ECI_BENCHMARKS",
+                "S_EPOCH_ECI_METHOD",
+            ],
         }
     ]
 
@@ -806,6 +1076,42 @@ def test_eci_snapshot_is_pinned_and_exactly_matches_dashboard_variants():
         assert row["source_row_model"]
         assert len(row["source_model_versions"]) > 1
         assert row["reason"] == "ECI aggregates multiple evaluated variants"
+
+    excluded = {
+        row["source_row_model"]: row["source_model_versions"]
+        for row in snapshot["excluded_variant_aggregates"]
+    }
+    assert excluded["GPT-5.6 Sol"] == [
+        "gpt-5.6-sol_high",
+        "gpt-5.6-sol_max",
+        "gpt-5.6-sol_none",
+        "gpt-5.6-sol_promax",
+        "gpt-5.6-sol_prounknown",
+        "gpt-5.6-sol_unknown",
+        "gpt-5.6-sol_xhigh",
+    ]
+    assert excluded["Claude Sonnet 5"] == [
+        "claude-sonnet-5",
+        "claude-sonnet-5_high",
+        "claude-sonnet-5_max",
+        "claude-sonnet-5_medium",
+        "claude-sonnet-5_unknown",
+        "claude-sonnet-5_xhigh",
+    ]
+    assert excluded["Gemini 3.1 Pro"] == [
+        "gemini-3.1-pro-preview",
+        "gemini-3.1-pro-preview-customtools",
+        "gemini-3.1-pro-preview_high",
+        "gemini-3.1-pro-preview_medium",
+    ]
+
+
+def test_eci_hash_guard_changes_on_content_mutation():
+    snapshot = load_yaml(ECI)
+    metadata = snapshot["snapshot"]
+    for key in ("dataset_sha256", "benchmark_input_sha256"):
+        mutated = hashlib.sha256((metadata[key] + "mutated").encode()).hexdigest()
+        assert mutated != metadata[key]
 
 
 def test_all_evidence_cells_resolve_sources_and_explain_absence():
@@ -859,6 +1165,20 @@ def test_minimum_corpus_and_current_model_audits_are_present():
             "availability",
             "region",
         } <= model["facts"].keys()
+
+
+def test_required_corpus_guard_rejects_a_missing_audit_slot():
+    data = load_yaml(DATA)
+
+    def guard(candidate):
+        for model in candidate["models"]:
+            assert REQUIRED_CORPUS == model["corpus"].keys()
+
+    guard(data)
+    mutated = deepcopy(data)
+    mutated["models"][0]["corpus"].pop("technical_paper")
+    with pytest.raises(AssertionError):
+        guard(mutated)
 
 
 def test_documented_training_requires_same_scope_observables():
