@@ -256,6 +256,28 @@ def test_ai_hardware_section_excludes_api_and_non_hardware_costs():
     assert "FLOP/s es una tasa" in section
 
 
+def test_ai_hardware_teaches_power_and_energy_unit_conversions():
+    section = body(PAGES[4]).split("## Costo físico del hardware", 1)[1]
+    section = section.split("## Guía de decisión", 1)[0]
+    assert "1,000 W = 1 kW" in section
+    assert "1,000 kW = 1 MW" in section
+    assert "kW × h = kWh" in section
+
+
+def test_ai_hardware_tables_stay_narrow_for_mobile_reading():
+    section = body(PAGES[4]).split("## Costo físico del hardware", 1)[1]
+    section = section.split("## Guía de decisión", 1)[0]
+    lines = section.splitlines()
+    wide_headers = []
+    for index, line in enumerate(lines[:-1]):
+        if not line.startswith("|") or not lines[index + 1].startswith("|---"):
+            continue
+        columns = len(line.strip().strip("|").split("|"))
+        if columns > 4:
+            wide_headers.append((line, columns))
+    assert not wide_headers, wide_headers
+
+
 def test_weight_memory_formula_defines_symbols_and_converts_bits_before_formula():
     ai = body(PAGES[4])
     section = ai.split("## La cuenta mínima de los pesos", 1)[1]

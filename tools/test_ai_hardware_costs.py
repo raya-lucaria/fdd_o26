@@ -412,8 +412,20 @@ def test_training_tables_expose_ledger_ids_for_each_included_case():
     essential_rows = markdown_table_rows_after(
         page, "### Casos con hardware documentado"
     )
+    scale_rows = markdown_table_rows_after(
+        page, "#### Escala física y frontera económica"
+    )
     detail_rows = markdown_table_rows_after(page, "#### Ledger visible")
-    assert len(essential_rows) == len(detail_rows) == len(documented)
+    compute_rows = markdown_table_rows_after(
+        page, "##### Trabajo publicado y utilización"
+    )
+    assert (
+        len(essential_rows)
+        == len(scale_rows)
+        == len(detail_rows)
+        == len(compute_rows)
+        == len(documented)
+    )
 
     essential_by_case = {
         case["id"]: next(
@@ -421,9 +433,21 @@ def test_training_tables_expose_ledger_ids_for_each_included_case():
         )
         for case in documented
     }
+    scale_by_case = {
+        case["id"]: next(
+            row for row in scale_rows if case["id"] in ledger_ids(row[0])
+        )
+        for case in documented
+    }
     detail_by_case = {
         case["id"]: next(
-            row for row in detail_rows if case["id"] in ledger_ids(row[-1])
+            row for row in detail_rows if case["id"] in ledger_ids(row[0])
+        )
+        for case in documented
+    }
+    compute_by_case = {
+        case["id"]: next(
+            row for row in compute_rows if case["id"] in ledger_ids(row[-1])
         )
         for case in documented
     }
@@ -431,9 +455,11 @@ def test_training_tables_expose_ledger_ids_for_each_included_case():
     essential_columns = {
         "accelerators_concurrent": 1,
         "accelerator_hours": 2,
-        "hbm_physical_installed": 3,
-        "accelerator_power": 4,
-        "attributed_training_capex": 5,
+    }
+    scale_columns = {
+        "hbm_physical_installed": 1,
+        "accelerator_power": 2,
+        "attributed_training_capex": 3,
     }
     for case in documented:
         row = essential_by_case[case["id"]]
@@ -448,7 +474,16 @@ def test_training_tables_expose_ledger_ids_for_each_included_case():
             assert f"**{cell['status']}**" in row[column]
             assert ledger_ids(row[column]) == expected_ids
 
+        scale = scale_by_case[case["id"]]
+        assert ledger_ids(scale[0]) == {case["id"], case["model_id"]}
+        for field, column in scale_columns.items():
+            cell = case["metrics"][field]
+            expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
+            assert f"**{cell['status']}**" in scale[column]
+            assert ledger_ids(scale[column]) == expected_ids
+
         detail = detail_by_case[case["id"]]
+        assert ledger_ids(detail[0]) == {case["id"], case["model_id"]}
         parameter_sources = set(case["metrics"]["parameters_total"]["source_ids"])
         token_sources = set(case["metrics"]["training_tokens"]["source_ids"])
         active = case["metrics"]["parameters_active"]
@@ -456,17 +491,17 @@ def test_training_tables_expose_ledger_ids_for_each_included_case():
             parameter_sources.update(active["source_ids"])
         assert ledger_ids(detail[1]) == parameter_sources | token_sources
 
-        detail_columns = {
-            "training_precision": 2,
-            "training_compute_flop": 3,
-            "mfu": 4,
-        }
-        for field, column in detail_columns.items():
+        precision = case["metrics"]["training_precision"]
+        assert f"**{precision['status']}**" in detail[2]
+        assert ledger_ids(detail[2]) == set(precision["source_ids"])
+
+        compute = compute_by_case[case["id"]]
+        for field, column in {"training_compute_flop": 1, "mfu": 2}.items():
             cell = case["metrics"][field]
             expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
-            assert f"**{cell['status']}**" in detail[column]
-            assert ledger_ids(detail[column]) == expected_ids
-        assert ledger_ids(detail[-1]) == {case["id"]}
+            assert f"**{cell['status']}**" in compute[column]
+            assert ledger_ids(compute[column]) == expected_ids
+        assert ledger_ids(compute[-1]) == {case["id"]}
 
 
 def test_training_scenario_is_unattributed_and_uses_the_ledger_valuation():
@@ -1409,71 +1444,101 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     capacity_rows = markdown_table_rows_after(
         page, "### Inferencia de capacidad: cabe, sin SLA"
     )
-    assert len(capacity_rows) == 1
-    row = capacity_rows[0]
-    assert len(row) == 10
-    assert "32.763876352 GB" in row[2]
-    assert "1.558254592 GB" in row[2]
-    assert "34.322130944 GB" in row[2]
-    assert "0.487587840 GB" in row[3]
-    assert "0.243793920 GB" in row[3]
-    assert "0.014942208 GB" in row[3]
-    assert "0.000238648 GB" in row[3]
-    assert "0.746562616 GB" in row[3]
-    assert "4 GB" in row[4]
-    assert "9.663676416 GB" in row[5]
-    assert "4 GB" in row[6]
-    assert "5.27323699760 GB" in row[7]
-    assert "58.00560697360 GB" in row[8]
-    assert "54.0219312287867069244384765625 GiB" in row[8]
-    assert "1 NVIDIA DGX H100" in row[9]
-    assert "HBM utilizable" in row[9]
-    assert "ESTIMATION_NOT_IDENTIFIABLE" in row[9]
-    assert "TP=1" in row[9]
-    assert "PP=1" in row[9]
-    assert "DP=1" in row[9]
-    assert "una réplica" in row[9]
-    assert "80 GB físicos por réplica/shard" in row[9]
-    assert "16 contextos KV" in row[9]
-    assert "sin SLA" in " ".join(row)
-    assert [ledger_ids(cell) for cell in row] == [
-        {"I_QWEN25_32B_GPTQ_INT8_CAPACITY", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        {
+    assert len(capacity_rows) == 12
+    assert all(len(row) == 3 for row in capacity_rows)
+    rows = {row[0]: row for row in capacity_rows}
+    assert set(rows) == {
+        "Artefacto y revisión",
+        "Formato",
+        "Pesos",
+        "Escalas/metadata",
+        "Runtime",
+        "KV",
+        "Workspace",
+        "Reserva",
+        "Total",
+        "Sistema mínimo del corpus",
+        "Compatibilidad",
+        "HBM utilizable",
+    }
+    assert all(
+        value in rows["Pesos"][1]
+        for value in ("32.763876352 GB", "1.558254592 GB", "34.322130944 GB")
+    )
+    assert all(
+        value in rows["Escalas/metadata"][1]
+        for value in (
+            "0.487587840 GB",
+            "0.243793920 GB",
+            "0.014942208 GB",
+            "0.000238648 GB",
+            "0.746562616 GB",
+        )
+    )
+    assert "4 GB" in rows["Runtime"][1]
+    assert "9.663676416 GB" in rows["KV"][1]
+    assert "4 GB" in rows["Workspace"][1]
+    assert "5.27323699760 GB" in rows["Reserva"][1]
+    assert "58.00560697360 GB" in rows["Total"][1]
+    assert "54.0219312287867069244384765625 GiB" in rows["Total"][1]
+    assert "sin SLA" in rows["Total"][1]
+    system = rows["Sistema mínimo del corpus"][1]
+    assert "1 NVIDIA DGX H100" in system
+    assert all(term in system for term in ("TP=1", "PP=1", "DP=1", "una réplica"))
+    assert "80 GB físicos por réplica/shard" in system
+    assert "16 contextos KV" in system
+    assert "ESTIMATION_NOT_IDENTIFIABLE" in rows["HBM utilizable"][2]
+
+    expected_evidence = {
+        "Artefacto y revisión": {
+            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
+            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        },
+        "Formato": {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        "Pesos": {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        "Escalas/metadata": {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        "Runtime": {
             "S_COURSE_DESIGN",
             "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
             "S_VLLM_071_QUANTIZATION_HARDWARE",
         },
-        {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        {"S_COURSE_DESIGN"},
-        {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        {
+        "KV": {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        "Workspace": {"S_COURSE_DESIGN"},
+        "Reserva": {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        "Total": {
             "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
             "S_COURSE_DESIGN",
             "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
         },
-        {
-            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
+        "Sistema mínimo del corpus": {
             "S_COURSE_DESIGN",
             "S_NVIDIA_DGX_H100_DATASHEET",
+        },
+        "Compatibilidad": {
             "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
             "S_VLLM_071_QUANTIZATION_HARDWARE",
+            "S_NVIDIA_DGX_H100_DATASHEET",
         },
-    ]
+        "HBM utilizable": {"I_QWEN25_32B_GPTQ_INT8_CAPACITY"},
+    }
+    assert {
+        label: ledger_ids(row[2]) for label, row in rows.items()
+    } == expected_evidence
 
     operational_rows = markdown_table_rows_after(
         page, "### Inferencia operacional: el SLA requiere una medición conjunta"
     )
     assert len(operational_rows) == 1
     operational = " ".join(operational_rows[0])
-    assert "16" in operational
-    assert "2,048" in operational
-    assert "256" in operational
-    assert "100 output tokens/s" in operational
-    assert "TTFT p95 ≤ 2 s" in operational
-    assert "≤ 70 %" in operational
+    operational_section = page.split(
+        "### Inferencia operacional: el SLA requiere una medición conjunta", 1
+    )[1].split("## Guía de decisión", 1)[0]
+    assert "16" in operational_section
+    assert "2,048" in operational_section
+    assert "256" in operational_section
+    assert "100 output tokens/s" in operational_section
+    assert "TTFT p95 ≤ 2 s" in operational_section
+    assert "≤ 70 %" in operational_section
     assert "N activos + 1" in operational
     assert operational.count("ESTIMATION_NOT_IDENTIFIABLE") >= 3
 
