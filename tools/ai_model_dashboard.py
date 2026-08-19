@@ -35,6 +35,13 @@ def _decimal(value) -> Decimal:
     return Decimal(str(value))
 
 
+def _positive_finite_decimal(value, description: str) -> Decimal:
+    number = _decimal(value)
+    if not number.is_finite() or number <= 0:
+        raise ValueError(f"{description} must be finite and positive")
+    return number
+
+
 @dataclass(frozen=True)
 class PlotPoint:
     model_id: str
@@ -49,17 +56,27 @@ class PlotPoint:
     claim_scope: str
 
     def __post_init__(self):
+        if isinstance(self.year, bool) or not isinstance(self.year, int) or self.year <= 0:
+            raise ValueError("plot point year must be a positive integer")
+        if isinstance(self.source_ids, str) or not isinstance(self.source_ids, tuple):
+            raise ValueError("plot point source_ids must be a tuple")
+        if not all(isinstance(source_id, str) and source_id for source_id in self.source_ids):
+            raise ValueError("plot point source_ids require non-empty strings")
         if not all(
             (self.model_id, self.unit, self.status, self.source_ids, self.label, self.claim_scope)
         ):
             raise ValueError("plot points require traceability, labels, and claim scope")
         if self.status not in POSITIVE_STATUSES:
             raise ValueError("plot point status must describe positive evidence")
-        value = _decimal(self.value)
-        low = _decimal(self.low) if self.low is not None else None
-        high = _decimal(self.high) if self.high is not None else None
-        if value <= 0 or (low is not None and low <= 0) or (high is not None and high <= 0):
-            raise ValueError("log-axis values must be positive")
+        value = _positive_finite_decimal(self.value, "log-axis values")
+        low = (
+            _positive_finite_decimal(self.low, "log-axis lower bound")
+            if self.low is not None else None
+        )
+        high = (
+            _positive_finite_decimal(self.high, "log-axis upper bound")
+            if self.high is not None else None
+        )
         if low is not None and low > value:
             raise ValueError("low/value/high must form an ordered interval")
         if high is not None and value > high:
@@ -79,13 +96,13 @@ class ParetoPoint:
     score_high: Decimal
 
     def __post_init__(self):
+        if not isinstance(self.model_id, str) or not self.model_id:
+            raise ValueError("Pareto model ID is required")
         values = tuple(
-            _decimal(value)
+            _positive_finite_decimal(value, "Pareto values")
             for value in (self.cost_low, self.cost_high, self.score_low, self.score_high)
         )
         cost_low, cost_high, score_low, score_high = values
-        if min(values) <= 0:
-            raise ValueError("Pareto values must be positive")
         if cost_low > cost_high or score_low > score_high:
             raise ValueError("Pareto bounds must form an ordered interval")
         for field, value in zip(
@@ -109,9 +126,7 @@ class CapacityScenario:
 
     def __post_init__(self):
         for field in ("hbm_gb", "tdp_w", "unit_price_usd"):
-            value = _decimal(getattr(self, field))
-            if value <= 0:
-                raise ValueError("scenario values must be positive")
+            value = _positive_finite_decimal(getattr(self, field), "scenario values")
             object.__setattr__(self, field, value)
         precision = self.precision.upper()
         if precision not in {"BF16", "FP8", "INT8", "INT4"}:
@@ -131,7 +146,8 @@ def _is_positive_cell(cell: dict | None) -> bool:
 
 def _can_be_positive_decimal(value) -> bool:
     try:
-        return _decimal(value) > 0
+        number = _decimal(value)
+        return number.is_finite() and number > 0
     except (ValueError, TypeError, ArithmeticError):
         return False
 
@@ -209,35 +225,27 @@ def build_training_series(ledger: dict) -> dict[str, list[PlotPoint]]:
             if not basis or not str(power.get("unit", "")).startswith("W_per_"):
                 raise ValueError("numeric accelerator power requires an explicit compatible basis")
             sources = tuple(dict.fromkeys(count.get("source_ids", ()) + power.get("source_ids", ())))
+            count_value = _decimal(count["value"])
+            power_value = _decimal(power["value"])
+            status = (
+                "ESTIMATE"
+                if "ESTIMATE" in {count["status"], power["status"]}
+                else "DERIVED"
+            )
             series["power_or_energy_envelope"].append(
                 _point(
                     model,
                     power,
                     basis,
                     "accelerator_only_power_envelope_not_measured_wall_energy",
-                    value=_decimal(count["value"]) * _decimal(power["value"]),
+                    value=count_value * power_value,
                     unit="W",
-                    status="DERIVED",
+                    status=status,
                     source_ids=sources,
-                    low=None,
-                    high=None,
-                )
-            )
-
-        if _is_positive_cell(count) and "H100" in str(count.get("unit", "")):
-            sources = tuple(dict.fromkeys((*count.get("source_ids", ()), SCENARIO_SOURCE)))
-            series["replacement_value"].append(
-                _point(
-                    model,
-                    count,
-                    "USD 30k per accelerator",
-                    "common_date_replacement_scenario_not_historical_training_cost",
-                    value=_decimal(count["value"]) * Decimal("30000"),
-                    unit="USD",
-                    status="SCENARIO",
-                    source_ids=sources,
-                    low=None,
-                    high=None,
+                    low=_decimal(count.get("low", count_value))
+                    * _decimal(power.get("low", power_value)),
+                    high=_decimal(count.get("high", count_value))
+                    * _decimal(power.get("high", power_value)),
                 )
             )
 
@@ -271,26 +279,32 @@ def build_inference_series(
         metrics = model["metrics"]
         series["parameters_total_active"].extend(_parameter_points(model))
 
-        floor = metrics.get(floor_metric)
-        if _is_positive_cell(floor):
-            series["artifact_or_weight_floor"].append(
-                _point(
-                    model,
-                    floor,
-                    f"{scenario.precision} weight floor",
-                    "theoretical_weight_payload_floor_not_artifact_not_runtime",
-                )
-            )
-
         artifact = metrics.get("artifact_bytes")
-        if not _is_positive_cell(artifact):
+        artifact_matches = (
+            _is_positive_cell(artifact)
+            and str(artifact.get("precision", "")).upper() == scenario.precision
+        )
+        floor = metrics.get(floor_metric)
+        if artifact_matches:
+            selected = artifact
+            label = f"{scenario.precision} artifact"
+            selected_scope = "artifact_bytes_for_matching_precision"
+        elif _is_positive_cell(floor):
+            selected = floor
+            label = f"{scenario.precision} weight floor"
+            selected_scope = "theoretical_weight_payload_floor_not_artifact_not_runtime"
+        else:
             continue
-        count = (_decimal(artifact["value"]) / capacity_bytes).to_integral_value(
+
+        series["artifact_or_weight_floor"].append(
+            _point(model, selected, label, selected_scope)
+        )
+        count = (_decimal(selected["value"]) / capacity_bytes).to_integral_value(
             rounding="ROUND_CEILING"
         )
-        sources = tuple(dict.fromkeys((*artifact.get("source_ids", ()), SCENARIO_SOURCE)))
+        sources = tuple(dict.fromkeys((*selected.get("source_ids", ()), SCENARIO_SOURCE)))
         common = dict(
-            cell=artifact,
+            cell=selected,
             source_ids=sources,
             low=None,
             high=None,
@@ -319,7 +333,9 @@ def pareto_frontier(points: list[ParetoPoint]) -> ParetoResult:
 
     A point is safe only if no competitor's optimistic corner dominates its
     pessimistic corner.  A point is possible when its own optimistic corner is
-    not dominated by another optimistic corner.  No interval midpoint is used.
+    not dominated by any competitor's pessimistic corner.  This is an
+    existence test: select the candidate's best realization and every rival's
+    worst realization.  No interval midpoint is used.
     """
     if len({point.model_id for point in points}) != len(points):
         raise ValueError("Pareto model IDs must be unique")
@@ -340,8 +356,8 @@ def pareto_frontier(points: list[ParetoPoint]) -> ParetoResult:
             safe.append(point)
         if not any(
             _dominates(
-                other.cost_low,
-                other.score_high,
+                other.cost_high,
+                other.score_low,
                 point.cost_low,
                 point.score_high,
             )
