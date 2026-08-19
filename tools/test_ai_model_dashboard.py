@@ -102,6 +102,7 @@ def test_training_power_bases_are_not_combined_and_unsupported_replacement_is_em
         "configurable_TDP",
         "accelerator_only_power_envelope_not_measured_wall_energy",
     )
+    assert power.status == "DERIVED"
     assert set(power.source_ids) == {"S_A"}
     assert series["replacement_value"] == []
 
@@ -121,6 +122,17 @@ def test_training_power_propagates_estimated_input_ranges():
     assert (point.status, point.value, point.low, point.high) == (
         "ESTIMATE", Decimal("2800"), Decimal("1800"), Decimal("4000")
     )
+
+
+def test_training_power_status_precedence_keeps_scenario_explicit():
+    ledger = sample_ledger()
+    metrics = ledger["dashboard_models"][0]["metrics"]
+    metrics["accelerators_concurrent"]["status"] = "SCENARIO"
+    metrics["accelerator_power_basis"]["status"] = "FACT"
+
+    point = build_training_series(ledger)["power_or_energy_envelope"][0]
+
+    assert point.status == "SCENARIO"
 
 
 def test_real_training_power_keeps_each_published_basis_separate():
@@ -144,28 +156,59 @@ def test_inference_scenario_is_capacity_floor_not_sla():
     power = next(p for p in series["accelerator_tdp_scenario"] if p.model_id == "DM_A")
     capex = next(p for p in series["accelerator_capex_scenario"] if p.model_id == "DM_A")
     assert capacity.value == Decimal("2")  # ceil(81 GB / 80 GB)
-    assert capacity.claim_scope == "capacity_floor_not_sla"
-    selected = next(p for p in series["artifact_or_weight_floor"] if p.model_id == "DM_A")
-    assert (selected.value, selected.claim_scope) == (
-        Decimal("81000000000"), "artifact_bytes_for_matching_precision"
+    assert capacity.claim_scope == "physical_capacity_floor_not_topology_not_sla"
+    assert capacity.source_ids == ("S_ART_A", "S_COURSE_DESIGN")
+    artifact = next(
+        p for p in series["artifact_or_weight_floor"]
+        if p.model_id == "DM_A" and p.label == "documented artifact"
+    )
+    assert (artifact.value, artifact.claim_scope) == (
+        Decimal("81000000000"), "documented_artifact_bytes_not_runtime"
     )
     assert (power.value, power.status, power.unit) == (Decimal("1400"), "SCENARIO", "W")
     assert (capex.value, capex.status, capex.unit) == (Decimal("60000"), "SCENARIO", "USD")
+    assert power.claim_scope == "accelerator_only_tdp_scenario_not_wall_power"
+    assert capex.claim_scope == "accelerator_equivalent_scenario_not_api_not_system_price"
     assert all(point.claim_scope != "SLA" for points in series.values() for point in points)
 
 
 def test_inference_precision_selects_floor_and_rejects_unknown_precision():
     series = build_inference_series(sample_ledger(), CapacityScenario(precision="INT4"))
     int4 = series["artifact_or_weight_floor"]
-    assert [(point.model_id, point.value, point.label) for point in int4] == [
+    assert {(point.model_id, point.value, point.label) for point in int4} == {
         ("DM_B", Decimal("25"), "INT4 weight floor"),
         ("DM_A", Decimal("50"), "INT4 weight floor"),
-    ]
+        ("DM_A", Decimal("81000000000"), "documented artifact"),
+    }
     capacity = next(p for p in series["h100_capacity_equivalents"] if p.model_id == "DM_A")
     assert capacity.value == Decimal("1")
     assert capacity.source_ids == ("S_A", "S_COURSE_DESIGN")
     with pytest.raises(ValueError, match="precision"):
         CapacityScenario(precision="FP16")
+
+
+def test_real_artifacts_remain_visible_but_unknown_precision_uses_floor_for_capacity():
+    ledger_path = Path(__file__).parent / "data" / "ai_hardware_costs.yaml"
+    ledger = yaml.safe_load(ledger_path.read_text(encoding="utf-8"))
+
+    series = build_inference_series(ledger, CapacityScenario(precision="INT4"))
+    artifacts = [
+        point for point in series["artifact_or_weight_floor"]
+        if point.label == "documented artifact"
+    ]
+    bert_capacity = next(
+        point for point in series["h100_capacity_equivalents"]
+        if point.model_id == "DM_BERT_LARGE"
+    )
+
+    assert len(artifacts) >= 20
+    assert all(point.status == "FACT" for point in artifacts)
+    assert all(
+        point.claim_scope == "documented_artifact_bytes_precision_unspecified_not_runtime"
+        for point in artifacts
+    )
+    assert bert_capacity.value == Decimal("1")
+    assert bert_capacity.source_ids == ("S_DASH_GOOGLE_BERT_REPORT", "S_COURSE_DESIGN")
 
 
 @pytest.mark.parametrize(

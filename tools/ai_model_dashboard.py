@@ -25,7 +25,9 @@ INFERENCE_KEYS = (
     "accelerator_capex_scenario",
     "parameters_total_active",
 )
-CAPACITY_SCOPE = "capacity_floor_not_sla"
+CAPACITY_SCOPE = "physical_capacity_floor_not_topology_not_sla"
+TDP_SCOPE = "accelerator_only_tdp_scenario_not_wall_power"
+CAPEX_SCOPE = "accelerator_equivalent_scenario_not_api_not_system_price"
 SCENARIO_SOURCE = "S_COURSE_DESIGN"
 
 
@@ -152,6 +154,15 @@ def _can_be_positive_decimal(value) -> bool:
         return False
 
 
+def _product_status(*statuses: str) -> str:
+    """Classify a multiplication without hiding scenario or uncertainty."""
+    if "SCENARIO" in statuses:
+        return "SCENARIO"
+    if "ESTIMATE" in statuses:
+        return "ESTIMATE"
+    return "DERIVED"
+
+
 def _point(model: dict, cell: dict, label: str, claim_scope: str, **overrides) -> PlotPoint:
     return PlotPoint(
         model_id=model["id"],
@@ -227,11 +238,7 @@ def build_training_series(ledger: dict) -> dict[str, list[PlotPoint]]:
             sources = tuple(dict.fromkeys(count.get("source_ids", ()) + power.get("source_ids", ())))
             count_value = _decimal(count["value"])
             power_value = _decimal(power["value"])
-            status = (
-                "ESTIMATE"
-                if "ESTIMATE" in {count["status"], power["status"]}
-                else "DERIVED"
-            )
+            status = _product_status(count["status"], power["status"])
             series["power_or_energy_envelope"].append(
                 _point(
                     model,
@@ -285,20 +292,26 @@ def build_inference_series(
             and str(artifact.get("precision", "")).upper() == scenario.precision
         )
         floor = metrics.get(floor_metric)
+        if _is_positive_cell(artifact):
+            artifact_scope = (
+                "documented_artifact_bytes_not_runtime"
+                if artifact_matches
+                else "documented_artifact_bytes_precision_unspecified_not_runtime"
+            )
+            series["artifact_or_weight_floor"].append(
+                _point(model, artifact, "documented artifact", artifact_scope)
+            )
         if artifact_matches:
             selected = artifact
-            label = f"{scenario.precision} artifact"
-            selected_scope = "artifact_bytes_for_matching_precision"
         elif _is_positive_cell(floor):
             selected = floor
             label = f"{scenario.precision} weight floor"
             selected_scope = "theoretical_weight_payload_floor_not_artifact_not_runtime"
+            series["artifact_or_weight_floor"].append(
+                _point(model, selected, label, selected_scope)
+            )
         else:
             continue
-
-        series["artifact_or_weight_floor"].append(
-            _point(model, selected, label, selected_scope)
-        )
         count = (_decimal(selected["value"]) / capacity_bytes).to_integral_value(
             rounding="ROUND_CEILING"
         )
@@ -314,10 +327,10 @@ def build_inference_series(
             _point(model, label=f"{scenario.hbm_gb} GB HBM capacity floor", claim_scope=CAPACITY_SCOPE, value=count, unit="accelerator", **common)
         )
         series["accelerator_tdp_scenario"].append(
-            _point(model, label=f"{scenario.tdp_w} W per accelerator", claim_scope=CAPACITY_SCOPE, value=count * scenario.tdp_w, unit="W", **common)
+            _point(model, label=f"{scenario.tdp_w} W per accelerator", claim_scope=TDP_SCOPE, value=count * scenario.tdp_w, unit="W", **common)
         )
         series["accelerator_capex_scenario"].append(
-            _point(model, label=f"USD {scenario.unit_price_usd} per accelerator", claim_scope=CAPACITY_SCOPE, value=count * scenario.unit_price_usd, unit="USD", **common)
+            _point(model, label=f"USD {scenario.unit_price_usd} per accelerator", claim_scope=CAPEX_SCOPE, value=count * scenario.unit_price_usd, unit="USD", **common)
         )
     return {key: _ordered(points) for key, points in series.items()}
 
