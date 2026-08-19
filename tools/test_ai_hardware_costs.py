@@ -1,5 +1,6 @@
 from decimal import Decimal
 from pathlib import Path
+import re
 
 import pytest
 import yaml
@@ -87,49 +88,145 @@ def load_yaml(path: Path):
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
+def markdown_table_rows_after(markdown: str, heading: str) -> list[list[str]]:
+    """Return data-cell rows from the first Markdown table after a heading."""
+    section = markdown.split(heading, 1)[1]
+    lines = section.splitlines()
+    start = next(index for index, line in enumerate(lines) if line.startswith("|"))
+    table_lines = []
+    for line in lines[start:]:
+        if not line.startswith("|"):
+            break
+        table_lines.append(line)
+    assert len(table_lines) >= 3
+
+    def cells(line: str) -> list[str]:
+        return [cell.strip() for cell in line.strip("|").split("|")]
+
+    header = cells(table_lines[0])
+    rows = [cells(line) for line in table_lines[2:]]
+    assert all(len(row) == len(header) for row in rows)
+    return rows
+
+
+def ledger_ids(cell: str) -> set[str]:
+    return set(re.findall(r"`((?:H|M|S|T|V)_[A-Z0-9_]+)`", cell))
+
+
 def test_training_tables_expose_ledger_ids_for_each_included_case():
-    """Dropping an ID would make a displayed training figure untraceable."""
+    """A state/source in another row must not make a figure appear traceable."""
     data = load_yaml(DATA)
-    section = PAGE.read_text(encoding="utf-8").split(
-        "## Costo físico del hardware", 1
-    )[1]
+    page = PAGE.read_text(encoding="utf-8")
 
     documented = [
         case for case in data["training_cases"] if case["include_in_documented_table"]
     ]
     assert documented
+
+    essential_rows = markdown_table_rows_after(
+        page, "### Casos con hardware documentado"
+    )
+    detail_rows = markdown_table_rows_after(page, "#### Ledger visible")
+    assert len(essential_rows) == len(detail_rows) == len(documented)
+
+    essential_by_case = {
+        case["id"]: next(
+            row for row in essential_rows if case["id"] in ledger_ids(row[0])
+        )
+        for case in documented
+    }
+    detail_by_case = {
+        case["id"]: next(
+            row for row in detail_rows if case["id"] in ledger_ids(row[-1])
+        )
+        for case in documented
+    }
+
+    essential_columns = {
+        "accelerators_concurrent": 1,
+        "accelerator_hours": 2,
+        "hbm_physical_installed": 3,
+        "accelerator_power": 4,
+        "attributed_training_capex": 5,
+    }
     for case in documented:
-        assert case["id"] in section
-        assert case["model_id"] in section
-        for field in (
-            "accelerators_concurrent",
-            "accelerator_hours",
-            "hbm_physical_installed",
-            "accelerator_power",
-            "attributed_training_capex",
-        ):
+        row = essential_by_case[case["id"]]
+        assert ledger_ids(row[0]) == {case["id"], case["model_id"]}
+        for field, column in essential_columns.items():
             cell = case["metrics"][field]
-            assert cell["status"] in section
-            for source_id in cell.get("source_ids", []):
-                assert source_id in section
+            expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
+            if field == "accelerators_concurrent":
+                hardware = case["metrics"]["hardware_type"]
+                assert f"**{hardware['status']}**" in row[column]
+                expected_ids.update(hardware["source_ids"])
+            assert f"**{cell['status']}**" in row[column]
+            assert ledger_ids(row[column]) == expected_ids
+
+        detail = detail_by_case[case["id"]]
+        parameter_sources = set(case["metrics"]["parameters_total"]["source_ids"])
+        token_sources = set(case["metrics"]["training_tokens"]["source_ids"])
+        active = case["metrics"]["parameters_active"]
+        if active["status"] in POSITIVE:
+            parameter_sources.update(active["source_ids"])
+        assert ledger_ids(detail[1]) == parameter_sources | token_sources
+
+        detail_columns = {
+            "training_precision": 2,
+            "training_compute_flop": 3,
+            "mfu": 4,
+        }
+        for field, column in detail_columns.items():
+            cell = case["metrics"][field]
+            expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
+            assert f"**{cell['status']}**" in detail[column]
+            assert ledger_ids(detail[column]) == expected_ids
+        assert ledger_ids(detail[-1]) == {case["id"]}
 
 
 def test_training_scenario_is_unattributed_and_uses_the_ledger_valuation():
     """Attaching the didactic valuation to a model would turn a scenario into fact."""
     data = load_yaml(DATA)
-    section = PAGE.read_text(encoding="utf-8").split(
-        "### Escenarios equivalentes, no entrenamientos atribuidos", 1
-    )[1]
+    page = PAGE.read_text(encoding="utf-8")
+    rows = markdown_table_rows_after(
+        page, "### Escenarios equivalentes, no entrenamientos atribuidos"
+    )
     valuation = next(
         item
         for item in data["valuations"]
         if item["id"] == "V_H100_30K_DIDACTIC_SCENARIO"
     )
 
-    assert valuation["id"] in section
-    assert "Sin modelo atribuido" in section
-    assert "SCENARIO" in section
-    assert "Thinkmate" not in section
+    assert len(rows) == 1
+    row = rows[0]
+    assert "Sin modelo atribuido" in row[0]
+    assert all("**SCENARIO**" in cell for cell in row)
+    assert all(valuation["id"] in ledger_ids(cell) for cell in row)
+    assert ledger_ids(row[1]) == {
+        valuation["id"],
+        valuation["hardware_id"],
+    }
+    model_names = {model["canonical_name"] for model in data["models"]}
+    model_ids = {model["id"] for model in data["models"]}
+    scenario_text = " ".join(row)
+    assert not any(name in scenario_text for name in model_names)
+    assert not ledger_ids(scenario_text) & model_ids
+    assert "Thinkmate" not in scenario_text
+
+
+def test_training_bibliography_links_every_primary_id_cited_in_review():
+    """A visible source ID must lead students to its primary URL."""
+    data = load_yaml(DATA)
+    bibliography = PAGE.read_text(encoding="utf-8").split("## Fuentes", 1)[1]
+    required_ids = {
+        "S_BIGSCIENCE_BLOOM_CARD",
+        "S_META_LLAMA31_CARD",
+        "S_NVIDIA_H800_RELEASE_NOTES",
+        "S_GOOGLE_GEMINI31_PAGE",
+        "S_MOONSHOT_KIMI_K3_CARD",
+    }
+
+    for source_id in required_ids:
+        assert data["sources"][source_id]["url"] in bibliography
 
 
 def test_ledger_has_cutoff_and_cell_level_evidence():
