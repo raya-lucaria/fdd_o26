@@ -584,6 +584,46 @@ def test_dashboard_series_dobles_no_mezclan_total_activo_ni_conteo_horas(tmp_pat
     assert set(panels) == {"concurrent accelerators", "accelerator-hours"}
 
 
+def test_dashboard_leyenda_parametros_usa_aro_neutro_no_estado(tmp_path):
+    """Color/forma codifican evidencia; sólo el aro distingue total de activo."""
+    generador = _cargar_generador_dashboard()
+    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
+    for name in ("ai-training-parameters.svg", "ai-inference-parameters.svg"):
+        root = ET.parse(tmp_path / name).getroot()
+        legends = {
+            node.attrib["data-series"]: node for node in root.iter()
+            if node.attrib.get("data-legend") == "true"
+        }
+        assert set(legends) == {"total", "active"}
+        assert {node.attrib["fill"] for node in legends.values()} == {"#cbd5e1"}
+        assert legends["total"].attrib["data-series-marker"] == "single"
+        assert legends["active"].attrib["data-series-marker"] == "outer-ring"
+        nodes = [node for node in root.iter()
+                 if node.attrib.get("data-quantitative") == "true"]
+        for node in nodes:
+            rings = [child for child in node
+                     if child.attrib.get("data-series-ring") == "true"]
+            assert bool(rings) == (node.attrib["data-series"] == "active")
+            assert node.attrib["data-marker"] == {
+                "FACT": "circle", "DERIVED": "square",
+                "ESTIMATE": "diamond", "SCENARIO": "triangle",
+            }[node.attrib["data-status"]]
+
+
+def test_dashboard_subtitulos_distinguen_modelos_de_observaciones(tmp_path):
+    """Total/activo y artefacto/piso pueden aportar dos marcas por modelo."""
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    )
+    for path in paths[:10]:
+        root = ET.parse(path).getroot()
+        nodes = [node for node in root.iter()
+                 if node.attrib.get("data-quantitative") == "true"]
+        expected = f"{len({node.attrib['data-model-id'] for node in nodes})} modelos · {len(nodes)} observaciones"
+        assert expected in " ".join(root.itertext()), path.name
+
+
 def test_dashboard_pareto_serializa_y_dibuja_intervalos_reconstruibles(tmp_path):
     """Usar sólo puntos centrales falsearía costo, ECI y dominancia por rangos."""
     generador = _cargar_generador_dashboard()
@@ -611,6 +651,40 @@ def test_dashboard_pareto_serializa_y_dibuja_intervalos_reconstruibles(tmp_path)
     assert "segura en todo el rango" in xml
     assert "posible en algún valor del rango" in xml
     assert not any(node.tag.endswith("polyline") for node in root.iter())
+
+
+def test_dashboard_pareto_ordena_etiquetas_y_no_cruza_guias(tmp_path):
+    """Una guía cruzada vuelve ambigua la correspondencia punto-modelo."""
+    generador = _cargar_generador_dashboard()
+    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
+    for name in ("ai-pareto-training.svg", "ai-pareto-inference.svg"):
+        root = ET.parse(tmp_path / name).getroot()
+        leaders = [node for node in root.iter()
+                   if node.attrib.get("data-pareto-leader") == "true"]
+        intervals = [node for node in root.iter()
+                     if node.attrib.get("data-pareto-interval") == "true"]
+        assert len(leaders) == len(intervals)
+        segments = [tuple(float(node.attrib[key]) for key in ("x1", "y1", "x2", "y2"))
+                    for node in leaders]
+        for index, a in enumerate(segments):
+            for b in segments[index + 1:]:
+                assert not generador.segments_cross(a, b), (name, a, b)
+        if leaders:
+            assert len(leaders) == len({node.attrib["data-model-id"] for node in leaders})
+
+
+def test_dashboard_pareto_audita_titulo_x_y_nota_log_por_separado(tmp_path):
+    """El título de costo y la nota log no deben compartir caja ni quedar sin auditar."""
+    generador = _cargar_generador_dashboard()
+    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
+    for name in ("ai-pareto-training.svg", "ai-pareto-inference.svg"):
+        root = ET.parse(tmp_path / name).getroot()
+        roles = {node.attrib.get("data-axis-role") for node in root.iter()}
+        assert {"x-title", "x-log-note"} <= roles
+        for role in ("x-title", "x-log-note"):
+            node = next(node for node in root.iter()
+                        if node.attrib.get("data-axis-role") == role)
+            assert node.attrib.get("data-axis-label") == "true"
 
 
 def test_dashboard_generacion_es_byte_a_byte_determinista(tmp_path):

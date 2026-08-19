@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 820" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 860" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Pareto · entrenamiento — dashboard de modelos de IA</title>
   <desc id="desc">Frontera de Pareto entre Valor de reemplazo (USD) y capacidad general según ECI, snapshot 2026-08-18. Un borde sólido marca una frontera segura en todo el rango; un borde punteado marca una frontera posible en algún valor del rango; n=0.</desc>
-  <rect width="540" height="820" rx="24" fill="#111827" />
+  <rect width="540" height="860" rx="24" fill="#111827" />
   <text x="24" y="50" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Pareto · entrenamiento</text>
-  <text x="24" y="88" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">ECI snapshot 2026-08-18 · n = 0</text>
+  <text x="24" y="88" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">ECI 2026-08-18 · 0 modelos</text>
   <g id="frontera-segura" />
   <g id="frontera-posible" />
   <g id="fuera-de-frontera" />
@@ -12,6 +12,7 @@
   <text x="20" y="172" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-legend="true" data-series="possible">┅ posible en algún valor del rango</text>
   <text x="270.0" y="314" font-size="30" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="700">Frontera no identificable</text>
   <text x="270.0" y="360" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400">Falta un costo comparable</text>
-  <text x="270.0" y="798" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600">Valor de reemplazo (USD)</text>
+  <text x="270.0" y="798" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600" data-axis-label="true" data-axis-role="x-title">Valor de reemplazo (USD)</text>
+  <text x="270.0" y="840" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="middle" font-weight="400" data-axis-label="true" data-axis-role="x-log-note">X log</text>
   <text x="24" y="214" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-axis-label="true">Capacidad general según ECI</text>
 </svg>

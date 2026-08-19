@@ -50,8 +50,8 @@ SVG_FILENAMES = (
 
 NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", NS)
-W, H = 540, 820
-LEFT, RIGHT, TOP, BOTTOM = 90, 240, 250, 130
+W, H = 540, 860
+LEFT, RIGHT, TOP, BOTTOM = 90, 240, 250, 170
 PLOT_W, PLOT_H = W - LEFT - RIGHT, H - TOP - BOTTOM
 FONT = "system-ui, -apple-system, sans-serif"
 COLORS = {
@@ -150,7 +150,8 @@ def _log_y(value: Decimal, ticks: list[Decimal]) -> float:
 
 
 def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal], y_func=None):
-    ring = point.label in {"active", "accelerator-hours"}
+    ring = point.label == "active"
+    hour_mark = point.label == "accelerator-hours"
     y_func = y_func or (lambda value: _log_y(value, ticks))
     range_text = ""
     if point.low is not None and point.high is not None:
@@ -165,7 +166,7 @@ def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal], 
         "data-claim-scope": point.claim_scope,
         "data-marker": MARKERS[point.status],
         "data-series": point.label,
-        "data-series-marker": "outer-ring" if ring else "single",
+        "data-series-marker": "outer-ring" if ring else "underline" if hour_mark else "single",
         "aria-label": f"{point.model_id}: {point.value} {point.unit}{range_text}, {point.status}",
     }
     if point.low is not None and point.high is not None:
@@ -189,7 +190,9 @@ def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal], 
     else:
         _add(group, "path", {**common, "d": f"M{x:.1f},{y-10:.1f} L{x+10:.1f},{y+9:.1f} L{x-10:.1f},{y+9:.1f} Z"})
     if ring:
-        _add(group, "circle", {"cx": f"{x:.1f}", "cy": f"{y:.1f}", "r": "13", "fill": "none", "stroke": color, "stroke-width": "3"})
+        _add(group, "circle", {"data-series-ring": "true", "cx": f"{x:.1f}", "cy": f"{y:.1f}", "r": "13", "fill": "none", "stroke": "#cbd5e1", "stroke-width": "3"})
+    if hour_mark:
+        _add(group, "line", {"data-series-hour-mark": "true", "x1": f"{x-13:.1f}", "x2": f"{x+13:.1f}", "y1": f"{y+15:.1f}", "y2": f"{y+15:.1f}", "stroke": "#cbd5e1", "stroke-width": "3"})
 
 
 def _axes(root, points: list[PlotPoint], y_label: str):
@@ -239,7 +242,8 @@ def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_na
         desc = "No existe una serie cuantitativa comparable con la evidencia disponible. Las ausencias no se convierten en cero ni reciben una posición inventada."
     root = _root(title, desc)
     _text(root, 24, 50, title, 31, weight="700")
-    _text(root, 24, 88, f"n = {len(points)} · cada marca es un modelo", 25, fill="#cbd5e1")
+    model_count = len({point.model_id for point in points})
+    _text(root, 24, 88, f"{model_count} modelos · {len(points)} observaciones", 27, fill="#cbd5e1")
     if not points:
         _text(root, W/2, 330, "No hay una serie comparable", 30, anchor="middle", weight="700")
         _text(root, W/2, 376, "La ausencia no equivale a cero", 25, anchor="middle", fill="#cbd5e1")
@@ -248,8 +252,8 @@ def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_na
 
     labels = {point.label for point in points}
     if {"total", "active"} <= labels:
-        _text(root, 20, 200, "■ total", 27, fill="#60a5fa", data_legend="true", data_series="total")
-        _text(root, 175, 200, "◎ activo", 27, fill="#2dd4bf", data_legend="true", data_series="active")
+        _text(root, 20, 200, "● total · sin aro", 27, fill="#cbd5e1", data_legend="true", data_series="total", data_series_marker="single")
+        _text(root, 265, 200, "◎ activo", 27, fill="#cbd5e1", data_legend="true", data_series="active", data_series_marker="outer-ring")
 
     ticks = _axes(root, points, y_label)
     chosen = _selected(points)
@@ -281,11 +285,12 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
         "Dos paneles temporales con escalas logarítmicas independientes. El panel superior muestra aceleradores concurrentes y el inferior accelerator-hours; las unidades no se suman.",
     )
     _text(root, 24, 50, "Aceleradores y horas", 31, weight="700")
-    _text(root, 24, 88, f"n = {len(points)} · dos unidades, dos escalas", 27, fill="#cbd5e1")
+    model_count = len({point.model_id for point in points})
+    _text(root, 24, 88, f"{model_count} modelos · {len(points)} observaciones", 27, fill="#cbd5e1")
     _text(root, 20, 126, "Y log · Igual distancia = multiplicar", 27, fill="#fbbf24", data_axis_label="true")
     specs = (
         ("concurrent accelerators", "● concurrentes", 205, 190),
-        ("accelerator-hours", "◎ accelerator-hours", 465, 190),
+        ("accelerator-hours", "↔ accelerator-hours", 465, 190),
     )
     for series_label, visible_label, panel_top, panel_height in specs:
         panel = _add(root, "g", {"data-series-panel": series_label})
@@ -356,6 +361,24 @@ def _pareto_inputs(cost_points: list[PlotPoint], eci: dict):
     return inputs, by_model, scores
 
 
+def segments_cross(a, b) -> bool:
+    """Return whether two closed line segments cross away from shared ends."""
+    def orientation(p, q, r):
+        value = (q[1]-p[1])*(r[0]-q[0]) - (q[0]-p[0])*(r[1]-q[1])
+        if abs(value) < 1e-9:
+            return 0
+        return 1 if value > 0 else 2
+
+    p1, q1 = (a[0], a[1]), (a[2], a[3])
+    p2, q2 = (b[0], b[1]), (b[2], b[3])
+    if {p1, q1} & {p2, q2}:
+        return False
+    return (
+        orientation(p1, q1, p2) != orientation(p1, q1, q2)
+        and orientation(p2, q2, p1) != orientation(p2, q2, q1)
+    )
+
+
 def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_label: str):
     inputs, costs, scores = _pareto_inputs(cost_points, eci)
     snapshot = eci["snapshot"]
@@ -366,7 +389,7 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     )
     root = _root(title, desc)
     _text(root, 24, 50, title, 31, weight="700")
-    _text(root, 24, 88, f"ECI snapshot {snapshot['as_of']} · n = {len(inputs)}", 25, fill="#cbd5e1")
+    _text(root, 24, 88, f"ECI {snapshot['as_of']} · {len(inputs)} modelos", 27, fill="#cbd5e1")
     safe_group = _add(root, "g", {"id": "frontera-segura"})
     possible_group = _add(root, "g", {"id": "frontera-posible"})
     dominated_group = _add(root, "g", {"id": "fuera-de-frontera"})
@@ -375,7 +398,8 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     if not inputs:
         _text(root, W/2, 314, "Frontera no identificable", 30, anchor="middle", weight="700")
         _text(root, W/2, 360, "Falta un costo comparable", 25, anchor="middle", fill="#cbd5e1")
-        _text(root, W/2, H-22, cost_label, 25, anchor="middle", weight="600")
+        _text(root, W/2, H-62, cost_label, 27, anchor="middle", weight="600", data_axis_label="true", data_axis_role="x-title")
+        _text(root, W/2, H-20, "X log", 27, anchor="middle", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
         _text(root, 24, 214, "Capacidad general según ECI", 27, weight="600", data_axis_label="true")
         return root
 
@@ -401,8 +425,19 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
         _add(root, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
         _text(root, LEFT-12, y+8, f"{value:.0f}", 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
     _text(root, 20, 212, "Capacidad general según ECI", 27, weight="600", data_axis_label="true")
-    _text(root, W/2, H-22, cost_label, 25, anchor="middle", weight="600")
-    _text(root, W-24, H-22, "X log", 27, anchor="end", fill="#fbbf24", data_axis_label="true")
+    _text(root, W/2, H-62, cost_label, 27, anchor="middle", weight="600", data_axis_label="true", data_axis_role="x-title")
+    _text(root, W/2, H-20, "X log", 27, anchor="middle", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
+
+    label_order = {
+        item.model_id: row
+        for row, item in enumerate(sorted(
+            inputs,
+            key=lambda candidate: (
+                score_y(Decimal(str(scores[candidate.model_id]["score"]))),
+                candidate.model_id,
+            ),
+        ))
+    }
 
     for index, item in enumerate(inputs):
         point = costs[item.model_id]
@@ -452,8 +487,8 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
         # There are only eight eligible exact ECI matches: label every point.
         label = _short_label(score["model_name"])
         label_x = W - 24
-        label_y = 282 + index * 48
-        _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": str(label_x-182), "y2": str(label_y-7), "stroke": color, "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true"})
+        label_y = 282 + label_order[item.model_id] * 48
+        _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": str(label_x-182), "y2": str(label_y-7), "stroke": color, "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true", "data-pareto-leader": "true", "data-model-id": item.model_id})
         _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=color, data_direct_label="true")
     return root
 
