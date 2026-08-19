@@ -1025,6 +1025,22 @@ inference_capacity_cases:
       shard_count: {status: FACT, value: 9, unit: safetensors_shard, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
       shard_bytes: {status: FACT, value: 35068693560, unit: byte, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
       runtime_version: {status: SCENARIO, value: vLLM_0.7.1, unit: software_version, source_ids: [S_COURSE_DESIGN, S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE]}
+      architecture:
+        hidden_layers: {status: FACT, value: 64, unit: transformer_layer, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+        kv_heads: {status: FACT, value: 8, unit: KV_head_per_layer, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+        head_dimension:
+          status: DERIVED
+          value: 128
+          unit: element_per_attention_head
+          source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+          formula: "5120 hidden elements ÷ 40 attention heads"
+        kv_dtype:
+          status: SCENARIO
+          value: FP16
+          unit: KV_element_dtype
+          bytes_per_element: 2
+          source_ids: [S_COURSE_DESIGN, S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+          note: "Elección docente consistente con torch_dtype=float16; debe fijarse en la ejecución, no se presenta como medición del runtime."
     capacity:
       weights_floor_gb:
         status: DERIVED
@@ -1032,25 +1048,61 @@ inference_capacity_cases:
         unit: GB_decimal
         source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
         formula: "32763876352 parameters × 8 bit/parameter ÷ 8 bit/byte ÷ 1000000000 byte/GB"
-      quant_overhead_fraction:
+      artifact_overhead_fraction:
         status: DERIVED
         value: "0.07034629185014939223757939788235225726688"
         unit: fraction_of_weight_floor
         source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
         formula: "(35068693560 artifact bytes ÷ 1000000000 - 32.763876352 GB) ÷ 32.763876352 GB"
-        note: "La diferencia conserva escalas, ceros y overhead del contenedor juntos; el repositorio no permite separarlos con esta suma."
-      quantization_metadata_gb:
+        note: "Factor contable sobre el piso uniforme de 8 bits; incluye pesos/bias FP16 y metadata GPTQ, que se desglosan debajo."
+      weight_precision_differential_gb:
         status: DERIVED
-        value: "2.304817208"
+        value: "1.558254592"
         unit: GB_decimal
         source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
-        formula: "35.068693560 GB de shards - 32.763876352 GB de piso de pesos"
+        formula: "1558254592 elementos de pesos/bias FP16 × (2 byte/FP16 - 1 byte/piso INT8) ÷ 1000000000 byte/GB"
+      weights_gb:
+        status: DERIVED
+        value: "34.322130944"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "32.763876352 GB de piso uniforme + 1.558254592 GB por pesos/bias FP16"
+      quantization_scales_gb:
+        status: DERIVED
+        value: "0.487587840"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "243793920 elementos de escalas FP16 × 2 byte ÷ 1000000000 byte/GB"
+      quantization_qzeros_gb:
+        status: DERIVED
+        value: "0.243793920"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "60948480 elementos qzeros I32 × 4 byte ÷ 1000000000 byte/GB"
+      quantization_g_idx_gb:
+        status: DERIVED
+        value: "0.014942208"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "3735552 elementos g_idx I32 × 4 byte ÷ 1000000000 byte/GB"
+      safetensors_headers_gb:
+        status: DERIVED
+        value: "0.000238648"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "238648 bytes de headers en nueve shards ÷ 1000000000 byte/GB"
+      quantization_metadata_gb:
+        status: DERIVED
+        value: "0.746562616"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "0.487587840 escalas + 0.243793920 qzeros + 0.014942208 g_idx + 0.000238648 headers"
       weights_and_metadata_gb:
         status: DERIVED
         value: "35.068693560"
         unit: GB_decimal
         source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
-        formula: "35068693560 byte ÷ 1000000000 byte/GB"
+        formula: "34.322130944 GB de pesos + 0.746562616 GB de metadata GPTQ/formato"
       runtime_gb:
         status: SCENARIO
         value: "4"
@@ -1083,7 +1135,7 @@ inference_capacity_cases:
         value: "52.732369976"
         unit: GB_decimal
         source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_COURSE_DESIGN]
-        formula: "35.068693560 weights+metadata + 4 runtime + 9.663676416 KV + 4 workspace"
+        formula: "35.068693560 pesos+metadata + 4 runtime + 9.663676416 KV + 4 workspace"
       reserve_fraction: {status: SCENARIO, value: "0.10", unit: fraction_of_subtotal, source_ids: [S_COURSE_DESIGN]}
       reserve_gb:
         status: DERIVED
@@ -1111,9 +1163,26 @@ inference_capacity_cases:
       physical_hbm_gb: {status: FACT, value: 640, unit: GB_decimal_per_system, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
       runtime_hardware_compatibility:
         status: DERIVED
-        value: Qwen_artifact_recommends_vLLM_and_vLLM_0_7_1_supports_GPTQ_on_Hopper
+        value: Qwen_artifact_recommends_vLLM_vLLM_0_7_1_supports_GPTQ_on_Hopper_and_DGX_H100_contains_H100
         unit: compatibility_statement
-        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE]
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE, S_NVIDIA_DGX_H100_DATASHEET]
+      memory_mapping:
+        tensor_parallel_size: {status: SCENARIO, value: 1, unit: GPU_shard_per_replica, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        pipeline_parallel_size: {status: SCENARIO, value: 1, unit: pipeline_stage_per_replica, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        data_parallel_size: {status: SCENARIO, value: 1, unit: data_parallel_copy, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        replicas: {status: SCENARIO, value: 1, unit: model_replica, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        model_shards_per_replica: {status: SCENARIO, value: 1, unit: model_shard_per_replica, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        active_accelerators_per_system: {status: SCENARIO, value: 1, unit: active_H100_GPU, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        unused_accelerators_in_purchased_system: {status: SCENARIO, value: 7, unit: idle_H100_GPU, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        physical_hbm_per_shard_gb: {status: SCENARIO, value: 80, unit: GB_decimal_per_model_shard, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        physical_hbm_per_replica_gb: {status: SCENARIO, value: 80, unit: GB_decimal_per_model_replica, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        kv_contexts_per_replica: {status: SCENARIO, value: 16, unit: concurrent_context_per_replica, source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]}
+        kv_placement:
+          status: SCENARIO
+          value: all_16_contexts_on_the_single_H100_shard
+          unit: KV_placement
+          source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET]
+          note: "Los 9.663676416 GB de KV pertenecen a esta réplica y este shard; no se reparten entre las ocho GPU físicas del sistema."
       hbm_usable_gb:
         status: ESTIMATION_NOT_IDENTIFIABLE
         value: null
@@ -1131,7 +1200,10 @@ inference_capacity_cases:
       unit: capacity_assessment
       source_ids: [S_COURSE_DESIGN, S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE, S_NVIDIA_DGX_H100_DATASHEET]
       sla_claim: false
-      note: "La cuenta incluye reserva pero debe validarse contra OOM y pico por shard; HBM física no se renombra HBM utilizable."
+      budget_scope: one_replica_on_one_H100_shard
+      comparison_physical_hbm_gb: 80
+      aggregate_system_hbm_used_as_fit_threshold: false
+      note: "La cuenta por réplica/shard incluye reserva pero debe validarse contra OOM; compara 58.00560697360 GB presupuestados con 80 GB físicos del shard, nunca con los 640 GB agregados. HBM física no se renombra HBM utilizable."
 
 inference_scenarios:
   - id: I_PRODUCTION_DIDACTIC_TARGET

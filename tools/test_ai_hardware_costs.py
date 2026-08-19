@@ -834,7 +834,7 @@ def test_capacity_floor_rejects_a_reserve_that_is_not_a_fraction():
 
 
 def test_versioned_inference_artifact_reconstructs_the_capacity_budget():
-    """A real shard total must not be replaced by parameter arithmetic alone."""
+    """FP16 weights must not be mislabeled as GPTQ metadata above an 8-bit floor."""
     data = load_yaml(DATA)
     case = next(
         item
@@ -850,10 +850,47 @@ def test_versioned_inference_artifact_reconstructs_the_capacity_budget():
     assert artifact["shard_count"]["value"] == 9
     assert artifact["shard_bytes"]["value"] == 35_068_693_560
 
+    expected_components = {
+        "weights_floor_gb": Decimal("32.763876352"),
+        "weight_precision_differential_gb": Decimal("1.558254592"),
+        "quantization_scales_gb": Decimal("0.487587840"),
+        "quantization_qzeros_gb": Decimal("0.243793920"),
+        "quantization_g_idx_gb": Decimal("0.014942208"),
+        "safetensors_headers_gb": Decimal("0.000238648"),
+    }
+    for name, expected in expected_components.items():
+        cell = capacity[name]
+        assert Decimal(str(cell["value"])) == expected
+        assert cell["source_ids"] == ["S_QWEN25_32B_GPTQ_INT8_ARTIFACT"]
+
+    weights_gb = (
+        expected_components["weights_floor_gb"]
+        + expected_components["weight_precision_differential_gb"]
+    )
+    metadata_gb = sum(
+        (
+            expected_components[name]
+            for name in (
+                "quantization_scales_gb",
+                "quantization_qzeros_gb",
+                "quantization_g_idx_gb",
+                "safetensors_headers_gb",
+            )
+        ),
+        Decimal("0"),
+    )
+    assert weights_gb == Decimal("34.322130944")
+    assert metadata_gb == Decimal("0.746562616")
+    assert weights_gb + metadata_gb == Decimal("35.068693560")
+    assert Decimal(str(capacity["weights_gb"]["value"])) == weights_gb
+    assert Decimal(str(capacity["quantization_metadata_gb"]["value"])) == (
+        metadata_gb
+    )
+
     result = hardware_costs.inference_capacity_floor(
         parameters=Decimal(str(artifact["parameters"]["value"])),
         bits=Decimal(str(artifact["quantization_bits"]["value"])),
-        quant_overhead=Decimal(str(capacity["quant_overhead_fraction"]["value"])),
+        quant_overhead=Decimal(str(capacity["artifact_overhead_fraction"]["value"])),
         runtime_gb=Decimal(str(capacity["runtime_gb"]["value"])),
         kv_gb=Decimal(str(capacity["kv_gb"]["value"])),
         workspace_gb=Decimal(str(capacity["workspace_gb"]["value"])),
@@ -866,15 +903,102 @@ def test_versioned_inference_artifact_reconstructs_the_capacity_budget():
     assert Decimal(str(capacity["total_gb"]["value"])) == result["total_gb"]
 
 
+def test_kv_floor_is_recomputed_from_versioned_architecture_fields():
+    """Changing a layer, KV head, head dimension, or dtype must change the KV floor."""
+    data = load_yaml(DATA)
+    case = data["inference_capacity_cases"][0]
+    architecture = case["artifact"]["architecture"]
+    capacity = case["capacity"]
+
+    expected_artifact_fields = {
+        "hidden_layers": 64,
+        "kv_heads": 8,
+        "head_dimension": 128,
+    }
+    for name, expected in expected_artifact_fields.items():
+        cell = architecture[name]
+        assert cell["value"] == expected
+        assert cell["source_ids"] == ["S_QWEN25_32B_GPTQ_INT8_ARTIFACT"]
+
+    dtype = architecture["kv_dtype"]
+    assert dtype["status"] == "SCENARIO"
+    assert dtype["value"] == "FP16"
+    assert dtype["bytes_per_element"] == 2
+    assert dtype["source_ids"] == [
+        "S_COURSE_DESIGN",
+        "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+    ]
+    assert capacity["kv_batch"]["source_ids"] == ["S_COURSE_DESIGN"]
+    assert capacity["kv_context_tokens"]["source_ids"] == ["S_COURSE_DESIGN"]
+
+    per_layer_token_request = (
+        2
+        * expected_artifact_fields["kv_heads"]
+        * expected_artifact_fields["head_dimension"]
+        * dtype["bytes_per_element"]
+    )
+    kv_bytes = (
+        per_layer_token_request
+        * expected_artifact_fields["hidden_layers"]
+        * 2304
+        * 16
+    )
+    assert per_layer_token_request == 4096
+    assert kv_bytes == 9_663_676_416
+    assert capacity["kv_bytes_per_layer_token_request"]["value"] == (
+        per_layer_token_request
+    )
+    assert Decimal(str(capacity["kv_gb"]["value"])) == (
+        Decimal(kv_bytes) / Decimal("1e9")
+    )
+    assert capacity["kv_gb"]["source_ids"] == [
+        "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        "S_COURSE_DESIGN",
+    ]
+
+
 def test_inference_capacity_separates_physical_from_usable_memory():
-    """A physical HBM sum must never become measured usable model memory."""
+    """A system HBM sum must not replace the per-replica/per-shard mapping."""
     data = load_yaml(DATA)
     case = data["inference_capacity_cases"][0]
     topology = case["topology"]
+    mapping = topology["memory_mapping"]
 
     assert topology["transaction_unit"]["value"] == "system"
     assert topology["accelerators_per_system"]["value"] == 8
     assert topology["physical_hbm_gb"]["value"] == 640
+    assert topology["runtime_hardware_compatibility"]["source_ids"] == [
+        "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        "S_VLLM_071_QUANTIZATION_HARDWARE",
+        "S_NVIDIA_DGX_H100_DATASHEET",
+    ]
+
+    for field in (
+        "tensor_parallel_size",
+        "pipeline_parallel_size",
+        "data_parallel_size",
+        "replicas",
+        "model_shards_per_replica",
+        "active_accelerators_per_system",
+    ):
+        assert mapping[field]["status"] == "SCENARIO"
+        assert mapping[field]["value"] == 1
+        assert mapping[field]["source_ids"] == [
+            "S_COURSE_DESIGN",
+            "S_NVIDIA_DGX_H100_DATASHEET",
+        ]
+    assert mapping["physical_hbm_per_shard_gb"]["value"] == 80
+    assert mapping["physical_hbm_per_replica_gb"]["value"] == 80
+    assert mapping["kv_contexts_per_replica"]["value"] == 16
+    assert mapping["kv_placement"]["value"] == (
+        "all_16_contexts_on_the_single_H100_shard"
+    )
+    assert mapping["kv_placement"]["source_ids"] == [
+        "S_COURSE_DESIGN",
+        "S_NVIDIA_DGX_H100_DATASHEET",
+    ]
+    assert mapping["unused_accelerators_in_purchased_system"]["value"] == 7
+
     assert topology["hbm_usable_gb"]["status"] == "ESTIMATION_NOT_IDENTIFIABLE"
     assert {
         "runtime_allocator_peak",
@@ -883,6 +1007,22 @@ def test_inference_capacity_separates_physical_from_usable_memory():
     } <= set(topology["hbm_usable_gb"]["missing_observables"])
     assert case["capacity_assessment"]["status"] == "SCENARIO"
     assert case["capacity_assessment"]["sla_claim"] is False
+    assert case["capacity_assessment"]["budget_scope"] == (
+        "one_replica_on_one_H100_shard"
+    )
+    assert case["capacity_assessment"]["comparison_physical_hbm_gb"] == 80
+    assert case["capacity_assessment"]["aggregate_system_hbm_used_as_fit_threshold"] is (
+        False
+    )
+
+    minimum = topology["minimum_purchasable_system"]
+    assert minimum["value"] == "1 NVIDIA DGX H100"
+    assert minimum["source_ids"] == [
+        "S_COURSE_DESIGN",
+        "S_NVIDIA_DGX_H100_DATASHEET",
+        "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        "S_VLLM_071_QUANTIZATION_HARDWARE",
+    ]
 
 
 def test_operational_capex_stays_unidentifiable_without_one_joint_measurement():
@@ -939,7 +1079,13 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     row = capacity_rows[0]
     assert len(row) == 10
     assert "32.763876352 GB" in row[2]
-    assert "2.304817208 GB" in row[3]
+    assert "1.558254592 GB" in row[2]
+    assert "34.322130944 GB" in row[2]
+    assert "0.487587840 GB" in row[3]
+    assert "0.243793920 GB" in row[3]
+    assert "0.014942208 GB" in row[3]
+    assert "0.000238648 GB" in row[3]
+    assert "0.746562616 GB" in row[3]
     assert "4 GB" in row[4]
     assert "9.663676416 GB" in row[5]
     assert "4 GB" in row[6]
@@ -949,7 +1095,39 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     assert "1 NVIDIA DGX H100" in row[9]
     assert "HBM utilizable" in row[9]
     assert "ESTIMATION_NOT_IDENTIFIABLE" in row[9]
+    assert "TP=1" in row[9]
+    assert "PP=1" in row[9]
+    assert "DP=1" in row[9]
+    assert "una réplica" in row[9]
+    assert "80 GB físicos por réplica/shard" in row[9]
+    assert "16 contextos KV" in row[9]
     assert "sin SLA" in " ".join(row)
+    assert [ledger_ids(cell) for cell in row] == [
+        {"I_QWEN25_32B_GPTQ_INT8_CAPACITY", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        {
+            "S_COURSE_DESIGN",
+            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+            "S_VLLM_071_QUANTIZATION_HARDWARE",
+        },
+        {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        {"S_COURSE_DESIGN"},
+        {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
+        {
+            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
+            "S_COURSE_DESIGN",
+            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        },
+        {
+            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
+            "S_COURSE_DESIGN",
+            "S_NVIDIA_DGX_H100_DATASHEET",
+            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+            "S_VLLM_071_QUANTIZATION_HARDWARE",
+        },
+    ]
 
     operational_rows = markdown_table_rows_after(
         page, "### Inferencia operacional: el SLA requiere una medición conjunta"
