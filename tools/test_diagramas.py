@@ -666,8 +666,16 @@ def test_dashboard_pareto_ordena_etiquetas_y_no_cruza_guias(tmp_path):
         intervals = [node for node in root.iter()
                      if node.attrib.get("data-pareto-interval") == "true"]
         assert len(leaders) == len(intervals)
-        segments = [tuple(float(node.attrib[key]) for key in ("x1", "y1", "x2", "y2"))
-                    for node in leaders]
+        segments = []
+        for node in leaders:
+            segments.extend(
+                tuple(float(value) for value in match)
+                for match in re.findall(
+                    r"M(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?) "
+                    r"L(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)",
+                    node.attrib["d"],
+                )
+            )
         for index, a in enumerate(segments):
             for b in segments[index + 1:]:
                 assert not generador.segments_cross(a, b), (name, a, b)
@@ -838,4 +846,55 @@ def test_dashboard_chromium_separa_todos_los_roles_visuales(tmp_path):
                 assert not result["textHits"], (path.name, container, result["textHits"])
                 assert not result["labelNodeHits"], (path.name, container, result["labelNodeHits"])
                 assert not result["leaderHits"], (path.name, container, result["leaderHits"])
+        browser.close()
+
+
+def test_dashboard_chromium_reserva_leyendas_y_enruta_guias_pareto(tmp_path):
+    """Leyendas y guías deben ocupar canales propios, no atravesar datos."""
+    playwright = pytest.importorskip("playwright.sync_api")
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "assets"
+    )
+
+    with playwright.sync_playwright() as runtime:
+        browser = runtime.chromium.launch(headless=True)
+        page = browser.new_page()
+        for container in (334, 600):
+            for path in paths:
+                page.set_content(f'<main style="width:{container}px">{path.read_text()}</main>')
+                result = page.locator("svg").evaluate(
+                    """svg => {
+                      const bbox=n=>{const b=n.getBBox();return{x:b.x,y:b.y,r:b.x+b.width,b:b.y+b.height,id:n.getAttribute('data-model-id')||''}};
+                      const hit=(a,b,p=1)=>Math.min(a.r,b.r)-Math.max(a.x,b.x)>p&&Math.min(a.b,b.b)-Math.max(a.y,b.y)>p;
+                      const legends=[...svg.querySelectorAll('[data-legend="true"]')].map(bbox);
+                      const quantitative=[...svg.querySelectorAll('[data-quantitative="true"]')].map(bbox);
+                      const legendHits=[];
+                      for(const a of legends)for(const b of quantitative)if(hit(a,b))legendHits.push([a,b]);
+                      const labels=[...svg.querySelectorAll('[data-direct-label="true"]')].map(bbox);
+                      const leaders=[...svg.querySelectorAll('[data-pareto-leader="true"]')];
+                      const parse=n=>[...(n.getAttribute('d')||'').matchAll(/M(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?) L(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)].map(m=>({x1:+m[1],y1:+m[2],x2:+m[3],y2:+m[4],id:n.getAttribute('data-model-id')||''}));
+                      const segments=leaders.flatMap(parse);
+                      const orthogonal=segments.every(s=>Math.abs(s.x1-s.x2)<.01||Math.abs(s.y1-s.y2)<.01);
+                      const segmentHits=[];
+                      const segmentBoxHit=(s,b)=>{
+                        if(Math.abs(s.x1-s.x2)<.01)return s.x1>b.x+1&&s.x1<b.r-1&&Math.max(s.y1,s.y2)>b.y+1&&Math.min(s.y1,s.y2)<b.b-1;
+                        return s.y1>b.y+1&&s.y1<b.b-1&&Math.max(s.x1,s.x2)>b.x+1&&Math.min(s.x1,s.x2)<b.r-1;
+                      };
+                      for(const s of segments)for(const b of labels)if(s.id!==b.id&&segmentBoxHit(s,b))segmentHits.push([s,b]);
+                      const cross=(a,c)=>{
+                        const av=Math.abs(a.x1-a.x2)<.01,cv=Math.abs(c.x1-c.x2)<.01;
+                        if(av===cv)return false;
+                        const v=av?a:c,h=av?c:a;
+                        return v.x1>Math.min(h.x1,h.x2)+.1&&v.x1<Math.max(h.x1,h.x2)-.1&&h.y1>Math.min(v.y1,v.y2)+.1&&h.y1<Math.max(v.y1,v.y2)-.1;
+                      };
+                      const leaderHits=[];for(let i=0;i<segments.length;i++)for(let j=i+1;j<segments.length;j++)if(segments[i].id!==segments[j].id&&cross(segments[i],segments[j]))leaderHits.push([segments[i],segments[j]]);
+                      return {legendHits,leaderCount:leaders.length,orthogonal,segmentHits,leaderHits};
+                    }"""
+                )
+                assert not result["legendHits"], (path.name, container, result["legendHits"])
+                if path.name.startswith("ai-pareto-") and result["leaderCount"]:
+                    assert result["orthogonal"], path.name
+                    assert not result["segmentHits"], (path.name, container, result["segmentHits"])
+                    assert not result["leaderHits"], (path.name, container, result["leaderHits"])
         browser.close()

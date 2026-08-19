@@ -59,7 +59,7 @@
       <line data-series-hour-mark="true" x1="297.0" x2="323.0" y1="241.9" y2="241.9" stroke="#cbd5e1" stroke-width="3" />
     </g>
   </g>
-  <text x="120" y="185" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="accelerator-hours" data-layout-role="legend">↔ chip-hours</text>
+  <text x="145" y="108" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="accelerator-hours" data-layout-role="legend">↔ chip-hours</text>
   <text x="88" y="261.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0M</text>
   <text x="88" y="226.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100M</text>
   <text x="100.0" y="286" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>

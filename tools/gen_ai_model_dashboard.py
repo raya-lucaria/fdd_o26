@@ -329,8 +329,10 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
                 math.log10(float(value)) - math.log10(float(ticks[0]))
             ) / max(math.log10(float(ticks[-1])) - math.log10(float(ticks[0])), 1))
         )
-        legend_y = 108 if series_label == "concurrent accelerators" else 185
-        legend_x = 20 if series_label == "concurrent accelerators" else 120
+        # Both series names live in the header band.  Keeping the lower-panel
+        # legend out of the plot prevents it from covering quantitative marks.
+        legend_y = 108
+        legend_x = 20 if series_label == "concurrent accelerators" else 145
         _text(root, legend_x, legend_y, visible_label, 27, weight="600", fill="#cbd5e1",
               data_legend="true", data_series=series_label, data_layout_role="legend")
         for tick in ticks:
@@ -406,6 +408,37 @@ def segments_cross(a, b) -> bool:
     )
 
 
+def _leader_path_with_bridges(
+    routes: dict[str, list[tuple[float, float]]], model_id: str
+) -> str:
+    """Serialize an orthogonal route, opening small gaps at foreign crossings."""
+    route = routes[model_id]
+    foreign_verticals = []
+    for other_id, points in routes.items():
+        if other_id == model_id:
+            continue
+        for start, end in zip(points, points[1:]):
+            if abs(start[0] - end[0]) < 0.01:
+                foreign_verticals.append((start[0], min(start[1], end[1]), max(start[1], end[1])))
+    commands = []
+    gap = 2.5
+    for start, end in zip(route, route[1:]):
+        if abs(start[1] - end[1]) >= 0.01:
+            commands.append(f"M{start[0]:.1f},{start[1]:.1f} L{end[0]:.1f},{end[1]:.1f}")
+            continue
+        low, high = sorted((start[0], end[0]))
+        cuts = sorted(
+            x for x, y_low, y_high in foreign_verticals
+            if low + gap < x < high - gap and y_low + 0.1 < start[1] < y_high - 0.1
+        )
+        cursor = low
+        for x in cuts:
+            commands.append(f"M{cursor:.1f},{start[1]:.1f} L{x-gap:.1f},{start[1]:.1f}")
+            cursor = x + gap
+        commands.append(f"M{cursor:.1f},{start[1]:.1f} L{high:.1f},{start[1]:.1f}")
+    return " ".join(commands)
+
+
 def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_label: str):
     inputs, costs, scores = _pareto_inputs(cost_points, eci)
     snapshot = eci["snapshot"]
@@ -470,8 +503,8 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
         "DM_QWEN2_72B": "Q2 72B", "DM_QWEN3_235B_A22B": "Q3 235B",
     }
 
-    # A single external label gutter is sorted by the same Y order as the
-    # plot.  Straight leaders are therefore monotone and cannot cross.
+    # Labels use two external gutters.  The second column is right-aligned so
+    # even the widest compact name keeps a deliberate viewBox margin.
     ordered_inputs = sorted(
         inputs,
         key=lambda item: (-(item.score_low + item.score_high), item.model_id),
@@ -483,7 +516,13 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
             key=lambda item: cost_x(item.cost_high),
         )
         for column, paired_item in enumerate(pair):
-            key_positions[paired_item.model_id] = (330 + column * 155, 150 + (row // 2) * 35)
+            key_positions[paired_item.model_id] = (
+                325 if column == 0 else 570,
+                150 + (row // 2) * 35,
+                column,
+            )
+    pending_leaders = []
+    routes = {}
     for index, item in enumerate(ordered_inputs):
         point = costs[item.model_id]
         score = scores[item.model_id]
@@ -529,17 +568,42 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
         _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x_low:.1f}", "x2": f"{x_high:.1f}", "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": f"{y_low:.1f}", "y2": f"{y_high:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "path", {"d": f"M{x:.1f},{y-10:.1f} L{x+10:.1f},{y+9:.1f} L{x-10:.1f},{y+9:.1f} Z", "fill": color, "stroke": "#f8fafc", "stroke-width": "2"})
-        key_x, key_y = key_positions[item.model_id]
-        leader_y = key_y + (-15 if index % 2 == 0 else 15)
+        key_x, key_y, key_column = key_positions[item.model_id]
+        leader_y = key_y - 10
         _text(root, key_x, key_y, compact_names[item.model_id], 29,
+              anchor="start" if key_column == 0 else "end",
               fill=color, weight="600", data_direct_label="true",
               data_model_id=item.model_id, data_layout_role="direct-label")
-        _add(root, "line", {
-            "x1": f"{max(x_high, x)+12:.1f}", "y1": f"{y:.1f}",
-            "x2": f"{key_x-12:.1f}", "y2": f"{leader_y:.1f}",
+        start_x = max(x_high, x) + 12
+        # Top-to-bottom channels run right-to-left.  Together with increasing
+        # lower passages this nesting prevents any two orthogonal guides from
+        # crossing.
+        channel_x = 309 - index * 5
+        if key_column == 0:
+            route = [
+                (start_x, y), (channel_x, y),
+                (channel_x, leader_y), (313.0, leader_y),
+            ]
+        else:
+            right_index = sum(
+                1 for prior in ordered_inputs[:index]
+                if key_positions[prior.model_id][2] == 1
+            )
+            passage_y = 282 + right_index * 4
+            right_channel = 584 + right_index * 4
+            route = [
+                (start_x, y), (channel_x, y),
+                (channel_x, passage_y), (right_channel, passage_y),
+                (right_channel, leader_y), (578.0, leader_y),
+            ]
+        routes[item.model_id] = route
+        pending_leaders.append((item.model_id, frontier_color))
+    for model_id, frontier_color in pending_leaders:
+        _add(root, "path", {
+            "d": _leader_path_with_bridges(routes, model_id), "fill": "none",
             "stroke": frontier_color, "stroke-width": "2",
             "data-leader": "true", "data-pareto-leader": "true",
-            "data-model-id": item.model_id,
+            "data-model-id": model_id,
         })
     return root
 
