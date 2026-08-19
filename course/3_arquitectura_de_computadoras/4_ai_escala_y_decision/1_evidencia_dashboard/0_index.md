@@ -1072,103 +1072,103 @@ Cada fila reproduce un punto generado: conserva modelo, año, serie, estado, val
 
 | Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
 |---|---|---|
-| BERT-Large · 2018 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| T5-11B · 2019 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| BLOOM 176B · 2022 · 80 GB HBM capacity floor | `SCENARIO` · 5 accelerator | physical_capacity_floor_not_topology_not_sla · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| OPT-175B · 2022 · 80 GB HBM capacity floor | `SCENARIO` · 5 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 1 65B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 2 70B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Mixtral 8x7B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen-72B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-V2 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 6 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-V3 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 17 accelerator | physical_capacity_floor_not_topology_not_sla · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 2 27B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 7B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Grok-1 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 8 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-405B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 11 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-70B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-8B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Mistral Large 2 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 4 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Qwen2.5-72B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen2-72B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-R1 · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 17 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 3 27B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Kimi K2 · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 25 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 4 Scout · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 3 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 6 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Kimi K3 · 2026 · 80 GB HBM capacity floor | `SCENARIO` · 70 accelerator | physical_capacity_floor_not_topology_not_sla · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · 80 GB HBM capacity floor | `SCENARIO` · 60 accelerator | physical_capacity_floor_not_topology_not_sla · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `high` |
+| BERT-Large · 2018 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| T5-11B · 2019 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| BLOOM 176B · 2022 · 80 GB HBM capacity floor | `SCENARIO` · 5 accelerator | physical_capacity_floor_not_topology_not_sla · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| OPT-175B · 2022 · 80 GB HBM capacity floor | `SCENARIO` · 5 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek LLM 67B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 1 65B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 2 70B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mistral 7B v0.1 · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mixtral 8x7B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen-72B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-V2 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 6 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-V3 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 17 accelerator | physical_capacity_floor_not_topology_not_sla · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 2 27B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 7B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Grok-1 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 8 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-405B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 11 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-70B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-8B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mistral Large 2 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 4 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen2.5-72B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen2-72B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-R1 · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 17 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 3 27B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Kimi K2 · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 25 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 4 Scout · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 3 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3-235B-A22B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 6 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3-30B-A3B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Kimi K3 · 2026 · 80 GB HBM capacity floor | `SCENARIO` · 70 accelerator | physical_capacity_floor_not_topology_not_sla · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3.8-2.4T-A95B · 2026 · 80 GB HBM capacity floor | `SCENARIO` · 60 accelerator | physical_capacity_floor_not_topology_not_sla · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `not_applicable` |
 
 ### `ai-inference-power.svg` · 29 puntos
 
 | Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
 |---|---|---|
-| BERT-Large · 2018 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| T5-11B · 2019 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| BLOOM 176B · 2022 · 700 W per accelerator | `SCENARIO` · 3500 W | accelerator_only_tdp_scenario_not_wall_power · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| OPT-175B · 2022 · 700 W per accelerator | `SCENARIO` · 3500 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 1 65B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 2 70B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Mixtral 8x7B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen-72B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-V2 · 2024 · 700 W per accelerator | `SCENARIO` · 4200 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-V3 · 2024 · 700 W per accelerator | `SCENARIO` · 11900 W | accelerator_only_tdp_scenario_not_wall_power · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 2 27B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 7B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Grok-1 · 2024 · 700 W per accelerator | `SCENARIO` · 5600 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-405B · 2024 · 700 W per accelerator | `SCENARIO` · 7700 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-70B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-8B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Mistral Large 2 · 2024 · 700 W per accelerator | `SCENARIO` · 2800 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Qwen2.5-72B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen2-72B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-R1 · 2025 · 700 W per accelerator | `SCENARIO` · 11900 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 3 27B · 2025 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Kimi K2 · 2025 · 700 W per accelerator | `SCENARIO` · 17500 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 4 Scout · 2025 · 700 W per accelerator | `SCENARIO` · 2100 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · 700 W per accelerator | `SCENARIO` · 4200 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Kimi K3 · 2026 · 700 W per accelerator | `SCENARIO` · 49000 W | accelerator_only_tdp_scenario_not_wall_power · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · 700 W per accelerator | `SCENARIO` · 42000 W | accelerator_only_tdp_scenario_not_wall_power · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `high` |
+| BERT-Large · 2018 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| T5-11B · 2019 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| BLOOM 176B · 2022 · 700 W per accelerator | `SCENARIO` · 3500 W | accelerator_only_tdp_scenario_not_wall_power · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| OPT-175B · 2022 · 700 W per accelerator | `SCENARIO` · 3500 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek LLM 67B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 1 65B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 2 70B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mistral 7B v0.1 · 2023 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mixtral 8x7B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen-72B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-V2 · 2024 · 700 W per accelerator | `SCENARIO` · 4200 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-V3 · 2024 · 700 W per accelerator | `SCENARIO` · 11900 W | accelerator_only_tdp_scenario_not_wall_power · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 2 27B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 7B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Grok-1 · 2024 · 700 W per accelerator | `SCENARIO` · 5600 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-405B · 2024 · 700 W per accelerator | `SCENARIO` · 7700 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-70B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-8B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mistral Large 2 · 2024 · 700 W per accelerator | `SCENARIO` · 2800 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen2.5-72B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen2-72B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-R1 · 2025 · 700 W per accelerator | `SCENARIO` · 11900 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 3 27B · 2025 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Kimi K2 · 2025 · 700 W per accelerator | `SCENARIO` · 17500 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 4 Scout · 2025 · 700 W per accelerator | `SCENARIO` · 2100 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3-235B-A22B · 2025 · 700 W per accelerator | `SCENARIO` · 4200 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3-30B-A3B · 2025 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Kimi K3 · 2026 · 700 W per accelerator | `SCENARIO` · 49000 W | accelerator_only_tdp_scenario_not_wall_power · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3.8-2.4T-A95B · 2026 · 700 W per accelerator | `SCENARIO` · 42000 W | accelerator_only_tdp_scenario_not_wall_power · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `not_applicable` |
 
 ### `ai-inference-capex.svg` · 29 puntos
 
 | Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
 |---|---|---|
-| BERT-Large · 2018 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| T5-11B · 2019 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| BLOOM 176B · 2022 · USD 30000 per accelerator | `SCENARIO` · 150000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| OPT-175B · 2022 · USD 30000 per accelerator | `SCENARIO` · 150000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 1 65B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 2 70B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Mixtral 8x7B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen-72B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-V2 · 2024 · USD 30000 per accelerator | `SCENARIO` · 180000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-V3 · 2024 · USD 30000 per accelerator | `SCENARIO` · 510000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 2 27B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 7B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Grok-1 · 2024 · USD 30000 per accelerator | `SCENARIO` · 240000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-405B · 2024 · USD 30000 per accelerator | `SCENARIO` · 330000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-70B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Llama 3.1-8B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Mistral Large 2 · 2024 · USD 30000 per accelerator | `SCENARIO` · 120000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Qwen2.5-72B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen2-72B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| DeepSeek-R1 · 2025 · USD 30000 per accelerator | `SCENARIO` · 510000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Gemma 3 27B · 2025 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Kimi K2 · 2025 · USD 30000 per accelerator | `SCENARIO` · 750000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Llama 4 Scout · 2025 · USD 30000 per accelerator | `SCENARIO` · 90000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · USD 30000 per accelerator | `SCENARIO` · 180000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `high` |
-| Kimi K3 · 2026 · USD 30000 per accelerator | `SCENARIO` · 2100000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · USD 30000 per accelerator | `SCENARIO` · 1800000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `high` |
+| BERT-Large · 2018 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| T5-11B · 2019 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| BLOOM 176B · 2022 · USD 30000 per accelerator | `SCENARIO` · 150000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| OPT-175B · 2022 · USD 30000 per accelerator | `SCENARIO` · 150000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek LLM 67B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 1 65B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 2 70B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mistral 7B v0.1 · 2023 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mixtral 8x7B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen-72B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-V2 · 2024 · USD 30000 per accelerator | `SCENARIO` · 180000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-V3 · 2024 · USD 30000 per accelerator | `SCENARIO` · 510000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 2 27B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 7B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Grok-1 · 2024 · USD 30000 per accelerator | `SCENARIO` · 240000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-405B · 2024 · USD 30000 per accelerator | `SCENARIO` · 330000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-70B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 3.1-8B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Mistral Large 2 · 2024 · USD 30000 per accelerator | `SCENARIO` · 120000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen2.5-72B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen2-72B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| DeepSeek-R1 · 2025 · USD 30000 per accelerator | `SCENARIO` · 510000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Gemma 3 27B · 2025 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Kimi K2 · 2025 · USD 30000 per accelerator | `SCENARIO` · 750000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Llama 4 Scout · 2025 · USD 30000 per accelerator | `SCENARIO` · 90000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3-235B-A22B · 2025 · USD 30000 per accelerator | `SCENARIO` · 180000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3-30B-A3B · 2025 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Kimi K3 · 2026 · USD 30000 per accelerator | `SCENARIO` · 2100000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Qwen3.8-2.4T-A95B · 2026 · USD 30000 per accelerator | `SCENARIO` · 1800000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `not_applicable` |
 
 ### `ai-inference-parameters.svg` · 69 puntos
 

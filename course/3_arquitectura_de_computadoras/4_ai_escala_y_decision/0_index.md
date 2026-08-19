@@ -207,7 +207,7 @@ No son un ranking: la aplicación y la medición completa deciden.
 
 ### Cómo leer el dashboard
 
-La leyenda: **FACT** publicado; **DERIVED** calculado; **ESTIMATE** rango; **SCENARIO** supuesto docente; gris, ausencia. La confianza alta/media/baja califica evidencia, no calidad. En un escenario es “no aplica”: se verifica la cuenta, no la premisa.
+La leyenda: **FACT** publicado; **DERIVED** calculado; **ESTIMATE** rango; **SCENARIO** supuesto docente; gris, ausencia. **Confianza** alta/media/baja califica evidencia, no calidad. En un escenario es “no aplica”: se verifica la cuenta, no la premisa.
 
 El eje X siempre es el año de publicación. Cuando Y dice “log”, subir la misma distancia significa multiplicar, no sumar. **FLOP es trabajo** realizado; **FLOP/s es una tasa** de trabajo por segundo.
 
@@ -300,7 +300,7 @@ BLOOM publica 384 aceleradores; PaLM, 6,144; Llama 3.1-405B, 16,384 y 30.84 mill
 
 [![Valor temporal de reemplazo de aceleradores bajo una base económica común y explícitamente hipotética.](../_assets/ai-training-replacement-value.svg)](../_assets/ai-training-replacement-value.svg)
 
-Para las cuatro flotas con conteo publicado: `aceleradores × USD 20,000–40,000` al 18 de agosto de 2026. Conserva el tipo nativo, pero es un **SCENARIO**, no costo histórico ni equivalencia de rendimiento. Excluye servidores, red, almacenamiento, energía y personal.
+Para las cuatro flotas con conteo publicado: `aceleradores × USD 20,000–40,000` al 18 de agosto de 2026. Conserva el tipo nativo, pero es un **SCENARIO**: no es el costo real ni una equivalencia de rendimiento. Excluye servidores, red, almacenamiento, energía y personal.
 
 ### Inferencia local a través del tiempo
 

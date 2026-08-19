@@ -16,7 +16,7 @@ from ai_model_dashboard import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-ANNEX = ROOT / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/A_evidencia_dashboard/0_index.md"
+ANNEX = ROOT / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/1_evidencia_dashboard/0_index.md"
 
 
 def metric(status, value=None, unit=None, source_ids=("S_TEST",), **extra):
@@ -120,7 +120,8 @@ def test_training_replacement_scenario_uses_only_documented_concurrent_fleets():
     scenario = ledger["dashboard_training_replacement_scenario"]
     assert scenario["as_of"] == "2026-08-18"
     assert scenario["unit_price_usd"] == {"low": 20000, "base": 30000, "high": 40000}
-    assert scenario["status"] == "SCENARIO"
+    assert scenario["scenario_status"] == "SCENARIO"
+    assert "status" not in scenario
     assert scenario["boundary"] == "accelerator-only"
     assert scenario["source_ids"]
     assert {"server", "network", "storage", "energy", "labor"} <= set(scenario["excludes"])
@@ -154,6 +155,17 @@ def test_generated_quantitative_nodes_expose_cell_confidence():
                 assert node.attrib.get("data-confidence") in {
                     "high", "medium", "low", "not_applicable"
                 }
+
+
+def test_every_scenario_plot_point_has_not_applicable_empirical_confidence():
+    ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
+    series = (
+        *build_training_series(ledger).values(),
+        *build_inference_series(ledger, CapacityScenario()).values(),
+    )
+    scenarios = [point for points in series for point in points if point.status == "SCENARIO"]
+    assert scenarios
+    assert all(point.confidence == "not_applicable" for point in scenarios)
 
 
 def test_annex_tables_reconstruct_every_generated_non_pareto_point():

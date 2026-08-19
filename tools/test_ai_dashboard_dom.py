@@ -69,3 +69,23 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
                 )
                 assert effective >= 16
         browser.close()
+
+
+def test_optional_annex_rail_title_is_not_stacked_character_by_character():
+    with built_site() as url, sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 1440, "height": 900})
+        page.goto(url)
+        page.wait_for_load_state("networkidle")
+        title = page.locator(
+            '[data-raya-map-node="evidencia-dashboard-ia"] '
+            '.raya-course-map-node-title'
+        )
+        box = title.bounding_box()
+        assert box is not None
+        # A character-stacked label collapses near one glyph (~10–20 px) and
+        # grows hundreds of pixels tall. Four ordinary wrapped lines are fine.
+        assert box["width"] >= 90
+        assert box["height"] <= 100
+        assert title.inner_text().startswith("Anexo opcional")
+        browser.close()

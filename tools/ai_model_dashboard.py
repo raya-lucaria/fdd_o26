@@ -440,6 +440,7 @@ def build_inference_series(
             low=None,
             high=None,
             status="SCENARIO",
+            confidence="not_applicable",
         )
         series["h100_capacity_equivalents"].append(
             _point(model, label=f"{scenario.hbm_gb} GB HBM capacity floor", claim_scope=CAPACITY_SCOPE, value=count, unit="accelerator", **common)

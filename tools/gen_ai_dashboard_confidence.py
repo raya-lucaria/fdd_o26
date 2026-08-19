@@ -26,7 +26,7 @@ ROOT = TOOLS.parent
 DATA = TOOLS / "data/ai_hardware_costs.yaml"
 ANNEX = (
     ROOT
-    / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/A_evidencia_dashboard/0_index.md"
+    / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/1_evidencia_dashboard/0_index.md"
 )
 
 

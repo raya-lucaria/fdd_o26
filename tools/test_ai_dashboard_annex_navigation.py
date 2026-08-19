@@ -11,7 +11,7 @@ MAIN = (
     ROOT
     / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/0_index.md"
 )
-ANNEX = MAIN.parent / "A_evidencia_dashboard/0_index.md"
+ANNEX = MAIN.parent / "1_evidencia_dashboard/0_index.md"
 
 
 def test_dashboard_evidence_is_a_linked_optional_appendix() -> None:
@@ -44,7 +44,7 @@ def test_raya_build_marks_annex_and_makes_its_sequence_label_explicit() -> None:
     main = items["ia-escala-decision"]
     annex = items["evidencia-dashboard-ia"]
 
-    assert annex["hierarchy_key"] == "appendix"
+    assert annex["hierarchy_key"] == "lesson"
     assert "Anexo opcional" in annex["nav_title"]
     assert main["next"] == annex["id"]
 

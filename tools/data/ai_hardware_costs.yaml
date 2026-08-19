@@ -2834,7 +2834,7 @@ dashboard_models:
 
 dashboard_training_replacement_scenario:
   id: DS_TRAINING_REPLACEMENT_2026_08_18
-  status: SCENARIO
+  scenario_status: SCENARIO
   as_of: "2026-08-18"
   currency: USD
   boundary: accelerator-only

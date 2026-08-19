@@ -29,7 +29,7 @@
 | ai-training-flop.svg | Evolución temporal del trabajo de entrenamiento | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
 | ai-training-accelerators.svg | Aceleradores concurrentes y horas documentadas | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
 | ai-training-power.svg | Envolventes documentadas de potencia de aceleradores | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
-| ai-training-replacement-value.svg | Ausencia explícita de una serie comparable de valor de reemplazo | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
+| ai-training-replacement-value.svg | Cuatro flotas documentadas bajo un escenario común de valor de reemplazo accelerator-only | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
 | ai-inference-memory.svg | Artefactos y pisos teóricos de memoria para inferencia | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
 | ai-inference-accelerators.svg | Piso físico de aceleradores H100-equivalentes | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
 | ai-inference-power.svg | Escenario de TDP accelerator-only para inferencia | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
