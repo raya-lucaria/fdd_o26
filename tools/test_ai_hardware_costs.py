@@ -928,20 +928,24 @@ def test_kv_floor_is_recomputed_from_versioned_architecture_fields():
         "S_COURSE_DESIGN",
         "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
     ]
-    assert capacity["kv_batch"]["source_ids"] == ["S_COURSE_DESIGN"]
-    assert capacity["kv_context_tokens"]["source_ids"] == ["S_COURSE_DESIGN"]
+    batch = capacity["kv_batch"]
+    context = capacity["kv_context_tokens"]
+    for cell, expected in ((batch, 16), (context, 2304)):
+        assert cell["status"] == "SCENARIO"
+        assert cell["value"] == expected
+        assert cell["source_ids"] == ["S_COURSE_DESIGN"]
 
     per_layer_token_request = (
         2
-        * expected_artifact_fields["kv_heads"]
-        * expected_artifact_fields["head_dimension"]
+        * architecture["kv_heads"]["value"]
+        * architecture["head_dimension"]["value"]
         * dtype["bytes_per_element"]
     )
     kv_bytes = (
         per_layer_token_request
-        * expected_artifact_fields["hidden_layers"]
-        * 2304
-        * 16
+        * architecture["hidden_layers"]["value"]
+        * context["value"]
+        * batch["value"]
     )
     assert per_layer_token_request == 4096
     assert kv_bytes == 9_663_676_416
@@ -963,14 +967,59 @@ def test_inference_capacity_separates_physical_from_usable_memory():
     case = data["inference_capacity_cases"][0]
     topology = case["topology"]
     mapping = topology["memory_mapping"]
+    hardware = next(
+        item
+        for item in data["hardware"]
+        if item["id"] == "H_NVIDIA_H100_SXM_80GB"
+    )
 
     assert topology["transaction_unit"]["value"] == "system"
+    assert topology["system"] == {
+        "status": "FACT",
+        "value": "NVIDIA_DGX_H100",
+        "unit": "system_model",
+        "source_ids": ["S_NVIDIA_DGX_H100_DATASHEET"],
+    }
+    assert topology["accelerator_hardware_id"] == {
+        "status": "DERIVED",
+        "value": "H_NVIDIA_H100_SXM_80GB",
+        "unit": "hardware_ledger_id",
+        "source_ids": [
+            "S_NVIDIA_DGX_H100_DATASHEET",
+            "S_NVIDIA_H100_PAGE",
+        ],
+    }
     assert topology["accelerators_per_system"]["value"] == 8
+    assert topology["physical_hbm_per_accelerator_gb"] == {
+        "status": "DERIVED",
+        "value": 80,
+        "unit": "GB_decimal_per_GPU",
+        "source_ids": [
+            "S_NVIDIA_DGX_H100_DATASHEET",
+            "S_NVIDIA_H100_PAGE",
+        ],
+        "formula": "640 GB físicos ÷ 8 GPU; coincide con H_NVIDIA_H100_SXM_80GB",
+    }
+    assert hardware["specs"]["hbm_physical"]["value"] == 80
+    assert hardware["specs"]["hbm_physical"]["source_ids"] == [
+        "S_NVIDIA_H100_PAGE"
+    ]
     assert topology["physical_hbm_gb"]["value"] == 640
-    assert topology["runtime_hardware_compatibility"]["source_ids"] == [
+    compatibility = topology["runtime_hardware_compatibility"]
+    assert compatibility["status"] == "DERIVED"
+    assert compatibility["value"] == (
+        "Qwen_artifact_recommends_vLLM_vLLM_0_7_1_supports_GPTQ_on_Hopper_"
+        "and_DGX_H100_contains_H100"
+    )
+    assert compatibility["source_ids"] == [
         "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
         "S_VLLM_071_QUANTIZATION_HARDWARE",
         "S_NVIDIA_DGX_H100_DATASHEET",
+    ]
+
+    assert case["capacity"]["weights_gb"]["status"] == "DERIVED"
+    assert case["capacity"]["weights_gb"]["source_ids"] == [
+        "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"
     ]
 
     for field in (

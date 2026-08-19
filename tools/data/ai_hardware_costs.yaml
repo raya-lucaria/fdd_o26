@@ -1158,8 +1158,13 @@ inference_capacity_cases:
     topology:
       transaction_unit: {status: FACT, value: system, unit: transaction_unit, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
       system: {status: FACT, value: NVIDIA_DGX_H100, unit: system_model, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
+      accelerator_hardware_id:
+        status: DERIVED
+        value: H_NVIDIA_H100_SXM_80GB
+        unit: hardware_ledger_id
+        source_ids: [S_NVIDIA_DGX_H100_DATASHEET, S_NVIDIA_H100_PAGE]
       accelerators_per_system: {status: FACT, value: 8, unit: H100_GPU_per_system, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
-      physical_hbm_per_accelerator_gb: {status: DERIVED, value: 80, unit: GB_decimal_per_GPU, source_ids: [S_NVIDIA_DGX_H100_DATASHEET], formula: "640 GB físicos ÷ 8 GPU"}
+      physical_hbm_per_accelerator_gb: {status: DERIVED, value: 80, unit: GB_decimal_per_GPU, source_ids: [S_NVIDIA_DGX_H100_DATASHEET, S_NVIDIA_H100_PAGE], formula: "640 GB físicos ÷ 8 GPU; coincide con H_NVIDIA_H100_SXM_80GB"}
       physical_hbm_gb: {status: FACT, value: 640, unit: GB_decimal_per_system, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
       runtime_hardware_compatibility:
         status: DERIVED
