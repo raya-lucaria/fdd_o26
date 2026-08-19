@@ -1,6 +1,8 @@
 from decimal import Decimal
 from pathlib import Path
 import re
+import importlib.util
+import xml.etree.ElementTree as ET
 
 import pytest
 import yaml
@@ -31,6 +33,14 @@ PAGE = (
     / "3_arquitectura_de_computadoras"
     / "4_ai_escala_y_decision"
     / "0_index.md"
+)
+GENERATOR = ROOT / "tools" / "gen_ai_hardware_costs.py"
+AI_SVG_NAMES = (
+    "ai-aceleradores-entrenamiento.svg",
+    "ai-hbm-entrenamiento.svg",
+    "ai-potencia-hardware.svg",
+    "ai-capex-hardware.svg",
+    "ai-inferencia-capacidad.svg",
 )
 ALLOWED = {
     "FACT",
@@ -89,6 +99,14 @@ def load_yaml(path: Path):
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
+def load_chart_generator():
+    assert GENERATOR.is_file(), "falta el generador de las cinco visuales IA"
+    spec = importlib.util.spec_from_file_location("gen_ai_hardware_costs", GENERATOR)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def markdown_table_rows_after(markdown: str, heading: str) -> list[list[str]]:
     """Return data-cell rows from the first Markdown table after a heading."""
     section = markdown.split(heading, 1)[1]
@@ -112,6 +130,109 @@ def markdown_table_rows_after(markdown: str, heading: str) -> list[list[str]]:
 
 def ledger_ids(cell: str) -> set[str]:
     return set(re.findall(r"`((?:H|I|M|S|T|V)_[A-Z0-9_]+)`", cell))
+
+
+def test_ai_hardware_chart_metadata_conserva_orden_valores_y_estados_del_ledger():
+    """Reordenar, redondear desde otra fuente o rellenar ausencias cambia evidencia."""
+    generator = load_chart_generator()
+    data = load_yaml(DATA)
+    charts = {chart["id"]: chart for chart in generator.load_chart_metadata(DATA)}
+    documented = [
+        case for case in data["training_cases"]
+        if case["include_in_documented_table"]
+    ]
+    model_names = {model["id"]: model["canonical_name"] for model in data["models"]}
+    expected_names = [model_names[case["model_id"]] for case in documented]
+
+    assert list(charts) == [
+        "accelerators",
+        "physical_hbm",
+        "power",
+        "capex",
+        "inference_capacity",
+    ]
+    for chart_id, field in (
+        ("accelerators", "accelerators_concurrent"),
+        ("physical_hbm", "hbm_physical_installed"),
+        ("power", "accelerator_power"),
+    ):
+        rows = charts[chart_id]["rows"]
+        assert [row["label"] for row in rows] == expected_names
+        assert [row["status"] for row in rows] == [
+            case["metrics"][field]["status"] for case in documented
+        ]
+        assert [row["value"] for row in rows] == [
+            case["metrics"][field]["value"] for case in documented
+        ]
+        assert [row["unit"] for row in rows] == [
+            case["metrics"][field].get("unit") for case in documented
+        ]
+
+    valuation_rows = charts["capex"]["rows"]
+    assert [row["id"] for row in valuation_rows] == [
+        valuation["id"] for valuation in data["valuations"]
+    ]
+    assert [row["status"] for row in valuation_rows] == [
+        valuation["price"]["status"] for valuation in data["valuations"]
+    ]
+
+
+def test_ai_hardware_panels_preservan_fronteras_y_significado_fisico():
+    """Mezclar parte+todo o piso+SLA produciría comparaciones falsas."""
+    generator = load_chart_generator()
+    data = load_yaml(DATA)
+    charts = {chart["id"]: chart for chart in generator.load_chart_metadata(DATA)}
+
+    assert charts["physical_hbm"]["panels"] == ["GB físicos", "GiB físicos"]
+    assert charts["power"]["panels"] == ["GPU/chip-only", "Servidor/IT"]
+    assert charts["capex"]["panels"] == [
+        "accelerator-only · supuesto docente 2026",
+        "system-based · reposición 2026",
+    ]
+    inference = charts["inference_capacity"]
+    assert inference["scale"] == "linear"
+    assert inference["claim"] == "piso de capacidad; cabe, sin SLA"
+    assert inference["capacity_gb"] == 80
+    assert inference["total_gb"] == "58.00560697360"
+    assert inference["aggregate_system_hbm_used_as_fit_threshold"] is False
+    capacity_case = data["inference_capacity_cases"][0]
+    expected_capacity_keys = [
+        "weights_and_metadata_gb",
+        "runtime_gb",
+        "kv_gb",
+        "workspace_gb",
+        "reserve_gb",
+        "total_gb",
+    ]
+    assert [row["id"] for row in inference["rows"][:6]] == expected_capacity_keys
+    assert [row["status"] for row in inference["rows"][:6]] == [
+        capacity_case["capacity"][key]["status"] for key in expected_capacity_keys
+    ]
+    assert [row["value"] for row in inference["rows"][:6]] == [
+        capacity_case["capacity"][key]["value"] for key in expected_capacity_keys
+    ]
+
+
+def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
+    """La imagen debe comunicar lo mismo sin visión y sin depender del SVG."""
+    generator = load_chart_generator()
+    page = PAGE.read_text(encoding="utf-8")
+    assets = ROOT / "course/3_arquitectura_de_computadoras/_assets"
+
+    for chart in generator.load_chart_metadata(DATA):
+        name = chart["filename"]
+        assert name in AI_SVG_NAMES
+        root = ET.parse(assets / name).getroot()
+        desc = root.find("{http://www.w3.org/2000/svg}desc")
+        assert desc is not None and desc.text == chart["alt"]
+        assert f"![{chart['alt']}](../_assets/{name})" in page
+        section = page.split(f"](../_assets/{name})", 1)[1]
+        section = section.split("\n### ", 1)[0]
+        assert "**Lectura visual:**" in section
+        assert "|" in section and "|---" in section
+        for row in chart["rows"]:
+            assert row["label"] in section
+            assert f"**{row['status']}**" in section
 
 
 def test_training_tables_expose_ledger_ids_for_each_included_case():

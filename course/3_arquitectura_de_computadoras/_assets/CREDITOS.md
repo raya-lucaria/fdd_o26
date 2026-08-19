@@ -20,3 +20,8 @@
 | real-macbook-m5.webp | MacBook Pro de 14 pulgadas con M5 | AzureSaturn, Wikimedia Commons, CC0 1.0; redimensionada |
 | real-rtx-5090.webp | Palit GeForce RTX 5090 GameRock | PantheraLeo1359531, Wikimedia Commons, CC BY 4.0; redimensionada |
 | real-tsubame4-node.webp | Nodo de TSUBAME 4.0 con cuatro GPU H100 | Fukumoto, Wikimedia Commons, CC BY-SA 4.0; redimensionada |
+| ai-aceleradores-entrenamiento.svg | Aceleradores concurrentes documentados en escala logarítmica | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
+| ai-hbm-entrenamiento.svg | HBM física instalada con GB y GiB separados | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
+| ai-potencia-hardware.svg | Potencia de aceleradores separada de servidor e IT | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
+| ai-capex-hardware.svg | CAPEX separado por frontera y base de valoración | Diagrama propio generado desde el ledger del curso, 2026; material del curso |
+| ai-inferencia-capacidad.svg | Piso de memoria de inferencia frente a capacidad física | Diagrama propio generado desde el ledger del curso, 2026; material del curso |

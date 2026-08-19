@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="810" viewBox="0 0 360 810" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+  <title id="title">Inferencia: piso de memoria y capacidad</title>
+  <desc id="desc">Piso de capacidad de inferencia para Qwen2.5-32B GPTQ Int8: Pesos y metadata, 35.069 GB [DERIVED]; Runtime, 4 GB [SCENARIO]; Caché KV, 9.664 GB [DERIVED]; Workspace, 4 GB [SCENARIO]; Reserva 10 %, 5.273 GB [DERIVED]; Total presupuestado, 58.006 GB [DERIVED]; Capacidad física por shard, 80 GB físicos [SCENARIO]; Mínimo adquirible, 1 NVIDIA DGX H100 [SCENARIO]. Cabe en capacidad física, sin afirmar SLA ni HBM utilizable.</desc>
+  <rect x="0" y="0" width="360" height="810" rx="18" fill="#0b0f12" />
+  <text x="18" y="31" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="21" font-weight="750" text-anchor="start">Piso y capacidad</text>
+  <text x="18" y="57" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">1 réplica · 1 shard · sin SLA</text>
+  <rect x="12" y="78" width="336" height="356" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="103" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">Componentes del piso</text>
+  <text x="24" y="127" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GB decimales</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Pesos y metadata" x="24" y="138" width="14" height="14" rx="1" />
+  <text x="49" y="150" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Pesos y metadata</text>
+  <text x="49" y="173" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">35.069 GB [DERIVED]</text>
+  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="Runtime" points="31,196 38,203 31,210 24,203" />
+  <text x="49" y="208" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Runtime</text>
+  <text x="49" y="231" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">4 GB [SCENARIO]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Caché KV" x="24" y="254" width="14" height="14" rx="1" />
+  <text x="49" y="266" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Caché KV</text>
+  <text x="49" y="289" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">9.664 GB [DERIVED]</text>
+  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="Workspace" points="31,312 38,319 31,326 24,319" />
+  <text x="49" y="324" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Workspace</text>
+  <text x="49" y="347" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">4 GB [SCENARIO]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Reserva 10 %" x="24" y="370" width="14" height="14" rx="1" />
+  <text x="49" y="382" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Reserva 10 %</text>
+  <text x="49" y="405" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">5.273 GB [DERIVED]</text>
+  <rect x="12" y="448" width="336" height="188" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="473" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">Piso presupuestado</text>
+  <text x="24" y="497" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">frente a capacidad física</text>
+  <rect x="28" y="514" width="304" height="24" rx="8" fill="none" stroke="#c9a7ff" stroke-width="3" />
+  <rect x="28" y="514" width="220.421" height="24" rx="8" fill="#7ef29d" />
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Total presupuestado" x="241.421" y="519" width="14" height="14" rx="1" />
+  <text x="24" y="574" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Piso: 58.006 GB [DERIVED]</text>
+  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="Capacidad física por shard" points="31,595 38,602 31,609 24,602" />
+  <text x="49" y="607" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Capacidad: 80 GB físicos</text>
+  <text x="49" y="629" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">[SCENARIO]</text>
+  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="Mínimo adquirible" points="31,669 38,676 31,683 24,676" />
+  <text x="49" y="681" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Mínimo adquirible</text>
+  <text x="49" y="704" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">1 NVIDIA DGX H100</text>
+  <text x="49" y="728" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">[SCENARIO]</text>
+  <text x="18" y="762" fill="#ff9f6b" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Capacidad física ≠</text>
+  <text x="18" y="786" fill="#ff9f6b" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">HBM utilizable ≠ SLA.</text>
+</svg>

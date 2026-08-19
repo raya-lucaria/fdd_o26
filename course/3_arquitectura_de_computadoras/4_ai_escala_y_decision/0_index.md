@@ -236,6 +236,47 @@ La tabla esencial incluye sólo alcances cuyo creador publicó tipo y cantidad c
 | Llama 3.1 405B, preentrenamiento (**FACT**; `M_LLAMA31_405B`, `T_LLAMA31_405B_PRETRAINING`) | pico de 16,384 GPU H100 80 GB (**FACT**; `S_META_LLAMA31_PAPER`, `S_META_LLAMA31_CARD`) | 30,840,000 H100 GPU-h (**FACT**; `S_META_LLAMA31_CARD`) | 1,310,720 GB HBM en el pico (**DERIVED**; `S_META_LLAMA31_PAPER`, `S_NVIDIA_H100_PAGE`) | 11,468,800 W, suma de TDP configurables (**DERIVED**; `S_META_LLAMA31_PAPER`, `S_NVIDIA_H100_PAGE`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_LLAMA31_405B_PRETRAINING` |
 | DeepSeek-V3, preentrenamiento (**FACT**; `M_DEEPSEEK_V3`, `T_DEEPSEEK_V3_PRETRAINING`) | 2,048 GPU H800 80 GB (**FACT**; `S_DEEPSEEK_V3_PAPER`) | 2,664,000 H800 GPU-h (**FACT**; `S_DEEPSEEK_V3_PAPER`) | 163,840 GB HBM física (**DERIVED**; `S_DEEPSEEK_V3_PAPER`, `S_NVIDIA_H800_RELEASE_NOTES`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_DEEPSEEK_V3_PRETRAINING` | **ESTIMATION_NOT_IDENTIFIABLE**; `T_DEEPSEEK_V3_PRETRAINING` |
 
+![Escala logarítmica de aceleradores concurrentes: BLOOM 176B, 384 aceleradores [FACT]; PaLM 540B, 6,144 aceleradores [FACT]; Llama 3.1 405B, 16,384 aceleradores [FACT]; DeepSeek-V3, 2,048 aceleradores [FACT].](../_assets/ai-aceleradores-entrenamiento.svg)
+
+*Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
+
+**Lectura visual:** la distancia horizontal es multiplicativa. Cada marca conserva el caso y estado de su celda; las cantidades no conectan modelos como una serie temporal.
+
+| Modelo | Aceleradores concurrentes | Estado |
+|---|---:|---|
+| BLOOM 176B | 384 | **FACT** |
+| PaLM 540B | 6,144 | **FACT** |
+| Llama 3.1 405B | 16,384 | **FACT** |
+| DeepSeek-V3 | 2,048 | **FACT** |
+
+![HBM física instalada en paneles separados para GB y GiB: BLOOM 176B, 30,720 GB [DERIVED]; PaLM 540B, 196,608 GiB [DERIVED]; Llama 3.1 405B, 1,310,720 GB [DERIVED]; DeepSeek-V3, 163,840 GB [DERIVED]. HBM utilizable no es identificable y no se grafica.](../_assets/ai-hbm-entrenamiento.svg)
+
+*Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
+
+**Lectura visual:** la gráfica separa GB de GiB y sólo representa HBM física instalada en el pico concurrente. No convierte esa capacidad en HBM utilizable.
+
+| Modelo | HBM física instalada | Unidad conservada | Estado |
+|---|---:|---|---|
+| BLOOM 176B | 30,720 | GB | **DERIVED** |
+| PaLM 540B | 196,608 | GiB | **DERIVED** |
+| Llama 3.1 405B | 1,310,720 | GB | **DERIVED** |
+| DeepSeek-V3 | 163,840 | GB | **DERIVED** |
+
+![Potencia nominal de aceleradores, separada de servidor e IT: BLOOM 176B, 153.6 kW [DERIVED]; PaLM 540B, 1.18 MW [DERIVED]; Llama 3.1 405B, 11.47 MW [DERIVED]; DeepSeek-V3, sin valor identificable [ESTIMATION_NOT_IDENTIFIABLE]. El ledger no aporta potencia de servidor o IT y no se suma parte más todo.](../_assets/ai-potencia-hardware.svg)
+
+*Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
+
+**Lectura visual:** el panel GPU/chip-only muestra sumas nominales comparables sólo en magnitud. El panel servidor/IT queda separado y sin puntos porque el ledger no identifica ese total; nunca se suma la parte al sistema que ya la contiene.
+
+| Frontera | Modelo | Valor del ledger | Estado |
+|---|---|---:|---|
+| GPU/chip-only | BLOOM 176B | 153,600 W | **DERIVED** |
+| GPU/chip-only | PaLM 540B | 1,179,648 W | **DERIVED** |
+| GPU/chip-only | Llama 3.1 405B | 11,468,800 W | **DERIVED** |
+| GPU/chip-only | DeepSeek-V3 | No identificable | **ESTIMATION_NOT_IDENTIFIABLE** |
+
+El panel servidor/IT no tiene una fila cuantitativa: no existe un valor correspondiente en el ledger aprobado.
+
 Las bases de potencia no forman una sola serie: TDP estándar, máximo medido y TDP configurable responden preguntas distintas. Tampoco se suma potencia de aceleradores a una potencia de servidor que ya los contenga.
 
 La HBM utilizable es **ESTIMATION_NOT_IDENTIFIABLE** en cada caso documentado; IDs `T_BLOOM_176B_TRAINING`, `T_PALM_540B_PRETRAINING`, `T_LLAMA31_405B_PRETRAINING` y `T_DEEPSEEK_V3_PRETRAINING`. La HBM física agregada no revela TP, PP, DP, réplicas, shards ni reserva del runtime. GB y GiB permanecen separados.
@@ -278,6 +319,17 @@ Un escenario responde “¿qué compraría bajo estos supuestos?”, no “¿qu�
 
 La valoración supone USD 30,000 por módulo, unidad transable “module”, cantidad mínima uno, condición nueva hipotética, fecha 2026-08-18 y base didáctica en USD (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Incluye el módulo y su HBM; excluye los componentes enumerados en el ejemplo. No existe aquí una valoración `system-based`, y no se suma un sistema completo sobre estos módulos.
 
+![CAPEX en fronteras y bases separadas: accelerator-only · supuesto docente 2026, USD 30,000 [SCENARIO]; system-based · reposición 2026, sin precio identificable [ESTIMATION_NOT_IDENTIFIABLE].](../_assets/ai-capex-hardware.svg)
+
+*Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
+
+**Lectura visual:** USD 30,000 es el precio supuesto de un módulo, no el CAPEX de ocho módulos ni el precio imputado de un servidor. La base `system-based` de reposición permanece sin punto porque falta una cotización persistente.
+
+| Frontera y base | Unidad transable | Precio unitario | Estado |
+|---|---|---:|---|
+| accelerator-only · supuesto docente 2026 | Módulo H100 SXM | USD 30,000 | **SCENARIO** |
+| system-based · reposición 2026 | Servidor | No identificable | **ESTIMATION_NOT_IDENTIFIABLE** |
+
 ### Inferencia de capacidad: cabe, sin SLA
 
 Dimensionar inferencia comienza por una cuenta de memoria, no por FLOP/s. El ejemplo usa el artefacto abierto y versionado `Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8` en el commit `eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1`. Sus nueve shards suman 35,068,693,560 bytes y su configuración declara 32,763,876,352 parámetros, GPTQ de 8 bits con grupos de 128, 64 capas, 8 cabezas KV, hidden size 5,120 y 40 cabezas de atención; `5,120 ÷ 40 = 128` elementos por cabeza (**FACT** y **DERIVED**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`).
@@ -287,6 +339,23 @@ La etiqueta **cabe, sin SLA** sólo significa que el presupuesto por componentes
 | Artefacto y revisión | Formato | Pesos | Escalas/metadata | Runtime | KV | Workspace | Reserva | Total | Sistema mínimo del corpus |
 |---|---|---|---|---|---|---|---|---|---|
 | Qwen2.5-32B-Instruct-GPTQ-Int8, `eddc13f…` (**FACT**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`) | GPTQ INT8, nueve shards `safetensors`; tensores I32/F16 (**FACT**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`) | Piso uniforme 32.763876352 GB + diferencial de pesos/bias FP16 1.558254592 GB = 34.322130944 GB de pesos (**DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`) | Escalas FP16 0.487587840 GB + qzeros 0.243793920 GB + g_idx 0.014942208 GB + headers 0.000238648 GB = 0.746562616 GB (**DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`) | 4 GB, vLLM 0.7.1 (**SCENARIO**; `S_COURSE_DESIGN`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_VLLM_071_QUANTIZATION_HARDWARE`) | 9.663676416 GB para 16 × 2,304 tokens, FP16 (**DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN`) | 4 GB (**SCENARIO**; `S_COURSE_DESIGN`) | 10 % = 5.27323699760 GB (**SCENARIO** y **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN`) | 58.00560697360 GB = 54.0219312287867069244384765625 GiB; **cabe, sin SLA** (**SCENARIO**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN`) | 1 NVIDIA DGX H100 adquirido; TP=1, PP=1, DP=1, una réplica y un shard activo con 80 GB físicos por réplica/shard; los 16 contextos KV viven en ese shard (**SCENARIO**; `S_COURSE_DESIGN`, `S_NVIDIA_DGX_H100_DATASHEET`). Compatibilidad artefacto/vLLM/GPTQ/Hopper/DGX: `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_VLLM_071_QUANTIZATION_HARDWARE`, `S_NVIDIA_DGX_H100_DATASHEET`. HBM utilizable: **ESTIMATION_NOT_IDENTIFIABLE**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY` |
+
+![Piso de capacidad de inferencia para Qwen2.5-32B GPTQ Int8: Pesos y metadata, 35.069 GB [DERIVED]; Runtime, 4 GB [SCENARIO]; Caché KV, 9.664 GB [DERIVED]; Workspace, 4 GB [SCENARIO]; Reserva 10 %, 5.273 GB [DERIVED]; Total presupuestado, 58.006 GB [DERIVED]; Capacidad física por shard, 80 GB físicos [SCENARIO]; Mínimo adquirible, 1 NVIDIA DGX H100 [SCENARIO]. Cabe en capacidad física, sin afirmar SLA ni HBM utilizable.](../_assets/ai-inferencia-capacidad.svg)
+
+*Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
+
+**Lectura visual:** el piso suma componentes por réplica y shard, luego compara 58.00560697360 GB presupuestados con 80 GB físicos. “Cabe” es una evaluación de capacidad; no demuestra HBM utilizable, ausencia de OOM, throughput, latencia ni SLA.
+
+| Componente o límite | Valor del ledger | Estado | Lectura |
+|---|---:|---|---|
+| Pesos y metadata | 35.068693560 GB | **DERIVED** | Shards completos |
+| Runtime | 4 GB | **SCENARIO** | Presupuesto docente |
+| Caché KV | 9.663676416 GB | **DERIVED** | Piso de payload para 16 contextos |
+| Workspace | 4 GB | **SCENARIO** | Presupuesto docente |
+| Reserva 10 % | 5.27323699760 GB | **DERIVED** | Aplicada al subtotal |
+| Total presupuestado | 58.00560697360 GB | **DERIVED** | Piso de capacidad |
+| Capacidad física por shard | 80 GB | **SCENARIO** | No se renombra HBM utilizable |
+| Mínimo adquirible | 1 NVIDIA DGX H100 | **SCENARIO** | Topología completa del corpus |
 
 La reconstrucción conserva cada sumando:
 

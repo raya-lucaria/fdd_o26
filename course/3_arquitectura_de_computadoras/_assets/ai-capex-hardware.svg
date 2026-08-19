@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="600" viewBox="0 0 360 600" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+  <title id="title">CAPEX por frontera y base de valoración</title>
+  <desc id="desc">CAPEX en fronteras y bases separadas: accelerator-only · supuesto docente 2026, USD 30,000 [SCENARIO]; system-based · reposición 2026, sin precio identificable [ESTIMATION_NOT_IDENTIFIABLE].</desc>
+  <rect x="0" y="0" width="360" height="600" rx="18" fill="#0b0f12" />
+  <text x="18" y="31" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="21" font-weight="750" text-anchor="start">CAPEX de hardware</text>
+  <text x="18" y="57" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Fronteras y bases separadas</text>
+  <rect x="12" y="78" width="336" height="168" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="103" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">accelerator-only · supuesto</text>
+  <text x="24" y="127" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">docente 2026</text>
+  <text x="24" y="150" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Precio por módulo H100 SXM</text>
+  <text x="24" y="173" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">USD 30,000 [SCENARIO]</text>
+  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="Precio por módulo H100 SXM" points="104.705,190 112.705,198 104.705,206 96.7055,198" />
+  <line x1="36" y1="142" x2="36" y2="228" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="36" y1="264" x2="36" y2="272" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="36" y="292" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁴</text>
+  <line x1="180" y1="142" x2="180" y2="228" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="180" y1="264" x2="180" y2="272" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="180" y="292" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁵</text>
+  <line x1="324" y1="142" x2="324" y2="228" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="324" y1="264" x2="324" y2="272" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="324" y="292" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁶</text>
+  <line x1="36" y1="268" x2="324" y2="268" stroke="#b7c5bb" stroke-width="1.5" />
+  <g aria-label="Igual distancia representa multiplicación.">
+    <text x="18" y="316" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Igual distancia representa</text>
+    <text x="18" y="338" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">multiplicación.</text>
+  </g>
+  <rect x="12" y="362" width="336" height="204" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="387" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">system-based · reposición</text>
+  <text x="24" y="411" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">2026</text>
+  <text x="24" y="434" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Servidor completo</text>
+  <g aria-label="[ESTIMATION_NOT_IDENTIFIABLE]">
+    <text x="24" y="458" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">[ESTIMATION_NOT_</text>
+    <text x="24" y="482" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">IDENTIFIABLE]</text>
+  </g>
+  <text x="24" y="522" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sin precio persistente;</text>
+  <text x="24" y="546" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">no se grafica.</text>
+</svg>

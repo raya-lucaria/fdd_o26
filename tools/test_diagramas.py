@@ -5,15 +5,41 @@ un .svg a mano, o cambia el generador sin regenerar, esta prueba falla.
 """
 import importlib.util
 from pathlib import Path
+import re
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
 
 import pytest
 
 RAIZ = Path(__file__).resolve().parent.parent
+AI_GENERATOR = RAIZ / "tools/gen_ai_hardware_costs.py"
+AI_ASSETS = RAIZ / "course/3_arquitectura_de_computadoras/_assets"
+AI_SVG_NAMES = (
+    "ai-aceleradores-entrenamiento.svg",
+    "ai-hbm-entrenamiento.svg",
+    "ai-potencia-hardware.svg",
+    "ai-capex-hardware.svg",
+    "ai-inferencia-capacidad.svg",
+)
 
 
 def _cargar_generador():
     spec = importlib.util.spec_from_file_location(
         "gen_diagramas", RAIZ / "tools/gen_diagramas.py"
+    )
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def _cargar_generador_ai():
+    assert AI_GENERATOR.is_file(), (
+        "falta tools/gen_ai_hardware_costs.py: las visuales de hardware IA "
+        "deben salir de un generador determinista"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "gen_ai_hardware_costs", AI_GENERATOR
     )
     modulo = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(modulo)
@@ -112,3 +138,184 @@ def test_el_generador_no_pinta_pies_de_figura():
     assert "def pie(" not in fuente, (
         "pie() volvio a gen_diagramas.py: el texto largo va al Markdown"
     )
+
+
+def test_ai_hardware_declara_exactamente_cinco_svg_y_los_regenera(tmp_path):
+    """Agregar u omitir una lámina rompería el recorrido docente aprobado."""
+    generador = _cargar_generador_ai()
+
+    assert tuple(generador.SVG_FILENAMES) == AI_SVG_NAMES
+    creados = generador.render_all(generador.DATA_PATH, tmp_path)
+    assert [path.name for path in creados] == list(AI_SVG_NAMES)
+    assert {path.name for path in tmp_path.glob("*.svg")} == set(AI_SVG_NAMES)
+
+
+def test_ai_hardware_generator_se_puede_importar_desde_la_raiz():
+    """La fuente de verdad debe servir tanto como script como módulo de tools."""
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "from tools.gen_ai_hardware_costs import load_chart_metadata; "
+            "assert len(load_chart_metadata()) == 5",
+        ],
+        cwd=RAIZ,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_ai_hardware_utilidades_puras_respetan_escala_formato_y_estado():
+    """Una interpolación lineal o marcadores iguales falsearían la codificación."""
+    generador = _cargar_generador_ai()
+
+    assert generador.log_position(1, 1, 1000, 20, 320) == pytest.approx(20)
+    assert generador.log_position(10, 1, 1000, 20, 320) == pytest.approx(120)
+    assert generador.log_position(1000, 1, 1000, 20, 320) == pytest.approx(320)
+    with pytest.raises(ValueError, match="positive"):
+        generador.log_position(0, 1, 1000, 20, 320)
+    assert generador.format_si(153600, "W") == "153.6 kW"
+    assert generador.format_si(11468800, "W") == "11.47 MW"
+    assert generador.format_si(30000, "USD") == "USD 30,000"
+    assert {
+        generador.marker_for_status(status)
+        for status in ("FACT", "DERIVED", "SCENARIO")
+    } == {"circle", "square", "diamond"}
+    root = generador.svg_header(360, 240, "Título suficientemente largo", "Desc")
+    assert root.attrib["viewBox"] == "0 0 360 240"
+    assert root.find("{http://www.w3.org/2000/svg}title").text.startswith("Título")
+
+
+@pytest.mark.parametrize("name", AI_SVG_NAMES)
+def test_ai_hardware_svg_es_accesible_y_legible_en_movil(name):
+    """Un lienzo ancho o texto pequeño obligaría a hacer zoom a 390 px."""
+    path = AI_ASSETS / name
+    assert path.is_file(), f"falta {name}: corre `python3 tools/gen_ai_hardware_costs.py`"
+    root = ET.parse(path).getroot()
+    namespace = "{http://www.w3.org/2000/svg}"
+    title = root.find(f"{namespace}title")
+    desc = root.find(f"{namespace}desc")
+
+    assert title is not None and title.text and len(title.text) > 24
+    assert desc is not None and desc.text and len(desc.text) > 60
+    assert root.attrib["role"] == "img"
+    assert root.attrib["aria-labelledby"] == "title desc"
+    viewbox = [float(value) for value in root.attrib["viewBox"].split()]
+    assert viewbox[:2] == [0, 0]
+    assert viewbox[2] <= 360
+    sizes = [
+        float(node.attrib["font-size"])
+        for node in root.iter()
+        if "font-size" in node.attrib
+    ]
+    # Raya deja 28 px de margen por lado en un viewport Chromium de 390 px.
+    mobile_content_width = 390 - 2 * 28
+    mobile_scale = min(1, mobile_content_width / viewbox[2])
+    assert sizes and min(sizes) * mobile_scale >= 16
+    assert root.attrib.get("style") == "max-width:100%;height:auto"
+
+
+def test_ai_hardware_log_ticks_son_potencias_y_no_grafican_ausencias():
+    """Cero o un estado ausente en log inventaría una posición cuantitativa."""
+    generador = _cargar_generador_ai()
+    negative = {
+        "UNDISCLOSED_BY_CREATOR",
+        "NOT_FOUND",
+        "ESTIMATION_NOT_IDENTIFIABLE",
+        "NOT_APPLICABLE",
+    }
+
+    for chart in generador.load_chart_metadata(generador.DATA_PATH):
+        if chart["scale"] != "log":
+            continue
+        assert chart["scale_note"] == "Igual distancia representa multiplicación."
+        assert chart["ticks"] == sorted(chart["ticks"])
+        assert all(tick > 0 and 10 ** round(generador.math.log10(tick)) == tick
+                   for tick in chart["ticks"])
+        assert not negative & set(chart["plotted_statuses"])
+        assert all(point["value"] > 0 for point in chart["points"])
+        for point in chart["points"]:
+            if "low" in point or "high" in point:
+                assert {"low", "high"} <= set(point)
+                assert 0 < point["low"] <= point["high"]
+
+
+@pytest.mark.parametrize("name", AI_SVG_NAMES)
+def test_ai_hardware_svg_codifica_estado_con_forma_y_texto(name):
+    """Quitar color no debe borrar la diferencia entre FACT, DERIVED y SCENARIO."""
+    root = ET.parse(AI_ASSETS / name).getroot()
+    plotted = [node for node in root.iter() if "data-status" in node.attrib]
+
+    assert plotted
+    assert all(node.attrib.get("data-marker") for node in plotted)
+    assert all(node.attrib.get("data-label") for node in plotted)
+    xml = ET.tostring(root, encoding="unicode")
+    for node in plotted:
+        assert f"[{node.attrib['data-status']}]" in xml
+
+
+@pytest.mark.parametrize("name", AI_SVG_NAMES)
+def test_ai_hardware_texto_permanece_dentro_del_lienzo_y_sin_solaparse(name):
+    """Las etiquetas de una sola línea deben caber y ocupar renglones distintos."""
+    root = ET.parse(AI_ASSETS / name).getroot()
+    boxes = []
+    for node in root.iter("{http://www.w3.org/2000/svg}text"):
+        text = "".join(node.itertext())
+        size = float(node.attrib["font-size"])
+        # Aproximación conservadora para system-ui en Chromium; 0.52 dejaba
+        # pasar rótulos que el navegador recortaba en los últimos glifos.
+        width = len(text) * size * 0.62
+        x = float(node.attrib["x"])
+        anchor = node.attrib.get("text-anchor", "start")
+        if anchor == "middle":
+            left, right = x - width / 2, x + width / 2
+        elif anchor == "end":
+            left, right = x - width, x
+        else:
+            left, right = x, x + width
+        y = float(node.attrib["y"])
+        box = (left, y - size, right, y + size * 0.25, text)
+        assert left >= 8 and right <= 352, (
+            f"{name}: {text!r} sale del viewBox: x={left:.1f}..{right:.1f}"
+        )
+        boxes.append(box)
+
+    for index, first in enumerate(boxes):
+        for second in boxes[index + 1:]:
+            horizontal = min(first[2], second[2]) - max(first[0], second[0])
+            vertical = min(first[3], second[3]) - max(first[1], second[1])
+            assert horizontal <= 1 or vertical <= 1, (
+                f"{name}: textos solapados {first[4]!r} y {second[4]!r}"
+            )
+
+
+def test_ai_hardware_svg_en_disco_coincide_y_es_determinista(tmp_path):
+    """Editar SVG a mano o depender de orden no estable cambia el artefacto."""
+    generador = _cargar_generador_ai()
+    primera = generador.render_all(generador.DATA_PATH, tmp_path / "primera")
+    segunda = generador.render_all(generador.DATA_PATH, tmp_path / "segunda")
+
+    for uno, dos, name in zip(primera, segunda, AI_SVG_NAMES, strict=True):
+        assert uno.read_bytes() == dos.read_bytes()
+        assert uno.read_bytes() == (AI_ASSETS / name).read_bytes()
+        assert not re.search(rb"(?:timestamp|generated-at|uuid)", uno.read_bytes(), re.I)
+
+
+def test_ai_capex_nota_ausente_queda_dentro_de_su_panel():
+    """La segunda línea del fallback no debe cruzar el borde del panel system-based."""
+    root = ET.parse(AI_ASSETS / "ai-capex-hardware.svg").getroot()
+    namespace = "{http://www.w3.org/2000/svg}"
+    note = next(
+        node for node in root.iter(f"{namespace}text")
+        if node.text == "no se grafica."
+    )
+    panels = [
+        node for node in root.iter(f"{namespace}rect")
+        if node.attrib.get("x") == "12" and node.attrib.get("width") == "336"
+    ]
+    system_panel = max(panels, key=lambda node: float(node.attrib["y"]))
+    note_bottom = float(note.attrib["y"]) + float(note.attrib["font-size"]) * 0.25
+    panel_bottom = float(system_panel.attrib["y"]) + float(system_panel.attrib["height"])
+    assert note_bottom <= panel_bottom - 4

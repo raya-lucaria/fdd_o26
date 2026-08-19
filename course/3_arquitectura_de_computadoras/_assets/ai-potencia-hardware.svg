@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="800" viewBox="0 0 360 800" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+  <title id="title">Potencia: parte y todo no se suman</title>
+  <desc id="desc">Potencia nominal de aceleradores, separada de servidor e IT: BLOOM 176B, 153.6 kW [DERIVED]; PaLM 540B, 1.18 MW [DERIVED]; Llama 3.1 405B, 11.47 MW [DERIVED]; DeepSeek-V3, sin valor identificable [ESTIMATION_NOT_IDENTIFIABLE]. El ledger no aporta potencia de servidor o IT y no se suma parte más todo.</desc>
+  <rect x="0" y="0" width="360" height="800" rx="18" fill="#0b0f12" />
+  <text x="18" y="31" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="21" font-weight="750" text-anchor="start">Potencia nominal</text>
+  <text x="18" y="57" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Parte y todo, separados</text>
+  <rect x="12" y="78" width="336" height="390" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="103" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GPU/chip-only</text>
+  <text x="24" y="127" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">no es consumo medido</text>
+  <line x1="36" y1="150" x2="36" y2="450" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="36" y1="482" x2="36" y2="490" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="36" y="510" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁵</text>
+  <line x1="132" y1="150" x2="132" y2="450" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="132" y1="482" x2="132" y2="490" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="132" y="510" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁶</text>
+  <line x1="228" y1="150" x2="228" y2="450" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="228" y1="482" x2="228" y2="490" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="228" y="510" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁷</text>
+  <line x1="324" y1="150" x2="324" y2="450" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="324" y1="482" x2="324" y2="490" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="324" y="510" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁸</text>
+  <line x1="36" y1="486" x2="324" y2="486" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="24" y="150" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">BLOOM 176B</text>
+  <text x="24" y="173" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">153.6 kW [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="BLOOM 176B" x="45.8936" y="190" width="16" height="16" rx="1" />
+  <text x="24" y="238" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">PaLM 540B</text>
+  <text x="24" y="261" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">1.18 MW [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="PaLM 540B" x="130.888" y="278" width="16" height="16" rx="1" />
+  <text x="24" y="326" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Llama 3.1 405B</text>
+  <text x="24" y="349" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">11.47 MW [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Llama 3.1 405B" x="225.714" y="366" width="16" height="16" rx="1" />
+  <text x="24" y="414" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">DeepSeek-V3</text>
+  <g aria-label="[ESTIMATION_NOT_IDENTIFIABLE]">
+    <text x="24" y="438" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">[ESTIMATION_NOT_</text>
+    <text x="24" y="462" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">IDENTIFIABLE]</text>
+  </g>
+  <g aria-label="Igual distancia representa multiplicación.">
+    <text x="18" y="540" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Igual distancia representa</text>
+    <text x="18" y="562" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">multiplicación.</text>
+  </g>
+  <rect x="12" y="594" width="336" height="176" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="619" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">Servidor/IT</text>
+  <text x="24" y="643" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">ya incluiría aceleradores</text>
+  <text x="24" y="676" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sin valor identificable</text>
+  <text x="24" y="700" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">en el ledger.</text>
+  <text x="24" y="731" fill="#ff9f6b" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Nunca sumar GPU/chip-only</text>
+  <text x="24" y="755" fill="#ff9f6b" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">+ servidor/IT.</text>
+</svg>
