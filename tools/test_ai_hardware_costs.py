@@ -27,6 +27,7 @@ from ai_hardware_costs import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "tools" / "data" / "ai_hardware_costs.yaml"
+ECI = ROOT / "tools" / "data" / "eci_snapshot_2026-08-18.yaml"
 PAGE = (
     ROOT
     / "course"
@@ -58,6 +59,41 @@ NEGATIVE = {
     "NOT_FOUND",
     "ESTIMATION_NOT_IDENTIFIABLE",
     "NOT_APPLICABLE",
+}
+DASHBOARD_REQUIRED_ORGS = {
+    "OpenAI",
+    "Anthropic",
+    "Google",
+    "Meta",
+    "DeepSeek",
+    "Qwen",
+    "Moonshot AI",
+    "Mistral AI",
+    "xAI",
+}
+DASHBOARD_REQUIRED_METRICS = {
+    "parameters_total",
+    "parameters_active",
+    "training_tokens",
+    "training_flop",
+    "accelerators_concurrent",
+    "accelerator_hours",
+    "accelerator_power_basis",
+    "training_date",
+    "artifact_revision",
+    "artifact_bytes",
+    "weight_floor_bf16",
+    "weight_floor_fp8",
+    "weight_floor_int8",
+    "weight_floor_int4",
+}
+DASHBOARD_CLOSED_LOCAL_METRICS = {
+    "artifact_revision",
+    "artifact_bytes",
+    "weight_floor_bf16",
+    "weight_floor_fp8",
+    "weight_floor_int8",
+    "weight_floor_int4",
 }
 REQUIRED_CORPUS = {
     "announcement",
@@ -583,6 +619,193 @@ def evidence_cells(value):
     elif isinstance(value, list):
         for child in value:
             yield from evidence_cells(child)
+
+
+def test_dashboard_corpus_is_broad_and_cell_evidenced():
+    """Dropping a required lab or silently filling one cell breaks the corpus."""
+    data = load_yaml(DATA)
+    models = data["dashboard_models"]
+
+    assert 30 <= len(models) <= 40
+    assert DASHBOARD_REQUIRED_ORGS <= {
+        model["organization"] for model in models
+    }
+    assert len({model["id"] for model in models}) == len(models)
+    assert all(model["id"].startswith("DM_") for model in models)
+
+    for model in models:
+        assert model["canonical_name"]
+        assert model["variant"]
+        assert model["year"] == {
+            "value": model["release_date"][:4],
+            "unit": "year",
+            "status": "DERIVED",
+            "source_ids": model["identity_source_ids"],
+            "formula": "year(release_date)",
+            "input_metric_ids": ["release_date"],
+        }
+        assert 2018 <= int(model["year"]["value"]) <= 2026
+        assert model["availability"] in {"open_weights", "closed_weights"}
+        assert model["architecture"] in {"dense", "MoE"}
+        assert DASHBOARD_REQUIRED_METRICS == model["metrics"].keys()
+
+        for name, metric in model["metrics"].items():
+            assert metric["status"] in ALLOWED, (model["id"], name)
+            assert metric.get("source_ids"), (model["id"], name)
+            assert set(metric["source_ids"]) <= data["sources"].keys()
+            if metric["status"] in POSITIVE:
+                assert metric.get("value") is not None
+                assert metric.get("unit")
+            else:
+                assert metric.get("value") is None
+                assert metric.get("corpus_checked")
+                assert metric.get("checked_for_model_id") == model["id"]
+
+
+def test_dashboard_training_compute_respects_dense_and_moe_boundaries():
+    """Treating active-parameter MoE 6NT as an exact dense count is forbidden."""
+    models = load_yaml(DATA)["dashboard_models"]
+
+    for model in models:
+        metric = model["metrics"]["training_flop"]
+        if metric["status"] == "DERIVED":
+            assert model["architecture"] == "dense"
+            assert metric["formula"] == "6 * total_parameters * training_tokens"
+            assert metric["input_metric_ids"] == [
+                "parameters_total",
+                "training_tokens",
+            ]
+            assert all(
+                model["metrics"][name]["status"] == "FACT"
+                for name in metric["input_metric_ids"]
+            )
+        if model["architecture"] == "MoE" and metric["status"] == "ESTIMATE":
+            assert 0 < metric["low"] <= metric["value"] <= metric["high"]
+            assert metric.get("assumptions")
+        assert not (
+            model["architecture"] == "MoE" and metric["status"] == "DERIVED"
+        )
+
+
+def test_dashboard_closed_models_have_no_invented_local_capacity():
+    """API availability or training hardware must never become local capacity."""
+    models = load_yaml(DATA)["dashboard_models"]
+
+    for model in models:
+        if model["availability"] != "closed_weights":
+            continue
+        for name in DASHBOARD_CLOSED_LOCAL_METRICS:
+            assert model["metrics"][name]["status"] in NEGATIVE
+        assert "api" not in " ".join(
+            str(value).lower() for value in model["metrics"].values()
+        )
+
+
+def test_dashboard_open_artifacts_are_versioned_and_weight_floors_are_explicit():
+    """A moving artifact ref or an unlabeled precision floor is not reproducible."""
+    models = load_yaml(DATA)["dashboard_models"]
+    versioned = 0
+
+    for model in models:
+        revision = model["metrics"]["artifact_revision"]
+        if revision["status"] != "FACT":
+            continue
+        versioned += 1
+        assert model["availability"] == "open_weights"
+        assert re.fullmatch(r"[0-9a-f]{40}", revision["value"])
+        for precision, bits in (("bf16", 16), ("fp8", 8), ("int8", 8), ("int4", 4)):
+            floor = model["metrics"][f"weight_floor_{precision}"]
+            assert floor["status"] in {"DERIVED", "NOT_APPLICABLE"}
+            if floor["status"] == "DERIVED":
+                assert floor["precision_bits"] == bits
+                assert floor["formula"] == "ceil(total_parameters * precision_bits / 8)"
+    assert versioned >= 15
+
+
+def test_dashboard_artifact_metrics_match_the_pinned_creator_repository():
+    """A byte count from one revision must not be labeled as another artifact."""
+    data = load_yaml(DATA)
+    allowed_formats = {"safetensors", "pytorch_bin"}
+
+    for model in data["dashboard_models"]:
+        revision = model["metrics"]["artifact_revision"]
+        if revision["status"] != "FACT":
+            continue
+        artifact_bytes = model["metrics"]["artifact_bytes"]
+        assert revision["source_ids"] == artifact_bytes["source_ids"]
+        assert len(revision["source_ids"]) == 1
+        source = data["sources"][revision["source_ids"][0]]
+        assert source["revision"] == revision["value"]
+        assert source["observed_weight_bytes"] == artifact_bytes["value"]
+        assert artifact_bytes["artifact_format"] in allowed_formats
+        assert source["observed_weight_format"] == artifact_bytes["artifact_format"]
+
+
+def test_dashboard_series_contracts_separate_training_inference_and_sla():
+    """Series definitions must not mix API, SLA, energy or training CAPEX."""
+    data = load_yaml(DATA)
+    assert [series["id"] for series in data["dashboard_training_series"]] == [
+        "parameters_total_active",
+        "training_flop",
+        "accelerators_and_hours",
+        "power_or_energy_envelope",
+        "replacement_value",
+    ]
+    assert [series["id"] for series in data["dashboard_inference_series"]] == [
+        "artifact_or_weight_floor",
+        "h100_capacity_equivalents",
+        "accelerator_tdp_scenario",
+        "accelerator_capex_scenario",
+        "parameters_total_active",
+    ]
+    for series in (
+        data["dashboard_training_series"] + data["dashboard_inference_series"]
+    ):
+        assert series["claim_scope"]
+        assert not ({"api_price", "SLA", "wall_energy"} & set(series["inputs"]))
+
+
+def test_eci_snapshot_is_pinned_and_exactly_matches_dashboard_variants():
+    """A benchmark alias must not attach a score to another model revision."""
+    data = load_yaml(DATA)
+    snapshot = load_yaml(ECI)
+    metadata = snapshot["snapshot"]
+    models = {model["id"]: model for model in data["dashboard_models"]}
+
+    assert metadata["id"] == "BS_ECI_2026_08_18"
+    assert metadata["as_of"] == data["cutoff"]
+    assert metadata["dataset_url"] == "https://epoch.ai/data/eci_scores.csv"
+    assert re.fullmatch(r"[0-9a-f]{64}", metadata["dataset_sha256"])
+    assert re.fullmatch(r"[0-9a-f]{40}", metadata["methodology_revision"])
+    assert data["benchmark_snapshots"] == [
+        {
+            "id": metadata["id"],
+            "path": "tools/data/eci_snapshot_2026-08-18.yaml",
+            "benchmark": "Epoch Capabilities Index",
+            "as_of": metadata["as_of"],
+            "source_ids": ["S_EPOCH_ECI_SCORES", "S_EPOCH_ECI_METHOD"],
+        }
+    ]
+
+    benchmark_ids = set()
+    for row in snapshot["models"]:
+        model = models[row["benchmark_model_id"]]
+        benchmark_ids.add(row["benchmark_model_id"])
+        assert row["model_name"] == model["canonical_name"]
+        assert row["variant"] == model["variant"]
+        assert row["variant_match_status"] == "EXACT_CREATOR_VARIANT"
+        assert row["source_model_versions"]
+        assert row["pareto_eligible"] is True
+        assert row["score_low"] <= row["score"] <= row["score_high"]
+        assert row["source_row_model"]
+    assert len(benchmark_ids) == len(snapshot["models"])
+    assert len(snapshot["models"]) >= 8
+    assert snapshot["excluded_variant_aggregates"]
+    for row in snapshot["excluded_variant_aggregates"]:
+        assert "benchmark_model_id" not in row
+        assert row["source_row_model"]
+        assert len(row["source_model_versions"]) > 1
+        assert row["reason"] == "ECI aggregates multiple evaluated variants"
 
 
 def test_all_evidence_cells_resolve_sources_and_explain_absence():
