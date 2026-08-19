@@ -280,6 +280,47 @@ def weight_floor_gb(
     )
 
 
+def inference_capacity_floor(
+    parameters: Decimal | int | str,
+    bits: Decimal | int | str,
+    quant_overhead: Decimal | int | str,
+    runtime_gb: Decimal | int | str,
+    kv_gb: Decimal | int | str,
+    workspace_gb: Decimal | int | str,
+    reserve_fraction: Decimal | int | str,
+) -> dict[str, Decimal]:
+    """Expose the decimal-GB components of an inference capacity floor."""
+    weights_gb = weight_floor_gb(parameters, bits)
+    quant_overhead_gb = weights_gb * _nonnegative(
+        quant_overhead, "quant_overhead"
+    )
+    quantized_weights_gb = weights_gb + quant_overhead_gb
+    runtime_gb = _nonnegative(runtime_gb, "runtime_gb")
+    kv_gb = _nonnegative(kv_gb, "kv_gb")
+    workspace_gb = _nonnegative(workspace_gb, "workspace_gb")
+    reserve_fraction = _nonnegative(reserve_fraction, "reserve_fraction")
+    if reserve_fraction >= 1:
+        raise ValueError("reserve_fraction must be less than one")
+    before_reserve_gb = (
+        quantized_weights_gb
+        + runtime_gb
+        + kv_gb
+        + workspace_gb
+    )
+    reserve_gb = before_reserve_gb * reserve_fraction
+    return {
+        "weights_gb": weights_gb,
+        "quant_overhead_gb": quant_overhead_gb,
+        "quantized_weights_gb": quantized_weights_gb,
+        "runtime_gb": runtime_gb,
+        "kv_gb": kv_gb,
+        "workspace_gb": workspace_gb,
+        "before_reserve_gb": before_reserve_gb,
+        "reserve_gb": reserve_gb,
+        "total_gb": before_reserve_gb + reserve_gb,
+    }
+
+
 def watts_to_kw(watts: Decimal | int | str) -> Decimal:
     """Convert physical power from W to kW; this does not calculate energy."""
     return _nonnegative(watts, "watts") / _THOUSAND

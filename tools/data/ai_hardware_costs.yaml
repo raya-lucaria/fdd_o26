@@ -11,6 +11,27 @@ sources:
     url: "docs/superpowers/specs/2026-08-18-costos-hardware-modelos-ia-design.md"
     accessed: "2026-08-18"
     primary_for: [didactic_scenarios, scope_rules, inference_target]
+  S_QWEN25_32B_GPTQ_INT8_ARTIFACT:
+    claim_owner: model_creator
+    source_class: primary
+    title: "Qwen2.5-32B-Instruct-GPTQ-Int8, revision eddc13f"
+    url: "https://huggingface.co/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8/tree/eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1"
+    accessed: "2026-08-18"
+    primary_for: [open_weight_artifact, artifact_revision, artifact_size, parameters, artifact_format, quantization, model_configuration, runtime_recommendation]
+  S_VLLM_071_QUANTIZATION_HARDWARE:
+    claim_owner: runtime_creator
+    source_class: primary
+    title: "vLLM 0.7.1 — Supported Hardware for Quantization Kernels"
+    url: "https://docs.vllm.ai/en/v0.7.1/features/quantization/supported_hardware.html"
+    accessed: "2026-08-18"
+    primary_for: [runtime_version, runtime_hardware_compatibility, quantization_support]
+  S_NVIDIA_DGX_H100_DATASHEET:
+    claim_owner: hardware_manufacturer
+    source_class: primary
+    title: "NVIDIA DGX H100 Datasheet"
+    url: "https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-h100-datasheet.pdf"
+    accessed: "2026-08-18"
+    primary_for: [purchasable_topology, system_composition, hbm_physical]
   S_OPENAI_GPT3_PAPER:
     claim_owner: model_creator
     source_class: primary
@@ -991,11 +1012,136 @@ training_cases:
       historical_acquisition_price: *qwen38_artifact_not_found
       attributed_training_capex: *capex_not_identifiable
 
+inference_capacity_cases:
+  - id: I_QWEN25_32B_GPTQ_INT8_CAPACITY
+    artifact:
+      name: {status: FACT, value: Qwen2.5-32B-Instruct-GPTQ-Int8, unit: artifact_name, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      revision: {status: FACT, value: eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1, unit: git_commit, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      parameters: {status: FACT, value: 32763876352, unit: parameter, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      format: {status: FACT, value: GPTQ_INT8_safetensors, unit: artifact_format, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      tensor_dtypes: {status: FACT, value: [I32, F16], unit: dtype_list, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      quantization_bits: {status: FACT, value: 8, unit: bit_per_parameter_floor, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      quantization_group_size: {status: FACT, value: 128, unit: parameter_per_quantization_group, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      shard_count: {status: FACT, value: 9, unit: safetensors_shard, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      shard_bytes: {status: FACT, value: 35068693560, unit: byte, source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]}
+      runtime_version: {status: SCENARIO, value: vLLM_0.7.1, unit: software_version, source_ids: [S_COURSE_DESIGN, S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE]}
+    capacity:
+      weights_floor_gb:
+        status: DERIVED
+        value: "32.763876352"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "32763876352 parameters × 8 bit/parameter ÷ 8 bit/byte ÷ 1000000000 byte/GB"
+      quant_overhead_fraction:
+        status: DERIVED
+        value: "0.07034629185014939223757939788235225726688"
+        unit: fraction_of_weight_floor
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "(35068693560 artifact bytes ÷ 1000000000 - 32.763876352 GB) ÷ 32.763876352 GB"
+        note: "La diferencia conserva escalas, ceros y overhead del contenedor juntos; el repositorio no permite separarlos con esta suma."
+      quantization_metadata_gb:
+        status: DERIVED
+        value: "2.304817208"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "35.068693560 GB de shards - 32.763876352 GB de piso de pesos"
+      weights_and_metadata_gb:
+        status: DERIVED
+        value: "35.068693560"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "35068693560 byte ÷ 1000000000 byte/GB"
+      runtime_gb:
+        status: SCENARIO
+        value: "4"
+        unit: GB_decimal
+        source_ids: [S_COURSE_DESIGN]
+        note: "Presupuesto docente; no es pico medido de vLLM."
+      kv_bytes_per_layer_token_request:
+        status: DERIVED
+        value: 4096
+        unit: byte_per_layer_token_request
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        formula: "2 K/V × 8 KV heads × 128 elements/head × 2 byte/FP16"
+      kv_batch: {status: SCENARIO, value: 16, unit: concurrent_request, source_ids: [S_COURSE_DESIGN]}
+      kv_context_tokens: {status: SCENARIO, value: 2304, unit: token_per_request, source_ids: [S_COURSE_DESIGN]}
+      kv_gb:
+        status: DERIVED
+        value: "9.663676416"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_COURSE_DESIGN]
+        formula: "4096 byte/layer/token/request × 64 layers × 2304 tokens/request × 16 requests ÷ 1000000000 byte/GB"
+        note: "Piso de payload KV FP16; no incluye bloques, padding ni fragmentación del runtime."
+      workspace_gb:
+        status: SCENARIO
+        value: "4"
+        unit: GB_decimal
+        source_ids: [S_COURSE_DESIGN]
+        note: "Presupuesto docente; no es workspace medido."
+      before_reserve_gb:
+        status: DERIVED
+        value: "52.732369976"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_COURSE_DESIGN]
+        formula: "35.068693560 weights+metadata + 4 runtime + 9.663676416 KV + 4 workspace"
+      reserve_fraction: {status: SCENARIO, value: "0.10", unit: fraction_of_subtotal, source_ids: [S_COURSE_DESIGN]}
+      reserve_gb:
+        status: DERIVED
+        value: "5.27323699760"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_COURSE_DESIGN]
+        formula: "52.732369976 GB × 0.10"
+      total_gb:
+        status: DERIVED
+        value: "58.00560697360"
+        unit: GB_decimal
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_COURSE_DESIGN]
+        formula: "52.732369976 GB + 5.27323699760 GB"
+      total_gib:
+        status: DERIVED
+        value: "54.0219312287867069244384765625"
+        unit: GiB_binary
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_COURSE_DESIGN]
+        formula: "58.00560697360 GB × 1000000000 byte/GB ÷ 1073741824 byte/GiB"
+    topology:
+      transaction_unit: {status: FACT, value: system, unit: transaction_unit, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
+      system: {status: FACT, value: NVIDIA_DGX_H100, unit: system_model, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
+      accelerators_per_system: {status: FACT, value: 8, unit: H100_GPU_per_system, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
+      physical_hbm_per_accelerator_gb: {status: DERIVED, value: 80, unit: GB_decimal_per_GPU, source_ids: [S_NVIDIA_DGX_H100_DATASHEET], formula: "640 GB físicos ÷ 8 GPU"}
+      physical_hbm_gb: {status: FACT, value: 640, unit: GB_decimal_per_system, source_ids: [S_NVIDIA_DGX_H100_DATASHEET]}
+      runtime_hardware_compatibility:
+        status: DERIVED
+        value: Qwen_artifact_recommends_vLLM_and_vLLM_0_7_1_supports_GPTQ_on_Hopper
+        unit: compatibility_statement
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE]
+      hbm_usable_gb:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [runtime_allocator_peak, driver_reserved_memory, measured_shard_peak]
+        note: "Los 640 GB son HBM física del sistema, no memoria utilizable demostrada por una ejecución."
+      minimum_purchasable_system:
+        status: SCENARIO
+        value: "1 NVIDIA DGX H100"
+        unit: system
+        source_ids: [S_COURSE_DESIGN, S_NVIDIA_DGX_H100_DATASHEET, S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE]
+        note: "Mínimo dentro del corpus de topologías completas revisadas; no afirma mínimo mundial ni precio."
+    capacity_assessment:
+      status: SCENARIO
+      value: cabe_en_presupuesto_de_capacidad_sin_SLA
+      unit: capacity_assessment
+      source_ids: [S_COURSE_DESIGN, S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE, S_NVIDIA_DGX_H100_DATASHEET]
+      sla_claim: false
+      note: "La cuenta incluye reserva pero debe validarse contra OOM y pico por shard; HBM física no se renombra HBM utilizable."
+
 inference_scenarios:
   - id: I_PRODUCTION_DIDACTIC_TARGET
     category: production_target
     model_id: null
     scope: didactic_production_inference
+    measurement_gate:
+      same_configuration_fields: [artifact_revision, runtime_version, hardware_topology, scheduler, batch, warmup, input_length, output_length, context_length, concurrency, utilization]
+      joint_output_throughput_and_ttft: true
+      allows_peak_flops_proxy: false
     metrics:
       concurrent_requests: {status: SCENARIO, value: 16, unit: request, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
       input_tokens_per_request: {status: SCENARIO, value: 2048, unit: input_token_per_request, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
@@ -1004,14 +1150,24 @@ inference_scenarios:
       ttft_p95_max: {status: SCENARIO, value: 2, unit: second, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
       utilization_max: {status: SCENARIO, value: 70, unit: percent, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
       redundancy: {status: SCENARIO, value: "N active servers + 1 server", unit: server_topology, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference, failure_domain: distinct}
+      joint_measurement:
+        status: NOT_FOUND
+        value: null
+        searched_on: "2026-08-18"
+        corpus_checked: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT, S_VLLM_071_QUANTIZATION_HARDWARE]
+        note: "No se halló throughput de salida y TTFT p95 medidos juntos para todas las dimensiones del gate."
       sla_compliance:
         status: ESTIMATION_NOT_IDENTIFIABLE
         value: null
-        missing_observables: [joint_output_throughput_measurement, joint_TTFT_p95_measurement, artifact, runtime, hardware, scheduler, batch, warmup, context_lengths, utilization]
+        missing_observables: [joint_output_throughput_measurement, joint_TTFT_p95_measurement, artifact_revision, runtime_version, hardware_topology, scheduler, batch, warmup, input_length, output_length, context_length, concurrency, utilization]
+      active_server_count:
+        status: ESTIMATION_NOT_IDENTIFIABLE
+        value: null
+        missing_observables: [joint_SLA_measurement_at_or_below_70_percent_utilization]
       operational_capex:
         status: ESTIMATION_NOT_IDENTIFIABLE
         value: null
-        missing_observables: [SLA_compliant_server_count, purchasable_topology, complete_price_basis]
+        missing_observables: [joint_SLA_measurement_at_or_below_70_percent_utilization, SLA_compliant_server_count, N_plus_1_purchase_count, purchasable_topology, complete_price_basis]
 
 valuations:
   - id: V_H100_30K_DIDACTIC_SCENARIO

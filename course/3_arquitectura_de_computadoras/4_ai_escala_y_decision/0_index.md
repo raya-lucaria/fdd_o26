@@ -278,6 +278,48 @@ Un escenario responde “¿qué compraría bajo estos supuestos?”, no “¿qu�
 
 La valoración supone USD 30,000 por módulo, unidad transable “module”, cantidad mínima uno, condición nueva hipotética, fecha 2026-08-18 y base didáctica en USD (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Incluye el módulo y su HBM; excluye los componentes enumerados en el ejemplo. No existe aquí una valoración `system-based`, y no se suma un sistema completo sobre estos módulos.
 
+### Inferencia de capacidad: cabe, sin SLA
+
+Dimensionar inferencia comienza por una cuenta de memoria, no por FLOP/s. El ejemplo usa el artefacto abierto y versionado `Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8` en el commit `eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1`. Sus nueve shards suman 35,068,693,560 bytes y su configuración declara 32,763,876,352 parámetros, GPTQ de 8 bits con grupos de 128, 64 capas, 8 cabezas KV y dimensión de cabeza 128 (**FACT**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`).
+
+La etiqueta **cabe, sin SLA** sólo significa que el presupuesto por componentes queda bajo la capacidad física elegida con estos supuestos. No demuestra ausencia de OOM, HBM utilizable, latencia o throughput. Desliza horizontalmente si tu pantalla es estrecha.
+
+| Artefacto y revisión | Formato | Pesos | Escalas/metadata | Runtime | KV | Workspace | Reserva | Total | Sistema mínimo del corpus |
+|---|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-32B-Instruct-GPTQ-Int8, `eddc13f…` (**FACT**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`) | GPTQ INT8, nueve shards `safetensors`; tensores I32/F16 (**FACT**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`) | 32.763876352 GB, piso aritmético (**DERIVED**; mismo ID) | 2.304817208 GB sobre el piso; shards completos: 35.068693560 GB (**DERIVED**; mismo ID) | 4 GB, vLLM 0.7.1 (**SCENARIO**; `S_COURSE_DESIGN`, compatibilidad `S_VLLM_071_QUANTIZATION_HARDWARE`) | 9.663676416 GB para 16 × 2,304 tokens, FP16 (**DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN`) | 4 GB (**SCENARIO**; `S_COURSE_DESIGN`) | 10 % = 5.27323699760 GB (**SCENARIO** y **DERIVED**; `S_COURSE_DESIGN`) | 58.00560697360 GB = 54.0219312287867069244384765625 GiB; **cabe, sin SLA** (**SCENARIO**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`) | 1 NVIDIA DGX H100, sistema de 8 GPU H100 con 640 GB físicos (**SCENARIO**; `S_NVIDIA_DGX_H100_DATASHEET`). HBM utilizable: **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+
+La reconstrucción conserva cada sumando:
+
+`piso de pesos = 32,763,876,352 parámetros × 8 bit/parámetro ÷ 8 bit/byte ÷ 1,000,000,000 byte/GB = 32.763876352 GB`
+
+`escalas/metadata + formato = 35.068693560 GB de shards − 32.763876352 GB = 2.304817208 GB`
+
+La segunda resta no permite separar escalas, ceros y encabezados del contenedor; sólo mide su diferencia conjunta frente al piso. Por eso no se renombra “pesos” al tamaño completo del artefacto.
+
+Para KV, cada capa, token y solicitud requiere `2 K/V × 8 cabezas KV × 128 elementos/cabeza × 2 byte/FP16 = 4,096 bytes`. Con entrada de 2,048 tokens y salida máxima de 256, `4,096 byte × 64 capas × 2,304 tokens × 16 solicitudes ÷ 1,000,000,000 = 9.663676416 GB`. Es piso de payload: bloques, padding y fragmentación del runtime todavía pueden aumentarlo.
+
+`subtotal = 35.068693560 + 4 + 9.663676416 + 4 = 52.732369976 GB`
+
+`reserva = 52.732369976 GB × 0.10 = 5.27323699760 GB`
+
+`total = 52.732369976 + 5.27323699760 = 58.00560697360 GB`
+
+GB es decimal: `1 GB = 1,000,000,000 bytes`. GiB es binario: `1 GiB = 1,073,741,824 bytes`; por eso el mismo total es 54.0219312287867069244384765625 GiB. No se intercambian las etiquetas.
+
+El sistema completo es la unidad adquirible considerada, no una GPU suelta imputada. La ficha de DGX H100 publica ocho H100 y 640 GB físicos; vLLM 0.7.1 declara soporte de GPTQ sobre Hopper. Eso establece una topología candidata compatible, no una medición de memoria. La HBM física no equivale a HBM utilizable: faltan pico del allocator, memoria reservada por driver y pico medido por shard. “Un DGX” es el mínimo entre las topologías completas de este corpus, no un mínimo mundial ni una valoración de precio.
+
+### Inferencia operacional: el SLA requiere una medición conjunta
+
+Ahora cambia la pregunta: no basta con que una réplica quepa. El escenario fijo pide 16 solicitudes concurrentes, 2,048 tokens de entrada, hasta 256 de salida, 100 output tokens/s agregados, TTFT p95 ≤ 2 s y utilización ≤ 70 %. La redundancia es N servidores activos + 1 servidor en otro dominio de falla (**SCENARIO**; `I_PRODUCTION_DIDACTIC_TARGET`, `S_COURSE_DESIGN`).
+
+| Carga objetivo | Resultado parcial disponible | Cumplimiento | Servidores y redundancia | CAPEX operacional |
+|---|---|---|---|---|
+| 16 concurrentes; 2,048 entrada; 256 salida; 100 output tokens/s agregados; TTFT p95 ≤ 2 s; utilización ≤ 70 % (**SCENARIO**; `I_PRODUCTION_DIDACTIC_TARGET`) | No se halló throughput de salida y TTFT p95 medidos juntos bajo el gate completo (**NOT_FOUND**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_VLLM_071_QUANTIZATION_HARDWARE`) | **ESTIMATION_NOT_IDENTIFIABLE**; `I_PRODUCTION_DIDACTIC_TARGET` | N activos + 1 en otro dominio: cantidad N **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID | **ESTIMATION_NOT_IDENTIFIABLE**; mismo ID |
+
+La misma ejecución debe fijar artefacto y revisión, runtime y versión, topología de hardware, scheduler, batch, warmup, longitudes de entrada y salida, contexto, concurrencia y utilización. Después debe registrar conjuntamente throughput de **salida** y la distribución de TTFT, incluido p95. Dos benchmarks separados no pasan el gate.
+
+Sin esa medición no se calcula N, no se añade el servidor de reserva y no se multiplica por un precio. Pico teórico en FLOP/s tampoco sustituye throughput observado: esta página no infiere rendimiento, costo por token ni CAPEX operacional desde FLOP/s.
+
 ## Guía de decisión
 
 1. **Define la carga:** inferencia o entrenamiento, precisión, contexto, concurrencia, latencia y volumen.
@@ -323,3 +365,5 @@ La práctica oficial aparece a continuación, al final de la unidad. Incluye sei
 - [Anthropic — Claude Sonnet 5](https://www.anthropic.com/news/claude-sonnet-5): nombre, lanzamiento y disponibilidad; [model card de Gemini 3.1 Pro](https://deepmind.google/models/model-cards/gemini-3-1-pro/) y [página de Gemini 3.1 Pro](https://deepmind.google/models/gemini/pro/): ficha y disponibilidad.
 - [Moonshot AI — Kimi K3](https://www.kimi.com/blog/kimi-k3), [reporte técnico](https://arxiv.org/abs/2607.24653), [repositorio](https://github.com/MoonshotAI/Kimi-K3) y [model card](https://huggingface.co/moonshotai/Kimi-K3): lanzamiento, parámetros y artefacto abierto.
 - [Qwen — Qwen3.8-Max](https://qwen.ai/blog?id=qwen3.8) y [Qwen3.8-2.4T-A95B](https://www.modelscope.cn/models/Qwen/Qwen3.8-2.4T-A95B): servicio alojado y artefacto base abierto, tratados como registros distintos.
+- [Qwen2.5-32B-Instruct-GPTQ-Int8, revisión `eddc13f`](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8/tree/eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1): parámetros, configuración GPTQ/GQA y bytes de los nueve shards usados en el piso de inferencia.
+- [vLLM 0.7.1 — hardware de cuantización](https://docs.vllm.ai/en/v0.7.1/features/quantization/supported_hardware.html): compatibilidad GPTQ con Hopper; [NVIDIA DGX H100](https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-h100-datasheet.pdf): sistema de ocho H100 y HBM física total.

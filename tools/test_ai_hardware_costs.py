@@ -5,6 +5,7 @@ import re
 import pytest
 import yaml
 
+import ai_hardware_costs as hardware_costs
 from ai_hardware_costs import (
     accelerator_capex,
     accelerator_hours,
@@ -110,7 +111,7 @@ def markdown_table_rows_after(markdown: str, heading: str) -> list[list[str]]:
 
 
 def ledger_ids(cell: str) -> set[str]:
-    return set(re.findall(r"`((?:H|M|S|T|V)_[A-Z0-9_]+)`", cell))
+    return set(re.findall(r"`((?:H|I|M|S|T|V)_[A-Z0-9_]+)`", cell))
 
 
 def test_training_tables_expose_ledger_ids_for_each_included_case():
@@ -774,6 +775,195 @@ def test_weight_floor_uses_decimal_gb_and_never_binary_gib_implicitly():
     assert installed_hbm_gib(8, 80) == Decimal("640")
     assert gb_to_gib(Decimal("14")) == Decimal("13.03851604461669921875")
     assert gib_to_gb(Decimal("13.03851604461669921875")) == Decimal("14")
+
+
+def test_capacity_floor_keeps_components_visible():
+    """Dropping quantization metadata would understate the capacity floor."""
+    result = hardware_costs.inference_capacity_floor(
+        parameters=Decimal("35e9"),
+        bits=8,
+        quant_overhead=Decimal("0.15"),
+        runtime_gb=Decimal("4"),
+        kv_gb=Decimal("8"),
+        workspace_gb=Decimal("4"),
+        reserve_fraction=Decimal("0.10"),
+    )
+
+    assert result["weights_gb"] == Decimal("35")
+    assert result["quantized_weights_gb"] == Decimal("40.25")
+    assert result["before_reserve_gb"] == Decimal("56.25")
+
+
+def test_capacity_floor_reports_each_component_and_reserved_total():
+    """Folding runtime, KV, workspace, or reserve together hides capacity drivers."""
+    result = hardware_costs.inference_capacity_floor(
+        parameters=Decimal("35e9"),
+        bits=8,
+        quant_overhead=Decimal("0.15"),
+        runtime_gb=Decimal("4"),
+        kv_gb=Decimal("8"),
+        workspace_gb=Decimal("4"),
+        reserve_fraction=Decimal("0.10"),
+    )
+
+    assert result == {
+        "weights_gb": Decimal("35"),
+        "quant_overhead_gb": Decimal("5.25"),
+        "quantized_weights_gb": Decimal("40.25"),
+        "runtime_gb": Decimal("4"),
+        "kv_gb": Decimal("8"),
+        "workspace_gb": Decimal("4"),
+        "before_reserve_gb": Decimal("56.25"),
+        "reserve_gb": Decimal("5.6250"),
+        "total_gb": Decimal("61.8750"),
+    }
+
+
+def test_capacity_floor_rejects_a_reserve_that_is_not_a_fraction():
+    """Treating 10 as 10% would inflate the physical requirement elevenfold."""
+    with pytest.raises(ValueError, match="less than one"):
+        hardware_costs.inference_capacity_floor(
+            parameters=1,
+            bits=8,
+            quant_overhead=0,
+            runtime_gb=0,
+            kv_gb=0,
+            workspace_gb=0,
+            reserve_fraction=1,
+        )
+
+
+def test_versioned_inference_artifact_reconstructs_the_capacity_budget():
+    """A real shard total must not be replaced by parameter arithmetic alone."""
+    data = load_yaml(DATA)
+    case = next(
+        item
+        for item in data["inference_capacity_cases"]
+        if item["id"] == "I_QWEN25_32B_GPTQ_INT8_CAPACITY"
+    )
+    artifact = case["artifact"]
+    capacity = case["capacity"]
+
+    assert artifact["revision"]["value"] == (
+        "eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1"
+    )
+    assert artifact["shard_count"]["value"] == 9
+    assert artifact["shard_bytes"]["value"] == 35_068_693_560
+
+    result = hardware_costs.inference_capacity_floor(
+        parameters=Decimal(str(artifact["parameters"]["value"])),
+        bits=Decimal(str(artifact["quantization_bits"]["value"])),
+        quant_overhead=Decimal(str(capacity["quant_overhead_fraction"]["value"])),
+        runtime_gb=Decimal(str(capacity["runtime_gb"]["value"])),
+        kv_gb=Decimal(str(capacity["kv_gb"]["value"])),
+        workspace_gb=Decimal(str(capacity["workspace_gb"]["value"])),
+        reserve_fraction=Decimal(str(capacity["reserve_fraction"]["value"])),
+    )
+    assert result["weights_gb"] == Decimal("32.763876352")
+    assert result["quantized_weights_gb"] == Decimal("35.068693560")
+    assert result["kv_gb"] == Decimal("9.663676416")
+    assert result["total_gb"] == Decimal("58.00560697360")
+    assert Decimal(str(capacity["total_gb"]["value"])) == result["total_gb"]
+
+
+def test_inference_capacity_separates_physical_from_usable_memory():
+    """A physical HBM sum must never become measured usable model memory."""
+    data = load_yaml(DATA)
+    case = data["inference_capacity_cases"][0]
+    topology = case["topology"]
+
+    assert topology["transaction_unit"]["value"] == "system"
+    assert topology["accelerators_per_system"]["value"] == 8
+    assert topology["physical_hbm_gb"]["value"] == 640
+    assert topology["hbm_usable_gb"]["status"] == "ESTIMATION_NOT_IDENTIFIABLE"
+    assert {
+        "runtime_allocator_peak",
+        "driver_reserved_memory",
+        "measured_shard_peak",
+    } <= set(topology["hbm_usable_gb"]["missing_observables"])
+    assert case["capacity_assessment"]["status"] == "SCENARIO"
+    assert case["capacity_assessment"]["sla_claim"] is False
+
+
+def test_operational_capex_stays_unidentifiable_without_one_joint_measurement():
+    """Separate throughput and latency runs cannot establish an SLA or CAPEX."""
+    data = load_yaml(DATA)
+    scenario = next(
+        item
+        for item in data["inference_scenarios"]
+        if item["id"] == "I_PRODUCTION_DIDACTIC_TARGET"
+    )
+    metrics = scenario["metrics"]
+    assert metrics["concurrent_requests"]["value"] == 16
+    assert metrics["input_tokens_per_request"]["value"] == 2048
+    assert metrics["max_output_tokens_per_request"]["value"] == 256
+    assert metrics["target_output_throughput"]["value"] == 100
+    assert metrics["ttft_p95_max"]["value"] == 2
+    assert metrics["utilization_max"]["value"] == 70
+    assert metrics["redundancy"]["value"] == "N active servers + 1 server"
+    assert metrics["redundancy"]["failure_domain"] == "distinct"
+
+    required = set(scenario["measurement_gate"]["same_configuration_fields"])
+    assert required == {
+        "artifact_revision",
+        "runtime_version",
+        "hardware_topology",
+        "scheduler",
+        "batch",
+        "warmup",
+        "input_length",
+        "output_length",
+        "context_length",
+        "concurrency",
+        "utilization",
+    }
+    assert scenario["measurement_gate"]["joint_output_throughput_and_ttft"] is True
+    assert scenario["measurement_gate"]["allows_peak_flops_proxy"] is False
+    assert metrics["joint_measurement"]["status"] == "NOT_FOUND"
+    assert metrics["sla_compliance"]["status"] == "ESTIMATION_NOT_IDENTIFIABLE"
+    assert metrics["active_server_count"]["status"] == (
+        "ESTIMATION_NOT_IDENTIFIABLE"
+    )
+    assert metrics["operational_capex"]["status"] == (
+        "ESTIMATION_NOT_IDENTIFIABLE"
+    )
+
+
+def test_inference_tables_expose_capacity_components_without_an_sla_claim():
+    """Omitting a component or a gate would turn a floor into a service promise."""
+    page = PAGE.read_text(encoding="utf-8")
+    capacity_rows = markdown_table_rows_after(
+        page, "### Inferencia de capacidad: cabe, sin SLA"
+    )
+    assert len(capacity_rows) == 1
+    row = capacity_rows[0]
+    assert len(row) == 10
+    assert "32.763876352 GB" in row[2]
+    assert "2.304817208 GB" in row[3]
+    assert "4 GB" in row[4]
+    assert "9.663676416 GB" in row[5]
+    assert "4 GB" in row[6]
+    assert "5.27323699760 GB" in row[7]
+    assert "58.00560697360 GB" in row[8]
+    assert "54.0219312287867069244384765625 GiB" in row[8]
+    assert "1 NVIDIA DGX H100" in row[9]
+    assert "HBM utilizable" in row[9]
+    assert "ESTIMATION_NOT_IDENTIFIABLE" in row[9]
+    assert "sin SLA" in " ".join(row)
+
+    operational_rows = markdown_table_rows_after(
+        page, "### Inferencia operacional: el SLA requiere una medición conjunta"
+    )
+    assert len(operational_rows) == 1
+    operational = " ".join(operational_rows[0])
+    assert "16" in operational
+    assert "2,048" in operational
+    assert "256" in operational
+    assert "100 output tokens/s" in operational
+    assert "TTFT p95 ≤ 2 s" in operational
+    assert "≤ 70 %" in operational
+    assert "N activos + 1" in operational
+    assert operational.count("ESTIMATION_NOT_IDENTIFIABLE") >= 3
 
 
 def test_unit_conversions_keep_power_energy_bits_and_accelerator_time_distinct():
