@@ -4,6 +4,8 @@ from collections.abc import Mapping
 import os
 from pathlib import Path
 
+import pytest
+
 
 PINNED_WORKTREE = Path(
     "raya_lucaria/.worktrees/navigation-first-course-rail"
@@ -42,3 +44,17 @@ def resolve_raya_checkout(
         "Could not find Raya's navigation-first-course-rail worktree; "
         "set RAYA_CHECKOUT to its absolute path."
     )
+
+
+def resolve_raya_checkout_or_skip(
+    repository_root: Path,
+    environ: Mapping[str, str] | None = None,
+) -> Path:
+    """Resolve Raya for integration guards, or skip in dependency-light CI."""
+    try:
+        return resolve_raya_checkout(repository_root, environ)
+    except FileNotFoundError as error:
+        pytest.skip(
+            f"Raya integration checkout unavailable ({error}); the "
+            "course-pages job independently validates and builds the course."
+        )

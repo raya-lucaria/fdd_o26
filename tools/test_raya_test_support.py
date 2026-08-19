@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+import tools.raya_test_support as raya_support
 from tools.raya_test_support import resolve_raya_checkout
 
 
@@ -46,3 +47,22 @@ def test_discovers_pinned_sibling_from_main_or_nested_worktree(
 def test_missing_checkout_has_actionable_override_message(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError, match="RAYA_CHECKOUT"):
         resolve_raya_checkout(tmp_path / "course", {})
+
+
+def test_integration_resolver_is_available() -> None:
+    assert getattr(raya_support, "resolve_raya_checkout_or_skip", None) is not None
+
+
+def test_integration_resolver_keeps_available_checkout(tmp_path: Path) -> None:
+    checkout = _make_raya_checkout(tmp_path / "custom-raya")
+
+    assert raya_support.resolve_raya_checkout_or_skip(
+        tmp_path / "course", {"RAYA_CHECKOUT": str(checkout)}
+    ) == checkout.resolve()
+
+
+def test_integration_resolver_skips_when_checkout_is_external(
+    tmp_path: Path,
+) -> None:
+    with pytest.raises(pytest.skip.Exception, match="course-pages"):
+        raya_support.resolve_raya_checkout_or_skip(tmp_path / "course", {})

@@ -4,11 +4,10 @@ from pathlib import Path
 import re
 import subprocess
 
-from tools.raya_test_support import resolve_raya_checkout
+from tools.raya_test_support import resolve_raya_checkout_or_skip
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RAYA = resolve_raya_checkout(ROOT)
 MAIN = (
     ROOT
     / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/0_index.md"
@@ -30,9 +29,10 @@ def test_dashboard_evidence_is_a_linked_optional_appendix() -> None:
 
 def test_raya_build_marks_annex_and_makes_its_sequence_label_explicit() -> None:
     """Raya cannot omit appendices from sequence yet, so never imply required work."""
+    raya = resolve_raya_checkout_or_skip(ROOT)
     subprocess.run(
         ["uv", "run", "raya", "build", str(ROOT)],
-        cwd=RAYA,
+        cwd=raya,
         env={**os.environ, "UV_PROJECT_ENVIRONMENT": ".venv-local"},
         check=True,
         stdout=subprocess.DEVNULL,

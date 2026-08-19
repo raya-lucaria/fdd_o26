@@ -4,23 +4,32 @@ from contextlib import contextmanager
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import os
+import pytest
 import subprocess
 from threading import Thread
 
-from playwright.sync_api import sync_playwright
+from tools.raya_test_support import resolve_raya_checkout_or_skip
 
-from tools.raya_test_support import resolve_raya_checkout
+
+playwright_sync_api = pytest.importorskip(
+    "playwright.sync_api",
+    reason=(
+        "Playwright is optional in dependency-light checks; the course-pages "
+        "job independently validates and builds the course."
+    ),
+)
+sync_playwright = playwright_sync_api.sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RAYA = resolve_raya_checkout(ROOT)
 URL = "/arquitectura-de-computadoras/ai-escala-y-decision/index.html"
 
 
 @contextmanager
 def built_site():
+    raya = resolve_raya_checkout_or_skip(ROOT)
     subprocess.run(
-        ["uv", "run", "raya", "build", str(ROOT)], cwd=RAYA,
+        ["uv", "run", "raya", "build", str(ROOT)], cwd=raya,
         env={**os.environ, "UV_PROJECT_ENVIRONMENT": ".venv-local"}, check=True,
         stdout=subprocess.DEVNULL,
     )
