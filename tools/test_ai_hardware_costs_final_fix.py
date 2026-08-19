@@ -8,6 +8,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "tools/data/ai_hardware_costs.yaml"
 PAGE = ROOT / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/0_index.md"
+ANNEX = PAGE.parent / "1_evidencia_dashboard/0_index.md"
 GENERATOR = ROOT / "tools/gen_ai_hardware_costs.py"
 
 
@@ -64,7 +65,7 @@ def test_evidence_dates_artifacts_and_inference_states_are_explicit():
     case = ledger["inference_capacity_cases"][0]
     assert case["capacity"]["total_gb"]["status"] == "DERIVED"
     assert case["capacity_assessment"]["status"] == "SCENARIO"
-    assert "54.022 GiB" in PAGE.read_text(encoding="utf-8")
+    assert "54.022 GiB" in ANNEX.read_text(encoding="utf-8")
 
 
 def test_pedagogy_mobile_language_and_glossary():

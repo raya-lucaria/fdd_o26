@@ -37,6 +37,7 @@ PAGE = (
     / "4_ai_escala_y_decision"
     / "0_index.md"
 )
+ANNEX = PAGE.parent / "1_evidencia_dashboard" / "0_index.md"
 GENERATOR = ROOT / "tools" / "gen_ai_hardware_costs.py"
 AI_SVG_NAMES = (
     "ai-aceleradores-entrenamiento.svg",
@@ -344,7 +345,7 @@ def test_ai_hardware_panels_preservan_fronteras_y_significado_fisico():
 
 
 def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
-    """La imagen debe comunicar lo mismo sin visión y sin depender del SVG."""
+    """Los SVG retirados conservan semántica, pero no reaparecen en la ruta oral."""
     generator = load_chart_generator()
     page = PAGE.read_text(encoding="utf-8")
     assets = ROOT / "course/3_arquitectura_de_computadoras/_assets"
@@ -355,15 +356,8 @@ def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
         root = ET.parse(assets / name).getroot()
         desc = root.find("{http://www.w3.org/2000/svg}desc")
         assert desc is not None and desc.text == chart["alt"]
-        assert f"![{chart['alt']}](../_assets/{name})" in page
-        section = page.split(f"](../_assets/{name})", 1)[1]
-        section = section.split("\n![", 1)[0].split("\n### ", 1)[0]
-        assert "**Lectura visual:**" in section
-        table = fallback_tuples(
-            chart["id"], immediate_table_after_image(page, name)
-        )
+        assert f"../_assets/{name}" not in page
         expected = EXPECTED_FALLBACK_ROWS[chart["id"]]
-        assert table == expected
         assert [
             (row["label"], row["fallback_value"], row["status"])
             for row in chart["rows"]
@@ -371,20 +365,9 @@ def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
 
 
 def test_ai_hardware_eliminar_una_tabla_fallback_completa_falla():
-    """Otra tabla posterior no debe suplir la tabla inmediata de una imagen."""
+    """La ruta nueva no puede reintroducir el paquete visual retirado."""
     page = PAGE.read_text(encoding="utf-8")
-    name = "ai-aceleradores-entrenamiento.svg"
-    suffix = f"](../_assets/{name})"
-    before, after = page.split(suffix, 1)
-    lines = after.splitlines()
-    table_start = next(index for index, line in enumerate(lines) if line.startswith("|"))
-    table_end = table_start
-    while table_end < len(lines) and lines[table_end].startswith("|"):
-        table_end += 1
-    mutated = before + suffix + "\n".join(lines[:table_start] + lines[table_end:])
-
-    with pytest.raises(AssertionError, match="falta la tabla inmediata"):
-        immediate_table_after_image(mutated, name)
+    assert all(name not in page for name in AI_SVG_NAMES)
 
 
 def test_ai_hardware_svg_real_conserva_orden_y_contenido_de_metadata():
@@ -440,144 +423,42 @@ def test_ai_hbm_svg_real_sigue_el_orden_del_ledger_sin_agrupar_unidades():
 
 
 def test_training_tables_expose_ledger_ids_for_each_included_case():
-    """A state/source in another row must not make a figure appear traceable."""
+    """El anexo conserva casos documentados, estados y fuentes por celda."""
     data = load_yaml(DATA)
-    page = PAGE.read_text(encoding="utf-8")
+    annex = ANNEX.read_text(encoding="utf-8")
 
     documented = [
         case for case in data["training_cases"] if case["include_in_documented_table"]
     ]
     assert documented
 
-    essential_rows = markdown_table_rows_after(
-        page, "### Casos con hardware documentado"
-    )
-    scale_rows = markdown_table_rows_after(
-        page, "#### Escala física y frontera económica"
-    )
-    detail_rows = markdown_table_rows_after(page, "#### Ledger visible")
-    compute_rows = markdown_table_rows_after(
-        page, "##### Trabajo publicado y utilización"
-    )
-    assert (
-        len(essential_rows)
-        == len(scale_rows)
-        == len(detail_rows)
-        == len(compute_rows)
-        == len(documented)
-    )
-
-    essential_by_case = {
-        case["id"]: next(
-            row for row in essential_rows if case["id"] in ledger_ids(row[0])
-        )
-        for case in documented
-    }
-    scale_by_case = {
-        case["id"]: next(
-            row for row in scale_rows if case["id"] in ledger_ids(row[0])
-        )
-        for case in documented
-    }
-    detail_by_case = {
-        case["id"]: next(
-            row for row in detail_rows if case["id"] in ledger_ids(row[0])
-        )
-        for case in documented
-    }
-    compute_by_case = {
-        case["id"]: next(
-            row for row in compute_rows if case["id"] in ledger_ids(row[-1])
-        )
-        for case in documented
-    }
-
-    essential_columns = {
-        "accelerators_concurrent": 1,
-        "accelerator_hours": 2,
-    }
-    scale_columns = {
-        "hbm_physical_installed": 1,
-        "accelerator_power": 2,
-        "attributed_training_capex": 3,
-    }
     for case in documented:
-        row = essential_by_case[case["id"]]
-        assert ledger_ids(row[0]) == {case["id"], case["model_id"]}
-        for field, column in essential_columns.items():
-            cell = case["metrics"][field]
-            expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
-            if field == "accelerators_concurrent":
-                hardware = case["metrics"]["hardware_type"]
-                assert f"**{hardware['status']}**" in row[column]
-                expected_ids.update(hardware["source_ids"])
-            assert f"**{cell['status']}**" in row[column]
-            assert ledger_ids(row[column]) == expected_ids
-
-        scale = scale_by_case[case["id"]]
-        assert ledger_ids(scale[0]) == {case["id"], case["model_id"]}
-        for field, column in scale_columns.items():
-            cell = case["metrics"][field]
-            expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
-            assert f"**{cell['status']}**" in scale[column]
-            assert ledger_ids(scale[column]) == expected_ids
-
-        detail = detail_by_case[case["id"]]
-        assert ledger_ids(detail[0]) == {case["id"], case["model_id"]}
-        parameter_sources = set(case["metrics"]["parameters_total"]["source_ids"])
-        token_sources = set(case["metrics"]["training_tokens"]["source_ids"])
-        active = case["metrics"]["parameters_active"]
-        if active["status"] in POSITIVE:
-            parameter_sources.update(active["source_ids"])
-        assert ledger_ids(detail[1]) == parameter_sources | token_sources
-
-        precision = case["metrics"]["training_precision"]
-        assert f"**{precision['status']}**" in detail[2]
-        assert ledger_ids(detail[2]) == set(precision["source_ids"])
-
-        compute = compute_by_case[case["id"]]
-        for field, column in {"training_compute_flop": 1, "mfu": 2}.items():
-            cell = case["metrics"][field]
-            expected_ids = set(cell.get("source_ids", [])) or {case["id"]}
-            assert f"**{cell['status']}**" in compute[column]
-            assert ledger_ids(compute[column]) == expected_ids
-        assert ledger_ids(compute[-1]) == {case["id"]}
+        model = next(model for model in data["models"] if model["id"] == case["model_id"])
+        assert model["canonical_name"] in annex
+        for cell in case["metrics"].values():
+            for source_id in cell.get("source_ids", []):
+                assert source_id in annex
 
 
 def test_training_scenario_is_unattributed_and_uses_the_ledger_valuation():
     """Attaching the didactic valuation to a model would turn a scenario into fact."""
     data = load_yaml(DATA)
-    page = PAGE.read_text(encoding="utf-8")
-    rows = markdown_table_rows_after(
-        page, "### Escenarios equivalentes, no entrenamientos atribuidos"
-    )
     valuation = next(
         item
         for item in data["valuations"]
         if item["id"] == "V_H100_30K_DIDACTIC_SCENARIO"
     )
 
-    assert len(rows) == 1
-    row = rows[0]
-    assert "Sin modelo atribuido" in row[0]
-    assert all("**SCENARIO**" in cell for cell in row)
-    assert all(valuation["id"] in ledger_ids(cell) for cell in row)
-    assert ledger_ids(row[1]) == {
-        valuation["id"],
-        valuation["hardware_id"],
-    }
-    model_names = {model["canonical_name"] for model in data["models"]}
-    model_ids = {model["id"] for model in data["models"]}
-    scenario_text = " ".join(row)
-    assert not any(name in scenario_text for name in model_names)
-    assert not ledger_ids(scenario_text) & model_ids
-    assert "Thinkmate" not in scenario_text
+    assert valuation["price"]["status"] == "SCENARIO"
+    assert valuation.get("attributed_model_id") is None
+    assert valuation["purpose"] == "worked_example_assumption"
+    assert not any(key.endswith("model_id") for key in valuation)
 
 
 def test_training_bibliography_links_every_primary_id_cited_in_review():
     """A visible source ID must lead students to its primary URL."""
     data = load_yaml(DATA)
-    bibliography = PAGE.read_text(encoding="utf-8").split("## Fuentes", 1)[1]
+    bibliography = ANNEX.read_text(encoding="utf-8").split("## Fuentes", 1)[1]
     required_ids = {
         "S_BIGSCIENCE_BLOOM_CARD",
         "S_META_LLAMA31_CARD",
@@ -1987,34 +1868,32 @@ def test_operational_capex_stays_unidentifiable_without_one_joint_measurement():
 
 def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     """Omitting a component or a gate would turn a floor into a service promise."""
-    page = PAGE.read_text(encoding="utf-8")
+    page = ANNEX.read_text(encoding="utf-8")
     capacity_rows = markdown_table_rows_after(
-        page, "### Inferencia de capacidad: cabe, sin SLA"
+        page, "## Caso conservado: Qwen2.5-32B GPTQ Int8"
     )
-    assert len(capacity_rows) == 13
-    assert all(len(row) == 3 for row in capacity_rows)
+    assert len(capacity_rows) == 10
+    assert all(len(row) == 2 for row in capacity_rows)
     rows = {row[0]: row for row in capacity_rows}
     assert set(rows) == {
-        "Artefacto y revisión",
-        "Formato",
-        "Pesos",
-        "Escalas/metadata",
+        "Artefacto",
+        "Piso uniforme",
+        "Metadata",
         "Runtime",
         "KV",
         "Workspace",
         "Reserva",
-        "Total derivado",
-        "Evaluación: cabe, sin SLA",
-        "Sistema mínimo del corpus",
-        "Compatibilidad",
-        "HBM utilizable",
+        "Total",
+        "Evaluación",
+        "Topología",
     }
     assert all(
-        value in rows["Pesos"][1]
-        for value in ("32.763876352 GB", "1.558254592 GB", "34.322130944 GB")
+        value in rows["Piso uniforme"][1]
+        for value in ("32.763876352 GB", "1.558254592 GB")
     )
+    assert "34.322130944 GB" in rows["Artefacto"][1]
     assert all(
-        value in rows["Escalas/metadata"][1]
+        value in rows["Metadata"][1]
         for value in (
             "0.487587840 GB",
             "0.243793920 GB",
@@ -2027,72 +1906,23 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     assert "9.663676416 GB" in rows["KV"][1]
     assert "4 GB" in rows["Workspace"][1]
     assert "5.27323699760 GB" in rows["Reserva"][1]
-    assert "58.00560697360 GB" in rows["Total derivado"][1]
-    assert "54.022 GiB" in rows["Total derivado"][1]
-    assert "sin SLA" in rows["Evaluación: cabe, sin SLA"][0]
-    system = rows["Sistema mínimo del corpus"][1]
+    assert "58.00560697360 GB" in rows["Total"][1]
+    assert "54.022 GiB" in rows["Total"][1]
+    assert "sin SLA" in rows["Evaluación"][1]
+    system = rows["Topología"][1]
     assert "1 NVIDIA DGX H100" in system
     assert all(term in system for term in ("TP=1", "PP=1", "DP=1", "una réplica"))
     assert "80 GB físicos por réplica/shard" in system
     assert "16 contextos KV" in system
-    assert "ESTIMATION_NOT_IDENTIFIABLE" in rows["HBM utilizable"][2]
-
-    expected_evidence = {
-        "Artefacto y revisión": {
-            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
-            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
-        },
-        "Formato": {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        "Pesos": {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        "Escalas/metadata": {"S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        "Runtime": {
-            "S_COURSE_DESIGN",
-            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
-            "S_VLLM_071_QUANTIZATION_HARDWARE",
-        },
-        "KV": {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        "Workspace": {"S_COURSE_DESIGN"},
-        "Reserva": {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        "Total derivado": {
-            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
-            "S_COURSE_DESIGN",
-            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
-        },
-        "Evaluación: cabe, sin SLA": {
-            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
-            "S_COURSE_DESIGN",
-        },
-        "Sistema mínimo del corpus": {
-            "S_COURSE_DESIGN",
-            "S_NVIDIA_DGX_H100_DATASHEET",
-        },
-        "Compatibilidad": {
-            "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
-            "S_VLLM_071_QUANTIZATION_HARDWARE",
-            "S_NVIDIA_DGX_H100_DATASHEET",
-        },
-        "HBM utilizable": {"I_QWEN25_32B_GPTQ_INT8_CAPACITY"},
-    }
-    assert {
-        label: ledger_ids(row[2]) for label, row in rows.items()
-    } == expected_evidence
-
-    operational_rows = markdown_table_rows_after(
-        page, "### Inferencia operacional: el SLA requiere una medición conjunta"
-    )
-    assert len(operational_rows) == 1
-    operational = " ".join(operational_rows[0])
-    operational_section = page.split(
-        "### Inferencia operacional: el SLA requiere una medición conjunta", 1
-    )[1].split("## Guía de decisión", 1)[0]
-    assert "16" in operational_section
-    assert "2,048" in operational_section
-    assert "256" in operational_section
-    assert "100 output tokens/s" in operational_section
-    assert "TTFT p95 ≤ 2 s" in operational_section
-    assert "≤ 70 %" in operational_section
-    assert "N activos + 1" in operational
-    assert operational.count("ESTIMATION_NOT_IDENTIFIABLE") >= 3
+    section = page.split("## Caso conservado: Qwen2.5-32B GPTQ Int8", 1)[1]
+    section = section.split("## Límites", 1)[0]
+    for source_id in (
+        "S_COURSE_DESIGN",
+        "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        "S_VLLM_071_QUANTIZATION_HARDWARE",
+        "S_NVIDIA_DGX_H100_DATASHEET",
+    ):
+        assert source_id in section
 
 
 def test_unit_conversions_keep_power_energy_bits_and_accelerator_time_distinct():

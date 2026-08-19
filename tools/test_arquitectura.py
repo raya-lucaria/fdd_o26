@@ -18,6 +18,33 @@ PAGES = [
     UNIT / "4_ai_escala_y_decision/0_index.md",
 ]
 ASSETS = UNIT / "_assets"
+AI_PAGE = UNIT / "4_ai_escala_y_decision/0_index.md"
+DASHBOARD_ANNEX = (
+    UNIT
+    / "4_ai_escala_y_decision/1_evidencia_dashboard/0_index.md"
+)
+AI_LEDGER = ROOT / "tools/data/ai_hardware_costs.yaml"
+DASHBOARD_ASSETS = {
+    "ai-training-parameters.svg",
+    "ai-training-flop.svg",
+    "ai-training-accelerators.svg",
+    "ai-training-power.svg",
+    "ai-training-replacement-value.svg",
+    "ai-inference-memory.svg",
+    "ai-inference-accelerators.svg",
+    "ai-inference-power.svg",
+    "ai-inference-capex.svg",
+    "ai-inference-parameters.svg",
+    "ai-pareto-training.svg",
+    "ai-pareto-inference.svg",
+}
+RETIRED_DASHBOARD_ASSETS = {
+    "ai-aceleradores-entrenamiento.svg",
+    "ai-hbm-entrenamiento.svg",
+    "ai-potencia-hardware.svg",
+    "ai-capex-hardware.svg",
+    "ai-inferencia-capacidad.svg",
+}
 ASSIGNMENT = (
     ROOT
     / "course/3_arquitectura_de_computadoras/_official/assignments/1_videos_hardware.yaml"
@@ -248,48 +275,111 @@ def test_required_beginner_visual_topics_and_current_models_are_present():
     assert "no divulgado" in ai.lower()
 
 
-def test_ai_hardware_tables_separate_facts_from_scenarios():
-    section = body(PAGES[4]).split("## Costo físico del hardware", 1)[1]
-    assert "8 × 80 GB = 640 GB" in section
-    assert "8 × USD 30,000 = USD 240,000" in section
-    assert "Casos con hardware documentado" in section
-    assert "Modelos actuales: hechos y límites" in section
-    assert "Escenarios equivalentes, no entrenamientos atribuidos" in section
-    assert "ESTIMATION_NOT_IDENTIFIABLE" in section
+def dashboard_section() -> str:
+    ai = body(AI_PAGE)
+    return ai.split("## Dashboard: modelos, hardware y costo", 1)[1].split(
+        "## Guía de decisión", 1
+    )[0]
 
 
-def test_ai_hardware_section_excludes_api_and_non_hardware_costs():
-    ai = body(PAGES[4])
-    section = ai.split("## Costo físico del hardware", 1)[1]
-    section = section.split("## Guía de decisión", 1)[0]
-    forbidden = ("precio API", "electricidad", "personal", "datos", "edificios")
-    assert not any(term in section for term in forbidden)
-    assert "accelerator-hours no son energía" in section
-    assert "HBM física no es HBM utilizable" in section
-    assert "FLOP es trabajo" in section
-    assert "FLOP/s es una tasa" in section
+def test_dashboard_main_route_is_short_visual_and_model_rich():
+    section = dashboard_section()
+    assert 900 <= len(section.split()) <= 1400
+    assert {name for name in DASHBOARD_ASSETS if name in section} == DASHBOARD_ASSETS
+    assert "[[evidencia-dashboard-ia]]" in section
+    assert "data-source-ids" not in section
+    assert not re.search(r"\b(?:S|DM|T|V)_[A-Z0-9_]{4,}\b", section)
+    assert all(name not in section for name in RETIRED_DASHBOARD_ASSETS)
 
 
-def test_ai_hardware_teaches_power_and_energy_unit_conversions():
-    section = body(PAGES[4]).split("## Costo físico del hardware", 1)[1]
-    section = section.split("## Guía de decisión", 1)[0]
-    assert "1,000 W = 1 kW" in section
-    assert "1,000 kW = 1 MW" in section
-    assert "kW × h = kWh" in section
+def test_dashboard_main_route_has_teaching_order_and_plain_language_boundaries():
+    section = dashboard_section()
+    headings = (
+        "### En 30 segundos",
+        "### Cómo leer el dashboard",
+        "### Entrenamiento a través del tiempo",
+        "### Inferencia local a través del tiempo",
+        "### Pareto: mejorar una cosa sin empeorar la otra",
+        "### Qué sí y qué no puedes concluir",
+        "### Recapitulación del dashboard",
+    )
+    positions = [section.index(heading) for heading in headings]
+    assert positions == sorted(positions)
+    required = (
+        "FLOP es trabajo",
+        "FLOP/s es una tasa",
+        "parámetros totales",
+        "parámetros activos",
+        "piso",
+        "no es un servidor",
+        "TDP no es potencia de pared",
+        "no es el costo real",
+        "ECI no es IQ",
+        "no publicado",
+    )
+    assert all(term in section for term in required)
 
 
-def test_ai_hardware_tables_stay_narrow_for_mobile_reading():
-    section = body(PAGES[4]).split("## Costo físico del hardware", 1)[1]
-    section = section.split("## Guía de decisión", 1)[0]
+def test_dashboard_main_route_is_mobile_scannable():
+    section = dashboard_section()
     lines = section.splitlines()
     wide_headers = []
     for index, line in enumerate(lines[:-1]):
         if not line.startswith("|") or not lines[index + 1].startswith("|---"):
             continue
         columns = len(line.strip().strip("|").split("|"))
-        if columns > 4:
+        if columns > 2:
             wide_headers.append((line, columns))
     assert not wide_headers, wide_headers
+    for paragraph in re.split(r"\n\s*\n", section):
+        if not paragraph.startswith(("|", "-", "1.", "2.", "3.", "4.", "5.", "![", ">")):
+            assert len(paragraph.split()) <= 75
+
+
+def test_dashboard_visuals_render_inline_instead_of_thumbnail_inspector():
+    section = dashboard_section()
+    for name in DASHBOARD_ASSETS:
+        pattern = rf"\[!\[[^]]+]\(\.\./_assets/{re.escape(name)}\)\]\(\.\./_assets/{re.escape(name)}\)"
+        assert re.search(pattern, section), name
+
+
+def test_dashboard_annex_preserves_complete_evidence():
+    assert DASHBOARD_ANNEX.is_file()
+    annex = body(DASHBOARD_ANNEX)
+    ledger = load_yaml(AI_LEDGER)
+    models = ledger["dashboard_models"]
+    assert len(models) == 39
+    for model in models:
+        assert model["id"] in annex
+        assert model["canonical_name"] in annex
+    required = (
+        "Metodología de las series",
+        "Pisos de precisión",
+        "Metodología de frontera de Pareto",
+        "Frontera segura",
+        "Frontera posible",
+        "Corpus negativo",
+        "Snapshot ECI",
+        "UNDISCLOSED_BY_CREATOR",
+        "ESTIMATION_NOT_IDENTIFIABLE",
+        "Fórmula",
+        "Fuentes",
+    )
+    assert all(term in annex for term in required)
+    assert "id: evidencia-dashboard-ia" in DASHBOARD_ANNEX.read_text(encoding="utf-8")
+
+
+def test_dashboard_annex_uses_vertical_records_not_a_wide_ledger():
+    annex = body(DASHBOARD_ANNEX)
+    assert "<br>" not in annex
+    records = annex.split("## Registros verticales por modelo", 1)[1].split(
+        "## Corpus negativo", 1
+    )[0]
+    assert "| Métrica |" not in records
+    assert "- **parameters_total:**" in records
+    for index, line in enumerate(annex.splitlines()[:-1]):
+        if line.startswith("|") and annex.splitlines()[index + 1].startswith("|---"):
+            assert len(line.strip().strip("|").split("|")) <= 3
 
 
 def test_weight_memory_formula_defines_symbols_and_converts_bits_before_formula():
