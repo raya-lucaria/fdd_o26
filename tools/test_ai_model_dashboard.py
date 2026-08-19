@@ -14,7 +14,7 @@ from ai_model_dashboard import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-ANNEX = ROOT / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/1_evidencia_dashboard/0_index.md"
+ANNEX = ROOT / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/A_evidencia_dashboard/0_index.md"
 
 
 def metric(status, value=None, unit=None, source_ids=("S_TEST",), **extra):

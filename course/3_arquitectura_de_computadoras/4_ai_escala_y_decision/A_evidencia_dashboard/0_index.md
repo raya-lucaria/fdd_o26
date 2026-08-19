@@ -1,14 +1,15 @@
 ---
 id: evidencia-dashboard-ia
-title: "Evidencia del dashboard de modelos de IA"
-summary: "Registros, fórmulas, fuentes y ausencias que sostienen las comparaciones de hardware."
+title: "Anexo opcional — evidencia del dashboard de modelos de IA"
+nav_title: "Anexo opcional — evidencia del dashboard"
+summary: "Consulta opcional con registros, fórmulas, fuentes y ausencias que sostienen las comparaciones de hardware."
 status: ready
 tags: [ia, hardware, evidencia, dashboard]
 ---
 
 # Evidencia del dashboard de modelos de IA
 
-Este anexo conserva el detalle que haría ilegible la ruta oral. El corte del ledger es **2026-08-18**. Regresa a [[ia-escala-decision]] para explicar las gráficas; usa esta página para auditar una celda.
+**Anexo opcional.** Conserva el detalle que haría ilegible la ruta oral, pero no forma parte del recorrido principal de la clase. El corte del ledger es **2026-08-18**. Regresa a [[ia-escala-decision]] para explicar las gráficas; usa esta página sólo cuando necesites auditar una celda.
 
 ## Estados y frontera de la afirmación
 

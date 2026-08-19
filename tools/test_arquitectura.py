@@ -21,7 +21,7 @@ ASSETS = UNIT / "_assets"
 AI_PAGE = UNIT / "4_ai_escala_y_decision/0_index.md"
 DASHBOARD_ANNEX = (
     UNIT
-    / "4_ai_escala_y_decision/1_evidencia_dashboard/0_index.md"
+    / "4_ai_escala_y_decision/A_evidencia_dashboard/0_index.md"
 )
 AI_LEDGER = ROOT / "tools/data/ai_hardware_costs.yaml"
 DASHBOARD_ASSETS = {

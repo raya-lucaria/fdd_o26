@@ -37,7 +37,7 @@ PAGE = (
     / "4_ai_escala_y_decision"
     / "0_index.md"
 )
-ANNEX = PAGE.parent / "1_evidencia_dashboard" / "0_index.md"
+ANNEX = PAGE.parent / "A_evidencia_dashboard" / "0_index.md"
 GENERATOR = ROOT / "tools" / "gen_ai_hardware_costs.py"
 AI_SVG_NAMES = (
     "ai-aceleradores-entrenamiento.svg",
