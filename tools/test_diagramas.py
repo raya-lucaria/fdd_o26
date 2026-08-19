@@ -300,18 +300,18 @@ def test_ai_hardware_intervalos_completos_llegan_a_metadata_y_svg(tmp_path):
     assert (charts["accelerators"]["points"][0]["low"],
             charts["accelerators"]["points"][0]["high"]) == (300, 500)
     assert (charts["capex"]["points"][0]["low"],
-            charts["capex"]["points"][0]["high"]) == (25000, 35000)
+            charts["capex"]["points"][0]["high"]) == (200000, 280000)
 
     generated = tmp_path / "assets"
     generador.render_all(ledger, generated)
     accelerator_xml = (generated / AI_SVG_NAMES[0]).read_text(encoding="utf-8")
     capex_xml = (generated / AI_SVG_NAMES[3]).read_text(encoding="utf-8")
     assert "300–500 aceleradores [FACT]" in accelerator_xml
-    assert "USD 25,000–USD 35,000" in capex_xml
-    assert "[SCENARIO]" in capex_xml
+    assert "USD 200,000–USD 280,000" in capex_xml
+    assert "[DERIVED]" in capex_xml
     for xml, label, low, high in (
         (accelerator_xml, "BLOOM 176B", "300", "500"),
-        (capex_xml, "accelerator-only · supuesto docente 2026", "25000", "35000"),
+            (capex_xml, "accelerator-only · supuesto docente 2026", "200000", "280000"),
     ):
         root = ET.fromstring(xml)
         intervals = [

@@ -343,6 +343,10 @@ hardware:
       peak_theoretical_rate:
         status: DERIVED
         value: 989.5
+        approximate: true
+        precision: BF16_tensor
+        sparsity: dense_derived_from_sparse_divided_by_2
+        accumulation: FP32
         unit: TFLOP_per_second_BF16_dense_per_module
         source_ids: [S_NVIDIA_H100_PAGE]
         formula: "1,979 TFLOP/s BF16 con sparsity / 2"
@@ -557,6 +561,7 @@ models:
     provider: Moonshot AI
     source_ids: [S_MOONSHOT_KIMI_K3_BLOG, S_MOONSHOT_KIMI_K3_PAPER, S_MOONSHOT_KIMI_K3_REPOSITORY, S_MOONSHOT_KIMI_K3_CARD]
     facts:
+      artifact_identity: {status: NOT_FOUND, value: null, searched_on: "2026-08-18", corpus_checked: [S_MOONSHOT_KIMI_K3_REPOSITORY, S_MOONSHOT_KIMI_K3_CARD], note: "No se fijó commit o manifiesto inmutable; se muestran lanzamiento, repositorio y consulta, no un artefacto versionado."}
       canonical_name: {status: FACT, value: "Kimi K3", unit: model_name, source_ids: [S_MOONSHOT_KIMI_K3_BLOG]}
       release_date: {status: FACT, value: "2026-07-16", unit: ISO_8601_date, source_ids: [S_MOONSHOT_KIMI_K3_BLOG]}
       availability: {status: FACT, value: open_weights_and_hosted_products, unit: distribution_state, source_ids: [S_MOONSHOT_KIMI_K3_REPOSITORY, S_MOONSHOT_KIMI_K3_CARD]}
@@ -601,6 +606,7 @@ models:
     provider: Qwen Team
     source_ids: [S_QWEN38_ANNOUNCEMENT, S_QWEN38_MODELSCOPE]
     facts:
+      artifact_identity: {status: FACT, value: Qwen3.8-2.4T-A95B_ModelScope_snapshot_observed_2026-08-18, unit: artifact_manifest, source_ids: [S_QWEN38_MODELSCOPE], artifact_revision: ModelScope_update_2026-08-12, immutable_url_status: NOT_FOUND, manifest: [model_index, configuration, model_safetensors_shards], note: "La revisión nombrada es la actualización visible, no un hash inmutable."}
       canonical_name: {status: FACT, value: "Qwen3.8-2.4T-A95B", unit: model_name, source_ids: [S_QWEN38_MODELSCOPE]}
       release_date: {status: FACT, value: "2026-08-12", unit: ISO_8601_date, source_ids: [S_QWEN38_MODELSCOPE]}
       availability: {status: FACT, value: open_weights, unit: distribution_state, source_ids: [S_QWEN38_MODELSCOPE]}
@@ -626,6 +632,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "La fuente identifica V100, pero no publica cantidad concurrente ni accelerator-hours/duración del mismo alcance."
     metrics:
+      training_date_or_range: &training_date_not_found {status: NOT_FOUND, value: null, searched_on: "2026-08-18", corpus_checked: [S_OPENAI_GPT3_PAPER], note: "El corpus no publica fecha o intervalo calendario defendible del entrenamiento."}
       parameters_total: {status: FACT, value: 174600000000, unit: parameter, source_ids: [S_OPENAI_GPT3_PAPER], scope: GPT_3_175B_pretraining}
       parameters_active:
         status: NOT_APPLICABLE
@@ -667,6 +674,7 @@ training_cases:
     scope: BLOOM_176B_training_run
     include_in_documented_table: true
     metrics:
+      training_date_or_range: {status: FACT, value: "2022-03-11/2022-07-06", unit: ISO_8601_date_range, source_ids: [S_BIGSCIENCE_BLOOM_CARBON], scope: BLOOM_176B_training_run}
       parameters_total: {status: FACT, value: 176247000000, unit: parameter, source_ids: [S_BIGSCIENCE_BLOOM_PAPER], scope: BLOOM_176B_training_run}
       parameters_active:
         status: NOT_APPLICABLE
@@ -696,6 +704,7 @@ training_cases:
     scope: PaLM_540B_training
     include_in_documented_table: true
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: {status: FACT, value: 540350000000, unit: parameter, source_ids: [S_GOOGLE_PALM_PAPER], scope: PaLM_540B_training}
       parameters_active:
         status: NOT_APPLICABLE
@@ -725,6 +734,7 @@ training_cases:
     scope: Llama_3_1_405B_pretraining
     include_in_documented_table: true
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: {status: FACT, value: 405000000000, unit: trainable_parameter, source_ids: [S_META_LLAMA31_PAPER], scope: Llama_3_1_405B_pretraining}
       parameters_active:
         status: NOT_APPLICABLE
@@ -757,6 +767,7 @@ training_cases:
     scope: DeepSeek_V3_pretraining
     include_in_documented_table: true
     metrics:
+      training_date_or_range: {status: FACT, value: "less_than_two_calendar_months_duration; calendar dates not published", unit: reported_duration_bound, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
       parameters_total: {status: FACT, value: 671000000000, unit: parameter, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
       parameters_active: {status: FACT, value: 37000000000, unit: parameter_per_token, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
       training_tokens: {status: FACT, value: 14800000000000, unit: token, source_ids: [S_DEEPSEEK_V3_PAPER], scope: DeepSeek_V3_pretraining}
@@ -794,6 +805,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "El corpus oficial no publica observables suficientes del entrenamiento real."
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: *gpt56_not_found
       parameters_active:
         status: ESTIMATION_NOT_IDENTIFIABLE
@@ -833,6 +845,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "El corpus oficial no publica observables suficientes del entrenamiento real."
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: *sonnet5_not_found
       parameters_active:
         status: ESTIMATION_NOT_IDENTIFIABLE
@@ -872,6 +885,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "El corpus oficial no publica observables suficientes del entrenamiento real."
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: *gemini31_not_found
       parameters_active:
         status: ESTIMATION_NOT_IDENTIFIABLE
@@ -911,6 +925,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "El artefacto abierto verifica arquitectura y parámetros, pero no tipo/cantidad concurrente y tiempo del entrenamiento real."
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: {status: FACT, value: 2800000000000, unit: parameter, source_ids: [S_MOONSHOT_KIMI_K3_BLOG, S_MOONSHOT_KIMI_K3_PAPER], scope: Kimi_K3_actual_training}
       parameters_active: {status: FACT, value: 104200000000, unit: parameter_per_token, source_ids: [S_MOONSHOT_KIMI_K3_PAPER], scope: Kimi_K3_actual_training}
       training_tokens: *kimi_k3_not_found
@@ -947,6 +962,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "El servicio alojado publica parámetros, pero no artefacto propio ni tipo/cantidad concurrente y accelerator-hours o duración del entrenamiento real."
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3_8_Max_service_actual_training}
       parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_ANNOUNCEMENT], scope: Qwen3_8_Max_service_actual_training}
       training_tokens: *qwen38_service_not_found
@@ -983,6 +999,7 @@ training_cases:
     include_in_documented_table: false
     exclusion_reason: "El artefacto base abierto verifica parámetros y configuración, pero no publica tipo/cantidad concurrente y accelerator-hours o duración de su entrenamiento real."
     metrics:
+      training_date_or_range: *training_date_not_found
       parameters_total: {status: FACT, value: 2400000000000, unit: parameter, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3_8_2_4T_A95B_base_training}
       parameters_active: {status: FACT, value: 95000000000, unit: parameter_per_token, source_ids: [S_QWEN38_MODELSCOPE], scope: Qwen3_8_2_4T_A95B_base_training}
       training_tokens: *qwen38_artifact_not_found
@@ -1210,6 +1227,24 @@ inference_capacity_cases:
       aggregate_system_hbm_used_as_fit_threshold: false
       note: "La cuenta por réplica/shard incluye reserva pero debe validarse contra OOM; compara 58.00560697360 GB presupuestados con 80 GB físicos del shard, nunca con los 640 GB agregados. HBM física no se renombra HBM utilizable."
 
+didactic_scenarios:
+  - id: D_H100_8X_24H
+    scope: eight_H100_SXM_modules_for_24_hours
+    inputs:
+      accelerator_count: {status: SCENARIO, value: 8, unit: H100_SXM_module, source_ids: [S_COURSE_DESIGN], boundary: accelerator-only}
+      duration: {status: SCENARIO, value: 24, unit: hour, source_ids: [S_COURSE_DESIGN], boundary: accelerator-only}
+      hbm_per_accelerator: {status: FACT, value: 80, unit: GB_decimal_per_module, source_ids: [S_NVIDIA_H100_PAGE], boundary: accelerator_module}
+      peak_per_accelerator: {status: DERIVED, value: 989.5, unit: TFLOP_per_second_BF16_dense_per_module, source_ids: [S_NVIDIA_H100_PAGE], boundary: accelerator_module, precision: BF16_tensor, sparsity: dense, accumulation: FP32, approximate: true}
+      power_per_accelerator: {status: FACT, value: 700, unit: W_configurable_TDP_per_module, source_ids: [S_NVIDIA_H100_PAGE], boundary: accelerator_module, power_basis: configurable_TDP}
+      unit_price: {status: SCENARIO, value: 30000, unit: USD_per_module, source_ids: [S_COURSE_DESIGN], boundary: accelerator-only}
+    outputs:
+      hbm_physical: {status: DERIVED, value: 640, unit: GB_decimal, formula: "8 × 80 GB", inputs: [accelerator_count, hbm_per_accelerator], boundary: accelerator-only, source_ids: [S_COURSE_DESIGN, S_NVIDIA_H100_PAGE]}
+      peak_rate: {status: DERIVED, value: 7916, unit: TFLOP_per_second_BF16_dense, formula: "8 × 989.5 TFLOP/s", inputs: [accelerator_count, peak_per_accelerator], boundary: accelerator-only, source_ids: [S_COURSE_DESIGN, S_NVIDIA_H100_PAGE], approximate: true, precision: BF16_tensor, sparsity: dense, accumulation: FP32}
+      power: {status: DERIVED, value: 5600, unit: W_configurable_TDP, formula: "8 × 700 W", inputs: [accelerator_count, power_per_accelerator], boundary: accelerator-only, source_ids: [S_COURSE_DESIGN, S_NVIDIA_H100_PAGE], power_basis: configurable_TDP}
+      accelerator_hours: {status: DERIVED, value: 192, unit: H100_accelerator_hour, formula: "8 × 24 h", inputs: [accelerator_count, duration], boundary: accelerator-only, source_ids: [S_COURSE_DESIGN]}
+      energy: {status: SCENARIO, value: 134.4, unit: kWh_at_configurable_TDP_envelope, formula: "5.6 kW × 24 h", inputs: [power, duration], boundary: accelerator-only, source_ids: [S_COURSE_DESIGN, S_NVIDIA_H100_PAGE]}
+      capex: {status: DERIVED, value: 240000, unit: USD, formula: "8 × USD 30,000", inputs: [accelerator_count, unit_price], boundary: accelerator-only, source_ids: [S_COURSE_DESIGN]}
+
 inference_scenarios:
   - id: I_PRODUCTION_DIDACTIC_TARGET
     category: production_target
@@ -1227,6 +1262,19 @@ inference_scenarios:
       ttft_p95_max: {status: SCENARIO, value: 2, unit: second, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
       utilization_max: {status: SCENARIO, value: 70, unit: percent, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference}
       redundancy: {status: SCENARIO, value: "N active servers + 1 server", unit: server_topology, source_ids: [S_COURSE_DESIGN], scope: didactic_production_inference, failure_domain: distinct}
+      official_partial_benchmark:
+        status: FACT
+        value: official_Qwen_README_benchmark_is_partial
+        unit: evidence_record
+        source_ids: [S_QWEN25_32B_GPTQ_INT8_ARTIFACT]
+        artifact_revision: eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1
+        hardware: NVIDIA_A100_80GB
+        runtime: transformers_and_AutoGPTQ_versions_reported_in_README
+        batch: 1
+        context: prompt_lengths_reported_per_README_case
+        measured_fields: [speed_and_memory_rows_reported_by_README]
+        missing_for_joint_gate: [TTFT_p95, scheduler, warmup, concurrency_16, utilization_at_or_below_70_percent]
+        not_used_for_sizing: true
       joint_measurement:
         status: NOT_FOUND
         value: null

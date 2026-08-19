@@ -405,7 +405,7 @@ def _plot_log_row(
             interval_end="high",
         )
     else:
-        x = log_position(row["value"], ticks[0], ticks[-1], 36, 324)
+        x = log_position(row.get("plot_value", row["value"]), ticks[0], ticks[-1], 36, 324)
         _marker(root, x, marker_y, row["status"], row["label"], row=row)
 
 
@@ -443,6 +443,9 @@ def _training_rows(data: dict, field: str) -> list[dict]:
             "unit": cell.get("unit"),
             "source_ids": list(cell.get("source_ids", [])),
         }
+        for key in ("power_basis", "boundary"):
+            if key in cell:
+                row[key] = cell[key]
         _copy_interval(cell, row)
         rows.append(row)
     return rows
@@ -581,7 +584,12 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
     hbm_rows = _training_rows(data, "hbm_physical_installed")
     for row in hbm_rows:
         unit = "GiB" if str(row["unit"]).startswith("GiB") else "GB"
-        row["panel"] = f"{unit} físicos"
+        row["native_unit"] = unit
+        row["canonical_bytes"] = _decimal(row["value"]) * (
+            Decimal(2) ** 30 if unit == "GiB" else Decimal(10) ** 9
+        )
+        row["plot_value"] = row["canonical_bytes"]
+        row["panel"] = "bytes; unidad nativa"
         row["display"] = (
             _range_display(
                 row, lambda value, normalized=unit: format_si(value, normalized)
@@ -598,7 +606,14 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
 
     power_rows = _training_rows(data, "accelerator_power")
     for row in power_rows:
-        row["panel"] = "GPU/chip-only"
+        basis = row.get("power_basis")
+        labels = {
+            "sum_of_standard_TDP": "TDP estándar · envolvente",
+            "sum_of_measured_max": "máximo medido · observación",
+            "sum_of_configurable_TDP": "TDP configurable · envolvente",
+            None: "base no identificable",
+        }
+        row["panel"] = labels[basis]
         row["display"] = (
             _range_display(row, lambda value: format_si(value, "W"))
             if row["status"] in POSITIVE
@@ -616,27 +631,39 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
         "accelerator-only": "accelerator-only · supuesto docente 2026",
         "system-based": "system-based · reposición 2026",
     }
+    scenario = data["didactic_scenarios"][0]
     for valuation in data["valuations"]:
         price = valuation["price"]
+        plotted_cell = scenario["outputs"]["capex"] if valuation["boundary"] == "accelerator-only" else price
         row = {
             "id": valuation["id"],
             "label": panel_by_boundary[valuation["boundary"]],
             "panel": panel_by_boundary[valuation["boundary"]],
             "boundary": valuation["boundary"],
-            "status": price["status"],
-            "value": price.get("value"),
-            "unit": price["unit"],
-            "source_ids": list(price.get("source_ids", [])),
+            "status": plotted_cell["status"],
+            "value": plotted_cell.get("value"),
+            "unit": plotted_cell["unit"],
+            "source_ids": list(plotted_cell.get("source_ids", [])),
+            "quantity": scenario["inputs"]["accelerator_count"]["value"] if valuation["boundary"] == "accelerator-only" else None,
+            "formula": plotted_cell.get("formula"),
         }
-        _copy_interval(price, row)
+        if "low" in price or "high" in price:
+            if valuation["boundary"] == "accelerator-only":
+                quantity = scenario["inputs"]["accelerator_count"]["value"]
+                _copy_interval(
+                    {"low": price.get("low") * quantity,
+                     "high": price.get("high") * quantity}, row
+                )
+            else:
+                _copy_interval(price, row)
         row["display"] = (
             _range_display(row, lambda value: format_si(value, "USD"))
             if row["status"] in POSITIVE
             else "sin precio identificable"
         )
         row["fallback_value"] = (
-            format_si(price["value"], "USD")
-            if price.get("value") is not None
+            format_si(plotted_cell["value"], "USD")
+            if plotted_cell.get("value") is not None
             else "No identificable"
         )
         capex_rows.append(row)
@@ -663,7 +690,7 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
         + "."
     )
     hbm_alt = (
-        "HBM física instalada en paneles separados para GB y GiB: "
+        "HBM física instalada posicionada en bytes canónicos y etiquetada en la unidad nativa: "
         + "; ".join(
             f"{row['label']}, {row['display']} [{row['status']}]"
             for row in hbm_rows
@@ -671,12 +698,12 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
         + ". HBM utilizable no es identificable y no se grafica."
     )
     power_alt = (
-        "Potencia nominal de aceleradores, separada de servidor e IT: "
+        "Bases de potencia no equivalentes en paneles separados: "
         + "; ".join(
-            f"{row['label']}, {row['display']} [{row['status']}]"
+            f"{row['label']} usa {row['panel']}, {row['display']} [{row['status']}]"
             for row in power_rows
         )
-        + ". El ledger no aporta potencia de servidor o IT y no se suma parte más todo."
+        + "."
     )
     capex_alt = (
         "CAPEX en fronteras y bases separadas: "
@@ -715,9 +742,9 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
             "title": "HBM física instalada en el pico",
             "alt": hbm_alt,
             "scale": "log",
-            "ticks": [10000, 100000, 1000000, 10000000],
+            "ticks": [10000000000000, 100000000000000, 1000000000000000, 10000000000000000],
             "scale_note": SCALE_NOTE,
-            "panels": ["GB físicos", "GiB físicos"],
+            "panels": ["bytes; unidad nativa"],
             "rows": hbm_rows,
             "points": hbm_points,
             "plotted_statuses": _status_sequence(hbm_points),
@@ -730,7 +757,7 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
             "scale": "log",
             "ticks": [100000, 1000000, 10000000, 100000000],
             "scale_note": SCALE_NOTE,
-            "panels": ["GPU/chip-only", "Servidor/IT"],
+            "panels": [row["panel"] for row in power_rows],
             "rows": power_rows,
             "points": power_points,
             "plotted_statuses": _status_sequence(power_points),
@@ -798,21 +825,17 @@ def _render_hbm(chart: dict) -> ET.Element:
 
 
 def _render_power(chart: dict) -> ET.Element:
-    root = svg_header(WIDTH, 800, chart["title"], chart["alt"])
-    _heading(root, "Potencia nominal", "Parte y todo, separados")
-    _panel(root, 78, 390, ("GPU/chip-only", "no es consumo medido"))
-    _log_axis(root, chart["ticks"], 150, 450, 486)
-    for row, y in zip(chart["points"], (150, 238, 326), strict=True):
-        _plot_log_row(root, row, y, chart["ticks"])
+    root = svg_header(WIDTH, 900, chart["title"], chart["alt"])
+    _heading(root, "Bases de potencia", "No equivalentes")
+    for row, y in zip(chart["points"], (78, 260, 442), strict=True):
+        _panel(root, y, 150, row["panel"])
+        _plot_log_row(root, row, y + 68, chart["ticks"])
+    _log_axis(root, chart["ticks"], 552, 622, 658)
     missing = next(row for row in chart["rows"] if row["value"] is None)
-    _text(root, 24, 414, missing["label"], weight="650")
-    _missing_status(root, 24, 438, missing["status"])
-    _scale_note(root, 540)
-    _panel(root, 594, 176, ("Servidor/IT", "ya incluiría aceleradores"))
-    _text(root, 24, 676, "Sin valor identificable", fill=MUTED)
-    _text(root, 24, 700, "en el ledger.", fill=MUTED)
-    _text(root, 24, 731, "Nunca sumar GPU/chip-only", fill=ACCENT)
-    _text(root, 24, 755, "+ servidor/IT.", fill=ACCENT)
+    _panel(root, 700, 170, ("Base no identificable", "DeepSeek-V3 · H800"))
+    _text(root, 24, 778, missing["label"], weight="650")
+    _missing_status(root, 24, 802, missing["status"])
+    _text(root, 18, 880, "No sumar ni equiparar bases.", fill=ACCENT)
     return root
 
 
@@ -821,7 +844,7 @@ def _render_capex(chart: dict) -> ET.Element:
     _heading(root, "CAPEX de hardware", "Fronteras y bases separadas")
     _panel(root, 78, 168, ("accelerator-only · supuesto", "docente 2026"))
     row = chart["points"][0]
-    plotted = {**row, "visual_label": "Precio por módulo H100 SXM"}
+    plotted = {**row, "visual_label": "Total: 8 módulos H100 SXM"}
     _plot_log_row(root, plotted, 150, chart["ticks"])
     _log_axis(root, chart["ticks"], 142, 228, 268)
     _scale_note(root, 316)

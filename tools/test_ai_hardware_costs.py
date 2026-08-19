@@ -171,12 +171,13 @@ def fallback_tuples(chart_id: str, rows: list[list[str]]) -> list[tuple[str, str
     normalized = []
     for row in rows:
         state = row[status_column]
-        assert re.fullmatch(r"\*\*[A-Z_]+\*\*", state)
+        match = re.match(r"\*\*([A-Z_]+)\*\*", state)
+        assert match
         normalized.append(
             (
                 row[label_column],
                 " ".join(row[index] for index in value_columns),
-                state.strip("*"),
+                match.group(1),
             )
         )
     return normalized
@@ -202,7 +203,7 @@ EXPECTED_FALLBACK_ROWS = {
         ("DeepSeek-V3", "No identificable", "ESTIMATION_NOT_IDENTIFIABLE"),
     ],
     "capex": [
-        ("accelerator-only · supuesto docente 2026", "USD 30,000", "SCENARIO"),
+        ("accelerator-only · supuesto docente 2026", "USD 240,000", "DERIVED"),
         (
             "system-based · reposición 2026",
             "No identificable",
@@ -263,7 +264,8 @@ def test_ai_hardware_chart_metadata_conserva_orden_valores_y_estados_del_ledger(
         valuation["id"] for valuation in data["valuations"]
     ]
     assert [row["status"] for row in valuation_rows] == [
-        valuation["price"]["status"] for valuation in data["valuations"]
+        data["didactic_scenarios"][0]["outputs"]["capex"]["status"],
+        data["valuations"][1]["price"]["status"],
     ]
 
 
@@ -273,8 +275,8 @@ def test_ai_hardware_panels_preservan_fronteras_y_significado_fisico():
     data = load_yaml(DATA)
     charts = {chart["id"]: chart for chart in generator.load_chart_metadata(DATA)}
 
-    assert charts["physical_hbm"]["panels"] == ["GB físicos", "GiB físicos"]
-    assert charts["power"]["panels"] == ["GPU/chip-only", "Servidor/IT"]
+    assert charts["physical_hbm"]["panels"] == ["bytes; unidad nativa"]
+    assert charts["power"]["panels"] == [row["panel"] for row in charts["power"]["rows"]]
     assert charts["capex"]["panels"] == [
         "accelerator-only · supuesto docente 2026",
         "system-based · reposición 2026",
@@ -736,6 +738,7 @@ def test_primary_sources_are_owned_by_the_applicable_claimant():
         "parameters_active": {"parameters"},
         "open_weight_artifact": {"open_weight_artifact"},
         "artifact_release_date": {"artifact_release"},
+        "artifact_identity": {"artifact_release", "repository_configuration"},
     }
     corpus_claim_tags = {
         "announcement": {"announcement_audit"},
@@ -767,6 +770,7 @@ def test_primary_sources_are_owned_by_the_applicable_claimant():
         "accelerator_power": {"training_hardware", "accelerator_power"},
         "historical_acquisition_price": {"historical_acquisition_price"},
         "attributed_training_capex": {"attributed_training_capex"},
+        "training_date_or_range": {"training_duration"},
     }
 
     for model in data["models"]:
@@ -1444,7 +1448,7 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     capacity_rows = markdown_table_rows_after(
         page, "### Inferencia de capacidad: cabe, sin SLA"
     )
-    assert len(capacity_rows) == 12
+    assert len(capacity_rows) == 13
     assert all(len(row) == 3 for row in capacity_rows)
     rows = {row[0]: row for row in capacity_rows}
     assert set(rows) == {
@@ -1456,7 +1460,8 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
         "KV",
         "Workspace",
         "Reserva",
-        "Total",
+        "Total derivado",
+        "Evaluación: cabe, sin SLA",
         "Sistema mínimo del corpus",
         "Compatibilidad",
         "HBM utilizable",
@@ -1479,9 +1484,9 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     assert "9.663676416 GB" in rows["KV"][1]
     assert "4 GB" in rows["Workspace"][1]
     assert "5.27323699760 GB" in rows["Reserva"][1]
-    assert "58.00560697360 GB" in rows["Total"][1]
-    assert "54.0219312287867069244384765625 GiB" in rows["Total"][1]
-    assert "sin SLA" in rows["Total"][1]
+    assert "58.00560697360 GB" in rows["Total derivado"][1]
+    assert "54.022 GiB" in rows["Total derivado"][1]
+    assert "sin SLA" in rows["Evaluación: cabe, sin SLA"][0]
     system = rows["Sistema mínimo del corpus"][1]
     assert "1 NVIDIA DGX H100" in system
     assert all(term in system for term in ("TP=1", "PP=1", "DP=1", "una réplica"))
@@ -1505,10 +1510,14 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
         "KV": {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
         "Workspace": {"S_COURSE_DESIGN"},
         "Reserva": {"S_COURSE_DESIGN", "S_QWEN25_32B_GPTQ_INT8_ARTIFACT"},
-        "Total": {
+        "Total derivado": {
             "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
             "S_COURSE_DESIGN",
             "S_QWEN25_32B_GPTQ_INT8_ARTIFACT",
+        },
+        "Evaluación: cabe, sin SLA": {
+            "I_QWEN25_32B_GPTQ_INT8_CAPACITY",
+            "S_COURSE_DESIGN",
         },
         "Sistema mínimo del corpus": {
             "S_COURSE_DESIGN",

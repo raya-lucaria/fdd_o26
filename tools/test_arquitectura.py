@@ -147,7 +147,9 @@ def test_unit_has_index_and_four_lessons_with_raya_frontmatter():
 def test_unit_keeps_scope_and_adhd_friendly_shape():
     prose = "\n".join(body(path) for path in PAGES)
     words = len(prose.split())
-    assert 7500 <= words <= 13000
+    # La lección de costos declara ahora una ruta principal de 50–55 minutos;
+    # el techo conserva una unidad escaneable sin fingir que cabe en 25 minutos.
+    assert 7500 <= words <= 13500
     assert "90 minutos" in prose
     assert prose.count("**FACT") >= 15
     assert prose.count("**DERIVED") >= 10

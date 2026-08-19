@@ -4,11 +4,15 @@ title: "IA, escala y selección de hardware"
 nav_title: "IA, escala y decisión"
 summary: "Cómo presupuestar memoria, comunicación y operación antes de elegir hardware para IA."
 status: ready
-estimated_time: "25 minutos"
+estimated_time: "55 minutos"
 tags: [ia, memoria, escalamiento, hardware]
 ---
 
 Un modelo de IA transforma entradas con parámetros. El hardware aloja y mueve su estado para cumplir latencia, throughput, energía y costo. **Los parámetros inician el presupuesto, no lo completan.**
+
+**Glosario breve.** **HBM** es memoria de alto ancho de banda junto al acelerador. **TDP** es una envolvente térmica de diseño; **TGP**, la potencia total de una tarjeta gráfica. **CAPEX** es gasto de adquisición. **MFU** mide la fracción de FLOP del modelo frente a un pico declarado. **SLA** es un compromiso de nivel de servicio; **OOM**, un fallo por memoria insuficiente. **TP**, **PP** y **DP** son paralelismo tensorial, de pipeline y de datos: parten tensores, etapas o réplicas y cambian comunicación y memoria local. **TTFT** es el tiempo hasta el primer token.
+
+La ruta principal ocupa 50–55 minutos; la consulta de evidencia y los ejercicios de extensión son opcionales dentro de una sesión total de 90 minutos.
 
 ## Ejemplo de juguete: diez parámetros
 
@@ -49,7 +53,7 @@ En **inferencia**, *prefill* procesa el prompt y *decode* produce tokens reutili
 
 | Fase | Entrada por paso | Trabajo dominante | Sensible a |
 |---|---|---|---|
-| Prefill | Muchos tokens del prompt | Cálculo matricial y creación de KV | Longitud del prompt, FLOPS |
+| Prefill | Muchos tokens del prompt | Cálculo matricial y creación de KV | Longitud del prompt, FLOP/s |
 | Decode | Un token nuevo por secuencia | Leer pesos y KV repetidamente | Ancho de banda, batch, contexto |
 
 **Ejemplo de juguete:** cuatro personas envían 1,000 tokens y piden 100 nuevos. Prefill absorbe 4,000 tokens de entrada; decode realiza 100 pasos por solicitud. Agruparlas puede aprovechar el chip, pero mantiene cuatro cachés KV y puede hacer esperar a la primera persona.
@@ -117,12 +121,12 @@ Por eso `10 × 4 = 40 bytes` responde cuánto pesa el **payload** FP32 de diez p
 
 Son capacidades lógicas. GiB, escalas, *padding*, buffers y particionado cambian la memoria física.
 
-| Escala | BF16, 2 bytes | INT8, 1 byte | INT4, 0.5 byte | Intuición |
-|---:|---:|---:|---:|---|
-| 10 parámetros | 20 B | 10 B | 5 B | Juguete visible |
-| 7B | 14 GB | 7 GB | 3.5 GB | Puede caber en una GPU, según overhead |
-| 70B | 140 GB | 70 GB | 35 GB | Exige más capacidad o particionado |
-| 1T | 2 TB | 1 TB | 0.5 TB | Escala de servidor o cluster |
+| Escala | Pesos por precisión |
+|---:|---|
+| 10 parámetros | BF16: 20 B · INT8: 10 B · INT4: 5 B. Juguete visible. |
+| 7B | BF16: 14 GB · INT8: 7 GB · INT4: 3.5 GB. Puede caber en una GPU, según overhead. |
+| 70B | BF16: 140 GB · INT8: 70 GB · INT4: 35 GB. Exige más capacidad o particionado. |
+| 1T | BF16: 2 TB · INT8: 1 TB · INT4: 0.5 TB. Escala de servidor o cluster. |
 
 **DERIVED (presupuesto base de esta receta):** *mixed precision* con Adam clásico suma **~18 bytes por parámetro**: 2 de pesos BF16/FP16 + 4 de copia FP32 + 4 de gradiente FP32 + 8 de estados Adam FP32. Para 7B, 70B y 1T son **126 GB**, **1.26 TB** y **18 TB** de estado agregado del modelo, antes de activaciones y temporales.
 
@@ -188,7 +192,7 @@ La cadena es **chip → board → servidor → rack → cluster → centro de da
 
 - **FACT (límite de producto):** M5 Max admite hasta **128 GB unificados** y **614 GB/s**; no son benchmark ni TDP.
 - **FACT (referencia NVIDIA):** RTX 5090 tiene **32 GB GDDR7**, **1,792 GB/s de ancho de banda pico de memoria** y **575 W TGP**. Pesos, cachés y temporales comparten capacidad; tarjetas de ensambladores pueden variar.
-- **FACT (picos por chip):** TPU7x ofrece **192 GiB HBM**, **7,380 GB/s**, **2,307 TFLOPS BF16** y **4,614 TFLOPS FP8**; un pod llega a **9,216 chips**. No es desempeño observado.
+- **FACT (picos por chip):** TPU7x ofrece **192 GiB HBM**, **7,380 GB/s**, **2,307 TFLOP/s BF16** y **4,614 TFLOP/s FP8**; un pod llega a **9,216 chips**. No es desempeño observado.
 - **FACT (sistema oficial, máximos agregados):** DGX GB300 integra **72 GPU Blackwell Ultra**, **36 CPU Grace**, **20 TB de memoria GPU**, hasta **576 TB/s** HBM y **130 TB/s NVLink**. El rack usa refrigeración líquida y admite hasta **142 kW**; es capacidad máxima, no consumo medido.
 
 No son un ranking: la aplicación y la medición completa deciden.
@@ -201,15 +205,16 @@ La etiqueta dice qué sabemos: **FACT** fue publicado por la fuente responsable;
 
 ### De un acelerador a una cuenta visible
 
-Tomemos un módulo NVIDIA H100 SXM con 80 GB de HBM física, pico de 989.5 TFLOP/s BF16 tensorial denso y potencia configurable de 700 W. Esas especificaciones pertenecen al módulo, no al servidor: **FACT** para HBM y potencia, **DERIVED** para la tasa densa; `H_NVIDIA_H100_SXM_80GB`, `S_NVIDIA_H100_PAGE`.
+Tomemos un módulo NVIDIA H100 SXM con 80 GB de HBM física, pico aproximado de 989.5 TFLOP/s BF16 tensorial denso, acumulación FP32, derivado del pico sparse dividido entre dos, y TDP configurable de 700 W. Esas especificaciones pertenecen al módulo, no al servidor: **FACT** para HBM y potencia, **DERIVED** para la tasa densa; `H_NVIDIA_H100_SXM_80GB`, `S_NVIDIA_H100_PAGE`.
 
 Supongamos ocho módulos. La cantidad y el precio unitario son **SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`, `S_COURSE_DESIGN`.
 
-- HBM física: `8 × 80 GB = 640 GB` (**SCENARIO** aplicado a una especificación **FACT**; `V_H100_30K_DIDACTIC_SCENARIO`, `H_NVIDIA_H100_SXM_80GB`).
-- Pico BF16 denso: `8 × 989.5 TFLOP/s = 7,916 TFLOP/s` (**SCENARIO** aplicado a una tasa **DERIVED**; mismos IDs). Es una tasa teórica homogénea, no trabajo realizado.
-- Potencia nominal de aceleradores: `8 × 700 W = 5,600 W = 5.6 kW` (**SCENARIO** aplicado a potencia **FACT**; mismos IDs). La frontera termina en los módulos.
-- Asignación durante un día: `8 × 24 h = 192 H100-module-hours` (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Los accelerator-hours no son energía.
-- CAPEX `accelerator-only`: `8 × USD 30,000 = USD 240,000` (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Compra ocho módulos hipotéticos con su HBM incorporada; excluye servidor, CPU, RAM, chasis, red, almacenamiento, envío, impuestos y soporte.
+- HBM física: `8 × 80 GB = 640 GB` (**DERIVED** desde cantidad **SCENARIO** y especificación **FACT**; `D_H100_8X_24H`, `H_NVIDIA_H100_SXM_80GB`).
+- Pico: `8 × 989.5 TFLOP/s = 7,916 TFLOP/s` aproximados (**DERIVED**; BF16 tensorial, dense, acumulación FP32; `D_H100_8X_24H`).
+- Base de potencia: `8 × 700 W = 5,600 W` de TDP configurable (**DERIVED**; no es una medición; `D_H100_8X_24H`).
+- Trabajo asignado: `8 × 24 h = 192 H100-h` (**DERIVED**; `D_H100_8X_24H`); los accelerator-hours no son energía.
+- Energía bajo esa envolvente: `5.6 kW × 24 h = 134.4 kWh` (**SCENARIO**, no energía medida; `D_H100_8X_24H`).
+- CAPEX `accelerator-only`: `8 × USD 30,000 = USD 240,000` (**DERIVED** desde precio unitario **SCENARIO**; `D_H100_8X_24H`, `V_H100_30K_DIDACTIC_SCENARIO`). Compra ocho módulos hipotéticos con su HBM incorporada; excluye servidor, CPU, RAM, chasis, red, almacenamiento, envío, impuestos y soporte.
 
 El puente de potencia a energía conserva las unidades: `1,000 W = 1 kW`, `1,000 kW = 1 MW` y `kW × h = kWh`. En el escenario matemático, sostener 5.6 kW durante 24 h daría 134.4 kWh (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`); afirmar consumo real requeriría potencia medida durante el intervalo. Los 192 H100-module-hours sólo describen asignación de hardware y no se renombran kWh.
 
@@ -219,7 +224,7 @@ La cuenta general aparece después del ejemplo:
 
 `pico teórico homogéneo = aceleradores × FLOP/s pico por acelerador`
 
-`potencia nominal de aceleradores = aceleradores × W nominales por acelerador`
+`base de potencia de aceleradores = aceleradores × W de la misma base por acelerador`
 
 `accelerator-hours = aceleradores asignados promedio × horas calendario`
 
@@ -229,7 +234,7 @@ Dos preguntas evitan sobreinterpretar la suma. ¿Los 640 GB demuestran que hay 6
 
 ### Casos con hardware documentado
 
-La comparación esencial incluye sólo alcances cuyo creador publicó tipo y cantidad concurrente de aceleradores, más accelerator-hours o duración para el mismo entrenamiento. Se divide en dos subtables estrechas para conservar la fila como unidad de lectura en móvil.
+La comparación esencial incluye sólo alcances cuyo creador publicó tipo y cantidad concurrente de aceleradores, más accelerator-hours o duración para el mismo entrenamiento. Se divide en dos subtablas estrechas para conservar la fila como unidad de lectura en móvil.
 
 | Modelo y alcance | Hardware concurrente | Accelerator-hours |
 |---|---|---|
@@ -240,7 +245,7 @@ La comparación esencial incluye sólo alcances cuyo creador publicó tipo y can
 
 #### Escala física y frontera económica
 
-| Modelo y alcance | HBM física instalada | Potencia nominal de aceleradores | CAPEX/base |
+| Modelo y alcance | HBM física instalada | Base de potencia de aceleradores | CAPEX/base |
 |---|---|---|---|
 | BLOOM 176B, corrida completa (**FACT**; `M_BLOOM_176B`, `T_BLOOM_176B_TRAINING`) | 30,720 GB HBM2e (**DERIVED**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_NVIDIA_A100_DATASHEET`) | 153,600 W, suma de TDP estándar (**DERIVED**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_NVIDIA_A100_DATASHEET`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_BLOOM_176B_TRAINING` |
 | PaLM 540B, entrenamiento (**FACT**; `M_PALM_540B`, `T_PALM_540B_PRETRAINING`) | 196,608 GiB HBM2 en el pico (**DERIVED**; `S_GOOGLE_PALM_PAPER`, `S_GOOGLE_TPU_V4_DOCS`) | 1,179,648 W, suma de máximos medidos por chip (**DERIVED**; `S_GOOGLE_PALM_PAPER`, `S_GOOGLE_TPU_V4_DOCS`) | **ESTIMATION_NOT_IDENTIFIABLE**; `T_PALM_540B_PRETRAINING` |
@@ -253,38 +258,38 @@ La comparación esencial incluye sólo alcances cuyo creador publicó tipo y can
 
 **Lectura visual:** la distancia horizontal es multiplicativa. Cada marca conserva el caso y estado de su celda; las cantidades no conectan modelos como una serie temporal.
 
-| Modelo | Aceleradores concurrentes | Estado |
+| Modelo | Aceleradores concurrentes | Estado y evidencia |
 |---|---:|---|
-| BLOOM 176B | 384 | **FACT** |
-| PaLM 540B | 6,144 | **FACT** |
-| Llama 3.1 405B | 16,384 | **FACT** |
-| DeepSeek-V3 | 2,048 | **FACT** |
+| BLOOM 176B | 384 | **FACT**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_BIGSCIENCE_BLOOM_CARD` |
+| PaLM 540B | 6,144 | **FACT**; `S_GOOGLE_PALM_PAPER` |
+| Llama 3.1 405B | 16,384 | **FACT**; `S_META_LLAMA31_PAPER` |
+| DeepSeek-V3 | 2,048 | **FACT**; `S_DEEPSEEK_V3_PAPER` |
 
-![HBM física instalada en paneles separados para GB y GiB: BLOOM 176B, 30,720 GB [DERIVED]; PaLM 540B, 196,608 GiB [DERIVED]; Llama 3.1 405B, 1,310,720 GB [DERIVED]; DeepSeek-V3, 163,840 GB [DERIVED]. HBM utilizable no es identificable y no se grafica.](../_assets/ai-hbm-entrenamiento.svg)
+![HBM física instalada posicionada en bytes canónicos y etiquetada en la unidad nativa: BLOOM 176B, 30,720 GB [DERIVED]; PaLM 540B, 196,608 GiB [DERIVED]; Llama 3.1 405B, 1,310,720 GB [DERIVED]; DeepSeek-V3, 163,840 GB [DERIVED]. HBM utilizable no es identificable y no se grafica.](../_assets/ai-hbm-entrenamiento.svg)
 
 *Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
 
-**Lectura visual:** la gráfica separa GB de GiB y sólo representa HBM física instalada en el pico concurrente. No convierte esa capacidad en HBM utilizable.
+**Lectura visual:** la posición convierte GB o GiB a bytes para compararlos; la etiqueta conserva la unidad publicada. Sólo representa HBM física instalada en el pico concurrente, no HBM utilizable.
 
-| Modelo | HBM física instalada | Unidad conservada | Estado |
+| Modelo | HBM física instalada | Unidad conservada | Estado y evidencia |
 |---|---:|---|---|
-| BLOOM 176B | 30,720 | GB | **DERIVED** |
-| PaLM 540B | 196,608 | GiB | **DERIVED** |
-| Llama 3.1 405B | 1,310,720 | GB | **DERIVED** |
-| DeepSeek-V3 | 163,840 | GB | **DERIVED** |
+| BLOOM 176B | 30,720 | GB | **DERIVED**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_NVIDIA_A100_DATASHEET` |
+| PaLM 540B | 196,608 | GiB | **DERIVED**; `S_GOOGLE_PALM_PAPER`, `S_GOOGLE_TPU_V4_DOCS` |
+| Llama 3.1 405B | 1,310,720 | GB | **DERIVED**; `S_META_LLAMA31_PAPER`, `S_NVIDIA_H100_PAGE` |
+| DeepSeek-V3 | 163,840 | GB | **DERIVED**; `S_DEEPSEEK_V3_PAPER`, `S_NVIDIA_H800_RELEASE_NOTES` |
 
-![Potencia nominal de aceleradores, separada de servidor e IT: BLOOM 176B, 153.6 kW [DERIVED]; PaLM 540B, 1.18 MW [DERIVED]; Llama 3.1 405B, 11.47 MW [DERIVED]; DeepSeek-V3, sin valor identificable [ESTIMATION_NOT_IDENTIFIABLE]. El ledger no aporta potencia de servidor o IT y no se suma parte más todo.](../_assets/ai-potencia-hardware.svg)
+![Bases de potencia no equivalentes en paneles separados: BLOOM 176B usa TDP estándar · envolvente, 153.6 kW [DERIVED]; PaLM 540B usa máximo medido · observación, 1.18 MW [DERIVED]; Llama 3.1 405B usa TDP configurable · envolvente, 11.47 MW [DERIVED]; DeepSeek-V3 usa base no identificable, sin valor identificable [ESTIMATION_NOT_IDENTIFIABLE].](../_assets/ai-potencia-hardware.svg)
 
 *Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
 
 **Lectura visual:** el panel GPU/chip-only muestra sumas nominales comparables sólo en magnitud. El panel servidor/IT queda separado y sin puntos porque el ledger no identifica ese total; nunca se suma la parte al sistema que ya la contiene.
 
-| Frontera | Modelo | Valor del ledger | Estado |
+| Base | Modelo | Valor del ledger | Estado y evidencia |
 |---|---|---:|---|
-| GPU/chip-only | BLOOM 176B | 153,600 W | **DERIVED** |
-| GPU/chip-only | PaLM 540B | 1,179,648 W | **DERIVED** |
-| GPU/chip-only | Llama 3.1 405B | 11,468,800 W | **DERIVED** |
-| GPU/chip-only | DeepSeek-V3 | No identificable | **ESTIMATION_NOT_IDENTIFIABLE** |
+| TDP estándar | BLOOM 176B | 153,600 W | **DERIVED**; `S_BIGSCIENCE_BLOOM_PAPER`, `S_NVIDIA_A100_DATASHEET` |
+| Máximo medido | PaLM 540B | 1,179,648 W | **DERIVED**; `S_GOOGLE_PALM_PAPER`, `S_GOOGLE_TPU_V4_DOCS` |
+| TDP configurable | Llama 3.1 405B | 11,468,800 W | **DERIVED**; `S_META_LLAMA31_PAPER`, `S_NVIDIA_H100_PAGE` |
+| No identificada | DeepSeek-V3 | No identificable | **ESTIMATION_NOT_IDENTIFIABLE**; `T_DEEPSEEK_V3_PRETRAINING` |
 
 El panel servidor/IT no tiene una fila cuantitativa: no existe un valor correspondiente en el ledger aprobado.
 
@@ -294,7 +299,7 @@ La HBM utilizable es **ESTIMATION_NOT_IDENTIFIABLE** en cada caso documentado; I
 
 #### Ledger visible: escala del modelo y trabajo
 
-Estas subtables conservan detalles que volverían ilegible la comparación esencial. FLOP nombra trabajo de entrenamiento; TFLOP/s, mostrado arriba, nombra una tasa pico.
+Estas subtablas conservan detalles que volverían ilegible la comparación esencial. FLOP nombra trabajo de entrenamiento; TFLOP/s, mostrado arriba, nombra una tasa pico.
 
 | Modelo/alcance | Parámetros y tokens | Precisión |
 |---|---|---|
@@ -312,7 +317,7 @@ Estas subtables conservan detalles que volverían ilegible la comparación esenc
 | Llama 3.1 405B | 3.8 × 10^25 FLOP (**FACT**; `S_META_LLAMA31_PAPER`) | 38–43 % (**FACT**; `S_META_LLAMA31_PAPER`) | `T_LLAMA31_405B_PRETRAINING` |
 | DeepSeek-V3 | **NOT_FOUND**; `T_DEEPSEEK_V3_PRETRAINING` | **NOT_FOUND**; `T_DEEPSEEK_V3_PRETRAINING` | `T_DEEPSEEK_V3_PRETRAINING` |
 
-PaLM usó dos fases: `6,144 × 1,200 h + 3,072 × 336 h = 8,404,992 TPU-v4-chip-h` (**DERIVED**; `T_PALM_540B_PRETRAINING`, `S_GOOGLE_PALM_PAPER`). La cantidad concurrente del cuadro es el pico, no una cantidad constante. BLOOM duró 2,837.68 h de pared (**DERIVED**; `T_BLOOM_176B_TRAINING`, `S_BIGSCIENCE_BLOOM_CARBON`); Llama no publica duración suficiente para reconstruirla (**ESTIMATION_NOT_IDENTIFIABLE**; `T_LLAMA31_405B_PRETRAINING`). GPU-h y TPU-chip-h no se convierten ni se suman.
+PaLM usó dos fases: `6,144 × 1,200 h + 3,072 × 336 h = 8,404,992 TPU-v4-chip-h` (**DERIVED**; `T_PALM_540B_PRETRAINING`, `S_GOOGLE_PALM_PAPER`). La cantidad concurrente del cuadro es el pico, no una cantidad constante. BLOOM duró 2,837.68 h de pared (**DERIVED**; `T_BLOOM_176B_TRAINING`, `S_BIGSCIENCE_BLOOM_CARBON`); Llama no publica duración suficiente para reconstruirla (**ESTIMATION_NOT_IDENTIFIABLE**; `T_LLAMA31_405B_PRETRAINING`). Accelerator-hours, FLOP publicado y MFU conservan cuentas publicadas, pero no se reconstruyen algebraicamente entre sí: cambian alcance, ventana, downtime, pasos repetidos y la convención de pico. GPU-h y TPU-chip-h no se convierten, suman ni presentan como equivalentes.
 
 ### Modelos actuales: hechos y límites
 
@@ -338,6 +343,10 @@ El corte es 2026-08-18 (**FACT**; `tools/data/ai_hardware_costs.yaml`). “No di
 
 Los parámetros verificables de un artefacto abierto permiten calcular un piso de pesos. No revelan por sí solos aceleradores concurrentes, duración, HBM utilizable, potencia observada ni precio de compra del entrenamiento real.
 
+**Identidad y fechas.** Kimi K3 separa lanzamiento (2026-07-16), repositorio/model card y consulta (2026-08-18), pero el corpus no fija un commit o manifiesto inmutable: **NOT_FOUND** para identidad versionada, por lo que aquí no se afirma una revisión de artefacto. Qwen separa el servicio Qwen3.8-Max (lanzamiento 2026-08-03) del artefacto base observado en ModelScope, actualizado 2026-08-12 y consultado 2026-08-18; su manifiesto mínimo observado contiene índice, configuración y shards, pero la URL no fija hash inmutable. Evidencia: `M_KIMI_K3`, `S_MOONSHOT_KIMI_K3_REPOSITORY`, `M_QWEN38_2_4T_A95B`, `S_QWEN38_MODELSCOPE`.
+
+**Fecha o intervalo del entrenamiento.** BLOOM: 2022-03-11 a 2022-07-06 (**FACT**; `S_BIGSCIENCE_BLOOM_CARBON`). DeepSeek-V3: menos de dos meses, sin fechas calendario (**FACT**, límite publicado; `S_DEEPSEEK_V3_PAPER`). GPT-3, PaLM, Llama 3.1, GPT-5.6 Sol, Claude Sonnet 5, Gemini 3.1 Pro, Kimi K3 y ambos registros Qwen: **NOT_FOUND** en el corpus de cada caso; no se sustituye por la fecha de lanzamiento.
+
 ### Escenarios equivalentes, no entrenamientos atribuidos
 
 Un escenario responde “¿qué compraría bajo estos supuestos?”, no “¿qué costó entrenar el modelo?”. Por eso esta tabla no contiene nombres de modelos.
@@ -352,22 +361,26 @@ Un escenario responde “¿qué compraría bajo estos supuestos?”, no “¿qu�
 
 La valoración supone USD 30,000 por módulo, unidad transable “module”, cantidad mínima uno, condición nueva hipotética, fecha 2026-08-18 y base didáctica en USD (**SCENARIO**; `V_H100_30K_DIDACTIC_SCENARIO`). Incluye el módulo y su HBM; excluye los componentes enumerados en el ejemplo. No existe aquí una valoración `system-based`, y no se suma un sistema completo sobre estos módulos.
 
-![CAPEX en fronteras y bases separadas: accelerator-only · supuesto docente 2026, USD 30,000 [SCENARIO]; system-based · reposición 2026, sin precio identificable [ESTIMATION_NOT_IDENTIFIABLE].](../_assets/ai-capex-hardware.svg)
+![CAPEX en fronteras y bases separadas: accelerator-only · supuesto docente 2026, USD 240,000 [DERIVED]; system-based · reposición 2026, sin precio identificable [ESTIMATION_NOT_IDENTIFIABLE].](../_assets/ai-capex-hardware.svg)
 
 *Diagrama propio generado desde el ledger del curso, SVG accesible, 2026.*
 
-**Lectura visual:** USD 30,000 es el precio supuesto de un módulo, no el CAPEX de ocho módulos ni el precio imputado de un servidor. La base `system-based` de reposición permanece sin punto porque falta una cotización persistente.
+**Lectura visual:** el punto es el total `8 × USD 30,000 = USD 240,000`; USD 30,000 sólo es el input unitario. La base `system-based` de reposición permanece sin punto porque falta una cotización persistente.
 
-| Frontera y base | Unidad transable | Precio unitario | Estado |
+| Frontera y base | Unidad transable | Total graficado | Estado y evidencia |
 |---|---|---:|---|
-| accelerator-only · supuesto docente 2026 | Módulo H100 SXM | USD 30,000 | **SCENARIO** |
-| system-based · reposición 2026 | Servidor | No identificable | **ESTIMATION_NOT_IDENTIFIABLE** |
+| accelerator-only · supuesto docente 2026 | 8 módulos H100 SXM a USD 30,000 c/u | USD 240,000 | **DERIVED**; `D_H100_8X_24H`, `S_COURSE_DESIGN` |
+| system-based · reposición 2026 | Servidor | No identificable | **ESTIMATION_NOT_IDENTIFIABLE**; `V_THINKMATE_QH14_H100_REPLACEMENT_20260818`, `S_THINKMATE_HGX_H100_CONFIGURATOR` |
+
+**Registro de valoración accelerator-only.** Fecha: 2026-08-18; geografía: base docente estadounidense; canal: supuesto docente; mínimo: un módulo; condición: nuevo hipotético; impuestos, envío, soporte, red y almacenamiento: excluidos. Incluye módulo H100 SXM y su HBM física. Estado del precio unitario: **SCENARIO**; estado del total para ocho: **DERIVED**. Evidencia: `V_H100_30K_DIDACTIC_SCENARIO`, `D_H100_8X_24H`, `S_COURSE_DESIGN`.
+
+**Registro de valoración system-based histórica.** Corte: 2026-08-18; geografía: tienda en línea de Estados Unidos; canal: configurador del vendedor; unidad: servidor. Precio persistente, cantidad mínima, condición, impuestos, soporte, red, almacenamiento y componentes incluidos/excluidos: **ESTIMATION_NOT_IDENTIFIABLE** porque no hay URL parametrizada, cotización identificada ni captura persistente. No se reproduce ni completa una configuración Thinkmate. Evidencia: `V_THINKMATE_QH14_H100_REPLACEMENT_20260818`, `S_THINKMATE_HGX_H100_CONFIGURATOR`.
 
 ### Inferencia de capacidad: cabe, sin SLA
 
 Dimensionar inferencia comienza por una cuenta de memoria, no por FLOP/s. El ejemplo usa el artefacto abierto y versionado `Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8` en el commit `eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1`. Sus nueve shards suman 35,068,693,560 bytes y su configuración declara 32,763,876,352 parámetros, GPTQ de 8 bits con grupos de 128, 64 capas, 8 cabezas KV, hidden size 5,120 y 40 cabezas de atención; `5,120 ÷ 40 = 128` elementos por cabeza (**FACT** y **DERIVED**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`).
 
-La etiqueta **cabe, sin SLA** sólo significa que el presupuesto por componentes queda bajo la capacidad física elegida con estos supuestos. No demuestra ausencia de OOM, HBM utilizable, latencia o throughput. La cuenta se presenta como ledger vertical para que cada componente conserve ancho legible en móvil.
+La etiqueta **cabe, sin SLA** es una evaluación **SCENARIO**: sólo significa que el presupuesto por componentes queda bajo la capacidad física elegida con estos supuestos. No demuestra ausencia de OOM, HBM utilizable, latencia o throughput. La cuenta se presenta como registro vertical para que cada componente conserve ancho legible en móvil.
 
 | Dato | Valor | Estado y evidencia |
 |---|---|---|
@@ -379,7 +392,8 @@ La etiqueta **cabe, sin SLA** sólo significa que el presupuesto por componentes
 | KV | 9.663676416 GB para 16 × 2,304 tokens, FP16 | **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` |
 | Workspace | 4 GB | **SCENARIO**; `S_COURSE_DESIGN` |
 | Reserva | 10 % = 5.27323699760 GB | **SCENARIO** y **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` |
-| Total | 58.00560697360 GB = 54.0219312287867069244384765625 GiB; **cabe, sin SLA** | **SCENARIO**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` |
+| Total derivado | 58.00560697360 GB = 54.022 GiB | **DERIVED**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` |
+| Evaluación: cabe, sin SLA | 58.00560697360 GB < 80 GB físicos | **SCENARIO**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY`, `S_COURSE_DESIGN` |
 | Sistema mínimo del corpus | 1 NVIDIA DGX H100 adquirido; TP=1, PP=1, DP=1, una réplica y un shard activo con 80 GB físicos por réplica/shard; los 16 contextos KV viven en ese shard | **SCENARIO**; `S_COURSE_DESIGN`, `S_NVIDIA_DGX_H100_DATASHEET` |
 | Compatibilidad | Artefacto/vLLM/GPTQ/Hopper/DGX | `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_VLLM_071_QUANTIZATION_HARDWARE`, `S_NVIDIA_DGX_H100_DATASHEET` |
 | HBM utilizable | No identificable con el corpus | **ESTIMATION_NOT_IDENTIFIABLE**; `I_QWEN25_32B_GPTQ_INT8_CAPACITY` |
@@ -390,16 +404,16 @@ La etiqueta **cabe, sin SLA** sólo significa que el presupuesto por componentes
 
 **Lectura visual:** el piso suma componentes por réplica y shard, luego compara 58.00560697360 GB presupuestados con 80 GB físicos. “Cabe” es una evaluación de capacidad; no demuestra HBM utilizable, ausencia de OOM, throughput, latencia ni SLA.
 
-| Componente o límite | Valor del ledger | Estado | Lectura |
+| Componente o límite | Valor del ledger | Estado y evidencia | Lectura |
 |---|---:|---|---|
-| Pesos y metadata | 35.068693560 GB | **DERIVED** | Shards completos |
-| Runtime | 4 GB | **SCENARIO** | Presupuesto docente |
-| Caché KV | 9.663676416 GB | **DERIVED** | Piso de payload para 16 contextos |
-| Workspace | 4 GB | **SCENARIO** | Presupuesto docente |
-| Reserva 10 % | 5.27323699760 GB | **DERIVED** | Aplicada al subtotal |
-| Total presupuestado | 58.00560697360 GB | **DERIVED** | Piso de capacidad |
-| Capacidad física por shard | 80 GB | **SCENARIO** | No se renombra HBM utilizable |
-| Mínimo adquirible | 1 NVIDIA DGX H100 | **SCENARIO** | Topología completa del corpus |
+| Pesos y metadata | 35.068693560 GB | **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT` | Shards completos |
+| Runtime | 4 GB | **SCENARIO**; `S_COURSE_DESIGN` | Presupuesto docente |
+| Caché KV | 9.663676416 GB | **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` | Piso de payload para 16 contextos |
+| Workspace | 4 GB | **SCENARIO**; `S_COURSE_DESIGN` | Presupuesto docente |
+| Reserva 10 % | 5.27323699760 GB | **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` | Aplicada al subtotal |
+| Total presupuestado | 58.00560697360 GB | **DERIVED**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_COURSE_DESIGN` | Piso de capacidad |
+| Capacidad física por shard | 80 GB | **SCENARIO**; `S_COURSE_DESIGN`, `S_NVIDIA_DGX_H100_DATASHEET` | No se renombra HBM utilizable |
+| Mínimo adquirible | 1 NVIDIA DGX H100 | **SCENARIO**; `S_COURSE_DESIGN`, `S_NVIDIA_DGX_H100_DATASHEET`, `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_VLLM_071_QUANTIZATION_HARDWARE` | Topología completa del corpus |
 
 La reconstrucción conserva cada sumando:
 
@@ -435,6 +449,8 @@ La misma ejecución debe fijar artefacto y revisión, runtime y versión, topolo
 
 Sin esa medición no se calcula N, no se añade el servidor de reserva y no se multiplica por un precio. Pico teórico en FLOP/s tampoco sustituye throughput observado: esta página no infiere rendimiento, costo por token ni CAPEX operacional desde FLOP/s.
 
+El README oficial fijado de Qwen2.5 aporta un **resultado parcial** de velocidad/memoria con A100 80 GB, batch 1 y longitudes de prompt declaradas por sus casos, bajo las versiones de Transformers/AutoGPTQ que enumera (**FACT**; `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`). No publica conjuntamente TTFT p95, scheduler, warmup, concurrencia 16 ni utilización ≤70 %. Por eso el gate conjunto sigue **NOT_FOUND**, cumplimiento/N/CAPEX siguen **ESTIMATION_NOT_IDENTIFIABLE**, y ese parcial no alimenta N ni CAPEX.
+
 ## Guía de decisión
 
 1. **Define la carga:** inferencia o entrenamiento, precisión, contexto, concurrencia, latencia y volumen.
@@ -446,7 +462,7 @@ Sin esa medición no se calcula N, no se añade el servidor de reserva y no se m
 
 ## Antes de practicar
 
-La decisión no comienza con una marca o una ficha técnica. Comienza con una carga concreta y una medición comparable. Primero se separa capacidad de velocidad: si el trabajo no cabe, la ejecución falla o descarga estado a una capa más lenta. Si cabe, todavía puede esperar datos, coordinación o unidades de cómputo. Esa separación evita comprar FLOPS para un problema de memoria o añadir memoria a un problema dominado por comunicación.
+La decisión no comienza con una marca o una ficha técnica. Comienza con una carga concreta y una medición comparable. Primero se separa capacidad de velocidad: si el trabajo no cabe, la ejecución falla o descarga estado a una capa más lenta. Si cabe, todavía puede esperar datos, coordinación o unidades de cómputo. Esa separación evita comprar FLOP/s para un problema de memoria o añadir memoria a un problema dominado por comunicación.
 
 Después se identifica la escala donde aparece el límite. Dentro de un core importan instrucciones, pipeline y caché. Entre CPU y acelerador importan copias, sincronización y tamaño de lote. Entre dispositivos o racks importan las colectivas, la red y el trabajo que queda disponible entre sincronizaciones. El mismo síntoma —GPU con baja utilización— puede venir de causas distintas en cada escala.
 
@@ -461,6 +477,10 @@ La práctica oficial aparece a continuación, al final de la unidad. Incluye sei
 - Parámetros totales determinan almacenamiento; activos aproximan trabajo por token en MoE.
 - Más contexto, batch o chips cambian memoria, espera y comunicación; no garantizan aceleración lineal.
 - FACT, DERIVED, ESTIMATE y SCENARIO responden preguntas distintas. “No divulgado” evita convertir rumores en hechos.
+- Potencia es una tasa con base declarada; energía integra esa potencia durante un tiempo. TDP, TGP y máximos medidos no son equivalentes.
+- CAPEX sólo se compara con la misma frontera: aceleradores solos o sistema completo, con inclusiones, fecha y canal visibles.
+- HBM física no es HBM utilizable; que un presupuesto quepa tampoco demuestra ausencia de OOM ni cumplimiento de SLA.
+- **NOT_FOUND** significa que el corpus revisado no contiene el observable; **ESTIMATION_NOT_IDENTIFIABLE** significa que, por faltar observables, el resultado no puede calcularse defendiblemente.
 
 ## Fuentes
 
