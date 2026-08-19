@@ -50,8 +50,8 @@ SVG_FILENAMES = (
 
 NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", NS)
-W, H = 540, 860
-LEFT, RIGHT, TOP, BOTTOM = 90, 240, 250, 170
+W, H = 600, 300
+LEFT, RIGHT, TOP, BOTTOM = 100, 220, 145, 65
 PLOT_W, PLOT_H = W - LEFT - RIGHT, H - TOP - BOTTOM
 FONT = "system-ui, -apple-system, sans-serif"
 COLORS = {
@@ -107,7 +107,7 @@ def _root(title: str, desc: str):
 
 
 def _text(parent, x, y, value, size=27, *, anchor="start", weight="400", fill="#f8fafc", **extra):
-    size = max(27, size)
+    size = max(29, size)
     attrs = {
         "x": str(x), "y": str(y), "font-size": str(size),
         "font-family": FONT, "fill": fill, "text-anchor": anchor,
@@ -197,6 +197,8 @@ def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal], 
 
 def _axes(root, points: list[PlotPoint], y_label: str):
     ticks = _log_ticks(points)
+    if len(ticks) > 2:
+        ticks = [ticks[0], ticks[-1]]
     for tick in ticks:
         y = _log_y(tick, ticks)
         _add(root, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
@@ -204,10 +206,10 @@ def _axes(root, points: list[PlotPoint], y_label: str):
     for year in (2018, 2022, 2026):
         x = _year_x(year)
         _add(root, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(TOP), "y2": str(TOP+PLOT_H), "stroke": "#1e293b", "stroke-width": "2"})
-        _text(root, x, TOP+PLOT_H+55, str(year), 27, anchor="middle", fill="#cbd5e1", data_axis_label="true")
-    _text(root, W/2, H-22, "Año de publicación", 25, anchor="middle", weight="600")
-    _text(root, 20, 124, y_label, 27, weight="600", fill="#cbd5e1", data_axis_label="true")
-    _text(root, 20, 162, "Y log · Igual distancia = multiplicar", 27, fill="#fbbf24", data_axis_label="true")
+        anchor = "start" if year == 2018 else "end" if year == 2026 else "middle"
+        _text(root, x, TOP+PLOT_H+28, str(year), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
+    _text(root, 20, 105, y_label, 27, weight="600", fill="#cbd5e1", data_axis_label="true")
+    _text(root, 580, 105, "Y log · ×", 29, anchor="end", fill="#fbbf24", data_axis_label="true")
     return ticks
 
 
@@ -237,23 +239,22 @@ def _short_label(label: str) -> str:
 
 def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_names: dict[str, str]):
     if points:
-        desc = f"Serie temporal logarítmica de {y_label}. Cada punto conserva estado, fuente, unidad y alcance; n={len(points)}. Igual distancia vertical representa multiplicación."
+        desc = f"Serie por Año de publicación, logarítmica, de {y_label}. Cada punto conserva estado, fuente, unidad y alcance; n={len(points)}. Igual distancia = multiplicar."
     else:
-        desc = "No existe una serie cuantitativa comparable con la evidencia disponible. Las ausencias no se convierten en cero ni reciben una posición inventada."
+        desc = "No existe una serie cuantitativa comparable por Año de publicación. Las ausencias no se convierten en cero ni reciben una posición inventada."
     root = _root(title, desc)
-    _text(root, 24, 50, title, 31, weight="700")
+    _text(root, 24, 38, title, 31, weight="700")
     model_count = len({point.model_id for point in points})
-    _text(root, 24, 88, f"{model_count} modelos · {len(points)} observaciones", 27, fill="#cbd5e1")
+    _text(root, 24, 72, f"{model_count} modelos · {len(points)} observaciones", 27, fill="#cbd5e1")
     if not points:
-        _text(root, W/2, 330, "No hay una serie comparable", 30, anchor="middle", weight="700")
-        _text(root, W/2, 376, "La ausencia no equivale a cero", 25, anchor="middle", fill="#cbd5e1")
-        _text(root, W/2, H-22, "Año de publicación", 25, anchor="middle", weight="600")
+        _text(root, W/2, 175, "No hay una serie comparable", 30, anchor="middle", weight="700")
+        _text(root, W/2, 215, "La ausencia no equivale a cero", 27, anchor="middle", fill="#cbd5e1")
         return root
 
     labels = {point.label for point in points}
     if {"total", "active"} <= labels:
-        _text(root, 20, 200, "● total · sin aro", 27, fill="#cbd5e1", data_legend="true", data_series="total", data_series_marker="single")
-        _text(root, 265, 200, "◎ activo", 27, fill="#cbd5e1", data_legend="true", data_series="active", data_series_marker="outer-ring")
+        _text(root, 340, 105, "● total", 29, fill="#cbd5e1", data_legend="true", data_series="total", data_series_marker="single")
+        _text(root, 470, 105, "◎ activo", 29, fill="#cbd5e1", data_legend="true", data_series="active", data_series_marker="outer-ring")
 
     ticks = _axes(root, points, y_label)
     chosen = _selected(points)
@@ -268,13 +269,6 @@ def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_na
         _marker(root, point, x, y, ticks)
         if (point.model_id, point.label) in chosen and len(label_rows) < 4:
             label_rows.append((point, x, y))
-    # Direct labels in a dedicated strip stay readable; leader lines identify points.
-    for row, (point, x, y) in enumerate(label_rows):
-        label_y = 254 + row * 42
-        label_x = W - 24
-        _add(root, "line", {"x1": f"{x+8:.1f}", "y1": f"{y:.1f}", "x2": f"{label_x-182:.1f}", "y2": str(label_y-7), "stroke": COLORS[point.status], "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true"})
-        label = _short_label(model_names.get(point.model_id, point.model_id))
-        _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=COLORS[point.status], data_direct_label="true")
     return root
 
 
@@ -282,22 +276,22 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
     """Render counts and accelerator-hours as separate log small multiples."""
     root = _root(
         "Aceleradores y horas",
-        "Dos paneles temporales con escalas logarítmicas independientes. El panel superior muestra aceleradores concurrentes y el inferior accelerator-hours; las unidades no se suman.",
+        "Dos paneles por Año de publicación con escalas logarítmicas independientes. Igual distancia = multiplicar. El panel superior muestra aceleradores concurrentes y el inferior accelerator-hours; las unidades no se suman.",
     )
-    _text(root, 24, 50, "Aceleradores y horas", 31, weight="700")
+    _text(root, 24, 38, "Aceleradores y horas", 31, weight="700")
     model_count = len({point.model_id for point in points})
-    _text(root, 24, 88, f"{model_count} modelos · {len(points)} observaciones", 27, fill="#cbd5e1")
-    _text(root, 20, 126, "Y log · Igual distancia = multiplicar", 27, fill="#fbbf24", data_axis_label="true")
+    _text(root, 24, 72, f"{model_count} modelos · {len(points)} observaciones", 27, fill="#cbd5e1")
+    _text(root, 20, 105, "Y log · ×; igual distancia = multiplicar", 27, fill="#fbbf24", data_axis_label="true")
     specs = (
-        ("concurrent accelerators", "● concurrentes", 205, 190),
-        ("accelerator-hours", "↔ accelerator-hours", 465, 190),
+        ("concurrent accelerators", "● concurrentes", 135, 45),
+        ("accelerator-hours", "↔ accelerator-hours", 215, 45),
     )
     for series_label, visible_label, panel_top, panel_height in specs:
         panel = _add(root, "g", {"data-series-panel": series_label})
         subset = [point for point in points if point.label == series_label]
         ticks = _log_ticks(subset)
-        if len(ticks) > 3:
-            ticks = [ticks[0], ticks[len(ticks)//2], ticks[-1]]
+        if len(ticks) > 2:
+            ticks = [ticks[0], ticks[-1]]
         y_func = lambda value, ticks=ticks, top=panel_top, height=panel_height: (
             top + height * (1 - (
                 math.log10(float(value)) - math.log10(float(ticks[0]))
@@ -312,7 +306,8 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
             x = _year_x(year)
             _add(panel, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(panel_top), "y2": str(panel_top+panel_height), "stroke": "#1e293b", "stroke-width": "2"})
             if series_label == "accelerator-hours":
-                _text(root, x, panel_top+panel_height+55, str(year), 27, anchor="middle", fill="#cbd5e1", data_axis_label="true")
+                anchor = "start" if year == 2018 else "end" if year == 2026 else "middle"
+                _text(root, x, panel_top+panel_height+28, str(year), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
         seen = {}
         positions = []
         for point in subset:
@@ -322,15 +317,6 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
             y = y_func(point.value)
             _marker(panel, point, x, y, ticks, y_func=y_func)
             positions.append((point, x, y))
-        chosen = sorted(positions, key=lambda row: (row[0].value, row[0].model_id))
-        chosen = chosen[:1] + chosen[-1:]
-        for row, (point, x, y) in enumerate(chosen):
-            label_y = panel_top + 44 + row * 44
-            label_x = W - 24
-            _add(root, "line", {"x1": f"{x+8:.1f}", "y1": f"{y:.1f}", "x2": f"{label_x-182:.1f}", "y2": str(label_y-7), "stroke": COLORS[point.status], "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true"})
-            label = _short_label(model_names.get(point.model_id, point.model_id))
-            _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=COLORS[point.status], data_direct_label="true")
-    _text(root, W/2, H-18, "Año de publicación", 27, anchor="middle", weight="600")
     return root
 
 
@@ -385,22 +371,23 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     desc = (
         f"Frontera de Pareto entre {cost_label} y capacidad general según ECI, "
         f"snapshot {snapshot['as_of']}. Un borde sólido marca una frontera segura en todo el rango; "
-        f"un borde punteado marca una frontera posible en algún valor del rango; n={len(inputs)}."
+        f"un borde punteado marca una frontera posible en algún valor del rango; n={len(inputs)}. "
+        "Capacidad general según ECI es el eje vertical."
     )
     root = _root(title, desc)
-    _text(root, 24, 50, title, 31, weight="700")
-    _text(root, 24, 88, f"ECI {snapshot['as_of']} · {len(inputs)} modelos", 27, fill="#cbd5e1")
+    _text(root, 24, 38, title, 31, weight="700")
+    _text(root, 24, 72, f"ECI {snapshot['as_of']} · {len(inputs)} modelos", 27, fill="#cbd5e1")
     safe_group = _add(root, "g", {"id": "frontera-segura"})
     possible_group = _add(root, "g", {"id": "frontera-posible"})
     dominated_group = _add(root, "g", {"id": "fuera-de-frontera"})
-    _text(root, 20, 130, "━ segura en todo el rango", 27, fill="#2dd4bf", data_legend="true", data_series="safe")
-    _text(root, 20, 172, "┅ posible en algún valor del rango", 27, fill="#fbbf24", data_legend="true", data_series="possible")
+    _text(root, 20, 103, "━ segura", 27, fill="#2dd4bf", data_legend="true", data_series="safe")
+    _text(root, 180, 103, "┅ posible", 27, fill="#fbbf24", data_legend="true", data_series="possible")
     if not inputs:
-        _text(root, W/2, 314, "Frontera no identificable", 30, anchor="middle", weight="700")
-        _text(root, W/2, 360, "Falta un costo comparable", 25, anchor="middle", fill="#cbd5e1")
-        _text(root, W/2, H-62, cost_label, 27, anchor="middle", weight="600", data_axis_label="true", data_axis_role="x-title")
-        _text(root, W/2, H-20, "X log", 27, anchor="middle", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
-        _text(root, 24, 214, "Capacidad general según ECI", 27, weight="600", data_axis_label="true")
+        _text(root, W/2, 180, "Frontera no identificable", 30, anchor="middle", weight="700")
+        _text(root, W/2, 220, "Falta un costo comparable", 27, anchor="middle", fill="#cbd5e1")
+        _text(root, 200, 132, "ECI", 27, weight="600", data_axis_label="true")
+        _text(root, 580, 95, "Reemplazo (USD)", 29, anchor="end", weight="600", data_axis_label="true", data_axis_role="x-title")
+        _text(root, 580, 132, "X log", 29, anchor="end", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
         return root
 
     result = pareto_frontier(inputs)
@@ -419,25 +406,15 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     for tick in cost_ticks:
         x = LEFT + (math.log10(float(tick))-c_lo) / max(c_hi-c_lo, 1) * PLOT_W
         _add(root, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(TOP), "y2": str(TOP+PLOT_H), "stroke": "#334155", "stroke-width": "2"})
-        _text(root, x, TOP+PLOT_H+55, _format(tick), 27, anchor="middle", fill="#cbd5e1", data_axis_label="true")
+        anchor = "start" if tick == cost_ticks[0] else "end" if tick == cost_ticks[-1] else "middle"
+        _text(root, x, TOP+PLOT_H+28, _format(tick), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
     for value in (s_lo, (s_lo+s_hi)/2, s_hi):
         y = TOP + (1-float((value-s_lo)/(s_hi-s_lo))) * PLOT_H
         _add(root, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
         _text(root, LEFT-12, y+8, f"{value:.0f}", 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
-    _text(root, 20, 212, "Capacidad general según ECI", 27, weight="600", data_axis_label="true")
-    _text(root, W/2, H-62, cost_label, 27, anchor="middle", weight="600", data_axis_label="true", data_axis_role="x-title")
-    _text(root, W/2, H-20, "X log", 27, anchor="middle", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
-
-    label_order = {
-        item.model_id: row
-        for row, item in enumerate(sorted(
-            inputs,
-            key=lambda candidate: (
-                score_y(Decimal(str(scores[candidate.model_id]["score"]))),
-                candidate.model_id,
-            ),
-        ))
-    }
+    _text(root, 200, 132, "ECI", 27, weight="600", data_axis_label="true")
+    _text(root, 580, 95, "CAPEX (USD)", 29, anchor="end", weight="600", data_axis_label="true", data_axis_role="x-title")
+    _text(root, 580, 132, "X log", 29, anchor="end", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
 
     for index, item in enumerate(inputs):
         point = costs[item.model_id]
@@ -484,12 +461,9 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
         _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x_low:.1f}", "x2": f"{x_high:.1f}", "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": f"{y_low:.1f}", "y2": f"{y_high:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "path", {"d": f"M{x:.1f},{y-10:.1f} L{x+10:.1f},{y+9:.1f} L{x-10:.1f},{y+9:.1f} Z", "fill": color, "stroke": "#f8fafc", "stroke-width": "2"})
-        # There are only eight eligible exact ECI matches: label every point.
-        label = _short_label(score["model_name"])
-        label_x = W - 24
-        label_y = 282 + label_order[item.model_id] * 48
-        _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": str(label_x-182), "y2": str(label_y-7), "stroke": color, "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true", "data-pareto-leader": "true", "data-model-id": item.model_id})
-        _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=color, data_direct_label="true")
+        # The accessible title carries the exact model. A short, non-crossing
+        # tick keeps the one-to-one geometric audit without a dense label wall.
+        _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": f"{x+11:.1f}", "y2": f"{y:.1f}", "stroke": color, "stroke-width": "2", "data-leader": "true", "data-pareto-leader": "true", "data-model-id": item.model_id})
     return root
 
 

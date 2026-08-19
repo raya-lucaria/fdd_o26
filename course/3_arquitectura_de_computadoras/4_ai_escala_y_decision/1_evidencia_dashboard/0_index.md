@@ -46,15 +46,31 @@ Para un modelo con `N` parámetros y precisión de `b` bits, el payload mínimo 
 
 El piso H100-equivalente aplica `ceil(bytes ÷ 80,000,000,000)`. Es una unidad docente de capacidad física, **no** una GPU mínima comprable ni un servidor. Los escenarios de potencia y CAPEX multiplican ese entero por 700 W y USD 30,000 respectivamente.
 
+### Escenario docente H100, visible y no atribuido
+
+Ocho módulos H100 SXM durante 24 horas permiten auditar las fronteras físicas sin atribuir el supuesto a ningún modelo.
+
+| Salida | Valor, estado y fuentes |
+|---|---|
+| hbm_physical | 640 GB_decimal · **DERIVED** · `S_COURSE_DESIGN`, `S_NVIDIA_H100_PAGE` |
+| peak_rate | 7916 TFLOP_per_second_BF16_dense · **DERIVED** · `S_COURSE_DESIGN`, `S_NVIDIA_H100_PAGE` |
+| power | 5600 W_configurable_TDP · **DERIVED** · `S_COURSE_DESIGN`, `S_NVIDIA_H100_PAGE` |
+| accelerator_hours | 192 H100_accelerator_hour · **DERIVED** · `S_COURSE_DESIGN` |
+| energy | 134.4 kWh_at_configurable_TDP_envelope · **SCENARIO** · `S_COURSE_DESIGN`, `S_NVIDIA_H100_PAGE` |
+| capex | 240000 USD accelerator-only · **DERIVED** · `S_COURSE_DESIGN` |
+
 ## Metodología de frontera de Pareto
 
 A domina a B cuando cuesta igual o menos y su capacidad general según ECI es igual o mayor, con al menos una desigualdad estricta. La **Frontera segura** reúne puntos no dominados incluso bajo extremos adversos; la **Frontera posible** reúne puntos no dominados para alguna realización del rango. No se decide con puntos medios.
 
 El panel de entrenamiento exige ECI y valor de reemplazo defendible. El de inferencia admite sólo pesos abiertos con capacidad identificable. ECI no es IQ ni un ranking universal; el score corresponde a la variante exacta del snapshot.
 
+Warning: truncated output (original token count: 37561)
+Total output lines: 823
+
 ## Registros verticales por modelo
 
-Cada registro declara identidad y scope antes de sus métricas. “Detalles” conserva cada Fórmula, entradas, precisión, alcance, manifiesto, Fuentes y Corpus negativo cuando aplican.
+Cada registro declara identidad y scope antes de sus métricas. Todos los detalles opcionales —Fórmula, entradas, rangos y corpus negativo— se conservan en la misma celda.
 
 ### BERT-Large — `DM_BERT_LARGE`
 
@@ -422,7 +438,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 - **parameters_total:** `FACT` · 236000000000 parameter · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT
 - **parameters_active:** `FACT` · 21000000000 parameter_per_token · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT
 - **training_tokens:** `FACT` · 8100000000000 training_token · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT
-- **training_flop:** `ESTIMATE` · 1020600000000000000000000 FLOP · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
+- **training_flop:** `ESTIMATE` · 1020600000000000000000000 FLOP · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · **low:** 816480000000000000000000 · **high:** 1275750000000000000000000 · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
 - **accelerators_concurrent:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT · **corpus_checked:** S_DASH_DEEPSEEK_V2_REPORT · **checked_for_model_id:** DM_DEEPSEEK_V2 · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_hours:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT · **corpus_checked:** S_DASH_DEEPSEEK_V2_REPORT · **checked_for_model_id:** DM_DEEPSEEK_V2 · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_power_basis:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_DEEPSEEK_V2_REPORT · **corpus_checked:** S_DASH_DEEPSEEK_V2_REPORT · **checked_for_model_id:** DM_DEEPSEEK_V2 · **reason:** applicable_accelerator_power_basis_not_identified
@@ -590,7 +606,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 - **parameters_total:** `FACT` · 671000000000 parameter · **source_ids:** S_DEEPSEEK_V3_PAPER
 - **parameters_active:** `FACT` · 37000000000 parameter_per_token · **source_ids:** S_DEEPSEEK_V3_PAPER
 - **training_tokens:** `FACT` · 14800000000000 training_token · **source_ids:** S_DEEPSEEK_V3_PAPER
-- **training_flop:** `ESTIMATE` · 3285600000000000000000000 FLOP · **source_ids:** S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
+- **training_flop:** `ESTIMATE` · 3285600000000000000000000 FLOP · **source_ids:** S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · **low:** 2628480000000000000000000 · **high:** 4107000000000000000000000 · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
 - **accelerators_concurrent:** `FACT` · 2048 H800_GPU · **source_ids:** S_DEEPSEEK_V3_PAPER
 - **accelerator_hours:** `FACT` · 2664000 H800_GPU_hour · **source_ids:** S_DEEPSEEK_V3_PAPER
 - **accelerator_power_basis:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DEEPSEEK_V3_PAPER · **corpus_checked:** S_DEEPSEEK_V3_PAPER · **checked_for_model_id:** DM_DEEPSEEK_V3 · **reason:** applicable_accelerator_power_basis_not_identified
@@ -674,7 +690,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 - **parameters_total:** `FACT` · 30500000000 parameter · **source_ids:** S_DASH_QWEN3_REPORT
 - **parameters_active:** `FACT` · 3300000000 parameter_per_token · **source_ids:** S_DASH_QWEN3_REPORT
 - **training_tokens:** `FACT` · 36000000000000 training_token · **source_ids:** S_DASH_QWEN3_REPORT
-- **training_flop:** `ESTIMATE` · 712800000000000000000000 FLOP · **source_ids:** S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
+- **training_flop:** `ESTIMATE` · 712800000000000000000000 FLOP · **source_ids:** S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · **low:** 570240000000000000000000 · **high:** 891000000000000000000000 · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
 - **accelerators_concurrent:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_QWEN3_REPORT · **corpus_checked:** S_DASH_QWEN3_REPORT · **checked_for_model_id:** DM_QWEN3_30B_A3B · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_hours:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_QWEN3_REPORT · **corpus_checked:** S_DASH_QWEN3_REPORT · **checked_for_model_id:** DM_QWEN3_30B_A3B · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_power_basis:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_QWEN3_REPORT · **corpus_checked:** S_DASH_QWEN3_REPORT · **checked_for_model_id:** DM_QWEN3_30B_A3B · **reason:** applicable_accelerator_power_basis_not_identified
@@ -695,7 +711,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 - **parameters_total:** `FACT` · 235000000000 parameter · **source_ids:** S_DASH_QWEN3_REPORT
 - **parameters_active:** `FACT` · 22000000000 parameter_per_token · **source_ids:** S_DASH_QWEN3_REPORT
 - **training_tokens:** `FACT` · 36000000000000 training_token · **source_ids:** S_DASH_QWEN3_REPORT
-- **training_flop:** `ESTIMATE` · 4752000000000000000000000 FLOP · **source_ids:** S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
+- **training_flop:** `ESTIMATE` · 4752000000000000000000000 FLOP · **source_ids:** S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · **low:** 3801600000000000000000000 · **high:** 5940000000000000000000000 · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
 - **accelerators_concurrent:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_QWEN3_REPORT · **corpus_checked:** S_DASH_QWEN3_REPORT · **checked_for_model_id:** DM_QWEN3_235B_A22B · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_hours:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_QWEN3_REPORT · **corpus_checked:** S_DASH_QWEN3_REPORT · **checked_for_model_id:** DM_QWEN3_235B_A22B · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_power_basis:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_QWEN3_REPORT · **corpus_checked:** S_DASH_QWEN3_REPORT · **checked_for_model_id:** DM_QWEN3_235B_A22B · **reason:** applicable_accelerator_power_basis_not_identified
@@ -716,7 +732,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 - **parameters_total:** `FACT` · 1000000000000 parameter · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT
 - **parameters_active:** `FACT` · 32000000000 parameter_per_token · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT
 - **training_tokens:** `FACT` · 15500000000000 training_token · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT
-- **training_flop:** `ESTIMATE` · 2976000000000000000000000 FLOP · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
+- **training_flop:** `ESTIMATE` · 2976000000000000000000000 FLOP · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · **low:** 2380800000000000000000000 · **high:** 3720000000000000000000000 · **assumptions:** 6NT_active is only a routing-level proxy, range is 0.8x to 1.25x around the active-parameter proxy, attention, shared experts, routing imbalance and auxiliary work are not exactly identified · **formula:** range around 6 * active_parameters * training_tokens · **input_metric_ids:** parameters_active, training_tokens
 - **accelerators_concurrent:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT · **corpus_checked:** S_DASH_MOONSHOT_KIMI_K2_REPORT · **checked_for_model_id:** DM_KIMI_K2 · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_hours:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT · **corpus_checked:** S_DASH_MOONSHOT_KIMI_K2_REPORT · **checked_for_model_id:** DM_KIMI_K2 · **reason:** not_disclosed_in_creator_corpus
 - **accelerator_power_basis:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_MOONSHOT_KIMI_K2_REPORT · **corpus_checked:** S_DASH_MOONSHOT_KIMI_K2_REPORT · **checked_for_model_id:** DM_KIMI_K2 · **reason:** applicable_accelerator_power_basis_not_identified
@@ -730,7 +746,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 
 ### Gemini 3.1 Pro — `DM_GEMINI31_PRO`
 
-**Identidad y scope:** Google · lanzamiento 2026-02-19 · variante Pro preview · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · —. Fuentes de identidad: S_GOOGLE_GEMINI31_CARD.
+**Identidad y scope:** Google · lanzamiento 2026-02-19 · variante Pro preview · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · — . Fuentes de identidad: S_GOOGLE_GEMINI31_CARD.
 
 - **year:** `DERIVED` · 2026 year · **source_ids:** S_GOOGLE_GEMINI31_CARD · **formula:** year(release_date) · **input_metric_ids:** release_date
 - **architecture:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_GOOGLE_GEMINI31_CARD · **corpus_checked:** S_GOOGLE_GEMINI31_CARD · **checked_for_model_id:** DM_GEMINI31_PRO · **reason:** architecture_not_disclosed_in_creator_corpus
@@ -751,7 +767,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 
 ### GPT-5.6 Sol — `DM_GPT56_SOL`
 
-**Identidad y scope:** OpenAI · lanzamiento 2026-06-26 · variante Sol · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · —. Fuentes de identidad: S_OPENAI_GPT56_ANNOUNCEMENT.
+**Identidad y scope:** OpenAI · lanzamiento 2026-06-26 · variante Sol · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · — . Fuentes de identidad: S_OPENAI_GPT56_ANNOUNCEMENT.
 
 - **year:** `DERIVED` · 2026 year · **source_ids:** S_OPENAI_GPT56_ANNOUNCEMENT · **formula:** year(release_date) · **input_metric_ids:** release_date
 - **architecture:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_OPENAI_GPT56_ANNOUNCEMENT, S_OPENAI_GPT56_SYSTEM_CARD · **corpus_checked:** S_OPENAI_GPT56_ANNOUNCEMENT, S_OPENAI_GPT56_SYSTEM_CARD · **checked_for_model_id:** DM_GPT56_SOL · **reason:** architecture_not_disclosed_in_creator_corpus
@@ -772,7 +788,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 
 ### Claude Sonnet 5 — `DM_CLAUDE_SONNET5`
 
-**Identidad y scope:** Anthropic · lanzamiento 2026-06-30 · variante Sonnet 5 · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · —. Fuentes de identidad: S_ANTHROPIC_SONNET5_ANNOUNCEMENT.
+**Identidad y scope:** Anthropic · lanzamiento 2026-06-30 · variante Sonnet 5 · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · — . Fuentes de identidad: S_ANTHROPIC_SONNET5_ANNOUNCEMENT.
 
 - **year:** `DERIVED` · 2026 year · **source_ids:** S_ANTHROPIC_SONNET5_ANNOUNCEMENT · **formula:** year(release_date) · **input_metric_ids:** release_date
 - **architecture:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_ANTHROPIC_SONNET5_ANNOUNCEMENT, S_ANTHROPIC_SONNET5_SYSTEM_CARD · **corpus_checked:** S_ANTHROPIC_SONNET5_ANNOUNCEMENT, S_ANTHROPIC_SONNET5_SYSTEM_CARD · **checked_for_model_id:** DM_CLAUDE_SONNET5 · **reason:** architecture_not_disclosed_in_creator_corpus
@@ -814,7 +830,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 
 ### Grok 4.5 — `DM_GROK45`
 
-**Identidad y scope:** xAI · lanzamiento 2026-07-16 · variante Grok 4.5 hosted model · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · —. Fuentes de identidad: S_DASH_XAI_GROK45_CARD.
+**Identidad y scope:** xAI · lanzamiento 2026-07-16 · variante Grok 4.5 hosted model · `closed_weights`. Arquitectura: `UNDISCLOSED_BY_CREATOR` · — . Fuentes de identidad: S_DASH_XAI_GROK45_CARD.
 
 - **year:** `DERIVED` · 2026 year · **source_ids:** S_DASH_XAI_GROK45_CARD · **formula:** year(release_date) · **input_metric_ids:** release_date
 - **architecture:** `UNDISCLOSED_BY_CREATOR` · — · **source_ids:** S_DASH_XAI_GROK45_CARD · **corpus_checked:** S_DASH_XAI_GROK45_CARD · **checked_for_model_id:** DM_GROK45 · **reason:** architecture_not_disclosed_in_creator_corpus
@@ -879,7 +895,7 @@ Cada registro declara identidad y scope antes de sus métricas. “Detalles” c
 
 Los campos `corpus_checked`, `checked_for_model_id` y `reason` documentan dónde se buscó y por qué la ausencia pertenece al modelo exacto. `UNDISCLOSED_BY_CREATOR` y `NOT_FOUND` nunca se convierten en `ESTIMATE`; `ESTIMATION_NOT_IDENTIFIABLE` se usa cuando faltan entradas para defender un resultado.
 
-+## Tablas reconstruibles de las doce visuales
+## Tablas reconstruibles de las doce visuales
 
 Cada fila reproduce un punto generado: conserva modelo, año, serie, estado, valor o rango, unidad, alcance y fuentes. Las tablas vacías registran cero puntos en vez de inventarlos.
 
@@ -1395,6 +1411,8 @@ Este cálculo antiguo sigue siendo útil porque enseña la diferencia entre un a
 | Total | 58.00560697360 GB = 54.022 GiB (**DERIVED**) |
 | Evaluación | 58.00560697360 GB < 80 GB físicos: cabe, sin SLA (**SCENARIO**) |
 | Topología | 1 NVIDIA DGX H100 adquirido; TP=1, PP=1, DP=1 y una réplica; 80 GB físicos por réplica/shard y 16 contextos KV en el shard activo |
+| HBM utilizable | **ESTIMATION_NOT_IDENTIFIABLE** sin observar runtime/allocator, reserva del driver y pico medido del shard |
+| Gate operacional | Exige misma revisión, runtime, topología, scheduler, batch, warmup, longitudes de entrada, salida y contexto, concurrencia y utilización; mide juntos throughput + TTFT. FLOP/s pico no sustituye la medición |
 
 Las otras siete GPU del DGX quedan ociosas en este escenario. El sistema completo es la unidad adquirible considerada; los 640 GB agregados no sustituyen el umbral de 80 GB del shard activo. Fuentes: `S_QWEN25_32B_GPTQ_INT8_ARTIFACT`, `S_VLLM_071_QUANTIZATION_HARDWARE`, `S_NVIDIA_DGX_H100_DATASHEET` y `S_COURSE_DESIGN`.
 

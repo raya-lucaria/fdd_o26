@@ -319,6 +319,8 @@ def test_dashboard_model_cards_expose_each_model_boundary_without_ids():
         inference = (
             "artefacto"
             if model["metrics"]["artifact_bytes"]["status"] == "FACT"
+            else "piso BF16"
+            if model["metrics"]["weight_floor_bf16"]["status"] in {"FACT", "DERIVED", "ESTIMATE"}
             else "no identificable"
         )
         expected = (
@@ -326,6 +328,19 @@ def test_dashboard_model_cards_expose_each_model_boundary_without_ids():
             f"{openness} · {architecture} · E: {training} · I: {inference} |"
         )
         assert expected in cards
+    for heading in ("Google", "OpenAI y Anthropic", "Meta y BigScience", "Qwen", "DeepSeek y Mistral", "xAI y Moonshot"):
+        assert f"##### {heading}" in cards
+
+
+def test_dashboard_inference_cards_distinguish_artifact_floor_and_absence():
+    section = dashboard_section()
+    models = load_yaml(AI_LEDGER)["dashboard_models"]
+    for model in models:
+        artifact = model["metrics"]["artifact_bytes"]["status"] == "FACT"
+        floor = model["metrics"]["weight_floor_bf16"]["status"] in {"FACT", "DERIVED", "ESTIMATE"}
+        expected = "artefacto" if artifact else "piso BF16" if floor else "no identificable"
+        row = next(line for line in section.splitlines() if f"**{model['canonical_name']} ·" in line)
+        assert f"I: {expected}" in row
 
 
 def test_dashboard_main_route_has_teaching_order_and_plain_language_boundaries():
@@ -403,6 +418,8 @@ def test_dashboard_annex_preserves_complete_evidence():
     )
     assert all(term in annex for term in required)
     assert "id: evidencia-dashboard-ia" in DASHBOARD_ANNEX.read_text(encoding="utf-8")
+    assert "\n+##" not in annex
+    assert "## Tablas reconstruibles de las doce visuales" in annex
 
 
 def test_dashboard_annex_reproduces_all_546_metric_cells_exactly():
@@ -429,6 +446,11 @@ def test_dashboard_annex_reproduces_all_546_metric_cells_exactly():
             assert f"**source_ids:** {', '.join(cell['source_ids'])}" in section
             if cell.get("formula"):
                 assert f"**formula:** {cell['formula']}" in section
+            for key, value in cell.items():
+                if key in {"status", "value", "unit", "source_ids"}:
+                    continue
+                rendered = ", ".join(str(item) for item in value) if isinstance(value, list) else str(value).lower() if isinstance(value, bool) else str(value)
+                assert f"**{key}:** {rendered}" in section, (model["id"], name, key)
 
 
 def test_dashboard_annex_uses_vertical_records_not_a_wide_ledger():

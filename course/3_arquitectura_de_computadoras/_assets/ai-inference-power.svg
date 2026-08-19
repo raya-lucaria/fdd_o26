@@ -1,147 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 860" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">TDP del piso de capacidad — dashboard de modelos de IA</title>
-  <desc id="desc">Serie temporal logarítmica de W de aceleradores. Cada punto conserva estado, fuente, unidad y alcance; n=29. Igual distancia vertical representa multiplicación.</desc>
-  <rect width="540" height="860" rx="24" fill="#111827" />
-  <text x="24" y="50" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">TDP del piso de capacidad</text>
-  <text x="24" y="88" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">29 modelos · 29 observaciones</text>
-  <line x1="90" x2="300" y1="690.0" y2="690.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="698.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100</text>
-  <line x1="90" x2="300" y1="543.3" y2="543.3" stroke="#334155" stroke-width="2" />
-  <text x="78" y="551.3333333333334" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0k</text>
-  <line x1="90" x2="300" y1="396.7" y2="396.7" stroke="#334155" stroke-width="2" />
-  <text x="78" y="404.6666666666667" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">10k</text>
-  <line x1="90" x2="300" y1="250.0" y2="250.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="258.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100k</text>
-  <line x1="90.0" x2="90.0" y1="250" y2="690" stroke="#1e293b" stroke-width="2" />
-  <text x="90.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2018</text>
-  <line x1="195.0" x2="195.0" y1="250" y2="690" stroke="#1e293b" stroke-width="2" />
-  <text x="195.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
-  <line x1="300.0" x2="300.0" y1="250" y2="690" stroke="#1e293b" stroke-width="2" />
-  <text x="300.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2026</text>
-  <text x="270.0" y="838" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600">Año de publicación</text>
-  <text x="20" y="124" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true">W de aceleradores</text>
-  <text x="20" y="162" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-axis-label="true">Y log · Igual distancia = multiplicar</text>
+  <desc id="desc">Serie por Año de publicación, logarítmica, de W de aceleradores. Cada punto conserva estado, fuente, unidad y alcance; n=29. Igual distancia = multiplicar.</desc>
+  <rect width="600" height="300" rx="24" fill="#111827" />
+  <text x="24" y="38" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">TDP del piso de capacidad</text>
+  <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">29 modelos · 29 observaciones</text>
+  <line x1="100" x2="380" y1="235.0" y2="235.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="243.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100</text>
+  <line x1="100" x2="380" y1="145.0" y2="145.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="153.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100k</text>
+  <line x1="100.0" x2="100.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
+  <text x="100.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
+  <line x1="240.0" x2="240.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
+  <text x="240.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
+  <line x1="380.0" x2="380.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
+  <text x="380.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
+  <text x="20" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true">W de aceleradores</text>
+  <text x="580" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true">Y log · ×</text>
   <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_BERT_REPORT S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_BERT_LARGE: 700 W, SCENARIO">
     <title>DM_BERT_LARGE: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M76.0,556.1 L86.0,575.1 L66.0,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M86.0,199.6 L96.0,218.6 L76.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_T5_REPORT S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_T5_11B: 700 W, SCENARIO">
     <title>DM_T5_11B: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M102.2,556.1 L112.2,575.1 L92.2,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M121.0,199.6 L131.0,218.6 L111.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="SCENARIO" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER S_COURSE_DESIGN" data-value="3500" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_BLOOM_176B: 3500 W, SCENARIO">
     <title>DM_BLOOM_176B: 3500 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M181.0,453.5 L191.0,472.5 L171.0,472.5 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M226.0,178.7 L236.0,197.7 L216.0,197.7 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="SCENARIO" data-source-ids="S_DASH_META_OPT_REPORT S_COURSE_DESIGN" data-value="3500" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_OPT_175B: 3500 W, SCENARIO">
     <title>DM_OPT_175B: 3500 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M188.0,453.5 L198.0,472.5 L178.0,472.5 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.0,178.7 L243.0,197.7 L223.0,197.7 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="SCENARIO" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 1400 W, SCENARIO">
     <title>DM_DEEPSEEK_LLM_67B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M207.2,511.9 L217.2,530.9 L197.2,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M261.0,190.6 L271.0,209.6 L251.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="SCENARIO" data-source-ids="S_DASH_META_LLAMA1_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_LLAMA1_65B: 1400 W, SCENARIO">
     <title>DM_LLAMA1_65B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M214.2,511.9 L224.2,530.9 L204.2,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M268.0,190.6 L278.0,209.6 L258.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="SCENARIO" data-source-ids="S_DASH_META_LLAMA2_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_LLAMA2_70B: 1400 W, SCENARIO">
     <title>DM_LLAMA2_70B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M221.2,511.9 L231.2,530.9 L211.2,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M275.0,190.6 L285.0,209.6 L265.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_MISTRAL_7B_V01" data-status="SCENARIO" data-source-ids="S_DASH_MISTRAL7_REPORT S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_MISTRAL_7B_V01: 700 W, SCENARIO">
     <title>DM_MISTRAL_7B_V01: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M207.2,556.1 L217.2,575.1 L197.2,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M261.0,199.6 L271.0,218.6 L251.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_MIXTRAL_8X7B" data-status="SCENARIO" data-source-ids="S_DASH_MIXTRAL_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_MIXTRAL_8X7B: 1400 W, SCENARIO">
     <title>DM_MIXTRAL_8X7B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M228.2,511.9 L238.2,530.9 L218.2,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M282.0,190.6 L292.0,209.6 L272.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_QWEN_72B: 1400 W, SCENARIO">
     <title>DM_QWEN_72B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M235.2,511.9 L245.2,530.9 L225.2,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M289.0,190.6 L299.0,209.6 L279.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="SCENARIO" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-value="4200" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 4200 W, SCENARIO">
     <title>DM_DEEPSEEK_V2: 4200 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,441.9 L243.5,460.9 L223.5,460.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,176.3 L306.0,195.3 L286.0,195.3 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="SCENARIO" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-value="11900" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 11900 W, SCENARIO">
     <title>DM_DEEPSEEK_V3: 11900 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,375.6 L243.5,394.6 L223.5,394.6 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,162.7 L306.0,181.7 L286.0,181.7 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_GEMMA2_27B: 700 W, SCENARIO">
     <title>DM_GEMMA2_27B: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,556.1 L243.5,575.1 L223.5,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,199.6 L306.0,218.6 L286.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_GEMMA_7B: 700 W, SCENARIO">
     <title>DM_GEMMA_7B: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M240.5,556.1 L250.5,575.1 L230.5,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M303.0,199.6 L313.0,218.6 L293.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GROK1" data-status="SCENARIO" data-source-ids="S_DASH_XAI_GROK1_REPO S_COURSE_DESIGN" data-value="5600" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_GROK1: 5600 W, SCENARIO">
     <title>DM_GROK1: 5600 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,423.6 L243.5,442.6 L223.5,442.6 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,172.6 L306.0,191.6 L286.0,191.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="SCENARIO" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-value="7700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_LLAMA31_405B: 7700 W, SCENARIO">
     <title>DM_LLAMA31_405B: 7700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,403.3 L243.5,422.3 L223.5,422.3 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,168.4 L306.0,187.4 L286.0,187.4 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="SCENARIO" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_LLAMA31_70B: 1400 W, SCENARIO">
     <title>DM_LLAMA31_70B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,511.9 L243.5,530.9 L223.5,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,190.6 L306.0,209.6 L286.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="SCENARIO" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_LLAMA31_8B: 700 W, SCENARIO">
     <title>DM_LLAMA31_8B: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M247.5,556.1 L257.5,575.1 L237.5,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M310.0,199.6 L320.0,218.6 L300.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_MISTRAL_LARGE2_2407" data-status="SCENARIO" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD S_COURSE_DESIGN" data-value="2800" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_MISTRAL_LARGE2_2407: 2800 W, SCENARIO">
     <title>DM_MISTRAL_LARGE2_2407: 2800 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M233.5,467.8 L243.5,486.8 L223.5,486.8 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M296.0,181.6 L306.0,200.6 L286.0,200.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN25_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_QWEN25_72B: 1400 W, SCENARIO">
     <title>DM_QWEN25_72B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M240.5,511.9 L250.5,530.9 L230.5,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M303.0,190.6 L313.0,209.6 L293.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN2_REPORT S_COURSE_DESIGN" data-value="1400" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_QWEN2_72B: 1400 W, SCENARIO">
     <title>DM_QWEN2_72B: 1400 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M247.5,511.9 L257.5,530.9 L237.5,530.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M310.0,190.6 L320.0,209.6 L300.0,209.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="SCENARIO" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT S_COURSE_DESIGN" data-value="11900" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_DEEPSEEK_R1: 11900 W, SCENARIO">
     <title>DM_DEEPSEEK_R1: 11900 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M259.8,375.6 L269.8,394.6 L249.8,394.6 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M331.0,162.7 L341.0,181.7 L321.0,181.7 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_GEMMA3_27B: 700 W, SCENARIO">
     <title>DM_GEMMA3_27B: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M259.8,556.1 L269.8,575.1 L249.8,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M331.0,199.6 L341.0,218.6 L321.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="SCENARIO" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT S_COURSE_DESIGN" data-value="17500" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_KIMI_K2: 17500 W, SCENARIO">
     <title>DM_KIMI_K2: 17500 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M259.8,351.0 L269.8,370.0 L249.8,370.0 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M331.0,157.7 L341.0,176.7 L321.0,176.7 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA4_SCOUT" data-status="SCENARIO" data-source-ids="S_DASH_META_LLAMA4_CARD S_COURSE_DESIGN" data-value="2100" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_LLAMA4_SCOUT: 2100 W, SCENARIO">
     <title>DM_LLAMA4_SCOUT: 2100 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M259.8,486.1 L269.8,505.1 L249.8,505.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M331.0,185.3 L341.0,204.3 L321.0,204.3 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-value="4200" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 4200 W, SCENARIO">
     <title>DM_QWEN3_235B_A22B: 4200 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M259.8,441.9 L269.8,460.9 L249.8,460.9 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M331.0,176.3 L341.0,195.3 L321.0,195.3 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-value="700" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 700 W, SCENARIO">
     <title>DM_QWEN3_30B_A3B: 700 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M266.8,556.1 L276.8,575.1 L256.8,575.1 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M338.0,199.6 L348.0,218.6 L328.0,218.6 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="SCENARIO" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER S_COURSE_DESIGN" data-value="49000" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_KIMI_K3: 49000 W, SCENARIO">
     <title>DM_KIMI_K3: 49000 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M286.0,285.4 L296.0,304.4 L276.0,304.4 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M366.0,144.3 L376.0,163.3 L356.0,163.3 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="SCENARIO" data-source-ids="S_QWEN38_MODELSCOPE S_COURSE_DESIGN" data-value="42000" data-unit="W" data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-marker="triangle" data-series="700 W per accelerator" data-series-marker="single" aria-label="DM_QWEN38_24T_A95B: 42000 W, SCENARIO">
     <title>DM_QWEN38_24T_A95B: 42000 W, SCENARIO</title>
-    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M286.0,295.3 L296.0,314.3 L276.0,314.3 Z" />
+    <path fill="#c084fc" stroke="#f8fafc" stroke-width="2" d="M366.0,146.3 L376.0,165.3 L356.0,165.3 Z" />
   </g>
-  <line x1="84.0" y1="566.1" x2="334.0" y2="247" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" />
-  <text x="516" y="254" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">BERT-Large</text>
-  <line x1="294.0" y1="295.4" x2="334.0" y2="289" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" />
-  <text x="516" y="296" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Kimi K3</text>
-  <line x1="294.0" y1="305.3" x2="334.0" y2="331" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" />
-  <text x="516" y="338" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Qwen3.8 2T</text>
 </svg>

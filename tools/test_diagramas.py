@@ -476,6 +476,7 @@ def test_dashboard_svg_conserva_semantica_accesible_y_mobile(tmp_path):
     for path in paths:
         root = ET.parse(path).getroot()
         width = float(root.attrib["viewBox"].split()[2])
+        height = float(root.attrib["viewBox"].split()[3])
         title = root.find(f"{ns}title")
         desc = root.find(f"{ns}desc")
         sizes = [
@@ -489,6 +490,7 @@ def test_dashboard_svg_conserva_semantica_accesible_y_mobile(tmp_path):
         ]
 
         assert width <= 640
+        assert height <= 400
         assert title is not None and title.text and len(title.text) > 20
         assert desc is not None and desc.text and len(desc.text) > 60
         assert root.attrib.get("role") == "img"

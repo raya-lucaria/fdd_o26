@@ -1,103 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 860" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Pareto · inferencia local — dashboard de modelos de IA</title>
-  <desc id="desc">Frontera de Pareto entre CAPEX de capacidad (USD) y capacidad general según ECI, snapshot 2026-08-18. Un borde sólido marca una frontera segura en todo el rango; un borde punteado marca una frontera posible en algún valor del rango; n=8.</desc>
-  <rect width="540" height="860" rx="24" fill="#111827" />
-  <text x="24" y="50" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Pareto · inferencia local</text>
-  <text x="24" y="88" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">ECI 2026-08-18 · 8 modelos</text>
+  <desc id="desc">Frontera de Pareto entre CAPEX de capacidad (USD) y capacidad general según ECI, snapshot 2026-08-18. Un borde sólido marca una frontera segura en todo el rango; un borde punteado marca una frontera posible en algún valor del rango; n=8. Capacidad general según ECI es el eje vertical.</desc>
+  <rect width="600" height="300" rx="24" fill="#111827" />
+  <text x="24" y="38" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Pareto · inferencia local</text>
+  <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">ECI 2026-08-18 · 8 modelos</text>
   <g id="frontera-segura">
     <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="30000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="130.62" data-low="30000" data-high="30000" data-pareto-interval="true" data-cost-low="30000" data-cost-high="30000" data-score-low="124.67" data-score-high="133.1" data-frontier="safe" aria-label="DM_GEMMA3_27B: costo 30000–30000 USD; ECI 124.67–133.1; frontera safe">
       <title>DM_GEMMA3_27B: costo 30000–30000 USD; ECI 124.67–133.1; frontera safe</title>
-      <rect data-interval-geometry="true" x="136.1" y="359.4" width="8.0" height="78.0" fill="#2dd4bf" fill-opacity=".10" stroke="#2dd4bf" stroke-width="4" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="382.4" y2="382.4" stroke="#2dd4bf" stroke-width="4" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="437.4" y2="359.4" stroke="#2dd4bf" stroke-width="4" />
-      <path d="M140.1,372.4 L150.1,391.4 L130.1,391.4 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="162.8" y="167.4" width="8.0" height="16.0" fill="#2dd4bf" fill-opacity=".10" stroke="#2dd4bf" stroke-width="4" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="172.1" y2="172.1" stroke="#2dd4bf" stroke-width="4" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="183.3" y2="167.4" stroke="#2dd4bf" stroke-width="4" />
+      <path d="M166.8,162.1 L176.8,181.1 L156.8,181.1 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
     <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="180000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="139.44" data-low="180000" data-high="180000" data-pareto-interval="true" data-cost-low="180000" data-cost-high="180000" data-score-low="134.85" data-score-high="140.96" data-frontier="safe" aria-label="DM_QWEN3_235B_A22B: costo 180000–180000 USD; ECI 134.85–140.96; frontera safe">
       <title>DM_QWEN3_235B_A22B: costo 180000–180000 USD; ECI 134.85–140.96; frontera safe</title>
-      <rect data-interval-geometry="true" x="217.8" y="286.7" width="8.0" height="56.5" fill="#2dd4bf" fill-opacity=".10" stroke="#2dd4bf" stroke-width="4" />
-      <line data-interval-geometry="true" x1="221.8" x2="221.8" y1="300.7" y2="300.7" stroke="#2dd4bf" stroke-width="4" />
-      <line data-interval-geometry="true" x1="221.8" x2="221.8" y1="343.2" y2="286.7" stroke="#2dd4bf" stroke-width="4" />
-      <path d="M221.8,290.7 L231.8,309.7 L211.8,309.7 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="271.7" y="152.5" width="8.0" height="11.6" fill="#2dd4bf" fill-opacity=".10" stroke="#2dd4bf" stroke-width="4" />
+      <line data-interval-geometry="true" x1="275.7" x2="275.7" y1="155.4" y2="155.4" stroke="#2dd4bf" stroke-width="4" />
+      <line data-interval-geometry="true" x1="275.7" x2="275.7" y1="164.1" y2="152.5" stroke="#2dd4bf" stroke-width="4" />
+      <path d="M275.7,145.4 L285.7,164.4 L265.7,164.4 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
   </g>
   <g id="frontera-posible">
     <g data-quantitative="true" data-model-id="DM_DEEPSEEK_R1" data-status="SCENARIO" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="510000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="139.52" data-low="510000" data-high="510000" data-pareto-interval="true" data-cost-low="510000" data-cost-high="510000" data-score-low="137.09" data-score-high="140.74" data-frontier="possible" aria-label="DM_DEEPSEEK_R1: costo 510000–510000 USD; ECI 137.09–140.74; frontera possible">
       <title>DM_DEEPSEEK_R1: costo 510000–510000 USD; ECI 137.09–140.74; frontera possible</title>
-      <rect data-interval-geometry="true" x="265.3" y="288.7" width="8.0" height="33.8" fill="#fbbf24" fill-opacity=".10" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 8" />
-      <line data-interval-geometry="true" x1="269.3" x2="269.3" y1="300.0" y2="300.0" stroke="#fbbf24" stroke-width="4" />
-      <line data-interval-geometry="true" x1="269.3" x2="269.3" y1="322.5" y2="288.7" stroke="#fbbf24" stroke-width="4" />
-      <path d="M269.3,290.0 L279.3,309.0 L259.3,309.0 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="335.1" y="152.9" width="8.0" height="8.0" fill="#fbbf24" fill-opacity=".10" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 8" />
+      <line data-interval-geometry="true" x1="339.1" x2="339.1" y1="155.2" y2="155.2" stroke="#fbbf24" stroke-width="4" />
+      <line data-interval-geometry="true" x1="339.1" x2="339.1" y1="159.8" y2="152.9" stroke="#fbbf24" stroke-width="4" />
+      <path d="M339.1,145.2 L349.1,164.2 L329.1,164.2 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
     <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="SCENARIO" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="60000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="125.26" data-low="60000" data-high="60000" data-pareto-interval="true" data-cost-low="60000" data-cost-high="60000" data-score-low="119.5" data-score-high="127.39" data-frontier="possible" aria-label="DM_LLAMA31_70B: costo 60000–60000 USD; ECI 119.5–127.39; frontera possible">
       <title>DM_LLAMA31_70B: costo 60000–60000 USD; ECI 119.5–127.39; frontera possible</title>
-      <rect data-interval-geometry="true" x="167.7" y="412.3" width="8.0" height="73.0" fill="#fbbf24" fill-opacity=".10" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 8" />
-      <line data-interval-geometry="true" x1="171.7" x2="171.7" y1="432.0" y2="432.0" stroke="#fbbf24" stroke-width="4" />
-      <line data-interval-geometry="true" x1="171.7" x2="171.7" y1="485.3" y2="412.3" stroke="#fbbf24" stroke-width="4" />
-      <path d="M171.7,422.0 L181.7,441.0 L161.7,441.0 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="204.9" y="178.2" width="8.0" height="14.9" fill="#fbbf24" fill-opacity=".10" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 8" />
+      <line data-interval-geometry="true" x1="208.9" x2="208.9" y1="182.2" y2="182.2" stroke="#fbbf24" stroke-width="4" />
+      <line data-interval-geometry="true" x1="208.9" x2="208.9" y1="193.1" y2="178.2" stroke="#fbbf24" stroke-width="4" />
+      <path d="M208.9,172.2 L218.9,191.2 L198.9,191.2 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
     <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="SCENARIO" data-source-ids="S_DASH_QWEN2_REPORT S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="60000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="125.0" data-low="60000" data-high="60000" data-pareto-interval="true" data-cost-low="60000" data-cost-high="60000" data-score-low="118.95" data-score-high="126.79" data-frontier="possible" aria-label="DM_QWEN2_72B: costo 60000–60000 USD; ECI 118.95–126.79; frontera possible">
       <title>DM_QWEN2_72B: costo 60000–60000 USD; ECI 118.95–126.79; frontera possible</title>
-      <rect data-interval-geometry="true" x="167.7" y="417.8" width="8.0" height="72.6" fill="#fbbf24" fill-opacity=".10" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 8" />
-      <line data-interval-geometry="true" x1="171.7" x2="171.7" y1="434.4" y2="434.4" stroke="#fbbf24" stroke-width="4" />
-      <line data-interval-geometry="true" x1="171.7" x2="171.7" y1="490.4" y2="417.8" stroke="#fbbf24" stroke-width="4" />
-      <path d="M171.7,424.4 L181.7,443.4 L161.7,443.4 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="204.9" y="179.3" width="8.0" height="14.8" fill="#fbbf24" fill-opacity=".10" stroke="#fbbf24" stroke-width="4" stroke-dasharray="10 8" />
+      <line data-interval-geometry="true" x1="208.9" x2="208.9" y1="182.7" y2="182.7" stroke="#fbbf24" stroke-width="4" />
+      <line data-interval-geometry="true" x1="208.9" x2="208.9" y1="194.2" y2="179.3" stroke="#fbbf24" stroke-width="4" />
+      <path d="M208.9,172.7 L218.9,191.7 L198.9,191.7 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
   </g>
   <g id="fuera-de-frontera">
     <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="30000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="122.18" data-low="30000" data-high="30000" data-pareto-interval="true" data-cost-low="30000" data-cost-high="30000" data-score-low="115.4" data-score-high="124.27" data-frontier="dominated" aria-label="DM_GEMMA2_27B: costo 30000–30000 USD; ECI 115.4–124.27; frontera dominated">
       <title>DM_GEMMA2_27B: costo 30000–30000 USD; ECI 115.4–124.27; frontera dominated</title>
-      <rect data-interval-geometry="true" x="136.1" y="441.1" width="8.0" height="82.1" fill="#64748b" fill-opacity=".10" stroke="#64748b" stroke-width="4" stroke-dasharray="3 7" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="460.5" y2="460.5" stroke="#64748b" stroke-width="4" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="523.2" y2="441.1" stroke="#64748b" stroke-width="4" />
-      <path d="M140.1,450.5 L150.1,469.5 L130.1,469.5 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="162.8" y="184.1" width="8.0" height="16.8" fill="#64748b" fill-opacity=".10" stroke="#64748b" stroke-width="4" stroke-dasharray="3 7" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="188.1" y2="188.1" stroke="#64748b" stroke-width="4" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="200.9" y2="184.1" stroke="#64748b" stroke-width="4" />
+      <path d="M166.8,178.1 L176.8,197.1 L156.8,197.1 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
     <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="SCENARIO" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="30000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="111.21" data-low="30000" data-high="30000" data-pareto-interval="true" data-cost-low="30000" data-cost-high="30000" data-score-low="101.34" data-score-high="115.86" data-frontier="dominated" aria-label="DM_GEMMA_7B: costo 30000–30000 USD; ECI 101.34–115.86; frontera dominated">
       <title>DM_GEMMA_7B: costo 30000–30000 USD; ECI 101.34–115.86; frontera dominated</title>
-      <rect data-interval-geometry="true" x="136.1" y="519.0" width="8.0" height="134.4" fill="#64748b" fill-opacity=".10" stroke="#64748b" stroke-width="4" stroke-dasharray="3 7" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="562.0" y2="562.0" stroke="#64748b" stroke-width="4" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="653.3" y2="519.0" stroke="#64748b" stroke-width="4" />
-      <path d="M140.1,552.0 L150.1,571.0 L130.1,571.0 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="162.8" y="200.0" width="8.0" height="27.5" fill="#64748b" fill-opacity=".10" stroke="#64748b" stroke-width="4" stroke-dasharray="3 7" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="208.8" y2="208.8" stroke="#64748b" stroke-width="4" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="227.5" y2="200.0" stroke="#64748b" stroke-width="4" />
+      <path d="M166.8,198.8 L176.8,217.8 L156.8,217.8 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
     <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="SCENARIO" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN S_EPOCH_ECI_SCORES" data-value="30000" data-unit="USD" data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant" data-marker="triangle" data-eci="115.04" data-low="30000" data-high="30000" data-pareto-interval="true" data-cost-low="30000" data-cost-high="30000" data-score-low="105.01" data-score-high="121.29" data-frontier="dominated" aria-label="DM_LLAMA31_8B: costo 30000–30000 USD; ECI 105.01–121.29; frontera dominated">
       <title>DM_LLAMA31_8B: costo 30000–30000 USD; ECI 105.01–121.29; frontera dominated</title>
-      <rect data-interval-geometry="true" x="136.1" y="468.7" width="8.0" height="150.7" fill="#64748b" fill-opacity=".10" stroke="#64748b" stroke-width="4" stroke-dasharray="3 7" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="526.5" y2="526.5" stroke="#64748b" stroke-width="4" />
-      <line data-interval-geometry="true" x1="140.1" x2="140.1" y1="619.4" y2="468.7" stroke="#64748b" stroke-width="4" />
-      <path d="M140.1,516.5 L150.1,535.5 L130.1,535.5 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
+      <rect data-interval-geometry="true" x="162.8" y="189.7" width="8.0" height="30.8" fill="#64748b" fill-opacity=".10" stroke="#64748b" stroke-width="4" stroke-dasharray="3 7" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="201.6" y2="201.6" stroke="#64748b" stroke-width="4" />
+      <line data-interval-geometry="true" x1="166.8" x2="166.8" y1="220.6" y2="189.7" stroke="#64748b" stroke-width="4" />
+      <path d="M166.8,191.6 L176.8,210.6 L156.8,210.6 Z" fill="#c084fc" stroke="#f8fafc" stroke-width="2" />
     </g>
   </g>
-  <text x="20" y="130" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#2dd4bf" text-anchor="start" font-weight="400" data-legend="true" data-series="safe">━ segura en todo el rango</text>
-  <text x="20" y="172" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-legend="true" data-series="possible">┅ posible en algún valor del rango</text>
-  <line x1="90.0" x2="90.0" y1="250" y2="690" stroke="#334155" stroke-width="2" />
-  <text x="90.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">10k</text>
-  <line x1="195.0" x2="195.0" y1="250" y2="690" stroke="#334155" stroke-width="2" />
-  <text x="195.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">100k</text>
-  <line x1="300.0" x2="300.0" y1="250" y2="690" stroke="#334155" stroke-width="2" />
-  <text x="300.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">1.0M</text>
-  <line x1="90" x2="300" y1="690.0" y2="690.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="698.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">97</text>
-  <line x1="90" x2="300" y1="470.0" y2="470.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="478.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">121</text>
-  <line x1="90" x2="300" y1="250.0" y2="250.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="258.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">145</text>
-  <text x="20" y="212" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-axis-label="true">Capacidad general según ECI</text>
-  <text x="270.0" y="798" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600" data-axis-label="true" data-axis-role="x-title">CAPEX de capacidad (USD)</text>
-  <text x="270.0" y="840" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="middle" font-weight="400" data-axis-label="true" data-axis-role="x-log-note">X log</text>
-  <line x1="279.3" y1="300.0" x2="334" y2="275" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_DEEPSEEK_R1" />
-  <text x="516" y="282" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">DeepSeek R1</text>
-  <line x1="150.1" y1="460.5" x2="334" y2="515" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_GEMMA2_27B" />
-  <text x="516" y="522" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Gemma 2 27B</text>
-  <line x1="150.1" y1="382.4" x2="334" y2="371" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_GEMMA3_27B" />
-  <text x="516" y="378" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Gemma 3 27B</text>
-  <line x1="150.1" y1="562.0" x2="334" y2="611" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_GEMMA_7B" />
-  <text x="516" y="618" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Gemma 7B</text>
-  <line x1="181.7" y1="432.0" x2="334" y2="419" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_LLAMA31_70B" />
-  <text x="516" y="426" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Llama3 70B</text>
-  <line x1="150.1" y1="526.5" x2="334" y2="563" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_LLAMA31_8B" />
-  <text x="516" y="570" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Llama3 8B</text>
-  <line x1="181.7" y1="434.4" x2="334" y2="467" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_QWEN2_72B" />
-  <text x="516" y="474" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Qwen2-72B</text>
-  <line x1="231.8" y1="300.7" x2="334" y2="323" stroke="#c084fc" stroke-width="2" stroke-dasharray="5 5" data-leader="true" data-pareto-leader="true" data-model-id="DM_QWEN3_235B_A22B" />
-  <text x="516" y="330" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#c084fc" text-anchor="end" font-weight="600" data-direct-label="true">Qwen3 235B</text>
+  <text x="20" y="103" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#2dd4bf" text-anchor="start" font-weight="400" data-legend="true" data-series="safe">━ segura</text>
+  <text x="180" y="103" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-legend="true" data-series="possible">┅ posible</text>
+  <line x1="100.0" x2="100.0" y1="145" y2="235" stroke="#334155" stroke-width="2" />
+  <text x="100.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">10k</text>
+  <line x1="240.0" x2="240.0" y1="145" y2="235" stroke="#334155" stroke-width="2" />
+  <text x="240.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">100k</text>
+  <line x1="380.0" x2="380.0" y1="145" y2="235" stroke="#334155" stroke-width="2" />
+  <text x="380.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0M</text>
+  <line x1="100" x2="380" y1="235.0" y2="235.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="243.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">97</text>
+  <line x1="100" x2="380" y1="190.0" y2="190.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="198.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">121</text>
+  <line x1="100" x2="380" y1="145.0" y2="145.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="153.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">145</text>
+  <text x="200" y="132" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-axis-label="true">ECI</text>
+  <text x="580" y="95" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="end" font-weight="600" data-axis-label="true" data-axis-role="x-title">CAPEX (USD)</text>
+  <text x="580" y="132" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true" data-axis-role="x-log-note">X log</text>
+  <line x1="349.1" y1="155.2" x2="350.1" y2="155.2" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_DEEPSEEK_R1" />
+  <line x1="176.8" y1="188.1" x2="177.8" y2="188.1" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_GEMMA2_27B" />
+  <line x1="176.8" y1="172.1" x2="177.8" y2="172.1" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_GEMMA3_27B" />
+  <line x1="176.8" y1="208.8" x2="177.8" y2="208.8" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_GEMMA_7B" />
+  <line x1="218.9" y1="182.2" x2="219.9" y2="182.2" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_LLAMA31_70B" />
+  <line x1="176.8" y1="201.6" x2="177.8" y2="201.6" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_LLAMA31_8B" />
+  <line x1="218.9" y1="182.7" x2="219.9" y2="182.7" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_QWEN2_72B" />
+  <line x1="285.7" y1="155.4" x2="286.7" y2="155.4" stroke="#c084fc" stroke-width="2" data-leader="true" data-pareto-leader="true" data-model-id="DM_QWEN3_235B_A22B" />
 </svg>

@@ -55,5 +55,13 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
             )
             assert images.count() == 12
             boxes = [images.nth(index).bounding_box() for index in range(images.count())]
-            assert all(box and box["height"] < 600 for box in boxes)
+            assert all(box and box["width"] >= 320 and box["height"] < 600 for box in boxes)
+            for index in range(images.count()):
+                effective = images.nth(index).evaluate(
+                    """image => {
+                      const vb = image.naturalWidth;
+                      return 27 * image.getBoundingClientRect().width / vb;
+                    }"""
+                )
+                assert effective >= 16
         browser.close()

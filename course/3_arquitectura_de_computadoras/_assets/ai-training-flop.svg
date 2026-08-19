@@ -1,144 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 860" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Trabajo de entrenamiento — dashboard de modelos de IA</title>
-  <desc id="desc">Serie temporal logarítmica de FLOP. Cada punto conserva estado, fuente, unidad y alcance; n=24. Igual distancia vertical representa multiplicación.</desc>
-  <rect width="540" height="860" rx="24" fill="#111827" />
-  <text x="24" y="50" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Trabajo de entrenamiento</text>
-  <text x="24" y="88" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">24 modelos · 24 observaciones</text>
-  <line x1="90" x2="300" y1="690.0" y2="690.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="698.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e22</text>
-  <line x1="90" x2="300" y1="580.0" y2="580.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="588.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e23</text>
-  <line x1="90" x2="300" y1="470.0" y2="470.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="478.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e24</text>
-  <line x1="90" x2="300" y1="360.0" y2="360.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="368.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e25</text>
-  <line x1="90" x2="300" y1="250.0" y2="250.0" stroke="#334155" stroke-width="2" />
-  <text x="78" y="258.0" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e26</text>
-  <line x1="90.0" x2="90.0" y1="250" y2="690" stroke="#1e293b" stroke-width="2" />
-  <text x="90.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2018</text>
-  <line x1="195.0" x2="195.0" y1="250" y2="690" stroke="#1e293b" stroke-width="2" />
-  <text x="195.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
-  <line x1="300.0" x2="300.0" y1="250" y2="690" stroke="#1e293b" stroke-width="2" />
-  <text x="300.0" y="745" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2026</text>
-  <text x="270.0" y="838" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600">Año de publicación</text>
-  <text x="20" y="124" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true">FLOP</text>
-  <text x="20" y="162" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="start" font-weight="400" data-axis-label="true">Y log · Igual distancia = multiplicar</text>
+  <desc id="desc">Serie por Año de publicación, logarítmica, de FLOP. Cada punto conserva estado, fuente, unidad y alcance; n=24. Igual distancia = multiplicar.</desc>
+  <rect width="600" height="300" rx="24" fill="#111827" />
+  <text x="24" y="38" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Trabajo de entrenamiento</text>
+  <text x="24" y="72" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">24 modelos · 24 observaciones</text>
+  <line x1="100" x2="380" y1="235.0" y2="235.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="243.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e22</text>
+  <line x1="100" x2="380" y1="145.0" y2="145.0" stroke="#334155" stroke-width="2" />
+  <text x="88" y="153.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1e26</text>
+  <line x1="100.0" x2="100.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
+  <text x="100.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
+  <line x1="240.0" x2="240.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
+  <text x="240.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
+  <line x1="380.0" x2="380.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
+  <text x="380.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
+  <text x="20" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true">FLOP</text>
+  <text x="580" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true">Y log · ×</text>
   <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="66000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_T5_11B: 66000000000000000000000 FLOP, DERIVED">
     <title>DM_T5_11B: 66000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="94.2" y="591.9" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="113.0" y="208.6" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GPT3_175B" data-status="DERIVED" data-source-ids="S_OPENAI_GPT3_PAPER" data-value="314280000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_GPT3_175B: 314280000000000000000000 FLOP, DERIVED">
     <title>DM_GPT3_175B: 314280000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="120.5" y="517.3" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="148.0" y="193.3" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GOPHER_280B" data-status="DERIVED" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-value="504000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_GOPHER_280B: 504000000000000000000000 FLOP, DERIVED">
     <title>DM_GOPHER_280B: 504000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="146.8" y="494.7" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="183.0" y="188.7" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_BLOOM_176B" data-status="DERIVED" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-value="387038412000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_BLOOM_176B: 387038412000000000000000 FLOP, DERIVED">
     <title>DM_BLOOM_176B: 387038412000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="173.0" y="507.3" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="191.3" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_CHINCHILLA_70B" data-status="DERIVED" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-value="588000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_CHINCHILLA_70B: 588000000000000000000000 FLOP, DERIVED">
     <title>DM_CHINCHILLA_70B: 588000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="173.0" y="487.4" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="187.2" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_OPT_175B" data-status="DERIVED" data-source-ids="S_DASH_META_OPT_REPORT" data-value="189000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_OPT_175B: 189000000000000000000000 FLOP, DERIVED">
     <title>DM_OPT_175B: 189000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="173.0" y="541.6" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="198.3" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_PALM_540B" data-status="DERIVED" data-source-ids="S_GOOGLE_PALM_PAPER" data-value="2528838000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_PALM_540B: 2528838000000000000000000 FLOP, DERIVED">
     <title>DM_PALM_540B: 2528838000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="173.0" y="417.7" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="218.0" y="172.9" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_LLM_67B" data-status="DERIVED" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-value="804000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_DEEPSEEK_LLM_67B: 804000000000000000000000 FLOP, DERIVED">
     <title>DM_DEEPSEEK_LLM_67B: 804000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="199.2" y="472.4" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="184.1" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA1_65B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-value="546000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_LLAMA1_65B: 546000000000000000000000 FLOP, DERIVED">
     <title>DM_LLAMA1_65B: 546000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="199.2" y="490.9" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="187.9" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA2_70B" data-status="DERIVED" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-value="840000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_LLAMA2_70B: 840000000000000000000000 FLOP, DERIVED">
     <title>DM_LLAMA2_70B: 840000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="206.2" y="470.3" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="260.0" y="183.7" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN_REPORT" data-value="1296000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_QWEN_72B: 1296000000000000000000000 FLOP, DERIVED">
     <title>DM_QWEN_72B: 1296000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="199.2" y="449.6" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="253.0" y="179.5" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V2" data-status="ESTIMATE" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-value="1020600000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="diamond" data-series="training FLOP" data-series-marker="single" aria-label="DM_DEEPSEEK_V2: 1020600000000000000000000 FLOP; rango 816480000000000000000000–1275750000000000000000000 FLOP, ESTIMATE" data-low="816480000000000000000000" data-high="1275750000000000000000000">
     <title>DM_DEEPSEEK_V2: 1020600000000000000000000 FLOP; rango 816480000000000000000000–1275750000000000000000000 FLOP, ESTIMATE</title>
-    <line data-interval-geometry="true" x1="233.5" x2="233.5" y1="479.7" y2="458.4" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
-    <line x1="225.5" x2="241.5" y1="479.7" y2="479.7" stroke="#fb923c" stroke-width="3" />
-    <line x1="225.5" x2="241.5" y1="458.4" y2="458.4" stroke="#fb923c" stroke-width="3" />
-    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M233.5,459.0 L243.5,469.0 L233.5,479.0 L223.5,469.0 Z" />
+    <line data-interval-geometry="true" x1="296.0" x2="296.0" y1="192.0" y2="187.6" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
+    <line x1="288.0" x2="304.0" y1="192.0" y2="192.0" stroke="#fb923c" stroke-width="3" />
+    <line x1="288.0" x2="304.0" y1="187.6" y2="187.6" stroke="#fb923c" stroke-width="3" />
+    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M296.0,179.8 L306.0,189.8 L296.0,199.8 L286.0,189.8 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_DEEPSEEK_V3" data-status="ESTIMATE" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-value="3285600000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="diamond" data-series="training FLOP" data-series-marker="single" aria-label="DM_DEEPSEEK_V3: 3285600000000000000000000 FLOP; rango 2628480000000000000000000–4107000000000000000000000 FLOP, ESTIMATE" data-low="2628480000000000000000000" data-high="4107000000000000000000000">
     <title>DM_DEEPSEEK_V3: 3285600000000000000000000 FLOP; rango 2628480000000000000000000–4107000000000000000000000 FLOP, ESTIMATE</title>
-    <line data-interval-geometry="true" x1="233.5" x2="233.5" y1="423.8" y2="402.5" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
-    <line x1="225.5" x2="241.5" y1="423.8" y2="423.8" stroke="#fb923c" stroke-width="3" />
-    <line x1="225.5" x2="241.5" y1="402.5" y2="402.5" stroke="#fb923c" stroke-width="3" />
-    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M233.5,403.2 L243.5,413.2 L233.5,423.2 L223.5,413.2 Z" />
+    <line data-interval-geometry="true" x1="296.0" x2="296.0" y1="180.6" y2="176.2" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
+    <line x1="288.0" x2="304.0" y1="180.6" y2="180.6" stroke="#fb923c" stroke-width="3" />
+    <line x1="288.0" x2="304.0" y1="176.2" y2="176.2" stroke="#fb923c" stroke-width="3" />
+    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M296.0,168.4 L306.0,178.4 L296.0,188.4 L286.0,178.4 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GEMMA2_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-value="2106000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_GEMMA2_27B: 2106000000000000000000000 FLOP, DERIVED">
     <title>DM_GEMMA2_27B: 2106000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="225.5" y="426.4" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="174.7" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GEMMA_7B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-value="252000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_GEMMA_7B: 252000000000000000000000 FLOP, DERIVED">
     <title>DM_GEMMA_7B: 252000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="225.5" y="527.8" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="195.5" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA31_405B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="37908000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_LLAMA31_405B: 37908000000000000000000000 FLOP, DERIVED">
     <title>DM_LLAMA31_405B: 37908000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="225.5" y="288.3" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="146.5" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA31_70B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="6300000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_LLAMA31_70B: 6300000000000000000000000 FLOP, DERIVED">
     <title>DM_LLAMA31_70B: 6300000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="225.5" y="374.1" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="164.0" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_LLAMA31_8B" data-status="DERIVED" data-source-ids="S_META_LLAMA31_PAPER" data-value="720000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_LLAMA31_8B: 720000000000000000000000 FLOP, DERIVED">
     <title>DM_LLAMA31_8B: 720000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="225.5" y="477.7" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="185.2" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN25_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN25_REPORT" data-value="7851600000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_QWEN25_72B: 7851600000000000000000000 FLOP, DERIVED">
     <title>DM_QWEN25_72B: 7851600000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="225.5" y="363.6" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="288.0" y="161.9" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN2_72B" data-status="DERIVED" data-source-ids="S_DASH_QWEN2_REPORT" data-value="3053820000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_QWEN2_72B: 3053820000000000000000000 FLOP, DERIVED">
     <title>DM_QWEN2_72B: 3053820000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="232.5" y="408.7" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="295.0" y="171.1" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_GEMMA3_27B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT" data-value="2268000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="square" data-series="training FLOP" data-series-marker="single" aria-label="DM_GEMMA3_27B: 2268000000000000000000000 FLOP, DERIVED">
     <title>DM_GEMMA3_27B: 2268000000000000000000000 FLOP, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="251.8" y="422.9" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="323.0" y="174.0" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_KIMI_K2" data-status="ESTIMATE" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT S_COURSE_DESIGN" data-value="2976000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="diamond" data-series="training FLOP" data-series-marker="single" aria-label="DM_KIMI_K2: 2976000000000000000000000 FLOP; rango 2380800000000000000000000–3720000000000000000000000 FLOP, ESTIMATE" data-low="2380800000000000000000000" data-high="3720000000000000000000000">
     <title>DM_KIMI_K2: 2976000000000000000000000 FLOP; rango 2380800000000000000000000–3720000000000000000000000 FLOP, ESTIMATE</title>
-    <line data-interval-geometry="true" x1="259.8" x2="259.8" y1="428.6" y2="407.2" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
-    <line x1="251.8" x2="267.8" y1="428.6" y2="428.6" stroke="#fb923c" stroke-width="3" />
-    <line x1="251.8" x2="267.8" y1="407.2" y2="407.2" stroke="#fb923c" stroke-width="3" />
-    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M259.8,407.9 L269.8,417.9 L259.8,427.9 L249.8,417.9 Z" />
+    <line data-interval-geometry="true" x1="331.0" x2="331.0" y1="181.5" y2="177.2" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
+    <line x1="323.0" x2="339.0" y1="181.5" y2="181.5" stroke="#fb923c" stroke-width="3" />
+    <line x1="323.0" x2="339.0" y1="177.2" y2="177.2" stroke="#fb923c" stroke-width="3" />
+    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M331.0,169.3 L341.0,179.3 L331.0,189.3 L321.0,179.3 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN3_235B_A22B" data-status="ESTIMATE" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-value="4752000000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="diamond" data-series="training FLOP" data-series-marker="single" aria-label="DM_QWEN3_235B_A22B: 4752000000000000000000000 FLOP; rango 3801600000000000000000000–5940000000000000000000000 FLOP, ESTIMATE" data-low="3801600000000000000000000" data-high="5940000000000000000000000">
     <title>DM_QWEN3_235B_A22B: 4752000000000000000000000 FLOP; rango 3801600000000000000000000–5940000000000000000000000 FLOP, ESTIMATE</title>
-    <line data-interval-geometry="true" x1="259.8" x2="259.8" y1="406.2" y2="384.9" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
-    <line x1="251.8" x2="267.8" y1="406.2" y2="406.2" stroke="#fb923c" stroke-width="3" />
-    <line x1="251.8" x2="267.8" y1="384.9" y2="384.9" stroke="#fb923c" stroke-width="3" />
-    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M259.8,385.5 L269.8,395.5 L259.8,405.5 L249.8,395.5 Z" />
+    <line data-interval-geometry="true" x1="331.0" x2="331.0" y1="177.0" y2="172.6" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
+    <line x1="323.0" x2="339.0" y1="177.0" y2="177.0" stroke="#fb923c" stroke-width="3" />
+    <line x1="323.0" x2="339.0" y1="172.6" y2="172.6" stroke="#fb923c" stroke-width="3" />
+    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M331.0,164.8 L341.0,174.8 L331.0,184.8 L321.0,174.8 Z" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN3_30B_A3B" data-status="ESTIMATE" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-value="712800000000000000000000" data-unit="FLOP" data-claim-scope="training_work_fact_derived_or_estimate" data-marker="diamond" data-series="training FLOP" data-series-marker="single" aria-label="DM_QWEN3_30B_A3B: 712800000000000000000000 FLOP; rango 570240000000000000000000–891000000000000000000000 FLOP, ESTIMATE" data-low="570240000000000000000000" data-high="891000000000000000000000">
     <title>DM_QWEN3_30B_A3B: 712800000000000000000000 FLOP; rango 570240000000000000000000–891000000000000000000000 FLOP, ESTIMATE</title>
-    <line data-interval-geometry="true" x1="259.8" x2="259.8" y1="496.8" y2="475.5" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
-    <line x1="251.8" x2="267.8" y1="496.8" y2="496.8" stroke="#fb923c" stroke-width="3" />
-    <line x1="251.8" x2="267.8" y1="475.5" y2="475.5" stroke="#fb923c" stroke-width="3" />
-    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M259.8,476.2 L269.8,486.2 L259.8,496.2 L249.8,486.2 Z" />
+    <line data-interval-geometry="true" x1="331.0" x2="331.0" y1="195.5" y2="191.1" stroke="#fb923c" stroke-width="7" stroke-opacity=".45" />
+    <line x1="323.0" x2="339.0" y1="195.5" y2="195.5" stroke="#fb923c" stroke-width="3" />
+    <line x1="323.0" x2="339.0" y1="191.1" y2="191.1" stroke="#fb923c" stroke-width="3" />
+    <path fill="#fb923c" stroke="#f8fafc" stroke-width="2" d="M331.0,183.3 L341.0,193.3 L331.0,203.3 L321.0,193.3 Z" />
   </g>
-  <line x1="110.2" y1="599.9" x2="334.0" y2="247" stroke="#60a5fa" stroke-width="2" stroke-dasharray="5 5" data-leader="true" />
-  <text x="516" y="254" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#60a5fa" text-anchor="end" font-weight="600" data-direct-label="true">T5-11B</text>
-  <line x1="241.5" y1="296.3" x2="334.0" y2="289" stroke="#60a5fa" stroke-width="2" stroke-dasharray="5 5" data-leader="true" />
-  <text x="516" y="296" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#60a5fa" text-anchor="end" font-weight="600" data-direct-label="true">Llama3 405B</text>
-  <line x1="267.8" y1="486.2" x2="334.0" y2="331" stroke="#fb923c" stroke-width="2" stroke-dasharray="5 5" data-leader="true" />
-  <text x="516" y="338" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#fb923c" text-anchor="end" font-weight="600" data-direct-label="true">Qwen3-30B-…</text>
 </svg>

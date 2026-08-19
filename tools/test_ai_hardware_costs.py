@@ -423,21 +423,27 @@ def test_ai_hbm_svg_real_sigue_el_orden_del_ledger_sin_agrupar_unidades():
 
 
 def test_training_tables_expose_ledger_ids_for_each_included_case():
-    """El anexo conserva casos documentados, estados y fuentes por celda."""
+    """Cada celda del ledger conserva valor, estado y fuentes en su propio registro."""
     data = load_yaml(DATA)
     annex = ANNEX.read_text(encoding="utf-8")
 
-    documented = [
-        case for case in data["training_cases"] if case["include_in_documented_table"]
-    ]
-    assert documented
-
-    for case in documented:
-        model = next(model for model in data["models"] if model["id"] == case["model_id"])
-        assert model["canonical_name"] in annex
-        for cell in case["metrics"].values():
+    for model in data["dashboard_models"]:
+        heading = f"### {model['canonical_name']} — `{model['id']}`"
+        assert heading in annex
+        section = annex.split(heading, 1)[1].split("\n### ", 1)[0]
+        cells = {"year": model["year"], "architecture": model["architecture"]}
+        cells.update(model["metrics"])
+        for metric_name, cell in cells.items():
+            metric_lines = [
+                line for line in section.splitlines() if f"**{metric_name}:**" in line
+            ]
+            assert len(metric_lines) == 1, (model["id"], metric_name)
+            line = metric_lines[0]
+            assert f"`{cell['status']}`" in line
+            if cell.get("value") is not None:
+                assert str(cell["value"]) in line
             for source_id in cell.get("source_ids", []):
-                assert source_id in annex
+                assert source_id in line, (model["id"], metric_name, source_id)
 
 
 def test_training_scenario_is_unattributed_and_uses_the_ledger_valuation():
@@ -453,6 +459,21 @@ def test_training_scenario_is_unattributed_and_uses_the_ledger_valuation():
     assert valuation.get("attributed_model_id") is None
     assert valuation["purpose"] == "worked_example_assumption"
     assert not any(key.endswith("model_id") for key in valuation)
+    annex = ANNEX.read_text(encoding="utf-8")
+    scenario = data["didactic_scenarios"][0]
+    visible_rows = {
+        row[0]: row[1]
+        for row in markdown_table_rows_after(
+            annex, "### Escenario docente H100, visible y no atribuido"
+        )
+    }
+    assert set(visible_rows) == set(scenario["outputs"])
+    for output_name, output in scenario["outputs"].items():
+        cell = visible_rows[output_name]
+        assert str(output["value"]) in cell, output_name
+        assert output["status"] in cell, output_name
+        for source_id in output["source_ids"]:
+            assert source_id in cell, (output_name, source_id)
 
 
 def test_training_bibliography_links_every_primary_id_cited_in_review():
@@ -1872,7 +1893,7 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     capacity_rows = markdown_table_rows_after(
         page, "## Caso conservado: Qwen2.5-32B GPTQ Int8"
     )
-    assert len(capacity_rows) == 10
+    assert len(capacity_rows) == 12
     assert all(len(row) == 2 for row in capacity_rows)
     rows = {row[0]: row for row in capacity_rows}
     assert set(rows) == {
@@ -1886,6 +1907,8 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
         "Total",
         "Evaluación",
         "Topología",
+        "HBM utilizable",
+        "Gate operacional",
     }
     assert all(
         value in rows["Piso uniforme"][1]
@@ -1914,6 +1937,29 @@ def test_inference_tables_expose_capacity_components_without_an_sla_claim():
     assert all(term in system for term in ("TP=1", "PP=1", "DP=1", "una réplica"))
     assert "80 GB físicos por réplica/shard" in system
     assert "16 contextos KV" in system
+    usable = rows["HBM utilizable"][1]
+    assert "ESTIMATION_NOT_IDENTIFIABLE" in usable
+    assert all(
+        term in usable
+        for term in ("runtime/allocator", "driver", "pico medido del shard")
+    )
+    gate = rows["Gate operacional"][1]
+    for term in (
+        "revisión",
+        "runtime",
+        "topología",
+        "scheduler",
+        "batch",
+        "warmup",
+        "entrada",
+        "salida",
+        "contexto",
+        "concurrencia",
+        "utilización",
+        "throughput + TTFT",
+        "FLOP/s pico no sustituye la medición",
+    ):
+        assert term in gate
     section = page.split("## Caso conservado: Qwen2.5-32B GPTQ Int8", 1)[1]
     section = section.split("## Límites", 1)[0]
     for source_id in (
