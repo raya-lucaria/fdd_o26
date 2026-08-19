@@ -54,34 +54,80 @@ def test_terminal_videos_are_structured_and_due_august_20():
     assignment = load_yaml(TERMINAL_ASSIGNMENT)
     content = assignment["content"]
     resources = content["resources"]
-    expected_urls = [
-        "https://www.youtube.com/watch?v=fpnE6UAfbtU",
-        "https://www.youtube.com/watch?v=FZGugFqdr60",
-        "https://www.youtube.com/watch?v=26QPDBe-NB8",
-        "https://www.youtube.com/watch?v=TQCr9RV7twk",
-        "https://www.youtube.com/watch?v=KN8YgJnShPM",
+    expected_resources = [
+        {
+            "title": "Registers and RAM: Crash Course Computer Science #6",
+            "url": "https://www.youtube.com/watch?v=fpnE6UAfbtU",
+            "note": "Distingue los registros de la RAM y su papel durante la ejecución.",
+        },
+        {
+            "title": "The Central Processing Unit (CPU): Crash Course Computer Science #7",
+            "url": "https://www.youtube.com/watch?v=FZGugFqdr60",
+            "note": "Explica cómo la CPU ejecuta instrucciones y coordina sus componentes.",
+        },
+        {
+            "title": "Operating Systems: Crash Course Computer Science #18",
+            "url": "https://www.youtube.com/watch?v=26QPDBe-NB8",
+            "note": "Presenta al sistema operativo como intermediario entre programas y hardware.",
+        },
+        {
+            "title": "Memory & Storage: Crash Course Computer Science #19",
+            "url": "https://www.youtube.com/watch?v=TQCr9RV7twk",
+            "note": "Relaciona memoria temporal, almacenamiento persistente y sus diferencias.",
+        },
+        {
+            "title": "Files & File Systems: Crash Course Computer Science #20",
+            "url": "https://www.youtube.com/watch?v=KN8YgJnShPM",
+            "note": "Muestra cómo el sistema de archivos organiza y localiza los datos guardados.",
+        },
     ]
 
     assert assignment["id"] == "videos-terminal"
     assert content["due"] == "2026-08-20"
     assert isinstance(resources, list)
-    assert [resource["url"] for resource in resources] == expected_urls
+    assert resources == expected_resources
+    expected_urls = [resource["url"] for resource in expected_resources]
     assert len(resources) == len(set(resource["url"] for resource in resources)) == 5
-    assert all(set(resource) == {"title", "url", "note"} for resource in resources)
-    assert all(resource["title"].strip() and resource["note"].strip() for resource in resources)
     assert not any(url in content["instructions"] for url in expected_urls)
 
 
 def test_august_18_hardware_assignment_is_preserved():
     """Catches replacing the existing August 18 preparation task."""
     assignment = load_yaml(ASSIGNMENT)
-    assert assignment["id"] == "videos-hardware"
-    assert assignment["content"]["due"] == "2026-08-18"
-    assert [resource["url"] for resource in assignment["content"]["resources"]] == [
-        "https://www.youtube.com/watch?v=0zkX6nlpiSk",
-        "https://www.youtube.com/watch?v=JogSnkvENr0",
-        "https://www.youtube.com/watch?v=IwUq0RiUank",
-    ]
+    expected_assignment = {
+        "id": "videos-hardware",
+        "type": "assignment",
+        "authority": "official",
+        "content": {
+            "title": "Ver tres videos: cómo funciona una computadora",
+            "instructions": (
+                "Ve estos tres videos antes de la clase del 18 de agosto. Juntos explican "
+                "qué hay dentro de una computadora y por qué la memoria se organiza en capas."
+            ),
+            "resources": [
+                {
+                    "title": "¿Cómo funciona un PC y qué hace cada pieza?",
+                    "url": "https://www.youtube.com/watch?v=0zkX6nlpiSk",
+                    "note": "Panorama de los componentes principales.",
+                },
+                {
+                    "title": "Introduction to the Memory Hierarchy",
+                    "url": "https://www.youtube.com/watch?v=JogSnkvENr0",
+                    "note": "Este video está en inglés.",
+                },
+                {
+                    "title": "¿Por qué tantas memorias?",
+                    "url": "https://www.youtube.com/watch?v=IwUq0RiUank",
+                    "note": "Jerarquía, capacidad y velocidad.",
+                },
+            ],
+            "due": "2026-08-18",
+            "points": 0,
+            "status": "published",
+            "tags": ["hardware", "memoria", "arquitectura", "preparacion"],
+        },
+    }
+    assert assignment == expected_assignment
 
 
 def test_unit_has_index_and_four_lessons_with_raya_frontmatter():
