@@ -62,7 +62,11 @@
   <text x="20" y="197" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-legend="true" data-series="accelerator-hours">↔ accelerator-hours</text>
   <text x="88" y="268.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">1.0M</text>
   <text x="88" y="223.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">100M</text>
-  <text x="100.0" y="288" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
-  <text x="240.0" y="288" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
-  <text x="380.0" y="288" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
+  <text x="100.0" y="290" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
+  <text x="240.0" y="290" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
+  <text x="380.0" y="290" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
+  <path d="M243.0,171.2 L395,150 L400,150" fill="none" stroke="#2dd4bf" stroke-width="2" data-leader="true" data-model-id="DM_BLOOM_176B" />
+  <text x="410" y="158" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_BLOOM_176B">BLOOM176</text>
+  <path d="M320.0,146.8 L395,185 L400,185" fill="none" stroke="#2dd4bf" stroke-width="2" data-leader="true" data-model-id="DM_LLAMA31_405B" />
+  <text x="410" y="193" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_LLAMA31_405B">L3 405B</text>
 </svg>

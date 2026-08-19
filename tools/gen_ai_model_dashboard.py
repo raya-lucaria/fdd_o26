@@ -206,8 +206,8 @@ def _axes(root, points: list[PlotPoint], y_label: str):
     for year in (2018, 2022, 2026):
         x = _year_x(year)
         _add(root, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(TOP), "y2": str(TOP+PLOT_H), "stroke": "#1e293b", "stroke-width": "2"})
-        anchor = "start" if year == 2018 else "end" if year == 2026 else "middle"
-        _text(root, x, TOP+PLOT_H+28, str(year), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
+        anchor = "end" if year == 2018 else "start" if year == 2026 else "middle"
+        _text(root, x, TOP+PLOT_H+45, str(year), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
     _text(root, 20, 105, y_label, 27, weight="600", fill="#cbd5e1", data_axis_label="true")
     _text(root, 580, 105, "Y log · ×", 29, anchor="end", fill="#fbbf24", data_axis_label="true")
     return ticks
@@ -225,16 +225,41 @@ def _selected(points: list[PlotPoint]) -> set[tuple[str, str]]:
 
 def _short_label(label: str) -> str:
     replacements = {
+        "BERT-Large": "BERT 336M",
+        "BLOOM 176B": "BLOOM176",
+        "Kimi K3": "Kimi K3",
+        "T5-11B": "T5 11B",
         "DeepSeek-R1": "DeepSeek R1",
-        "Llama 3.1-405B": "Llama3 405B",
+        "Llama 3.1-405B": "L3 405B",
         "Llama 3.1-70B": "Llama3 70B",
         "Llama 3.1-8B": "Llama3 8B",
-        "Qwen3-235B-A22B": "Qwen3 235B",
-        "Qwen3.8-2.4T-A95B": "Qwen3.8 2T",
-        "Qwen3.8-Max": "Qwen3.8 Max",
+        "Qwen3-30B-A3B": "Q3 30B",
+        "Qwen3-235B-A22B": "Q3 235B",
+        "Qwen3.8-2.4T-A95B": "Q3.8 2.4T",
+        "Qwen3.8-Max": "Q3.8 Max",
     }
     short = replacements.get(label, label)
     return short if len(short) <= 11 else short[:10] + "…"
+
+
+def _add_model_key(root, rows, model_names, *, x=410, ys=(158, 193, 228)):
+    """Place selected model identities in the reserved band right of the plot."""
+    used = set()
+    selected = []
+    for point, px, py in rows:
+        if point.model_id not in used:
+            selected.append((point, px, py))
+            used.add(point.model_id)
+        if len(selected) == len(ys):
+            break
+    for (point, px, py), y in zip(selected, ys, strict=False):
+        _add(root, "path", {
+            "d": f"M{px+10:.1f},{py:.1f} L395,{y-8} L{x-10},{y-8}",
+            "fill": "none", "stroke": COLORS[point.status], "stroke-width": "2",
+            "data-leader": "true", "data-model-id": point.model_id,
+        })
+        _text(root, x, y, _short_label(model_names[point.model_id]), 29,
+              weight="600", data_direct_label="true", data_model_id=point.model_id)
 
 
 def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_names: dict[str, str]):
@@ -265,10 +290,12 @@ def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_na
         offset = seen.get(collision_key, 0)
         seen[collision_key] = offset + 1
         x = _year_x(point.year, (offset % 5 - 2) * 7)
+        x = max(LEFT + 18, min(W - RIGHT - 18, x))
         y = _log_y(point.value, ticks)
         _marker(root, point, x, y, ticks)
         if (point.model_id, point.label) in chosen and len(label_rows) < 4:
             label_rows.append((point, x, y))
+    _add_model_key(root, label_rows, model_names)
     return root
 
 
@@ -286,6 +313,7 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
         ("concurrent accelerators", "● concurrentes", 135, 45),
         ("accelerator-hours", "↔ accelerator-hours", 215, 45),
     )
+    all_positions = []
     for series_label, visible_label, panel_top, panel_height in specs:
         panel = _add(root, "g", {"data-series-panel": series_label})
         subset = [point for point in points if point.label == series_label]
@@ -307,16 +335,22 @@ def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
             _add(panel, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(panel_top), "y2": str(panel_top+panel_height), "stroke": "#1e293b", "stroke-width": "2"})
             if series_label == "accelerator-hours":
                 anchor = "start" if year == 2018 else "end" if year == 2026 else "middle"
-                _text(root, x, panel_top+panel_height+28, str(year), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
+                _text(root, x, panel_top+panel_height+30, str(year), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
         seen = {}
         positions = []
         for point in subset:
             offset = seen.get(point.year, 0)
             seen[point.year] = offset + 1
             x = _year_x(point.year, (offset % 3 - 1) * 7)
+            x = max(LEFT + 18, min(W - RIGHT - 18, x))
             y = y_func(point.value)
             _marker(panel, point, x, y, ticks, y_func=y_func)
             positions.append((point, x, y))
+            all_positions.append((point, x, y))
+    chosen = _selected(points)
+    selected_positions = [row for row in all_positions
+                          if (row[0].model_id, row[0].label) in chosen]
+    _add_model_key(root, selected_positions, model_names)
     return root
 
 
@@ -396,25 +430,35 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     score_min = min(point.score_low for point in inputs)
     score_max = max(point.score_high for point in inputs)
     cost_ticks = [Decimal(10) ** e for e in range(math.floor(math.log10(float(cost_min))), math.ceil(math.log10(float(cost_max))) + 1)]
+    if len(cost_ticks) > 2:
+        cost_ticks = [cost_ticks[0], cost_ticks[-1]]
     c_lo, c_hi = math.log10(float(cost_ticks[0])), math.log10(float(cost_ticks[-1]))
     s_pad = max(Decimal("2"), (score_max-score_min) * Decimal("0.1"))
     s_lo, s_hi = score_min-s_pad, score_max+s_pad
+    pareto_left, pareto_width = 75, 175
     def cost_x(value):
-        return LEFT + (math.log10(float(value))-c_lo) / max(c_hi-c_lo, 1) * PLOT_W
+        return pareto_left + (math.log10(float(value))-c_lo) / max(c_hi-c_lo, 1) * pareto_width
     def score_y(value):
         return TOP + (1-float((value-s_lo)/(s_hi-s_lo))) * PLOT_H
     for tick in cost_ticks:
-        x = LEFT + (math.log10(float(tick))-c_lo) / max(c_hi-c_lo, 1) * PLOT_W
+        x = pareto_left + (math.log10(float(tick))-c_lo) / max(c_hi-c_lo, 1) * pareto_width
         _add(root, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(TOP), "y2": str(TOP+PLOT_H), "stroke": "#334155", "stroke-width": "2"})
-        anchor = "start" if tick == cost_ticks[0] else "end" if tick == cost_ticks[-1] else "middle"
-        _text(root, x, TOP+PLOT_H+28, _format(tick), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
+        anchor = "end" if tick in {cost_ticks[0], cost_ticks[-1]} else "middle"
+        _text(root, x, TOP+PLOT_H+45, _format(tick), 27, anchor=anchor, fill="#cbd5e1", data_axis_label="true")
     for value in (s_lo, (s_lo+s_hi)/2, s_hi):
         y = TOP + (1-float((value-s_lo)/(s_hi-s_lo))) * PLOT_H
-        _add(root, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
-        _text(root, LEFT-12, y+8, f"{value:.0f}", 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
-    _text(root, 200, 132, "ECI", 27, weight="600", data_axis_label="true")
-    _text(root, 580, 95, "CAPEX (USD)", 29, anchor="end", weight="600", data_axis_label="true", data_axis_role="x-title")
-    _text(root, 580, 132, "X log", 29, anchor="end", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
+        _add(root, "line", {"x1": str(pareto_left), "x2": str(pareto_left+pareto_width), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
+        _text(root, pareto_left-10, y+8, f"{value:.0f}", 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
+    _text(root, 75, 132, "ECI", 27, weight="600", data_axis_label="true")
+    _text(root, 250, 95, "CAPEX", 29, anchor="end", weight="600", data_axis_label="true", data_axis_role="x-title")
+    _text(root, 250, 132, "X log", 29, anchor="end", fill="#fbbf24", data_axis_label="true", data_axis_role="x-log-note")
+
+    compact_names = {
+        "DM_DEEPSEEK_R1": "DS R1", "DM_GEMMA2_27B": "G2 27B",
+        "DM_GEMMA3_27B": "G3 27B", "DM_GEMMA_7B": "G1 7B",
+        "DM_LLAMA31_70B": "L3 70B", "DM_LLAMA31_8B": "L3 8B",
+        "DM_QWEN2_72B": "Q2 72B", "DM_QWEN3_235B_A22B": "Q3 235B",
+    }
 
     for index, item in enumerate(inputs):
         point = costs[item.model_id]
@@ -461,8 +505,14 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
         _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x_low:.1f}", "x2": f"{x_high:.1f}", "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": f"{y_low:.1f}", "y2": f"{y_high:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "path", {"d": f"M{x:.1f},{y-10:.1f} L{x+10:.1f},{y+9:.1f} L{x-10:.1f},{y+9:.1f} Z", "fill": color, "stroke": "#f8fafc", "stroke-width": "2"})
-        # The accessible title carries the exact model. A short, non-crossing
-        # tick keeps the one-to-one geometric audit without a dense label wall.
+        column, row = divmod(index, 4)
+        key_x, key_y = 270 + column * 150, 150 + row * 36
+        number = index + 1
+        _text(root, key_x, key_y, f"{number} {compact_names[item.model_id]}", 29,
+              fill=color, weight="600", data_direct_label="true",
+              data_model_id=item.model_id)
+        _text(root, x, y-12, str(number), 29, anchor="middle", weight="700",
+              fill="#f8fafc", data_point_number="true")
         _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": f"{x+11:.1f}", "y2": f"{y:.1f}", "stroke": color, "stroke-width": "2", "data-leader": "true", "data-pareto-leader": "true", "data-model-id": item.model_id})
     return root
 

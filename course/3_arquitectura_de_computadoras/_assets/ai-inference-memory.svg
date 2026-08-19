@@ -10,20 +10,20 @@
   <line x1="100" x2="380" y1="145.0" y2="145.0" stroke="#334155" stroke-width="2" />
   <text x="88" y="153.0" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">10T</text>
   <line x1="100.0" x2="100.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
-  <text x="100.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2018</text>
+  <text x="100.0" y="280" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2018</text>
   <line x1="240.0" x2="240.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
-  <text x="240.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
+  <text x="240.0" y="280" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400" data-axis-label="true">2022</text>
   <line x1="380.0" x2="380.0" y1="145" y2="235" stroke="#1e293b" stroke-width="2" />
-  <text x="380.0" y="263" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="end" font-weight="400" data-axis-label="true">2026</text>
+  <text x="380.0" y="280" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400" data-axis-label="true">2026</text>
   <text x="20" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="600" data-axis-label="true">Bytes</text>
   <text x="580" y="105" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#fbbf24" text-anchor="end" font-weight="400" data-axis-label="true">Y log · ×</text>
   <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-value="672000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_BERT_LARGE: 672000000 byte, DERIVED">
     <title>DM_BERT_LARGE: 672000000 byte, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="78.0" y="212.1" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="110.0" y="212.1" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_BERT_LARGE" data-status="FACT" data-source-ids="S_ARTIFACT_BERT_LARGE" data-value="1344952014" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_BERT_LARGE: 1344952014 byte, FACT">
     <title>DM_BERT_LARGE: 1344952014 byte, FACT</title>
-    <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="86.0" cy="214.7" r="8" />
+    <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="118.0" cy="214.7" r="8" />
   </g>
   <g data-quantitative="true" data-model-id="DM_T5_11B" data-status="DERIVED" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-value="22000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_T5_11B: 22000000000 byte, DERIVED">
     <title>DM_T5_11B: 22000000000 byte, DERIVED</title>
@@ -223,14 +223,20 @@
   </g>
   <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="DERIVED" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER" data-value="5600000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_KIMI_K3: 5600000000000 byte, DERIVED">
     <title>DM_KIMI_K3: 5600000000000 byte, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="358.0" y="141.5" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="354.0" y="141.5" width="16" height="16" />
   </g>
   <g data-quantitative="true" data-model-id="DM_KIMI_K3" data-status="FACT" data-source-ids="S_ARTIFACT_KIMI_K3" data-value="1560936091448" data-unit="byte" data-claim-scope="documented_artifact_bytes_precision_unspecified_not_runtime" data-marker="circle" data-series="documented artifact" data-series-marker="single" aria-label="DM_KIMI_K3: 1560936091448 byte, FACT">
     <title>DM_KIMI_K3: 1560936091448 byte, FACT</title>
-    <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="366.0" cy="159.5" r="8" />
+    <circle fill="#2dd4bf" stroke="#f8fafc" stroke-width="2" cx="362.0" cy="159.5" r="8" />
   </g>
   <g data-quantitative="true" data-model-id="DM_QWEN38_24T_A95B" data-status="DERIVED" data-source-ids="S_QWEN38_MODELSCOPE" data-value="4800000000000" data-unit="byte" data-claim-scope="theoretical_weight_payload_floor_not_artifact_not_runtime" data-marker="square" data-series="BF16 weight floor" data-series-marker="single" aria-label="DM_QWEN38_24T_A95B: 4800000000000 byte, DERIVED">
     <title>DM_QWEN38_24T_A95B: 4800000000000 byte, DERIVED</title>
-    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="365.0" y="142.7" width="16" height="16" />
+    <rect fill="#60a5fa" stroke="#f8fafc" stroke-width="2" x="354.0" y="142.7" width="16" height="16" />
   </g>
+  <path d="M128.0,220.1 L395,150 L400,150" fill="none" stroke="#60a5fa" stroke-width="2" data-leader="true" data-model-id="DM_BERT_LARGE" />
+  <text x="410" y="158" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_BERT_LARGE">BERT 336M</text>
+  <path d="M372.0,149.5 L395,185 L400,185" fill="none" stroke="#60a5fa" stroke-width="2" data-leader="true" data-model-id="DM_KIMI_K3" />
+  <text x="410" y="193" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_KIMI_K3">Kimi K3</text>
+  <path d="M372.0,150.7 L395,220 L400,220" fill="none" stroke="#60a5fa" stroke-width="2" data-leader="true" data-model-id="DM_QWEN38_24T_A95B" />
+  <text x="410" y="228" font-size="29" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="600" data-direct-label="true" data-model-id="DM_QWEN38_24T_A95B">Q3.8 2.4T</text>
 </svg>

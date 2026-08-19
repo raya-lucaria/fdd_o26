@@ -675,6 +675,32 @@ def test_dashboard_pareto_ordena_etiquetas_y_no_cruza_guias(tmp_path):
             assert len(leaders) == len({node.attrib["data-model-id"] for node in leaders})
 
 
+def test_dashboard_identifica_modelos_visiblemente_sin_hover(tmp_path):
+    """Un SVG embebido como img necesita nombres visibles: title no basta."""
+    generador = _cargar_generador_dashboard()
+    paths = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    )
+    for path in paths[:10]:
+        root = ET.parse(path).getroot()
+        quantitative = [node for node in root.iter()
+                        if node.attrib.get("data-quantitative") == "true"]
+        if not quantitative:
+            continue
+        labels = [node for node in root.iter()
+                  if node.attrib.get("data-direct-label") == "true"]
+        assert 2 <= len(labels) <= 3, path.name
+        assert all(node.attrib.get("data-model-id") for node in labels)
+
+    pareto = ET.parse(tmp_path / "ai-pareto-inference.svg").getroot()
+    candidates = {node.attrib["data-model-id"] for node in pareto.iter()
+                  if node.attrib.get("data-pareto-interval") == "true"}
+    keyed = {node.attrib["data-model-id"] for node in pareto.iter()
+             if node.attrib.get("data-direct-label") == "true"}
+    assert len(candidates) == 8
+    assert keyed == candidates
+
+
 def test_dashboard_pareto_audita_titulo_x_y_nota_log_por_separado(tmp_path):
     """El título de costo y la nota log no deben compartir caja ni quedar sin auditar."""
     generador = _cargar_generador_dashboard()

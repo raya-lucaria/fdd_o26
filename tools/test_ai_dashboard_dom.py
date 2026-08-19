@@ -58,9 +58,13 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
             assert all(box and box["width"] >= 320 and box["height"] < 600 for box in boxes)
             for index in range(images.count()):
                 effective = images.nth(index).evaluate(
-                    """image => {
-                      const vb = image.naturalWidth;
-                      return 27 * image.getBoundingClientRect().width / vb;
+                    """async image => {
+                      const xml = await (await fetch(image.src)).text();
+                      const svg = new DOMParser().parseFromString(xml, 'image/svg+xml').documentElement;
+                      const vb = svg.viewBox.baseVal.width;
+                      const minFont = Math.min(...[...svg.querySelectorAll('text')]
+                        .map(node => parseFloat(node.getAttribute('font-size'))));
+                      return minFont * image.getBoundingClientRect().width / vb;
                     }"""
                 )
                 assert effective >= 16
