@@ -50,8 +50,8 @@ SVG_FILENAMES = (
 
 NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", NS)
-W, H = 600, 720
-LEFT, RIGHT, TOP, BOTTOM = 100, 60, 190, 100
+W, H = 540, 820
+LEFT, RIGHT, TOP, BOTTOM = 90, 240, 250, 130
 PLOT_W, PLOT_H = W - LEFT - RIGHT, H - TOP - BOTTOM
 FONT = "system-ui, -apple-system, sans-serif"
 COLORS = {
@@ -149,8 +149,12 @@ def _log_y(value: Decimal, ticks: list[Decimal]) -> float:
     return TOP + PLOT_H * (1 - ratio)
 
 
-def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal]):
+def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal], y_func=None):
     ring = point.label in {"active", "accelerator-hours"}
+    y_func = y_func or (lambda value: _log_y(value, ticks))
+    range_text = ""
+    if point.low is not None and point.high is not None:
+        range_text = f"; rango {point.low}–{point.high} {point.unit}"
     attrs = {
         "data-quantitative": "true",
         "data-model-id": point.model_id,
@@ -162,13 +166,16 @@ def _marker(parent, point: PlotPoint, x: float, y: float, ticks: list[Decimal]):
         "data-marker": MARKERS[point.status],
         "data-series": point.label,
         "data-series-marker": "outer-ring" if ring else "single",
-        "aria-label": f"{point.model_id}: {_format(point.value)} {point.unit}, {point.status}",
+        "aria-label": f"{point.model_id}: {point.value} {point.unit}{range_text}, {point.status}",
     }
+    if point.low is not None and point.high is not None:
+        attrs.update({"data-low": str(point.low), "data-high": str(point.high)})
     group = _add(parent, "g", attrs)
+    _add(group, "title", text=attrs["aria-label"])
     color = COLORS[point.status]
     if point.low is not None and point.high is not None:
-        low_y, high_y = _log_y(point.low, ticks), _log_y(point.high, ticks)
-        _add(group, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": f"{low_y:.1f}", "y2": f"{high_y:.1f}", "stroke": color, "stroke-width": "7", "stroke-opacity": ".45"})
+        low_y, high_y = y_func(point.low), y_func(point.high)
+        _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": f"{low_y:.1f}", "y2": f"{high_y:.1f}", "stroke": color, "stroke-width": "7", "stroke-opacity": ".45"})
         _add(group, "line", {"x1": f"{x-8:.1f}", "x2": f"{x+8:.1f}", "y1": f"{low_y:.1f}", "y2": f"{low_y:.1f}", "stroke": color, "stroke-width": "3"})
         _add(group, "line", {"x1": f"{x-8:.1f}", "x2": f"{x+8:.1f}", "y1": f"{high_y:.1f}", "y2": f"{high_y:.1f}", "stroke": color, "stroke-width": "3"})
     common = {"fill": color, "stroke": "#f8fafc", "stroke-width": "2"}
@@ -190,14 +197,14 @@ def _axes(root, points: list[PlotPoint], y_label: str):
     for tick in ticks:
         y = _log_y(tick, ticks)
         _add(root, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
-        _text(root, LEFT-12, y+8, _format(tick), 25, anchor="end", fill="#cbd5e1")
-    for year in (2018, 2020, 2022, 2024, 2026):
+        _text(root, LEFT-12, y+8, _format(tick), 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
+    for year in (2018, 2022, 2026):
         x = _year_x(year)
         _add(root, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(TOP), "y2": str(TOP+PLOT_H), "stroke": "#1e293b", "stroke-width": "2"})
-        _text(root, x, TOP+PLOT_H+35, str(year), 25, anchor="middle", fill="#cbd5e1")
+        _text(root, x, TOP+PLOT_H+55, str(year), 27, anchor="middle", fill="#cbd5e1", data_axis_label="true")
     _text(root, W/2, H-22, "Año de publicación", 25, anchor="middle", weight="600")
-    _text(root, 20, 124, y_label, 27, weight="600", fill="#cbd5e1")
-    _text(root, 20, 162, "Y log · Igual distancia = multiplicar", 27, fill="#fbbf24")
+    _text(root, 20, 124, y_label, 27, weight="600", fill="#cbd5e1", data_axis_label="true")
+    _text(root, 20, 162, "Y log · Igual distancia = multiplicar", 27, fill="#fbbf24", data_axis_label="true")
     return ticks
 
 
@@ -211,19 +218,38 @@ def _selected(points: list[PlotPoint]) -> set[tuple[str, str]]:
     return {(point.model_id, point.label) for point in picks}
 
 
+def _short_label(label: str) -> str:
+    replacements = {
+        "DeepSeek-R1": "DeepSeek R1",
+        "Llama 3.1-405B": "Llama3 405B",
+        "Llama 3.1-70B": "Llama3 70B",
+        "Llama 3.1-8B": "Llama3 8B",
+        "Qwen3-235B-A22B": "Qwen3 235B",
+        "Qwen3.8-2.4T-A95B": "Qwen3.8 2T",
+        "Qwen3.8-Max": "Qwen3.8 Max",
+    }
+    short = replacements.get(label, label)
+    return short if len(short) <= 11 else short[:10] + "…"
+
+
 def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_names: dict[str, str]):
     if points:
         desc = f"Serie temporal logarítmica de {y_label}. Cada punto conserva estado, fuente, unidad y alcance; n={len(points)}. Igual distancia vertical representa multiplicación."
     else:
         desc = "No existe una serie cuantitativa comparable con la evidencia disponible. Las ausencias no se convierten en cero ni reciben una posición inventada."
     root = _root(title, desc)
-    _text(root, 24, 50, title, 32, weight="700")
+    _text(root, 24, 50, title, 31, weight="700")
     _text(root, 24, 88, f"n = {len(points)} · cada marca es un modelo", 25, fill="#cbd5e1")
     if not points:
         _text(root, W/2, 330, "No hay una serie comparable", 30, anchor="middle", weight="700")
         _text(root, W/2, 376, "La ausencia no equivale a cero", 25, anchor="middle", fill="#cbd5e1")
         _text(root, W/2, H-22, "Año de publicación", 25, anchor="middle", weight="600")
         return root
+
+    labels = {point.label for point in points}
+    if {"total", "active"} <= labels:
+        _text(root, 20, 200, "■ total", 27, fill="#60a5fa", data_legend="true", data_series="total")
+        _text(root, 175, 200, "◎ activo", 27, fill="#2dd4bf", data_legend="true", data_series="active")
 
     ticks = _axes(root, points, y_label)
     chosen = _selected(points)
@@ -240,13 +266,66 @@ def _render_temporal(title: str, y_label: str, points: list[PlotPoint], model_na
             label_rows.append((point, x, y))
     # Direct labels in a dedicated strip stay readable; leader lines identify points.
     for row, (point, x, y) in enumerate(label_rows):
-        label_y = 216 + row * 36
-        label_x = W - 30
-        _add(root, "line", {"x1": f"{x+8:.1f}", "y1": f"{y:.1f}", "x2": f"{label_x-205:.1f}", "y2": str(label_y-7), "stroke": COLORS[point.status], "stroke-width": "2", "stroke-dasharray": "5 5"})
-        label = model_names.get(point.model_id, point.model_id).replace("Llama 3.1-", "Llama 3.1 ")
-        if len(label) > 18:
-            label = label[:17] + "…"
+        label_y = 254 + row * 42
+        label_x = W - 24
+        _add(root, "line", {"x1": f"{x+8:.1f}", "y1": f"{y:.1f}", "x2": f"{label_x-182:.1f}", "y2": str(label_y-7), "stroke": COLORS[point.status], "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true"})
+        label = _short_label(model_names.get(point.model_id, point.model_id))
         _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=COLORS[point.status], data_direct_label="true")
+    return root
+
+
+def _render_accelerators(points: list[PlotPoint], model_names: dict[str, str]):
+    """Render counts and accelerator-hours as separate log small multiples."""
+    root = _root(
+        "Aceleradores y horas",
+        "Dos paneles temporales con escalas logarítmicas independientes. El panel superior muestra aceleradores concurrentes y el inferior accelerator-hours; las unidades no se suman.",
+    )
+    _text(root, 24, 50, "Aceleradores y horas", 31, weight="700")
+    _text(root, 24, 88, f"n = {len(points)} · dos unidades, dos escalas", 27, fill="#cbd5e1")
+    _text(root, 20, 126, "Y log · Igual distancia = multiplicar", 27, fill="#fbbf24", data_axis_label="true")
+    specs = (
+        ("concurrent accelerators", "● concurrentes", 205, 190),
+        ("accelerator-hours", "◎ accelerator-hours", 465, 190),
+    )
+    for series_label, visible_label, panel_top, panel_height in specs:
+        panel = _add(root, "g", {"data-series-panel": series_label})
+        subset = [point for point in points if point.label == series_label]
+        ticks = _log_ticks(subset)
+        if len(ticks) > 3:
+            ticks = [ticks[0], ticks[len(ticks)//2], ticks[-1]]
+        y_func = lambda value, ticks=ticks, top=panel_top, height=panel_height: (
+            top + height * (1 - (
+                math.log10(float(value)) - math.log10(float(ticks[0]))
+            ) / max(math.log10(float(ticks[-1])) - math.log10(float(ticks[0])), 1))
+        )
+        _text(root, 20, panel_top-18, visible_label, 27, weight="600", fill="#cbd5e1", data_legend="true", data_series=series_label)
+        for tick in ticks:
+            y = y_func(tick)
+            _add(panel, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
+            _text(root, LEFT-12, y+8, _format(tick), 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
+        for year in (2018, 2022, 2026):
+            x = _year_x(year)
+            _add(panel, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(panel_top), "y2": str(panel_top+panel_height), "stroke": "#1e293b", "stroke-width": "2"})
+            if series_label == "accelerator-hours":
+                _text(root, x, panel_top+panel_height+55, str(year), 27, anchor="middle", fill="#cbd5e1", data_axis_label="true")
+        seen = {}
+        positions = []
+        for point in subset:
+            offset = seen.get(point.year, 0)
+            seen[point.year] = offset + 1
+            x = _year_x(point.year, (offset % 3 - 1) * 7)
+            y = y_func(point.value)
+            _marker(panel, point, x, y, ticks, y_func=y_func)
+            positions.append((point, x, y))
+        chosen = sorted(positions, key=lambda row: (row[0].value, row[0].model_id))
+        chosen = chosen[:1] + chosen[-1:]
+        for row, (point, x, y) in enumerate(chosen):
+            label_y = panel_top + 44 + row * 44
+            label_x = W - 24
+            _add(root, "line", {"x1": f"{x+8:.1f}", "y1": f"{y:.1f}", "x2": f"{label_x-182:.1f}", "y2": str(label_y-7), "stroke": COLORS[point.status], "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true"})
+            label = _short_label(model_names.get(point.model_id, point.model_id))
+            _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=COLORS[point.status], data_direct_label="true")
+    _text(root, W/2, H-18, "Año de publicación", 27, anchor="middle", weight="600")
     return root
 
 
@@ -282,18 +361,22 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     snapshot = eci["snapshot"]
     desc = (
         f"Frontera de Pareto entre {cost_label} y capacidad general según ECI, "
-        f"snapshot {snapshot['as_of']}. Frontera segura sólida y posible punteada; n={len(inputs)}."
+        f"snapshot {snapshot['as_of']}. Un borde sólido marca una frontera segura en todo el rango; "
+        f"un borde punteado marca una frontera posible en algún valor del rango; n={len(inputs)}."
     )
     root = _root(title, desc)
-    _text(root, 24, 50, title, 32, weight="700")
+    _text(root, 24, 50, title, 31, weight="700")
     _text(root, 24, 88, f"ECI snapshot {snapshot['as_of']} · n = {len(inputs)}", 25, fill="#cbd5e1")
-    _add(root, "g", {"id": "frontera-segura", "stroke": "#2dd4bf", "stroke-width": "5", "fill": "none"})
-    _add(root, "g", {"id": "frontera-posible", "stroke": "#fbbf24", "stroke-width": "5", "stroke-dasharray": "10 8", "fill": "none"})
+    safe_group = _add(root, "g", {"id": "frontera-segura"})
+    possible_group = _add(root, "g", {"id": "frontera-posible"})
+    dominated_group = _add(root, "g", {"id": "fuera-de-frontera"})
+    _text(root, 20, 130, "━ segura en todo el rango", 27, fill="#2dd4bf", data_legend="true", data_series="safe")
+    _text(root, 20, 172, "┅ posible en algún valor del rango", 27, fill="#fbbf24", data_legend="true", data_series="possible")
     if not inputs:
         _text(root, W/2, 314, "Frontera no identificable", 30, anchor="middle", weight="700")
         _text(root, W/2, 360, "Falta un costo comparable", 25, anchor="middle", fill="#cbd5e1")
         _text(root, W/2, H-22, cost_label, 25, anchor="middle", weight="600")
-        _text(root, 24, 126, "Capacidad general según ECI", 25, weight="600")
+        _text(root, 24, 214, "Capacidad general según ECI", 27, weight="600", data_axis_label="true")
         return root
 
     result = pareto_frontier(inputs)
@@ -305,51 +388,72 @@ def _render_pareto(title: str, cost_points: list[PlotPoint], eci: dict, cost_lab
     c_lo, c_hi = math.log10(float(cost_ticks[0])), math.log10(float(cost_ticks[-1]))
     s_pad = max(Decimal("2"), (score_max-score_min) * Decimal("0.1"))
     s_lo, s_hi = score_min-s_pad, score_max+s_pad
-    def xy(model_id):
-        cost = costs[model_id].value
-        score = Decimal(str(scores[model_id]["score"]))
-        x = LEFT + (math.log10(float(cost))-c_lo) / max(c_hi-c_lo, 1) * PLOT_W
-        y = TOP + (1-float((score-s_lo)/(s_hi-s_lo))) * PLOT_H
-        return x, y
+    def cost_x(value):
+        return LEFT + (math.log10(float(value))-c_lo) / max(c_hi-c_lo, 1) * PLOT_W
+    def score_y(value):
+        return TOP + (1-float((value-s_lo)/(s_hi-s_lo))) * PLOT_H
     for tick in cost_ticks:
         x = LEFT + (math.log10(float(tick))-c_lo) / max(c_hi-c_lo, 1) * PLOT_W
         _add(root, "line", {"x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": str(TOP), "y2": str(TOP+PLOT_H), "stroke": "#334155", "stroke-width": "2"})
-        _text(root, x, TOP+PLOT_H+35, _format(tick), 25, anchor="middle", fill="#cbd5e1")
+        _text(root, x, TOP+PLOT_H+55, _format(tick), 27, anchor="middle", fill="#cbd5e1", data_axis_label="true")
     for value in (s_lo, (s_lo+s_hi)/2, s_hi):
         y = TOP + (1-float((value-s_lo)/(s_hi-s_lo))) * PLOT_H
         _add(root, "line", {"x1": str(LEFT), "x2": str(W-RIGHT), "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": "#334155", "stroke-width": "2"})
-        _text(root, LEFT-12, y+8, f"{value:.0f}", 25, anchor="end", fill="#cbd5e1")
-    _text(root, 20, 124, "Capacidad general según ECI", 25, weight="600")
+        _text(root, LEFT-12, y+8, f"{value:.0f}", 27, anchor="end", fill="#cbd5e1", data_axis_label="true")
+    _text(root, 20, 212, "Capacidad general según ECI", 27, weight="600", data_axis_label="true")
     _text(root, W/2, H-22, cost_label, 25, anchor="middle", weight="600")
-    _text(root, W-24, 124, "X log", 25, anchor="end", fill="#fbbf24")
+    _text(root, W-24, H-22, "X log", 27, anchor="end", fill="#fbbf24", data_axis_label="true")
 
-    for frontier_id, ids in (("frontera-segura", result.safe_ids), ("frontera-posible", result.possible_ids)):
-        group = next(node for node in root if node.attrib.get("id") == frontier_id)
-        coords = [xy(model_id) for model_id in ids]
-        if len(coords) >= 2:
-            _add(group, "polyline", {"points": " ".join(f"{x:.1f},{y:.1f}" for x, y in coords)})
     for index, item in enumerate(inputs):
         point = costs[item.model_id]
         score = scores[item.model_id]
-        x, y = xy(item.model_id)
+        x = cost_x(point.value)
+        y = score_y(Decimal(str(score["score"])))
+        x_low, x_high = cost_x(item.cost_low), cost_x(item.cost_high)
+        y_low, y_high = score_y(item.score_low), score_y(item.score_high)
+        frontier = (
+            "safe" if item.model_id in result.safe_ids
+            else "possible" if item.model_id in result.possible_ids
+            else "dominated"
+        )
+        parent = {"safe": safe_group, "possible": possible_group, "dominated": dominated_group}[frontier]
+        fallback = (
+            f"{item.model_id}: costo {item.cost_low}–{item.cost_high} {point.unit}; "
+            f"ECI {item.score_low}–{item.score_high}; frontera {frontier}"
+        )
         attrs = {
             "data-quantitative": "true", "data-model-id": item.model_id,
             "data-status": point.status, "data-source-ids": " ".join((*point.source_ids, snapshot["scores_source_id"])),
             "data-value": str(point.value), "data-unit": point.unit,
             "data-claim-scope": f"{point.claim_scope};eci_exact_variant",
             "data-marker": MARKERS[point.status], "data-eci": str(score["score"]),
-            "aria-label": f"{item.model_id}: {point.value} {point.unit}; ECI {score['score']}",
+            "data-low": str(item.cost_low), "data-high": str(item.cost_high),
+            "data-pareto-interval": "true", "data-cost-low": str(item.cost_low),
+            "data-cost-high": str(item.cost_high), "data-score-low": str(item.score_low),
+            "data-score-high": str(item.score_high), "data-frontier": frontier,
+            "aria-label": fallback,
         }
-        group = _add(root, "g", attrs)
+        group = _add(parent, "g", attrs)
+        _add(group, "title", text=fallback)
         color = COLORS[point.status]
+        frontier_color = {"safe": "#2dd4bf", "possible": "#fbbf24", "dominated": "#64748b"}[frontier]
+        dash = {"safe": "", "possible": "10 8", "dominated": "3 7"}[frontier]
+        rect_x = min(x_low, x_high) - (4 if abs(x_high-x_low) < 8 else 0)
+        rect_y = min(y_low, y_high)
+        rect_w = max(8, abs(x_high-x_low))
+        rect_h = max(8, abs(y_high-y_low))
+        rect_attrs = {"data-interval-geometry": "true", "x": f"{rect_x:.1f}", "y": f"{rect_y:.1f}", "width": f"{rect_w:.1f}", "height": f"{rect_h:.1f}", "fill": frontier_color, "fill-opacity": ".10", "stroke": frontier_color, "stroke-width": "4"}
+        if dash:
+            rect_attrs["stroke-dasharray"] = dash
+        _add(group, "rect", rect_attrs)
+        _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x_low:.1f}", "x2": f"{x_high:.1f}", "y1": f"{y:.1f}", "y2": f"{y:.1f}", "stroke": frontier_color, "stroke-width": "4"})
+        _add(group, "line", {"data-interval-geometry": "true", "x1": f"{x:.1f}", "x2": f"{x:.1f}", "y1": f"{y_low:.1f}", "y2": f"{y_high:.1f}", "stroke": frontier_color, "stroke-width": "4"})
         _add(group, "path", {"d": f"M{x:.1f},{y-10:.1f} L{x+10:.1f},{y+9:.1f} L{x-10:.1f},{y+9:.1f} Z", "fill": color, "stroke": "#f8fafc", "stroke-width": "2"})
         # There are only eight eligible exact ECI matches: label every point.
-        label = score["model_name"].replace("Llama 3.1-", "Llama 3.1 ")
-        if len(label) > 18:
-            label = label[:17] + "…"
+        label = _short_label(score["model_name"])
         label_x = W - 24
-        label_y = 216 + index * 39
-        _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": str(label_x-235), "y2": str(label_y-7), "stroke": color, "stroke-width": "2", "stroke-dasharray": "5 5"})
+        label_y = 282 + index * 48
+        _add(root, "line", {"x1": f"{x+10:.1f}", "y1": f"{y:.1f}", "x2": str(label_x-182), "y2": str(label_y-7), "stroke": color, "stroke-width": "2", "stroke-dasharray": "5 5", "data-leader": "true"})
         _text(root, label_x, label_y, label, 27, anchor="end", weight="600", fill=color, data_direct_label="true")
     return root
 
@@ -368,7 +472,10 @@ def render_dashboard(ledger_path: Path, eci_path: Path, assets_dir: Path) -> lis
     roots = []
     for _, title, key, y_label, family in TEMPORAL:
         series = training[key] if family == "training" else inference[key]
-        roots.append(_render_temporal(title, y_label, series, names))
+        if key == "accelerators_and_hours":
+            roots.append(_render_accelerators(series, names))
+        else:
+            roots.append(_render_temporal(title, y_label, series, names))
     roots.extend((
         _render_pareto("Pareto · entrenamiento", training["replacement_value"], eci, "Valor de reemplazo (USD)"),
         _render_pareto("Pareto · inferencia local", inference["accelerator_capex_scenario"], eci, "CAPEX de capacidad (USD)"),

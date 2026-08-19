@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 720" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 820" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Valor de reemplazo — dashboard de modelos de IA</title>
   <desc id="desc">No existe una serie cuantitativa comparable con la evidencia disponible. Las ausencias no se convierten en cero ni reciben una posición inventada.</desc>
-  <rect width="600" height="720" rx="24" fill="#111827" />
-  <text x="24" y="50" font-size="32" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Valor de reemplazo</text>
+  <rect width="540" height="820" rx="24" fill="#111827" />
+  <text x="24" y="50" font-size="31" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="start" font-weight="700">Valor de reemplazo</text>
   <text x="24" y="88" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="start" font-weight="400">n = 0 · cada marca es un modelo</text>
-  <text x="300.0" y="330" font-size="30" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="700">No hay una serie comparable</text>
-  <text x="300.0" y="376" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400">La ausencia no equivale a cero</text>
-  <text x="300.0" y="698" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600">Año de publicación</text>
+  <text x="270.0" y="330" font-size="30" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="700">No hay una serie comparable</text>
+  <text x="270.0" y="376" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#cbd5e1" text-anchor="middle" font-weight="400">La ausencia no equivale a cero</text>
+  <text x="270.0" y="798" font-size="27" font-family="system-ui, -apple-system, sans-serif" fill="#f8fafc" text-anchor="middle" font-weight="600">Año de publicación</text>
 </svg>

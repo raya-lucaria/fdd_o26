@@ -502,6 +502,12 @@ def test_dashboard_svg_conserva_semantica_accesible_y_mobile(tmp_path):
             assert node.attrib["data-unit"]
             assert node.attrib["data-claim-scope"]
             assert node.attrib["data-marker"]
+            if node.attrib["data-status"] == "ESTIMATE":
+                assert float(node.attrib["data-low"]) > 0
+                assert float(node.attrib["data-high"]) >= float(node.attrib["data-low"])
+                fallback = " ".join(node.itertext()) + node.attrib.get("aria-label", "")
+                assert node.attrib["data-low"] in fallback
+                assert node.attrib["data-high"] in fallback
 
 
 def test_dashboard_svg_no_depende_solo_del_color_y_no_inventa_ausencias(tmp_path):
@@ -569,6 +575,42 @@ def test_dashboard_series_dobles_no_mezclan_total_activo_ni_conteo_horas(tmp_pat
             for series in expected
         }
         assert len({tuple(markers) for markers in series_markers.values()}) == 2
+        legends = [node for node in root.iter() if node.attrib.get("data-legend") == "true"]
+        assert legends and all("data-series" in node.attrib for node in legends)
+
+    accelerators = ET.parse(tmp_path / "ai-training-accelerators.svg").getroot()
+    panels = [node.attrib["data-series-panel"] for node in accelerators.iter()
+              if "data-series-panel" in node.attrib]
+    assert set(panels) == {"concurrent accelerators", "accelerator-hours"}
+
+
+def test_dashboard_pareto_serializa_y_dibuja_intervalos_reconstruibles(tmp_path):
+    """Usar sólo puntos centrales falsearía costo, ECI y dominancia por rangos."""
+    generador = _cargar_generador_dashboard()
+    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
+    root = ET.parse(tmp_path / "ai-pareto-inference.svg").getroot()
+    nodes = {
+        node.attrib["data-model-id"]: node for node in root.iter()
+        if node.attrib.get("data-pareto-interval") == "true"
+    }
+    expected = {
+        "DM_GEMMA3_27B": ("30000", "30000", "124.67", "133.1"),
+        "DM_LLAMA31_8B": ("30000", "30000", "105.01", "121.29"),
+        "DM_QWEN3_235B_A22B": ("180000", "180000", "134.85", "140.96"),
+    }
+    for model_id, bounds in expected.items():
+        node = nodes[model_id]
+        actual = tuple(node.attrib[key] for key in (
+            "data-cost-low", "data-cost-high", "data-score-low", "data-score-high"
+        ))
+        assert actual == bounds
+        assert node.attrib["data-frontier"] in {"safe", "possible", "dominated"}
+        assert any(child.attrib.get("data-interval-geometry") == "true"
+                   for child in node.iter())
+    xml = ET.tostring(root, encoding="unicode")
+    assert "segura en todo el rango" in xml
+    assert "posible en algún valor del rango" in xml
+    assert not any(node.tag.endswith("polyline") for node in root.iter())
 
 
 def test_dashboard_generacion_es_byte_a_byte_determinista(tmp_path):
@@ -599,12 +641,12 @@ def test_dashboard_chromium_bbox_y_texto_390_1440(tmp_path):
     with playwright.sync_playwright() as runtime:
         browser = runtime.chromium.launch(headless=True)
         page = browser.new_page()
-        for viewport in (390, 1440):
+        for viewport, container in ((390, 334), (1440, 600)):
             page.set_viewport_size({"width": viewport, "height": 900})
             for path in paths:
                 svg = path.read_text(encoding="utf-8")
                 page.set_content(
-                    f'<main style="width:min(600px,100%);margin:0">{svg}</main>'
+                    f'<main style="width:{container}px;margin:0">{svg}</main>'
                 )
                 result = page.locator("svg").evaluate(
                     """svg => {
@@ -620,13 +662,29 @@ def test_dashboard_chromium_bbox_y_texto_390_1440(tmp_path):
                       });
                       const direct = [...svg.querySelectorAll('[data-direct-label="true"]')]
                         .map(node => node.getBBox());
+                      const obstacles = [...svg.querySelectorAll('[data-quantitative="true"], [data-axis-label="true"], [data-interval-geometry="true"]')]
+                        .map(node => node.getBBox());
+                      const axis = [...svg.querySelectorAll('[data-axis-label="true"]')]
+                        .map(node => node.getBBox());
                       const overlaps = [];
                       for (let i=0; i<direct.length; i++) for (let j=i+1; j<direct.length; j++) {
                         const a=direct[i], b=direct[j];
                         if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
                             Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) overlaps.push([i,j]);
                       }
-                      return {boxes, overlaps, width: vb.width, height: vb.height};
+                      const obstacleOverlaps = [];
+                      for (let i=0; i<direct.length; i++) for (let j=0; j<obstacles.length; j++) {
+                        const a=direct[i], b=obstacles[j];
+                        if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
+                            Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) obstacleOverlaps.push([i,j]);
+                      }
+                      const axisOverlaps = [];
+                      for (let i=0; i<axis.length; i++) for (let j=i+1; j<axis.length; j++) {
+                        const a=axis[i], b=axis[j];
+                        if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
+                            Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) axisOverlaps.push([i,j]);
+                      }
+                      return {boxes, overlaps, obstacleOverlaps, axisOverlaps, width: vb.width, height: vb.height};
                     }"""
                 )
                 assert result["boxes"], path.name
@@ -635,4 +693,6 @@ def test_dashboard_chromium_bbox_y_texto_390_1440(tmp_path):
                     assert box["x"] >= -1 and box["right"] <= result["width"] + 1, (path.name, box)
                     assert box["y"] >= -1 and box["bottom"] <= result["height"] + 1, (path.name, box)
                 assert not result["overlaps"], (path.name, result["overlaps"])
+                assert not result["obstacleOverlaps"], (path.name, result["obstacleOverlaps"])
+                assert not result["axisOverlaps"], (path.name, result["axisOverlaps"])
         browser.close()
