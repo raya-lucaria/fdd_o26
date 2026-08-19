@@ -3,6 +3,7 @@
 gen_diagramas.py es la unica fuente de verdad de los diagramas. Si alguien edita
 un .svg a mano, o cambia el generador sin regenerar, esta prueba falla.
 """
+import copy
 import importlib.util
 from pathlib import Path
 import re
@@ -11,6 +12,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 import pytest
+import yaml
 
 RAIZ = Path(__file__).resolve().parent.parent
 AI_GENERATOR = RAIZ / "tools/gen_ai_hardware_costs.py"
@@ -240,6 +242,96 @@ def test_ai_hardware_log_ticks_son_potencias_y_no_grafican_ausencias():
             if "low" in point or "high" in point:
                 assert {"low", "high"} <= set(point)
                 assert 0 < point["low"] <= point["high"]
+
+
+def _write_ai_ledger(tmp_path, data):
+    path = tmp_path / "ledger.yaml"
+    path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+    return path
+
+
+def test_ai_hardware_intervalos_completos_llegan_a_metadata_y_svg(tmp_path):
+    """Descartar low/high oculta el rango y deja sólo un punto engañoso."""
+    generador = _cargar_generador_ai()
+    data = yaml.safe_load(generador.DATA_PATH.read_text(encoding="utf-8"))
+    mutated = copy.deepcopy(data)
+    first = next(
+        case for case in mutated["training_cases"]
+        if case["include_in_documented_table"]
+    )
+    first["metrics"]["accelerators_concurrent"].update(low=300, high=500)
+    mutated["valuations"][0]["price"].update(low=25000, high=35000)
+    ledger = _write_ai_ledger(tmp_path, mutated)
+    charts = {
+        chart["id"]: chart for chart in generador.load_chart_metadata(ledger)
+    }
+
+    assert (charts["accelerators"]["points"][0]["low"],
+            charts["accelerators"]["points"][0]["high"]) == (300, 500)
+    assert (charts["capex"]["points"][0]["low"],
+            charts["capex"]["points"][0]["high"]) == (25000, 35000)
+
+    generated = tmp_path / "assets"
+    generador.render_all(ledger, generated)
+    accelerator_xml = (generated / AI_SVG_NAMES[0]).read_text(encoding="utf-8")
+    capex_xml = (generated / AI_SVG_NAMES[3]).read_text(encoding="utf-8")
+    assert "300–500 aceleradores [FACT]" in accelerator_xml
+    assert "USD 25,000–USD 35,000 [SCENARIO]" in capex_xml
+    for xml, label, low, high in (
+        (accelerator_xml, "BLOOM 176B", "300", "500"),
+        (capex_xml, "accelerator-only · supuesto docente 2026", "25000", "35000"),
+    ):
+        root = ET.fromstring(xml)
+        intervals = [
+            node for node in root.iter()
+            if node.attrib.get("data-interval") == "true"
+            and node.attrib.get("data-label") == label
+        ]
+        assert len(intervals) == 1
+        assert intervals[0].attrib["data-low"] == low
+        assert intervals[0].attrib["data-high"] == high
+        assert {
+            node.attrib.get("data-interval-end")
+            for node in root.iter()
+            if node.attrib.get("data-label") == label
+        } >= {"low", "high"}
+
+
+@pytest.mark.parametrize("endpoint", ["low", "high"])
+def test_ai_hardware_intervalo_con_un_solo_extremo_falla(tmp_path, endpoint):
+    """Aceptar medio intervalo convierte evidencia incompleta en una banda."""
+    generador = _cargar_generador_ai()
+    data = yaml.safe_load(generador.DATA_PATH.read_text(encoding="utf-8"))
+    first = next(
+        case for case in data["training_cases"]
+        if case["include_in_documented_table"]
+    )
+    first["metrics"]["accelerators_concurrent"][endpoint] = 300
+    ledger = _write_ai_ledger(tmp_path, data)
+
+    with pytest.raises(ValueError, match="both low and high"):
+        generador.load_chart_metadata(ledger)
+
+
+def test_ai_hardware_estado_ausente_con_extremos_no_se_grafica(tmp_path):
+    """Un rango en una celda ausente no autoriza inventar una posición."""
+    generador = _cargar_generador_ai()
+    data = yaml.safe_load(generador.DATA_PATH.read_text(encoding="utf-8"))
+    deepseek = next(
+        case for case in data["training_cases"]
+        if case["id"] == "T_DEEPSEEK_V3_PRETRAINING"
+    )
+    deepseek["metrics"]["accelerator_power"].update(low=1, high=2)
+    ledger = _write_ai_ledger(tmp_path, data)
+    generated = tmp_path / "assets"
+    generador.render_all(ledger, generated)
+    root = ET.parse(generated / "ai-potencia-hardware.svg").getroot()
+
+    assert not any(
+        node.attrib.get("data-row") == "true"
+        and node.attrib.get("data-label") == "DeepSeek-V3"
+        for node in root.iter()
+    )
 
 
 @pytest.mark.parametrize("name", AI_SVG_NAMES)

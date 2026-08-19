@@ -1,43 +1,47 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="680" viewBox="0 0 360 680" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="700" viewBox="0 0 360 700" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">HBM física instalada en el pico</title>
   <desc id="desc">HBM física instalada en paneles separados para GB y GiB: BLOOM 176B, 30,720 GB [DERIVED]; PaLM 540B, 196,608 GiB [DERIVED]; Llama 3.1 405B, 1,310,720 GB [DERIVED]; DeepSeek-V3, 163,840 GB [DERIVED]. HBM utilizable no es identificable y no se grafica.</desc>
-  <rect x="0" y="0" width="360" height="680" rx="18" fill="#0b0f12" />
+  <rect x="0" y="0" width="360" height="700" rx="18" fill="#0b0f12" />
   <text x="18" y="31" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="21" font-weight="750" text-anchor="start">HBM física instalada</text>
   <text x="18" y="57" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Pico concurrente · ejes log₁₀</text>
-  <rect x="12" y="78" width="336" height="316" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <rect x="12" y="78" width="336" height="105" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
   <text x="24" y="103" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GB físicos</text>
-  <rect x="12" y="404" width="336" height="112" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
-  <text x="24" y="429" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GiB físicos · unidad separada</text>
-  <line x1="36" y1="112" x2="36" y2="516" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
-  <line x1="36" y1="544" x2="36" y2="552" stroke="#b7c5bb" stroke-width="1.5" />
-  <text x="36" y="572" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁴</text>
-  <line x1="132" y1="112" x2="132" y2="516" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
-  <line x1="132" y1="544" x2="132" y2="552" stroke="#b7c5bb" stroke-width="1.5" />
-  <text x="132" y="572" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁵</text>
-  <line x1="228" y1="112" x2="228" y2="516" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
-  <line x1="228" y1="544" x2="228" y2="552" stroke="#b7c5bb" stroke-width="1.5" />
-  <text x="228" y="572" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁶</text>
-  <line x1="324" y1="112" x2="324" y2="516" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
-  <line x1="324" y1="544" x2="324" y2="552" stroke="#b7c5bb" stroke-width="1.5" />
-  <text x="324" y="572" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁷</text>
-  <line x1="36" y1="548" x2="324" y2="548" stroke="#b7c5bb" stroke-width="1.5" />
-  <text x="24" y="130" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">BLOOM 176B</text>
-  <text x="24" y="153" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">30,720 GB [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="BLOOM 176B" x="74.7924" y="170" width="16" height="16" rx="1" />
-  <text x="24" y="215" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Llama 3.1 405B</text>
-  <text x="24" y="238" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">1,310,720 GB [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Llama 3.1 405B" x="231.281" y="255" width="16" height="16" rx="1" />
-  <text x="24" y="300" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">DeepSeek-V3</text>
-  <text x="24" y="323" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">163,840 GB [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="DeepSeek-V3" x="144.584" y="340" width="16" height="16" rx="1" />
-  <text x="24" y="456" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">PaLM 540B</text>
-  <text x="24" y="479" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">196,608 GiB [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="PaLM 540B" x="152.186" y="496" width="16" height="16" rx="1" />
+  <rect x="12" y="190" width="336" height="105" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="215" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GiB físicos</text>
+  <rect x="12" y="302" width="336" height="105" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="327" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GB físicos</text>
+  <rect x="12" y="414" width="336" height="105" rx="13" fill="#141b20" stroke="#52645a" stroke-width="1" />
+  <text x="24" y="439" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">GB físicos</text>
+  <line x1="36" y1="112" x2="36" y2="519" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="36" y1="546" x2="36" y2="554" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="36" y="574" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁴</text>
+  <line x1="132" y1="112" x2="132" y2="519" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="132" y1="546" x2="132" y2="554" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="132" y="574" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁵</text>
+  <line x1="228" y1="112" x2="228" y2="519" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="228" y1="546" x2="228" y2="554" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="228" y="574" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁶</text>
+  <line x1="324" y1="112" x2="324" y2="519" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
+  <line x1="324" y1="546" x2="324" y2="554" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="324" y="574" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁷</text>
+  <line x1="36" y1="550" x2="324" y2="550" stroke="#b7c5bb" stroke-width="1.5" />
+  <text x="24" y="127" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">BLOOM 176B</text>
+  <text x="24" y="150" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">30,720 GB [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="BLOOM 176B" data-row="true" data-value="30720" data-unit="GB_HBM2e" x="74.7924" y="167" width="16" height="16" rx="1" />
+  <text x="24" y="239" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">PaLM 540B</text>
+  <text x="24" y="262" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">196,608 GiB [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="PaLM 540B" data-row="true" data-value="196608" data-unit="GiB_HBM2_at_peak_configuration" x="152.186" y="279" width="16" height="16" rx="1" />
+  <text x="24" y="351" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Llama 3.1 405B</text>
+  <text x="24" y="374" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">1,310,720 GB [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Llama 3.1 405B" data-row="true" data-value="1310720" data-unit="GB_HBM_at_peak_configuration" x="231.281" y="391" width="16" height="16" rx="1" />
+  <text x="24" y="463" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">DeepSeek-V3</text>
+  <text x="24" y="486" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">163,840 GB [DERIVED]</text>
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="DeepSeek-V3" data-row="true" data-value="163840" data-unit="GB_physical_HBM" x="144.584" y="503" width="16" height="16" rx="1" />
   <g aria-label="Igual distancia representa multiplicación.">
-    <text x="18" y="594" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Igual distancia representa</text>
-    <text x="18" y="616" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">multiplicación.</text>
+    <text x="18" y="604" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Igual distancia representa</text>
+    <text x="18" y="626" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">multiplicación.</text>
   </g>
-  <text x="18" y="646" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Física ≠ utilizable;</text>
-  <text x="18" y="668" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">no se infiere la reserva.</text>
+  <text x="18" y="658" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">Física ≠ utilizable;</text>
+  <text x="18" y="680" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">no se infiere la reserva.</text>
 </svg>

@@ -132,6 +132,96 @@ def ledger_ids(cell: str) -> set[str]:
     return set(re.findall(r"`((?:H|I|M|S|T|V)_[A-Z0-9_]+)`", cell))
 
 
+def immediate_table_after_image(markdown: str, filename: str) -> list[list[str]]:
+    """Return only the first table before the next image or heading."""
+    image_suffix = f"](../_assets/{filename})"
+    assert image_suffix in markdown
+    lines = markdown.split(image_suffix, 1)[1].splitlines()
+    start = None
+    for index, line in enumerate(lines):
+        if line.startswith("![") or line.startswith("#"):
+            break
+        if line.startswith("|"):
+            start = index
+            break
+    assert start is not None, f"falta la tabla inmediata de {filename}"
+    table_lines = []
+    for line in lines[start:]:
+        if not line.startswith("|"):
+            break
+        table_lines.append(line)
+    assert len(table_lines) >= 3, f"tabla incompleta para {filename}"
+
+    def cells(line: str) -> list[str]:
+        return [cell.strip() for cell in line.strip("|").split("|")]
+
+    return [cells(line) for line in table_lines[2:]]
+
+
+def fallback_tuples(chart_id: str, rows: list[list[str]]) -> list[tuple[str, str, str]]:
+    """Normalize each chart's immediate table to label, value+unit, status."""
+    columns = {
+        "accelerators": (0, (1,), 2),
+        "physical_hbm": (0, (1, 2), 3),
+        "power": (1, (2,), 3),
+        "capex": (0, (2,), 3),
+        "inference_capacity": (0, (1,), 2),
+    }
+    label_column, value_columns, status_column = columns[chart_id]
+    normalized = []
+    for row in rows:
+        state = row[status_column]
+        assert re.fullmatch(r"\*\*[A-Z_]+\*\*", state)
+        normalized.append(
+            (
+                row[label_column],
+                " ".join(row[index] for index in value_columns),
+                state.strip("*"),
+            )
+        )
+    return normalized
+
+
+EXPECTED_FALLBACK_ROWS = {
+    "accelerators": [
+        ("BLOOM 176B", "384", "FACT"),
+        ("PaLM 540B", "6,144", "FACT"),
+        ("Llama 3.1 405B", "16,384", "FACT"),
+        ("DeepSeek-V3", "2,048", "FACT"),
+    ],
+    "physical_hbm": [
+        ("BLOOM 176B", "30,720 GB", "DERIVED"),
+        ("PaLM 540B", "196,608 GiB", "DERIVED"),
+        ("Llama 3.1 405B", "1,310,720 GB", "DERIVED"),
+        ("DeepSeek-V3", "163,840 GB", "DERIVED"),
+    ],
+    "power": [
+        ("BLOOM 176B", "153,600 W", "DERIVED"),
+        ("PaLM 540B", "1,179,648 W", "DERIVED"),
+        ("Llama 3.1 405B", "11,468,800 W", "DERIVED"),
+        ("DeepSeek-V3", "No identificable", "ESTIMATION_NOT_IDENTIFIABLE"),
+    ],
+    "capex": [
+        ("accelerator-only · supuesto docente 2026", "USD 30,000", "SCENARIO"),
+        (
+            "system-based · reposición 2026",
+            "No identificable",
+            "ESTIMATION_NOT_IDENTIFIABLE",
+        ),
+    ],
+    "inference_capacity": [
+        ("Pesos y metadata", "35.068693560 GB", "DERIVED"),
+        ("Runtime", "4 GB", "SCENARIO"),
+        ("Caché KV", "9.663676416 GB", "DERIVED"),
+        ("Workspace", "4 GB", "SCENARIO"),
+        ("Reserva 10 %", "5.27323699760 GB", "DERIVED"),
+        ("Total presupuestado", "58.00560697360 GB", "DERIVED"),
+        ("Capacidad física por shard", "80 GB", "SCENARIO"),
+        ("Mínimo adquirible", "1 NVIDIA DGX H100", "SCENARIO"),
+    ],
+}
+
+
 def test_ai_hardware_chart_metadata_conserva_orden_valores_y_estados_del_ledger():
     """Reordenar, redondear desde otra fuente o rellenar ausencias cambia evidencia."""
     generator = load_chart_generator()
@@ -227,12 +317,86 @@ def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
         assert desc is not None and desc.text == chart["alt"]
         assert f"![{chart['alt']}](../_assets/{name})" in page
         section = page.split(f"](../_assets/{name})", 1)[1]
-        section = section.split("\n### ", 1)[0]
+        section = section.split("\n![", 1)[0].split("\n### ", 1)[0]
         assert "**Lectura visual:**" in section
-        assert "|" in section and "|---" in section
-        for row in chart["rows"]:
-            assert row["label"] in section
-            assert f"**{row['status']}**" in section
+        table = fallback_tuples(
+            chart["id"], immediate_table_after_image(page, name)
+        )
+        expected = EXPECTED_FALLBACK_ROWS[chart["id"]]
+        assert table == expected
+        assert [
+            (row["label"], row["fallback_value"], row["status"])
+            for row in chart["rows"]
+        ] == expected
+
+
+def test_ai_hardware_eliminar_una_tabla_fallback_completa_falla():
+    """Otra tabla posterior no debe suplir la tabla inmediata de una imagen."""
+    page = PAGE.read_text(encoding="utf-8")
+    name = "ai-aceleradores-entrenamiento.svg"
+    suffix = f"](../_assets/{name})"
+    before, after = page.split(suffix, 1)
+    lines = after.splitlines()
+    table_start = next(index for index, line in enumerate(lines) if line.startswith("|"))
+    table_end = table_start
+    while table_end < len(lines) and lines[table_end].startswith("|"):
+        table_end += 1
+    mutated = before + suffix + "\n".join(lines[:table_start] + lines[table_end:])
+
+    with pytest.raises(AssertionError, match="falta la tabla inmediata"):
+        immediate_table_after_image(mutated, name)
+
+
+def test_ai_hardware_svg_real_conserva_orden_y_contenido_de_metadata():
+    """Reagrupar unidades o cambiar un valor visible rompe el contrato del SVG."""
+    generator = load_chart_generator()
+    assets = ROOT / "course/3_arquitectura_de_computadoras/_assets"
+    for chart in generator.load_chart_metadata(DATA):
+        root = ET.parse(assets / chart["filename"]).getroot()
+        actual = [
+            (
+                node.attrib["data-label"],
+                node.attrib["data-value"],
+                node.attrib["data-unit"],
+                node.attrib["data-status"],
+            )
+            for node in root.iter()
+            if node.attrib.get("data-row") == "true"
+        ]
+        expected = [
+            (
+                row["label"],
+                "" if row.get("value") is None else str(row["value"]),
+                str(row["unit"]),
+                row["status"],
+            )
+            for row in chart["rows"]
+            if row["status"] in POSITIVE
+            and (row.get("value") is not None or "low" in row)
+        ]
+        assert actual == expected
+
+
+def test_ai_hbm_svg_real_sigue_el_orden_del_ledger_sin_agrupar_unidades():
+    """Filtrar GB y después GiB desplaza PaLM fuera del orden documental."""
+    data = load_yaml(DATA)
+    model_names = {model["id"]: model["canonical_name"] for model in data["models"]}
+    expected = [
+        model_names[case["model_id"]]
+        for case in data["training_cases"]
+        if case["include_in_documented_table"]
+    ]
+    root = ET.parse(
+        ROOT
+        / "course/3_arquitectura_de_computadoras/_assets"
+        / "ai-hbm-entrenamiento.svg"
+    ).getroot()
+    actual = [
+        node.attrib["data-label"]
+        for node in root.iter()
+        if node.attrib.get("data-status") and node.attrib.get("data-label")
+    ]
+    assert actual == expected
 
 
 def test_training_tables_expose_ledger_ids_for_each_included_case():

@@ -23,13 +23,13 @@
   <line x1="36" y1="486" x2="324" y2="486" stroke="#b7c5bb" stroke-width="1.5" />
   <text x="24" y="150" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">BLOOM 176B</text>
   <text x="24" y="173" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">153.6 kW [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="BLOOM 176B" x="45.8936" y="190" width="16" height="16" rx="1" />
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="BLOOM 176B" data-row="true" data-value="153600" data-unit="W_accelerator_TDP_envelope" x="45.8936" y="190" width="16" height="16" rx="1" />
   <text x="24" y="238" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">PaLM 540B</text>
   <text x="24" y="261" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">1.18 MW [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="PaLM 540B" x="130.888" y="278" width="16" height="16" rx="1" />
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="PaLM 540B" data-row="true" data-value="1179648" data-unit="W_chip_measured_max_at_peak_configuration" x="130.888" y="278" width="16" height="16" rx="1" />
   <text x="24" y="326" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Llama 3.1 405B</text>
   <text x="24" y="349" fill="#7ef29d" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">11.47 MW [DERIVED]</text>
-  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Llama 3.1 405B" x="225.714" y="366" width="16" height="16" rx="1" />
+  <rect fill="#7ef29d" stroke="#0b0f12" stroke-width="2" data-status="DERIVED" data-marker="square" data-label="Llama 3.1 405B" data-row="true" data-value="11468800" data-unit="W_accelerator_configurable_TDP_at_peak_configuration" x="225.714" y="366" width="16" height="16" rx="1" />
   <text x="24" y="414" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">DeepSeek-V3</text>
   <g aria-label="[ESTIMATION_NOT_IDENTIFIABLE]">
     <text x="24" y="438" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="start">[ESTIMATION_NOT_</text>

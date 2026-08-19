@@ -237,6 +237,8 @@ def _marker(
     label: str,
     *,
     size: float = 8,
+    row: dict | None = None,
+    interval_end: str | None = None,
 ) -> None:
     marker = marker_for_status(status)
     common = {
@@ -247,6 +249,21 @@ def _marker(
         "data-marker": marker,
         "data-label": label,
     }
+    if row is not None:
+        common.update(
+            {
+                "data-row": "true",
+                "data-value": (
+                    "" if row.get("value") is None else str(row["value"])
+                ),
+                "data-unit": str(row.get("unit")),
+            }
+        )
+        if "low" in row:
+            common["data-low"] = str(row["low"])
+            common["data-high"] = str(row["high"])
+    if interval_end is not None:
+        common["data-interval-end"] = interval_end
     if marker == "circle":
         ET.SubElement(
             root, _tag("circle"), {**common, "cx": f"{x:g}", "cy": f"{y:g}", "r": f"{size:g}"}
@@ -324,8 +341,7 @@ def _plot_log_row(
     y: float,
     ticks: list[int],
 ) -> None:
-    _text(root, 24, y, row["label"], weight="650")
-    x = log_position(row["value"], ticks[0], ticks[-1], 36, 324)
+    _text(root, 24, y, row.get("visual_label", row["label"]), weight="650")
     _text(
         root,
         24,
@@ -335,7 +351,47 @@ def _plot_log_row(
         weight="650",
     )
     marker_y = y + 48
-    _marker(root, x, marker_y, row["status"], row["label"])
+    if "low" in row:
+        low_x = log_position(row["low"], ticks[0], ticks[-1], 36, 324)
+        high_x = log_position(row["high"], ticks[0], ticks[-1], 36, 324)
+        ET.SubElement(
+            root,
+            _tag("line"),
+            {
+                "x1": f"{low_x:g}",
+                "y1": f"{marker_y:g}",
+                "x2": f"{high_x:g}",
+                "y2": f"{marker_y:g}",
+                "stroke": _status_color(row["status"]),
+                "stroke-width": "5",
+                "stroke-linecap": "round",
+                "data-interval": "true",
+                "data-label": row["label"],
+                "data-status": row["status"],
+                "data-low": str(row["low"]),
+                "data-high": str(row["high"]),
+            },
+        )
+        _marker(
+            root,
+            low_x,
+            marker_y,
+            row["status"],
+            row["label"],
+            row=row,
+            interval_end="low",
+        )
+        _marker(
+            root,
+            high_x,
+            marker_y,
+            row["status"],
+            row["label"],
+            interval_end="high",
+        )
+    else:
+        x = log_position(row["value"], ticks[0], ticks[-1], 36, 324)
+        _marker(root, x, marker_y, row["status"], row["label"], row=row)
 
 
 def _scale_note(root: ET.Element, y: float) -> None:
@@ -372,14 +428,40 @@ def _training_rows(data: dict, field: str) -> list[dict]:
             "unit": cell.get("unit"),
             "source_ids": list(cell.get("source_ids", [])),
         }
+        _copy_interval(cell, row)
         rows.append(row)
     return rows
+
+
+def _copy_interval(cell: dict, row: dict) -> None:
+    """Copy a complete closed interval and reject one-sided drift."""
+    has_low = "low" in cell
+    has_high = "high" in cell
+    if has_low != has_high:
+        raise ValueError("interval requires both low and high endpoints")
+    if not has_low:
+        return
+    low = cell["low"]
+    high = cell["high"]
+    if low is None or high is None or _decimal(low) <= 0 or _decimal(high) <= 0:
+        raise ValueError("interval endpoints must be positive")
+    if _decimal(low) > _decimal(high):
+        raise ValueError("interval low must not exceed high")
+    row["low"] = low
+    row["high"] = high
+
+
+def _range_display(row: dict, formatter) -> str:
+    if "low" not in row:
+        return formatter(row["value"])
+    return f"{formatter(row['low'])}–{formatter(row['high'])}"
 
 
 def _plotted(rows: list[dict]) -> list[dict]:
     return [
         row for row in rows
-        if row["status"] in POSITIVE and row["value"] is not None
+        if row["status"] in POSITIVE
+        and (row["value"] is not None or "low" in row)
     ]
 
 
@@ -408,6 +490,7 @@ def _inference_rows(case: dict) -> list[dict]:
                 "unit": cell["unit"],
                 "source_ids": list(cell["source_ids"]),
                 "display": f"{_trim_decimal(_decimal(cell['value']), 3)} GB",
+                "fallback_value": f"{cell['value']} GB",
             }
         )
     shard = case["topology"]["memory_mapping"]["physical_hbm_per_shard_gb"]
@@ -420,6 +503,7 @@ def _inference_rows(case: dict) -> list[dict]:
             "unit": shard["unit"],
             "source_ids": list(shard["source_ids"]),
             "display": f"{shard['value']} GB físicos",
+            "fallback_value": f"{shard['value']} GB",
         }
     )
     minimum = case["topology"]["minimum_purchasable_system"]
@@ -432,6 +516,7 @@ def _inference_rows(case: dict) -> list[dict]:
             "unit": minimum["unit"],
             "source_ids": list(minimum["source_ids"]),
             "display": minimum["value"],
+            "fallback_value": minimum["value"],
         }
     )
     return rows
@@ -466,22 +551,48 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
 
     accelerator_rows = _training_rows(data, "accelerators_concurrent")
     for row in accelerator_rows:
-        row["display"] = f"{int(row['value']):,} aceleradores"
+        row["display"] = (
+            _range_display(row, lambda value: f"{int(value):,}")
+            + " aceleradores"
+            if row["status"] in POSITIVE
+            else "sin valor identificable"
+        )
+        row["fallback_value"] = (
+            f"{int(row['value']):,}" if row["value"] is not None
+            else "No identificable"
+        )
     accelerator_points = _plotted(accelerator_rows)
 
     hbm_rows = _training_rows(data, "hbm_physical_installed")
     for row in hbm_rows:
         unit = "GiB" if str(row["unit"]).startswith("GiB") else "GB"
         row["panel"] = f"{unit} físicos"
-        row["display"] = format_si(row["value"], unit)
+        row["display"] = (
+            _range_display(
+                row, lambda value, normalized=unit: format_si(value, normalized)
+            )
+            if row["status"] in POSITIVE
+            else "sin valor identificable"
+        )
+        row["fallback_value"] = (
+            format_si(row["value"], unit)
+            if row["value"] is not None
+            else "No identificable"
+        )
     hbm_points = _plotted(hbm_rows)
 
     power_rows = _training_rows(data, "accelerator_power")
     for row in power_rows:
         row["panel"] = "GPU/chip-only"
         row["display"] = (
-            format_si(row["value"], "W") if row["value"] is not None
+            _range_display(row, lambda value: format_si(value, "W"))
+            if row["status"] in POSITIVE
             else "sin valor identificable"
+        )
+        row["fallback_value"] = (
+            f"{int(row['value']):,} W"
+            if row["value"] is not None
+            else "No identificable"
         )
     power_points = _plotted(power_rows)
 
@@ -492,23 +603,28 @@ def load_chart_metadata(data_path: Path = DATA_PATH) -> list[dict]:
     }
     for valuation in data["valuations"]:
         price = valuation["price"]
-        capex_rows.append(
-            {
-                "id": valuation["id"],
-                "label": panel_by_boundary[valuation["boundary"]],
-                "panel": panel_by_boundary[valuation["boundary"]],
-                "boundary": valuation["boundary"],
-                "status": price["status"],
-                "value": price.get("value"),
-                "unit": price["unit"],
-                "source_ids": list(price.get("source_ids", [])),
-                "display": (
-                    format_si(price["value"], "USD")
-                    if price.get("value") is not None
-                    else "sin precio identificable"
-                ),
-            }
+        row = {
+            "id": valuation["id"],
+            "label": panel_by_boundary[valuation["boundary"]],
+            "panel": panel_by_boundary[valuation["boundary"]],
+            "boundary": valuation["boundary"],
+            "status": price["status"],
+            "value": price.get("value"),
+            "unit": price["unit"],
+            "source_ids": list(price.get("source_ids", [])),
+        }
+        _copy_interval(price, row)
+        row["display"] = (
+            _range_display(row, lambda value: format_si(value, "USD"))
+            if row["status"] in POSITIVE
+            else "sin precio identificable"
         )
+        row["fallback_value"] = (
+            format_si(price["value"], "USD")
+            if price.get("value") is not None
+            else "No identificable"
+        )
+        capex_rows.append(row)
     capex_points = _plotted(capex_rows)
 
     inference_case = data["inference_capacity_cases"][0]
@@ -652,20 +768,17 @@ def _render_accelerators(chart: dict) -> ET.Element:
 
 
 def _render_hbm(chart: dict) -> ET.Element:
-    root = svg_header(WIDTH, 680, chart["title"], chart["alt"])
+    root = svg_header(WIDTH, 700, chart["title"], chart["alt"])
     _heading(root, "HBM física instalada", "Pico concurrente · ejes log₁₀")
-    _panel(root, 78, 316, "GB físicos")
-    _panel(root, 404, 112, "GiB físicos · unidad separada")
-    _log_axis(root, chart["ticks"], 112, 516, 548)
-    gb_rows = [row for row in chart["points"] if row["panel"] == "GB físicos"]
-    gib_rows = [row for row in chart["points"] if row["panel"] == "GiB físicos"]
-    for row, y in zip(gb_rows, (130, 215, 300), strict=True):
-        _plot_log_row(root, row, y, chart["ticks"])
-    for row, y in zip(gib_rows, (456,), strict=True):
-        _plot_log_row(root, row, y, chart["ticks"])
-    _scale_note(root, 594)
-    _text(root, 18, 646, "Física ≠ utilizable;", fill=MUTED)
-    _text(root, 18, 668, "no se infiere la reserva.", fill=MUTED)
+    panel_positions = (78, 190, 302, 414)
+    for row, panel_y in zip(chart["points"], panel_positions, strict=True):
+        _panel(root, panel_y, 105, row["panel"])
+    _log_axis(root, chart["ticks"], 112, 519, 550)
+    for row, panel_y in zip(chart["points"], panel_positions, strict=True):
+        _plot_log_row(root, row, panel_y + 49, chart["ticks"])
+    _scale_note(root, 604)
+    _text(root, 18, 658, "Física ≠ utilizable;", fill=MUTED)
+    _text(root, 18, 680, "no se infiere la reserva.", fill=MUTED)
     return root
 
 
@@ -693,7 +806,7 @@ def _render_capex(chart: dict) -> ET.Element:
     _heading(root, "CAPEX de hardware", "Fronteras y bases separadas")
     _panel(root, 78, 168, ("accelerator-only · supuesto", "docente 2026"))
     row = chart["points"][0]
-    plotted = {**row, "label": "Precio por módulo H100 SXM"}
+    plotted = {**row, "visual_label": "Precio por módulo H100 SXM"}
     _plot_log_row(root, plotted, 150, chart["ticks"])
     _log_axis(root, chart["ticks"], 142, 228, 268)
     _scale_note(root, 316)
@@ -712,7 +825,9 @@ def _render_inference(chart: dict) -> ET.Element:
     _panel(root, 78, 356, ("Componentes del piso", "GB decimales"))
     component_rows = chart["rows"][:5]
     for row, y in zip(component_rows, (150, 208, 266, 324, 382), strict=True):
-        _marker(root, 31, y - 5, row["status"], row["label"], size=7)
+        _marker(
+            root, 31, y - 5, row["status"], row["label"], size=7, row=row
+        )
         _text(root, 49, y, row["label"], weight="650")
         _text(
             root,
@@ -743,14 +858,20 @@ def _render_inference(chart: dict) -> ET.Element:
         {"x": str(bar_start), "y": "514", "width": f"{total_end - bar_start:g}",
          "height": "24", "rx": "8", "fill": DERIVED},
     )
-    _marker(root, total_end, 526, total["status"], total["label"], size=7)
+    _marker(
+        root, total_end, 526, total["status"], total["label"], size=7, row=total
+    )
     _text(root, 24, 574, f"Piso: {total['display']} [{total['status']}]", fill=DERIVED,
           weight="650")
-    _marker(root, 31, 602, capacity["status"], capacity["label"], size=7)
+    _marker(
+        root, 31, 602, capacity["status"], capacity["label"], size=7, row=capacity
+    )
     _text(root, 49, 607, f"Capacidad: {capacity['display']}", fill=SCENARIO, weight="650")
     _text(root, 49, 629, f"[{capacity['status']}]", fill=SCENARIO, weight="650")
     minimum = chart["rows"][7]
-    _marker(root, 31, 676, minimum["status"], minimum["label"], size=7)
+    _marker(
+        root, 31, 676, minimum["status"], minimum["label"], size=7, row=minimum
+    )
     _text(root, 49, 681, "Mínimo adquirible", weight="650")
     _text(root, 49, 704, minimum["display"], weight="650")
     _text(root, 49, 728, f"[{minimum['status']}]", fill=SCENARIO, weight="650")

@@ -10,7 +10,7 @@
   <text x="24" y="127" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="700" text-anchor="start">docente 2026</text>
   <text x="24" y="150" fill="#f3f7f3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">Precio por módulo H100 SXM</text>
   <text x="24" y="173" fill="#c9a7ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="650" text-anchor="start">USD 30,000 [SCENARIO]</text>
-  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="Precio por módulo H100 SXM" points="104.705,190 112.705,198 104.705,206 96.7055,198" />
+  <polygon fill="#c9a7ff" stroke="#0b0f12" stroke-width="2" data-status="SCENARIO" data-marker="diamond" data-label="accelerator-only · supuesto docente 2026" data-row="true" data-value="30000" data-unit="USD" points="104.705,190 112.705,198 104.705,206 96.7055,198" />
   <line x1="36" y1="142" x2="36" y2="228" stroke="#52645a" stroke-width="1" stroke-dasharray="3 5" />
   <line x1="36" y1="264" x2="36" y2="272" stroke="#b7c5bb" stroke-width="1.5" />
   <text x="36" y="292" fill="#b7c5bb" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="18" font-weight="400" text-anchor="middle">10⁴</text>
