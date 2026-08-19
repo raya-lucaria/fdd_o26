@@ -282,14 +282,50 @@ def dashboard_section() -> str:
     )[0]
 
 
+def visible_words(markdown: str) -> list[str]:
+    without_images = re.sub(r"\[?!\[[^]]*]\([^)]+\)\]?\([^)]+\)?", "", markdown)
+    without_markup = re.sub(r"[`*_#>|]", " ", without_images)
+    return re.findall(r"\b[\wÁÉÍÓÚÜÑáéíóúüñ./+−-]+\b", without_markup)
+
+
 def test_dashboard_main_route_is_short_visual_and_model_rich():
     section = dashboard_section()
-    assert 900 <= len(section.split()) <= 1400
+    assert 900 <= len(visible_words(section)) <= 1400
     assert {name for name in DASHBOARD_ASSETS if name in section} == DASHBOARD_ASSETS
     assert "[[evidencia-dashboard-ia]]" in section
     assert "data-source-ids" not in section
     assert not re.search(r"\b(?:S|DM|T|V)_[A-Z0-9_]{4,}\b", section)
     assert all(name not in section for name in RETIRED_DASHBOARD_ASSETS)
+
+
+def test_dashboard_model_cards_expose_each_model_boundary_without_ids():
+    section = dashboard_section()
+    models = load_yaml(AI_LEDGER)["dashboard_models"]
+    cards = section.split("#### Los 39 modelos, por ficha", 1)[1].split(
+        "### Entrenamiento a través del tiempo", 1
+    )[0]
+    assert cards.count("\n| **") == 39
+    for model in models:
+        openness = "abierto" if model["availability"] == "open_weights" else "cerrado"
+        architecture = model["architecture"].get("value") or "no publicado"
+        training = (
+            "cifra"
+            if any(
+                model["metrics"][key]["status"] in {"FACT", "DERIVED", "ESTIMATE"}
+                for key in ("training_flop", "accelerators_concurrent", "accelerator_hours")
+            )
+            else "no publicado"
+        )
+        inference = (
+            "artefacto"
+            if model["metrics"]["artifact_bytes"]["status"] == "FACT"
+            else "no identificable"
+        )
+        expected = (
+            f"| **{model['canonical_name']} · {model['year']['value']}** | "
+            f"{openness} · {architecture} · E: {training} · I: {inference} |"
+        )
+        assert expected in cards
 
 
 def test_dashboard_main_route_has_teaching_order_and_plain_language_boundaries():
@@ -369,6 +405,32 @@ def test_dashboard_annex_preserves_complete_evidence():
     assert "id: evidencia-dashboard-ia" in DASHBOARD_ANNEX.read_text(encoding="utf-8")
 
 
+def test_dashboard_annex_reproduces_all_546_metric_cells_exactly():
+    annex = body(DASHBOARD_ANNEX)
+    models = load_yaml(AI_LEDGER)["dashboard_models"]
+    metric_names = (
+        "year", "architecture", "parameters_total", "parameters_active",
+        "training_tokens", "training_flop", "accelerators_concurrent",
+        "accelerator_hours", "accelerator_power_basis", "training_date",
+        "artifact_revision", "artifact_bytes", "weight_floor_bf16",
+        "weight_floor_fp8", "weight_floor_int8", "weight_floor_int4",
+    )
+    # Architecture and year are identity cells; the remaining 14 are metrics.
+    assert sum(len(model["metrics"]) for model in models) == 546
+    for model in models:
+        section = annex.split(f"### {model['canonical_name']} — `{model['id']}`", 1)[1]
+        section = section.split("\n### ", 1)[0]
+        cells = {"year": model["year"], "architecture": model["architecture"], **model["metrics"]}
+        for name in metric_names:
+            cell = cells[name]
+            value = "—" if cell.get("value") is None else str(cell["value"])
+            unit = f" {cell['unit']}" if cell.get("unit") else ""
+            assert f"- **{name}:** `{cell['status']}` · {value}{unit}" in section
+            assert f"**source_ids:** {', '.join(cell['source_ids'])}" in section
+            if cell.get("formula"):
+                assert f"**formula:** {cell['formula']}" in section
+
+
 def test_dashboard_annex_uses_vertical_records_not_a_wide_ledger():
     annex = body(DASHBOARD_ANNEX)
     assert "<br>" not in annex
@@ -380,6 +442,19 @@ def test_dashboard_annex_uses_vertical_records_not_a_wide_ledger():
     for index, line in enumerate(annex.splitlines()[:-1]):
         if line.startswith("|") and annex.splitlines()[index + 1].startswith("|---"):
             assert len(line.strip().strip("|").split("|")) <= 3
+
+
+def test_dashboard_source_catalog_lives_only_in_annex():
+    main = body(AI_PAGE)
+    annex = body(DASHBOARD_ANNEX)
+    dashboard_only_sources = (
+        "openai.com/index/previewing-gpt-5-6-sol",
+        "anthropic.com/news/claude-sonnet-5",
+        "qwen.ai/blog?id=qwen3.8",
+        "epoch.ai/data/eci_scores.csv",
+    )
+    assert all(source not in main for source in dashboard_only_sources)
+    assert all(source in annex for source in dashboard_only_sources)
 
 
 def test_weight_memory_formula_defines_symbols_and_converts_bits_before_formula():

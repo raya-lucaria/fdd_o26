@@ -207,66 +207,105 @@ No son un ranking: la aplicación y la medición completa deciden.
 
 ### Cómo leer el dashboard
 
-La leyenda se usa una sola vez: **FACT** (círculo) es publicado; **DERIVED** (cuadrado) es una cuenta reproducible; **ESTIMATE** (rombo y rango) depende de supuestos; **SCENARIO** (triángulo) es una comparación docente; gris o cruz significa ausencia. El relleno distingue pesos abiertos de modelos cerrados. **Confianza** describe la evidencia de cada celda, no la calidad del modelo.
+La leyenda se repite: **FACT** es publicado; **DERIVED**, una cuenta; **ESTIMATE**, un rango con supuestos; **SCENARIO**, una comparación docente. Gris significa ausencia. **Confianza** califica evidencia, no calidad.
 
 El eje X siempre es el año de publicación. Cuando Y dice “log”, subir la misma distancia significa multiplicar, no sumar. **FLOP es trabajo** realizado; **FLOP/s es una tasa** de trabajo por segundo.
 
-#### Los 39 modelos, por familia
+#### Los 39 modelos, por ficha
 
-| Familia | Modelos incluidos |
+Cada ficha separa año, acceso a pesos, arquitectura y evidencia física. **No publicado** no significa cero. `E` es entrenamiento; `I`, inferencia.
+
+| Modelo · año | Ficha física |
 |---|---|
-| Google | BERT-Large, T5-11B, Gopher 280B, LaMDA 137B, Chinchilla 70B, PaLM 540B, Gemma 7B, Gemma 2 27B, Gemma 3 27B y Gemini 3.1 Pro |
-| OpenAI y Anthropic | GPT-3 175B, GPT-5.6 Sol y Claude Sonnet 5 |
-| Meta y BigScience | OPT-175B, BLOOM 176B, Llama 1 65B, Llama 2 70B, Llama 3.1 8B/70B/405B y Llama 4 Scout |
-| Qwen | Qwen-72B, Qwen2-72B, Qwen2.5-72B, Qwen3-30B-A3B, Qwen3-235B-A22B, Qwen3.8-Max y Qwen3.8-2.4T-A95B |
-| DeepSeek y Mistral | DeepSeek LLM 67B, V2, V3 y R1; Mistral 7B, Mixtral 8x7B y Mistral Large 2 |
-| xAI y Moonshot | Grok-1, Grok 4.5, Kimi K2 y Kimi K3 |
+| **BERT-Large · 2018** | abierto · dense · E: no publicado · I: artefacto |
+| **T5-11B · 2019** | abierto · dense · E: cifra · I: artefacto |
+| **GPT-3 175B · 2020** | cerrado · dense · E: cifra · I: no identificable |
+| **Gopher 280B · 2021** | cerrado · dense · E: cifra · I: no identificable |
+| **LaMDA 137B · 2022** | cerrado · dense · E: no publicado · I: no identificable |
+| **Chinchilla 70B · 2022** | cerrado · dense · E: cifra · I: no identificable |
+| **PaLM 540B · 2022** | cerrado · dense · E: cifra · I: no identificable |
+| **OPT-175B · 2022** | abierto · dense · E: cifra · I: no identificable |
+| **BLOOM 176B · 2022** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 1 65B · 2023** | abierto · dense · E: cifra · I: no identificable |
+| **Llama 2 70B · 2023** | abierto · dense · E: cifra · I: artefacto |
+| **Qwen-72B · 2023** | abierto · dense · E: cifra · I: artefacto |
+| **DeepSeek LLM 67B · 2023** | abierto · dense · E: cifra · I: artefacto |
+| **Mistral 7B v0.1 · 2023** | abierto · dense · E: no publicado · I: artefacto |
+| **Mixtral 8x7B · 2023** | abierto · MoE · E: no publicado · I: artefacto |
+| **Gemma 7B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Grok-1 · 2024** | abierto · MoE · E: no publicado · I: no identificable |
+| **DeepSeek-V2 · 2024** | abierto · MoE · E: cifra · I: artefacto |
+| **Qwen2-72B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Gemma 2 27B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 3.1-8B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 3.1-70B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 3.1-405B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Mistral Large 2 · 2024** | abierto · dense · E: no publicado · I: artefacto |
+| **Qwen2.5-72B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **DeepSeek-V3 · 2024** | abierto · MoE · E: cifra · I: artefacto |
+| **DeepSeek-R1 · 2025** | abierto · MoE · E: no publicado · I: artefacto |
+| **Gemma 3 27B · 2025** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 4 Scout · 2025** | abierto · MoE · E: no publicado · I: artefacto |
+| **Qwen3-30B-A3B · 2025** | abierto · MoE · E: cifra · I: artefacto |
+| **Qwen3-235B-A22B · 2025** | abierto · MoE · E: cifra · I: artefacto |
+| **Kimi K2 · 2025** | abierto · MoE · E: cifra · I: artefacto |
+| **Gemini 3.1 Pro · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **GPT-5.6 Sol · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **Claude Sonnet 5 · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **Kimi K3 · 2026** | abierto · MoE · E: no publicado · I: artefacto |
+| **Grok 4.5 · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **Qwen3.8-Max · 2026** | cerrado · MoE · E: no publicado · I: no identificable |
+| **Qwen3.8-2.4T-A95B · 2026** | abierto · MoE · E: no publicado · I: no identificable |
 
-“Cerrado” no significa cero: significa que los pesos no están disponibles. Cuando parámetros, arquitectura o hardware tampoco se publicaron, la fila permanece visible sin inventar un número. El registro exacto de cada modelo está en [[evidencia-dashboard-ia]].
+Los modelos recientes mezclan dense, MoE y arquitectura no divulgada. Audita cada celda en [[evidencia-dashboard-ia]].
 
 ### Entrenamiento a través del tiempo
 
-[![Serie temporal de parámetros totales y activos; los modelos MoE separan lo almacenado de lo usado por token.](../_assets/ai-training-parameters.svg)](../_assets/ai-training-parameters.svg)
-
-[![Serie temporal del trabajo de entrenamiento expresado en FLOP, con rangos cuando la cuenta depende de supuestos.](../_assets/ai-training-flop.svg)](../_assets/ai-training-flop.svg)
+| Parámetros totales y activos | Trabajo total de entrenamiento |
+|---|---|
+| [![Serie temporal de parámetros totales y activos; los modelos MoE separan lo almacenado de lo usado por token.](../_assets/ai-training-parameters.svg)](../_assets/ai-training-parameters.svg) | [![Serie temporal del trabajo de entrenamiento expresado en FLOP, con rangos cuando la cuenta depende de supuestos.](../_assets/ai-training-flop.svg)](../_assets/ai-training-flop.svg) |
 
 Los **parámetros totales** deben almacenarse; los **parámetros activos** son la parte aproximada que un MoE usa por token. El segundo panel cuenta trabajo total: no dice cuánto tardó ni qué FLOP/s sostuvo el cluster.
 
-[![Serie temporal de aceleradores concurrentes y accelerator-hours, conservados como magnitudes diferentes.](../_assets/ai-training-accelerators.svg)](../_assets/ai-training-accelerators.svg)
-
-[![Serie temporal de bases publicadas de potencia o energía del entrenamiento, sin tratarlas como mediciones de pared.](../_assets/ai-training-power.svg)](../_assets/ai-training-power.svg)
+| Flota y tiempo acumulado | Envolvente eléctrica disponible |
+|---|---|
+| [![Serie temporal de aceleradores concurrentes y accelerator-hours, conservados como magnitudes diferentes.](../_assets/ai-training-accelerators.svg)](../_assets/ai-training-accelerators.svg) | [![Serie temporal de bases publicadas de potencia o energía del entrenamiento, sin tratarlas como mediciones de pared.](../_assets/ai-training-power.svg)](../_assets/ai-training-power.svg) |
 
 “16,384 GPU concurrentes” es tamaño de la flota en un momento; “30.84 millones de GPU-h” acumula unidades por tiempo. En potencia, **TDP no es potencia de pared**: sumar TDP crea una envolvente térmica de aceleradores, no una lectura del medidor del centro de datos.
 
-[![Valor temporal de reemplazo de aceleradores bajo una base económica común y explícitamente hipotética.](../_assets/ai-training-replacement-value.svg)](../_assets/ai-training-replacement-value.svg)
+| Valor comparable del hardware |
+|---|
+| [![Valor temporal de reemplazo de aceleradores bajo una base económica común y explícitamente hipotética.](../_assets/ai-training-replacement-value.svg)](../_assets/ai-training-replacement-value.svg) |
 
-Este CAPEX es un **SCENARIO**: cantidad comparable de aceleradores por un precio unitario común. Sirve para poner escala monetaria al hardware; **no es el costo real** de entrenar el modelo ni incluye servidores, red, personal o energía.
+El panel queda vacío: ningún registro combina una cantidad de aceleradores comparable con el precio común requerido. Esa ausencia es un resultado auditable, no cero. El CAPEX sería un **SCENARIO**, no es el costo real de entrenar ni incluiría servidores, red, personal o energía.
 
 ### Inferencia local a través del tiempo
 
-[![Tamaño del artefacto publicado o piso teórico de pesos por año y precisión.](../_assets/ai-inference-memory.svg)](../_assets/ai-inference-memory.svg)
-
-[![Número H100-equivalente requerido sólo por capacidad física de los pesos.](../_assets/ai-inference-accelerators.svg)](../_assets/ai-inference-accelerators.svg)
+| Bytes que deben caber | Piso de H100 por capacidad |
+|---|---|
+| [![Tamaño del artefacto publicado o piso teórico de pesos por año y precisión.](../_assets/ai-inference-memory.svg)](../_assets/ai-inference-memory.svg) | [![Número H100-equivalente requerido sólo por capacidad física de los pesos.](../_assets/ai-inference-accelerators.svg)](../_assets/ai-inference-accelerators.svg) |
 
 El artefacto es el archivo real con formatos y metadatos; el piso por precisión es `parámetros × bits ÷ 8`. Dividir los bytes entre 80 GB da un piso de capacidad H100-equivalente: **no es un servidor**, una topología recomendada ni una garantía de que el runtime no falle.
 
-[![Suma de TDP de aceleradores bajo el escenario común de capacidad local.](../_assets/ai-inference-power.svg)](../_assets/ai-inference-power.svg)
-
-[![CAPEX accelerator-only correspondiente al mismo piso de capacidad local.](../_assets/ai-inference-capex.svg)](../_assets/ai-inference-capex.svg)
+| TDP del piso de capacidad | CAPEX del mismo piso |
+|---|---|
+| [![Suma de TDP de aceleradores bajo el escenario común de capacidad local.](../_assets/ai-inference-power.svg)](../_assets/ai-inference-power.svg) | [![CAPEX accelerator-only correspondiente al mismo piso de capacidad local.](../_assets/ai-inference-capex.svg)](../_assets/ai-inference-capex.svg) |
 
 Ambos paneles reutilizan el mismo número hipotético de aceleradores. Uno multiplica por TDP y otro por precio unitario; ninguno incluye CPU, RAM, chasis, red, caché KV, reserva, consumo de pared o nivel de servicio.
 
-[![Parámetros totales y activos de los modelos con una ruta de inferencia local identificable.](../_assets/ai-inference-parameters.svg)](../_assets/ai-inference-parameters.svg)
+| Tamaño total y trabajo activo |
+|---|
+| [![Parámetros totales y activos de los modelos con una ruta de inferencia local identificable.](../_assets/ai-inference-parameters.svg)](../_assets/ai-inference-parameters.svg) |
 
 Esta última vista devuelve la comparación al tamaño del modelo. Un MoE puede activar menos parámetros por token, pero todavía necesita alojar o repartir todos sus expertos.
 
 ### Pareto: mejorar una cosa sin empeorar la otra
 
-[![Frontera de Pareto entre capacidad general ECI y valor de reemplazo del hardware de entrenamiento.](../_assets/ai-pareto-training.svg)](../_assets/ai-pareto-training.svg)
+| Entrenamiento | Inferencia local |
+|---|---|
+| [![Frontera de Pareto entre capacidad general ECI y valor de reemplazo del hardware de entrenamiento.](../_assets/ai-pareto-training.svg)](../_assets/ai-pareto-training.svg) | [![Frontera de Pareto entre capacidad general ECI y CAPEX mínimo del escenario de inferencia local.](../_assets/ai-pareto-inference.svg)](../_assets/ai-pareto-inference.svg) |
 
-[![Frontera de Pareto entre capacidad general ECI y CAPEX mínimo del escenario de inferencia local.](../_assets/ai-pareto-inference.svg)](../_assets/ai-pareto-inference.svg)
-
-Un punto domina a otro si cuesta igual o menos y obtiene ECI igual o mayor, con una mejora estricta. La línea sólida es segura ante todo el rango; la punteada es posible para alguna combinación. **ECI no es IQ**: resume desempeño en un conjunto versionado de evaluaciones, no “inteligencia” universal.
+Entrenamiento está vacío porque falta un costo comparable; sin ambos ejes no hay puntos que ordenar. Inferencia sí tiene ocho candidatos. Un punto domina si cuesta igual o menos y logra ECI igual o mayor. La línea sólida conserva casos seguros; la punteada, posibles ante los rangos. **ECI no es IQ**: resume evaluaciones versionadas.
 
 ### Qué sí y qué no puedes concluir
 
@@ -330,11 +369,3 @@ La práctica oficial aparece a continuación, al final de la unidad. Incluye sei
 - [Google Cloud — TPU7x Ironwood](https://docs.cloud.google.com/tpu/docs/tpu7x): HBM, picos por precisión, interconexión y tamaño de pod.
 - [NVIDIA — DGX GB300](https://www.nvidia.com/en-us/data-center/dgx-gb300/): composición, memoria y bandwidth; [NVL72 System Components](https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/components.html): NVLink, refrigeración y potencia máxima.
 - [NVIDIA H100](https://www.nvidia.com/es-la/data-center/h100/) y [A100 datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf): HBM, tasas pico por precisión y potencia del módulo; [Cloud TPU v4](https://docs.cloud.google.com/tpu/docs/v4): HBM, tasa BF16 y potencia medida por chip.
-- Entrenamientos documentados: [paper de BLOOM](https://arxiv.org/abs/2211.05100), [model card de BLOOM](https://huggingface.co/bigscience/bloom/blob/main/README.md), [horas de BLOOM](https://arxiv.org/abs/2211.02001), [PaLM](https://arxiv.org/abs/2204.02311), [paper de Llama 3](https://ai.meta.com/research/publications/the-llama-3-herd-of-models/), [model card de Llama 3.1 405B](https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct) y [DeepSeek-V3](https://arxiv.org/abs/2412.19437).
-- [NVIDIA H800 — notas técnicas](https://docs.nvidia.com/590trd1-trusted-computing-solutions-release-notes.pdf): identificación del módulo H800 de 80 GB usada en la derivación de HBM física de DeepSeek-V3.
-- [OpenAI — GPT-5.6 Sol](https://openai.com/index/previewing-gpt-5-6-sol/) y [disponibilidad de GPT-5.6](https://openai.com/index/gpt-5-6/): nombre, lanzamiento, disponibilidad y región.
-- [Anthropic — Claude Sonnet 5](https://www.anthropic.com/news/claude-sonnet-5): nombre, lanzamiento y disponibilidad; [model card de Gemini 3.1 Pro](https://deepmind.google/models/model-cards/gemini-3-1-pro/) y [página de Gemini 3.1 Pro](https://deepmind.google/models/gemini/pro/): ficha y disponibilidad.
-- [Moonshot AI — Kimi K3](https://www.kimi.com/blog/kimi-k3), [reporte técnico](https://arxiv.org/abs/2607.24653), [repositorio](https://github.com/MoonshotAI/Kimi-K3) y [model card](https://huggingface.co/moonshotai/Kimi-K3): lanzamiento, parámetros y artefacto abierto.
-- [Qwen — Qwen3.8-Max](https://qwen.ai/blog?id=qwen3.8) y [Qwen3.8-2.4T-A95B](https://www.modelscope.cn/models/Qwen/Qwen3.8-2.4T-A95B): servicio alojado y artefacto base abierto, tratados como registros distintos.
-- [Qwen2.5-32B-Instruct-GPTQ-Int8, revisión `eddc13f`](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct-GPTQ-Int8/tree/eddc13f573fd3648cc8a4741fdf1b70e8d6fc5c1): parámetros, configuración GPTQ/GQA y bytes de los nueve shards usados en el piso de inferencia.
-- [vLLM 0.7.1 — hardware de cuantización](https://docs.vllm.ai/en/v0.7.1/features/quantization/supported_hardware.html): compatibilidad GPTQ con Hopper; [NVIDIA DGX H100](https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/nvidia-dgx-h100-datasheet.pdf): sistema de ocho H100 y HBM física total.

@@ -13,6 +13,9 @@ from ai_model_dashboard import (
     pareto_frontier,
 )
 
+ROOT = Path(__file__).resolve().parents[1]
+ANNEX = ROOT / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/1_evidencia_dashboard/0_index.md"
+
 
 def metric(status, value=None, unit=None, source_ids=("S_TEST",), **extra):
     cell = {"status": status, "value": value, "source_ids": list(source_ids)}
@@ -64,6 +67,84 @@ def sample_ledger():
             },
         ]
     }
+
+
+def test_annex_tables_reconstruct_every_generated_non_pareto_point():
+    ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
+    annex = ANNEX.read_text(encoding="utf-8")
+    names = {model["id"]: model["canonical_name"] for model in ledger["dashboard_models"]}
+    training = build_training_series(ledger)
+    inference = build_inference_series(ledger, CapacityScenario())
+    charts = {
+        "ai-training-parameters.svg": training["parameters_total_active"],
+        "ai-training-flop.svg": training["training_flop"],
+        "ai-training-accelerators.svg": training["accelerators_and_hours"],
+        "ai-training-power.svg": training["power_or_energy_envelope"],
+        "ai-training-replacement-value.svg": training["replacement_value"],
+        "ai-inference-memory.svg": inference["artifact_or_weight_floor"],
+        "ai-inference-accelerators.svg": inference["h100_capacity_equivalents"],
+        "ai-inference-power.svg": inference["accelerator_tdp_scenario"],
+        "ai-inference-capex.svg": inference["accelerator_capex_scenario"],
+        "ai-inference-parameters.svg": inference["parameters_total_active"],
+    }
+    assert len(charts) == 10
+    for filename, points in charts.items():
+        section = annex.split(f"### `{filename}` · {len(points)} puntos", 1)[1].split("\n### `", 1)[0]
+        assert section.count("\n|") - 2 == max(1, len(points))
+        for point in points:
+            value = (
+                str(point.value)
+                if point.low is None and point.high is None
+                else f"{point.low or point.value}–{point.high or point.value}"
+            )
+            row = (
+                f"| {names[point.model_id]} · {point.year} · {point.label} | "
+                f"`{point.status}` · {value} {point.unit} | {point.claim_scope} · "
+                f"{', '.join(point.source_ids)} |"
+            )
+            assert row in section
+    assert "ai-training-replacement-value.svg` · 0 puntos" in annex
+
+
+def test_annex_reconstructs_empty_training_and_exact_inference_pareto_membership():
+    ledger = yaml.safe_load((ROOT / "tools/data/ai_hardware_costs.yaml").read_text())
+    eci = yaml.safe_load((ROOT / "tools/data/eci_snapshot_2026-08-18.yaml").read_text())
+    annex = ANNEX.read_text(encoding="utf-8")
+    names = {model["id"]: model["canonical_name"] for model in ledger["dashboard_models"]}
+    inference = build_inference_series(ledger, CapacityScenario())
+    scores = {
+        row["benchmark_model_id"]: row for row in eci["models"] if row.get("pareto_eligible")
+    }
+    by_model = {}
+    for point in inference["accelerator_capex_scenario"]:
+        if point.model_id in scores:
+            by_model.setdefault(point.model_id, point)
+    inputs = [
+        ParetoPoint(
+            model_id, point.low or point.value, point.high or point.value,
+            Decimal(str(scores[model_id]["score_low"])),
+            Decimal(str(scores[model_id]["score_high"])),
+        )
+        for model_id, point in sorted(by_model.items())
+    ]
+    frontier = pareto_frontier(inputs)
+    assert "ai-pareto-training.svg` · 0 puntos compatibles" in annex
+    assert "falta eje de costo comparable" in annex
+    section = annex.split("### `ai-pareto-inference.svg`", 1)[1].split("\n## ", 1)[0]
+    assert len(inputs) == 8
+    for point in inputs:
+        membership = []
+        if point.model_id in frontier.safe_ids:
+            membership.append("segura")
+        if point.model_id in frontier.possible_ids:
+            membership.append("posible")
+        if not membership:
+            membership.append("dominada")
+        row = (
+            f"| {names[point.model_id]} | USD {point.cost_low}–{point.cost_high}; "
+            f"ECI {point.score_low}–{point.score_high} | {' + '.join(membership)} |"
+        )
+        assert row in section
 
 
 def test_training_series_excludes_missing_and_preserves_native_units():
