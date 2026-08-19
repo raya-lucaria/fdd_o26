@@ -342,15 +342,30 @@ def _plot_log_row(
     ticks: list[int],
 ) -> None:
     _text(root, 24, y, row.get("visual_label", row["label"]), weight="650")
-    _text(
-        root,
-        24,
-        y + 23,
-        f"{row['display']} [{row['status']}]",
-        fill=_status_color(row["status"]),
-        weight="650",
-    )
-    marker_y = y + 48
+    combined = f"{row['display']} [{row['status']}]"
+    # 0.62 em is conservative for the system-ui stack used by Chromium.
+    # Keep the value interval intact when it fits, then move only the status
+    # to a second line; this preserves both endpoints without shrinking text.
+    available_width = 352 - 24
+    if len(combined) * 18 * 0.62 <= available_width:
+        value_lines = (combined,)
+    elif len(row["display"]) * 18 * 0.62 <= available_width:
+        value_lines = (row["display"], f"[{row['status']}]")
+    else:
+        left, separator, right = row["display"].partition("–")
+        if not separator:
+            raise ValueError(f"value label does not fit SVG: {combined}")
+        value_lines = (f"{left}{separator}", f"{right} [{row['status']}]")
+    for index, line in enumerate(value_lines):
+        _text(
+            root,
+            24,
+            y + 23 + index * 23,
+            line,
+            fill=_status_color(row["status"]),
+            weight="650",
+        )
+    marker_y = y + 48 + (len(value_lines) - 1) * 23
     if "low" in row:
         low_x = log_position(row["low"], ticks[0], ticks[-1], 36, 324)
         high_x = log_position(row["high"], ticks[0], ticks[-1], 36, 324)

@@ -250,6 +250,37 @@ def _write_ai_ledger(tmp_path, data):
     return path
 
 
+def _assert_ai_svg_text_geometry(root, name):
+    """Check source-space text bounds with a conservative system-ui metric."""
+    boxes = []
+    for node in root.iter("{http://www.w3.org/2000/svg}text"):
+        text = "".join(node.itertext())
+        size = float(node.attrib["font-size"])
+        width = len(text) * size * 0.62
+        x = float(node.attrib["x"])
+        anchor = node.attrib.get("text-anchor", "start")
+        if anchor == "middle":
+            left, right = x - width / 2, x + width / 2
+        elif anchor == "end":
+            left, right = x - width, x
+        else:
+            left, right = x, x + width
+        y = float(node.attrib["y"])
+        box = (left, y - size, right, y + size * 0.25, text)
+        assert left >= 8 and right <= 352, (
+            f"{name}: {text!r} sale del viewBox: x={left:.1f}..{right:.1f}"
+        )
+        boxes.append(box)
+
+    for index, first in enumerate(boxes):
+        for second in boxes[index + 1:]:
+            horizontal = min(first[2], second[2]) - max(first[0], second[0])
+            vertical = min(first[3], second[3]) - max(first[1], second[1])
+            assert horizontal <= 1 or vertical <= 1, (
+                f"{name}: textos solapados {first[4]!r} y {second[4]!r}"
+            )
+
+
 def test_ai_hardware_intervalos_completos_llegan_a_metadata_y_svg(tmp_path):
     """Descartar low/high oculta el rango y deja sólo un punto engañoso."""
     generador = _cargar_generador_ai()
@@ -276,7 +307,8 @@ def test_ai_hardware_intervalos_completos_llegan_a_metadata_y_svg(tmp_path):
     accelerator_xml = (generated / AI_SVG_NAMES[0]).read_text(encoding="utf-8")
     capex_xml = (generated / AI_SVG_NAMES[3]).read_text(encoding="utf-8")
     assert "300–500 aceleradores [FACT]" in accelerator_xml
-    assert "USD 25,000–USD 35,000 [SCENARIO]" in capex_xml
+    assert "USD 25,000–USD 35,000" in capex_xml
+    assert "[SCENARIO]" in capex_xml
     for xml, label, low, high in (
         (accelerator_xml, "BLOOM 176B", "300", "500"),
         (capex_xml, "accelerator-only · supuesto docente 2026", "25000", "35000"),
@@ -295,6 +327,12 @@ def test_ai_hardware_intervalos_completos_llegan_a_metadata_y_svg(tmp_path):
             for node in root.iter()
             if node.attrib.get("data-label") == label
         } >= {"low", "high"}
+    _assert_ai_svg_text_geometry(
+        ET.fromstring(accelerator_xml), "ai-aceleradores-intervalo-sintetico.svg"
+    )
+    _assert_ai_svg_text_geometry(
+        ET.fromstring(capex_xml), "ai-capex-intervalo-sintetico.svg"
+    )
 
 
 @pytest.mark.parametrize("endpoint", ["low", "high"])
@@ -350,37 +388,9 @@ def test_ai_hardware_svg_codifica_estado_con_forma_y_texto(name):
 
 @pytest.mark.parametrize("name", AI_SVG_NAMES)
 def test_ai_hardware_texto_permanece_dentro_del_lienzo_y_sin_solaparse(name):
-    """Las etiquetas de una sola línea deben caber y ocupar renglones distintos."""
+    """Cada renglón visible debe caber y quedar separado de los demás."""
     root = ET.parse(AI_ASSETS / name).getroot()
-    boxes = []
-    for node in root.iter("{http://www.w3.org/2000/svg}text"):
-        text = "".join(node.itertext())
-        size = float(node.attrib["font-size"])
-        # Aproximación conservadora para system-ui en Chromium; 0.52 dejaba
-        # pasar rótulos que el navegador recortaba en los últimos glifos.
-        width = len(text) * size * 0.62
-        x = float(node.attrib["x"])
-        anchor = node.attrib.get("text-anchor", "start")
-        if anchor == "middle":
-            left, right = x - width / 2, x + width / 2
-        elif anchor == "end":
-            left, right = x - width, x
-        else:
-            left, right = x, x + width
-        y = float(node.attrib["y"])
-        box = (left, y - size, right, y + size * 0.25, text)
-        assert left >= 8 and right <= 352, (
-            f"{name}: {text!r} sale del viewBox: x={left:.1f}..{right:.1f}"
-        )
-        boxes.append(box)
-
-    for index, first in enumerate(boxes):
-        for second in boxes[index + 1:]:
-            horizontal = min(first[2], second[2]) - max(first[0], second[0])
-            vertical = min(first[3], second[3]) - max(first[1], second[1])
-            assert horizontal <= 1 or vertical <= 1, (
-                f"{name}: textos solapados {first[4]!r} y {second[4]!r}"
-            )
+    _assert_ai_svg_text_geometry(root, name)
 
 
 def test_ai_hardware_svg_en_disco_coincide_y_es_determinista(tmp_path):
