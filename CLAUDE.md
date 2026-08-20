@@ -72,7 +72,7 @@ Sessions are **Tuesday and Thursday, 19:00–20:30**, from 2026-08-11 to 2026-12
 
 **Do not hand-write assignment dates as calendar events.** Every official object with `content.due` or `content.available` contributes its own occurrence automatically. Write the `assignment` once; the calendar derives it.
 
-Only `session-01` (`page: el-curso`) and `session-02` (`page: pipeline-de-datos`) carry a `page` reference. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
+Only `session-01` (`page: el-curso`), `session-02` (`page: pipeline-de-datos`), `session-03` (`page: arquitectura-de-computadoras`) and `session-04` (`page: software-libre-y-sistemas-operativos`) carry a `page` reference. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
 
 ## Images
 

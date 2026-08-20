@@ -1,0 +1,54 @@
+id: instalar-tu-sistema
+type: assignment
+authority: official
+content:
+  title: "Instalar Linux en tu propia máquina"
+  instructions: >-
+    Para la clase del martes 25 de agosto necesitas un sistema tipo Unix
+    funcionando y actualizado en la computadora con la que vas a trabajar el
+    resto del semestre. Sigue la guía de la unidad, que no te da pasos fijos
+    sino el método para averiguar los pasos que le corresponden a tu modelo
+    exacto. El objetivo es Linux instalado de verdad, en dual boot junto a
+    Windows; WSL2 se acepta si la instalación se atoró, y macOS ya cuenta
+    siempre que hayas hecho la configuración de la página de planes B.
+    Antes de empezar, respalda lo que no puedes perder y, si tu Windows tiene
+    BitLocker, descarga la clave de recuperación. El dual boot no borra
+    Windows, sólo le encoge el espacio libre.
+    Sube a Canvas una sola imagen o PDF con la evidencia:
+    (1) la salida de `neofetch` o de `inxi -Fxz` en tu terminal, donde se vea
+    el sistema y el modelo de tu equipo; (2) la salida de `python3 --version`;
+    y (3) un párrafo corto —cinco líneas bastan— que diga qué distribución
+    elegiste y por qué, qué fue lo que se te complicó y cómo lo resolviste.
+    Si algo quedó sin funcionar, dilo. Reportar el pendiente cuenta como
+    entrega completa; presumir que todo salió bien cuando no es cierto, no.
+    Evidencia en Canvas:
+    https://itam.instructure.com/courses/17979/assignments/225402
+  resources:
+    - title: "Guía completa de la unidad — Instalar Linux"
+      url: "https://rayalucaria.org/fdd_o26/software-libre-y-sistemas-operativos/instalar-linux/"
+      note: "Las cinco paradas, con los prompts para investigar tu propio hardware."
+    - title: "Ubuntu Desktop — descarga oficial"
+      url: "https://ubuntu.com/download/desktop"
+      note: "La respuesta por defecto si no quieres pensar la elección."
+    - title: "Linux Mint — descarga oficial"
+      url: "https://linuxmint.com/download.php"
+      note: "Buena opción si vienes de Windows; trae drivers y códecs de fábrica."
+    - title: "Fedora Workstation — descarga oficial"
+      url: "https://fedoraproject.org/workstation/"
+      note: "Preferible si tu hardware es muy reciente y necesita un kernel nuevo."
+    - title: "Rufus — grabar la USB en Windows"
+      url: "https://rufus.ie/"
+      note: "Recuerda GPT + UEFI en equipos de los últimos diez años."
+    - title: "balenaEtcher — grabar la USB en cualquier sistema"
+      url: "https://etcher.balena.io/"
+      note: "Alternativa con menos opciones que Rufus."
+    - title: "Instalar WSL2 — documentación de Microsoft"
+      url: "https://learn.microsoft.com/windows/wsl/install"
+      note: "El plan B. Guarda tus proyectos en /home, nunca en /mnt/c."
+    - title: "Homebrew — para quien tiene Mac"
+      url: "https://brew.sh/"
+      note: "El gestor de paquetes que macOS no trae."
+  due: "2026-08-25"
+  points: 20
+  status: published
+  tags: [linux, instalacion, dual-boot, wsl2, terminal, canvas]

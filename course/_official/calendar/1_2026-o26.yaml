@@ -33,7 +33,8 @@ events:
     date: "2026-08-20"
     start_time: "19:00"
     end_time: "20:30"
-    title: "Terminal"
+    title: "Software libre y sistemas operativos"
+    page: software-libre-y-sistemas-operativos
 
   - id: session-05
     kind: session
