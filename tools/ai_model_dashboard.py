@@ -5,9 +5,9 @@ returned here are intended for logarithmic charts, so every quantitative
 dataclass rejects non-positive values at its boundary.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from decimal import Decimal
-from typing import Iterable
+from typing import Iterable, Literal, Mapping
 
 
 POSITIVE_STATUSES = {"FACT", "DERIVED", "ESTIMATE", "SCENARIO"}
@@ -140,6 +140,122 @@ class PlotPoint:
         object.__setattr__(self, "low", low)
         object.__setattr__(self, "high", high)
         object.__setattr__(self, "source_ids", tuple(self.source_ids))
+
+
+@dataclass(frozen=True)
+class AbsenceSummary:
+    """Auditable count of cells deliberately excluded from a figure.
+
+    The count has a normalized ``UNDISCLOSED`` key so a reader need not know
+    the ledger's longer ``UNDISCLOSED_BY_CREATOR`` status to understand the
+    absence note.  It is metadata for the visual, never a plotted datum.
+    """
+
+    metric_id: str
+    counts: Mapping[str, int]
+    searched_on: str
+
+    def __post_init__(self):
+        if not self.metric_id or not self.searched_on:
+            raise ValueError("absence summaries require a metric and search date")
+        if any(count < 0 for count in self.counts.values()):
+            raise ValueError("absence summary counts cannot be negative")
+        # A copied dict remains JSON/asdict-friendly for the Markdown and SVG
+        # writer.  ``frozen`` protects replacement of the field at this layer.
+        object.__setattr__(self, "counts", dict(self.counts))
+
+
+@dataclass(frozen=True)
+class FigureRow:
+    """One serializable mark shared by a figure and its equivalent table."""
+
+    model_id: str
+    label: str
+    year: int
+    low: float
+    high: float
+    unit: str
+    status: str
+    confidence: str
+    scope: str
+    source_ids: tuple[str, ...]
+    x_offset: float = 0.0
+    cost_low: float | None = None
+    cost_high: float | None = None
+    frontier: Literal["safe", "possible", "dominated"] | None = None
+
+    def __post_init__(self):
+        if not all((self.model_id, self.label, self.unit, self.status, self.confidence, self.scope)):
+            raise ValueError("figure rows require traceability and visual metadata")
+        if isinstance(self.year, bool) or not isinstance(self.year, int) or self.year <= 0:
+            raise ValueError("figure row year must be a positive integer")
+        bounds = tuple(
+            _positive_finite_decimal(value, "figure row bounds")
+            for value in (self.low, self.high)
+        )
+        if bounds[0] > bounds[1]:
+            raise ValueError("figure row bounds must be ordered")
+        if isinstance(self.source_ids, str) or not isinstance(self.source_ids, tuple):
+            raise ValueError("figure row source_ids must be a tuple")
+        if not all(isinstance(source_id, str) and source_id for source_id in self.source_ids):
+            raise ValueError("figure row source_ids require non-empty strings")
+        if self.cost_low is not None or self.cost_high is not None:
+            if self.cost_low is None or self.cost_high is None:
+                raise ValueError("Pareto costs require both bounds")
+            costs = tuple(
+                _positive_finite_decimal(value, "Pareto cost bounds")
+                for value in (self.cost_low, self.cost_high)
+            )
+            if costs[0] > costs[1]:
+                raise ValueError("Pareto cost bounds must be ordered")
+            object.__setattr__(self, "cost_low", float(costs[0]))
+            object.__setattr__(self, "cost_high", float(costs[1]))
+        if self.frontier not in {None, "safe", "possible", "dominated"}:
+            raise ValueError("figure row frontier must be safe, possible, or dominated")
+        object.__setattr__(self, "low", float(bounds[0]))
+        object.__setattr__(self, "high", float(bounds[1]))
+        object.__setattr__(self, "x_offset", float(self.x_offset))
+
+
+@dataclass(frozen=True)
+class FigureSpec:
+    """A single source of truth for one plotted figure and both of its tables."""
+
+    figure_id: str
+    filename: str
+    route: Literal["essential", "annex"]
+    question: str
+    rows: tuple[FigureRow, ...]
+    compact_ids: tuple[str, ...]
+    direct_label_ids: tuple[str, ...]
+    x_scale: Literal["year", "log_cost"]
+    y_scale: Literal["linear", "log"]
+    absence: AbsenceSummary | None
+
+    def __post_init__(self):
+        if not self.figure_id or not self.filename or not self.question:
+            raise ValueError("figure specs require an identity, filename, and question")
+        if self.route not in {"essential", "annex"}:
+            raise ValueError("figure spec route must be essential or annex")
+        if self.x_scale not in {"year", "log_cost"} or self.y_scale not in {"linear", "log"}:
+            raise ValueError("figure spec scales must use the documented vocabulary")
+        if not isinstance(self.rows, tuple):
+            raise ValueError("figure spec rows must be a tuple")
+        model_ids = {row.model_id for row in self.rows}
+        if not set(self.compact_ids) <= model_ids:
+            raise ValueError("compact IDs must identify plotted rows")
+        if not set(self.direct_label_ids) <= model_ids:
+            raise ValueError("direct label IDs must identify plotted rows")
+        if self.route == "essential":
+            if len(self.rows) > 15:
+                raise ValueError("essential figures may contain at most 15 marks")
+            if len(self.direct_label_ids) > 5:
+                raise ValueError("essential figures may contain at most five direct labels")
+
+    @property
+    def compact_rows(self) -> tuple[FigureRow, ...]:
+        """Rows for the compact table, always a subset of the plotted rows."""
+        return tuple(row for row in self.rows if row.model_id in self.compact_ids)
 
 
 @dataclass(frozen=True)
@@ -501,4 +617,269 @@ def pareto_frontier(points: list[ParetoPoint]) -> ParetoResult:
     return ParetoResult(
         safe_ids=tuple(point.model_id for point in sorted(safe, key=order)),
         possible_ids=tuple(point.model_id for point in sorted(possible, key=order)),
+    )
+
+
+def _corpus_parts(corpus: dict) -> tuple[dict, dict]:
+    """Accept the combined corpus while keeping the view-model pure.
+
+    ``ledger``/``eci`` are the names used by the generator.  The aliases make
+    the boundary clear for callers that name their checked-in sources rather
+    than their roles.
+    """
+    if "dashboard_models" in corpus:
+        ledger = corpus
+        eci = corpus.get("eci")
+    else:
+        ledger = corpus.get("ledger") or corpus.get("hardware_costs")
+        eci = corpus.get("eci") or corpus.get("eci_snapshot")
+    if not isinstance(ledger, dict) or not isinstance(eci, dict):
+        raise ValueError("dashboard corpus requires ledger and eci mappings")
+    return ledger, eci
+
+
+def _row_from_point(point: PlotPoint, *, x_offset: float = 0.0) -> FigureRow:
+    """Convert an existing positive derivation without recalculating it."""
+    return FigureRow(
+        model_id=point.model_id,
+        label=point.label,
+        year=point.year,
+        low=float(point.low if point.low is not None else point.value),
+        high=float(point.high if point.high is not None else point.value),
+        unit=point.unit,
+        status=point.status,
+        confidence=point.confidence,
+        scope=point.claim_scope,
+        source_ids=point.source_ids,
+        x_offset=x_offset,
+    )
+
+
+def _temporal_rows(points: Iterable[PlotPoint]) -> tuple[FigureRow, ...]:
+    """Sort points and spread ties symmetrically within their exact year."""
+    ordered = tuple(_row_from_point(point) for point in _ordered(points))
+    return _with_symmetric_offsets(ordered)
+
+
+def _with_symmetric_offsets(rows: tuple[FigureRow, ...]) -> tuple[FigureRow, ...]:
+    """Apply tie offsets after every deterministic selection step."""
+    offset_rows = []
+    for year in sorted({row.year for row in rows}):
+        group = [row for row in rows if row.year == year]
+        center = (len(group) - 1) / 2
+        for index, row in enumerate(group):
+            # A narrow, stable offset prevents overplotting without claiming a
+            # different publication year.  It is intentionally not random.
+            offset_rows.append(replace(row, x_offset=(index - center) * 0.12))
+    return tuple(offset_rows)
+
+
+def _select_essential_rows(rows: tuple[FigureRow, ...]) -> tuple[FigureRow, ...]:
+    """Keep chronological teaching marks within the 15-mark reading limit."""
+    return _with_symmetric_offsets(rows[:15])
+
+
+def _compact_ids(rows: tuple[FigureRow, ...]) -> tuple[str, ...]:
+    """Choose the first stable model set that yields four to six table rows."""
+    selected: list[str] = []
+    for row in rows:
+        if row.model_id in selected:
+            continue
+        candidate = (*selected, row.model_id)
+        count = sum(item.model_id in candidate for item in rows)
+        if count > 6:
+            continue
+        selected.append(row.model_id)
+        if count >= 4:
+            return tuple(selected)
+    return tuple(selected)
+
+
+def _y_scale(rows: tuple[FigureRow, ...]) -> Literal["linear", "log"]:
+    """Use log only for positive data spanning at least two orders of magnitude."""
+    if not rows:
+        return "linear"
+    low = min(row.low for row in rows)
+    high = max(row.high for row in rows)
+    return "log" if low > 0 and high / low >= 100 else "linear"
+
+
+def _absence_summary(ledger: dict, metric_id: str) -> AbsenceSummary:
+    """Count audited negative cells without transforming any into a number."""
+    status_keys = {
+        "UNDISCLOSED_BY_CREATOR": "UNDISCLOSED",
+        "NOT_FOUND": "NOT_FOUND",
+        "ESTIMATION_NOT_IDENTIFIABLE": "ESTIMATION_NOT_IDENTIFIABLE",
+    }
+    counts = {key: 0 for key in status_keys.values()}
+    for model in ledger.get("dashboard_models", ()):
+        cell = model.get("metrics", {}).get(metric_id, {})
+        normalized = status_keys.get(cell.get("status"))
+        if normalized:
+            counts[normalized] += 1
+    return AbsenceSummary(
+        metric_id=metric_id,
+        counts=counts,
+        searched_on=str(ledger.get("cutoff", "unknown")),
+    )
+
+
+def _pareto_rows(ledger: dict, eci: dict) -> tuple[FigureRow, ...]:
+    """Build interval Pareto rows from the same capex and ECI bounds we plot."""
+    score_by_model = {
+        row["benchmark_model_id"]
+        : row
+        for row in eci.get("models", ())
+        if row.get("pareto_eligible")
+    }
+    model_by_id = {model["id"]: model for model in ledger.get("dashboard_models", ())}
+    capex_by_model = {
+        point.model_id: point
+        for point in build_inference_series(ledger, CapacityScenario())["accelerator_capex_scenario"]
+        if point.model_id in score_by_model
+    }
+    inputs = [
+        ParetoPoint(
+            model_id=model_id,
+            cost_low=point.low if point.low is not None else point.value,
+            cost_high=point.high if point.high is not None else point.value,
+            score_low=score_by_model[model_id]["score_low"],
+            score_high=score_by_model[model_id]["score_high"],
+        )
+        for model_id, point in capex_by_model.items()
+    ]
+    frontier = pareto_frontier(inputs)
+    safe_ids = set(frontier.safe_ids)
+    possible_ids = set(frontier.possible_ids)
+    score_source = eci.get("snapshot", {}).get("scores_source_id", "S_EPOCH_ECI_SCORES")
+    rows = []
+    for point in sorted(inputs, key=lambda item: (item.cost_low, item.model_id)):
+        capex = capex_by_model[point.model_id]
+        model = model_by_id[point.model_id]
+        membership = (
+            "safe" if point.model_id in safe_ids else
+            "possible" if point.model_id in possible_ids else
+            "dominated"
+        )
+        rows.append(
+            FigureRow(
+                model_id=point.model_id,
+                label="ECI",
+                year=int(model["year"]["value"]),
+                low=float(point.score_low),
+                high=float(point.score_high),
+                unit="ECI",
+                status=capex.status,
+                confidence=capex.confidence,
+                scope=f"{capex.claim_scope};eci_exact_variant",
+                source_ids=tuple(dict.fromkeys((*capex.source_ids, score_source))),
+                cost_low=float(point.cost_low),
+                cost_high=float(point.cost_high),
+                frontier=membership,
+            )
+        )
+    return tuple(rows)
+
+
+def _spec(
+    *,
+    figure_id: str,
+    filename: str,
+    route: Literal["essential", "annex"],
+    question: str,
+    rows: tuple[FigureRow, ...],
+    x_scale: Literal["year", "log_cost"] = "year",
+    absence: AbsenceSummary | None = None,
+) -> FigureSpec:
+    if route == "essential" and figure_id != "pareto_inference":
+        rows = _select_essential_rows(rows)
+    compact_ids = _compact_ids(rows)
+    return FigureSpec(
+        figure_id=figure_id,
+        filename=filename,
+        route=route,
+        question=question,
+        rows=rows,
+        compact_ids=compact_ids,
+        direct_label_ids=compact_ids[:5],
+        x_scale=x_scale,
+        y_scale=_y_scale(rows),
+        absence=absence,
+    )
+
+
+def build_figure_specs(corpus: dict) -> tuple[FigureSpec, ...]:
+    """Return the deterministic, shared view-model for the nine dashboard views."""
+    ledger, eci = _corpus_parts(corpus)
+    training = build_training_series(ledger)
+    inference = build_inference_series(ledger, CapacityScenario())
+
+    return (
+        _spec(
+            figure_id="parameters",
+            filename="ai-dashboard-parameters.svg",
+            route="essential",
+            question="¿Cuántos parámetros almacena o activa el modelo?",
+            rows=_temporal_rows(training["parameters_total_active"]),
+        ),
+        _spec(
+            figure_id="training_flop",
+            filename="ai-dashboard-training-flop.svg",
+            route="essential",
+            question="¿Cuánto trabajo requirió el entrenamiento?",
+            rows=_temporal_rows(training["training_flop"]),
+            absence=_absence_summary(ledger, "training_flop"),
+        ),
+        _spec(
+            figure_id="artifact_or_weight_floor",
+            filename="ai-dashboard-inference-memory.svg",
+            route="essential",
+            question="¿Cuánta memoria mínima requieren los pesos?",
+            rows=_temporal_rows(inference["artifact_or_weight_floor"]),
+            absence=_absence_summary(ledger, "artifact_bytes"),
+        ),
+        _spec(
+            figure_id="h100_capacity_floor",
+            filename="ai-dashboard-inference-hardware.svg",
+            route="essential",
+            question="¿Qué hardware mínimo sugiere ese piso?",
+            rows=_temporal_rows(inference["h100_capacity_equivalents"]),
+        ),
+        _spec(
+            figure_id="pareto_inference",
+            filename="ai-dashboard-pareto-inference.svg",
+            route="essential",
+            question="¿Qué opciones quedan en la frontera costo–ECI?",
+            rows=_pareto_rows(ledger, eci),
+            x_scale="log_cost",
+        ),
+        _spec(
+            figure_id="training_accelerators",
+            filename="ai-dashboard-training-accelerators.svg",
+            route="annex",
+            question="¿Qué flotas concurrentes de entrenamiento están documentadas?",
+            rows=_temporal_rows(training["accelerators_and_hours"]),
+            absence=_absence_summary(ledger, "accelerators_concurrent"),
+        ),
+        _spec(
+            figure_id="training_replacement_value",
+            filename="ai-dashboard-training-replacement.svg",
+            route="annex",
+            question="¿Cuál es el valor de reemplazo común de las flotas documentadas?",
+            rows=_temporal_rows(training["replacement_value"]),
+        ),
+        _spec(
+            figure_id="inference_tdp_floor",
+            filename="ai-dashboard-inference-power.svg",
+            route="annex",
+            question="¿Qué potencia accelerator-only sugiere el piso de capacidad?",
+            rows=_temporal_rows(inference["accelerator_tdp_scenario"]),
+        ),
+        _spec(
+            figure_id="inference_capex_floor",
+            filename="ai-dashboard-inference-capex.svg",
+            route="annex",
+            question="¿Qué CAPEX accelerator-only sugiere el piso de capacidad?",
+            rows=_temporal_rows(inference["accelerator_capex_scenario"]),
+        ),
     )
