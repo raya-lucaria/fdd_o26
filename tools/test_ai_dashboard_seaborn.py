@@ -336,25 +336,90 @@ def test_axes_use_pedagogical_units_and_complete_year_ticks(figure_specs):
             plt.close(fig)
 
 
-def test_generator_forces_reproducible_locale_and_timezone():
-    """Inherited TZ/locale settings must not change labels or SVG bytes."""
-    env = {**os.environ, "TZ": "Pacific/Honolulu", "LC_ALL": "C"}
-    result = subprocess.run(
-        [
-            sys.executable,
-            "-c",
-            "import os; import tools.gen_ai_model_dashboard; "
-            "print(os.environ['TZ'], os.environ['LC_ALL'])",
-        ],
-        cwd=Path(__file__).resolve().parents[1],
-        env=env,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
+def test_generator_applies_locale_and_is_hostile_process_deterministic(tmp_path):
+    """A hostile process locale must be changed, then produce identical SVGs."""
+    script = """
+import hashlib
+import locale
+from pathlib import Path
+import sys
+from tools.gen_ai_model_dashboard import DATA_PATH, ECI_PATH, render_dashboard
 
-    assert result.returncode == 0, result.stderr
-    assert result.stdout.strip() == "UTC C.UTF-8"
+paths = render_dashboard(DATA_PATH, ECI_PATH, Path(sys.argv[1]))
+assert locale.setlocale(locale.LC_ALL) == "C.UTF-8"
+print(" ".join(hashlib.sha256(path.read_bytes()).hexdigest() for path in paths))
+"""
+    outputs = []
+    for inherited_locale in ("C", "C.UTF-8"):
+        env = {
+            **os.environ,
+            "TZ": "Pacific/Honolulu",
+            "LC_ALL": inherited_locale,
+        }
+        result = subprocess.run(
+            [sys.executable, "-c", script, str(tmp_path / inherited_locale)],
+            cwd=Path(__file__).resolve().parents[1],
+            env=env,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        assert result.returncode == 0, result.stderr
+        outputs.append(result.stdout.strip())
+
+    assert outputs[0] == outputs[1]
+    assert len(outputs[0].split()) == len(EXPECTED_FILENAMES)
+
+
+def test_dense_legends_use_at_most_two_rows_at_334px(tmp_path, figure_specs):
+    """Role and frontier legends must stay compact without leaving the SVG."""
+    from playwright.sync_api import sync_playwright
+
+    dense_ids = {"parameters", "artifact_or_weight_floor", "pareto_inference"}
+    paths = []
+    for spec in figure_specs:
+        if spec.figure_id in dense_ids:
+            path = tmp_path / spec.filename
+            write_svg(spec, path)
+            paths.append(path)
+
+    failures = []
+    with sync_playwright() as runtime:
+        browser = runtime.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 334, "height": 900})
+        for path in paths:
+            page.set_content(
+                "<style>html,body,main{margin:0;width:334px}"
+                "svg{display:block;width:334px;height:auto}</style>"
+                f"<main>{path.read_text(encoding='utf-8')}</main>"
+            )
+            layout = page.locator("svg").evaluate(
+                """svg => {
+                  const root=svg.getBoundingClientRect();
+                  const nodes=[...svg.querySelectorAll(
+                    '[id^="status-legend-"] text,'+
+                    '[id^="role-legend-"] text,'+
+                    '[id^="frontier-legend-"] text')];
+                  const boxes=nodes.map(node => node.getBoundingClientRect());
+                  const centers=boxes.map(box => (box.top+box.bottom)/2)
+                    .sort((a,b) => a-b);
+                  const rows=[];
+                  for(const center of centers)
+                    if(!rows.length || center-rows.at(-1)>2) rows.push(center);
+                  return {
+                    count:nodes.length,
+                    rows:rows.length,
+                    out:boxes.some(box => box.left<root.left-1 ||
+                      box.right>root.right+1 || box.top<root.top-1 ||
+                      box.bottom>root.bottom+1)
+                  };
+                }"""
+            )
+            if layout["count"] != 4 or layout["rows"] > 2 or layout["out"]:
+                failures.append((path.name, layout))
+        browser.close()
+
+    assert not failures
 
 
 @pytest.mark.parametrize("width", [334, 600])

@@ -227,29 +227,29 @@
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m6621826aeb" style="stroke: #cc79a7; stroke-width: 3" />
           </defs>
           <g>
-            <use style="fill-opacity: 0; stroke: #cc79a7; stroke-width: 3" x="122.6" y="169.7685" xlink:href="#m6621826aeb" />
+            <use style="fill-opacity: 0; stroke: #cc79a7; stroke-width: 3" x="26.16" y="212.155" xlink:href="#m6621826aeb" />
           </g>
         </g>
         <g id="status-legend-00">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 175.3685)" x="144.2" y="175.3685">SCENARIO</text>
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 37.36 217.755)" x="37.36" y="217.755">SCENARIO</text>
         </g>
         <g id="patch_5">
-          <path d="M 106.6 199.36975  L 138.6 199.36975  L 138.6 188.16975  L 106.6 188.16975  z " style="fill: #ffffff; stroke: #0072b2; stroke-width: 2; stroke-linejoin: miter" />
+          <path d="M 19.76 241.75625  L 32.56 241.75625  L 32.56 230.55625  L 19.76 230.55625  z " style="fill: #ffffff; stroke: #0072b2; stroke-width: 2; stroke-linejoin: miter" />
         </g>
         <g id="frontier-legend-01">
-          <text data-frontier-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 199.36975)" x="144.2" y="199.36975">segura</text>
+          <text data-frontier-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 37.36 241.75625)" x="37.36" y="241.75625">segura</text>
         </g>
         <g id="patch_6">
-          <path d="M 106.6 223.371  L 138.6 223.371  L 138.6 212.171  L 106.6 212.171  z " style="fill: #ffffff; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #e69f00; stroke-width: 2; stroke-linejoin: miter" />
+          <path d="M 216.755 217.755  L 229.555 217.755  L 229.555 206.555  L 216.755 206.555  z " style="fill: #ffffff; stroke-dasharray: 7.4,3.2; stroke-dashoffset: 0; stroke: #e69f00; stroke-width: 2; stroke-linejoin: miter" />
         </g>
         <g id="frontier-legend-02">
-          <text data-frontier-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 223.371)" x="144.2" y="223.371">posible</text>
+          <text data-frontier-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 234.355 217.755)" x="234.355" y="217.755">posible</text>
         </g>
         <g id="patch_7">
-          <path d="M 106.6 247.37225  L 138.6 247.37225  L 138.6 236.17225  L 106.6 236.17225  z " style="fill: #ffffff; stroke-dasharray: 2,3.3; stroke-dashoffset: 0; stroke: #6b7280; stroke-width: 2; stroke-linejoin: miter" />
+          <path d="M 216.755 241.75625  L 229.555 241.75625  L 229.555 230.55625  L 216.755 230.55625  z " style="fill: #ffffff; stroke-dasharray: 2,3.3; stroke-dashoffset: 0; stroke: #6b7280; stroke-width: 2; stroke-linejoin: miter" />
         </g>
         <g id="frontier-legend-03">
-          <text data-frontier-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 247.37225)" x="144.2" y="247.37225">dominada</text>
+          <text data-frontier-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 234.355 241.75625)" x="234.355" y="241.75625">dominada</text>
         </g>
       </g>
       <g id="pareto-key-000">

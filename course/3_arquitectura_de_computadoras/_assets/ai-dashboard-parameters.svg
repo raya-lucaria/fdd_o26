@@ -269,44 +269,44 @@
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m8f8a7128be" style="stroke: #0072b2; stroke-width: 1.2" />
           </defs>
           <g>
-            <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="122.6" y="169.7685" xlink:href="#m8f8a7128be" />
+            <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="26.16" y="212.155" xlink:href="#m8f8a7128be" />
           </g>
         </g>
         <g id="status-legend-00">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 175.3685)" x="144.2" y="175.3685">FACT</text>
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 37.36 217.755)" x="37.36" y="217.755">FACT</text>
         </g>
         <g id="line2d_14">
           <defs>
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m4a1dc5dc3a" style="stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" />
           </defs>
           <g>
-            <use style="fill: #009e73; fill-opacity: 0.5; stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" x="122.6" y="193.76975" xlink:href="#m4a1dc5dc3a" />
+            <use style="fill: #009e73; fill-opacity: 0.5; stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" x="26.16" y="236.15625" xlink:href="#m4a1dc5dc3a" />
           </g>
         </g>
         <g id="status-legend-01">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 199.36975)" x="144.2" y="199.36975">DERIVED</text>
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 37.36 241.75625)" x="37.36" y="241.75625">DERIVED</text>
         </g>
         <g id="line2d_15">
           <defs>
             <path d="M -4 4  L 4 4  L 4 -4  L -4 -4  z " id="m063b207468" style="stroke: #374151; stroke-linejoin: miter" />
           </defs>
           <g>
-            <use style="fill: #ffffff; stroke: #374151; stroke-linejoin: miter" x="122.6" y="217.771" xlink:href="#m063b207468" />
+            <use style="fill: #ffffff; stroke: #374151; stroke-linejoin: miter" x="254.46" y="212.155" xlink:href="#m063b207468" />
           </g>
         </g>
         <g id="role-legend-02">
-          <text data-role-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 223.371)" x="144.2" y="223.371">total</text>
+          <text data-role-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 265.66 217.755)" x="265.66" y="217.755">total</text>
         </g>
         <g id="line2d_16">
           <defs>
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m12ddda5077" style="stroke: #374151" />
           </defs>
           <g>
-            <use style="fill: #ffffff; stroke: #374151" x="122.6" y="241.77225" xlink:href="#m12ddda5077" />
+            <use style="fill: #ffffff; stroke: #374151" x="254.46" y="236.15625" xlink:href="#m12ddda5077" />
           </g>
         </g>
         <g id="role-legend-03">
-          <text data-role-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 247.37225)" x="144.2" y="247.37225">activo</text>
+          <text data-role-legend="true" style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 265.66 241.75625)" x="265.66" y="241.75625">activo</text>
         </g>
       </g>
     </g>

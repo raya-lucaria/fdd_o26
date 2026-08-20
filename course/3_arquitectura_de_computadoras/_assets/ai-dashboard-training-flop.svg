@@ -257,22 +257,22 @@
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m4a1dc5dc3a" style="stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" />
           </defs>
           <g>
-            <use style="fill: #009e73; fill-opacity: 0.5; stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" x="122.6" y="217.771" xlink:href="#m4a1dc5dc3a" />
+            <use style="fill: #009e73; fill-opacity: 0.5; stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" x="26.16" y="236.15625" xlink:href="#m4a1dc5dc3a" />
           </g>
         </g>
         <g id="status-legend-00">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 223.371)" x="144.2" y="223.371">DERIVED</text>
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 37.36 241.75625)" x="37.36" y="241.75625">DERIVED</text>
         </g>
         <g id="line2d_16">
           <defs>
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m961d4d5222" style="stroke: #d55e00; stroke-width: 2.3" />
           </defs>
           <g>
-            <use style="fill-opacity: 0; stroke: #d55e00; stroke-width: 2.3" x="122.6" y="241.77225" xlink:href="#m961d4d5222" />
+            <use style="fill-opacity: 0; stroke: #d55e00; stroke-width: 2.3" x="224.89" y="236.15625" xlink:href="#m961d4d5222" />
           </g>
         </g>
         <g id="status-legend-01">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 247.37225)" x="144.2" y="247.37225">ESTIMATE</text>
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 236.09 241.75625)" x="236.09" y="241.75625">ESTIMATE</text>
         </g>
       </g>
     </g>

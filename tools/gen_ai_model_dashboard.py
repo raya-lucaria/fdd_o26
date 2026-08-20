@@ -9,6 +9,7 @@ numerical derivations remain in :mod:`ai_model_dashboard`.
 from __future__ import annotations
 
 import math
+import locale
 import os
 from pathlib import Path
 import sys
@@ -17,6 +18,7 @@ import xml.etree.ElementTree as ET
 
 os.environ["TZ"] = "UTC"
 os.environ["LC_ALL"] = "C.UTF-8"
+locale.setlocale(locale.LC_ALL, "C.UTF-8")
 
 import matplotlib
 
@@ -471,12 +473,15 @@ def _add_legends(ax, spec: FigureSpec) -> None:
     legend = ax.legend(
         handles=handles,
         loc="lower left",
-        bbox_to_anchor=(0, 1.06),
+        bbox_to_anchor=(0.04, 0.65, 0.92, 0),
+        bbox_transform=ax.figure.transFigure,
         frameon=False,
-        ncols=1,
+        ncols=2,
+        mode="expand",
         borderaxespad=0,
-        handletextpad=0.35,
-        columnspacing=0.85,
+        handlelength=0.8,
+        handletextpad=0.3,
+        columnspacing=0.7,
     )
     status_labels = set(present)
     role_labels = set(ROLE_LEGENDS.get(spec.figure_id, {}).values())
