@@ -1055,14 +1055,15 @@ def _sentinel(spec: FigureSpec, content: str) -> str:
 
 
 def _compact_table(spec: FigureSpec, names: dict[str, str]) -> str:
-    if spec.figure_id == "pareto_inference":
-        lines = ["| Clave | Modelo | Lectura |", "|---:|---|---|"]
-    else:
-        lines = ["| Modelo | Lectura |", "|---|---|"]
+    lines = ["| Modelo | Lectura |", "|---|---|"]
     for row in spec.compact_rows:
-        cells = [f"**{_escape_cell(names[row.model_id])}**", _escape_cell(_compact_reading(spec, row))]
+        name = names[row.model_id]
         if spec.figure_id == "pareto_inference":
-            cells.insert(0, str(spec.rows.index(row) + 1))
+            name = f"{spec.rows.index(row) + 1} · {name}"
+        cells = [
+            f"**{_escape_cell(name)}**",
+            _escape_cell(_compact_reading(spec, row)),
+        ]
         lines.append("| " + " | ".join(cells) + " |")
     return "\n".join(lines)
 

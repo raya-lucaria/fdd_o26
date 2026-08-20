@@ -143,15 +143,17 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
                 page, "5-qu-opciones-quedan-en-la-frontera-costoeci"
             )
             assert pareto.locator("th").all_inner_texts() == [
-                "Clave", "Modelo", "Lectura"
+                "Modelo", "Lectura"
+            ]
+            assert pareto.locator("tbody tr td:first-child").all_inner_texts() == [
+                "1 · Gemma 2 27B",
+                "2 · Gemma 3 27B",
+                "3 · Gemma 7B",
+                "4 · Llama 3.1-8B",
             ]
             pareto_spec = next(
                 spec for spec in essential if spec.figure_id == "pareto_inference"
             )
-            assert pareto.locator("tbody tr td:first-child").all_inner_texts() == [
-                str(pareto_spec.rows.index(row) + 1)
-                for row in pareto_spec.compact_rows
-            ]
             key_text = page.locator(
                 "p", has_text="Clave de la gráfica:"
             ).inner_text()

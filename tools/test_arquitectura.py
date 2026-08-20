@@ -405,7 +405,7 @@ def test_dashboard_main_route_is_mobile_scannable():
         if not line.startswith("|") or not lines[index + 1].startswith("|---"):
             continue
         columns = len(line.strip().strip("|").split("|"))
-        if columns > 2 and line != "| Clave | Modelo | Lectura |":
+        if columns > 2:
             wide_headers.append((line, columns))
     assert not wide_headers, wide_headers
     for paragraph in re.split(r"\n\s*\n", section):
@@ -446,17 +446,14 @@ def test_dashboard_blocks_keep_teaching_sequence_and_generated_tables():
             assert block.index(spec.filename) < block.index("**Conclusión:**")
             assert block.index("**Conclusión:**") < block.index("**Di esto:**")
             assert block.index("**Di esto:**") < block.index("**No concluyas esto:**")
-            table_header = (
-                "| Clave | Modelo | Lectura |"
-                if spec.figure_id == "pareto_inference"
-                else "| Modelo | Lectura |"
-            )
+            table_header = "| Modelo | Lectura |"
             assert block.index("**No concluyas esto:**") < block.index(table_header)
             table_lines = block.split(table_header, 1)[1].split("\n\n", 1)[0].splitlines()
             assert len(table_lines) - 2 == len(spec.compact_rows)
             assert 4 <= len(spec.compact_rows) <= 6
             if spec.figure_id == "pareto_inference":
                 assert "**Clave de la gráfica:** " in block
+                assert "| **1 · Gemma 2 27B** |" in block
             target = (
                 f"raya:evidencia-dashboard-ia#"
                 f"{DASHBOARD_TABLE_ANCHORS[spec.figure_id]}"

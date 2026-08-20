@@ -309,12 +309,12 @@ Una comparación defendible nombra siempre su frontera: variante exacta, fecha d
 
 **Conclusión:** Con costo y ECI declarados, hay opciones seguras, posibles o dominadas. **Di esto:** Dominar es costar no más y tener ECI no menor, con rangos incluidos. **No concluyas esto:** ECI no es IQ ni selecciona el mejor modelo universal.
 
-| Clave | Modelo | Lectura |
-|---:|---|---|
-| 1 | **Gemma 2 27B** | ECI 115.4–124.27; USD 30,000; frontera dominada, **SCENARIO** |
-| 2 | **Gemma 3 27B** | ECI 124.67–133.1; USD 30,000; frontera segura, **SCENARIO** |
-| 3 | **Gemma 7B** | ECI 101.34–115.86; USD 30,000; frontera dominada, **SCENARIO** |
-| 4 | **Llama 3.1-8B** | ECI 105.01–121.29; USD 30,000; frontera dominada, **SCENARIO** |
+| Modelo | Lectura |
+|---|---|
+| **1 · Gemma 2 27B** | ECI 115.4–124.27; USD 30,000; frontera dominada, **SCENARIO** |
+| **2 · Gemma 3 27B** | ECI 124.67–133.1; USD 30,000; frontera segura, **SCENARIO** |
+| **3 · Gemma 7B** | ECI 101.34–115.86; USD 30,000; frontera dominada, **SCENARIO** |
+| **4 · Llama 3.1-8B** | ECI 105.01–121.29; USD 30,000; frontera dominada, **SCENARIO** |
 
 **Límite:** Sólo vale para estas variantes, snapshot y frontera de costo. Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-pareto-inferencia) para año, rango, confianza y fuentes.
 
