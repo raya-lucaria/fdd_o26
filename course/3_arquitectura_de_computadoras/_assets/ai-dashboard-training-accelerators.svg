@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="training_accelerators-title training_accelerators-desc" data-figure-id="training_accelerators" data-route="annex" height="345.6pt" role="img" style="max-width:100%;height:auto" version="1.1" viewBox="0 0 518.4 345.6" width="518.4pt">
+  <title id="training_accelerators-title">¿Qué flotas concurrentes de entrenamiento están documentadas?</title>
+  <desc id="training_accelerators-desc">¿Qué flotas concurrentes de entrenamiento están documentadas? La figura contiene 8 observaciones. El eje vertical usa escala logarítmica; no hay líneas que unan modelos. Ausencias auditadas (2026-08-18): UNDISCLOSED: 35. No se grafican como cero.</desc>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>fdd-o26-ai-dashboard</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs>
+    <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+  </defs>
+  <g id="figure_1">
+    <g id="patch_1">
+      <path d="M 0 345.6  L 518.4 345.6  L 518.4 0  L 0 0  z " style="fill: #ffffff" />
+    </g>
+    <g id="axes_1">
+      <g id="patch_2">
+        <path d="M 98.496 276.48  L 502.848 276.48  L 502.848 79.488  L 98.496 79.488  z " style="fill: #ffffff" />
+      </g>
+      <g id="matplotlib.axis_1">
+        <g id="xtick_1">
+          <g id="line2d_1">
+            <path clip-path="url(#pcc0901efd0)" d="M 174.312 276.48  L 174.312 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_1">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 174.312 295.856953)" x="174.312" y="295.856953">2022</text>
+          </g>
+        </g>
+        <g id="xtick_2">
+          <g id="line2d_2">
+            <path clip-path="url(#pcc0901efd0)" d="M 427.032 276.48  L 427.032 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_2">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 427.032 295.856953)" x="427.032" y="295.856953">2024</text>
+          </g>
+        </g>
+        <g id="text_3">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 315.7775)" x="300.672" y="315.7775">Año de publicación</text>
+        </g>
+      </g>
+      <g id="matplotlib.axis_2">
+        <g id="ytick_1">
+          <g id="line2d_3">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 252.348903  L 502.848 252.348903  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_4">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 257.287888)" x="88.996" y="257.287888">1.0 mil</text>
+          </g>
+        </g>
+        <g id="ytick_2">
+          <g id="line2d_4">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 215.836864  L 502.848 215.836864  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_5">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 220.775848)" x="88.996" y="220.775848">10 mil</text>
+          </g>
+        </g>
+        <g id="ytick_3">
+          <g id="line2d_5">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 179.324824  L 502.848 179.324824  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_6">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 184.263809)" x="88.996" y="184.263809">100 mil</text>
+          </g>
+        </g>
+        <g id="ytick_4">
+          <g id="line2d_6">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 142.812785  L 502.848 142.812785  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_7">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 147.751261)" x="88.996" y="147.751261">1.0 M</text>
+          </g>
+        </g>
+        <g id="ytick_5">
+          <g id="line2d_7">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 106.300745  L 502.848 106.300745  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_8">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 111.239222)" x="88.996" y="111.239222">10 M</text>
+          </g>
+        </g>
+        <g id="ytick_6" />
+        <g id="ytick_7" />
+        <g id="ytick_8" />
+        <g id="ytick_9" />
+        <g id="ytick_10" />
+        <g id="ytick_11" />
+        <g id="ytick_12" />
+        <g id="ytick_13" />
+        <g id="ytick_14" />
+        <g id="ytick_15" />
+        <g id="ytick_16" />
+        <g id="ytick_17" />
+        <g id="ytick_18" />
+        <g id="ytick_19" />
+        <g id="ytick_20" />
+        <g id="ytick_21" />
+        <g id="ytick_22" />
+        <g id="ytick_23" />
+        <g id="ytick_24" />
+        <g id="ytick_25" />
+        <g id="ytick_26" />
+        <g id="ytick_27" />
+        <g id="ytick_28" />
+        <g id="ytick_29" />
+        <g id="ytick_30" />
+        <g id="ytick_31" />
+        <g id="ytick_32" />
+        <g id="ytick_33" />
+        <g id="ytick_34" />
+        <g id="ytick_35" />
+        <g id="ytick_36" />
+        <g id="ytick_37" />
+        <g id="ytick_38" />
+        <g id="ytick_39" />
+        <g id="ytick_40" />
+        <g id="ytick_41" />
+        <g id="ytick_42" />
+        <g id="ytick_43" />
+        <g id="ytick_44" />
+        <g id="ytick_45" />
+        <g id="ytick_46" />
+        <g id="ytick_47" />
+        <g id="ytick_48" />
+        <g id="text_9">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-90 32.321 177.984)" x="32.321" y="177.984">Aceleradores / horas</text>
+        </g>
+      </g>
+      <g id="patch_3">
+        <path d="M 98.496 276.48  L 98.496 79.488  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+      </g>
+      <g id="patch_4">
+        <path d="M 98.496 276.48  L 502.848 276.48  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+      </g>
+      <g id="text_10">
+        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(150.007937 21.922805)">¿Qué flotas concurrentes de</text>
+        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(100.610906 45.488)">entrenamiento están documentadas?</text>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="384" data-low="384" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="concurrent accelerators" data-row-index="0" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="A100_80GB_GPU" data-value="384" id="mark-000">
+        <defs>
+          <path d="M 0 5.123475  C 1.358762 5.123475 2.662055 4.583634 3.622844 3.622844  C 4.583634 2.662055 5.123475 1.358762 5.123475 0  C 5.123475 -1.358762 4.583634 -2.662055 3.622844 -3.622844  C 2.662055 -4.583634 1.358762 -5.123475 0 -5.123475  C -1.358762 -5.123475 -2.662055 -4.583634 -3.622844 -3.622844  C -4.583634 -2.662055 -5.123475 -1.358762 -5.123475 0  C -5.123475 1.358762 -4.583634 2.662055 -3.622844 3.622844  C -2.662055 4.583634 -1.358762 5.123475 0 5.123475  z " id="maf1987dd95" style="stroke: #0072b2; stroke-width: 1.2" />
+        </defs>
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="151.5672" y="267.525818" xlink:href="#maf1987dd95" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="1082990" data-low="1082990" data-marker="s" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="accelerator-hours" data-row-index="1" data-source-ids="S_BIGSCIENCE_BLOOM_CARBON" data-status="FACT" data-status-style="solid-fill" data-unit="A100_GPU_hour" data-value="1082990" id="mark-001">
+        <defs>
+          <path d="M -5.123475 5.123475  L 5.123475 5.123475  L 5.123475 -5.123475  L -5.123475 -5.123475  z " id="m2350a1475a" style="stroke: #0072b2; stroke-width: 1.2" />
+        </defs>
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="166.7304" y="141.548575" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="6144" data-low="6144" data-marker="o" data-model-id="DM_PALM_540B" data-quantitative="true" data-role="concurrent accelerators" data-row-index="2" data-source-ids="S_GOOGLE_PALM_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="TPU_v4_chip_peak" data-value="6144" id="mark-002">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="181.8936" y="223.560942" xlink:href="#maf1987dd95" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="medium" data-high="8404992" data-low="8404992" data-marker="s" data-model-id="DM_PALM_540B" data-quantitative="true" data-role="accelerator-hours" data-row-index="3" data-source-ids="S_GOOGLE_PALM_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="TPU_v4_chip_hour" data-value="8404992" id="mark-003">
+        <defs>
+          <path d="M -5.123475 5.123475  L 5.123475 5.123475  L 5.123475 -5.123475  L -5.123475 -5.123475  z " id="m216bb4ee12" style="stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" />
+        </defs>
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="197.0568" y="109.056042" xlink:href="#m216bb4ee12" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="2048" data-low="2048" data-marker="o" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="concurrent accelerators" data-row-index="4" data-source-ids="S_DEEPSEEK_V3_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="H800_GPU" data-value="2048" id="mark-004">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="404.2872" y="240.981612" xlink:href="#maf1987dd95" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="2664000" data-low="2664000" data-marker="s" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="accelerator-hours" data-row-index="5" data-source-ids="S_DEEPSEEK_V3_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="H800_GPU_hour" data-value="2664000" id="mark-005">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="419.4504" y="127.275662" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="16384" data-low="16384" data-marker="o" data-model-id="DM_LLAMA31_405B" data-quantitative="true" data-role="concurrent accelerators" data-row-index="6" data-source-ids="S_META_LLAMA31_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="H100_80GB_GPU_peak" data-value="16384" id="mark-006">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="434.6136" y="208.007954" xlink:href="#maf1987dd95" />
+        </g>
+      </g>
+      <g data-claim-scope="native_accelerator_units_kept_separate" data-confidence="high" data-high="30840000" data-low="30840000" data-marker="s" data-model-id="DM_LLAMA31_405B" data-quantitative="true" data-role="accelerator-hours" data-row-index="7" data-source-ids="S_META_LLAMA31_CARD" data-status="FACT" data-status-style="solid-fill" data-unit="H100_80GB_GPU_hour" data-value="30840000" id="mark-007">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="449.7768" y="88.442182" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g id="text_11">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 157.5672 260.525818)" x="157.5672" y="260.525818">BLOOM 176B</text>
+      </g>
+      <g id="text_12">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 187.8936 216.560942)" x="187.8936" y="216.560942">PALM 540B</text>
+      </g>
+      <g id="legend_1">
+        <g id="line2d_8">
+          <defs>
+            <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m8f8a7128be" style="stroke: #0072b2; stroke-width: 1.2" />
+          </defs>
+          <g>
+            <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="113.896" y="86.426361" xlink:href="#m8f8a7128be" />
+          </g>
+        </g>
+        <g id="text_13">
+          <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 128.746 90.276361)" x="128.746" y="90.276361">FACT</text>
+        </g>
+        <g id="line2d_9">
+          <defs>
+            <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m4a1dc5dc3a" style="stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" />
+          </defs>
+          <g>
+            <use style="fill: #009e73; fill-opacity: 0.5; stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" x="176.145688" y="86.426361" xlink:href="#m4a1dc5dc3a" />
+          </g>
+        </g>
+        <g id="text_14">
+          <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 190.995688 90.276361)" x="190.995688" y="90.276361">DERIVED</text>
+        </g>
+      </g>
+    </g>
+    <g id="text_15">
+      <text style="font-size: 9.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4b5563" transform="rotate(-0 72.576 331.221773)" x="72.576" y="331.221773">Ausencias auditadas (2026-08-18): UNDISCLOSED: 35. No se grafican como cero.</text>
+    </g>
+  </g>
+  <defs>
+    <clipPath id="pcc0901efd0">
+      <rect height="196.992" width="404.352" x="98.496" y="79.488" />
+    </clipPath>
+  </defs>
+</svg>

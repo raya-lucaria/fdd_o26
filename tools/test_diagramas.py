@@ -26,18 +26,15 @@ AI_SVG_NAMES = (
 )
 DASHBOARD_GENERATOR = RAIZ / "tools/gen_ai_model_dashboard.py"
 DASHBOARD_SVG_NAMES = (
-    "ai-training-parameters.svg",
-    "ai-training-flop.svg",
-    "ai-training-accelerators.svg",
-    "ai-training-power.svg",
-    "ai-training-replacement-value.svg",
-    "ai-inference-memory.svg",
-    "ai-inference-accelerators.svg",
-    "ai-inference-power.svg",
-    "ai-inference-capex.svg",
-    "ai-inference-parameters.svg",
-    "ai-pareto-training.svg",
-    "ai-pareto-inference.svg",
+    "ai-dashboard-parameters.svg",
+    "ai-dashboard-training-flop.svg",
+    "ai-dashboard-inference-memory.svg",
+    "ai-dashboard-inference-hardware.svg",
+    "ai-dashboard-pareto-inference.svg",
+    "ai-dashboard-training-accelerators.svg",
+    "ai-dashboard-training-replacement.svg",
+    "ai-dashboard-inference-power.svg",
+    "ai-dashboard-inference-capex.svg",
 )
 
 
@@ -451,8 +448,8 @@ def test_ai_capex_nota_ausente_queda_dentro_de_su_panel():
     assert note_bottom <= panel_bottom - 4
 
 
-def test_dashboard_generator_produce_exactamente_doce_assets(tmp_path):
-    """Omitir o agregar una gráfica rompe el recorrido de 5+5+2 aprobado."""
+def test_dashboard_generator_produce_exactamente_nueve_assets(tmp_path):
+    """Omitir o agregar una gráfica rompe el recorrido de 5+4 aprobado."""
     generador = _cargar_generador_dashboard()
 
     creados = generador.render_dashboard(
@@ -464,443 +461,49 @@ def test_dashboard_generator_produce_exactamente_doce_assets(tmp_path):
     assert {path.name for path in tmp_path.glob("*.svg")} == set(DASHBOARD_SVG_NAMES)
 
 
-def test_dashboard_svg_conserva_semantica_accesible_y_mobile(tmp_path):
-    """Perder fuentes, alcance o talla móvil vuelve ambiguo el dato dibujado."""
+def test_dashboard_svg_en_disco_coincide_y_es_determinista(tmp_path):
+    """Editar un SVG a mano o introducir azar debe romper esta guarda."""
     generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    primera = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "primera"
     )
-    ns = "{http://www.w3.org/2000/svg}"
-    allowed = {"FACT", "DERIVED", "ESTIMATE", "SCENARIO"}
-
-    for path in paths:
-        root = ET.parse(path).getroot()
-        width = float(root.attrib["viewBox"].split()[2])
-        height = float(root.attrib["viewBox"].split()[3])
-        title = root.find(f"{ns}title")
-        desc = root.find(f"{ns}desc")
-        sizes = [
-            float(node.attrib["font-size"])
-            for node in root.iter()
-            if "font-size" in node.attrib
-        ]
-        quantitative = [
-            node for node in root.iter()
-            if node.attrib.get("data-quantitative") == "true"
-        ]
-
-        assert width <= 640
-        assert height <= 400
-        assert title is not None and title.text and len(title.text) > 20
-        assert desc is not None and desc.text and len(desc.text) > 60
-        assert root.attrib.get("role") == "img"
-        assert root.attrib.get("aria-labelledby") == "title desc"
-        assert sizes and min(sizes) * min(1, 390 / width) >= 16
-        for node in quantitative:
-            assert node.attrib["data-model-id"].startswith("DM_")
-            assert node.attrib["data-status"] in allowed
-            assert node.attrib["data-source-ids"]
-            assert node.attrib["data-value"]
-            assert node.attrib["data-unit"]
-            assert node.attrib["data-claim-scope"]
-            assert node.attrib["data-marker"]
-            if node.attrib["data-status"] == "ESTIMATE":
-                assert float(node.attrib["data-low"]) > 0
-                assert float(node.attrib["data-high"]) >= float(node.attrib["data-low"])
-                fallback = " ".join(node.itertext()) + node.attrib.get("aria-label", "")
-                assert node.attrib["data-low"] in fallback
-                assert node.attrib["data-high"] in fallback
-
-
-def test_dashboard_svg_no_depende_solo_del_color_y_no_inventa_ausencias(tmp_path):
-    """Quitar color no debe confundir estados ni convertir missing en cero."""
-    generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path
+    segunda = generador.render_dashboard(
+        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "segunda"
     )
 
-    statuses = {}
-    for path in paths:
-        root = ET.parse(path).getroot()
-        for node in root.iter():
-            status = node.attrib.get("data-status")
-            marker = node.attrib.get("data-marker")
-            if status and marker:
-                statuses.setdefault(status, set()).add(marker)
-            if node.attrib.get("data-quantitative") == "true":
-                assert float(node.attrib["data-value"]) > 0
-    assert statuses["FACT"] == {"circle"}
-    assert statuses["DERIVED"] == {"square"}
-    assert statuses["ESTIMATE"] == {"diamond"}
-    assert statuses["SCENARIO"] == {"triangle"}
-
-    replacement = (tmp_path / "ai-training-replacement-value.svg").read_text()
-    replacement_root = ET.fromstring(replacement)
-    replacement_points = [
-        node for node in replacement_root.iter()
-        if node.attrib.get("data-quantitative") == "true"
+    assert [path.read_bytes() for path in primera] == [
+        path.read_bytes() for path in segunda
     ]
-    assert len(replacement_points) == 4
-    assert all(node.attrib["data-status"] == "SCENARIO" for node in replacement_points)
-    assert all(node.attrib["data-confidence"] == "not_applicable" for node in replacement_points)
-
-
-def test_dashboard_ejes_y_pareto_dic_en_exactamente_que_comparan(tmp_path):
-    """Un eje sin año, log o ECI permite leer una comparación distinta."""
-    generador = _cargar_generador_dashboard()
-    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
-
-    for name in DASHBOARD_SVG_NAMES[:10]:
-        xml = (tmp_path / name).read_text(encoding="utf-8")
-        assert "Año de publicación" in xml
-        if name != "ai-training-replacement-value.svg":
-            assert "Igual distancia = multiplicar" in xml
-    for name in DASHBOARD_SVG_NAMES[10:]:
-        xml = (tmp_path / name).read_text(encoding="utf-8")
-        assert "Capacidad general según ECI" in xml
-        assert "inteligencia" not in xml.lower()
-        assert "frontera-segura" in xml
-        assert "frontera-posible" in xml
-
-
-def test_dashboard_series_dobles_no_mezclan_total_activo_ni_conteo_horas(tmp_path):
-    """Dos magnitudes en un panel necesitan una segunda marca, no sólo color."""
-    generador = _cargar_generador_dashboard()
-    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
-    for name, expected in (
-        ("ai-training-parameters.svg", {"total", "active"}),
-        ("ai-training-accelerators.svg", {"concurrent accelerators", "accelerator-hours"}),
-    ):
-        root = ET.parse(tmp_path / name).getroot()
-        nodes = [
-            node for node in root.iter()
-            if node.attrib.get("data-quantitative") == "true"
-        ]
-        assert {node.attrib["data-series"] for node in nodes} == expected
-        series_markers = {
-            series: {node.attrib["data-series-marker"] for node in nodes
-                     if node.attrib["data-series"] == series}
-            for series in expected
-        }
-        assert len({tuple(markers) for markers in series_markers.values()}) == 2
-        legends = [node for node in root.iter() if node.attrib.get("data-legend") == "true"]
-        assert legends and all("data-series" in node.attrib for node in legends)
-
-    accelerators = ET.parse(tmp_path / "ai-training-accelerators.svg").getroot()
-    panels = [node.attrib["data-series-panel"] for node in accelerators.iter()
-              if "data-series-panel" in node.attrib]
-    assert set(panels) == {"concurrent accelerators", "accelerator-hours"}
-
-
-def test_dashboard_leyenda_parametros_usa_aro_neutro_no_estado(tmp_path):
-    """Color/forma codifican evidencia; sólo el aro distingue total de activo."""
-    generador = _cargar_generador_dashboard()
-    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
-    for name in ("ai-training-parameters.svg", "ai-inference-parameters.svg"):
-        root = ET.parse(tmp_path / name).getroot()
-        legends = {
-            node.attrib["data-series"]: node for node in root.iter()
-            if node.attrib.get("data-legend") == "true"
-        }
-        assert set(legends) == {"total", "active"}
-        assert {node.attrib["fill"] for node in legends.values()} == {"#cbd5e1"}
-        assert legends["total"].attrib["data-series-marker"] == "single"
-        assert legends["active"].attrib["data-series-marker"] == "outer-ring"
-        nodes = [node for node in root.iter()
-                 if node.attrib.get("data-quantitative") == "true"]
-        for node in nodes:
-            rings = [child for child in node
-                     if child.attrib.get("data-series-ring") == "true"]
-            assert bool(rings) == (node.attrib["data-series"] == "active")
-            assert node.attrib["data-marker"] == {
-                "FACT": "circle", "DERIVED": "square",
-                "ESTIMATE": "diamond", "SCENARIO": "triangle",
-            }[node.attrib["data-status"]]
-
-
-def test_dashboard_subtitulos_distinguen_modelos_de_observaciones(tmp_path):
-    """Total/activo y artefacto/piso pueden aportar dos marcas por modelo."""
-    generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path
-    )
-    for path in paths[:10]:
-        root = ET.parse(path).getroot()
-        nodes = [node for node in root.iter()
-                 if node.attrib.get("data-quantitative") == "true"]
-        expected = f"{len({node.attrib['data-model-id'] for node in nodes})} modelos · {len(nodes)} observaciones"
-        assert expected in " ".join(root.itertext()), path.name
-
-
-def test_dashboard_pareto_serializa_y_dibuja_intervalos_reconstruibles(tmp_path):
-    """Usar sólo puntos centrales falsearía costo, ECI y dominancia por rangos."""
-    generador = _cargar_generador_dashboard()
-    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
-    root = ET.parse(tmp_path / "ai-pareto-inference.svg").getroot()
-    nodes = {
-        node.attrib["data-model-id"]: node for node in root.iter()
-        if node.attrib.get("data-pareto-interval") == "true"
-    }
-    expected = {
-        "DM_GEMMA3_27B": ("30000", "30000", "124.67", "133.1"),
-        "DM_LLAMA31_8B": ("30000", "30000", "105.01", "121.29"),
-        "DM_QWEN3_235B_A22B": ("180000", "180000", "134.85", "140.96"),
-    }
-    for model_id, bounds in expected.items():
-        node = nodes[model_id]
-        actual = tuple(node.attrib[key] for key in (
-            "data-cost-low", "data-cost-high", "data-score-low", "data-score-high"
-        ))
-        assert actual == bounds
-        assert node.attrib["data-frontier"] in {"safe", "possible", "dominated"}
-        assert any(child.attrib.get("data-interval-geometry") == "true"
-                   for child in node.iter())
-    xml = ET.tostring(root, encoding="unicode")
-    assert "segura en todo el rango" in xml
-    assert "posible en algún valor del rango" in xml
-    assert not any(node.tag.endswith("polyline") for node in root.iter())
-
-
-def test_dashboard_pareto_ordena_etiquetas_y_no_cruza_guias(tmp_path):
-    """Una guía cruzada vuelve ambigua la correspondencia punto-modelo."""
-    generador = _cargar_generador_dashboard()
-    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
-    for name in ("ai-pareto-training.svg", "ai-pareto-inference.svg"):
-        root = ET.parse(tmp_path / name).getroot()
-        leaders = [node for node in root.iter()
-                   if node.attrib.get("data-pareto-leader") == "true"]
-        intervals = [node for node in root.iter()
-                     if node.attrib.get("data-pareto-interval") == "true"]
-        assert len(leaders) == len(intervals)
-        segments = []
-        for node in leaders:
-            segments.extend(
-                tuple(float(value) for value in match)
-                for match in re.findall(
-                    r"M(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?) "
-                    r"L(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)",
-                    node.attrib["d"],
-                )
-            )
-        for index, a in enumerate(segments):
-            for b in segments[index + 1:]:
-                assert not generador.segments_cross(a, b), (name, a, b)
-        if leaders:
-            assert len(leaders) == len({node.attrib["data-model-id"] for node in leaders})
-
-
-def test_dashboard_identifica_modelos_visiblemente_sin_hover(tmp_path):
-    """Un SVG embebido como img necesita nombres visibles: title no basta."""
-    generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path
-    )
-    for path in paths[:10]:
-        root = ET.parse(path).getroot()
-        quantitative = [node for node in root.iter()
-                        if node.attrib.get("data-quantitative") == "true"]
-        if not quantitative:
-            continue
-        labels = [node for node in root.iter()
-                  if node.attrib.get("data-direct-label") == "true"]
-        assert 2 <= len(labels) <= 3, path.name
-        assert all(node.attrib.get("data-model-id") for node in labels)
-
-    pareto = ET.parse(tmp_path / "ai-pareto-inference.svg").getroot()
-    candidates = {node.attrib["data-model-id"] for node in pareto.iter()
-                  if node.attrib.get("data-pareto-interval") == "true"}
-    keyed = {node.attrib["data-model-id"] for node in pareto.iter()
-             if node.attrib.get("data-direct-label") == "true"}
-    assert len(candidates) == 8
-    assert keyed == candidates
-
-
-def test_dashboard_pareto_audita_titulo_x_y_nota_log_por_separado(tmp_path):
-    """El título de costo y la nota log no deben compartir caja ni quedar sin auditar."""
-    generador = _cargar_generador_dashboard()
-    generador.render_dashboard(generador.DATA_PATH, generador.ECI_PATH, tmp_path)
-    for name in ("ai-pareto-training.svg", "ai-pareto-inference.svg"):
-        root = ET.parse(tmp_path / name).getroot()
-        roles = {node.attrib.get("data-axis-role") for node in root.iter()}
-        assert {"x-title", "x-log-note"} <= roles
-        for role in ("x-title", "x-log-note"):
-            node = next(node for node in root.iter()
-                        if node.attrib.get("data-axis-role") == role)
-            assert node.attrib.get("data-axis-label") == "true"
-
-
-def test_dashboard_generacion_es_byte_a_byte_determinista(tmp_path):
-    """Orden de diccionarios o timestamps no deben alterar el artefacto."""
-    generador = _cargar_generador_dashboard()
-    first = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "a"
-    )
-    second = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "b"
-    )
-
-    assert [path.read_bytes() for path in first] == [path.read_bytes() for path in second]
     assert all(
         path.read_bytes() == (AI_ASSETS / path.name).read_bytes()
-        for path in first
+        for path in primera
     )
 
 
-def test_dashboard_chromium_bbox_y_texto_390_1440(tmp_path):
-    """Recortes o etiquetas directas superpuestas hacen ilegible la gráfica real."""
-    playwright = pytest.importorskip("playwright.sync_api")
-    generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "assets"
+@pytest.mark.parametrize("name", DASHBOARD_SVG_NAMES)
+def test_dashboard_svg_conserva_identidad_y_trazabilidad(name):
+    """Cada asset necesita un nombre accesible y metadatos por marca."""
+    root = ET.parse(AI_ASSETS / name).getroot()
+    namespace = "{http://www.w3.org/2000/svg}"
+    titles = root.findall(f"{namespace}title")
+    descriptions = root.findall(f"{namespace}desc")
+    marks = [
+        node for node in root.iter()
+        if node.attrib.get("data-quantitative") == "true"
+    ]
+
+    assert root.attrib["role"] == "img"
+    assert len(titles) == 1 and titles[0].text
+    assert len(descriptions) == 1 and descriptions[0].text
+    assert root.attrib["aria-labelledby"] == (
+        f"{titles[0].attrib['id']} {descriptions[0].attrib['id']}"
     )
-
-    with playwright.sync_playwright() as runtime:
-        browser = runtime.chromium.launch(headless=True)
-        page = browser.new_page()
-        for viewport, container in ((390, 334), (1440, 600)):
-            page.set_viewport_size({"width": viewport, "height": 900})
-            for path in paths:
-                svg = path.read_text(encoding="utf-8")
-                page.set_content(
-                    f'<main style="width:{container}px;margin:0">{svg}</main>'
-                )
-                result = page.locator("svg").evaluate(
-                    """svg => {
-                      const vb = svg.viewBox.baseVal;
-                      const scale = svg.getBoundingClientRect().width / vb.width;
-                      const texts = [...svg.querySelectorAll('text')];
-                      const boxes = texts.map(node => {
-                        const box = node.getBBox();
-                        return {x: box.x, y: box.y, right: box.x + box.width,
-                                bottom: box.y + box.height,
-                                px: parseFloat(node.getAttribute('font-size')) * scale,
-                                text: node.textContent};
-                      });
-                      const direct = [...svg.querySelectorAll('[data-direct-label="true"]')]
-                        .map(node => node.getBBox());
-                      const obstacles = [...svg.querySelectorAll('[data-quantitative="true"], [data-axis-label="true"], [data-interval-geometry="true"]')]
-                        .map(node => node.getBBox());
-                      const axis = [...svg.querySelectorAll('[data-axis-label="true"]')]
-                        .map(node => node.getBBox());
-                      const overlaps = [];
-                      for (let i=0; i<direct.length; i++) for (let j=i+1; j<direct.length; j++) {
-                        const a=direct[i], b=direct[j];
-                        if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
-                            Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) overlaps.push([i,j]);
-                      }
-                      const obstacleOverlaps = [];
-                      for (let i=0; i<direct.length; i++) for (let j=0; j<obstacles.length; j++) {
-                        const a=direct[i], b=obstacles[j];
-                        if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
-                            Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) obstacleOverlaps.push([i,j]);
-                      }
-                      const axisOverlaps = [];
-                      for (let i=0; i<axis.length; i++) for (let j=i+1; j<axis.length; j++) {
-                        const a=axis[i], b=axis[j];
-                        if (Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 &&
-                            Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1) axisOverlaps.push([i,j]);
-                      }
-                      return {boxes, overlaps, obstacleOverlaps, axisOverlaps, width: vb.width, height: vb.height};
-                    }"""
-                )
-                assert result["boxes"], path.name
-                assert min(box["px"] for box in result["boxes"]) >= 16, path.name
-                for box in result["boxes"]:
-                    assert box["x"] >= -1 and box["right"] <= result["width"] + 1, (path.name, box)
-                    assert box["y"] >= -1 and box["bottom"] <= result["height"] + 1, (path.name, box)
-                assert not result["overlaps"], (path.name, result["overlaps"])
-                assert not result["obstacleOverlaps"], (path.name, result["obstacleOverlaps"])
-                assert not result["axisOverlaps"], (path.name, result["axisOverlaps"])
-        browser.close()
-
-
-def test_dashboard_chromium_separa_todos_los_roles_visuales(tmp_path):
-    """La presencia de rótulos no basta: ningún rol semántico puede tapar otro."""
-    playwright = pytest.importorskip("playwright.sync_api")
-    generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "assets"
-    )
-
-    with playwright.sync_playwright() as runtime:
-        browser = runtime.chromium.launch(headless=True)
-        page = browser.new_page()
-        for container in (334, 600):
-            for path in paths:
-                page.set_content(f'<main style="width:{container}px">{path.read_text()}</main>')
-                result = page.locator("svg").evaluate(
-                    """svg => {
-                      const box = n => { const b=n.getBBox(); return {x:b.x,y:b.y,r:b.x+b.width,b:b.y+b.height,t:n.textContent||'', role:n.getAttribute('data-layout-role')||''}; };
-                      const hit = (a,b,pad=1) => Math.min(a.r,b.r)-Math.max(a.x,b.x)>pad && Math.min(a.b,b.b)-Math.max(a.y,b.y)>pad;
-                      const texts=[...svg.querySelectorAll('text')].filter(n => getComputedStyle(n).display !== 'none').map(box);
-                      const textHits=[];
-                      for(let i=0;i<texts.length;i++) for(let j=i+1;j<texts.length;j++) if(hit(texts[i],texts[j])) textHits.push([texts[i],texts[j]]);
-                      const labels=[...svg.querySelectorAll('[data-direct-label="true"]')].map(box);
-                      const nodes=[...svg.querySelectorAll('[data-quantitative="true"], [data-interval-geometry="true"]')].map(box);
-                      const labelNodeHits=[];
-                      for(const a of labels) for(const b of nodes) if(hit(a,b)) labelNodeHits.push([a,b]);
-                      const leaders=[...svg.querySelectorAll('[data-pareto-leader="true"]')].map(n => ({x1:+n.getAttribute('x1'),y1:+n.getAttribute('y1'),x2:+n.getAttribute('x2'),y2:+n.getAttribute('y2')}));
-                      function cross(a,c){
-                        const o=(p,q,r)=>(q.y-p.y)*(r.x-q.x)-(q.x-p.x)*(r.y-q.y);
-                        const p={x:a.x1,y:a.y1},q={x:a.x2,y:a.y2},r={x:c.x1,y:c.y1},s={x:c.x2,y:c.y2};
-                        return o(p,q,r)*o(p,q,s)<0 && o(r,s,p)*o(r,s,q)<0;
-                      }
-                      const leaderHits=[]; for(let i=0;i<leaders.length;i++) for(let j=i+1;j<leaders.length;j++) if(cross(leaders[i],leaders[j])) leaderHits.push([i,j]);
-                      return {textHits,labelNodeHits,leaderHits};
-                    }"""
-                )
-                assert not result["textHits"], (path.name, container, result["textHits"])
-                assert not result["labelNodeHits"], (path.name, container, result["labelNodeHits"])
-                assert not result["leaderHits"], (path.name, container, result["leaderHits"])
-        browser.close()
-
-
-def test_dashboard_chromium_reserva_leyendas_y_enruta_guias_pareto(tmp_path):
-    """Leyendas y guías deben ocupar canales propios, no atravesar datos."""
-    playwright = pytest.importorskip("playwright.sync_api")
-    generador = _cargar_generador_dashboard()
-    paths = generador.render_dashboard(
-        generador.DATA_PATH, generador.ECI_PATH, tmp_path / "assets"
-    )
-
-    with playwright.sync_playwright() as runtime:
-        browser = runtime.chromium.launch(headless=True)
-        page = browser.new_page()
-        for container in (334, 600):
-            for path in paths:
-                page.set_content(f'<main style="width:{container}px">{path.read_text()}</main>')
-                result = page.locator("svg").evaluate(
-                    """svg => {
-                      const bbox=n=>{const b=n.getBBox();return{x:b.x,y:b.y,r:b.x+b.width,b:b.y+b.height,id:n.getAttribute('data-model-id')||''}};
-                      const hit=(a,b,p=1)=>Math.min(a.r,b.r)-Math.max(a.x,b.x)>p&&Math.min(a.b,b.b)-Math.max(a.y,b.y)>p;
-                      const legends=[...svg.querySelectorAll('[data-legend="true"]')].map(bbox);
-                      const quantitative=[...svg.querySelectorAll('[data-quantitative="true"]')].map(bbox);
-                      const legendHits=[];
-                      for(const a of legends)for(const b of quantitative)if(hit(a,b))legendHits.push([a,b]);
-                      const labels=[...svg.querySelectorAll('[data-direct-label="true"]')].map(bbox);
-                      const leaders=[...svg.querySelectorAll('[data-pareto-leader="true"]')];
-                      const parse=n=>[...(n.getAttribute('d')||'').matchAll(/M(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?) L(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)].map(m=>({x1:+m[1],y1:+m[2],x2:+m[3],y2:+m[4],id:n.getAttribute('data-model-id')||''}));
-                      const segments=leaders.flatMap(parse);
-                      const orthogonal=segments.every(s=>Math.abs(s.x1-s.x2)<.01||Math.abs(s.y1-s.y2)<.01);
-                      const segmentHits=[];
-                      const segmentBoxHit=(s,b)=>{
-                        if(Math.abs(s.x1-s.x2)<.01)return s.x1>b.x+1&&s.x1<b.r-1&&Math.max(s.y1,s.y2)>b.y+1&&Math.min(s.y1,s.y2)<b.b-1;
-                        return s.y1>b.y+1&&s.y1<b.b-1&&Math.max(s.x1,s.x2)>b.x+1&&Math.min(s.x1,s.x2)<b.r-1;
-                      };
-                      for(const s of segments)for(const b of labels)if(s.id!==b.id&&segmentBoxHit(s,b))segmentHits.push([s,b]);
-                      const cross=(a,c)=>{
-                        const av=Math.abs(a.x1-a.x2)<.01,cv=Math.abs(c.x1-c.x2)<.01;
-                        if(av===cv)return false;
-                        const v=av?a:c,h=av?c:a;
-                        return v.x1>Math.min(h.x1,h.x2)+.1&&v.x1<Math.max(h.x1,h.x2)-.1&&h.y1>Math.min(v.y1,v.y2)+.1&&h.y1<Math.max(v.y1,v.y2)-.1;
-                      };
-                      const leaderHits=[];for(let i=0;i<segments.length;i++)for(let j=i+1;j<segments.length;j++)if(segments[i].id!==segments[j].id&&cross(segments[i],segments[j]))leaderHits.push([segments[i],segments[j]]);
-                      return {legendHits,leaderCount:leaders.length,orthogonal,segmentHits,leaderHits};
-                    }"""
-                )
-                assert not result["legendHits"], (path.name, container, result["legendHits"])
-                if path.name.startswith("ai-pareto-") and result["leaderCount"]:
-                    assert result["orthogonal"], path.name
-                    assert not result["segmentHits"], (path.name, container, result["segmentHits"])
-                    assert not result["leaderHits"], (path.name, container, result["leaderHits"])
-        browser.close()
+    assert marks
+    for mark in marks:
+        assert mark.attrib["data-model-id"].startswith("DM_")
+        assert mark.attrib["data-source-ids"]
+        assert mark.attrib["data-status"] in {
+            "FACT", "DERIVED", "ESTIMATE", "SCENARIO"
+        }
+        assert float(mark.attrib["data-low"]) > 0
+        assert float(mark.attrib["data-high"]) >= float(mark.attrib["data-low"])

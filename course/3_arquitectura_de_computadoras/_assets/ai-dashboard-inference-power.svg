@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="inference_tdp_floor-title inference_tdp_floor-desc" data-figure-id="inference_tdp_floor" data-route="annex" height="345.6pt" role="img" style="max-width:100%;height:auto" version="1.1" viewBox="0 0 518.4 345.6" width="518.4pt">
+  <title id="inference_tdp_floor-title">¿Qué potencia accelerator-only sugiere el piso de capacidad?</title>
+  <desc id="inference_tdp_floor-desc">¿Qué potencia accelerator-only sugiere el piso de capacidad? La figura contiene 29 observaciones. No hay líneas que unan modelos.</desc>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>fdd-o26-ai-dashboard</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs>
+    <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+  </defs>
+  <g id="figure_1">
+    <g id="patch_1">
+      <path d="M 0 345.6  L 518.4 345.6  L 518.4 0  L 0 0  z " style="fill: #ffffff" />
+    </g>
+    <g id="axes_1">
+      <g id="patch_2">
+        <path d="M 98.496 276.48  L 502.848 276.48  L 502.848 79.488  L 98.496 79.488  z " style="fill: #ffffff" />
+      </g>
+      <g id="matplotlib.axis_1">
+        <g id="xtick_1">
+          <g id="line2d_1">
+            <path clip-path="url(#pcc0901efd0)" d="M 124.866783 276.48  L 124.866783 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_1">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 124.866783 295.856953)" x="124.866783" y="295.856953">2018</text>
+          </g>
+        </g>
+        <g id="xtick_2">
+          <g id="line2d_2">
+            <path clip-path="url(#pcc0901efd0)" d="M 212.769391 276.48  L 212.769391 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_2">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 212.769391 295.856953)" x="212.769391" y="295.856953">2020</text>
+          </g>
+        </g>
+        <g id="xtick_3">
+          <g id="line2d_3">
+            <path clip-path="url(#pcc0901efd0)" d="M 300.672 276.48  L 300.672 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_3">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 295.856953)" x="300.672" y="295.856953">2022</text>
+          </g>
+        </g>
+        <g id="xtick_4">
+          <g id="line2d_4">
+            <path clip-path="url(#pcc0901efd0)" d="M 388.574609 276.48  L 388.574609 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_4">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 388.574609 295.856953)" x="388.574609" y="295.856953">2024</text>
+          </g>
+        </g>
+        <g id="xtick_5">
+          <g id="line2d_5">
+            <path clip-path="url(#pcc0901efd0)" d="M 476.477217 276.48  L 476.477217 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_5">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 476.477217 295.856953)" x="476.477217" y="295.856953">2026</text>
+          </g>
+        </g>
+        <g id="text_6">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 315.7775)" x="300.672" y="315.7775">Año de publicación</text>
+        </g>
+      </g>
+      <g id="matplotlib.axis_2">
+        <g id="ytick_1">
+          <g id="line2d_6">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 270.121233  L 502.848 270.121233  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_7">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 275.05971)" x="88.996" y="275.05971">0.0</text>
+          </g>
+        </g>
+        <g id="ytick_2">
+          <g id="line2d_7">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 233.043876  L 502.848 233.043876  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_8">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 237.98286)" x="88.996" y="237.98286">10 mil</text>
+          </g>
+        </g>
+        <g id="ytick_3">
+          <g id="line2d_8">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 195.966518  L 502.848 195.966518  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_9">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 200.905503)" x="88.996" y="200.905503">20 mil</text>
+          </g>
+        </g>
+        <g id="ytick_4">
+          <g id="line2d_9">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 158.889161  L 502.848 158.889161  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_10">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 163.828145)" x="88.996" y="163.828145">30 mil</text>
+          </g>
+        </g>
+        <g id="ytick_5">
+          <g id="line2d_10">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 121.811804  L 502.848 121.811804  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_11">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 126.750788)" x="88.996" y="126.750788">40 mil</text>
+          </g>
+        </g>
+        <g id="ytick_6">
+          <g id="line2d_11">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 84.734446  L 502.848 84.734446  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_12">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 89.67343)" x="88.996" y="89.67343">50 mil</text>
+          </g>
+        </g>
+        <g id="text_13">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-90 40.59225 177.984)" x="40.59225" y="177.984">W accelerator-only</text>
+        </g>
+      </g>
+      <g id="patch_3">
+        <path d="M 98.496 276.48  L 98.496 79.488  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+      </g>
+      <g id="patch_4">
+        <path d="M 98.496 276.48  L 502.848 276.48  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+      </g>
+      <g id="text_14">
+        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(133.541766 22.682805)">¿Qué potencia accelerator-only</text>
+        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(142.551922 45.488)">sugiere el piso de capacidad?</text>
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_BERT_LARGE" data-quantitative="true" data-role="700 W per accelerator" data-row-index="0" data-source-ids="S_DASH_GOOGLE_BERT_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-000">
+        <path clip-path="url(#pcc0901efd0)" d="M 124.866783 272.649294  C 126.225544 272.649294 127.528837 272.109452 128.489627 271.148662  C 129.450416 270.187873 129.990258 268.88458 129.990258 267.525818  C 129.990258 266.167057 129.450416 264.863764 128.489627 263.902974  C 127.528837 262.942184 126.225544 262.402343 124.866783 262.402343  C 123.508021 262.402343 122.204728 262.942184 121.243938 263.902974  C 120.283149 264.863764 119.743307 266.167057 119.743307 267.525818  C 119.743307 268.88458 120.283149 270.187873 121.243938 271.148662  C 122.204728 272.109452 123.508021 272.649294 124.866783 272.649294  L 124.866783 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_T5_11B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="1" data-source-ids="S_DASH_GOOGLE_T5_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-001">
+        <path clip-path="url(#pcc0901efd0)" d="M 168.818087 272.649294  C 170.176849 272.649294 171.480142 272.109452 172.440931 271.148662  C 173.401721 270.187873 173.941562 268.88458 173.941562 267.525818  C 173.941562 266.167057 173.401721 264.863764 172.440931 263.902974  C 171.480142 262.942184 170.176849 262.402343 168.818087 262.402343  C 167.459325 262.402343 166.156032 262.942184 165.195243 263.902974  C 164.234453 264.863764 163.694612 266.167057 163.694612 267.525818  C 163.694612 268.88458 164.234453 270.187873 165.195243 271.148662  C 166.156032 272.109452 167.459325 272.649294 168.818087 272.649294  L 168.818087 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="3500" data-low="3500" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="2" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="3500" id="mark-002">
+        <path clip-path="url(#pcc0901efd0)" d="M 298.034922 262.267633  C 299.393683 262.267633 300.696976 261.727792 301.657766 260.767002  C 302.618555 259.806213 303.158397 258.50292 303.158397 257.144158  C 303.158397 255.785397 302.618555 254.482103 301.657766 253.521314  C 300.696976 252.560524 299.393683 252.020683 298.034922 252.020683  C 296.67616 252.020683 295.372867 252.560524 294.412078 253.521314  C 293.451288 254.482103 292.911446 255.785397 292.911446 257.144158  C 292.911446 258.50292 293.451288 259.806213 294.412078 260.767002  C 295.372867 261.727792 296.67616 262.267633 298.034922 262.267633  L 298.034922 262.267633  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="3500" data-low="3500" data-marker="o" data-model-id="DM_OPT_175B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="3" data-source-ids="S_DASH_META_OPT_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="3500" id="mark-003">
+        <path clip-path="url(#pcc0901efd0)" d="M 303.309078 262.267633  C 304.66784 262.267633 305.971133 261.727792 306.931922 260.767002  C 307.892712 259.806213 308.432554 258.50292 308.432554 257.144158  C 308.432554 255.785397 307.892712 254.482103 306.931922 253.521314  C 305.971133 252.560524 304.66784 252.020683 303.309078 252.020683  C 301.950317 252.020683 300.647024 252.560524 299.686234 253.521314  C 298.725445 254.482103 298.185603 255.785397 298.185603 257.144158  C 298.185603 258.50292 298.725445 259.806213 299.686234 260.767002  C 300.647024 261.727792 301.950317 262.267633 303.309078 262.267633  L 303.309078 262.267633  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_DEEPSEEK_LLM_67B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="4" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-004">
+        <path clip-path="url(#pcc0901efd0)" d="M 331.437913 270.053879  C 332.796675 270.053879 334.099968 269.514037 335.060757 268.553247  C 336.021547 267.592458 336.561388 266.289165 336.561388 264.930403  C 336.561388 263.571642 336.021547 262.268348 335.060757 261.307559  C 334.099968 260.346769 332.796675 259.806928 331.437913 259.806928  C 330.079151 259.806928 328.775858 260.346769 327.815069 261.307559  C 326.854279 262.268348 326.314438 263.571642 326.314438 264.930403  C 326.314438 266.289165 326.854279 267.592458 327.815069 268.553247  C 328.775858 269.514037 330.079151 270.053879 331.437913 270.053879  L 331.437913 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_LLAMA1_65B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="5" data-source-ids="S_DASH_META_LLAMA1_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-005">
+        <path clip-path="url(#pcc0901efd0)" d="M 336.71207 270.053879  C 338.070831 270.053879 339.374124 269.514037 340.334914 268.553247  C 341.295703 267.592458 341.835545 266.289165 341.835545 264.930403  C 341.835545 263.571642 341.295703 262.268348 340.334914 261.307559  C 339.374124 260.346769 338.070831 259.806928 336.71207 259.806928  C 335.353308 259.806928 334.050015 260.346769 333.089225 261.307559  C 332.128436 262.268348 331.588594 263.571642 331.588594 264.930403  C 331.588594 266.289165 332.128436 267.592458 333.089225 268.553247  C 334.050015 269.514037 335.353308 270.053879 336.71207 270.053879  L 336.71207 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_LLAMA2_70B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="6" data-source-ids="S_DASH_META_LLAMA2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-006">
+        <path clip-path="url(#pcc0901efd0)" d="M 341.986226 270.053879  C 343.344988 270.053879 344.648281 269.514037 345.60907 268.553247  C 346.56986 267.592458 347.109701 266.289165 347.109701 264.930403  C 347.109701 263.571642 346.56986 262.268348 345.60907 261.307559  C 344.648281 260.346769 343.344988 259.806928 341.986226 259.806928  C 340.627465 259.806928 339.324171 260.346769 338.363382 261.307559  C 337.402592 262.268348 336.862751 263.571642 336.862751 264.930403  C 336.862751 266.289165 337.402592 267.592458 338.363382 268.553247  C 339.324171 269.514037 340.627465 270.053879 341.986226 270.053879  L 341.986226 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_MISTRAL_7B_V01" data-quantitative="true" data-role="700 W per accelerator" data-row-index="7" data-source-ids="S_DASH_MISTRAL7_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-007">
+        <path clip-path="url(#pcc0901efd0)" d="M 347.260383 272.649294  C 348.619144 272.649294 349.922437 272.109452 350.883227 271.148662  C 351.844016 270.187873 352.383858 268.88458 352.383858 267.525818  C 352.383858 266.167057 351.844016 264.863764 350.883227 263.902974  C 349.922437 262.942184 348.619144 262.402343 347.260383 262.402343  C 345.901621 262.402343 344.598328 262.942184 343.637538 263.902974  C 342.676749 264.863764 342.136907 266.167057 342.136907 267.525818  C 342.136907 268.88458 342.676749 270.187873 343.637538 271.148662  C 344.598328 272.109452 345.901621 272.649294 347.260383 272.649294  L 347.260383 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_MIXTRAL_8X7B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="8" data-source-ids="S_DASH_MIXTRAL_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-008">
+        <path clip-path="url(#pcc0901efd0)" d="M 352.534539 270.053879  C 353.893301 270.053879 355.196594 269.514037 356.157383 268.553247  C 357.118173 267.592458 357.658015 266.289165 357.658015 264.930403  C 357.658015 263.571642 357.118173 262.268348 356.157383 261.307559  C 355.196594 260.346769 353.893301 259.806928 352.534539 259.806928  C 351.175778 259.806928 349.872484 260.346769 348.911695 261.307559  C 347.950905 262.268348 347.411064 263.571642 347.411064 264.930403  C 347.411064 266.289165 347.950905 267.592458 348.911695 268.553247  C 349.872484 269.514037 351.175778 270.053879 352.534539 270.053879  L 352.534539 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_QWEN_72B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="9" data-source-ids="S_DASH_QWEN_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-009">
+        <path clip-path="url(#pcc0901efd0)" d="M 357.808696 270.053879  C 359.167457 270.053879 360.47075 269.514037 361.43154 268.553247  C 362.392329 267.592458 362.932171 266.289165 362.932171 264.930403  C 362.932171 263.571642 362.392329 262.268348 361.43154 261.307559  C 360.47075 260.346769 359.167457 259.806928 357.808696 259.806928  C 356.449934 259.806928 355.146641 260.346769 354.185851 261.307559  C 353.225062 262.268348 352.68522 263.571642 352.68522 264.930403  C 352.68522 266.289165 353.225062 267.592458 354.185851 268.553247  C 355.146641 269.514037 356.449934 270.053879 357.808696 270.053879  L 357.808696 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="4200" data-low="4200" data-marker="o" data-model-id="DM_DEEPSEEK_V2" data-quantitative="true" data-role="700 W per accelerator" data-row-index="10" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="4200" id="mark-010">
+        <path clip-path="url(#pcc0901efd0)" d="M 362.203826 259.672218  C 363.562588 259.672218 364.865881 259.132377 365.82667 258.171587  C 366.78746 257.210798 367.327301 255.907505 367.327301 254.548743  C 367.327301 253.189982 366.78746 251.886688 365.82667 250.925899  C 364.865881 249.965109 363.562588 249.425268 362.203826 249.425268  C 360.845065 249.425268 359.541771 249.965109 358.580982 250.925899  C 357.620192 251.886688 357.080351 253.189982 357.080351 254.548743  C 357.080351 255.907505 357.620192 257.210798 358.580982 258.171587  C 359.541771 259.132377 360.845065 259.672218 362.203826 259.672218  L 362.203826 259.672218  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="11900" data-low="11900" data-marker="o" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="700 W per accelerator" data-row-index="11" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="11900" id="mark-011">
+        <path clip-path="url(#pcc0901efd0)" d="M 367.477983 231.122653  C 368.836744 231.122653 370.140037 230.582812 371.100827 229.622022  C 372.061616 228.661233 372.601458 227.357939 372.601458 225.999178  C 372.601458 224.640416 372.061616 223.337123 371.100827 222.376334  C 370.140037 221.415544 368.836744 220.875702 367.477983 220.875702  C 366.119221 220.875702 364.815928 221.415544 363.855138 222.376334  C 362.894349 223.337123 362.354507 224.640416 362.354507 225.999178  C 362.354507 227.357939 362.894349 228.661233 363.855138 229.622022  C 364.815928 230.582812 366.119221 231.122653 367.477983 231.122653  L 367.477983 231.122653  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_GEMMA2_27B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="12" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-012">
+        <path clip-path="url(#pcc0901efd0)" d="M 372.752139 272.649294  C 374.110901 272.649294 375.414194 272.109452 376.374983 271.148662  C 377.335773 270.187873 377.875615 268.88458 377.875615 267.525818  C 377.875615 266.167057 377.335773 264.863764 376.374983 263.902974  C 375.414194 262.942184 374.110901 262.402343 372.752139 262.402343  C 371.393378 262.402343 370.090084 262.942184 369.129295 263.902974  C 368.168505 264.863764 367.628664 266.167057 367.628664 267.525818  C 367.628664 268.88458 368.168505 270.187873 369.129295 271.148662  C 370.090084 272.109452 371.393378 272.649294 372.752139 272.649294  L 372.752139 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_GEMMA_7B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="13" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-013">
+        <path clip-path="url(#pcc0901efd0)" d="M 378.026296 272.649294  C 379.385057 272.649294 380.68835 272.109452 381.64914 271.148662  C 382.609929 270.187873 383.149771 268.88458 383.149771 267.525818  C 383.149771 266.167057 382.609929 264.863764 381.64914 263.902974  C 380.68835 262.942184 379.385057 262.402343 378.026296 262.402343  C 376.667534 262.402343 375.364241 262.942184 374.403451 263.902974  C 373.442662 264.863764 372.90282 266.167057 372.90282 267.525818  C 372.90282 268.88458 373.442662 270.187873 374.403451 271.148662  C 375.364241 272.109452 376.667534 272.649294 378.026296 272.649294  L 378.026296 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="5600" data-low="5600" data-marker="o" data-model-id="DM_GROK1" data-quantitative="true" data-role="700 W per accelerator" data-row-index="14" data-source-ids="S_DASH_XAI_GROK1_REPO S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="5600" id="mark-014">
+        <path clip-path="url(#pcc0901efd0)" d="M 383.300452 254.481388  C 384.659214 254.481388 385.962507 253.941547 386.923296 252.980757  C 387.884086 252.019968 388.423928 250.716675 388.423928 249.357913  C 388.423928 247.999151 387.884086 246.695858 386.923296 245.735069  C 385.962507 244.774279 384.659214 244.234438 383.300452 244.234438  C 381.941691 244.234438 380.638397 244.774279 379.677608 245.735069  C 378.716818 246.695858 378.176977 247.999151 378.176977 249.357913  C 378.176977 250.716675 378.716818 252.019968 379.677608 252.980757  C 380.638397 253.941547 381.941691 254.481388 383.300452 254.481388  L 383.300452 254.481388  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="7700" data-low="7700" data-marker="o" data-model-id="DM_LLAMA31_405B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="15" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="7700" id="mark-015">
+        <path clip-path="url(#pcc0901efd0)" d="M 388.574609 246.695143  C 389.93337 246.695143 391.236663 246.155302 392.197453 245.194512  C 393.158242 244.233723 393.698084 242.93043 393.698084 241.571668  C 393.698084 240.212906 393.158242 238.909613 392.197453 237.948824  C 391.236663 236.988034 389.93337 236.448193 388.574609 236.448193  C 387.215847 236.448193 385.912554 236.988034 384.951765 237.948824  C 383.990975 238.909613 383.451133 240.212906 383.451133 241.571668  C 383.451133 242.93043 383.990975 244.233723 384.951765 245.194512  C 385.912554 246.155302 387.215847 246.695143 388.574609 246.695143  L 388.574609 246.695143  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_LLAMA31_70B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="16" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-016">
+        <path clip-path="url(#pcc0901efd0)" d="M 393.848765 270.053879  C 395.207527 270.053879 396.51082 269.514037 397.471609 268.553247  C 398.432399 267.592458 398.972241 266.289165 398.972241 264.930403  C 398.972241 263.571642 398.432399 262.268348 397.471609 261.307559  C 396.51082 260.346769 395.207527 259.806928 393.848765 259.806928  C 392.490004 259.806928 391.186711 260.346769 390.225921 261.307559  C 389.265132 262.268348 388.72529 263.571642 388.72529 264.930403  C 388.72529 266.289165 389.265132 267.592458 390.225921 268.553247  C 391.186711 269.514037 392.490004 270.053879 393.848765 270.053879  L 393.848765 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_LLAMA31_8B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="17" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-017">
+        <path clip-path="url(#pcc0901efd0)" d="M 399.122922 272.649294  C 400.481683 272.649294 401.784976 272.109452 402.745766 271.148662  C 403.706555 270.187873 404.246397 268.88458 404.246397 267.525818  C 404.246397 266.167057 403.706555 264.863764 402.745766 263.902974  C 401.784976 262.942184 400.481683 262.402343 399.122922 262.402343  C 397.76416 262.402343 396.460867 262.942184 395.500078 263.902974  C 394.539288 264.863764 393.999446 266.167057 393.999446 267.525818  C 393.999446 268.88458 394.539288 270.187873 395.500078 271.148662  C 396.460867 272.109452 397.76416 272.649294 399.122922 272.649294  L 399.122922 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="2800" data-low="2800" data-marker="o" data-model-id="DM_MISTRAL_LARGE2_2407" data-quantitative="true" data-role="700 W per accelerator" data-row-index="18" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="2800" id="mark-018">
+        <path clip-path="url(#pcc0901efd0)" d="M 404.397078 264.863049  C 405.75584 264.863049 407.059133 264.323207 408.019922 263.362417  C 408.980712 262.401628 409.520554 261.098335 409.520554 259.739573  C 409.520554 258.380812 408.980712 257.077518 408.019922 256.116729  C 407.059133 255.155939 405.75584 254.616098 404.397078 254.616098  C 403.038317 254.616098 401.735024 255.155939 400.774234 256.116729  C 399.813445 257.077518 399.273603 258.380812 399.273603 259.739573  C 399.273603 261.098335 399.813445 262.401628 400.774234 263.362417  C 401.735024 264.323207 403.038317 264.863049 404.397078 264.863049  L 404.397078 264.863049  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_QWEN25_72B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="19" data-source-ids="S_DASH_QWEN25_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-019">
+        <path clip-path="url(#pcc0901efd0)" d="M 409.671235 270.053879  C 411.029996 270.053879 412.333289 269.514037 413.294079 268.553247  C 414.254868 267.592458 414.79471 266.289165 414.79471 264.930403  C 414.79471 263.571642 414.254868 262.268348 413.294079 261.307559  C 412.333289 260.346769 411.029996 259.806928 409.671235 259.806928  C 408.312473 259.806928 407.00918 260.346769 406.048391 261.307559  C 405.087601 262.268348 404.547759 263.571642 404.547759 264.930403  C 404.547759 266.289165 405.087601 267.592458 406.048391 268.553247  C 407.00918 269.514037 408.312473 270.053879 409.671235 270.053879  L 409.671235 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="1400" data-low="1400" data-marker="o" data-model-id="DM_QWEN2_72B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="20" data-source-ids="S_DASH_QWEN2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="1400" id="mark-020">
+        <path clip-path="url(#pcc0901efd0)" d="M 414.945391 270.053879  C 416.304153 270.053879 417.607446 269.514037 418.568235 268.553247  C 419.529025 267.592458 420.068867 266.289165 420.068867 264.930403  C 420.068867 263.571642 419.529025 262.268348 418.568235 261.307559  C 417.607446 260.346769 416.304153 259.806928 414.945391 259.806928  C 413.58663 259.806928 412.283337 260.346769 411.322547 261.307559  C 410.361758 262.268348 409.821916 263.571642 409.821916 264.930403  C 409.821916 266.289165 410.361758 267.592458 411.322547 268.553247  C 412.283337 269.514037 413.58663 270.053879 414.945391 270.053879  L 414.945391 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="11900" data-low="11900" data-marker="o" data-model-id="DM_DEEPSEEK_R1" data-quantitative="true" data-role="700 W per accelerator" data-row-index="21" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="11900" id="mark-021">
+        <path clip-path="url(#pcc0901efd0)" d="M 419.340522 231.122653  C 420.699283 231.122653 422.002576 230.582812 422.963366 229.622022  C 423.924155 228.661233 424.463997 227.357939 424.463997 225.999178  C 424.463997 224.640416 423.924155 223.337123 422.963366 222.376334  C 422.002576 221.415544 420.699283 220.875702 419.340522 220.875702  C 417.98176 220.875702 416.678467 221.415544 415.717678 222.376334  C 414.756888 223.337123 414.217046 224.640416 414.217046 225.999178  C 414.217046 227.357939 414.756888 228.661233 415.717678 229.622022  C 416.678467 230.582812 417.98176 231.122653 419.340522 231.122653  L 419.340522 231.122653  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_GEMMA3_27B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="22" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-022">
+        <path clip-path="url(#pcc0901efd0)" d="M 424.614678 272.649294  C 425.97344 272.649294 427.276733 272.109452 428.237522 271.148662  C 429.198312 270.187873 429.738154 268.88458 429.738154 267.525818  C 429.738154 266.167057 429.198312 264.863764 428.237522 263.902974  C 427.276733 262.942184 425.97344 262.402343 424.614678 262.402343  C 423.255917 262.402343 421.952624 262.942184 420.991834 263.902974  C 420.031045 264.863764 419.491203 266.167057 419.491203 267.525818  C 419.491203 268.88458 420.031045 270.187873 420.991834 271.148662  C 421.952624 272.109452 423.255917 272.649294 424.614678 272.649294  L 424.614678 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="17500" data-low="17500" data-marker="o" data-model-id="DM_KIMI_K2" data-quantitative="true" data-role="700 W per accelerator" data-row-index="23" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="17500" id="mark-023">
+        <path clip-path="url(#pcc0901efd0)" d="M 429.888835 210.359333  C 431.247596 210.359333 432.550889 209.819491 433.511679 208.858702  C 434.472468 207.897912 435.01231 206.594619 435.01231 205.235858  C 435.01231 203.877096 434.472468 202.573803 433.511679 201.613014  C 432.550889 200.652224 431.247596 200.112382 429.888835 200.112382  C 428.530073 200.112382 427.22678 200.652224 426.265991 201.613014  C 425.305201 202.573803 424.765359 203.877096 424.765359 205.235858  C 424.765359 206.594619 425.305201 207.897912 426.265991 208.858702  C 427.22678 209.819491 428.530073 210.359333 429.888835 210.359333  L 429.888835 210.359333  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="2100" data-low="2100" data-marker="o" data-model-id="DM_LLAMA4_SCOUT" data-quantitative="true" data-role="700 W per accelerator" data-row-index="24" data-source-ids="S_DASH_META_LLAMA4_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="2100" id="mark-024">
+        <path clip-path="url(#pcc0901efd0)" d="M 435.162991 267.458464  C 436.521753 267.458464 437.825046 266.918622 438.785835 265.957832  C 439.746625 264.997043 440.286467 263.69375 440.286467 262.334988  C 440.286467 260.976227 439.746625 259.672933 438.785835 258.712144  C 437.825046 257.751354 436.521753 257.211513 435.162991 257.211513  C 433.80423 257.211513 432.500937 257.751354 431.540147 258.712144  C 430.579358 259.672933 430.039516 260.976227 430.039516 262.334988  C 430.039516 263.69375 430.579358 264.997043 431.540147 265.957832  C 432.500937 266.918622 433.80423 267.458464 435.162991 267.458464  L 435.162991 267.458464  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="4200" data-low="4200" data-marker="o" data-model-id="DM_QWEN3_235B_A22B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="25" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="4200" id="mark-025">
+        <path clip-path="url(#pcc0901efd0)" d="M 440.437148 259.672218  C 441.795909 259.672218 443.099203 259.132377 444.059992 258.171587  C 445.020782 257.210798 445.560623 255.907505 445.560623 254.548743  C 445.560623 253.189982 445.020782 251.886688 444.059992 250.925899  C 443.099203 249.965109 441.795909 249.425268 440.437148 249.425268  C 439.078386 249.425268 437.775093 249.965109 436.814304 250.925899  C 435.853514 251.886688 435.313672 253.189982 435.313672 254.548743  C 435.313672 255.907505 435.853514 257.210798 436.814304 258.171587  C 437.775093 259.132377 439.078386 259.672218 440.437148 259.672218  L 440.437148 259.672218  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="700" data-low="700" data-marker="o" data-model-id="DM_QWEN3_30B_A3B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="26" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="700" id="mark-026">
+        <path clip-path="url(#pcc0901efd0)" d="M 445.711304 272.649294  C 447.070066 272.649294 448.373359 272.109452 449.334149 271.148662  C 450.294938 270.187873 450.83478 268.88458 450.83478 267.525818  C 450.83478 266.167057 450.294938 264.863764 449.334149 263.902974  C 448.373359 262.942184 447.070066 262.402343 445.711304 262.402343  C 444.352543 262.402343 443.04925 262.942184 442.08846 263.902974  C 441.127671 264.863764 440.587829 266.167057 440.587829 267.525818  C 440.587829 268.88458 441.127671 270.187873 442.08846 271.148662  C 443.04925 272.109452 444.352543 272.649294 445.711304 272.649294  L 445.711304 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="49000" data-low="49000" data-marker="o" data-model-id="DM_KIMI_K3" data-quantitative="true" data-role="700 W per accelerator" data-row-index="27" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="49000" id="mark-027">
+        <path clip-path="url(#pcc0901efd0)" d="M 473.840139 93.565657  C 475.198901 93.565657 476.502194 93.025816 477.462983 92.065026  C 478.423773 91.104236 478.963615 89.800943 478.963615 88.442182  C 478.963615 87.08342 478.423773 85.780127 477.462983 84.819338  C 476.502194 83.858548 475.198901 83.318706 473.840139 83.318706  C 472.481378 83.318706 471.178084 83.858548 470.217295 84.819338  C 469.256505 85.780127 468.716664 87.08342 468.716664 88.442182  C 468.716664 89.800943 469.256505 91.104236 470.217295 92.065026  C 471.178084 93.025816 472.481378 93.565657 473.840139 93.565657  L 473.840139 93.565657  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g data-claim-scope="accelerator_only_tdp_scenario_not_wall_power" data-confidence="not_applicable" data-high="42000" data-low="42000" data-marker="o" data-model-id="DM_QWEN38_24T_A95B" data-quantitative="true" data-role="700 W per accelerator" data-row-index="28" data-source-ids="S_QWEN38_MODELSCOPE S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="W" data-value="42000" id="mark-028">
+        <path clip-path="url(#pcc0901efd0)" d="M 479.114296 119.519807  C 480.473057 119.519807 481.77635 118.979966 482.73714 118.019176  C 483.697929 117.058387 484.237771 115.755094 484.237771 114.396332  C 484.237771 113.03757 483.697929 111.734277 482.73714 110.773488  C 481.77635 109.812698 480.473057 109.272857 479.114296 109.272857  C 477.755534 109.272857 476.452241 109.812698 475.491451 110.773488  C 474.530662 111.734277 473.99082 113.03757 473.99082 114.396332  C 473.99082 115.755094 474.530662 117.058387 475.491451 118.019176  C 476.452241 118.979966 477.755534 119.519807 479.114296 119.519807  L 479.114296 119.519807  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      </g>
+      <g id="text_15">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 130.866783 260.525818)" x="130.866783" y="260.525818">BERT LARGE</text>
+      </g>
+      <g id="text_16">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 174.818087 260.525818)" x="174.818087" y="260.525818">T5 11B</text>
+      </g>
+      <g id="text_17">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 304.034922 250.144158)" x="304.034922" y="250.144158">BLOOM 176B</text>
+      </g>
+      <g id="text_18">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 309.309078 250.144158)" x="309.309078" y="250.144158">OPT 175B</text>
+      </g>
+      <g id="legend_1">
+        <g id="line2d_12">
+          <defs>
+            <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m6621826aeb" style="stroke: #cc79a7; stroke-width: 3" />
+          </defs>
+          <g>
+            <use style="fill-opacity: 0; stroke: #cc79a7; stroke-width: 3" x="113.896" y="86.426361" xlink:href="#m6621826aeb" />
+          </g>
+        </g>
+        <g id="text_19">
+          <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 128.746 90.276361)" x="128.746" y="90.276361">SCENARIO</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <clipPath id="pcc0901efd0">
+      <rect height="196.992" width="404.352" x="98.496" y="79.488" />
+    </clipPath>
+  </defs>
+</svg>

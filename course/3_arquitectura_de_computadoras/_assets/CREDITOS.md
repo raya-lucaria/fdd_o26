@@ -37,3 +37,12 @@
 | ai-inference-parameters.svg | Parámetros totales y activos de modelos con inferencia local | Dashboard propio generado desde el ledger del curso, 2026; material del curso |
 | ai-pareto-training.svg | No-identificabilidad de Pareto de entrenamiento sin costo comparable | Dashboard propio generado desde el ledger y snapshot ECI, 2026; material del curso |
 | ai-pareto-inference.svg | Fronteras segura y posible entre capacidad local y ECI | Dashboard propio generado desde el ledger y snapshot ECI de Epoch AI (CC BY), 2026; material del curso |
+| ai-dashboard-parameters.svg | Parámetros almacenados o activos por año | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-training-flop.svg | Trabajo de entrenamiento por año, con rangos declarados | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-inference-memory.svg | Memoria mínima de artefactos o pesos por año | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-inference-hardware.svg | Piso físico H100-equivalente para inferencia local | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-pareto-inference.svg | Frontera costo–ECI con incertidumbre de cada candidato | Gráfica Seaborn propia generada desde el ledger y snapshot ECI de Epoch AI (CC BY), 2026; material del curso |
+| ai-dashboard-training-accelerators.svg | Flotas concurrentes de entrenamiento documentadas | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-training-replacement.svg | Valor de reemplazo común de flotas documentadas | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-inference-power.svg | Potencia accelerator-only del piso de capacidad | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |
+| ai-dashboard-inference-capex.svg | CAPEX accelerator-only del piso de capacidad | Gráfica Seaborn propia generada desde el ledger del curso, 2026; material del curso |

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="parameters-title parameters-desc" data-figure-id="parameters" data-route="essential" height="345.6pt" role="img" style="max-width:100%;height:auto" version="1.1" viewBox="0 0 518.4 345.6" width="518.4pt">
+  <title id="parameters-title">¿Cuántos parámetros almacena o activa el modelo?</title>
+  <desc id="parameters-desc">¿Cuántos parámetros almacena o activa el modelo? La figura contiene 15 observaciones. El eje vertical usa escala logarítmica; no hay líneas que unan modelos.</desc>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>fdd-o26-ai-dashboard</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs>
+    <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+  </defs>
+  <g id="figure_1">
+    <g id="patch_1">
+      <path d="M 0 345.6  L 518.4 345.6  L 518.4 0  L 0 0  z " style="fill: #ffffff" />
+    </g>
+    <g id="axes_1">
+      <g id="patch_2">
+        <path d="M 98.496 276.48  L 502.848 276.48  L 502.848 79.488  L 98.496 79.488  z " style="fill: #ffffff" />
+      </g>
+      <g id="matplotlib.axis_1">
+        <g id="xtick_1">
+          <g id="line2d_1">
+            <path clip-path="url(#pcc0901efd0)" d="M 145.152 276.48  L 145.152 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_1">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 145.152 295.856953)" x="145.152" y="295.856953">2018</text>
+          </g>
+        </g>
+        <g id="xtick_2">
+          <g id="line2d_2">
+            <path clip-path="url(#pcc0901efd0)" d="M 300.672 276.48  L 300.672 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_2">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 295.856953)" x="300.672" y="295.856953">2020</text>
+          </g>
+        </g>
+        <g id="xtick_3">
+          <g id="line2d_3">
+            <path clip-path="url(#pcc0901efd0)" d="M 456.192 276.48  L 456.192 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_3">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 456.192 295.856953)" x="456.192" y="295.856953">2022</text>
+          </g>
+        </g>
+        <g id="text_4">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 315.7775)" x="300.672" y="315.7775">Año de publicación</text>
+        </g>
+      </g>
+      <g id="matplotlib.axis_2">
+        <g id="ytick_1">
+          <g id="line2d_4">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 238.484343  L 502.848 238.484343  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_5">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 243.423328)" x="88.996" y="243.423328">1.0 mil M</text>
+          </g>
+        </g>
+        <g id="ytick_2">
+          <g id="line2d_5">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 177.171523  L 502.848 177.171523  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_6">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 182.110507)" x="88.996" y="182.110507">10 mil M</text>
+          </g>
+        </g>
+        <g id="ytick_3">
+          <g id="line2d_6">
+            <path clip-path="url(#pcc0901efd0)" d="M 98.496 115.858702  L 502.848 115.858702  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_7">
+            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 120.797686)" x="88.996" y="120.797686">100 mil M</text>
+          </g>
+        </g>
+        <g id="ytick_4" />
+        <g id="ytick_5" />
+        <g id="ytick_6" />
+        <g id="ytick_7" />
+        <g id="ytick_8" />
+        <g id="ytick_9" />
+        <g id="ytick_10" />
+        <g id="ytick_11" />
+        <g id="ytick_12" />
+        <g id="ytick_13" />
+        <g id="ytick_14" />
+        <g id="ytick_15" />
+        <g id="ytick_16" />
+        <g id="ytick_17" />
+        <g id="ytick_18" />
+        <g id="ytick_19" />
+        <g id="ytick_20" />
+        <g id="ytick_21" />
+        <g id="ytick_22" />
+        <g id="ytick_23" />
+        <g id="ytick_24" />
+        <g id="ytick_25" />
+        <g id="ytick_26" />
+        <g id="ytick_27" />
+        <g id="ytick_28" />
+        <g id="text_8">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-90 16.972875 177.984)" x="16.972875" y="177.984">Parámetros</text>
+        </g>
+      </g>
+      <g id="patch_3">
+        <path d="M 98.496 276.48  L 98.496 79.488  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+      </g>
+      <g id="patch_4">
+        <path d="M 98.496 276.48  L 502.848 276.48  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+      </g>
+      <g id="text_9">
+        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(121.798875 22.682805)">¿Cuántos parámetros almacena o</text>
+        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(206.948562 45.488)">activa el modelo?</text>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="336000000" data-low="336000000" data-marker="o" data-model-id="DM_BERT_LARGE" data-quantitative="true" data-role="active" data-row-index="0" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="336000000" id="mark-000">
+        <defs>
+          <path d="M 0 5.123475  C 1.358762 5.123475 2.662055 4.583634 3.622844 3.622844  C 4.583634 2.662055 5.123475 1.358762 5.123475 0  C 5.123475 -1.358762 4.583634 -2.662055 3.622844 -3.622844  C 2.662055 -4.583634 1.358762 -5.123475 0 -5.123475  C -1.358762 -5.123475 -2.662055 -4.583634 -3.622844 -3.622844  C -4.583634 -2.662055 -5.123475 -1.358762 -5.123475 0  C -5.123475 1.358762 -4.583634 2.662055 -3.622844 3.622844  C -2.662055 4.583634 -1.358762 5.123475 0 5.123475  z " id="m12ed3d21d9" style="stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" />
+        </defs>
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="140.4864" y="267.525818" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="336000000" data-low="336000000" data-marker="s" data-model-id="DM_BERT_LARGE" data-quantitative="true" data-role="total" data-row-index="1" data-source-ids="S_DASH_GOOGLE_BERT_REPORT" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="336000000" id="mark-001">
+        <defs>
+          <path d="M -5.123475 5.123475  L 5.123475 5.123475  L 5.123475 -5.123475  L -5.123475 -5.123475  z " id="m2350a1475a" style="stroke: #0072b2; stroke-width: 1.2" />
+        </defs>
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="149.8176" y="267.525818" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="11000000000" data-low="11000000000" data-marker="o" data-model-id="DM_T5_11B" data-quantitative="true" data-role="active" data-row-index="2" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="11000000000" id="mark-002">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="218.2464" y="174.63362" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="11000000000" data-low="11000000000" data-marker="s" data-model-id="DM_T5_11B" data-quantitative="true" data-role="total" data-row-index="3" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="11000000000" id="mark-003">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="227.5776" y="174.63362" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="174600000000" data-low="174600000000" data-marker="o" data-model-id="DM_GPT3_175B" data-quantitative="true" data-role="active" data-row-index="4" data-source-ids="S_OPENAI_GPT3_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="174600000000" id="mark-004">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="296.0064" y="101.018287" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="174600000000" data-low="174600000000" data-marker="s" data-model-id="DM_GPT3_175B" data-quantitative="true" data-role="total" data-row-index="5" data-source-ids="S_OPENAI_GPT3_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="174600000000" id="mark-005">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="305.3376" y="101.018287" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="280000000000" data-low="280000000000" data-marker="o" data-model-id="DM_GOPHER_280B" data-quantitative="true" data-role="active" data-row-index="6" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="280000000000" id="mark-006">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="373.7664" y="88.442182" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="280000000000" data-low="280000000000" data-marker="s" data-model-id="DM_GOPHER_280B" data-quantitative="true" data-role="total" data-row-index="7" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="280000000000" id="mark-007">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="383.0976" y="88.442182" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="176247000000" data-low="176247000000" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="active" data-row-index="8" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="176247000000" id="mark-008">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="428.1984" y="100.768284" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="176247000000" data-low="176247000000" data-marker="s" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="total" data-row-index="9" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="176247000000" id="mark-009">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="437.5296" y="100.768284" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="70000000000" data-low="70000000000" data-marker="o" data-model-id="DM_CHINCHILLA_70B" data-quantitative="true" data-role="active" data-row-index="10" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="70000000000" id="mark-010">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="446.8608" y="125.356178" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="70000000000" data-low="70000000000" data-marker="s" data-model-id="DM_CHINCHILLA_70B" data-quantitative="true" data-role="total" data-row-index="11" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="70000000000" id="mark-011">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="456.192" y="125.356178" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="137000000000" data-low="137000000000" data-marker="o" data-model-id="DM_LAMDA_137B" data-quantitative="true" data-role="active" data-row-index="12" data-source-ids="S_DASH_GOOGLE_LAMDA_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="137000000000" id="mark-012">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="465.5232" y="107.475978" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="137000000000" data-low="137000000000" data-marker="s" data-model-id="DM_LAMDA_137B" data-quantitative="true" data-role="total" data-row-index="13" data-source-ids="S_DASH_GOOGLE_LAMDA_REPORT" data-status="FACT" data-status-style="solid-fill" data-unit="parameter" data-value="137000000000" id="mark-013">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="474.8544" y="107.475978" xlink:href="#m2350a1475a" />
+        </g>
+      </g>
+      <g data-claim-scope="published_parameter_counts" data-confidence="high" data-high="175000000000" data-low="175000000000" data-marker="o" data-model-id="DM_OPT_175B" data-quantitative="true" data-role="active" data-row-index="14" data-source-ids="S_DASH_META_OPT_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="parameter_per_token" data-value="175000000000" id="mark-014">
+        <g clip-path="url(#pcc0901efd0)">
+          <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="484.1856" y="100.957354" xlink:href="#m12ed3d21d9" />
+        </g>
+      </g>
+      <g id="text_10">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 146.4864 260.525818)" x="146.4864" y="260.525818">BERT LARGE</text>
+      </g>
+      <g id="text_11">
+        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 224.2464 167.63362)" x="224.2464" y="167.63362">T5 11B</text>
+      </g>
+      <g id="legend_1">
+        <g id="line2d_7">
+          <defs>
+            <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m8f8a7128be" style="stroke: #0072b2; stroke-width: 1.2" />
+          </defs>
+          <g>
+            <use style="fill: #0072b2; stroke: #0072b2; stroke-width: 1.2" x="113.896" y="86.426361" xlink:href="#m8f8a7128be" />
+          </g>
+        </g>
+        <g id="text_12">
+          <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 128.746 90.276361)" x="128.746" y="90.276361">FACT</text>
+        </g>
+        <g id="line2d_8">
+          <defs>
+            <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m4a1dc5dc3a" style="stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" />
+          </defs>
+          <g>
+            <use style="fill: #009e73; fill-opacity: 0.5; stroke: #009e73; stroke-opacity: 0.5; stroke-width: 2" x="176.145688" y="86.426361" xlink:href="#m4a1dc5dc3a" />
+          </g>
+        </g>
+        <g id="text_13">
+          <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 190.995688 90.276361)" x="190.995688" y="90.276361">DERIVED</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <clipPath id="pcc0901efd0">
+      <rect height="196.992" width="404.352" x="98.496" y="79.488" />
+    </clipPath>
+  </defs>
+</svg>
