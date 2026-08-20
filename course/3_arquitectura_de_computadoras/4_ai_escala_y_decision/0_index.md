@@ -201,9 +201,7 @@ No son un ranking: la aplicación y la medición completa deciden.
 
 ### En 30 segundos
 
-- Empieza por pregunta y unidad: cada figura tiene un eje Y.
-- **FACT** se publica; **DERIVED** se calcula; **ESTIMATE** acota; **SCENARIO** supone.
-- **no publicado** es ausencia, nunca cero.
+Empieza por pregunta y unidad: cada figura tiene un eje Y. **FACT** se publica; **DERIVED** se calcula; **ESTIMATE** acota; **SCENARIO** supone. **no publicado** es ausencia, nunca cero.
 
 ### Cómo leer el dashboard
 
@@ -211,85 +209,84 @@ X muestra el año; el desplazamiento sólo separa marcas. En Y logarítmico, igu
 
 La ruta pregunta por **parámetros totales** y **parámetros activos**, trabajo, memoria, hardware y costo–ECI. Lee visual, conclusión, frase defendible, inferencia prohibida, tabla y límite.
 
-[AI_DASHBOARD:parameters:START]: #
+Antes de comparar, identifica qué representa una marca: modelo y variante, año, unidad y estado de evidencia. Dos puntos próximos no describen la misma arquitectura ni el mismo experimento. Los intervalos conservan incertidumbre o escenarios explícitos; no autorizan escoger su centro como si fuera una medición. Si falta una cifra, la ausencia sigue visible en la auditoría, pero no entra al eje numérico.
+
+Después separa tres preguntas. **Escala** pregunta cuánto se almacena o calcula. **Capacidad** pregunta qué cabe bajo una precisión y una memoria declaradas. **Decisión** cruza una métrica de costo con ECI para descartar opciones dominadas. Ninguna responde por sí sola sobre latencia, throughput, energía de pared, calidad universal o costo total de propiedad; esas afirmaciones requieren variables y mediciones adicionales.
+
+Una comparación defendible nombra siempre su frontera: variante exacta, fecha del snapshot, precisión, alcance accelerator-only y fuente. Usa la tabla compacta para explicar la idea y la tabla completa para auditar el número. Si cambias una premisa, vuelve a calcular antes de trasladar la conclusión a otro modelo o sistema.
+
+[AI_DASHBOARD:parameters:START]: <#dashboard-parameters-start>
+
 ### 1. ¿Cuántos parámetros almacena o activa el modelo?
 
 ![¿Cuántos parámetros almacena o activa el modelo? El total fija almacenamiento; en MoE, el activo aproxima lo usado por token. Límite: La tabla completa enumera cada marca y fuente.](../_assets/ai-dashboard-parameters.svg)
 
-**Conclusión:** El total fija almacenamiento; en MoE, el activo aproxima lo usado por token.
 
-**Di esto:** “Total” y “activo” difieren; en dense coinciden y no se duplica la marca.
 
-**No concluyas esto:** Más parámetros no demuestran más calidad ni velocidad.
+**Conclusión:** El total fija almacenamiento; en MoE, el activo aproxima lo usado por token. **Di esto:** “Total” y “activo” difieren; en dense coinciden y no se duplica la marca. **No concluyas esto:** Más parámetros no demuestran más calidad ni velocidad.
 
 | Modelo | Lectura |
 |---|---|
-| **BERT-Large** | 0.336 mil millones; active; **DERIVED** |
+| **BERT-Large** | 0.336 mil millones; activo; **DERIVED** |
 | **BERT-Large** | 0.336 mil millones; total; **FACT** |
-| **T5-11B** | 11 mil millones; active; **DERIVED** |
+| **T5-11B** | 11 mil millones; activo; **DERIVED** |
 | **T5-11B** | 11 mil millones; total; **FACT** |
 
-**Límite:** La tabla completa enumera cada marca y fuente.
+**Límite:** La tabla completa enumera cada marca y fuente. Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-parametros) para año, rango, confianza y fuentes.
 
-Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-parametros) para año, rango, confianza y fuentes.
-[AI_DASHBOARD:parameters:END]: #
+[AI_DASHBOARD:parameters:END]: <#dashboard-parameters-end>
 
-[AI_DASHBOARD:training_flop:START]: #
+[AI_DASHBOARD:training_flop:START]: <#dashboard-training_flop-start>
+
 ### 2. ¿Cuánto trabajo requirió el entrenamiento?
 
 ![¿Cuánto trabajo requirió el entrenamiento? El trabajo publicado cruza órdenes de magnitud; muchas cuentas no se divulgan. Límite: Cada derivación exige parámetros, tokens y fórmula aplicables.](../_assets/ai-dashboard-training-flop.svg)
 
-**Conclusión:** El trabajo publicado cruza órdenes de magnitud; muchas cuentas no se divulgan.
 
-**Di esto:** FLOP mide trabajo; los ausentes no se dibujan como cero.
 
-**No concluyas esto:** FLOP no es FLOP/s, duración, energía ni costo.
+**Conclusión:** El trabajo publicado cruza órdenes de magnitud; muchas cuentas no se divulgan. **Di esto:** FLOP mide trabajo; los ausentes no se dibujan como cero. **No concluyas esto:** FLOP no es FLOP/s, duración, energía ni costo.
 
 | Modelo | Lectura |
 |---|---|
-| **T5-11B** | 6.6e+22 FLOP; **DERIVED** |
+| **T5-11B** | 6.60e+22 FLOP; **DERIVED** |
 | **GPT-3 175B** | 3.14e+23 FLOP; **DERIVED** |
 | **Gopher 280B** | 5.04e+23 FLOP; **DERIVED** |
 | **BLOOM 176B** | 3.87e+23 FLOP; **DERIVED** |
 
-**Límite:** Cada derivación exige parámetros, tokens y fórmula aplicables.
+**Límite:** Cada derivación exige parámetros, tokens y fórmula aplicables. Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-flop-entrenamiento) para año, rango, confianza y fuentes.
 
-Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-flop-entrenamiento) para año, rango, confianza y fuentes.
-[AI_DASHBOARD:training_flop:END]: #
+[AI_DASHBOARD:training_flop:END]: <#dashboard-training_flop-end>
 
-[AI_DASHBOARD:artifact_or_weight_floor:START]: #
+[AI_DASHBOARD:artifact_or_weight_floor:START]: <#dashboard-artifact_or_weight_floor-start>
+
 ### 3. ¿Cuánta memoria mínima requieren los pesos?
 
 ![¿Cuánta memoria mínima requieren los pesos? Artefacto y piso BF16 preguntan cuánto debe caber, no cómo corre. Límite: Sin pesos o total aplicable, queda una ausencia.](../_assets/ai-dashboard-inference-memory.svg)
 
-**Conclusión:** Artefacto y piso BF16 preguntan cuánto debe caber, no cómo corre.
 
-**Di esto:** El artefacto se observa; el piso es parámetros por bits entre ocho.
 
-**No concluyas esto:** No incluye KV, activaciones, runtime, workspace ni reserva.
+**Conclusión:** Artefacto y piso BF16 preguntan cuánto debe caber, no cómo corre. **Di esto:** El artefacto se observa; el piso es parámetros por bits entre ocho. **No concluyas esto:** No incluye KV, activaciones, runtime, workspace ni reserva.
 
 | Modelo | Lectura |
 |---|---|
-| **BERT-Large** | 0.672 GB; BF16 weight floor; **DERIVED** |
-| **BERT-Large** | 1.344952 GB; documented artifact; **FACT** |
-| **T5-11B** | 22 GB; BF16 weight floor; **DERIVED** |
-| **T5-11B** | 45.229453 GB; documented artifact; **FACT** |
+| **BERT-Large** | 0.672 GB; piso de pesos BF16; **DERIVED** |
+| **BERT-Large** | 1.344952014 GB; artefacto documentado; **FACT** |
+| **T5-11B** | 22 GB; piso de pesos BF16; **DERIVED** |
+| **T5-11B** | 45.229452544 GB; artefacto documentado; **FACT** |
 
-**Límite:** Sin pesos o total aplicable, queda una ausencia.
+**Límite:** Sin pesos o total aplicable, queda una ausencia. Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-memoria-inferencia) para año, rango, confianza y fuentes.
 
-Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-memoria-inferencia) para año, rango, confianza y fuentes.
-[AI_DASHBOARD:artifact_or_weight_floor:END]: #
+[AI_DASHBOARD:artifact_or_weight_floor:END]: <#dashboard-artifact_or_weight_floor-end>
 
-[AI_DASHBOARD:h100_capacity_floor:START]: #
+[AI_DASHBOARD:h100_capacity_floor:START]: <#dashboard-h100_capacity_floor-start>
+
 ### 4. ¿Qué hardware mínimo sugiere ese piso?
 
 ![¿Qué hardware mínimo sugiere ese piso? Piso ÷ 80 GB, redondeado arriba, da H100-equivalentes de capacidad. Límite: Usa 700 W y USD 30,000 por H100-equivalente.](../_assets/ai-dashboard-inference-hardware.svg)
 
-**Conclusión:** Piso ÷ 80 GB, redondeado arriba, da H100-equivalentes de capacidad.
 
-**Di esto:** El mismo entero produce TDP y CAPEX accelerator-only comparables.
 
-**No concluyas esto:** El resultado no es un servidor. TDP no es potencia de pared; CAPEX no es el costo real ni un SLA.
+**Conclusión:** Piso ÷ 80 GB, redondeado arriba, da H100-equivalentes de capacidad. **Di esto:** El mismo entero produce TDP y CAPEX accelerator-only comparables. **No concluyas esto:** El resultado no es un servidor. TDP no es potencia de pared; CAPEX no es el costo real ni un SLA.
 
 | Modelo | Lectura |
 |---|---|
@@ -298,54 +295,36 @@ Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-memoria-inferencia) par
 | **BLOOM 176B** | 5 H100-equivalente(s); 3,500 W TDP y USD 150,000 CAPEX, **SCENARIO** |
 | **OPT-175B** | 5 H100-equivalente(s); 3,500 W TDP y USD 150,000 CAPEX, **SCENARIO** |
 
-**Límite:** Usa 700 W y USD 30,000 por H100-equivalente.
+**Límite:** Usa 700 W y USD 30,000 por H100-equivalente. Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-hardware-inferencia) para año, rango, confianza y fuentes.
 
-Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-hardware-inferencia) para año, rango, confianza y fuentes.
-[AI_DASHBOARD:h100_capacity_floor:END]: #
+[AI_DASHBOARD:h100_capacity_floor:END]: <#dashboard-h100_capacity_floor-end>
 
-[AI_DASHBOARD:pareto_inference:START]: #
+[AI_DASHBOARD:pareto_inference:START]: <#dashboard-pareto_inference-start>
+
 ### 5. ¿Qué opciones quedan en la frontera costo–ECI?
 
 ![¿Qué opciones quedan en la frontera costo–ECI? Con costo y ECI declarados, hay opciones seguras, posibles o dominadas. Límite: Sólo vale para estas variantes, snapshot y frontera de costo.](../_assets/ai-dashboard-pareto-inference.svg)
 
-**Conclusión:** Con costo y ECI declarados, hay opciones seguras, posibles o dominadas.
+**Clave de la gráfica:** 1 = Gemma 2 27B; 2 = Gemma 3 27B; 3 = Gemma 7B; 4 = Llama 3.1-8B; 5 = Llama 3.1-70B; 6 = Qwen2-72B; 7 = Qwen3-235B-A22B; 8 = DeepSeek-R1.
 
-**Di esto:** Dominar es costar no más y tener ECI no menor, con rangos incluidos.
+**Conclusión:** Con costo y ECI declarados, hay opciones seguras, posibles o dominadas. **Di esto:** Dominar es costar no más y tener ECI no menor, con rangos incluidos. **No concluyas esto:** ECI no es IQ ni selecciona el mejor modelo universal.
 
-**No concluyas esto:** ECI no es IQ ni selecciona el mejor modelo universal.
+| Clave | Modelo | Lectura |
+|---:|---|---|
+| 1 | **Gemma 2 27B** | ECI 115.4–124.27; USD 30,000; frontera dominada, **SCENARIO** |
+| 2 | **Gemma 3 27B** | ECI 124.67–133.1; USD 30,000; frontera segura, **SCENARIO** |
+| 3 | **Gemma 7B** | ECI 101.34–115.86; USD 30,000; frontera dominada, **SCENARIO** |
+| 4 | **Llama 3.1-8B** | ECI 105.01–121.29; USD 30,000; frontera dominada, **SCENARIO** |
 
-| Modelo | Lectura |
-|---|---|
-| **Gemma 2 27B** | ECI 115.4–124.27; USD 30,000; frontera dominated, **SCENARIO** |
-| **Gemma 3 27B** | ECI 124.67–133.1; USD 30,000; frontera safe, **SCENARIO** |
-| **Gemma 7B** | ECI 101.34–115.86; USD 30,000; frontera dominated, **SCENARIO** |
-| **Llama 3.1-8B** | ECI 105.01–121.29; USD 30,000; frontera dominated, **SCENARIO** |
+**Límite:** Sólo vale para estas variantes, snapshot y frontera de costo. Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-pareto-inferencia) para año, rango, confianza y fuentes.
 
-**Límite:** Sólo vale para estas variantes, snapshot y frontera de costo.
-
-Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-pareto-inferencia) para año, rango, confianza y fuentes.
-[AI_DASHBOARD:pareto_inference:END]: #
+[AI_DASHBOARD:pareto_inference:END]: <#dashboard-pareto_inference-end>
 
 ### Qué sí y qué no puedes concluir
 
-| Sí puedes decir | No puedes decir |
-|---|---|
-| “El estado y la unidad están declarados.” | “Un faltante vale cero.” |
-| “El artefacto exige esta capacidad.” | “Garantiza throughput o latencia.” |
-| “No está dominado bajo estos ejes.” | “Es mejor para cualquier tarea.” |
-| “La magnitud cambia por órdenes.” | “FLOP, watts o USD miden calidad.” |
+**Sí puedes decir:** “El estado y la unidad están declarados”, “el artefacto exige esta capacidad”, “no está dominado bajo estos ejes” y “la magnitud cambia por órdenes”. **No puedes decir:** “Un faltante vale cero”, “garantiza throughput o latencia”, “es mejor para cualquier tarea” ni “FLOP, watts o USD miden calidad”.
 
-**Fin de la ruta esencial. Continúa al anexo sólo si deseas profundizar.**
-
-[[evidencia-dashboard-ia]] conserva tabla maestra, cuatro vistas opcionales y nueve tablas completas. No se dibuja Pareto de entrenamiento: no existe una intersección exacta entre las cuatro flotas y variantes ECI elegibles.
-
-### Recapitulación del dashboard
-
-1. Total almacena; activo aproxima trabajo MoE.
-2. Trabajo, tasa, tiempo, flota y potencia difieren.
-3. Un piso responde “¿cabe?”, no “¿cumple SLA?”.
-4. TDP no es pared; CAPEX parcial no es costo real.
-5. ECI no es IQ; Pareto descarta, no decide.
+**Fin de la ruta esencial. Continúa al anexo sólo si deseas profundizar.** [[evidencia-dashboard-ia]] conserva tabla maestra, cuatro vistas y nueve tablas. No hay Pareto de entrenamiento: las cuatro flotas no intersectan variantes ECI elegibles. **Recapitulación:** Total almacena y activo aproxima trabajo MoE. Trabajo, tasa, tiempo, flota y potencia difieren. Un piso responde “¿cabe?”, no “¿cumple SLA?”. TDP no es pared y CAPEX parcial no es costo real. ECI no es IQ: Pareto descarta, no decide.
 
 ## Guía de decisión
 

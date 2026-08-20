@@ -165,7 +165,7 @@
         <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(152.079375 123.594531)">requirió el</text>
         <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(120.955938 147.6)">entrenamiento?</text>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="6.6e+22" data-low="6.6e+22" data-marker="o" data-model-id="DM_T5_11B" data-quantitative="true" data-role="training FLOP" data-row-index="0" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="6.6e+22" id="mark-000">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="66000000000000000000000" data-low="66000000000000000000000" data-marker="o" data-model-id="DM_T5_11B" data-quantitative="true" data-role="training FLOP" data-row-index="0" data-source-ids="S_DASH_GOOGLE_T5_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="6.6e+22" id="mark-000">
         <defs>
           <path d="M 0 5.123475  C 1.358762 5.123475 2.662055 4.583634 3.622844 3.622844  C 4.583634 2.662055 5.123475 1.358762 5.123475 0  C 5.123475 -1.358762 4.583634 -2.662055 3.622844 -3.622844  C 2.662055 -4.583634 1.358762 -5.123475 0 -5.123475  C -1.358762 -5.123475 -2.662055 -4.583634 -3.622844 -3.622844  C -4.583634 -2.662055 -5.123475 -1.358762 -5.123475 0  C -5.123475 1.358762 -4.583634 2.662055 -3.622844 3.622844  C -2.662055 4.583634 -1.358762 5.123475 0 5.123475  z " id="m12ed3d21d9" style="stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" />
         </defs>
@@ -173,68 +173,68 @@
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="135.27" y="527.890909" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="3.1428e+23" data-low="3.1428e+23" data-marker="o" data-model-id="DM_GPT3_175B" data-quantitative="true" data-role="training FLOP" data-row-index="1" data-source-ids="S_OPENAI_GPT3_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="3.1428e+23" id="mark-001">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="314280000000000000000000" data-low="314280000000000000000000" data-marker="o" data-model-id="DM_GPT3_175B" data-quantitative="true" data-role="training FLOP" data-row-index="1" data-source-ids="S_OPENAI_GPT3_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="3.1428e+23" id="mark-001">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="160.32" y="513.011201" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="5.04e+23" data-low="5.04e+23" data-marker="o" data-model-id="DM_GOPHER_280B" data-quantitative="true" data-role="training FLOP" data-row-index="2" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="5.04e+23" id="mark-002">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="504000000000000000000000" data-low="504000000000000000000000" data-marker="o" data-model-id="DM_GOPHER_280B" data-quantitative="true" data-role="training FLOP" data-row-index="2" data-source-ids="S_DASH_DEEPMIND_GOPHER_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="5.04e+23" id="mark-002">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="185.37" y="501.641061" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="3.87038412e+23" data-low="3.87038412e+23" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="training FLOP" data-row-index="3" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="3.87038412e+23" id="mark-003">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="387038412000000000000000" data-low="387038412000000000000000" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="training FLOP" data-row-index="3" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="3.87038412e+23" id="mark-003">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="205.911" y="508.650705" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="5.88e+23" data-low="5.88e+23" data-marker="o" data-model-id="DM_CHINCHILLA_70B" data-quantitative="true" data-role="training FLOP" data-row-index="4" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="5.88e+23" id="mark-004">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="588000000000000000000000" data-low="588000000000000000000000" data-marker="o" data-model-id="DM_CHINCHILLA_70B" data-quantitative="true" data-role="training FLOP" data-row-index="4" data-source-ids="S_DASH_DEEPMIND_CHINCHILLA_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="5.88e+23" id="mark-004">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="208.917" y="496.606843" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="1.89e+23" data-low="1.89e+23" data-marker="o" data-model-id="DM_OPT_175B" data-quantitative="true" data-role="training FLOP" data-row-index="5" data-source-ids="S_DASH_META_OPT_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="1.89e+23" id="mark-005">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="189000000000000000000000" data-low="189000000000000000000000" data-marker="o" data-model-id="DM_OPT_175B" data-quantitative="true" data-role="training FLOP" data-row-index="5" data-source-ids="S_DASH_META_OPT_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="1.89e+23" id="mark-005">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="211.923" y="520.519376" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="2.528838e+24" data-low="2.528838e+24" data-marker="o" data-model-id="DM_PALM_540B" data-quantitative="true" data-role="training FLOP" data-row-index="6" data-source-ids="S_GOOGLE_PALM_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="2.528838e+24" id="mark-006">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="2528838000000000000000000" data-low="2528838000000000000000000" data-marker="o" data-model-id="DM_PALM_540B" data-quantitative="true" data-role="training FLOP" data-row-index="6" data-source-ids="S_GOOGLE_PALM_PAPER" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="2.528838e+24" id="mark-006">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="214.929" y="380.29017" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="8.04e+23" data-low="8.04e+23" data-marker="o" data-model-id="DM_DEEPSEEK_LLM_67B" data-quantitative="true" data-role="training FLOP" data-row-index="7" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="8.04e+23" id="mark-007">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="804000000000000000000000" data-low="804000000000000000000000" data-marker="o" data-model-id="DM_DEEPSEEK_LLM_67B" data-quantitative="true" data-role="training FLOP" data-row-index="7" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="8.04e+23" id="mark-007">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="230.961" y="483.661713" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="5.46e+23" data-low="5.46e+23" data-marker="o" data-model-id="DM_LLAMA1_65B" data-quantitative="true" data-role="training FLOP" data-row-index="8" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="5.46e+23" id="mark-008">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="546000000000000000000000" data-low="546000000000000000000000" data-marker="o" data-model-id="DM_LLAMA1_65B" data-quantitative="true" data-role="training FLOP" data-row-index="8" data-source-ids="S_DASH_META_LLAMA1_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="5.46e+23" id="mark-008">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="233.967" y="499.123952" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="8.4e+23" data-low="8.4e+23" data-marker="o" data-model-id="DM_LLAMA2_70B" data-quantitative="true" data-role="training FLOP" data-row-index="9" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="8.4e+23" id="mark-009">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="840000000000000000000000" data-low="840000000000000000000000" data-marker="o" data-model-id="DM_LLAMA2_70B" data-quantitative="true" data-role="training FLOP" data-row-index="9" data-source-ids="S_DASH_META_LLAMA2_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="8.4e+23" id="mark-009">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="236.973" y="481.504191" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="1.296e+24" data-low="1.296e+24" data-marker="o" data-model-id="DM_QWEN_72B" data-quantitative="true" data-role="training FLOP" data-row-index="10" data-source-ids="S_DASH_QWEN_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="1.296e+24" id="mark-010">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="1296000000000000000000000" data-low="1296000000000000000000000" data-marker="o" data-model-id="DM_QWEN_72B" data-quantitative="true" data-role="training FLOP" data-row-index="10" data-source-ids="S_DASH_QWEN_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="1.296e+24" id="mark-010">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="239.979" y="454.175582" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="medium" data-high="1.27575e+24" data-low="8.1648e+23" data-marker="o" data-model-id="DM_DEEPSEEK_V2" data-quantitative="true" data-role="training FLOP" data-row-index="11" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-status="ESTIMATE" data-status-style="open-outline" data-unit="FLOP" data-value="1.046115e+24" id="mark-011">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="medium" data-high="1275750000000000000000000" data-low="816480000000000000000000" data-marker="o" data-model-id="DM_DEEPSEEK_V2" data-quantitative="true" data-role="training FLOP" data-row-index="11" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-status="ESTIMATE" data-status-style="open-outline" data-unit="FLOP" data-value="1.046115e+24" id="mark-011">
         <path clip-path="url(#p2995dd77b6)" d="M 256.011 474.274955  C 257.369762 474.274955 258.673055 473.735114 259.633844 472.774324  C 260.594634 471.813535 261.134475 470.510242 261.134475 469.15148  C 261.134475 467.792719 260.594634 466.489425 259.633844 465.528636  C 258.673055 464.567846 257.369762 464.028005 256.011 464.028005  C 254.652238 464.028005 253.348945 464.567846 252.388156 465.528636  C 251.427366 466.489425 250.887525 467.792719 250.887525 469.15148  C 250.887525 470.510242 251.427366 471.813535 252.388156 472.774324  C 253.348945 473.735114 254.652238 474.274955 256.011 474.274955  L 256.011 474.274955  z " style="fill: none; stroke: #d55e00; stroke-width: 2.3" />
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="medium" data-high="4.107e+24" data-low="2.62848e+24" data-marker="o" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="training FLOP" data-row-index="12" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-status="ESTIMATE" data-status-style="open-outline" data-unit="FLOP" data-value="3.36774e+24" id="mark-012">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="medium" data-high="4107000000000000000000000" data-low="2628480000000000000000000" data-marker="o" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="training FLOP" data-row-index="12" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-status="ESTIMATE" data-status-style="open-outline" data-unit="FLOP" data-value="3.36774e+24" id="mark-012">
         <path clip-path="url(#p2995dd77b6)" d="M 259.017 335.137276  C 260.375762 335.137276 261.679055 334.597434 262.639844 333.636645  C 263.600634 332.675855 264.140475 331.372562 264.140475 330.0138  C 264.140475 328.655039 263.600634 327.351746 262.639844 326.390956  C 261.679055 325.430167 260.375762 324.890325 259.017 324.890325  C 257.658238 324.890325 256.354945 325.430167 255.394156 326.390956  C 254.433366 327.351746 253.893525 328.655039 253.893525 330.0138  C 253.893525 331.372562 254.433366 332.675855 255.394156 333.636645  C 256.354945 334.597434 257.658238 335.137276 259.017 335.137276  L 259.017 335.137276  z " style="fill: none; stroke: #d55e00; stroke-width: 2.3" />
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="2.106e+24" data-low="2.106e+24" data-marker="o" data-model-id="DM_GEMMA2_27B" data-quantitative="true" data-role="training FLOP" data-row-index="13" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="2.106e+24" id="mark-013">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="2106000000000000000000000" data-low="2106000000000000000000000" data-marker="o" data-model-id="DM_GEMMA2_27B" data-quantitative="true" data-role="training FLOP" data-row-index="13" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="2.106e+24" id="mark-013">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="262.023" y="405.631342" xlink:href="#m12ed3d21d9" />
         </g>
       </g>
-      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="2.52e+23" data-low="2.52e+23" data-marker="o" data-model-id="DM_GEMMA_7B" data-quantitative="true" data-role="training FLOP" data-row-index="14" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="2.52e+23" id="mark-014">
+      <g data-claim-scope="training_work_fact_derived_or_estimate" data-confidence="high" data-high="252000000000000000000000" data-low="252000000000000000000000" data-marker="o" data-model-id="DM_GEMMA_7B" data-quantitative="true" data-role="training FLOP" data-row-index="14" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD" data-status="DERIVED" data-status-style="light-fill" data-unit="FLOP" data-value="2.52e+23" id="mark-014">
         <g clip-path="url(#p2995dd77b6)">
           <use style="fill: #009e73; fill-opacity: 0.48; stroke: #009e73; stroke-opacity: 0.48; stroke-width: 2" x="265.029" y="516.743713" xlink:href="#m12ed3d21d9" />
         </g>

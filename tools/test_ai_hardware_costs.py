@@ -369,8 +369,14 @@ def test_ai_hardware_eliminar_una_tabla_fallback_completa_falla():
     page = PAGE.read_text(encoding="utf-8")
     assert all(name not in page for name in AI_SVG_NAMES)
     assert page.count("../_assets/ai-dashboard-inference-hardware.svg") == 1
-    block = page.split("[AI_DASHBOARD:h100_capacity_floor:START]: #", 1)[1]
-    block = block.split("[AI_DASHBOARD:h100_capacity_floor:END]: #", 1)[0]
+    block = page.split(
+        "[AI_DASHBOARD:h100_capacity_floor:START]: "
+        "<#dashboard-h100_capacity_floor-start>", 1
+    )[1]
+    block = block.split(
+        "[AI_DASHBOARD:h100_capacity_floor:END]: "
+        "<#dashboard-h100_capacity_floor-end>", 1
+    )[0]
     assert all(term in block for term in ("H100-equivalente", "W TDP", "USD", "CAPEX"))
 
 

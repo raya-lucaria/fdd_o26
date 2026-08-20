@@ -5,8 +5,13 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import os
 import pytest
+import re
 import subprocess
 from threading import Thread
+
+import yaml
+
+from ai_model_dashboard import build_figure_specs
 
 from tools.raya_test_support import resolve_raya_checkout_or_skip
 
@@ -23,6 +28,25 @@ sync_playwright = playwright_sync_api.sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "/arquitectura-de-computadoras/ai-escala-y-decision/index.html"
+
+
+def dashboard_specs():
+    return build_figure_specs({
+        "ledger": yaml.safe_load(
+            (ROOT / "tools/data/ai_hardware_costs.yaml").read_text(encoding="utf-8")
+        ),
+        "eci": yaml.safe_load(
+            (ROOT / "tools/data/eci_snapshot_2026-08-18.yaml").read_text(
+                encoding="utf-8"
+            )
+        ),
+    })
+
+
+def table_after_heading(page, heading_id):
+    return page.locator(f'[id="{heading_id}"]').locator(
+        "xpath=following-sibling::table[1]"
+    )
 
 
 @contextmanager
@@ -47,6 +71,8 @@ def built_site():
 
 
 def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
+    specs = dashboard_specs()
+    essential = [spec for spec in specs if spec.route == "essential"]
     with built_site() as url, sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True)
         for width, height in ((390, 844), (1440, 900)):
@@ -60,6 +86,32 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
             dashboard_height = end["y"] - start["y"]
             assert 8 <= dashboard_height / height <= 12
             assert page.evaluate("document.documentElement.scrollWidth") == width
+
+            dashboard = page.evaluate(
+                """() => {
+                  const headings = [...document.querySelectorAll('h2')];
+                  const start = headings.find(node => node.textContent.includes('Dashboard:'));
+                  const end = headings.find(node => node.textContent.includes('Guía de decisión'));
+                  const range = document.createRange();
+                  range.setStartAfter(start);
+                  range.setEndBefore(end);
+                  const fragment = range.cloneContents();
+                  return {
+                    text: fragment.textContent,
+                    rows: [...fragment.querySelectorAll('table')].map(
+                      table => table.querySelectorAll('tbody tr').length
+                    ),
+                  };
+                }"""
+            )
+            words = re.findall(
+                r"[\wÁÉÍÓÚÜÑáéíóúüñ./+−-]+", dashboard["text"]
+            )
+            assert 900 <= len(words) <= 1400
+            assert "AI_DASHBOARD" not in dashboard["text"]
+            assert dashboard["rows"] == [
+                len(spec.compact_rows) for spec in essential
+            ]
 
             images = page.locator(
                 'img[src*="ai-dashboard-"]'
@@ -86,6 +138,70 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
                     }"""
                 )
                 assert effective >= 16
+
+            pareto = table_after_heading(
+                page, "5-qu-opciones-quedan-en-la-frontera-costoeci"
+            )
+            assert pareto.locator("th").all_inner_texts() == [
+                "Clave", "Modelo", "Lectura"
+            ]
+            pareto_spec = next(
+                spec for spec in essential if spec.figure_id == "pareto_inference"
+            )
+            assert pareto.locator("tbody tr td:first-child").all_inner_texts() == [
+                str(pareto_spec.rows.index(row) + 1)
+                for row in pareto_spec.compact_rows
+            ]
+            key_text = page.locator(
+                "p", has_text="Clave de la gráfica:"
+            ).inner_text()
+            names = {
+                model["id"]: model["canonical_name"]
+                for model in yaml.safe_load(
+                    (ROOT / "tools/data/ai_hardware_costs.yaml").read_text(
+                        encoding="utf-8"
+                    )
+                )["dashboard_models"]
+            }
+            assert key_text == "Clave de la gráfica: " + "; ".join(
+                f"{index} = {names[row.model_id]}"
+                for index, row in enumerate(pareto_spec.rows, 1)
+            ) + "."
+        browser.close()
+
+
+def test_real_raya_annex_tables_have_exact_rows_and_pareto_keys():
+    specs = dashboard_specs()
+    with built_site() as url, sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 1440, "height": 900})
+        page.goto(url.replace("/index.html", "/evidencia-dashboard/index.html"))
+        page.wait_for_load_state("networkidle")
+
+        assert "AI_DASHBOARD" not in page.locator("body").inner_text()
+        anchors = {
+            "parameters": "tabla-parametros",
+            "training_flop": "tabla-flop-entrenamiento",
+            "artifact_or_weight_floor": "tabla-memoria-inferencia",
+            "h100_capacity_floor": "tabla-hardware-inferencia",
+            "pareto_inference": "tabla-pareto-inferencia",
+            "training_accelerators": "tabla-aceleradores-entrenamiento",
+            "training_replacement_value": "tabla-reemplazo-entrenamiento",
+            "inference_tdp_floor": "tabla-potencia-inferencia",
+            "inference_capex_floor": "tabla-capex-inferencia",
+        }
+        for spec in specs:
+            table = table_after_heading(page, anchors[spec.figure_id])
+            assert table.locator("tbody tr").count() == len(spec.rows)
+
+        pareto_spec = next(
+            spec for spec in specs if spec.figure_id == "pareto_inference"
+        )
+        pareto = table_after_heading(page, anchors[pareto_spec.figure_id])
+        assert pareto.locator("th").all_inner_texts()[0] == "Clave"
+        assert pareto.locator("tbody tr td:first-child").all_inner_texts() == [
+            str(index) for index in range(1, 9)
+        ]
         browser.close()
 
 

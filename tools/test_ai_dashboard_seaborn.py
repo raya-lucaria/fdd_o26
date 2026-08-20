@@ -15,6 +15,7 @@ from gen_ai_model_dashboard import (
     ECI_PATH,
     DATA_PATH,
     SVG_FILENAMES,
+    _full_table,
     render_dashboard,
     render_figure,
     write_svg,
@@ -236,6 +237,40 @@ def test_generator_loads_combined_corpus_and_writes_exact_manifest(tmp_path):
         node.attrib.get("data-frontier") in {"safe", "possible", "dominated"}
         for node in pareto.iter()
     ) == 8
+
+
+def test_full_audit_tables_render_every_decimal_cell_exactly(figure_specs):
+    """Formatting must not pass exact ledger integers through binary floats."""
+    ledger = yaml.safe_load(DATA_PATH.read_text(encoding="utf-8"))
+    names = {
+        model["id"]: model["canonical_name"]
+        for model in ledger["dashboard_models"]
+    }
+
+    def exact_number(value):
+        if value == value.to_integral_value():
+            return f"{value:,.0f}"
+        return format(value, "f").rstrip("0").rstrip(".")
+
+    for spec in figure_specs:
+        lines = _full_table(spec, names).splitlines()[2:]
+        assert len(lines) == len(spec.rows)
+        for row, line in zip(spec.rows, lines):
+            cells = [cell.strip() for cell in line.strip("|").split("|")]
+            value_index = 3 if spec.figure_id == "pareto_inference" else 2
+            expected = exact_number(row.low)
+            if row.low != row.high:
+                expected += f"–{exact_number(row.high)}"
+            if row.cost_low is not None:
+                cost = exact_number(row.cost_low)
+                if row.cost_low != row.cost_high:
+                    cost += f"–{exact_number(row.cost_high)}"
+                expected = f"ECI {expected}; costo USD {cost}"
+            assert cells[value_index] == expected, (spec.figure_id, row.model_id)
+
+    flop = next(spec for spec in figure_specs if spec.figure_id == "training_flop")
+    t5_line = next(line for line in _full_table(flop, names).splitlines() if "DM_T5_11B" in line)
+    assert "66,000,000,000,000,000,000,000" in t5_line
 
 
 def test_training_accelerator_view_excludes_accelerator_hours(figure_specs):

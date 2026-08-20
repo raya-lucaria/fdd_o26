@@ -1,3 +1,4 @@
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
@@ -35,6 +36,26 @@ def test_figure_specs_define_five_essential_and_four_optional(corpus):
     assert sum(spec.route == "essential" for spec in specs) == 5
     assert sum(spec.route == "annex" for spec in specs) == 4
     assert all(4 <= len(spec.compact_rows) <= 6 for spec in specs if spec.route == "essential")
+
+
+def test_figure_rows_preserve_exact_decimal_bounds_from_ledger(corpus):
+    """The view model must not round large integers before audit-table output."""
+    flop = spec_by_id(build_figure_specs(corpus), "training_flop")
+    source = {
+        model["id"]: model["metrics"]["training_flop"]
+        for model in corpus["ledger"]["dashboard_models"]
+    }
+
+    for row in flop.rows:
+        cell = source[row.model_id]
+        expected_low = Decimal(str(cell.get("low", cell["value"])))
+        expected_high = Decimal(str(cell.get("high", cell["value"])))
+        assert isinstance(row.low, Decimal)
+        assert isinstance(row.high, Decimal)
+        assert (row.low, row.high) == (expected_low, expected_high)
+
+    t5 = next(row for row in flop.rows if row.model_id == "DM_T5_11B")
+    assert t5.low == t5.high == Decimal("66000000000000000000000")
 
 
 def test_missing_training_compute_is_not_a_zero_mark(corpus):

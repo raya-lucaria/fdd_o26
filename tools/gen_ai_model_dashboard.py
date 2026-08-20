@@ -11,6 +11,7 @@ from __future__ import annotations
 import math
 import locale
 import os
+from decimal import Decimal
 from pathlib import Path
 import sys
 import textwrap
@@ -191,6 +192,16 @@ ROLE_LEGENDS = {
         "BF16 weight floor": "piso BF16",
     },
 }
+DISPLAY_LABELS = {
+    "active": "activo",
+    "documented artifact": "artefacto documentado",
+    "BF16 weight floor": "piso de pesos BF16",
+}
+FRONTIER_LABELS = {
+    "safe": "segura",
+    "possible": "posible",
+    "dominated": "dominada",
+}
 MODEL_SHORT_LABELS = {
     "DM_GEMMA2_27B": "Gemma 2 27B",
     "DM_GEMMA3_27B": "Gemma 3",
@@ -243,8 +254,10 @@ THEME_RC = {
 mpl.rcParams.update(THEME_RC)
 
 
-def _center(low: float, high: float, scale: str) -> float:
+def _center(low: Decimal | float, high: Decimal | float, scale: str) -> float:
     """Return a display center without changing the declared interval."""
+    low = float(low)
+    high = float(high)
     if low == high:
         return low
     if scale == "log":
@@ -359,10 +372,12 @@ def _draw_temporal_intervals(ax, spec: FigureSpec, frame: pd.DataFrame) -> None:
         if row.low == row.high:
             continue
         center = float(frame.iloc[index]["value"])
+        low = float(row.low)
+        high = float(row.high)
         container = ax.errorbar(
             float(frame.iloc[index]["display_year"]),
             center,
-            yerr=((center - row.low,), (row.high - center,)),
+            yerr=((center - low,), (high - center,)),
             fmt="none",
             ecolor=STATUS_COLORS[row.status],
             elinewidth=2,
@@ -377,18 +392,20 @@ def _draw_temporal_intervals(ax, spec: FigureSpec, frame: pd.DataFrame) -> None:
 def _draw_pareto_intervals(ax, spec: FigureSpec) -> None:
     for index, row in enumerate(spec.rows):
         color, linestyle = FRONTIER_STYLES[row.frontier]
-        cost_low = row.cost_low
-        cost_high = row.cost_high
+        cost_low = float(row.cost_low)
+        cost_high = float(row.cost_high)
         width = cost_high - cost_low
         left = cost_low
         if width == 0:
             left = cost_low / 1.018
             width = cost_low * (1.018 - 1 / 1.018)
-        height = row.high - row.low
-        bottom = row.low
+        high = float(row.high)
+        low = float(row.low)
+        height = high - low
+        bottom = low
         if height == 0:
-            height = max(row.low * 0.012, 0.5)
-            bottom = row.low - height / 2
+            height = max(low * 0.012, 0.5)
+            bottom = low - height / 2
         rectangle = Rectangle(
             (left, bottom),
             width,
@@ -791,7 +808,9 @@ def render_figure(spec: FigureSpec, path: Path | None):
     return fig
 
 
-def _number(value: float) -> str:
+def _number(value: Decimal | float) -> str:
+    if isinstance(value, Decimal):
+        return format(value, "f")
     return format(value, ".15g")
 
 
@@ -953,16 +972,17 @@ def write_svg(spec: FigureSpec, path: Path) -> Path:
     return Path(path)
 
 
-def _markdown_number(value: float) -> str:
+def _markdown_number(value: Decimal | int | float) -> str:
     """Render a stable, compact value without changing its declared precision."""
-    if value == int(value):
-        return f"{int(value):,}"
-    if abs(value) >= 1e6 or abs(value) < 0.01:
-        return format(value, ".6g")
-    return format(value, ".6f").rstrip("0").rstrip(".")
+    number = value if isinstance(value, Decimal) else Decimal(str(value))
+    if number == number.to_integral_value():
+        return f"{number:,.0f}"
+    return format(number, "f").rstrip("0").rstrip(".")
 
 
-def _markdown_range(low: float, high: float) -> str:
+def _markdown_range(
+    low: Decimal | int | float, high: Decimal | int | float
+) -> str:
     if low == high:
         return _markdown_number(low)
     return f"{_markdown_number(low)}–{_markdown_number(high)}"
@@ -982,8 +1002,11 @@ def _model_names(ledger: dict) -> dict[str, str]:
 def _compact_reading(spec: FigureSpec, row: FigureRow) -> str:
     value = _markdown_range(row.low, row.high)
     if spec.figure_id == "parameters":
-        value = _markdown_range(row.low / 1e9, row.high / 1e9)
-        return f"{value} mil millones; {row.label}; **{row.status}**"
+        value = _markdown_range(row.low / Decimal("1e9"), row.high / Decimal("1e9"))
+        return (
+            f"{value} mil millones; {DISPLAY_LABELS.get(row.label, row.label)}; "
+            f"**{row.status}**"
+        )
     if spec.figure_id == "training_flop":
         value = (
             format(row.low, ".3g")
@@ -992,8 +1015,8 @@ def _compact_reading(spec: FigureSpec, row: FigureRow) -> str:
         )
         return f"{value} FLOP; **{row.status}**"
     if spec.figure_id == "artifact_or_weight_floor":
-        value = _markdown_range(row.low / 1e9, row.high / 1e9)
-        return f"{value} GB; {row.label}; **{row.status}**"
+        value = _markdown_range(row.low / Decimal("1e9"), row.high / Decimal("1e9"))
+        return f"{value} GB; {DISPLAY_LABELS.get(row.label, row.label)}; **{row.status}**"
     if spec.figure_id == "h100_capacity_floor":
         low_h100 = int(row.low)
         high_h100 = int(row.high)
@@ -1007,10 +1030,13 @@ def _compact_reading(spec: FigureSpec, row: FigureRow) -> str:
     if spec.figure_id == "pareto_inference":
         cost = _markdown_range(row.cost_low, row.cost_high)
         return (
-            f"ECI {value}; USD {cost}; frontera {row.frontier}, "
+            f"ECI {value}; USD {cost}; frontera {FRONTIER_LABELS[row.frontier]}, "
             f"**{row.status}**"
         )
-    return f"{value} {row.unit}; {row.label}; **{row.status}**"
+    return (
+        f"{value} {row.unit}; {DISPLAY_LABELS.get(row.label, row.label)}; "
+        f"**{row.status}**"
+    )
 
 
 def _alt_text(spec: FigureSpec) -> str:
@@ -1020,28 +1046,48 @@ def _alt_text(spec: FigureSpec) -> str:
 
 def _sentinel(spec: FigureSpec, content: str) -> str:
     return (
-        f"[AI_DASHBOARD:{spec.figure_id}:START]: #\n"
-        f"{content.rstrip()}\n"
-        f"[AI_DASHBOARD:{spec.figure_id}:END]: #"
+        f"[AI_DASHBOARD:{spec.figure_id}:START]: "
+        f"<#dashboard-{spec.figure_id}-start>\n\n"
+        f"{content.rstrip()}\n\n"
+        f"[AI_DASHBOARD:{spec.figure_id}:END]: "
+        f"<#dashboard-{spec.figure_id}-end>"
     )
 
 
 def _compact_table(spec: FigureSpec, names: dict[str, str]) -> str:
-    lines = ["| Modelo | Lectura |", "|---|---|"]
+    if spec.figure_id == "pareto_inference":
+        lines = ["| Clave | Modelo | Lectura |", "|---:|---|---|"]
+    else:
+        lines = ["| Modelo | Lectura |", "|---|---|"]
     for row in spec.compact_rows:
-        lines.append(
-            f"| **{_escape_cell(names[row.model_id])}** | "
-            f"{_escape_cell(_compact_reading(spec, row))} |"
-        )
+        cells = [f"**{_escape_cell(names[row.model_id])}**", _escape_cell(_compact_reading(spec, row))]
+        if spec.figure_id == "pareto_inference":
+            cells.insert(0, str(spec.rows.index(row) + 1))
+        lines.append("| " + " | ".join(cells) + " |")
     return "\n".join(lines)
 
 
+def _pareto_key(spec: FigureSpec, names: dict[str, str]) -> str:
+    if spec.figure_id != "pareto_inference":
+        return ""
+    mapping = "; ".join(
+        f"{index} = {names[row.model_id]}"
+        for index, row in enumerate(spec.rows, 1)
+    )
+    return f"**Clave de la gráfica:** {mapping}."
+
+
 def _full_table(spec: FigureSpec, names: dict[str, str]) -> str:
-    lines = [
-        "| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |",
-        "|---|---:|---:|---|---|---|---|---|",
+    headers = [
+        "Modelo e ID", "Año", "Valor o rango", "Unidad", "Estado",
+        "Confianza", "Alcance", "Fuentes",
     ]
-    for row in spec.rows:
+    aligns = ["---", "---:", "---:", "---", "---", "---", "---", "---"]
+    if spec.figure_id == "pareto_inference":
+        headers.insert(0, "Clave")
+        aligns.insert(0, "---:")
+    lines = ["| " + " | ".join(headers) + " |", "|" + "|".join(aligns) + "|"]
+    for index, row in enumerate(spec.rows, 1):
         value = _markdown_range(row.low, row.high)
         unit = row.unit
         if row.cost_low is not None and row.cost_high is not None:
@@ -1050,20 +1096,26 @@ def _full_table(spec: FigureSpec, names: dict[str, str]) -> str:
                 f"{_markdown_range(row.cost_low, row.cost_high)}"
             )
             unit = "ECI y USD"
-        frontier = f"; frontera {row.frontier}" if row.frontier else ""
+        frontier = (
+            f"; frontera {FRONTIER_LABELS[row.frontier]}" if row.frontier else ""
+        )
+        cells = [
+            _escape_cell(
+                f"{names[row.model_id]} · `{row.model_id}` · "
+                f"{DISPLAY_LABELS.get(row.label, row.label)}"
+            ),
+            str(row.year),
+            _escape_cell(value),
+            _escape_cell(unit),
+            f"`{row.status}`{frontier}",
+            f"`{row.confidence}`",
+            _escape_cell(row.scope),
+            _escape_cell(", ".join(f"`{source}`" for source in row.source_ids)),
+        ]
+        if spec.figure_id == "pareto_inference":
+            cells.insert(0, str(index))
         lines.append(
-            "| "
-            + " | ".join((
-                _escape_cell(f"{names[row.model_id]} · `{row.model_id}` · {row.label}"),
-                str(row.year),
-                _escape_cell(value),
-                _escape_cell(unit),
-                f"`{row.status}`{frontier}",
-                f"`{row.confidence}`",
-                _escape_cell(row.scope),
-                _escape_cell(", ".join(f"`{source}`" for source in row.source_ids)),
-            ))
-            + " |"
+            "| " + " | ".join(cells) + " |"
         )
     return "\n".join(lines)
 
@@ -1075,17 +1127,13 @@ def _essential_block(index: int, spec: FigureSpec, names: dict[str, str]) -> str
 
 ![{_alt_text(spec)}](../_assets/{spec.filename})
 
-**Conclusión:** {copy['conclusion']}
+{_pareto_key(spec, names)}
 
-**Di esto:** {copy['say']}
-
-**No concluyas esto:** {copy['avoid']}
+**Conclusión:** {copy['conclusion']} **Di esto:** {copy['say']} **No concluyas esto:** {copy['avoid']}
 
 {_compact_table(spec, names)}
 
-**Límite:** {copy['limit']}
-
-Ve la [tabla completa](raya:evidencia-dashboard-ia#{anchor}) para año, rango, confianza y fuentes.
+**Límite:** {copy['limit']} Ve la [tabla completa](raya:evidencia-dashboard-ia#{anchor}) para año, rango, confianza y fuentes.
 """
     return _sentinel(spec, content)
 
@@ -1165,12 +1213,15 @@ def _main_dashboard(specs: tuple[FigureSpec, ...], ledger: dict) -> str:
     essentials = [spec for spec in specs if spec.route == "essential"]
     blocks = [
         "### En 30 segundos\n\n"
-        "- Empieza por pregunta y unidad: cada figura tiene un eje Y.\n"
-        "- **FACT** se publica; **DERIVED** se calcula; **ESTIMATE** acota; **SCENARIO** supone.\n"
-        "- **no publicado** es ausencia, nunca cero.",
+        "Empieza por pregunta y unidad: cada figura tiene un eje Y. **FACT** se publica; "
+        "**DERIVED** se calcula; **ESTIMATE** acota; **SCENARIO** supone. "
+        "**no publicado** es ausencia, nunca cero.",
         "### Cómo leer el dashboard\n\n"
         "X muestra el año; el desplazamiento sólo separa marcas. En Y logarítmico, igual distancia significa multiplicar. **Confianza** califica evidencia, no calidad. **FLOP es trabajo**; **FLOP/s es una tasa**.\n\n"
-        "La ruta pregunta por **parámetros totales** y **parámetros activos**, trabajo, memoria, hardware y costo–ECI. Lee visual, conclusión, frase defendible, inferencia prohibida, tabla y límite.",
+        "La ruta pregunta por **parámetros totales** y **parámetros activos**, trabajo, memoria, hardware y costo–ECI. Lee visual, conclusión, frase defendible, inferencia prohibida, tabla y límite.\n\n"
+        "Antes de comparar, identifica qué representa una marca: modelo y variante, año, unidad y estado de evidencia. Dos puntos próximos no describen la misma arquitectura ni el mismo experimento. Los intervalos conservan incertidumbre o escenarios explícitos; no autorizan escoger su centro como si fuera una medición. Si falta una cifra, la ausencia sigue visible en la auditoría, pero no entra al eje numérico.\n\n"
+        "Después separa tres preguntas. **Escala** pregunta cuánto se almacena o calcula. **Capacidad** pregunta qué cabe bajo una precisión y una memoria declaradas. **Decisión** cruza una métrica de costo con ECI para descartar opciones dominadas. Ninguna responde por sí sola sobre latencia, throughput, energía de pared, calidad universal o costo total de propiedad; esas afirmaciones requieren variables y mediciones adicionales.\n\n"
+        "Una comparación defendible nombra siempre su frontera: variante exacta, fecha del snapshot, precisión, alcance accelerator-only y fuente. Usa la tabla compacta para explicar la idea y la tabla completa para auditar el número. Si cambias una premisa, vuelve a calcular antes de trasladar la conclusión a otro modelo o sistema.",
     ]
     blocks.extend(
         _essential_block(index, spec, names)
@@ -1178,20 +1229,17 @@ def _main_dashboard(specs: tuple[FigureSpec, ...], ledger: dict) -> str:
     )
     blocks.extend((
         "### Qué sí y qué no puedes concluir\n\n"
-        "| Sí puedes decir | No puedes decir |\n"
-        "|---|---|\n"
-        "| “El estado y la unidad están declarados.” | “Un faltante vale cero.” |\n"
-        "| “El artefacto exige esta capacidad.” | “Garantiza throughput o latencia.” |\n"
-        "| “No está dominado bajo estos ejes.” | “Es mejor para cualquier tarea.” |\n"
-        "| “La magnitud cambia por órdenes.” | “FLOP, watts o USD miden calidad.” |",
-        "**Fin de la ruta esencial. Continúa al anexo sólo si deseas profundizar.**\n\n"
-        "[[evidencia-dashboard-ia]] conserva tabla maestra, cuatro vistas opcionales y nueve tablas completas. No se dibuja Pareto de entrenamiento: no existe una intersección exacta entre las cuatro flotas y variantes ECI elegibles.",
-        "### Recapitulación del dashboard\n\n"
-        "1. Total almacena; activo aproxima trabajo MoE.\n"
-        "2. Trabajo, tasa, tiempo, flota y potencia difieren.\n"
-        "3. Un piso responde “¿cabe?”, no “¿cumple SLA?”.\n"
-        "4. TDP no es pared; CAPEX parcial no es costo real.\n"
-        "5. ECI no es IQ; Pareto descarta, no decide.",
+        "**Sí puedes decir:** “El estado y la unidad están declarados”, “el artefacto "
+        "exige esta capacidad”, “no está dominado bajo estos ejes” y “la magnitud "
+        "cambia por órdenes”. **No puedes decir:** “Un faltante vale cero”, “garantiza "
+        "throughput o latencia”, “es mejor para cualquier tarea” ni “FLOP, watts o "
+        "USD miden calidad”.",
+        "**Fin de la ruta esencial. Continúa al anexo sólo si deseas profundizar.** "
+        "[[evidencia-dashboard-ia]] conserva tabla maestra, cuatro vistas y nueve tablas. "
+        "No hay Pareto de entrenamiento: las cuatro flotas no intersectan variantes ECI "
+        "elegibles. **Recapitulación:** Total almacena y activo aproxima trabajo MoE. Trabajo, tasa, tiempo, flota y "
+        "potencia difieren. Un piso responde “¿cabe?”, no “¿cumple SLA?”. TDP no es "
+        "pared y CAPEX parcial no es costo real. ECI no es IQ: Pareto descarta, no decide.",
     ))
     return "\n\n".join(blocks)
 

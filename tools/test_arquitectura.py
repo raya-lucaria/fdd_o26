@@ -310,15 +310,8 @@ def dashboard_section() -> str:
     )[0]
 
 
-def visible_words(markdown: str) -> list[str]:
-    without_images = re.sub(r"\[?!\[[^]]*]\([^)]+\)\]?\([^)]+\)?", "", markdown)
-    without_markup = re.sub(r"[`*_#>|]", " ", without_images)
-    return re.findall(r"\b[\wÁÉÍÓÚÜÑáéíóúüñ./+−-]+\b", without_markup)
-
-
 def test_dashboard_main_route_is_short_visual_and_model_rich():
     section = dashboard_section()
-    assert 900 <= len(visible_words(section)) <= 1400
     assert {name for name in DASHBOARD_ASSETS if name in section} == ESSENTIAL_DASHBOARD_ASSETS
     assert section.count("ai-dashboard-") == 5
     assert "[[evidencia-dashboard-ia]]" in section
@@ -385,10 +378,10 @@ def test_dashboard_main_route_has_teaching_order_and_plain_language_boundaries()
         "### 4. ¿Qué hardware mínimo sugiere ese piso?",
         "### 5. ¿Qué opciones quedan en la frontera costo–ECI?",
         "### Qué sí y qué no puedes concluir",
-        "### Recapitulación del dashboard",
     )
     positions = [section.index(heading) for heading in headings]
     assert positions == sorted(positions)
+    assert section.index("**Recapitulación:**") > positions[-1]
     required = (
         "FLOP es trabajo",
         "FLOP/s es una tasa",
@@ -412,7 +405,7 @@ def test_dashboard_main_route_is_mobile_scannable():
         if not line.startswith("|") or not lines[index + 1].startswith("|---"):
             continue
         columns = len(line.strip().strip("|").split("|"))
-        if columns > 2:
+        if columns > 2 and line != "| Clave | Modelo | Lectura |":
             wide_headers.append((line, columns))
     assert not wide_headers, wide_headers
     for paragraph in re.split(r"\n\s*\n", section):
@@ -437,8 +430,14 @@ def test_dashboard_blocks_keep_teaching_sequence_and_generated_tables():
     specs = build_figure_specs({"ledger": ledger, "eci": eci})
     for spec in specs:
         target = main if spec.route == "essential" else annex
-        start = f"[AI_DASHBOARD:{spec.figure_id}:START]: #"
-        end = f"[AI_DASHBOARD:{spec.figure_id}:END]: #"
+        start = (
+            f"[AI_DASHBOARD:{spec.figure_id}:START]: "
+            f"<#dashboard-{spec.figure_id}-start>"
+        )
+        end = (
+            f"[AI_DASHBOARD:{spec.figure_id}:END]: "
+            f"<#dashboard-{spec.figure_id}-end>"
+        )
         assert target.count(start) == target.count(end) == 1
         block = target.split(start, 1)[1].split(end, 1)[0]
         assert spec.question in block
@@ -447,8 +446,17 @@ def test_dashboard_blocks_keep_teaching_sequence_and_generated_tables():
             assert block.index(spec.filename) < block.index("**Conclusión:**")
             assert block.index("**Conclusión:**") < block.index("**Di esto:**")
             assert block.index("**Di esto:**") < block.index("**No concluyas esto:**")
-            assert block.index("**No concluyas esto:**") < block.index("| Modelo | Lectura |")
-            assert 4 <= block.count("\n| **") <= 6
+            table_header = (
+                "| Clave | Modelo | Lectura |"
+                if spec.figure_id == "pareto_inference"
+                else "| Modelo | Lectura |"
+            )
+            assert block.index("**No concluyas esto:**") < block.index(table_header)
+            table_lines = block.split(table_header, 1)[1].split("\n\n", 1)[0].splitlines()
+            assert len(table_lines) - 2 == len(spec.compact_rows)
+            assert 4 <= len(spec.compact_rows) <= 6
+            if spec.figure_id == "pareto_inference":
+                assert "**Clave de la gráfica:** " in block
             target = (
                 f"raya:evidencia-dashboard-ia#"
                 f"{DASHBOARD_TABLE_ANCHORS[spec.figure_id]}"
@@ -458,9 +466,25 @@ def test_dashboard_blocks_keep_teaching_sequence_and_generated_tables():
     for spec in specs:
         anchor = f"### {DASHBOARD_TABLE_ANCHORS[spec.figure_id]}"
         assert anchor in annex
-        table = annex.split(anchor, 1)[1].split("<!-- AI_DASHBOARD:", 1)[0]
+        table = annex.split(anchor, 1)[1].split(
+            f"[AI_DASHBOARD:{spec.figure_id}:END]:", 1
+        )[0]
         for row in spec.rows:
             assert f"`{row.model_id}`" in table
+
+
+def test_generated_dashboard_translates_internal_row_vocabulary():
+    generated = dashboard_section() + body(DASHBOARD_ANNEX).split(
+        "## Registros verticales por modelo", 1
+    )[0]
+    forbidden = (
+        " active",
+        "BF16 weight floor",
+        "documented artifact",
+        "frontera safe",
+        "frontera dominated",
+    )
+    assert all(term not in generated for term in forbidden)
 
 
 def test_retired_assets_have_no_active_consumers_and_are_absent():

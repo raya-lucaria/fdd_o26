@@ -176,11 +176,15 @@ def test_annex_tables_reconstruct_every_generated_figure_row():
     specs = build_figure_specs({"ledger": ledger, "eci": eci})
     assert len(specs) == 9
     for spec in specs:
-        marker = f"[AI_DASHBOARD:{spec.figure_id}:START]: #"
+        marker = (
+            f"[AI_DASHBOARD:{spec.figure_id}:START]: "
+            f"<#dashboard-{spec.figure_id}-start>"
+        )
         blocks = annex.split(marker)
         assert len(blocks) == 2
         section = blocks[1].split(
-            f"[AI_DASHBOARD:{spec.figure_id}:END]: #", 1
+            f"[AI_DASHBOARD:{spec.figure_id}:END]: "
+            f"<#dashboard-{spec.figure_id}-end>", 1
         )[0]
         assert section.count("\n|") - 2 == len(spec.rows)
         for point in spec.rows:
@@ -199,13 +203,19 @@ def test_annex_reconstructs_training_nonintersection_and_exact_inference_pareto_
     pareto = next(spec for spec in specs if spec.figure_id == "pareto_inference")
     assert len(pareto.rows) == 8
     assert "ai-pareto-training.svg" not in annex
-    assert "no existe una intersección exacta" in main
+    assert "las cuatro flotas no intersectan variantes ECI elegibles" in main
     section = annex.split("### tabla-pareto-inferencia", 1)[1].split(
-        "[AI_DASHBOARD:pareto_inference:END]: #", 1
+        "[AI_DASHBOARD:pareto_inference:END]: "
+        "<#dashboard-pareto_inference-end>", 1
     )[0]
+    frontier_labels = {
+        "safe": "segura",
+        "possible": "posible",
+        "dominated": "dominada",
+    }
     for point in pareto.rows:
         assert f"`{point.model_id}`" in section
-        assert f"frontera {point.frontier}" in section
+        assert f"frontera {frontier_labels[point.frontier]}" in section
 
 
 def test_training_series_excludes_missing_and_preserves_native_units():

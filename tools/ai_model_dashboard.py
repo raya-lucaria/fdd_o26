@@ -172,16 +172,16 @@ class FigureRow:
     model_id: str
     label: str
     year: int
-    low: float
-    high: float
+    low: Decimal
+    high: Decimal
     unit: str
     status: str
     confidence: str
     scope: str
     source_ids: tuple[str, ...]
     x_offset: float = 0.0
-    cost_low: float | None = None
-    cost_high: float | None = None
+    cost_low: Decimal | None = None
+    cost_high: Decimal | None = None
     frontier: Literal["safe", "possible", "dominated"] | None = None
 
     def __post_init__(self):
@@ -208,12 +208,12 @@ class FigureRow:
             )
             if costs[0] > costs[1]:
                 raise ValueError("Pareto cost bounds must be ordered")
-            object.__setattr__(self, "cost_low", float(costs[0]))
-            object.__setattr__(self, "cost_high", float(costs[1]))
+            object.__setattr__(self, "cost_low", costs[0])
+            object.__setattr__(self, "cost_high", costs[1])
         if self.frontier not in {None, "safe", "possible", "dominated"}:
             raise ValueError("figure row frontier must be safe, possible, or dominated")
-        object.__setattr__(self, "low", float(bounds[0]))
-        object.__setattr__(self, "high", float(bounds[1]))
+        object.__setattr__(self, "low", bounds[0])
+        object.__setattr__(self, "high", bounds[1])
         object.__setattr__(self, "x_offset", float(self.x_offset))
 
 
@@ -647,8 +647,8 @@ def _row_from_point(point: PlotPoint, *, x_offset: float = 0.0) -> FigureRow:
         model_id=point.model_id,
         label=point.label,
         year=point.year,
-        low=float(point.low if point.low is not None else point.value),
-        high=float(point.high if point.high is not None else point.value),
+        low=point.low if point.low is not None else point.value,
+        high=point.high if point.high is not None else point.value,
         unit=point.unit,
         status=point.status,
         confidence=point.confidence,
@@ -769,15 +769,15 @@ def _pareto_rows(ledger: dict, eci: dict) -> tuple[FigureRow, ...]:
                 model_id=point.model_id,
                 label="ECI",
                 year=int(model["year"]["value"]),
-                low=float(point.score_low),
-                high=float(point.score_high),
+                low=point.score_low,
+                high=point.score_high,
                 unit="ECI",
                 status=capex.status,
                 confidence=capex.confidence,
                 scope=f"{capex.claim_scope};eci_exact_variant",
                 source_ids=tuple(dict.fromkeys((*capex.source_ids, score_source))),
-                cost_low=float(point.cost_low),
-                cost_high=float(point.cost_high),
+                cost_low=point.cost_low,
+                cost_high=point.cost_high,
                 frontier=membership,
             )
         )
