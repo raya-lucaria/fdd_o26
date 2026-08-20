@@ -231,6 +231,7 @@ class FigureSpec:
     x_scale: Literal["year", "log_cost"]
     y_scale: Literal["linear", "log"]
     absence: AbsenceSummary | None
+    snapshot_date: str | None = None
 
     def __post_init__(self):
         if not self.figure_id or not self.filename or not self.question:
@@ -241,6 +242,8 @@ class FigureSpec:
             raise ValueError("figure spec scales must use the documented vocabulary")
         if not isinstance(self.rows, tuple):
             raise ValueError("figure spec rows must be a tuple")
+        if self.snapshot_date is not None and not self.snapshot_date:
+            raise ValueError("snapshot date cannot be empty")
         model_ids = {row.model_id for row in self.rows}
         if not set(self.compact_ids) <= model_ids:
             raise ValueError("compact IDs must identify plotted rows")
@@ -790,6 +793,7 @@ def _spec(
     rows: tuple[FigureRow, ...],
     x_scale: Literal["year", "log_cost"] = "year",
     absence: AbsenceSummary | None = None,
+    snapshot_date: str | None = None,
 ) -> FigureSpec:
     if route == "essential" and figure_id != "pareto_inference":
         rows = _select_essential_rows(rows)
@@ -805,6 +809,7 @@ def _spec(
         x_scale=x_scale,
         y_scale=_y_scale(rows),
         absence=absence,
+        snapshot_date=snapshot_date,
     )
 
 
@@ -852,13 +857,18 @@ def build_figure_specs(corpus: dict) -> tuple[FigureSpec, ...]:
             question="¿Qué opciones quedan en la frontera costo–ECI?",
             rows=_pareto_rows(ledger, eci),
             x_scale="log_cost",
+            snapshot_date=str(eci["snapshot"]["as_of"]),
         ),
         _spec(
             figure_id="training_accelerators",
             filename="ai-dashboard-training-accelerators.svg",
             route="annex",
             question="¿Qué flotas concurrentes de entrenamiento están documentadas?",
-            rows=_temporal_rows(training["accelerators_and_hours"]),
+            rows=_temporal_rows(
+                point
+                for point in training["accelerators_and_hours"]
+                if point.label == "concurrent accelerators"
+            ),
             absence=_absence_summary(ledger, "accelerators_concurrent"),
         ),
         _spec(

@@ -1,3 +1,7 @@
+import os
+from pathlib import Path
+import subprocess
+import sys
 import xml.etree.ElementTree as ET
 
 import matplotlib.pyplot as plt
@@ -126,6 +130,24 @@ def test_renderer_keeps_primary_text_inside_canvas(figure_specs):
     assert not failures
 
 
+def test_repositioned_direct_labels_keep_leader_lines(figure_specs):
+    """Collision-free callouts must still identify their source marks."""
+    for spec in figure_specs:
+        fig = render_figure(spec, None)
+        try:
+            direct = [
+                text for text in fig.axes[0].texts
+                if (text.get_gid() or "").startswith("direct-label-")
+            ]
+            assert all(
+                text.arrow_patch is not None and text.arrow_patch.get_visible()
+                for text in direct
+                if max(map(abs, text.get_position())) > 15
+            )
+        finally:
+            plt.close(fig)
+
+
 def test_renderer_draws_declared_intervals_without_seaborn_estimation(figure_specs):
     """Dropping low/high would turn bounded evidence into an exact point."""
     spec = next(spec for spec in figure_specs if spec.figure_id == "training_flop")
@@ -214,6 +236,202 @@ def test_generator_loads_combined_corpus_and_writes_exact_manifest(tmp_path):
         node.attrib.get("data-frontier") in {"safe", "possible", "dominated"}
         for node in pareto.iter()
     ) == 8
+
+
+def test_training_accelerator_view_excludes_accelerator_hours(figure_specs):
+    """Mixing accelerator-hours into a fleet-count chart compares unlike units."""
+    spec = next(
+        spec for spec in figure_specs if spec.figure_id == "training_accelerators"
+    )
+
+    assert {row.label for row in spec.rows} == {"concurrent accelerators"}
+    assert all("hour" not in row.unit.lower() for row in spec.rows)
+
+
+def test_pareto_svg_maps_all_keys_and_explains_frontier(tmp_path, figure_specs):
+    """Every Pareto candidate needs a visible key and the safe set needs names."""
+    spec = next(spec for spec in figure_specs if spec.figure_id == "pareto_inference")
+    path = tmp_path / spec.filename
+    write_svg(spec, path)
+    root = ET.parse(path).getroot()
+    keyed = [node for node in root.iter() if node.attrib.get("data-pareto-key")]
+    direct = [
+        node for node in root.iter()
+        if node.attrib.get("data-direct-label") == "true"
+    ]
+    text = " ".join(root.itertext())
+
+    assert spec.snapshot_date == "2026-08-18"
+    assert [node.attrib["data-pareto-key"] for node in keyed] == [
+        str(index) for index in range(1, 9)
+    ]
+    assert root.attrib["data-pareto-table-map"] == ";".join(
+        f"{index}={row.model_id}" for index, row in enumerate(spec.rows, 1)
+    )
+    assert {"segura", "posible", "dominada"} <= {
+        node.text for node in root.iter() if node.attrib.get("data-frontier-legend")
+    }
+    assert "Snapshot ECI: 2026-08-18" in text
+    assert len(direct) <= 5
+    assert {"Gemma 3", "Qwen 3"} <= {node.text for node in direct}
+
+
+def test_role_legends_are_orthogonal_to_status(tmp_path, figure_specs):
+    """Total/active and artifact/floor cannot rely on status color for meaning."""
+    expected = {
+        "parameters": {"total", "activo"},
+        "artifact_or_weight_floor": {"artefacto", "piso BF16"},
+    }
+    for figure_id, labels in expected.items():
+        spec = next(spec for spec in figure_specs if spec.figure_id == figure_id)
+        path = tmp_path / spec.filename
+        write_svg(spec, path)
+        root = ET.parse(path).getroot()
+        legends = {
+            node.text for node in root.iter()
+            if node.attrib.get("data-role-legend") == "true"
+        }
+        assert legends == labels
+
+
+def test_scenario_marks_have_two_real_outline_artists(tmp_path, figure_specs):
+    """A thick single stroke is not the documented SCENARIO double outline."""
+    spec = next(spec for spec in figure_specs if spec.figure_id == "h100_capacity_floor")
+    path = tmp_path / spec.filename
+    write_svg(spec, path)
+    root = ET.parse(path).getroot()
+    scenarios = [
+        node for node in root.iter()
+        if node.attrib.get("data-status") == "SCENARIO"
+    ]
+    outlines = [
+        node for node in root.iter()
+        if node.attrib.get("data-scenario-outline") == "true"
+    ]
+
+    assert scenarios
+    assert len(outlines) == len(scenarios)
+    assert {node.attrib["data-outline-for"] for node in outlines} == {
+        node.attrib["data-row-index"] for node in scenarios
+    }
+
+
+def test_axes_use_pedagogical_units_and_complete_year_ticks(figure_specs):
+    """Bytes/B abbreviations and sparse years obscure the stated comparison."""
+    for spec in figure_specs:
+        fig = render_figure(spec, None)
+        try:
+            fig.canvas.draw()
+            ax = fig.axes[0]
+            if spec.x_scale == "year":
+                assert list(ax.get_xticks()) == list(range(2018, 2027))
+            if spec.figure_id == "parameters":
+                assert ax.get_ylabel() == "mil millones de parámetros"
+                assert "1" in {label.get_text() for label in ax.get_yticklabels()}
+            if spec.figure_id == "artifact_or_weight_floor":
+                assert ax.get_ylabel() == "GB decimales"
+                assert all("e" not in label.get_text().lower()
+                           for label in ax.get_yticklabels())
+        finally:
+            plt.close(fig)
+
+
+def test_generator_forces_reproducible_locale_and_timezone():
+    """Inherited TZ/locale settings must not change labels or SVG bytes."""
+    env = {**os.environ, "TZ": "Pacific/Honolulu", "LC_ALL": "C"}
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import os; import tools.gen_ai_model_dashboard; "
+            "print(os.environ['TZ'], os.environ['LC_ALL'])",
+        ],
+        cwd=Path(__file__).resolve().parents[1],
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "UTC C.UTF-8"
+
+
+@pytest.mark.parametrize("width", [334, 600])
+def test_all_svg_text_is_readable_and_non_overlapping(tmp_path, width):
+    """Responsive scaling must preserve 16 px text and separate visual labels."""
+    from playwright.sync_api import sync_playwright
+
+    paths = render_dashboard(DATA_PATH, ECI_PATH, tmp_path / "assets")
+    failures = []
+    with sync_playwright() as runtime:
+        browser = runtime.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": width, "height": 900})
+        for path in paths:
+            page.set_content(
+                "<style>html,body,main{margin:0;width:100%}"
+                "svg{display:block;width:100%;height:auto}</style>"
+                f"<main>{path.read_text(encoding='utf-8')}</main>"
+            )
+            layout = page.locator("svg").evaluate(
+                """svg => {
+                  const root = svg.getBoundingClientRect();
+                  const scale = root.width / svg.viewBox.baseVal.width;
+                  const box = node => {
+                    const b = node.getBoundingClientRect();
+                    return {x:b.x,y:b.y,r:b.right,b:b.bottom,
+                            text:node.textContent.trim()};
+                  };
+                  const hit = (a,b,pad=1) =>
+                    Math.min(a.r,b.r)-Math.max(a.x,b.x)>pad &&
+                    Math.min(a.b,b.b)-Math.max(a.y,b.y)>pad;
+                  const nodes = [...svg.querySelectorAll('text')]
+                    .filter(node => getComputedStyle(node).display !== 'none');
+                  const texts = nodes.map(box);
+                  const outOfBounds=texts.filter(text =>
+                    text.x < root.x-1 || text.r > root.right+1 ||
+                    text.y < root.y-1 || text.b > root.bottom+1);
+                  const textHits=[];
+                  for(let i=0;i<texts.length;i++) for(let j=i+1;j<texts.length;j++)
+                    if(hit(texts[i],texts[j])) textHits.push([texts[i],texts[j]]);
+                  const labels = [...svg.querySelectorAll(
+                    '[data-direct-label="true"],[data-pareto-key]')].map(box);
+                  const marks = [...svg.querySelectorAll(
+                    '[data-quantitative="true"]')].map(box);
+                  const labelMarkHits=[];
+                  for(const label of labels) for(const mark of marks)
+                    if(hit(label,mark)) labelMarkHits.push([label,mark]);
+                  const sizes = nodes.map(node =>
+                    parseFloat(getComputedStyle(node).fontSize) * scale);
+                  return {minSize:Math.min(...sizes),outOfBounds,
+                          textHits,labelMarkHits};
+                }"""
+            )
+            if layout["minSize"] < 15.95:
+                failures.append((path.name, "font", layout["minSize"]))
+            if layout["outOfBounds"]:
+                failures.append((path.name, "bounds", [
+                    (text, text) for text in layout["outOfBounds"]
+                ]))
+            if layout["textHits"]:
+                failures.append((path.name, "text", layout["textHits"]))
+            if layout["labelMarkHits"]:
+                failures.append((path.name, "mark", layout["labelMarkHits"]))
+        browser.close()
+
+    assert not failures, "\n".join(
+        f"{name} {kind}: "
+        + (
+            f"{value:.2f}px"
+            if kind == "font"
+            else "; ".join(
+                f"{left['text']!r}@({left['x']:.0f},{left['y']:.0f}) / "
+                f"{right['text']!r}@({right['x']:.0f},{right['y']:.0f})"
+                for left, right in value
+            )
+        )
+        for name, kind, value in failures
+    )
 
 
 def test_svg_generation_is_byte_deterministic(tmp_path):

@@ -15,7 +15,8 @@ import sys
 import textwrap
 import xml.etree.ElementTree as ET
 
-os.environ.setdefault("TZ", "UTC")
+os.environ["TZ"] = "UTC"
+os.environ["LC_ALL"] = "C.UTF-8"
 
 import matplotlib
 
@@ -25,7 +26,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import fontManager
 from matplotlib.lines import Line2D
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Patch, Rectangle
 import pandas as pd
 import seaborn as sns
 import yaml
@@ -87,13 +88,41 @@ FRONTIER_STYLES = {
     "possible": ("#E69F00", "dashed"),
     "dominated": ("#6B7280", "dotted"),
 }
+ROLE_LEGENDS = {
+    "parameters": {"total": "total", "active": "activo"},
+    "artifact_or_weight_floor": {
+        "documented artifact": "artefacto",
+        "BF16 weight floor": "piso BF16",
+    },
+}
+MODEL_SHORT_LABELS = {
+    "DM_GEMMA2_27B": "Gemma 2 27B",
+    "DM_GEMMA3_27B": "Gemma 3",
+    "DM_GEMMA_7B": "Gemma 7B",
+    "DM_LLAMA31_8B": "Llama 3.1 8B",
+    "DM_LLAMA31_70B": "Llama 3.1 70B",
+    "DM_QWEN2_72B": "Qwen2 72B",
+    "DM_QWEN3_235B_A22B": "Qwen 3",
+    "DM_DEEPSEEK_R1": "DeepSeek R1",
+}
+TEMPORAL_SHORT_LABELS = {
+    "DM_BERT_LARGE": "BERT",
+    "DM_T5_11B": "T5",
+    "DM_GPT3_175B": "GPT-3",
+    "DM_GOPHER_280B": "Gopher",
+    "DM_BLOOM_176B": "BLOOM",
+    "DM_OPT_175B": "OPT",
+    "DM_PALM_540B": "PaLM",
+    "DM_DEEPSEEK_V3": "DeepSeek",
+    "DM_LLAMA31_405B": "Llama 3.1",
+}
 FIGURE_Y_LABELS = {
-    "parameters": "Parámetros",
+    "parameters": "mil millones de parámetros",
     "training_flop": "FLOP",
-    "artifact_or_weight_floor": "Bytes",
+    "artifact_or_weight_floor": "GB decimales",
     "h100_capacity_floor": "H100-equivalentes",
     "pareto_inference": "Índice ECI",
-    "training_accelerators": "Aceleradores / horas",
+    "training_accelerators": "Aceleradores concurrentes",
     "training_replacement_value": "USD accelerator-only",
     "inference_tdp_floor": "W accelerator-only",
     "inference_capex_floor": "USD accelerator-only",
@@ -107,11 +136,11 @@ THEME_RC = {
     "svg.fonttype": "none",
     "svg.hashsalt": "fdd-o26-ai-dashboard",
     "axes.titleweight": "bold",
-    "axes.titlesize": 19,
-    "axes.labelsize": 16,
-    "xtick.labelsize": 13,
-    "ytick.labelsize": 13,
-    "legend.fontsize": 11,
+    "axes.titlesize": 20,
+    "axes.labelsize": 18,
+    "xtick.labelsize": 16,
+    "ytick.labelsize": 16,
+    "legend.fontsize": 16,
     "figure.dpi": 100,
     "savefig.dpi": 100,
 }
@@ -170,32 +199,61 @@ def _style_scatter(artist, status: str) -> None:
         artist.set_linewidth(2.3)
         artist.set_alpha(1)
     else:
-        artist.set_facecolor("none")
-        artist.set_linewidth(4)
+        artist.set_facecolor("white")
+        artist.set_linewidth(1.8)
         artist.set_alpha(1)
+
+
+def _scatter_artist(
+    ax,
+    spec: FigureSpec,
+    frame: pd.DataFrame,
+    index: int,
+    role_markers: dict[str, str],
+    *,
+    size: float,
+    zorder: int,
+):
+    x_column = "cost" if spec.x_scale == "log_cost" else "display_year"
+    before = len(ax.collections)
+    sns.scatterplot(
+        data=frame.iloc[[index]],
+        x=x_column,
+        y="value",
+        hue="status",
+        style="role",
+        palette=STATUS_COLORS,
+        markers=role_markers,
+        hue_order=tuple(STATUS_COLORS),
+        style_order=tuple(role_markers),
+        legend=False,
+        s=size,
+        zorder=zorder,
+        ax=ax,
+    )
+    return ax.collections[before]
 
 
 def _scatter_rows(ax, spec: FigureSpec, frame: pd.DataFrame) -> None:
     role_markers = _role_markers(spec.rows)
-    x_column = "cost" if spec.x_scale == "log_cost" else "display_year"
     for index, row in enumerate(spec.rows):
-        before = len(ax.collections)
-        sns.scatterplot(
-            data=frame.iloc[[index]],
-            x=x_column,
-            y="value",
-            hue="status",
-            style="role",
-            palette=STATUS_COLORS,
-            markers=role_markers,
-            hue_order=tuple(STATUS_COLORS),
-            style_order=tuple(role_markers),
-            legend=False,
-            s=105,
+        if row.status == "SCENARIO":
+            outer = _scatter_artist(
+                ax, spec, frame, index, role_markers, size=165, zorder=3
+            )
+            outer.set_gid(f"scenario-outline-{index:03d}")
+            outer.set_facecolor("none")
+            outer.set_edgecolor(STATUS_COLORS[row.status])
+            outer.set_linewidth(1.8)
+        artist = _scatter_artist(
+            ax,
+            spec,
+            frame,
+            index,
+            role_markers,
+            size=88 if row.status == "SCENARIO" else 105,
             zorder=4,
-            ax=ax,
         )
-        artist = ax.collections[before]
         artist.set_gid(f"mark-{index:03d}")
         _style_scatter(artist, row.status)
 
@@ -273,39 +331,96 @@ def _format_si(value: float) -> str:
     return f"{value:.1f}" if absolute < 10 else f"{value:.0f}"
 
 
+def _format_decimal_scale(value: float, divisor: float) -> str:
+    scaled = value / divisor
+    if abs(scaled) >= 1:
+        return f"{scaled:,.0f}".replace(",", " ")
+    return f"{scaled:.2f}".rstrip("0").rstrip(".")
+
+
 def _short_model_id(model_id: str) -> str:
     compact = model_id.removeprefix("DM_").replace("_", " ")
     return compact if len(compact) <= 14 else compact[:13] + "…"
 
 
 def _add_direct_labels(ax, spec: FigureSpec, frame: pd.DataFrame) -> None:
+    if spec.x_scale == "log_cost":
+        _add_pareto_labels(ax, spec, frame)
+        return
     labelled = set()
-    x_column = "cost" if spec.x_scale == "log_cost" else "display_year"
-    latest_year = max((row.year for row in spec.rows), default=0)
     for index, row in enumerate(spec.rows):
         if row.model_id not in spec.direct_label_ids or row.model_id in labelled:
             continue
         labelled.add(row.model_id)
-        label = (
-            str(index + 1)
-            if spec.x_scale == "log_cost"
-            else _short_model_id(row.model_id)
-        )
-        align_right = spec.x_scale == "year" and row.year >= latest_year - 1
-        ax.annotate(
-            label,
-            (float(frame.iloc[index][x_column]), float(frame.iloc[index]["value"])),
-            xytext=((-6 if align_right else 6), 7),
+        annotation = ax.annotate(
+            TEMPORAL_SHORT_LABELS.get(row.model_id, _short_model_id(row.model_id)),
+            (
+                float(frame.iloc[index]["display_year"]),
+                float(frame.iloc[index]["value"]),
+            ),
+            xytext=(12, 12),
             textcoords="offset points",
-            fontsize=13,
+            fontsize=16,
             fontweight="bold",
             color="#111827",
-            ha="right" if align_right else "left",
+            ha="left",
+            va="bottom",
+            arrowprops={
+                "arrowstyle": "-",
+                "color": "#6B7280",
+                "linewidth": 0.8,
+                "shrinkA": 2,
+                "shrinkB": 6,
+            },
             zorder=5,
         )
+        annotation.set_gid(f"direct-label-{index:03d}")
 
 
-def _status_legend(ax, spec: FigureSpec) -> None:
+def _add_pareto_labels(ax, spec: FigureSpec, frame: pd.DataFrame) -> None:
+    for index, row in enumerate(spec.rows):
+        key = ax.annotate(
+            str(index + 1),
+            (float(frame.iloc[index]["cost"]), float(frame.iloc[index]["value"])),
+            xytext=(-12, 12),
+            textcoords="offset points",
+            fontsize=16,
+            fontweight="bold",
+            color="#111827",
+            ha="right",
+            va="bottom",
+            zorder=6,
+        )
+        key.set_gid(f"pareto-key-{index:03d}")
+    safe_rows = [
+        (index, row)
+        for index, row in enumerate(spec.rows)
+        if row.frontier == "safe"
+    ][:5]
+    for index, row in safe_rows:
+        label = ax.annotate(
+            MODEL_SHORT_LABELS[row.model_id],
+            (float(frame.iloc[index]["cost"]), float(frame.iloc[index]["value"])),
+            xytext=(12, 12),
+            textcoords="offset points",
+            fontsize=16,
+            fontweight="bold",
+            color=FRONTIER_STYLES["safe"][0],
+            ha="left",
+            va="bottom",
+            arrowprops={
+                "arrowstyle": "-",
+                "color": FRONTIER_STYLES["safe"][0],
+                "linewidth": 0.8,
+                "shrinkA": 2,
+                "shrinkB": 6,
+            },
+            zorder=6,
+        )
+        label.set_gid(f"direct-label-{index:03d}")
+
+
+def _add_legends(ax, spec: FigureSpec) -> None:
     present = tuple(status for status in STATUS_COLORS if any(
         row.status == status for row in spec.rows
     ))
@@ -323,34 +438,151 @@ def _status_legend(ax, spec: FigureSpec) -> None:
             alpha=0.5 if status == "DERIVED" else 1,
             label=status,
         ))
-    if handles:
-        ax.legend(
-            handles=handles,
-            loc="upper left",
-            bbox_to_anchor=(0, 1.01),
-            frameon=False,
-            ncols=min(4, len(handles)),
-            borderaxespad=0,
-            handletextpad=0.35,
-            columnspacing=0.85,
+    if spec.figure_id in ROLE_LEGENDS:
+        role_markers = _role_markers(spec.rows)
+        handles.extend([
+            Line2D(
+                [], [], linestyle="none", marker=role_markers[role],
+                markersize=8, markerfacecolor="white", markeredgecolor="#374151",
+                label=label,
+            )
+            for role, label in ROLE_LEGENDS[spec.figure_id].items()
+        ])
+
+    if spec.x_scale == "log_cost":
+        frontier_handles = [
+            Patch(
+                facecolor="white",
+                edgecolor=color,
+                linewidth=2,
+                linestyle=linestyle,
+                label={
+                    "safe": "segura",
+                    "possible": "posible",
+                    "dominated": "dominada",
+                }[frontier],
+            )
+            for frontier, (color, linestyle) in FRONTIER_STYLES.items()
+        ]
+        handles.extend(frontier_handles)
+
+    if not handles:
+        return
+    legend = ax.legend(
+        handles=handles,
+        loc="lower left",
+        bbox_to_anchor=(0, 1.06),
+        frameon=False,
+        ncols=1,
+        borderaxespad=0,
+        handletextpad=0.35,
+        columnspacing=0.85,
+    )
+    status_labels = set(present)
+    role_labels = set(ROLE_LEGENDS.get(spec.figure_id, {}).values())
+    frontier_labels = {"segura", "posible", "dominada"}
+    for index, text in enumerate(legend.get_texts()):
+        label = text.get_text()
+        if label in status_labels:
+            text.set_gid(f"status-legend-{index:02d}")
+        elif label in role_labels:
+            text.set_gid(f"role-legend-{index:02d}")
+        elif label in frontier_labels:
+            text.set_gid(f"frontier-legend-{index:02d}")
+
+
+def _boxes_intersect(first, second, pad: float = 8) -> bool:
+    return not (
+        first.x1 + pad <= second.x0
+        or second.x1 + pad <= first.x0
+        or first.y1 + pad <= second.y0
+        or second.y1 + pad <= first.y0
+    )
+
+
+def _place_labels(fig, ax, spec: FigureSpec, frame: pd.DataFrame) -> None:
+    """Choose deterministic callout positions clear of every plotted mark."""
+    annotations = [
+        text for text in ax.texts
+        if (text.get_gid() or "").startswith(("direct-label-", "pareto-key-"))
+    ]
+    if not annotations:
+        return
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    axes_box = ax.get_window_extent(renderer=renderer)
+    x_column = "cost" if spec.x_scale == "log_cost" else "display_year"
+    mark_boxes = []
+    for _, record in frame.iterrows():
+        x, y = ax.transData.transform((record[x_column], record["value"]))
+        mark_boxes.append(
+            mpl.transforms.Bbox.from_extents(x - 10, y - 10, x + 10, y + 10)
         )
+    placed = []
+    candidates = [
+        (dx, dy)
+        for distance in (
+            (12, 30, 50, 70, 90, 110)
+            if spec.x_scale == "log_cost"
+            else (12, 30)
+        )
+        for dx, dy in (
+            (12, distance), (-12, distance),
+            (12, -distance), (-12, -distance),
+            (distance, 12), (-distance, 12),
+            (distance, -12), (-distance, -12),
+            (distance, distance), (-distance, distance),
+            (distance, -distance), (-distance, -distance),
+        )
+    ]
+    for annotation in annotations:
+        selected = None
+        selected_offset = None
+        for dx, dy in candidates:
+            annotation.set_position((dx, dy))
+            annotation.set_ha("left" if dx > 0 else "right")
+            annotation.set_va("bottom" if dy > 0 else "top")
+            bounds = mpl.text.Text.get_window_extent(annotation, renderer=renderer)
+            inside = (
+                bounds.x0 >= axes_box.x0 + 2
+                and bounds.x1 <= axes_box.x1 - 2
+                and bounds.y0 >= axes_box.y0 + 2
+                and bounds.y1 <= axes_box.y1 - 2
+            )
+            if inside and not any(
+                _boxes_intersect(bounds, other) for other in (*mark_boxes, *placed)
+            ):
+                selected = bounds
+                selected_offset = (dx, dy)
+                break
+        if selected is None:
+            if spec.x_scale != "log_cost":
+                annotation.remove()
+                continue
+            selected = mpl.text.Text.get_window_extent(annotation, renderer=renderer)
+            selected_offset = annotation.get_position()
+        if annotation.arrow_patch is not None:
+            annotation.arrow_patch.set_visible(
+                max(map(abs, selected_offset)) > 15
+            )
+        placed.append(selected)
 
 
 def _configure_axes(ax, spec: FigureSpec) -> None:
     title = "\n".join(textwrap.wrap(
         spec.question,
-        width=34,
+        width=16,
         break_long_words=False,
         break_on_hyphens=False,
     ))
-    ax.set_title(title, pad=34)
+    ax.set_title(title, pad=126)
     ax.grid(True, which="major", color="#D1D5DB", linewidth=0.8, alpha=0.8)
     ax.grid(False, which="minor")
     ax.spines[["top", "right"]].set_visible(False)
     ax.set_ylabel(FIGURE_Y_LABELS[spec.figure_id])
     if spec.x_scale == "log_cost":
         ax.set_xscale("log")
-        ax.set_xlabel("CAPEX accelerator-only (USD, escala logarítmica)")
+        ax.set_xlabel("CAPEX accelerator-only\n(USD, escala logarítmica)")
         ticks = sorted({
             _center(row.cost_low, row.cost_high, "log")
             for row in spec.rows
@@ -364,25 +596,25 @@ def _configure_axes(ax, spec: FigureSpec) -> None:
             )
             ticks = [ticks[index] for index in dict.fromkeys(picks)]
         ax.set_xticks(ticks)
+        ax.tick_params(axis="x", labelrotation=90)
         ax.xaxis.set_major_formatter(mpl.ticker.FuncFormatter(
             lambda value, _position: _format_si(value)
         ))
         ax.xaxis.set_minor_formatter(mpl.ticker.NullFormatter())
     else:
         ax.set_xlabel("Año de publicación")
-        years = [row.year for row in spec.rows]
-        if years:
-            first, last = min(years), max(years)
-            ticks = list(range(first, last + 1, 2))
-            if last not in ticks:
-                ticks.append(last)
-            ax.set_xticks(ticks)
-            ax.set_xlim(first - 0.6, last + 0.6)
+        ax.set_xticks(range(2018, 2027))
+        ax.set_xlim(2017.6, 2026.4)
+        ax.tick_params(axis="x", labelrotation=90)
     if spec.y_scale == "log":
         ax.set_yscale("log")
-    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(
-        lambda value, _position: _format_si(value)
-    ))
+    if spec.figure_id == "parameters":
+        y_formatter = lambda value, _position: _format_decimal_scale(value, 1e9)
+    elif spec.figure_id == "artifact_or_weight_floor":
+        y_formatter = lambda value, _position: _format_decimal_scale(value, 1e9)
+    else:
+        y_formatter = lambda value, _position: _format_si(value)
+    ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(y_formatter))
 
 
 def _absence_text(spec: FigureSpec) -> str | None:
@@ -409,7 +641,7 @@ def render_figure(spec: FigureSpec, path: Path | None):
         font="DejaVu Sans",
         rc=THEME_RC,
     )
-    fig, ax = plt.subplots(figsize=(7.2, 4.8), constrained_layout=False)
+    fig, ax = plt.subplots(figsize=(334 / 72, 720 / 72), constrained_layout=False)
     frame = _frame_for(spec)
     if spec.x_scale == "log_cost":
         _draw_pareto_intervals(ax, spec)
@@ -418,19 +650,36 @@ def render_figure(spec: FigureSpec, path: Path | None):
     _scatter_rows(ax, spec, frame)
     _add_direct_labels(ax, spec, frame)
     _configure_axes(ax, spec)
-    _status_legend(ax, spec)
-    fig.subplots_adjust(left=0.19, right=0.97, top=0.77, bottom=0.20)
+    _add_legends(ax, spec)
+    fig.subplots_adjust(left=0.30, right=0.96, top=0.62, bottom=0.25)
+    _place_labels(fig, ax, spec, frame)
     absence = _absence_text(spec)
     if absence:
         fig.text(
-            0.14,
+            0.05,
             0.035,
-            absence,
+            "\n".join(textwrap.wrap(
+                absence,
+                width=30,
+                break_long_words=False,
+                break_on_hyphens=False,
+            )),
             ha="left",
             va="bottom",
-            fontsize=9.5,
+            fontsize=16,
             color="#4B5563",
         )
+    if spec.snapshot_date:
+        snapshot = fig.text(
+            0.97,
+            0.035,
+            f"Snapshot ECI: {spec.snapshot_date}",
+            ha="right",
+            va="bottom",
+            fontsize=16,
+            color="#4B5563",
+        )
+        snapshot.set_gid("snapshot-date")
     if path is not None:
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -483,6 +732,7 @@ def _description(spec: FigureSpec) -> str:
             " El costo usa escala logarítmica y ECI usa escala lineal; "
             "los rectángulos conservan los rangos declarados."
         )
+        text += f" Snapshot ECI: {spec.snapshot_date}."
     elif spec.y_scale == "log":
         text += " El eje vertical usa escala logarítmica; no hay líneas que unan modelos."
     else:
@@ -520,6 +770,11 @@ def canonicalize_svg(path: Path, spec: FigureSpec) -> None:
         "data-route": spec.route,
         "style": "max-width:100%;height:auto",
     })
+    if spec.x_scale == "log_cost":
+        root.attrib["data-pareto-table-map"] = ";".join(
+            f"{index}={row.model_id}"
+            for index, row in enumerate(spec.rows, 1)
+        )
 
     by_id = {
         node.attrib["id"]: node
@@ -534,12 +789,45 @@ def canonicalize_svg(path: Path, spec: FigureSpec) -> None:
         mark.attrib.update(_row_attributes(
             row, index, spec.y_scale, role_markers[row.label]
         ))
+        outer = by_id.get(f"scenario-outline-{index:03d}")
+        if outer is not None:
+            outer.attrib.update({
+                "data-scenario-outline": "true",
+                "data-outline-for": str(index),
+            })
         interval = by_id.get(f"interval-{index:03d}")
         if interval is not None:
             interval.attrib.update({
                 "data-interval-geometry": "true",
                 "data-row-index": str(index),
             })
+        direct = by_id.get(f"direct-label-{index:03d}")
+        if direct is not None:
+            text_node = next(
+                node for node in direct.iter()
+                if _local_name(node.tag) == "text"
+            )
+            text_node.attrib["data-direct-label"] = "true"
+        key = by_id.get(f"pareto-key-{index:03d}")
+        if key is not None:
+            text_node = next(
+                node for node in key.iter()
+                if _local_name(node.tag) == "text"
+            )
+            text_node.attrib["data-pareto-key"] = str(index + 1)
+
+    for prefix, attribute in (
+        ("role-legend-", "data-role-legend"),
+        ("frontier-legend-", "data-frontier-legend"),
+    ):
+        for element_id, group in by_id.items():
+            if not element_id.startswith(prefix):
+                continue
+            text_node = next(
+                node for node in group.iter()
+                if _local_name(node.tag) == "text"
+            )
+            text_node.attrib[attribute] = "true"
 
     for node in root.iter():
         dates = [key for key in node.attrib if _local_name(key).lower() == "date"]

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="inference_capex_floor-title inference_capex_floor-desc" data-figure-id="inference_capex_floor" data-route="annex" height="345.6pt" role="img" style="max-width:100%;height:auto" version="1.1" viewBox="0 0 518.4 345.6" width="518.4pt">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="inference_capex_floor-title inference_capex_floor-desc" data-figure-id="inference_capex_floor" data-route="annex" height="720pt" role="img" style="max-width:100%;height:auto" version="1.1" viewBox="0 0 334 720" width="334pt">
   <title id="inference_capex_floor-title">¿Qué CAPEX accelerator-only sugiere el piso de capacidad?</title>
   <desc id="inference_capex_floor-desc">¿Qué CAPEX accelerator-only sugiere el piso de capacidad? La figura contiene 29 observaciones. No hay líneas que unan modelos.</desc>
   <metadata>
@@ -20,229 +20,405 @@
   </defs>
   <g id="figure_1">
     <g id="patch_1">
-      <path d="M 0 345.6  L 518.4 345.6  L 518.4 0  L 0 0  z " style="fill: #ffffff" />
+      <path d="M 0 720  L 334 720  L 334 0  L 0 0  z " style="fill: #ffffff" />
     </g>
     <g id="axes_1">
       <g id="patch_2">
-        <path d="M 98.496 276.48  L 502.848 276.48  L 502.848 79.488  L 98.496 79.488  z " style="fill: #ffffff" />
+        <path d="M 100.2 540  L 320.64 540  L 320.64 273.6  L 100.2 273.6  z " style="fill: #ffffff" />
       </g>
       <g id="matplotlib.axis_1">
         <g id="xtick_1">
           <g id="line2d_1">
-            <path clip-path="url(#pcc0901efd0)" d="M 124.866783 276.48  L 124.866783 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+            <path clip-path="url(#p2995dd77b6)" d="M 110.22 540  L 110.22 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
           <g id="text_1">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 124.866783 295.856953)" x="124.866783" y="295.856953">2018</text>
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(114.37625 590.22) rotate(-90)">2018</text>
           </g>
         </g>
         <g id="xtick_2">
           <g id="line2d_2">
-            <path clip-path="url(#pcc0901efd0)" d="M 212.769391 276.48  L 212.769391 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+            <path clip-path="url(#p2995dd77b6)" d="M 135.27 540  L 135.27 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
           <g id="text_2">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 212.769391 295.856953)" x="212.769391" y="295.856953">2020</text>
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(139.42625 590.22) rotate(-90)">2019</text>
           </g>
         </g>
         <g id="xtick_3">
           <g id="line2d_3">
-            <path clip-path="url(#pcc0901efd0)" d="M 300.672 276.48  L 300.672 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+            <path clip-path="url(#p2995dd77b6)" d="M 160.32 540  L 160.32 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
           <g id="text_3">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 295.856953)" x="300.672" y="295.856953">2022</text>
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(164.47625 590.22) rotate(-90)">2020</text>
           </g>
         </g>
         <g id="xtick_4">
           <g id="line2d_4">
-            <path clip-path="url(#pcc0901efd0)" d="M 388.574609 276.48  L 388.574609 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+            <path clip-path="url(#p2995dd77b6)" d="M 185.37 540  L 185.37 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
           <g id="text_4">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 388.574609 295.856953)" x="388.574609" y="295.856953">2024</text>
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(189.52625 590.22) rotate(-90)">2021</text>
           </g>
         </g>
         <g id="xtick_5">
           <g id="line2d_5">
-            <path clip-path="url(#pcc0901efd0)" d="M 476.477217 276.48  L 476.477217 79.488  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+            <path clip-path="url(#p2995dd77b6)" d="M 210.42 540  L 210.42 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
           <g id="text_5">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 476.477217 295.856953)" x="476.477217" y="295.856953">2026</text>
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(214.57625 590.22) rotate(-90)">2022</text>
           </g>
         </g>
-        <g id="text_6">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 300.672 315.7775)" x="300.672" y="315.7775">Año de publicación</text>
+        <g id="xtick_6">
+          <g id="line2d_6">
+            <path clip-path="url(#p2995dd77b6)" d="M 235.47 540  L 235.47 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_6">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(239.62625 590.22) rotate(-90)">2023</text>
+          </g>
+        </g>
+        <g id="xtick_7">
+          <g id="line2d_7">
+            <path clip-path="url(#p2995dd77b6)" d="M 260.52 540  L 260.52 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_7">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(264.67625 590.22) rotate(-90)">2024</text>
+          </g>
+        </g>
+        <g id="xtick_8">
+          <g id="line2d_8">
+            <path clip-path="url(#p2995dd77b6)" d="M 285.57 540  L 285.57 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_8">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(289.72625 590.22) rotate(-90)">2025</text>
+          </g>
+        </g>
+        <g id="xtick_9">
+          <g id="line2d_9">
+            <path clip-path="url(#p2995dd77b6)" d="M 310.62 540  L 310.62 273.6  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          </g>
+          <g id="text_9">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(314.77625 590.22) rotate(-90)">2026</text>
+          </g>
+        </g>
+        <g id="text_10">
+          <text style="font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-0 210.42 608.617188)" x="210.42" y="608.617188">Año de publicación</text>
         </g>
       </g>
       <g id="matplotlib.axis_2">
         <g id="ytick_1">
-          <g id="line2d_6">
-            <path clip-path="url(#pcc0901efd0)" d="M 98.496 270.121233  L 502.848 270.121233  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          <g id="line2d_10">
+            <path clip-path="url(#p2995dd77b6)" d="M 100.2 531.400791  L 320.64 531.400791  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
-          <g id="text_7">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 275.05971)" x="88.996" y="275.05971">0.0</text>
+          <g id="text_11">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 90.7 537.478916)" x="90.7" y="537.478916">0.0</text>
           </g>
         </g>
         <g id="ytick_2">
-          <g id="line2d_7">
-            <path clip-path="url(#pcc0901efd0)" d="M 98.496 226.864316  L 502.848 226.864316  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          <g id="line2d_11">
+            <path clip-path="url(#p2995dd77b6)" d="M 100.2 472.902767  L 320.64 472.902767  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
-          <g id="text_8">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 231.803301)" x="88.996" y="231.803301">500 mil</text>
+          <g id="text_12">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 90.7 478.981517)" x="90.7" y="478.981517">500 mil</text>
           </g>
         </g>
         <g id="ytick_3">
-          <g id="line2d_8">
-            <path clip-path="url(#pcc0901efd0)" d="M 98.496 183.607399  L 502.848 183.607399  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          <g id="line2d_12">
+            <path clip-path="url(#p2995dd77b6)" d="M 100.2 414.404743  L 320.64 414.404743  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
-          <g id="text_9">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 188.545876)" x="88.996" y="188.545876">1.0 M</text>
+          <g id="text_13">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 90.7 420.482868)" x="90.7" y="420.482868">1.0 M</text>
           </g>
         </g>
         <g id="ytick_4">
-          <g id="line2d_9">
-            <path clip-path="url(#pcc0901efd0)" d="M 98.496 140.350482  L 502.848 140.350482  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          <g id="line2d_13">
+            <path clip-path="url(#p2995dd77b6)" d="M 100.2 355.906719  L 320.64 355.906719  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
-          <g id="text_10">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 145.288959)" x="88.996" y="145.288959">1.5 M</text>
+          <g id="text_14">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 90.7 361.984844)" x="90.7" y="361.984844">1.5 M</text>
           </g>
         </g>
         <g id="ytick_5">
-          <g id="line2d_10">
-            <path clip-path="url(#pcc0901efd0)" d="M 98.496 97.093565  L 502.848 97.093565  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
+          <g id="line2d_14">
+            <path clip-path="url(#p2995dd77b6)" d="M 100.2 297.408696  L 320.64 297.408696  " style="fill: none; stroke: #d1d5db; stroke-opacity: 0.8; stroke-width: 0.8; stroke-linecap: round" />
           </g>
-          <g id="text_11">
-            <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 88.996 102.032042)" x="88.996" y="102.032042">2.0 M</text>
+          <g id="text_15">
+            <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #262626" transform="rotate(-0 90.7 303.486821)" x="90.7" y="303.486821">2.0 M</text>
           </g>
         </g>
-        <g id="text_12">
-          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-90 32.321 177.984)" x="32.321" y="177.984">USD accelerator-only</text>
+        <g id="text_16">
+          <text style="font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" transform="rotate(-90 22.275781 406.8)" x="22.275781" y="406.8">USD accelerator-only</text>
         </g>
       </g>
       <g id="patch_3">
-        <path d="M 98.496 276.48  L 98.496 79.488  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+        <path d="M 100.2 540  L 100.2 273.6  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
       </g>
       <g id="patch_4">
-        <path d="M 98.496 276.48  L 502.848 276.48  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
+        <path d="M 100.2 540  L 320.64 540  " style="fill: none; stroke: #cccccc; stroke-width: 1.25; stroke-linejoin: miter; stroke-linecap: square" />
       </g>
-      <g id="text_13">
-        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(144.814109 22.682805)">¿Qué CAPEX accelerator-only</text>
-        <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(142.551922 45.488)">sugiere el piso de capacidad?</text>
+      <g data-outline-for="0" data-scenario-outline="true" id="scenario-outline-000">
+        <path clip-path="url(#p2995dd77b6)" d="M 110.22 534.313525  C 111.923298 534.313525 113.557062 533.636798 114.761476 532.432385  C 115.965889 531.227971 116.642616 529.594207 116.642616 527.890909  C 116.642616 526.187611 115.965889 524.553847 114.761476 523.349434  C 113.557062 522.14502 111.923298 521.468293 110.22 521.468293  C 108.516702 521.468293 106.882938 522.14502 105.678524 523.349434  C 104.474111 524.553847 103.797384 526.187611 103.797384 527.890909  C 103.797384 529.594207 104.474111 531.227971 105.678524 532.432385  C 106.882938 533.636798 108.516702 534.313525 110.22 534.313525  L 110.22 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_BERT_LARGE" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="0" data-source-ids="S_DASH_GOOGLE_BERT_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-000">
-        <path clip-path="url(#pcc0901efd0)" d="M 124.866783 272.649294  C 126.225544 272.649294 127.528837 272.109452 128.489627 271.148662  C 129.450416 270.187873 129.990258 268.88458 129.990258 267.525818  C 129.990258 266.167057 129.450416 264.863764 128.489627 263.902974  C 127.528837 262.942184 126.225544 262.402343 124.866783 262.402343  C 123.508021 262.402343 122.204728 262.942184 121.243938 263.902974  C 120.283149 264.863764 119.743307 266.167057 119.743307 267.525818  C 119.743307 268.88458 120.283149 270.187873 121.243938 271.148662  C 122.204728 272.109452 123.508021 272.649294 124.866783 272.649294  L 124.866783 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="1" data-scenario-outline="true" id="scenario-outline-001">
+        <path clip-path="url(#p2995dd77b6)" d="M 135.27 534.313525  C 136.973298 534.313525 138.607062 533.636798 139.811476 532.432385  C 141.015889 531.227971 141.692616 529.594207 141.692616 527.890909  C 141.692616 526.187611 141.015889 524.553847 139.811476 523.349434  C 138.607062 522.14502 136.973298 521.468293 135.27 521.468293  C 133.566702 521.468293 131.932938 522.14502 130.728524 523.349434  C 129.524111 524.553847 128.847384 526.187611 128.847384 527.890909  C 128.847384 529.594207 129.524111 531.227971 130.728524 532.432385  C 131.932938 533.636798 133.566702 534.313525 135.27 534.313525  L 135.27 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_T5_11B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="1" data-source-ids="S_DASH_GOOGLE_T5_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-001">
-        <path clip-path="url(#pcc0901efd0)" d="M 168.818087 272.649294  C 170.176849 272.649294 171.480142 272.109452 172.440931 271.148662  C 173.401721 270.187873 173.941562 268.88458 173.941562 267.525818  C 173.941562 266.167057 173.401721 264.863764 172.440931 263.902974  C 171.480142 262.942184 170.176849 262.402343 168.818087 262.402343  C 167.459325 262.402343 166.156032 262.942184 165.195243 263.902974  C 164.234453 264.863764 163.694612 266.167057 163.694612 267.525818  C 163.694612 268.88458 164.234453 270.187873 165.195243 271.148662  C 166.156032 272.109452 167.459325 272.649294 168.818087 272.649294  L 168.818087 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="2" data-scenario-outline="true" id="scenario-outline-002">
+        <path clip-path="url(#p2995dd77b6)" d="M 208.917 520.274  C 210.620298 520.274 212.254062 519.597272 213.458476 518.392859  C 214.662889 517.188446 215.339616 515.554681 215.339616 513.851383  C 215.339616 512.148086 214.662889 510.514321 213.458476 509.309908  C 212.254062 508.105494 210.620298 507.428767 208.917 507.428767  C 207.213702 507.428767 205.579938 508.105494 204.375524 509.309908  C 203.171111 510.514321 202.494384 512.148086 202.494384 513.851383  C 202.494384 515.554681 203.171111 517.188446 204.375524 518.392859  C 205.579938 519.597272 207.213702 520.274 208.917 520.274  L 208.917 520.274  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="150000" data-low="150000" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="2" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="150000" id="mark-002">
-        <path clip-path="url(#pcc0901efd0)" d="M 298.034922 262.267633  C 299.393683 262.267633 300.696976 261.727792 301.657766 260.767002  C 302.618555 259.806213 303.158397 258.50292 303.158397 257.144158  C 303.158397 255.785397 302.618555 254.482103 301.657766 253.521314  C 300.696976 252.560524 299.393683 252.020683 298.034922 252.020683  C 296.67616 252.020683 295.372867 252.560524 294.412078 253.521314  C 293.451288 254.482103 292.911446 255.785397 292.911446 257.144158  C 292.911446 258.50292 293.451288 259.806213 294.412078 260.767002  C 295.372867 261.727792 296.67616 262.267633 298.034922 262.267633  L 298.034922 262.267633  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="3" data-scenario-outline="true" id="scenario-outline-003">
+        <path clip-path="url(#p2995dd77b6)" d="M 211.923 520.274  C 213.626298 520.274 215.260062 519.597272 216.464476 518.392859  C 217.668889 517.188446 218.345616 515.554681 218.345616 513.851383  C 218.345616 512.148086 217.668889 510.514321 216.464476 509.309908  C 215.260062 508.105494 213.626298 507.428767 211.923 507.428767  C 210.219702 507.428767 208.585938 508.105494 207.381524 509.309908  C 206.177111 510.514321 205.500384 512.148086 205.500384 513.851383  C 205.500384 515.554681 206.177111 517.188446 207.381524 518.392859  C 208.585938 519.597272 210.219702 520.274 211.923 520.274  L 211.923 520.274  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="150000" data-low="150000" data-marker="o" data-model-id="DM_OPT_175B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="3" data-source-ids="S_DASH_META_OPT_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="150000" id="mark-003">
-        <path clip-path="url(#pcc0901efd0)" d="M 303.309078 262.267633  C 304.66784 262.267633 305.971133 261.727792 306.931922 260.767002  C 307.892712 259.806213 308.432554 258.50292 308.432554 257.144158  C 308.432554 255.785397 307.892712 254.482103 306.931922 253.521314  C 305.971133 252.560524 304.66784 252.020683 303.309078 252.020683  C 301.950317 252.020683 300.647024 252.560524 299.686234 253.521314  C 298.725445 254.482103 298.185603 255.785397 298.185603 257.144158  C 298.185603 258.50292 298.725445 259.806213 299.686234 260.767002  C 300.647024 261.727792 301.950317 262.267633 303.309078 262.267633  L 303.309078 262.267633  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="4" data-scenario-outline="true" id="scenario-outline-004">
+        <path clip-path="url(#p2995dd77b6)" d="M 227.955 530.803644  C 229.658298 530.803644 231.292062 530.126917 232.496476 528.922503  C 233.700889 527.71809 234.377616 526.084325 234.377616 524.381028  C 234.377616 522.67773 233.700889 521.043966 232.496476 519.839552  C 231.292062 518.635139 229.658298 517.958411 227.955 517.958411  C 226.251702 517.958411 224.617938 518.635139 223.413524 519.839552  C 222.209111 521.043966 221.532384 522.67773 221.532384 524.381028  C 221.532384 526.084325 222.209111 527.71809 223.413524 528.922503  C 224.617938 530.126917 226.251702 530.803644 227.955 530.803644  L 227.955 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_DEEPSEEK_LLM_67B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="4" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-004">
-        <path clip-path="url(#pcc0901efd0)" d="M 331.437913 270.053879  C 332.796675 270.053879 334.099968 269.514037 335.060757 268.553247  C 336.021547 267.592458 336.561388 266.289165 336.561388 264.930403  C 336.561388 263.571642 336.021547 262.268348 335.060757 261.307559  C 334.099968 260.346769 332.796675 259.806928 331.437913 259.806928  C 330.079151 259.806928 328.775858 260.346769 327.815069 261.307559  C 326.854279 262.268348 326.314438 263.571642 326.314438 264.930403  C 326.314438 266.289165 326.854279 267.592458 327.815069 268.553247  C 328.775858 269.514037 330.079151 270.053879 331.437913 270.053879  L 331.437913 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="5" data-scenario-outline="true" id="scenario-outline-005">
+        <path clip-path="url(#p2995dd77b6)" d="M 230.961 530.803644  C 232.664298 530.803644 234.298062 530.126917 235.502476 528.922503  C 236.706889 527.71809 237.383616 526.084325 237.383616 524.381028  C 237.383616 522.67773 236.706889 521.043966 235.502476 519.839552  C 234.298062 518.635139 232.664298 517.958411 230.961 517.958411  C 229.257702 517.958411 227.623938 518.635139 226.419524 519.839552  C 225.215111 521.043966 224.538384 522.67773 224.538384 524.381028  C 224.538384 526.084325 225.215111 527.71809 226.419524 528.922503  C 227.623938 530.126917 229.257702 530.803644 230.961 530.803644  L 230.961 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_LLAMA1_65B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="5" data-source-ids="S_DASH_META_LLAMA1_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-005">
-        <path clip-path="url(#pcc0901efd0)" d="M 336.71207 270.053879  C 338.070831 270.053879 339.374124 269.514037 340.334914 268.553247  C 341.295703 267.592458 341.835545 266.289165 341.835545 264.930403  C 341.835545 263.571642 341.295703 262.268348 340.334914 261.307559  C 339.374124 260.346769 338.070831 259.806928 336.71207 259.806928  C 335.353308 259.806928 334.050015 260.346769 333.089225 261.307559  C 332.128436 262.268348 331.588594 263.571642 331.588594 264.930403  C 331.588594 266.289165 332.128436 267.592458 333.089225 268.553247  C 334.050015 269.514037 335.353308 270.053879 336.71207 270.053879  L 336.71207 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="6" data-scenario-outline="true" id="scenario-outline-006">
+        <path clip-path="url(#p2995dd77b6)" d="M 233.967 530.803644  C 235.670298 530.803644 237.304062 530.126917 238.508476 528.922503  C 239.712889 527.71809 240.389616 526.084325 240.389616 524.381028  C 240.389616 522.67773 239.712889 521.043966 238.508476 519.839552  C 237.304062 518.635139 235.670298 517.958411 233.967 517.958411  C 232.263702 517.958411 230.629938 518.635139 229.425524 519.839552  C 228.221111 521.043966 227.544384 522.67773 227.544384 524.381028  C 227.544384 526.084325 228.221111 527.71809 229.425524 528.922503  C 230.629938 530.126917 232.263702 530.803644 233.967 530.803644  L 233.967 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_LLAMA2_70B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="6" data-source-ids="S_DASH_META_LLAMA2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-006">
-        <path clip-path="url(#pcc0901efd0)" d="M 341.986226 270.053879  C 343.344988 270.053879 344.648281 269.514037 345.60907 268.553247  C 346.56986 267.592458 347.109701 266.289165 347.109701 264.930403  C 347.109701 263.571642 346.56986 262.268348 345.60907 261.307559  C 344.648281 260.346769 343.344988 259.806928 341.986226 259.806928  C 340.627465 259.806928 339.324171 260.346769 338.363382 261.307559  C 337.402592 262.268348 336.862751 263.571642 336.862751 264.930403  C 336.862751 266.289165 337.402592 267.592458 338.363382 268.553247  C 339.324171 269.514037 340.627465 270.053879 341.986226 270.053879  L 341.986226 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="7" data-scenario-outline="true" id="scenario-outline-007">
+        <path clip-path="url(#p2995dd77b6)" d="M 236.973 534.313525  C 238.676298 534.313525 240.310062 533.636798 241.514476 532.432385  C 242.718889 531.227971 243.395616 529.594207 243.395616 527.890909  C 243.395616 526.187611 242.718889 524.553847 241.514476 523.349434  C 240.310062 522.14502 238.676298 521.468293 236.973 521.468293  C 235.269702 521.468293 233.635938 522.14502 232.431524 523.349434  C 231.227111 524.553847 230.550384 526.187611 230.550384 527.890909  C 230.550384 529.594207 231.227111 531.227971 232.431524 532.432385  C 233.635938 533.636798 235.269702 534.313525 236.973 534.313525  L 236.973 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_MISTRAL_7B_V01" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="7" data-source-ids="S_DASH_MISTRAL7_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-007">
-        <path clip-path="url(#pcc0901efd0)" d="M 347.260383 272.649294  C 348.619144 272.649294 349.922437 272.109452 350.883227 271.148662  C 351.844016 270.187873 352.383858 268.88458 352.383858 267.525818  C 352.383858 266.167057 351.844016 264.863764 350.883227 263.902974  C 349.922437 262.942184 348.619144 262.402343 347.260383 262.402343  C 345.901621 262.402343 344.598328 262.942184 343.637538 263.902974  C 342.676749 264.863764 342.136907 266.167057 342.136907 267.525818  C 342.136907 268.88458 342.676749 270.187873 343.637538 271.148662  C 344.598328 272.109452 345.901621 272.649294 347.260383 272.649294  L 347.260383 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="8" data-scenario-outline="true" id="scenario-outline-008">
+        <path clip-path="url(#p2995dd77b6)" d="M 239.979 530.803644  C 241.682298 530.803644 243.316062 530.126917 244.520476 528.922503  C 245.724889 527.71809 246.401616 526.084325 246.401616 524.381028  C 246.401616 522.67773 245.724889 521.043966 244.520476 519.839552  C 243.316062 518.635139 241.682298 517.958411 239.979 517.958411  C 238.275702 517.958411 236.641938 518.635139 235.437524 519.839552  C 234.233111 521.043966 233.556384 522.67773 233.556384 524.381028  C 233.556384 526.084325 234.233111 527.71809 235.437524 528.922503  C 236.641938 530.126917 238.275702 530.803644 239.979 530.803644  L 239.979 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_MIXTRAL_8X7B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="8" data-source-ids="S_DASH_MIXTRAL_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-008">
-        <path clip-path="url(#pcc0901efd0)" d="M 352.534539 270.053879  C 353.893301 270.053879 355.196594 269.514037 356.157383 268.553247  C 357.118173 267.592458 357.658015 266.289165 357.658015 264.930403  C 357.658015 263.571642 357.118173 262.268348 356.157383 261.307559  C 355.196594 260.346769 353.893301 259.806928 352.534539 259.806928  C 351.175778 259.806928 349.872484 260.346769 348.911695 261.307559  C 347.950905 262.268348 347.411064 263.571642 347.411064 264.930403  C 347.411064 266.289165 347.950905 267.592458 348.911695 268.553247  C 349.872484 269.514037 351.175778 270.053879 352.534539 270.053879  L 352.534539 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="9" data-scenario-outline="true" id="scenario-outline-009">
+        <path clip-path="url(#p2995dd77b6)" d="M 242.985 530.803644  C 244.688298 530.803644 246.322062 530.126917 247.526476 528.922503  C 248.730889 527.71809 249.407616 526.084325 249.407616 524.381028  C 249.407616 522.67773 248.730889 521.043966 247.526476 519.839552  C 246.322062 518.635139 244.688298 517.958411 242.985 517.958411  C 241.281702 517.958411 239.647938 518.635139 238.443524 519.839552  C 237.239111 521.043966 236.562384 522.67773 236.562384 524.381028  C 236.562384 526.084325 237.239111 527.71809 238.443524 528.922503  C 239.647938 530.126917 241.281702 530.803644 242.985 530.803644  L 242.985 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_QWEN_72B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="9" data-source-ids="S_DASH_QWEN_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-009">
-        <path clip-path="url(#pcc0901efd0)" d="M 357.808696 270.053879  C 359.167457 270.053879 360.47075 269.514037 361.43154 268.553247  C 362.392329 267.592458 362.932171 266.289165 362.932171 264.930403  C 362.932171 263.571642 362.392329 262.268348 361.43154 261.307559  C 360.47075 260.346769 359.167457 259.806928 357.808696 259.806928  C 356.449934 259.806928 355.146641 260.346769 354.185851 261.307559  C 353.225062 262.268348 352.68522 263.571642 352.68522 264.930403  C 352.68522 266.289165 353.225062 267.592458 354.185851 268.553247  C 355.146641 269.514037 356.449934 270.053879 357.808696 270.053879  L 357.808696 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="10" data-scenario-outline="true" id="scenario-outline-010">
+        <path clip-path="url(#p2995dd77b6)" d="M 245.49 516.764118  C 247.193298 516.764118 248.827062 516.087391 250.031476 514.882978  C 251.235889 513.678564 251.912616 512.0448 251.912616 510.341502  C 251.912616 508.638204 251.235889 507.00444 250.031476 505.800026  C 248.827062 504.595613 247.193298 503.918886 245.49 503.918886  C 243.786702 503.918886 242.152938 504.595613 240.948524 505.800026  C 239.744111 507.00444 239.067384 508.638204 239.067384 510.341502  C 239.067384 512.0448 239.744111 513.678564 240.948524 514.882978  C 242.152938 516.087391 243.786702 516.764118 245.49 516.764118  L 245.49 516.764118  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="180000" data-low="180000" data-marker="o" data-model-id="DM_DEEPSEEK_V2" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="10" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="180000" id="mark-010">
-        <path clip-path="url(#pcc0901efd0)" d="M 362.203826 259.672218  C 363.562588 259.672218 364.865881 259.132377 365.82667 258.171587  C 366.78746 257.210798 367.327301 255.907505 367.327301 254.548743  C 367.327301 253.189982 366.78746 251.886688 365.82667 250.925899  C 364.865881 249.965109 363.562588 249.425268 362.203826 249.425268  C 360.845065 249.425268 359.541771 249.965109 358.580982 250.925899  C 357.620192 251.886688 357.080351 253.189982 357.080351 254.548743  C 357.080351 255.907505 357.620192 257.210798 358.580982 258.171587  C 359.541771 259.132377 360.845065 259.672218 362.203826 259.672218  L 362.203826 259.672218  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="11" data-scenario-outline="true" id="scenario-outline-011">
+        <path clip-path="url(#p2995dd77b6)" d="M 248.496 478.155423  C 250.199298 478.155423 251.833062 477.478695 253.037476 476.274282  C 254.241889 475.069868 254.918616 473.436104 254.918616 471.732806  C 254.918616 470.029509 254.241889 468.395744 253.037476 467.191331  C 251.833062 465.986917 250.199298 465.31019 248.496 465.31019  C 246.792702 465.31019 245.158938 465.986917 243.954524 467.191331  C 242.750111 468.395744 242.073384 470.029509 242.073384 471.732806  C 242.073384 473.436104 242.750111 475.069868 243.954524 476.274282  C 245.158938 477.478695 246.792702 478.155423 248.496 478.155423  L 248.496 478.155423  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="510000" data-low="510000" data-marker="o" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="11" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="510000" id="mark-011">
-        <path clip-path="url(#pcc0901efd0)" d="M 367.477983 231.122653  C 368.836744 231.122653 370.140037 230.582812 371.100827 229.622022  C 372.061616 228.661233 372.601458 227.357939 372.601458 225.999178  C 372.601458 224.640416 372.061616 223.337123 371.100827 222.376334  C 370.140037 221.415544 368.836744 220.875702 367.477983 220.875702  C 366.119221 220.875702 364.815928 221.415544 363.855138 222.376334  C 362.894349 223.337123 362.354507 224.640416 362.354507 225.999178  C 362.354507 227.357939 362.894349 228.661233 363.855138 229.622022  C 364.815928 230.582812 366.119221 231.122653 367.477983 231.122653  L 367.477983 231.122653  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="12" data-scenario-outline="true" id="scenario-outline-012">
+        <path clip-path="url(#p2995dd77b6)" d="M 251.502 534.313525  C 253.205298 534.313525 254.839062 533.636798 256.043476 532.432385  C 257.247889 531.227971 257.924616 529.594207 257.924616 527.890909  C 257.924616 526.187611 257.247889 524.553847 256.043476 523.349434  C 254.839062 522.14502 253.205298 521.468293 251.502 521.468293  C 249.798702 521.468293 248.164938 522.14502 246.960524 523.349434  C 245.756111 524.553847 245.079384 526.187611 245.079384 527.890909  C 245.079384 529.594207 245.756111 531.227971 246.960524 532.432385  C 248.164938 533.636798 249.798702 534.313525 251.502 534.313525  L 251.502 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_GEMMA2_27B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="12" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-012">
-        <path clip-path="url(#pcc0901efd0)" d="M 372.752139 272.649294  C 374.110901 272.649294 375.414194 272.109452 376.374983 271.148662  C 377.335773 270.187873 377.875615 268.88458 377.875615 267.525818  C 377.875615 266.167057 377.335773 264.863764 376.374983 263.902974  C 375.414194 262.942184 374.110901 262.402343 372.752139 262.402343  C 371.393378 262.402343 370.090084 262.942184 369.129295 263.902974  C 368.168505 264.863764 367.628664 266.167057 367.628664 267.525818  C 367.628664 268.88458 368.168505 270.187873 369.129295 271.148662  C 370.090084 272.109452 371.393378 272.649294 372.752139 272.649294  L 372.752139 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="13" data-scenario-outline="true" id="scenario-outline-013">
+        <path clip-path="url(#p2995dd77b6)" d="M 254.508 534.313525  C 256.211298 534.313525 257.845062 533.636798 259.049476 532.432385  C 260.253889 531.227971 260.930616 529.594207 260.930616 527.890909  C 260.930616 526.187611 260.253889 524.553847 259.049476 523.349434  C 257.845062 522.14502 256.211298 521.468293 254.508 521.468293  C 252.804702 521.468293 251.170938 522.14502 249.966524 523.349434  C 248.762111 524.553847 248.085384 526.187611 248.085384 527.890909  C 248.085384 529.594207 248.762111 531.227971 249.966524 532.432385  C 251.170938 533.636798 252.804702 534.313525 254.508 534.313525  L 254.508 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_GEMMA_7B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="13" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-013">
-        <path clip-path="url(#pcc0901efd0)" d="M 378.026296 272.649294  C 379.385057 272.649294 380.68835 272.109452 381.64914 271.148662  C 382.609929 270.187873 383.149771 268.88458 383.149771 267.525818  C 383.149771 266.167057 382.609929 264.863764 381.64914 263.902974  C 380.68835 262.942184 379.385057 262.402343 378.026296 262.402343  C 376.667534 262.402343 375.364241 262.942184 374.403451 263.902974  C 373.442662 264.863764 372.90282 266.167057 372.90282 267.525818  C 372.90282 268.88458 373.442662 270.187873 374.403451 271.148662  C 375.364241 272.109452 376.667534 272.649294 378.026296 272.649294  L 378.026296 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="14" data-scenario-outline="true" id="scenario-outline-014">
+        <path clip-path="url(#p2995dd77b6)" d="M 257.514 509.744355  C 259.217298 509.744355 260.851062 509.067628 262.055476 507.863215  C 263.259889 506.658801 263.936616 505.025037 263.936616 503.321739  C 263.936616 501.618441 263.259889 499.984677 262.055476 498.780264  C 260.851062 497.57585 259.217298 496.899123 257.514 496.899123  C 255.810702 496.899123 254.176938 497.57585 252.972524 498.780264  C 251.768111 499.984677 251.091384 501.618441 251.091384 503.321739  C 251.091384 505.025037 251.768111 506.658801 252.972524 507.863215  C 254.176938 509.067628 255.810702 509.744355 257.514 509.744355  L 257.514 509.744355  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="240000" data-low="240000" data-marker="o" data-model-id="DM_GROK1" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="14" data-source-ids="S_DASH_XAI_GROK1_REPO S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="240000" id="mark-014">
-        <path clip-path="url(#pcc0901efd0)" d="M 383.300452 254.481388  C 384.659214 254.481388 385.962507 253.941547 386.923296 252.980757  C 387.884086 252.019968 388.423928 250.716675 388.423928 249.357913  C 388.423928 247.999151 387.884086 246.695858 386.923296 245.735069  C 385.962507 244.774279 384.659214 244.234438 383.300452 244.234438  C 381.941691 244.234438 380.638397 244.774279 379.677608 245.735069  C 378.716818 246.695858 378.176977 247.999151 378.176977 249.357913  C 378.176977 250.716675 378.716818 252.019968 379.677608 252.980757  C 380.638397 253.941547 381.941691 254.481388 383.300452 254.481388  L 383.300452 254.481388  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="15" data-scenario-outline="true" id="scenario-outline-015">
+        <path clip-path="url(#p2995dd77b6)" d="M 260.52 499.214711  C 262.223298 499.214711 263.857062 498.537984 265.061476 497.33357  C 266.265889 496.129157 266.942616 494.495393 266.942616 492.792095  C 266.942616 491.088797 266.265889 489.455033 265.061476 488.250619  C 263.857062 487.046206 262.223298 486.369479 260.52 486.369479  C 258.816702 486.369479 257.182938 487.046206 255.978524 488.250619  C 254.774111 489.455033 254.097384 491.088797 254.097384 492.792095  C 254.097384 494.495393 254.774111 496.129157 255.978524 497.33357  C 257.182938 498.537984 258.816702 499.214711 260.52 499.214711  L 260.52 499.214711  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="330000" data-low="330000" data-marker="o" data-model-id="DM_LLAMA31_405B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="15" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="330000" id="mark-015">
-        <path clip-path="url(#pcc0901efd0)" d="M 388.574609 246.695143  C 389.93337 246.695143 391.236663 246.155302 392.197453 245.194512  C 393.158242 244.233723 393.698084 242.93043 393.698084 241.571668  C 393.698084 240.212906 393.158242 238.909613 392.197453 237.948824  C 391.236663 236.988034 389.93337 236.448193 388.574609 236.448193  C 387.215847 236.448193 385.912554 236.988034 384.951765 237.948824  C 383.990975 238.909613 383.451133 240.212906 383.451133 241.571668  C 383.451133 242.93043 383.990975 244.233723 384.951765 245.194512  C 385.912554 246.155302 387.215847 246.695143 388.574609 246.695143  L 388.574609 246.695143  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="16" data-scenario-outline="true" id="scenario-outline-016">
+        <path clip-path="url(#p2995dd77b6)" d="M 263.526 530.803644  C 265.229298 530.803644 266.863062 530.126917 268.067476 528.922503  C 269.271889 527.71809 269.948616 526.084325 269.948616 524.381028  C 269.948616 522.67773 269.271889 521.043966 268.067476 519.839552  C 266.863062 518.635139 265.229298 517.958411 263.526 517.958411  C 261.822702 517.958411 260.188938 518.635139 258.984524 519.839552  C 257.780111 521.043966 257.103384 522.67773 257.103384 524.381028  C 257.103384 526.084325 257.780111 527.71809 258.984524 528.922503  C 260.188938 530.126917 261.822702 530.803644 263.526 530.803644  L 263.526 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_LLAMA31_70B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="16" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-016">
-        <path clip-path="url(#pcc0901efd0)" d="M 393.848765 270.053879  C 395.207527 270.053879 396.51082 269.514037 397.471609 268.553247  C 398.432399 267.592458 398.972241 266.289165 398.972241 264.930403  C 398.972241 263.571642 398.432399 262.268348 397.471609 261.307559  C 396.51082 260.346769 395.207527 259.806928 393.848765 259.806928  C 392.490004 259.806928 391.186711 260.346769 390.225921 261.307559  C 389.265132 262.268348 388.72529 263.571642 388.72529 264.930403  C 388.72529 266.289165 389.265132 267.592458 390.225921 268.553247  C 391.186711 269.514037 392.490004 270.053879 393.848765 270.053879  L 393.848765 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="17" data-scenario-outline="true" id="scenario-outline-017">
+        <path clip-path="url(#p2995dd77b6)" d="M 266.532 534.313525  C 268.235298 534.313525 269.869062 533.636798 271.073476 532.432385  C 272.277889 531.227971 272.954616 529.594207 272.954616 527.890909  C 272.954616 526.187611 272.277889 524.553847 271.073476 523.349434  C 269.869062 522.14502 268.235298 521.468293 266.532 521.468293  C 264.828702 521.468293 263.194938 522.14502 261.990524 523.349434  C 260.786111 524.553847 260.109384 526.187611 260.109384 527.890909  C 260.109384 529.594207 260.786111 531.227971 261.990524 532.432385  C 263.194938 533.636798 264.828702 534.313525 266.532 534.313525  L 266.532 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_LLAMA31_8B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="17" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-017">
-        <path clip-path="url(#pcc0901efd0)" d="M 399.122922 272.649294  C 400.481683 272.649294 401.784976 272.109452 402.745766 271.148662  C 403.706555 270.187873 404.246397 268.88458 404.246397 267.525818  C 404.246397 266.167057 403.706555 264.863764 402.745766 263.902974  C 401.784976 262.942184 400.481683 262.402343 399.122922 262.402343  C 397.76416 262.402343 396.460867 262.942184 395.500078 263.902974  C 394.539288 264.863764 393.999446 266.167057 393.999446 267.525818  C 393.999446 268.88458 394.539288 270.187873 395.500078 271.148662  C 396.460867 272.109452 397.76416 272.649294 399.122922 272.649294  L 399.122922 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="18" data-scenario-outline="true" id="scenario-outline-018">
+        <path clip-path="url(#p2995dd77b6)" d="M 269.538 523.783881  C 271.241298 523.783881 272.875062 523.107154 274.079476 521.90274  C 275.283889 520.698327 275.960616 519.064563 275.960616 517.361265  C 275.960616 515.657967 275.283889 514.024203 274.079476 512.819789  C 272.875062 511.615376 271.241298 510.938649 269.538 510.938649  C 267.834702 510.938649 266.200938 511.615376 264.996524 512.819789  C 263.792111 514.024203 263.115384 515.657967 263.115384 517.361265  C 263.115384 519.064563 263.792111 520.698327 264.996524 521.90274  C 266.200938 523.107154 267.834702 523.783881 269.538 523.783881  L 269.538 523.783881  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="120000" data-low="120000" data-marker="o" data-model-id="DM_MISTRAL_LARGE2_2407" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="18" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="120000" id="mark-018">
-        <path clip-path="url(#pcc0901efd0)" d="M 404.397078 264.863049  C 405.75584 264.863049 407.059133 264.323207 408.019922 263.362417  C 408.980712 262.401628 409.520554 261.098335 409.520554 259.739573  C 409.520554 258.380812 408.980712 257.077518 408.019922 256.116729  C 407.059133 255.155939 405.75584 254.616098 404.397078 254.616098  C 403.038317 254.616098 401.735024 255.155939 400.774234 256.116729  C 399.813445 257.077518 399.273603 258.380812 399.273603 259.739573  C 399.273603 261.098335 399.813445 262.401628 400.774234 263.362417  C 401.735024 264.323207 403.038317 264.863049 404.397078 264.863049  L 404.397078 264.863049  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="19" data-scenario-outline="true" id="scenario-outline-019">
+        <path clip-path="url(#p2995dd77b6)" d="M 272.544 530.803644  C 274.247298 530.803644 275.881062 530.126917 277.085476 528.922503  C 278.289889 527.71809 278.966616 526.084325 278.966616 524.381028  C 278.966616 522.67773 278.289889 521.043966 277.085476 519.839552  C 275.881062 518.635139 274.247298 517.958411 272.544 517.958411  C 270.840702 517.958411 269.206938 518.635139 268.002524 519.839552  C 266.798111 521.043966 266.121384 522.67773 266.121384 524.381028  C 266.121384 526.084325 266.798111 527.71809 268.002524 528.922503  C 269.206938 530.126917 270.840702 530.803644 272.544 530.803644  L 272.544 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_QWEN25_72B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="19" data-source-ids="S_DASH_QWEN25_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-019">
-        <path clip-path="url(#pcc0901efd0)" d="M 409.671235 270.053879  C 411.029996 270.053879 412.333289 269.514037 413.294079 268.553247  C 414.254868 267.592458 414.79471 266.289165 414.79471 264.930403  C 414.79471 263.571642 414.254868 262.268348 413.294079 261.307559  C 412.333289 260.346769 411.029996 259.806928 409.671235 259.806928  C 408.312473 259.806928 407.00918 260.346769 406.048391 261.307559  C 405.087601 262.268348 404.547759 263.571642 404.547759 264.930403  C 404.547759 266.289165 405.087601 267.592458 406.048391 268.553247  C 407.00918 269.514037 408.312473 270.053879 409.671235 270.053879  L 409.671235 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="20" data-scenario-outline="true" id="scenario-outline-020">
+        <path clip-path="url(#p2995dd77b6)" d="M 275.55 530.803644  C 277.253298 530.803644 278.887062 530.126917 280.091476 528.922503  C 281.295889 527.71809 281.972616 526.084325 281.972616 524.381028  C 281.972616 522.67773 281.295889 521.043966 280.091476 519.839552  C 278.887062 518.635139 277.253298 517.958411 275.55 517.958411  C 273.846702 517.958411 272.212938 518.635139 271.008524 519.839552  C 269.804111 521.043966 269.127384 522.67773 269.127384 524.381028  C 269.127384 526.084325 269.804111 527.71809 271.008524 528.922503  C 272.212938 530.126917 273.846702 530.803644 275.55 530.803644  L 275.55 530.803644  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_QWEN2_72B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="20" data-source-ids="S_DASH_QWEN2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-020">
-        <path clip-path="url(#pcc0901efd0)" d="M 414.945391 270.053879  C 416.304153 270.053879 417.607446 269.514037 418.568235 268.553247  C 419.529025 267.592458 420.068867 266.289165 420.068867 264.930403  C 420.068867 263.571642 419.529025 262.268348 418.568235 261.307559  C 417.607446 260.346769 416.304153 259.806928 414.945391 259.806928  C 413.58663 259.806928 412.283337 260.346769 411.322547 261.307559  C 410.361758 262.268348 409.821916 263.571642 409.821916 264.930403  C 409.821916 266.289165 410.361758 267.592458 411.322547 268.553247  C 412.283337 269.514037 413.58663 270.053879 414.945391 270.053879  L 414.945391 270.053879  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="21" data-scenario-outline="true" id="scenario-outline-021">
+        <path clip-path="url(#p2995dd77b6)" d="M 278.055 478.155423  C 279.758298 478.155423 281.392062 477.478695 282.596476 476.274282  C 283.800889 475.069868 284.477616 473.436104 284.477616 471.732806  C 284.477616 470.029509 283.800889 468.395744 282.596476 467.191331  C 281.392062 465.986917 279.758298 465.31019 278.055 465.31019  C 276.351702 465.31019 274.717938 465.986917 273.513524 467.191331  C 272.309111 468.395744 271.632384 470.029509 271.632384 471.732806  C 271.632384 473.436104 272.309111 475.069868 273.513524 476.274282  C 274.717938 477.478695 276.351702 478.155423 278.055 478.155423  L 278.055 478.155423  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="510000" data-low="510000" data-marker="o" data-model-id="DM_DEEPSEEK_R1" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="21" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="510000" id="mark-021">
-        <path clip-path="url(#pcc0901efd0)" d="M 419.340522 231.122653  C 420.699283 231.122653 422.002576 230.582812 422.963366 229.622022  C 423.924155 228.661233 424.463997 227.357939 424.463997 225.999178  C 424.463997 224.640416 423.924155 223.337123 422.963366 222.376334  C 422.002576 221.415544 420.699283 220.875702 419.340522 220.875702  C 417.98176 220.875702 416.678467 221.415544 415.717678 222.376334  C 414.756888 223.337123 414.217046 224.640416 414.217046 225.999178  C 414.217046 227.357939 414.756888 228.661233 415.717678 229.622022  C 416.678467 230.582812 417.98176 231.122653 419.340522 231.122653  L 419.340522 231.122653  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="22" data-scenario-outline="true" id="scenario-outline-022">
+        <path clip-path="url(#p2995dd77b6)" d="M 281.061 534.313525  C 282.764298 534.313525 284.398062 533.636798 285.602476 532.432385  C 286.806889 531.227971 287.483616 529.594207 287.483616 527.890909  C 287.483616 526.187611 286.806889 524.553847 285.602476 523.349434  C 284.398062 522.14502 282.764298 521.468293 281.061 521.468293  C 279.357702 521.468293 277.723938 522.14502 276.519524 523.349434  C 275.315111 524.553847 274.638384 526.187611 274.638384 527.890909  C 274.638384 529.594207 275.315111 531.227971 276.519524 532.432385  C 277.723938 533.636798 279.357702 534.313525 281.061 534.313525  L 281.061 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_GEMMA3_27B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="22" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-022">
-        <path clip-path="url(#pcc0901efd0)" d="M 424.614678 272.649294  C 425.97344 272.649294 427.276733 272.109452 428.237522 271.148662  C 429.198312 270.187873 429.738154 268.88458 429.738154 267.525818  C 429.738154 266.167057 429.198312 264.863764 428.237522 263.902974  C 427.276733 262.942184 425.97344 262.402343 424.614678 262.402343  C 423.255917 262.402343 421.952624 262.942184 420.991834 263.902974  C 420.031045 264.863764 419.491203 266.167057 419.491203 267.525818  C 419.491203 268.88458 420.031045 270.187873 420.991834 271.148662  C 421.952624 272.109452 423.255917 272.649294 424.614678 272.649294  L 424.614678 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="23" data-scenario-outline="true" id="scenario-outline-023">
+        <path clip-path="url(#p2995dd77b6)" d="M 284.067 450.076371  C 285.770298 450.076371 287.404062 449.399644 288.608476 448.19523  C 289.812889 446.990817 290.489616 445.357053 290.489616 443.653755  C 290.489616 441.950457 289.812889 440.316693 288.608476 439.112279  C 287.404062 437.907866 285.770298 437.231139 284.067 437.231139  C 282.363702 437.231139 280.729938 437.907866 279.525524 439.112279  C 278.321111 440.316693 277.644384 441.950457 277.644384 443.653755  C 277.644384 445.357053 278.321111 446.990817 279.525524 448.19523  C 280.729938 449.399644 282.363702 450.076371 284.067 450.076371  L 284.067 450.076371  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="750000" data-low="750000" data-marker="o" data-model-id="DM_KIMI_K2" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="23" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="750000" id="mark-023">
-        <path clip-path="url(#pcc0901efd0)" d="M 429.888835 210.359333  C 431.247596 210.359333 432.550889 209.819491 433.511679 208.858702  C 434.472468 207.897912 435.01231 206.594619 435.01231 205.235858  C 435.01231 203.877096 434.472468 202.573803 433.511679 201.613014  C 432.550889 200.652224 431.247596 200.112382 429.888835 200.112382  C 428.530073 200.112382 427.22678 200.652224 426.265991 201.613014  C 425.305201 202.573803 424.765359 203.877096 424.765359 205.235858  C 424.765359 206.594619 425.305201 207.897912 426.265991 208.858702  C 427.22678 209.819491 428.530073 210.359333 429.888835 210.359333  L 429.888835 210.359333  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="24" data-scenario-outline="true" id="scenario-outline-024">
+        <path clip-path="url(#p2995dd77b6)" d="M 287.073 527.293763  C 288.776298 527.293763 290.410062 526.617035 291.614476 525.412622  C 292.818889 524.208208 293.495616 522.574444 293.495616 520.871146  C 293.495616 519.167848 292.818889 517.534084 291.614476 516.329671  C 290.410062 515.125257 288.776298 514.44853 287.073 514.44853  C 285.369702 514.44853 283.735938 515.125257 282.531524 516.329671  C 281.327111 517.534084 280.650384 519.167848 280.650384 520.871146  C 280.650384 522.574444 281.327111 524.208208 282.531524 525.412622  C 283.735938 526.617035 285.369702 527.293763 287.073 527.293763  L 287.073 527.293763  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="90000" data-low="90000" data-marker="o" data-model-id="DM_LLAMA4_SCOUT" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="24" data-source-ids="S_DASH_META_LLAMA4_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="90000" id="mark-024">
-        <path clip-path="url(#pcc0901efd0)" d="M 435.162991 267.458464  C 436.521753 267.458464 437.825046 266.918622 438.785835 265.957832  C 439.746625 264.997043 440.286467 263.69375 440.286467 262.334988  C 440.286467 260.976227 439.746625 259.672933 438.785835 258.712144  C 437.825046 257.751354 436.521753 257.211513 435.162991 257.211513  C 433.80423 257.211513 432.500937 257.751354 431.540147 258.712144  C 430.579358 259.672933 430.039516 260.976227 430.039516 262.334988  C 430.039516 263.69375 430.579358 264.997043 431.540147 265.957832  C 432.500937 266.918622 433.80423 267.458464 435.162991 267.458464  L 435.162991 267.458464  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="25" data-scenario-outline="true" id="scenario-outline-025">
+        <path clip-path="url(#p2995dd77b6)" d="M 290.079 516.764118  C 291.782298 516.764118 293.416062 516.087391 294.620476 514.882978  C 295.824889 513.678564 296.501616 512.0448 296.501616 510.341502  C 296.501616 508.638204 295.824889 507.00444 294.620476 505.800026  C 293.416062 504.595613 291.782298 503.918886 290.079 503.918886  C 288.375702 503.918886 286.741938 504.595613 285.537524 505.800026  C 284.333111 507.00444 283.656384 508.638204 283.656384 510.341502  C 283.656384 512.0448 284.333111 513.678564 285.537524 514.882978  C 286.741938 516.087391 288.375702 516.764118 290.079 516.764118  L 290.079 516.764118  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="180000" data-low="180000" data-marker="o" data-model-id="DM_QWEN3_235B_A22B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="25" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="180000" id="mark-025">
-        <path clip-path="url(#pcc0901efd0)" d="M 440.437148 259.672218  C 441.795909 259.672218 443.099203 259.132377 444.059992 258.171587  C 445.020782 257.210798 445.560623 255.907505 445.560623 254.548743  C 445.560623 253.189982 445.020782 251.886688 444.059992 250.925899  C 443.099203 249.965109 441.795909 249.425268 440.437148 249.425268  C 439.078386 249.425268 437.775093 249.965109 436.814304 250.925899  C 435.853514 251.886688 435.313672 253.189982 435.313672 254.548743  C 435.313672 255.907505 435.853514 257.210798 436.814304 258.171587  C 437.775093 259.132377 439.078386 259.672218 440.437148 259.672218  L 440.437148 259.672218  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="26" data-scenario-outline="true" id="scenario-outline-026">
+        <path clip-path="url(#p2995dd77b6)" d="M 293.085 534.313525  C 294.788298 534.313525 296.422062 533.636798 297.626476 532.432385  C 298.830889 531.227971 299.507616 529.594207 299.507616 527.890909  C 299.507616 526.187611 298.830889 524.553847 297.626476 523.349434  C 296.422062 522.14502 294.788298 521.468293 293.085 521.468293  C 291.381702 521.468293 289.747938 522.14502 288.543524 523.349434  C 287.339111 524.553847 286.662384 526.187611 286.662384 527.890909  C 286.662384 529.594207 287.339111 531.227971 288.543524 532.432385  C 289.747938 533.636798 291.381702 534.313525 293.085 534.313525  L 293.085 534.313525  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_QWEN3_30B_A3B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="26" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-026">
-        <path clip-path="url(#pcc0901efd0)" d="M 445.711304 272.649294  C 447.070066 272.649294 448.373359 272.109452 449.334149 271.148662  C 450.294938 270.187873 450.83478 268.88458 450.83478 267.525818  C 450.83478 266.167057 450.294938 264.863764 449.334149 263.902974  C 448.373359 262.942184 447.070066 262.402343 445.711304 262.402343  C 444.352543 262.402343 443.04925 262.942184 442.08846 263.902974  C 441.127671 264.863764 440.587829 266.167057 440.587829 267.525818  C 440.587829 268.88458 441.127671 270.187873 442.08846 271.148662  C 443.04925 272.109452 444.352543 272.649294 445.711304 272.649294  L 445.711304 272.649294  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
+      <g data-outline-for="27" data-scenario-outline="true" id="scenario-outline-027">
+        <path clip-path="url(#p2995dd77b6)" d="M 309.117 292.131707  C 310.820298 292.131707 312.454062 291.45498 313.658476 290.250566  C 314.862889 289.046153 315.539616 287.412389 315.539616 285.709091  C 315.539616 284.005793 314.862889 282.372029 313.658476 281.167615  C 312.454062 279.963202 310.820298 279.286475 309.117 279.286475  C 307.413702 279.286475 305.779938 279.963202 304.575524 281.167615  C 303.371111 282.372029 302.694384 284.005793 302.694384 285.709091  C 302.694384 287.412389 303.371111 289.046153 304.575524 290.250566  C 305.779938 291.45498 307.413702 292.131707 309.117 292.131707  L 309.117 292.131707  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="2100000" data-low="2100000" data-marker="o" data-model-id="DM_KIMI_K3" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="27" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="2100000" id="mark-027">
-        <path clip-path="url(#pcc0901efd0)" d="M 473.840139 93.565657  C 475.198901 93.565657 476.502194 93.025816 477.462983 92.065026  C 478.423773 91.104236 478.963615 89.800943 478.963615 88.442182  C 478.963615 87.08342 478.423773 85.780127 477.462983 84.819338  C 476.502194 83.858548 475.198901 83.318706 473.840139 83.318706  C 472.481378 83.318706 471.178084 83.858548 470.217295 84.819338  C 469.256505 85.780127 468.716664 87.08342 468.716664 88.442182  C 468.716664 89.800943 469.256505 91.104236 470.217295 92.065026  C 471.178084 93.025816 472.481378 93.565657 473.840139 93.565657  L 473.840139 93.565657  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
-      </g>
-      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="1800000" data-low="1800000" data-marker="o" data-model-id="DM_QWEN38_24T_A95B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="28" data-source-ids="S_QWEN38_MODELSCOPE S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="1800000" id="mark-028">
-        <path clip-path="url(#pcc0901efd0)" d="M 479.114296 119.519807  C 480.473057 119.519807 481.77635 118.979966 482.73714 118.019176  C 483.697929 117.058387 484.237771 115.755094 484.237771 114.396332  C 484.237771 113.03757 483.697929 111.734277 482.73714 110.773488  C 481.77635 109.812698 480.473057 109.272857 479.114296 109.272857  C 477.755534 109.272857 476.452241 109.812698 475.491451 110.773488  C 474.530662 111.734277 473.99082 113.03757 473.99082 114.396332  C 473.99082 115.755094 474.530662 117.058387 475.491451 118.019176  C 476.452241 118.979966 477.755534 119.519807 479.114296 119.519807  L 479.114296 119.519807  z " style="fill: none; stroke: #cc79a7; stroke-width: 4" />
-      </g>
-      <g id="text_14">
-        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 130.866783 260.525818)" x="130.866783" y="260.525818">BERT LARGE</text>
-      </g>
-      <g id="text_15">
-        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 174.818087 260.525818)" x="174.818087" y="260.525818">T5 11B</text>
-      </g>
-      <g id="text_16">
-        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 304.034922 250.144158)" x="304.034922" y="250.144158">BLOOM 176B</text>
+      <g data-outline-for="28" data-scenario-outline="true" id="scenario-outline-028">
+        <path clip-path="url(#p2995dd77b6)" d="M 312.123 327.230521  C 313.826298 327.230521 315.460062 326.553794 316.664476 325.349381  C 317.868889 324.144967 318.545616 322.511203 318.545616 320.807905  C 318.545616 319.104607 317.868889 317.470843 316.664476 316.26643  C 315.460062 315.062016 313.826298 314.385289 312.123 314.385289  C 310.419702 314.385289 308.785938 315.062016 307.581524 316.26643  C 306.377111 317.470843 305.700384 319.104607 305.700384 320.807905  C 305.700384 322.511203 306.377111 324.144967 307.581524 325.349381  C 308.785938 326.553794 310.419702 327.230521 312.123 327.230521  L 312.123 327.230521  z " style="fill: none; stroke: #cc79a7; stroke-width: 1.8" />
       </g>
       <g id="text_17">
-        <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 309.309078 250.144158)" x="309.309078" y="250.144158">OPT 175B</text>
+        <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(141.785625 75.583594)">¿Qué CAPEX</text>
+        <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(118.474688 99.589063)">accelerator-only</text>
+        <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(127.685625 123.594531)">sugiere el piso</text>
+        <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(130.193438 147.6)">de capacidad?</text>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_BERT_LARGE" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="0" data-source-ids="S_DASH_GOOGLE_BERT_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-000">
+        <defs>
+          <path d="M 0 4.690416  C 1.243913 4.690416 2.437046 4.196204 3.316625 3.316625  C 4.196204 2.437046 4.690416 1.243913 4.690416 0  C 4.690416 -1.243913 4.196204 -2.437046 3.316625 -3.316625  C 2.437046 -4.196204 1.243913 -4.690416 0 -4.690416  C -1.243913 -4.690416 -2.437046 -4.196204 -3.316625 -3.316625  C -4.196204 -2.437046 -4.690416 -1.243913 -4.690416 0  C -4.690416 1.243913 -4.196204 2.437046 -3.316625 3.316625  C -2.437046 4.196204 -1.243913 4.690416 0 4.690416  z " id="m220f9bcd17" style="stroke: #cc79a7; stroke-width: 1.8" />
+        </defs>
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="110.22" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_T5_11B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="1" data-source-ids="S_DASH_GOOGLE_T5_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-001">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="135.27" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="150000" data-low="150000" data-marker="o" data-model-id="DM_BLOOM_176B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="2" data-source-ids="S_BIGSCIENCE_BLOOM_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="150000" id="mark-002">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="208.917" y="513.851383" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="150000" data-low="150000" data-marker="o" data-model-id="DM_OPT_175B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="3" data-source-ids="S_DASH_META_OPT_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="150000" id="mark-003">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="211.923" y="513.851383" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_DEEPSEEK_LLM_67B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="4" data-source-ids="S_DASH_DEEPSEEK_LLM_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-004">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="227.955" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_LLAMA1_65B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="5" data-source-ids="S_DASH_META_LLAMA1_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-005">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="230.961" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_LLAMA2_70B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="6" data-source-ids="S_DASH_META_LLAMA2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-006">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="233.967" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_MISTRAL_7B_V01" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="7" data-source-ids="S_DASH_MISTRAL7_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-007">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="236.973" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_MIXTRAL_8X7B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="8" data-source-ids="S_DASH_MIXTRAL_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-008">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="239.979" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_QWEN_72B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="9" data-source-ids="S_DASH_QWEN_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-009">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="242.985" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="180000" data-low="180000" data-marker="o" data-model-id="DM_DEEPSEEK_V2" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="10" data-source-ids="S_DASH_DEEPSEEK_V2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="180000" id="mark-010">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="245.49" y="510.341502" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="510000" data-low="510000" data-marker="o" data-model-id="DM_DEEPSEEK_V3" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="11" data-source-ids="S_DEEPSEEK_V3_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="510000" id="mark-011">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="248.496" y="471.732806" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_GEMMA2_27B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="12" data-source-ids="S_DASH_GOOGLE_GEMMA2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-012">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="251.502" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_GEMMA_7B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="13" data-source-ids="S_DASH_GOOGLE_GEMMA1_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-013">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="254.508" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="240000" data-low="240000" data-marker="o" data-model-id="DM_GROK1" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="14" data-source-ids="S_DASH_XAI_GROK1_REPO S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="240000" id="mark-014">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="257.514" y="503.321739" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="330000" data-low="330000" data-marker="o" data-model-id="DM_LLAMA31_405B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="15" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="330000" id="mark-015">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="260.52" y="492.792095" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_LLAMA31_70B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="16" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-016">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="263.526" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_LLAMA31_8B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="17" data-source-ids="S_META_LLAMA31_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-017">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="266.532" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="120000" data-low="120000" data-marker="o" data-model-id="DM_MISTRAL_LARGE2_2407" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="18" data-source-ids="S_DASH_MISTRAL_LARGE2_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="120000" id="mark-018">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="269.538" y="517.361265" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_QWEN25_72B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="19" data-source-ids="S_DASH_QWEN25_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-019">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="272.544" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="60000" data-low="60000" data-marker="o" data-model-id="DM_QWEN2_72B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="20" data-source-ids="S_DASH_QWEN2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="60000" id="mark-020">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="275.55" y="524.381028" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="510000" data-low="510000" data-marker="o" data-model-id="DM_DEEPSEEK_R1" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="21" data-source-ids="S_DASH_DEEPSEEK_R1_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="510000" id="mark-021">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="278.055" y="471.732806" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_GEMMA3_27B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="22" data-source-ids="S_DASH_GOOGLE_GEMMA3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-022">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="281.061" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="750000" data-low="750000" data-marker="o" data-model-id="DM_KIMI_K2" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="23" data-source-ids="S_DASH_MOONSHOT_KIMI_K2_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="750000" id="mark-023">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="284.067" y="443.653755" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="90000" data-low="90000" data-marker="o" data-model-id="DM_LLAMA4_SCOUT" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="24" data-source-ids="S_DASH_META_LLAMA4_CARD S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="90000" id="mark-024">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="287.073" y="520.871146" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="180000" data-low="180000" data-marker="o" data-model-id="DM_QWEN3_235B_A22B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="25" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="180000" id="mark-025">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="290.079" y="510.341502" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="30000" data-low="30000" data-marker="o" data-model-id="DM_QWEN3_30B_A3B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="26" data-source-ids="S_DASH_QWEN3_REPORT S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="30000" id="mark-026">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="293.085" y="527.890909" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="2100000" data-low="2100000" data-marker="o" data-model-id="DM_KIMI_K3" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="27" data-source-ids="S_MOONSHOT_KIMI_K3_PAPER S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="2100000" id="mark-027">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="309.117" y="285.709091" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g data-claim-scope="accelerator_equivalent_scenario_not_api_not_system_price" data-confidence="not_applicable" data-high="1800000" data-low="1800000" data-marker="o" data-model-id="DM_QWEN38_24T_A95B" data-quantitative="true" data-role="USD 30000 per accelerator" data-row-index="28" data-source-ids="S_QWEN38_MODELSCOPE S_COURSE_DESIGN" data-status="SCENARIO" data-status-style="double-outline" data-unit="USD" data-value="1800000" id="mark-028">
+        <g clip-path="url(#p2995dd77b6)">
+          <use style="fill: #ffffff; stroke: #cc79a7; stroke-width: 1.8" x="312.123" y="320.807905" xlink:href="#m220f9bcd17" />
+        </g>
+      </g>
+      <g id="patch_5">
+        <path d="M 134.069489 501.864256  Q 124.172475 512.664745 114.275461 523.465234  " style="fill: none; stroke: #6b7280; stroke-width: 0.8; stroke-linecap: round" />
+      </g>
+      <g id="direct-label-000">
+        <text data-direct-label="true" style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #111827" transform="rotate(-0 122.22 494.047159)" x="122.22" y="494.047159">BERT</text>
       </g>
       <g id="legend_1">
-        <g id="line2d_11">
+        <g id="line2d_15">
           <defs>
             <path d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " id="m6621826aeb" style="stroke: #cc79a7; stroke-width: 3" />
           </defs>
           <g>
-            <use style="fill-opacity: 0; stroke: #cc79a7; stroke-width: 3" x="113.896" y="86.426361" xlink:href="#m6621826aeb" />
+            <use style="fill-opacity: 0; stroke: #cc79a7; stroke-width: 3" x="122.6" y="241.77225" xlink:href="#m6621826aeb" />
           </g>
         </g>
-        <g id="text_18">
-          <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 128.746 90.276361)" x="128.746" y="90.276361">SCENARIO</text>
+        <g id="status-legend-00">
+          <text style="font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #262626" transform="rotate(-0 144.2 247.37225)" x="144.2" y="247.37225">SCENARIO</text>
         </g>
       </g>
     </g>
   </g>
   <defs>
-    <clipPath id="pcc0901efd0">
-      <rect height="196.992" width="404.352" x="98.496" y="79.488" />
+    <clipPath id="p2995dd77b6">
+      <rect height="266.4" width="220.44" x="100.2" y="273.6" />
     </clipPath>
   </defs>
 </svg>
