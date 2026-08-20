@@ -23,8 +23,8 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - run: pip install pytest pillow pyyaml
-      - run: python -m pytest tools/ -q
+      - run: pip install pytest pillow
+      - run: python -m pytest tools/test_creditos.py tools/test_ilustraciones.py -q
 
   dashboard-assets:
     needs: checks
@@ -50,7 +50,6 @@ jobs:
         run: |
           uv venv .dashboard-venv --python 3.12.11
           uv pip sync --python .dashboard-venv/bin/python --require-hashes tools/ai_dashboard_requirements.lock
-          uv pip install --python .dashboard-venv/bin/python "pytest==8.4.2" "playwright==1.60.0"
       - name: Install Chromium
         run: .dashboard-venv/bin/python -m playwright install --with-deps chromium
       - name: Install the pinned Raya toolchain

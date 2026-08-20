@@ -4,3 +4,5 @@ seaborn
 matplotlib
 pyyaml
 pillow
+pytest==8.4.2
+playwright==1.60.0
