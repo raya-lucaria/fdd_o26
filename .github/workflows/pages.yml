@@ -26,11 +26,53 @@ jobs:
       - run: pip install pytest pillow pyyaml
       - run: python -m pytest tools/ -q
 
-  # `needs: checks` es lo que convierte las pruebas en una compuerta real. Sin
-  # esa línea ambos trabajos corren en paralelo y el sitio se publica aunque la
-  # suite falle.
-  course-pages:
+  dashboard-assets:
     needs: checks
+    runs-on: ubuntu-latest
+    env:
+      RAYA_CHECKOUT: ${{ github.workspace }}/.raya-framework
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check out pinned Raya framework
+        uses: actions/checkout@v5
+        with:
+          repository: raya-lucaria/raya-lucaria.github.io
+          ref: dd1fdba4e16cb79fa5515eb689fabbc74014f3b6
+          path: .raya-framework
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12.11"
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - uses: astral-sh/setup-uv@v7
+      - name: Install the pinned dashboard environment
+        run: |
+          uv venv .dashboard-venv --python 3.12.11
+          uv pip sync --python .dashboard-venv/bin/python --require-hashes tools/ai_dashboard_requirements.lock
+          uv pip install --python .dashboard-venv/bin/python "pytest==8.4.2" "playwright==1.60.0"
+      - name: Install Chromium
+        run: .dashboard-venv/bin/python -m playwright install --with-deps chromium
+      - name: Install the pinned Raya toolchain
+        run: |
+          npm ci --prefix .raya-framework --ignore-scripts --no-audit --no-fund
+          UV_PROJECT_ENVIRONMENT=.venv-local uv sync --directory .raya-framework --locked --python 3.12.11 --all-packages --dev
+      - name: Regenerate dashboard assets twice
+        run: |
+          .dashboard-venv/bin/python tools/gen_ai_model_dashboard.py
+          git diff --exit-code
+          .dashboard-venv/bin/python tools/gen_ai_model_dashboard.py
+          git diff --exit-code
+      - name: Run dashboard gates without skips
+        run: |
+          set -o pipefail
+          .dashboard-venv/bin/python -m pytest tools/ -q -rs | tee pytest-dashboard.log
+          ! rg --quiet '[0-9]+ skipped' pytest-dashboard.log
+
+  # Pages sólo puede publicarse tras las guardas ligeras, la regeneración del
+  # dashboard y la validación del curso en el mismo commit de Raya.
+  course-build:
+    needs: [checks, dashboard-assets]
     uses: raya-lucaria/raya-lucaria.github.io/.github/workflows/reusable-course-pages.yml@dd1fdba4e16cb79fa5515eb689fabbc74014f3b6
     with:
       course_path: .
