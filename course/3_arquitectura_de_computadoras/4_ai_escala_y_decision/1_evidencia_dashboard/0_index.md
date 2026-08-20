@@ -9,7 +9,80 @@ tags: [ia, hardware, evidencia, dashboard]
 
 # Evidencia del dashboard de modelos de IA
 
-**Anexo opcional.** Conserva el detalle que haría ilegible la ruta oral, pero no forma parte del recorrido principal de la clase. El corte del ledger es **2026-08-18**. Regresa a [[ia-escala-decision]] para explicar las gráficas; usa esta página sólo cuando necesites auditar una celda.
+**Anexo opcional.** Conserva el detalle que haría ilegible la ruta oral, pero no forma parte del recorrido principal de la clase. El corte del ledger es **2026-08-18**. Regresa a [[ia-escala-decision]] para explicar las cinco gráficas esenciales; usa esta página para auditar una celda o profundizar.
+
+## Tabla maestra de 39 modelos
+
+Esta tabla vive fuera de la ruta esencial. Resume acceso, arquitectura y la frontera de evidencia de entrenamiento e inferencia; los registros verticales posteriores conservan las 546 celdas completas.
+
+##### Google
+
+| Modelo · año | Ficha física |
+|---|---|
+| **BERT-Large · 2018** | abierto · dense · E: no publicado · I: artefacto |
+| **T5-11B · 2019** | abierto · dense · E: cifra · I: artefacto |
+| **Gopher 280B · 2021** | cerrado · dense · E: cifra · I: no identificable |
+| **LaMDA 137B · 2022** | cerrado · dense · E: no publicado · I: no identificable |
+| **Chinchilla 70B · 2022** | cerrado · dense · E: cifra · I: no identificable |
+| **PaLM 540B · 2022** | cerrado · dense · E: cifra · I: no identificable |
+| **Gemma 7B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Gemma 2 27B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Gemma 3 27B · 2025** | abierto · dense · E: cifra · I: artefacto |
+| **Gemini 3.1 Pro · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+
+##### OpenAI y Anthropic
+
+| Modelo · año | Ficha física |
+|---|---|
+| **GPT-3 175B · 2020** | cerrado · dense · E: cifra · I: no identificable |
+| **GPT-5.6 Sol · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **Claude Sonnet 5 · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+
+##### Meta y BigScience
+
+| Modelo · año | Ficha física |
+|---|---|
+| **OPT-175B · 2022** | abierto · dense · E: cifra · I: piso BF16 |
+| **BLOOM 176B · 2022** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 1 65B · 2023** | abierto · dense · E: cifra · I: piso BF16 |
+| **Llama 2 70B · 2023** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 3.1-8B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 3.1-70B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 3.1-405B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Llama 4 Scout · 2025** | abierto · MoE · E: no publicado · I: artefacto |
+
+##### Qwen
+
+| Modelo · año | Ficha física |
+|---|---|
+| **Qwen-72B · 2023** | abierto · dense · E: cifra · I: artefacto |
+| **Qwen2-72B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Qwen2.5-72B · 2024** | abierto · dense · E: cifra · I: artefacto |
+| **Qwen3-30B-A3B · 2025** | abierto · MoE · E: cifra · I: artefacto |
+| **Qwen3-235B-A22B · 2025** | abierto · MoE · E: cifra · I: artefacto |
+| **Qwen3.8-Max · 2026** | cerrado · MoE · E: no publicado · I: no identificable |
+| **Qwen3.8-2.4T-A95B · 2026** | abierto · MoE · E: no publicado · I: piso BF16 |
+
+##### DeepSeek y Mistral
+
+| Modelo · año | Ficha física |
+|---|---|
+| **DeepSeek LLM 67B · 2023** | abierto · dense · E: cifra · I: artefacto |
+| **Mistral 7B v0.1 · 2023** | abierto · dense · E: no publicado · I: artefacto |
+| **Mixtral 8x7B · 2023** | abierto · MoE · E: no publicado · I: artefacto |
+| **DeepSeek-V2 · 2024** | abierto · MoE · E: cifra · I: artefacto |
+| **Mistral Large 2 · 2024** | abierto · dense · E: no publicado · I: artefacto |
+| **DeepSeek-V3 · 2024** | abierto · MoE · E: cifra · I: artefacto |
+| **DeepSeek-R1 · 2025** | abierto · MoE · E: no publicado · I: artefacto |
+
+##### xAI y Moonshot
+
+| Modelo · año | Ficha física |
+|---|---|
+| **Grok-1 · 2024** | abierto · MoE · E: no publicado · I: piso BF16 |
+| **Kimi K2 · 2025** | abierto · MoE · E: cifra · I: artefacto |
+| **Kimi K3 · 2026** | abierto · MoE · E: no publicado · I: artefacto |
+| **Grok 4.5 · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
 
 ## Estados y frontera de la afirmación
 
@@ -873,413 +946,276 @@ Cada registro declara identidad y scope antes de sus métricas. Todos los detall
 
 Los campos `corpus_checked`, `checked_for_model_id` y `reason` documentan dónde se buscó y por qué la ausencia pertenece al modelo exacto. `UNDISCLOSED_BY_CREATOR` y `NOT_FOUND` nunca se convierten en `ESTIMATE`; `ESTIMATION_NOT_IDENTIFIABLE` se usa cuando faltan entradas para defender un resultado.
 
-## Tablas reconstruibles de las doce visuales
+## Profundización opcional
 
-Cada fila reproduce un punto generado: conserva modelo, año, serie, estado, valor o rango, unidad, alcance y fuentes. Las tablas vacías registran cero puntos en vez de inventarlos.
-### `ai-training-parameters.svg` · 69 puntos
+Estas cuatro vistas no forman parte de la ruta oral esencial. Separan flota, valor de reemplazo, potencia y CAPEX para que una transformación no parezca un hallazgo independiente. El Pareto usa el Snapshot ECI fechado que se documenta en la metodología.
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BERT-Large · 2018 · active | `DERIVED` · 336000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_BERT_REPORT · confianza: `high` |
-| BERT-Large · 2018 · total | `FACT` · 336000000 parameter | published_parameter_counts · S_DASH_GOOGLE_BERT_REPORT · confianza: `high` |
-| T5-11B · 2019 · active | `DERIVED` · 11000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_T5_REPORT · confianza: `high` |
-| T5-11B · 2019 · total | `FACT` · 11000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_T5_REPORT · confianza: `high` |
-| GPT-3 175B · 2020 · active | `DERIVED` · 174600000000 parameter_per_token | published_parameter_counts · S_OPENAI_GPT3_PAPER · confianza: `high` |
-| GPT-3 175B · 2020 · total | `FACT` · 174600000000 parameter | published_parameter_counts · S_OPENAI_GPT3_PAPER · confianza: `high` |
-| Gopher 280B · 2021 · active | `DERIVED` · 280000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPMIND_GOPHER_REPORT · confianza: `high` |
-| Gopher 280B · 2021 · total | `FACT` · 280000000000 parameter | published_parameter_counts · S_DASH_DEEPMIND_GOPHER_REPORT · confianza: `high` |
-| BLOOM 176B · 2022 · active | `DERIVED` · 176247000000 parameter_per_token | published_parameter_counts · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| BLOOM 176B · 2022 · total | `FACT` · 176247000000 parameter | published_parameter_counts · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| Chinchilla 70B · 2022 · active | `DERIVED` · 70000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPMIND_CHINCHILLA_REPORT · confianza: `high` |
-| Chinchilla 70B · 2022 · total | `FACT` · 70000000000 parameter | published_parameter_counts · S_DASH_DEEPMIND_CHINCHILLA_REPORT · confianza: `high` |
-| LaMDA 137B · 2022 · active | `DERIVED` · 137000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_LAMDA_REPORT · confianza: `high` |
-| LaMDA 137B · 2022 · total | `FACT` · 137000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_LAMDA_REPORT · confianza: `high` |
-| OPT-175B · 2022 · active | `DERIVED` · 175000000000 parameter_per_token | published_parameter_counts · S_DASH_META_OPT_REPORT · confianza: `high` |
-| OPT-175B · 2022 · total | `FACT` · 175000000000 parameter | published_parameter_counts · S_DASH_META_OPT_REPORT · confianza: `high` |
-| PaLM 540B · 2022 · active | `DERIVED` · 540350000000 parameter_per_token | published_parameter_counts · S_GOOGLE_PALM_PAPER · confianza: `high` |
-| PaLM 540B · 2022 · total | `FACT` · 540350000000 parameter | published_parameter_counts · S_GOOGLE_PALM_PAPER · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · active | `DERIVED` · 67000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPSEEK_LLM_REPORT · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · total | `FACT` · 67000000000 parameter | published_parameter_counts · S_DASH_DEEPSEEK_LLM_REPORT · confianza: `high` |
-| Llama 1 65B · 2023 · active | `DERIVED` · 65000000000 parameter_per_token | published_parameter_counts · S_DASH_META_LLAMA1_REPORT · confianza: `high` |
-| Llama 1 65B · 2023 · total | `FACT` · 65000000000 parameter | published_parameter_counts · S_DASH_META_LLAMA1_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · active | `DERIVED` · 70000000000 parameter_per_token | published_parameter_counts · S_DASH_META_LLAMA2_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · total | `FACT` · 70000000000 parameter | published_parameter_counts · S_DASH_META_LLAMA2_REPORT · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · active | `DERIVED` · 7241732096 parameter_per_token | published_parameter_counts · S_DASH_MISTRAL7_REPORT · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · total | `FACT` · 7241732096 parameter | published_parameter_counts · S_DASH_MISTRAL7_REPORT · confianza: `high` |
-| Mixtral 8x7B · 2023 · active | `FACT` · 12900000000 parameter_per_token | published_parameter_counts · S_DASH_MIXTRAL_REPORT · confianza: `high` |
-| Mixtral 8x7B · 2023 · total | `FACT` · 46702792704 parameter | published_parameter_counts · S_DASH_MIXTRAL_REPORT · confianza: `high` |
-| Qwen-72B · 2023 · active | `DERIVED` · 72000000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN_REPORT · confianza: `high` |
-| Qwen-72B · 2023 · total | `FACT` · 72000000000 parameter | published_parameter_counts · S_DASH_QWEN_REPORT · confianza: `high` |
-| DeepSeek-V2 · 2024 · active | `FACT` · 21000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPSEEK_V2_REPORT · confianza: `high` |
-| DeepSeek-V2 · 2024 · total | `FACT` · 236000000000 parameter | published_parameter_counts · S_DASH_DEEPSEEK_V2_REPORT · confianza: `high` |
-| DeepSeek-V3 · 2024 · active | `FACT` · 37000000000 parameter_per_token | published_parameter_counts · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| DeepSeek-V3 · 2024 · total | `FACT` · 671000000000 parameter | published_parameter_counts · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| Gemma 2 27B · 2024 · active | `DERIVED` · 27000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_GEMMA2_REPORT · confianza: `high` |
-| Gemma 2 27B · 2024 · total | `FACT` · 27000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_GEMMA2_REPORT · confianza: `high` |
-| Gemma 7B · 2024 · active | `DERIVED` · 7000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_GEMMA1_CARD · confianza: `high` |
-| Gemma 7B · 2024 · total | `FACT` · 7000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_GEMMA1_CARD · confianza: `high` |
-| Grok-1 · 2024 · total | `FACT` · 314000000000 parameter | published_parameter_counts · S_DASH_XAI_GROK1_REPO · confianza: `high` |
-| Llama 3.1-405B · 2024 · active | `DERIVED` · 405000000000 parameter_per_token | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-405B · 2024 · total | `FACT` · 405000000000 parameter | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-70B · 2024 · active | `DERIVED` · 70000000000 parameter_per_token | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-70B · 2024 · total | `FACT` · 70000000000 parameter | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-8B · 2024 · active | `DERIVED` · 8000000000 parameter_per_token | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-8B · 2024 · total | `FACT` · 8000000000 parameter | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Mistral Large 2 · 2024 · active | `DERIVED` · 123000000000 parameter_per_token | published_parameter_counts · S_DASH_MISTRAL_LARGE2_CARD · confianza: `high` |
-| Mistral Large 2 · 2024 · total | `FACT` · 123000000000 parameter | published_parameter_counts · S_DASH_MISTRAL_LARGE2_CARD · confianza: `high` |
-| Qwen2.5-72B · 2024 · active | `DERIVED` · 72700000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN25_REPORT · confianza: `high` |
-| Qwen2.5-72B · 2024 · total | `FACT` · 72700000000 parameter | published_parameter_counts · S_DASH_QWEN25_REPORT · confianza: `high` |
-| Qwen2-72B · 2024 · active | `DERIVED` · 72710000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN2_REPORT · confianza: `high` |
-| Qwen2-72B · 2024 · total | `FACT` · 72710000000 parameter | published_parameter_counts · S_DASH_QWEN2_REPORT · confianza: `high` |
-| DeepSeek-R1 · 2025 · active | `FACT` · 37000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPSEEK_R1_REPORT · confianza: `high` |
-| DeepSeek-R1 · 2025 · total | `FACT` · 671000000000 parameter | published_parameter_counts · S_DASH_DEEPSEEK_R1_REPORT · confianza: `high` |
-| Gemma 3 27B · 2025 · active | `DERIVED` · 27000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_GEMMA3_REPORT · confianza: `high` |
-| Gemma 3 27B · 2025 · total | `FACT` · 27000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_GEMMA3_REPORT · confianza: `high` |
-| Kimi K2 · 2025 · active | `FACT` · 32000000000 parameter_per_token | published_parameter_counts · S_DASH_MOONSHOT_KIMI_K2_REPORT · confianza: `high` |
-| Kimi K2 · 2025 · total | `FACT` · 1000000000000 parameter | published_parameter_counts · S_DASH_MOONSHOT_KIMI_K2_REPORT · confianza: `high` |
-| Llama 4 Scout · 2025 · active | `FACT` · 17000000000 parameter_per_token | published_parameter_counts · S_DASH_META_LLAMA4_CARD · confianza: `high` |
-| Llama 4 Scout · 2025 · total | `FACT` · 109000000000 parameter | published_parameter_counts · S_DASH_META_LLAMA4_CARD · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · active | `FACT` · 22000000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · total | `FACT` · 235000000000 parameter | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · active | `FACT` · 3300000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · total | `FACT` · 30500000000 parameter | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Kimi K3 · 2026 · active | `FACT` · 104200000000 parameter_per_token | published_parameter_counts · S_MOONSHOT_KIMI_K3_PAPER · confianza: `high` |
-| Kimi K3 · 2026 · total | `FACT` · 2800000000000 parameter | published_parameter_counts · S_MOONSHOT_KIMI_K3_PAPER · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · active | `FACT` · 95000000000 parameter_per_token | published_parameter_counts · S_QWEN38_MODELSCOPE · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · total | `FACT` · 2400000000000 parameter | published_parameter_counts · S_QWEN38_MODELSCOPE · confianza: `high` |
-| Qwen3.8-Max · 2026 · active | `FACT` · 95000000000 parameter_per_token | published_parameter_counts · S_QWEN38_ANNOUNCEMENT · confianza: `high` |
-| Qwen3.8-Max · 2026 · total | `FACT` · 2400000000000 parameter | published_parameter_counts · S_QWEN38_ANNOUNCEMENT · confianza: `high` |
+[AI_DASHBOARD:training_accelerators:START]: #
+### ¿Qué flotas concurrentes de entrenamiento están documentadas?
 
-### `ai-training-flop.svg` · 24 puntos
+![¿Qué flotas concurrentes de entrenamiento están documentadas? Sólo unas cuantas publicaciones identifican una flota concurrente de entrenamiento comparable. Límite: Las ausencias documentadas no se reemplazan con rumores.](../../_assets/ai-dashboard-training-accelerators.svg)
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| T5-11B · 2019 · training FLOP | `DERIVED` · 66000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_GOOGLE_T5_REPORT · confianza: `high` |
-| GPT-3 175B · 2020 · training FLOP | `DERIVED` · 314280000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_OPENAI_GPT3_PAPER · confianza: `high` |
-| Gopher 280B · 2021 · training FLOP | `DERIVED` · 504000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_DEEPMIND_GOPHER_REPORT · confianza: `high` |
-| BLOOM 176B · 2022 · training FLOP | `DERIVED` · 387038412000000000000000 FLOP | training_work_fact_derived_or_estimate · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| Chinchilla 70B · 2022 · training FLOP | `DERIVED` · 588000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_DEEPMIND_CHINCHILLA_REPORT · confianza: `high` |
-| OPT-175B · 2022 · training FLOP | `DERIVED` · 189000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_META_OPT_REPORT · confianza: `high` |
-| PaLM 540B · 2022 · training FLOP | `DERIVED` · 2528838000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_GOOGLE_PALM_PAPER · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · training FLOP | `DERIVED` · 804000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_DEEPSEEK_LLM_REPORT · confianza: `high` |
-| Llama 1 65B · 2023 · training FLOP | `DERIVED` · 546000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_META_LLAMA1_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · training FLOP | `DERIVED` · 840000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_META_LLAMA2_REPORT · confianza: `high` |
-| Qwen-72B · 2023 · training FLOP | `DERIVED` · 1296000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_QWEN_REPORT · confianza: `high` |
-| DeepSeek-V2 · 2024 · training FLOP | `ESTIMATE` · 816480000000000000000000–1275750000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `medium` |
-| DeepSeek-V3 · 2024 · training FLOP | `ESTIMATE` · 2628480000000000000000000–4107000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `medium` |
-| Gemma 2 27B · 2024 · training FLOP | `DERIVED` · 2106000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_GOOGLE_GEMMA2_REPORT · confianza: `high` |
-| Gemma 7B · 2024 · training FLOP | `DERIVED` · 252000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_GOOGLE_GEMMA1_CARD · confianza: `high` |
-| Llama 3.1-405B · 2024 · training FLOP | `DERIVED` · 37908000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-70B · 2024 · training FLOP | `DERIVED` · 6300000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-8B · 2024 · training FLOP | `DERIVED` · 720000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_META_LLAMA31_PAPER · confianza: `high` |
-| Qwen2.5-72B · 2024 · training FLOP | `DERIVED` · 7851600000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_QWEN25_REPORT · confianza: `high` |
-| Qwen2-72B · 2024 · training FLOP | `DERIVED` · 3053820000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_QWEN2_REPORT · confianza: `high` |
-| Gemma 3 27B · 2025 · training FLOP | `DERIVED` · 2268000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_GOOGLE_GEMMA3_REPORT · confianza: `high` |
-| Kimi K2 · 2025 · training FLOP | `ESTIMATE` · 2380800000000000000000000–3720000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `medium` |
-| Qwen3-235B-A22B · 2025 · training FLOP | `ESTIMATE` · 3801600000000000000000000–5940000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `medium` |
-| Qwen3-30B-A3B · 2025 · training FLOP | `ESTIMATE` · 570240000000000000000000–891000000000000000000000 FLOP | training_work_fact_derived_or_estimate · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `medium` |
+**Conclusión:** Sólo unas cuantas publicaciones identifican una flota concurrente de entrenamiento comparable.
 
-### `ai-training-accelerators.svg` · 8 puntos
+**Di esto:** El conteo concurrente es distinto de accelerator-hours.
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BLOOM 176B · 2022 · concurrent accelerators | `FACT` · 384 A100_80GB_GPU | native_accelerator_units_kept_separate · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| BLOOM 176B · 2022 · accelerator-hours | `FACT` · 1082990 A100_GPU_hour | native_accelerator_units_kept_separate · S_BIGSCIENCE_BLOOM_CARBON · confianza: `high` |
-| PaLM 540B · 2022 · concurrent accelerators | `FACT` · 6144 TPU_v4_chip_peak | native_accelerator_units_kept_separate · S_GOOGLE_PALM_PAPER · confianza: `high` |
-| PaLM 540B · 2022 · accelerator-hours | `DERIVED` · 8404992 TPU_v4_chip_hour | native_accelerator_units_kept_separate · S_GOOGLE_PALM_PAPER · confianza: `medium` |
-| DeepSeek-V3 · 2024 · concurrent accelerators | `FACT` · 2048 H800_GPU | native_accelerator_units_kept_separate · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| DeepSeek-V3 · 2024 · accelerator-hours | `FACT` · 2664000 H800_GPU_hour | native_accelerator_units_kept_separate · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| Llama 3.1-405B · 2024 · concurrent accelerators | `FACT` · 16384 H100_80GB_GPU_peak | native_accelerator_units_kept_separate · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-405B · 2024 · accelerator-hours | `FACT` · 30840000 H100_80GB_GPU_hour | native_accelerator_units_kept_separate · S_META_LLAMA31_CARD · confianza: `high` |
+**No concluyas esto:** Más aceleradores no demuestra menor duración, mayor eficiencia ni una misma clase de chip.
 
-### `ai-training-power.svg` · 3 puntos
+**Límite:** Las ausencias documentadas no se reemplazan con rumores.
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BLOOM 176B · 2022 · sum_of_standard_TDP | `DERIVED` · 153600 W_accelerator_TDP_envelope | accelerator_only_power_envelope_not_measured_wall_energy · S_BIGSCIENCE_BLOOM_PAPER, S_NVIDIA_A100_DATASHEET · confianza: `low` |
-| PaLM 540B · 2022 · sum_of_measured_max | `DERIVED` · 1179648 W_chip_measured_max_at_peak_configuration | accelerator_only_power_envelope_not_measured_wall_energy · S_GOOGLE_PALM_PAPER, S_GOOGLE_TPU_V4_DOCS · confianza: `low` |
-| Llama 3.1-405B · 2024 · sum_of_configurable_TDP | `DERIVED` · 11468800 W_accelerator_configurable_TDP_at_peak_configuration | accelerator_only_power_envelope_not_measured_wall_energy · S_META_LLAMA31_PAPER, S_NVIDIA_H100_PAGE · confianza: `low` |
+### tabla-aceleradores-entrenamiento
 
-### `ai-training-replacement-value.svg` · 4 puntos
+Tabla equivalente completa de `ai-dashboard-training-accelerators.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BLOOM 176B · 2022 · A100_80GB_GPU × common 2026 slot price | `SCENARIO` · 7680000–15360000 USD | accelerator_only_common_date_replacement_scenario_not_historical_training_cost · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| PaLM 540B · 2022 · TPU_v4_chip_peak × common 2026 slot price | `SCENARIO` · 122880000–245760000 USD | accelerator_only_common_date_replacement_scenario_not_historical_training_cost · S_GOOGLE_PALM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V3 · 2024 · H800_GPU × common 2026 slot price | `SCENARIO` · 40960000–81920000 USD | accelerator_only_common_date_replacement_scenario_not_historical_training_cost · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-405B · 2024 · H100_80GB_GPU_peak × common 2026 slot price | `SCENARIO` · 327680000–655360000 USD | accelerator_only_common_date_replacement_scenario_not_historical_training_cost · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BLOOM 176B · `DM_BLOOM_176B` · concurrent accelerators | 2022 | 384 | A100_80GB_GPU | `FACT` | `high` | native_accelerator_units_kept_separate | `S_BIGSCIENCE_BLOOM_PAPER` |
+| PaLM 540B · `DM_PALM_540B` · concurrent accelerators | 2022 | 6,144 | TPU_v4_chip_peak | `FACT` | `high` | native_accelerator_units_kept_separate | `S_GOOGLE_PALM_PAPER` |
+| DeepSeek-V3 · `DM_DEEPSEEK_V3` · concurrent accelerators | 2024 | 2,048 | H800_GPU | `FACT` | `high` | native_accelerator_units_kept_separate | `S_DEEPSEEK_V3_PAPER` |
+| Llama 3.1-405B · `DM_LLAMA31_405B` · concurrent accelerators | 2024 | 16,384 | H100_80GB_GPU_peak | `FACT` | `high` | native_accelerator_units_kept_separate | `S_META_LLAMA31_PAPER` |
+[AI_DASHBOARD:training_accelerators:END]: #
 
-### `ai-inference-memory.svg` · 54 puntos
+[AI_DASHBOARD:training_replacement_value:START]: #
+### ¿Cuál es el valor de reemplazo común de las flotas documentadas?
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BERT-Large · 2018 · BF16 weight floor | `DERIVED` · 672000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_GOOGLE_BERT_REPORT · confianza: `high` |
-| BERT-Large · 2018 · documented artifact | `FACT` · 1344952014 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_BERT_LARGE · confianza: `high` |
-| T5-11B · 2019 · BF16 weight floor | `DERIVED` · 22000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_GOOGLE_T5_REPORT · confianza: `high` |
-| T5-11B · 2019 · documented artifact | `FACT` · 45229452544 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_T5_11B · confianza: `high` |
-| BLOOM 176B · 2022 · BF16 weight floor | `DERIVED` · 352494000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| BLOOM 176B · 2022 · documented artifact | `FACT` · 352494635619 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_BLOOM · confianza: `high` |
-| OPT-175B · 2022 · BF16 weight floor | `DERIVED` · 350000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_META_OPT_REPORT · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · BF16 weight floor | `DERIVED` · 134000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_DEEPSEEK_LLM_REPORT · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · documented artifact | `FACT` · 134850303988 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_DEEPSEEK_LLM_67B · confianza: `high` |
-| Llama 1 65B · 2023 · BF16 weight floor | `DERIVED` · 130000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_META_LLAMA1_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · BF16 weight floor | `DERIVED` · 140000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_META_LLAMA2_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · documented artifact | `FACT` · 137953408928 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_LLAMA2_70B · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · BF16 weight floor | `DERIVED` · 14483464192 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_MISTRAL7_REPORT · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · documented artifact | `FACT` · 14483498040 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_MISTRAL7 · confianza: `high` |
-| Mixtral 8x7B · 2023 · BF16 weight floor | `DERIVED` · 93405585408 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_MIXTRAL_REPORT · confianza: `high` |
-| Mixtral 8x7B · 2023 · documented artifact | `FACT` · 93405713504 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_MIXTRAL8X7B · confianza: `high` |
-| Qwen-72B · 2023 · BF16 weight floor | `DERIVED` · 144000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_QWEN_REPORT · confianza: `high` |
-| Qwen-72B · 2023 · documented artifact | `FACT` · 144575911576 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_QWEN_72B · confianza: `high` |
-| DeepSeek-V2 · 2024 · BF16 weight floor | `DERIVED` · 472000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_DEEPSEEK_V2_REPORT · confianza: `high` |
-| DeepSeek-V2 · 2024 · documented artifact | `FACT` · 471486512925 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_DEEPSEEK_V2 · confianza: `high` |
-| DeepSeek-V3 · 2024 · BF16 weight floor | `DERIVED` · 1342000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| DeepSeek-V3 · 2024 · documented artifact | `FACT` · 688586727753 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_DEEPSEEK_V3 · confianza: `high` |
-| Gemma 2 27B · 2024 · BF16 weight floor | `DERIVED` · 54000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_GOOGLE_GEMMA2_REPORT · confianza: `high` |
-| Gemma 2 27B · 2024 · documented artifact | `FACT` · 54454316552 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_GEMMA2_27B_IT · confianza: `high` |
-| Gemma 7B · 2024 · BF16 weight floor | `DERIVED` · 14000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_GOOGLE_GEMMA1_CARD · confianza: `high` |
-| Gemma 7B · 2024 · documented artifact | `FACT` · 17075391360 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_GEMMA_7B · confianza: `high` |
-| Grok-1 · 2024 · BF16 weight floor | `DERIVED` · 628000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_XAI_GROK1_REPO · confianza: `high` |
-| Llama 3.1-405B · 2024 · BF16 weight floor | `DERIVED` · 810000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-405B · 2024 · documented artifact | `FACT` · 811706916800 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_LLAMA31_405B · confianza: `high` |
-| Llama 3.1-70B · 2024 · BF16 weight floor | `DERIVED` · 140000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-70B · 2024 · documented artifact | `FACT` · 141107497872 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_LLAMA31_70B_INSTRUCT · confianza: `high` |
-| Llama 3.1-8B · 2024 · BF16 weight floor | `DERIVED` · 16000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-8B · 2024 · documented artifact | `FACT` · 16060556376 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_LLAMA31_8B_INSTRUCT · confianza: `high` |
-| Mistral Large 2 · 2024 · BF16 weight floor | `DERIVED` · 246000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_MISTRAL_LARGE2_CARD · confianza: `high` |
-| Mistral Large 2 · 2024 · documented artifact | `FACT` · 245220233776 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_MISTRAL_LARGE2 · confianza: `high` |
-| Qwen2.5-72B · 2024 · BF16 weight floor | `DERIVED` · 145400000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_QWEN25_REPORT · confianza: `high` |
-| Qwen2.5-72B · 2024 · documented artifact | `FACT` · 145412518888 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_QWEN25_72B · confianza: `high` |
-| Qwen2-72B · 2024 · BF16 weight floor | `DERIVED` · 145420000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_QWEN2_REPORT · confianza: `high` |
-| Qwen2-72B · 2024 · documented artifact | `FACT` · 145412518888 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_QWEN2_72B · confianza: `high` |
-| DeepSeek-R1 · 2025 · BF16 weight floor | `DERIVED` · 1342000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_DEEPSEEK_R1_REPORT · confianza: `high` |
-| DeepSeek-R1 · 2025 · documented artifact | `FACT` · 688586727753 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_DEEPSEEK_R1 · confianza: `high` |
-| Gemma 3 27B · 2025 · BF16 weight floor | `DERIVED` · 54000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_GOOGLE_GEMMA3_REPORT · confianza: `high` |
-| Gemma 3 27B · 2025 · documented artifact | `FACT` · 54864980440 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_GEMMA3_27B_IT · confianza: `high` |
-| Kimi K2 · 2025 · BF16 weight floor | `DERIVED` · 2000000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_MOONSHOT_KIMI_K2_REPORT · confianza: `high` |
-| Kimi K2 · 2025 · documented artifact | `FACT` · 1029190981272 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_KIMI_K2 · confianza: `high` |
-| Llama 4 Scout · 2025 · BF16 weight floor | `DERIVED` · 218000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_META_LLAMA4_CARD · confianza: `high` |
-| Llama 4 Scout · 2025 · documented artifact | `FACT` · 217283738720 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_LLAMA4_SCOUT · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · BF16 weight floor | `DERIVED` · 470000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · documented artifact | `FACT` · 470191875096 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_QWEN3_235B · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · BF16 weight floor | `DERIVED` · 61000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · documented artifact | `FACT` · 61066575648 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_QWEN3_30B · confianza: `high` |
-| Kimi K3 · 2026 · BF16 weight floor | `DERIVED` · 5600000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_MOONSHOT_KIMI_K3_PAPER · confianza: `high` |
-| Kimi K3 · 2026 · documented artifact | `FACT` · 1560936091448 byte | documented_artifact_bytes_precision_unspecified_not_runtime · S_ARTIFACT_KIMI_K3 · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · BF16 weight floor | `DERIVED` · 4800000000000 byte | theoretical_weight_payload_floor_not_artifact_not_runtime · S_QWEN38_MODELSCOPE · confianza: `high` |
+![¿Cuál es el valor de reemplazo común de las flotas documentadas? Una banda común de USD 20,000–40,000 por plaza hace visible el orden de magnitud de cuatro flotas documentadas. Límite: Excluye servidores, red, almacenamiento, energía y personal.](../../_assets/ai-dashboard-training-replacement.svg)
 
-### `ai-inference-accelerators.svg` · 29 puntos
+**Conclusión:** Una banda común de USD 20,000–40,000 por plaza hace visible el orden de magnitud de cuatro flotas documentadas.
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BERT-Large · 2018 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| T5-11B · 2019 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| BLOOM 176B · 2022 · 80 GB HBM capacity floor | `SCENARIO` · 5 accelerator | physical_capacity_floor_not_topology_not_sla · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| OPT-175B · 2022 · 80 GB HBM capacity floor | `SCENARIO` · 5 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek LLM 67B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 1 65B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 2 70B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mistral 7B v0.1 · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mixtral 8x7B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen-72B · 2023 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V2 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 6 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V3 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 17 accelerator | physical_capacity_floor_not_topology_not_sla · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 2 27B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 7B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Grok-1 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 8 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-405B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 11 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-70B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-8B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mistral Large 2 · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 4 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen2.5-72B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen2-72B · 2024 · 80 GB HBM capacity floor | `SCENARIO` · 2 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-R1 · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 17 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 3 27B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Kimi K2 · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 25 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 4 Scout · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 3 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3-235B-A22B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 6 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3-30B-A3B · 2025 · 80 GB HBM capacity floor | `SCENARIO` · 1 accelerator | physical_capacity_floor_not_topology_not_sla · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Kimi K3 · 2026 · 80 GB HBM capacity floor | `SCENARIO` · 70 accelerator | physical_capacity_floor_not_topology_not_sla · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3.8-2.4T-A95B · 2026 · 80 GB HBM capacity floor | `SCENARIO` · 60 accelerator | physical_capacity_floor_not_topology_not_sla · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `not_applicable` |
+**Di esto:** Es un escenario de reemplazo accelerator-only al corte del curso.
 
-### `ai-inference-power.svg` · 29 puntos
+**No concluyas esto:** No reconstruye contratos históricos ni equipara el rendimiento de TPU, A100, H100 o H800.
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BERT-Large · 2018 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| T5-11B · 2019 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| BLOOM 176B · 2022 · 700 W per accelerator | `SCENARIO` · 3500 W | accelerator_only_tdp_scenario_not_wall_power · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| OPT-175B · 2022 · 700 W per accelerator | `SCENARIO` · 3500 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek LLM 67B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 1 65B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 2 70B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mistral 7B v0.1 · 2023 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mixtral 8x7B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen-72B · 2023 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V2 · 2024 · 700 W per accelerator | `SCENARIO` · 4200 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V3 · 2024 · 700 W per accelerator | `SCENARIO` · 11900 W | accelerator_only_tdp_scenario_not_wall_power · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 2 27B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 7B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Grok-1 · 2024 · 700 W per accelerator | `SCENARIO` · 5600 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-405B · 2024 · 700 W per accelerator | `SCENARIO` · 7700 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-70B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-8B · 2024 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mistral Large 2 · 2024 · 700 W per accelerator | `SCENARIO` · 2800 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen2.5-72B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen2-72B · 2024 · 700 W per accelerator | `SCENARIO` · 1400 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-R1 · 2025 · 700 W per accelerator | `SCENARIO` · 11900 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 3 27B · 2025 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Kimi K2 · 2025 · 700 W per accelerator | `SCENARIO` · 17500 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 4 Scout · 2025 · 700 W per accelerator | `SCENARIO` · 2100 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3-235B-A22B · 2025 · 700 W per accelerator | `SCENARIO` · 4200 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3-30B-A3B · 2025 · 700 W per accelerator | `SCENARIO` · 700 W | accelerator_only_tdp_scenario_not_wall_power · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Kimi K3 · 2026 · 700 W per accelerator | `SCENARIO` · 49000 W | accelerator_only_tdp_scenario_not_wall_power · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3.8-2.4T-A95B · 2026 · 700 W per accelerator | `SCENARIO` · 42000 W | accelerator_only_tdp_scenario_not_wall_power · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `not_applicable` |
+**Límite:** Excluye servidores, red, almacenamiento, energía y personal.
 
-### `ai-inference-capex.svg` · 29 puntos
+### tabla-reemplazo-entrenamiento
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BERT-Large · 2018 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_BERT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| T5-11B · 2019 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_T5_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| BLOOM 176B · 2022 · USD 30000 per accelerator | `SCENARIO` · 150000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_BIGSCIENCE_BLOOM_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| OPT-175B · 2022 · USD 30000 per accelerator | `SCENARIO` · 150000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_OPT_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek LLM 67B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_LLM_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 1 65B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 2 70B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mistral 7B v0.1 · 2023 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MISTRAL7_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mixtral 8x7B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MIXTRAL_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen-72B · 2023 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V2 · 2024 · USD 30000 per accelerator | `SCENARIO` · 180000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_V2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-V3 · 2024 · USD 30000 per accelerator | `SCENARIO` · 510000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DEEPSEEK_V3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 2 27B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 7B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA1_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Grok-1 · 2024 · USD 30000 per accelerator | `SCENARIO` · 240000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_XAI_GROK1_REPO, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-405B · 2024 · USD 30000 per accelerator | `SCENARIO` · 330000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-70B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 3.1-8B · 2024 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_META_LLAMA31_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Mistral Large 2 · 2024 · USD 30000 per accelerator | `SCENARIO` · 120000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MISTRAL_LARGE2_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen2.5-72B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN25_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen2-72B · 2024 · USD 30000 per accelerator | `SCENARIO` · 60000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| DeepSeek-R1 · 2025 · USD 30000 per accelerator | `SCENARIO` · 510000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_DEEPSEEK_R1_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Gemma 3 27B · 2025 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_GOOGLE_GEMMA3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Kimi K2 · 2025 · USD 30000 per accelerator | `SCENARIO` · 750000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_MOONSHOT_KIMI_K2_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Llama 4 Scout · 2025 · USD 30000 per accelerator | `SCENARIO` · 90000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_META_LLAMA4_CARD, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3-235B-A22B · 2025 · USD 30000 per accelerator | `SCENARIO` · 180000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3-30B-A3B · 2025 · USD 30000 per accelerator | `SCENARIO` · 30000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_DASH_QWEN3_REPORT, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Kimi K3 · 2026 · USD 30000 per accelerator | `SCENARIO` · 2100000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_MOONSHOT_KIMI_K3_PAPER, S_COURSE_DESIGN · confianza: `not_applicable` |
-| Qwen3.8-2.4T-A95B · 2026 · USD 30000 per accelerator | `SCENARIO` · 1800000 USD | accelerator_equivalent_scenario_not_api_not_system_price · S_QWEN38_MODELSCOPE, S_COURSE_DESIGN · confianza: `not_applicable` |
+Tabla equivalente completa de `ai-dashboard-training-replacement.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
 
-### `ai-inference-parameters.svg` · 69 puntos
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BLOOM 176B · `DM_BLOOM_176B` · A100_80GB_GPU × common 2026 slot price | 2022 | 7,680,000–15,360,000 | USD | `SCENARIO` | `not_applicable` | accelerator_only_common_date_replacement_scenario_not_historical_training_cost | `S_BIGSCIENCE_BLOOM_PAPER`, `S_COURSE_DESIGN` |
+| PaLM 540B · `DM_PALM_540B` · TPU_v4_chip_peak × common 2026 slot price | 2022 | 122,880,000–245,760,000 | USD | `SCENARIO` | `not_applicable` | accelerator_only_common_date_replacement_scenario_not_historical_training_cost | `S_GOOGLE_PALM_PAPER`, `S_COURSE_DESIGN` |
+| DeepSeek-V3 · `DM_DEEPSEEK_V3` · H800_GPU × common 2026 slot price | 2024 | 40,960,000–81,920,000 | USD | `SCENARIO` | `not_applicable` | accelerator_only_common_date_replacement_scenario_not_historical_training_cost | `S_DEEPSEEK_V3_PAPER`, `S_COURSE_DESIGN` |
+| Llama 3.1-405B · `DM_LLAMA31_405B` · H100_80GB_GPU_peak × common 2026 slot price | 2024 | 327,680,000–655,360,000 | USD | `SCENARIO` | `not_applicable` | accelerator_only_common_date_replacement_scenario_not_historical_training_cost | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+[AI_DASHBOARD:training_replacement_value:END]: #
 
-| Modelo · año · serie | Estado · valor | Alcance · fuentes · confianza |
-|---|---|---|
-| BERT-Large · 2018 · active | `DERIVED` · 336000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_BERT_REPORT · confianza: `high` |
-| BERT-Large · 2018 · total | `FACT` · 336000000 parameter | published_parameter_counts · S_DASH_GOOGLE_BERT_REPORT · confianza: `high` |
-| T5-11B · 2019 · active | `DERIVED` · 11000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_T5_REPORT · confianza: `high` |
-| T5-11B · 2019 · total | `FACT` · 11000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_T5_REPORT · confianza: `high` |
-| GPT-3 175B · 2020 · active | `DERIVED` · 174600000000 parameter_per_token | published_parameter_counts · S_OPENAI_GPT3_PAPER · confianza: `high` |
-| GPT-3 175B · 2020 · total | `FACT` · 174600000000 parameter | published_parameter_counts · S_OPENAI_GPT3_PAPER · confianza: `high` |
-| Gopher 280B · 2021 · active | `DERIVED` · 280000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPMIND_GOPHER_REPORT · confianza: `high` |
-| Gopher 280B · 2021 · total | `FACT` · 280000000000 parameter | published_parameter_counts · S_DASH_DEEPMIND_GOPHER_REPORT · confianza: `high` |
-| BLOOM 176B · 2022 · active | `DERIVED` · 176247000000 parameter_per_token | published_parameter_counts · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| BLOOM 176B · 2022 · total | `FACT` · 176247000000 parameter | published_parameter_counts · S_BIGSCIENCE_BLOOM_PAPER · confianza: `high` |
-| Chinchilla 70B · 2022 · active | `DERIVED` · 70000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPMIND_CHINCHILLA_REPORT · confianza: `high` |
-| Chinchilla 70B · 2022 · total | `FACT` · 70000000000 parameter | published_parameter_counts · S_DASH_DEEPMIND_CHINCHILLA_REPORT · confianza: `high` |
-| LaMDA 137B · 2022 · active | `DERIVED` · 137000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_LAMDA_REPORT · confianza: `high` |
-| LaMDA 137B · 2022 · total | `FACT` · 137000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_LAMDA_REPORT · confianza: `high` |
-| OPT-175B · 2022 · active | `DERIVED` · 175000000000 parameter_per_token | published_parameter_counts · S_DASH_META_OPT_REPORT · confianza: `high` |
-| OPT-175B · 2022 · total | `FACT` · 175000000000 parameter | published_parameter_counts · S_DASH_META_OPT_REPORT · confianza: `high` |
-| PaLM 540B · 2022 · active | `DERIVED` · 540350000000 parameter_per_token | published_parameter_counts · S_GOOGLE_PALM_PAPER · confianza: `high` |
-| PaLM 540B · 2022 · total | `FACT` · 540350000000 parameter | published_parameter_counts · S_GOOGLE_PALM_PAPER · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · active | `DERIVED` · 67000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPSEEK_LLM_REPORT · confianza: `high` |
-| DeepSeek LLM 67B · 2023 · total | `FACT` · 67000000000 parameter | published_parameter_counts · S_DASH_DEEPSEEK_LLM_REPORT · confianza: `high` |
-| Llama 1 65B · 2023 · active | `DERIVED` · 65000000000 parameter_per_token | published_parameter_counts · S_DASH_META_LLAMA1_REPORT · confianza: `high` |
-| Llama 1 65B · 2023 · total | `FACT` · 65000000000 parameter | published_parameter_counts · S_DASH_META_LLAMA1_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · active | `DERIVED` · 70000000000 parameter_per_token | published_parameter_counts · S_DASH_META_LLAMA2_REPORT · confianza: `high` |
-| Llama 2 70B · 2023 · total | `FACT` · 70000000000 parameter | published_parameter_counts · S_DASH_META_LLAMA2_REPORT · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · active | `DERIVED` · 7241732096 parameter_per_token | published_parameter_counts · S_DASH_MISTRAL7_REPORT · confianza: `high` |
-| Mistral 7B v0.1 · 2023 · total | `FACT` · 7241732096 parameter | published_parameter_counts · S_DASH_MISTRAL7_REPORT · confianza: `high` |
-| Mixtral 8x7B · 2023 · active | `FACT` · 12900000000 parameter_per_token | published_parameter_counts · S_DASH_MIXTRAL_REPORT · confianza: `high` |
-| Mixtral 8x7B · 2023 · total | `FACT` · 46702792704 parameter | published_parameter_counts · S_DASH_MIXTRAL_REPORT · confianza: `high` |
-| Qwen-72B · 2023 · active | `DERIVED` · 72000000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN_REPORT · confianza: `high` |
-| Qwen-72B · 2023 · total | `FACT` · 72000000000 parameter | published_parameter_counts · S_DASH_QWEN_REPORT · confianza: `high` |
-| DeepSeek-V2 · 2024 · active | `FACT` · 21000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPSEEK_V2_REPORT · confianza: `high` |
-| DeepSeek-V2 · 2024 · total | `FACT` · 236000000000 parameter | published_parameter_counts · S_DASH_DEEPSEEK_V2_REPORT · confianza: `high` |
-| DeepSeek-V3 · 2024 · active | `FACT` · 37000000000 parameter_per_token | published_parameter_counts · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| DeepSeek-V3 · 2024 · total | `FACT` · 671000000000 parameter | published_parameter_counts · S_DEEPSEEK_V3_PAPER · confianza: `high` |
-| Gemma 2 27B · 2024 · active | `DERIVED` · 27000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_GEMMA2_REPORT · confianza: `high` |
-| Gemma 2 27B · 2024 · total | `FACT` · 27000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_GEMMA2_REPORT · confianza: `high` |
-| Gemma 7B · 2024 · active | `DERIVED` · 7000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_GEMMA1_CARD · confianza: `high` |
-| Gemma 7B · 2024 · total | `FACT` · 7000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_GEMMA1_CARD · confianza: `high` |
-| Grok-1 · 2024 · total | `FACT` · 314000000000 parameter | published_parameter_counts · S_DASH_XAI_GROK1_REPO · confianza: `high` |
-| Llama 3.1-405B · 2024 · active | `DERIVED` · 405000000000 parameter_per_token | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-405B · 2024 · total | `FACT` · 405000000000 parameter | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-70B · 2024 · active | `DERIVED` · 70000000000 parameter_per_token | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-70B · 2024 · total | `FACT` · 70000000000 parameter | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-8B · 2024 · active | `DERIVED` · 8000000000 parameter_per_token | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Llama 3.1-8B · 2024 · total | `FACT` · 8000000000 parameter | published_parameter_counts · S_META_LLAMA31_PAPER · confianza: `high` |
-| Mistral Large 2 · 2024 · active | `DERIVED` · 123000000000 parameter_per_token | published_parameter_counts · S_DASH_MISTRAL_LARGE2_CARD · confianza: `high` |
-| Mistral Large 2 · 2024 · total | `FACT` · 123000000000 parameter | published_parameter_counts · S_DASH_MISTRAL_LARGE2_CARD · confianza: `high` |
-| Qwen2.5-72B · 2024 · active | `DERIVED` · 72700000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN25_REPORT · confianza: `high` |
-| Qwen2.5-72B · 2024 · total | `FACT` · 72700000000 parameter | published_parameter_counts · S_DASH_QWEN25_REPORT · confianza: `high` |
-| Qwen2-72B · 2024 · active | `DERIVED` · 72710000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN2_REPORT · confianza: `high` |
-| Qwen2-72B · 2024 · total | `FACT` · 72710000000 parameter | published_parameter_counts · S_DASH_QWEN2_REPORT · confianza: `high` |
-| DeepSeek-R1 · 2025 · active | `FACT` · 37000000000 parameter_per_token | published_parameter_counts · S_DASH_DEEPSEEK_R1_REPORT · confianza: `high` |
-| DeepSeek-R1 · 2025 · total | `FACT` · 671000000000 parameter | published_parameter_counts · S_DASH_DEEPSEEK_R1_REPORT · confianza: `high` |
-| Gemma 3 27B · 2025 · active | `DERIVED` · 27000000000 parameter_per_token | published_parameter_counts · S_DASH_GOOGLE_GEMMA3_REPORT · confianza: `high` |
-| Gemma 3 27B · 2025 · total | `FACT` · 27000000000 parameter | published_parameter_counts · S_DASH_GOOGLE_GEMMA3_REPORT · confianza: `high` |
-| Kimi K2 · 2025 · active | `FACT` · 32000000000 parameter_per_token | published_parameter_counts · S_DASH_MOONSHOT_KIMI_K2_REPORT · confianza: `high` |
-| Kimi K2 · 2025 · total | `FACT` · 1000000000000 parameter | published_parameter_counts · S_DASH_MOONSHOT_KIMI_K2_REPORT · confianza: `high` |
-| Llama 4 Scout · 2025 · active | `FACT` · 17000000000 parameter_per_token | published_parameter_counts · S_DASH_META_LLAMA4_CARD · confianza: `high` |
-| Llama 4 Scout · 2025 · total | `FACT` · 109000000000 parameter | published_parameter_counts · S_DASH_META_LLAMA4_CARD · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · active | `FACT` · 22000000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-235B-A22B · 2025 · total | `FACT` · 235000000000 parameter | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · active | `FACT` · 3300000000 parameter_per_token | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Qwen3-30B-A3B · 2025 · total | `FACT` · 30500000000 parameter | published_parameter_counts · S_DASH_QWEN3_REPORT · confianza: `high` |
-| Kimi K3 · 2026 · active | `FACT` · 104200000000 parameter_per_token | published_parameter_counts · S_MOONSHOT_KIMI_K3_PAPER · confianza: `high` |
-| Kimi K3 · 2026 · total | `FACT` · 2800000000000 parameter | published_parameter_counts · S_MOONSHOT_KIMI_K3_PAPER · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · active | `FACT` · 95000000000 parameter_per_token | published_parameter_counts · S_QWEN38_MODELSCOPE · confianza: `high` |
-| Qwen3.8-2.4T-A95B · 2026 · total | `FACT` · 2400000000000 parameter | published_parameter_counts · S_QWEN38_MODELSCOPE · confianza: `high` |
-| Qwen3.8-Max · 2026 · active | `FACT` · 95000000000 parameter_per_token | published_parameter_counts · S_QWEN38_ANNOUNCEMENT · confianza: `high` |
-| Qwen3.8-Max · 2026 · total | `FACT` · 2400000000000 parameter | published_parameter_counts · S_QWEN38_ANNOUNCEMENT · confianza: `high` |
+[AI_DASHBOARD:inference_tdp_floor:START]: #
+### ¿Qué potencia accelerator-only sugiere el piso de capacidad?
 
-### `ai-pareto-training.svg` · 0 puntos compatibles
+![¿Qué potencia accelerator-only sugiere el piso de capacidad? Multiplicar el piso H100-equivalente por 700 W muestra una envolvente térmica de aceleradores. Límite: Faltan CPU, memoria, red, refrigeración, utilización y tiempo.](../../_assets/ai-dashboard-inference-power.svg)
 
-| Modelo | Costo / ECI | Membresía |
-|---|---|---|
-| Sin puntos | 0; sin intersección exacta entre ECI y las cuatro flotas documentadas | segura: no · posible: no |
+**Conclusión:** Multiplicar el piso H100-equivalente por 700 W muestra una envolvente térmica de aceleradores.
 
-### `ai-pareto-inference.svg` · 8 puntos compatibles
+**Di esto:** La cifra es TDP accelerator-only derivado del mismo piso de capacidad.
 
-| Modelo | Costo / ECI | Membresía |
-|---|---|---|
-| DeepSeek-R1 | USD 510000–510000; ECI 137.09–140.74 | posible |
-| Gemma 2 27B | USD 30000–30000; ECI 115.4–124.27 | dominada |
-| Gemma 3 27B | USD 30000–30000; ECI 124.67–133.1 | segura + posible |
-| Gemma 7B | USD 30000–30000; ECI 101.34–115.86 | dominada |
-| Llama 3.1-70B | USD 60000–60000; ECI 119.5–127.39 | posible |
-| Llama 3.1-8B | USD 30000–30000; ECI 105.01–121.29 | dominada |
-| Qwen2-72B | USD 60000–60000; ECI 118.95–126.79 | posible |
-| Qwen3-235B-A22B | USD 180000–180000; ECI 134.85–140.96 | segura + posible |
+**No concluyas esto:** TDP no es potencia de pared ni energía consumida durante una tarea.
 
+**Límite:** Faltan CPU, memoria, red, refrigeración, utilización y tiempo.
 
-## Snapshot ECI
+### tabla-potencia-inferencia
 
-Snapshot `BS_ECI_2026_08_18` al 2026-08-18; regla `exact_model_and_variant_only`. Scores: [https://epoch.ai/data/eci_scores.csv](https://epoch.ai/data/eci_scores.csv) (`sha256 b239acf72f8f8c1ac9b1f6f2ee52a2dff3bc6391ccf43eea0fddb7ca3aa2376b`, 229 filas). Inputs: [https://epoch.ai/data/eci_benchmarks.csv](https://epoch.ai/data/eci_benchmarks.csv) (`sha256 b5752fe04275b3980d50d4ee113e997f856eee3a23711804ec90131c3bd4e673`, 2340 filas). Metodología: [https://epoch.ai/data/eci-documentation](https://epoch.ai/data/eci-documentation), revisión `dab4f8ac0d14ec7022da01684fa2c707f73749eb`.
+Tabla equivalente completa de `ai-dashboard-inference-power.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
 
-| Registro exacto | Score e intervalo |
-|---|---|
-| `DM_DEEPSEEK_R1` · DeepSeek-R1 | 139.52 · 137.09–140.74 · S_EPOCH_ECI_SCORES |
-| `DM_QWEN3_235B_A22B` · Qwen3-235B-A22B | 139.44 · 134.85–140.96 · S_EPOCH_ECI_SCORES |
-| `DM_GEMMA3_27B` · Gemma 3 27B | 130.62 · 124.67–133.1 · S_EPOCH_ECI_SCORES |
-| `DM_LLAMA31_70B` · Llama 3.1-70B | 125.26 · 119.5–127.39 · S_EPOCH_ECI_SCORES |
-| `DM_QWEN2_72B` · Qwen2-72B | 125.0 · 118.95–126.79 · S_EPOCH_ECI_SCORES |
-| `DM_GEMMA2_27B` · Gemma 2 27B | 122.18 · 115.4–124.27 · S_EPOCH_ECI_SCORES |
-| `DM_LLAMA31_8B` · Llama 3.1-8B | 115.04 · 105.01–121.29 · S_EPOCH_ECI_SCORES |
-| `DM_GEMMA_7B` · Gemma 7B | 111.21 · 101.34–115.86 · S_EPOCH_ECI_SCORES |
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BERT-Large · `DM_BERT_LARGE` · 700 W per accelerator | 2018 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_GOOGLE_BERT_REPORT`, `S_COURSE_DESIGN` |
+| T5-11B · `DM_T5_11B` · 700 W per accelerator | 2019 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_GOOGLE_T5_REPORT`, `S_COURSE_DESIGN` |
+| BLOOM 176B · `DM_BLOOM_176B` · 700 W per accelerator | 2022 | 3,500 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_BIGSCIENCE_BLOOM_PAPER`, `S_COURSE_DESIGN` |
+| OPT-175B · `DM_OPT_175B` · 700 W per accelerator | 2022 | 3,500 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_META_OPT_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek LLM 67B · `DM_DEEPSEEK_LLM_67B` · 700 W per accelerator | 2023 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_DEEPSEEK_LLM_REPORT`, `S_COURSE_DESIGN` |
+| Llama 1 65B · `DM_LLAMA1_65B` · 700 W per accelerator | 2023 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_META_LLAMA1_REPORT`, `S_COURSE_DESIGN` |
+| Llama 2 70B · `DM_LLAMA2_70B` · 700 W per accelerator | 2023 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_META_LLAMA2_REPORT`, `S_COURSE_DESIGN` |
+| Mistral 7B v0.1 · `DM_MISTRAL_7B_V01` · 700 W per accelerator | 2023 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_MISTRAL7_REPORT`, `S_COURSE_DESIGN` |
+| Mixtral 8x7B · `DM_MIXTRAL_8X7B` · 700 W per accelerator | 2023 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_MIXTRAL_REPORT`, `S_COURSE_DESIGN` |
+| Qwen-72B · `DM_QWEN_72B` · 700 W per accelerator | 2023 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_QWEN_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V2 · `DM_DEEPSEEK_V2` · 700 W per accelerator | 2024 | 4,200 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_DEEPSEEK_V2_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V3 · `DM_DEEPSEEK_V3` · 700 W per accelerator | 2024 | 11,900 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DEEPSEEK_V3_PAPER`, `S_COURSE_DESIGN` |
+| Gemma 2 27B · `DM_GEMMA2_27B` · 700 W per accelerator | 2024 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_GOOGLE_GEMMA2_REPORT`, `S_COURSE_DESIGN` |
+| Gemma 7B · `DM_GEMMA_7B` · 700 W per accelerator | 2024 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_GOOGLE_GEMMA1_CARD`, `S_COURSE_DESIGN` |
+| Grok-1 · `DM_GROK1` · 700 W per accelerator | 2024 | 5,600 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_XAI_GROK1_REPO`, `S_COURSE_DESIGN` |
+| Llama 3.1-405B · `DM_LLAMA31_405B` · 700 W per accelerator | 2024 | 7,700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+| Llama 3.1-70B · `DM_LLAMA31_70B` · 700 W per accelerator | 2024 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+| Llama 3.1-8B · `DM_LLAMA31_8B` · 700 W per accelerator | 2024 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+| Mistral Large 2 · `DM_MISTRAL_LARGE2_2407` · 700 W per accelerator | 2024 | 2,800 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_MISTRAL_LARGE2_CARD`, `S_COURSE_DESIGN` |
+| Qwen2.5-72B · `DM_QWEN25_72B` · 700 W per accelerator | 2024 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_QWEN25_REPORT`, `S_COURSE_DESIGN` |
+| Qwen2-72B · `DM_QWEN2_72B` · 700 W per accelerator | 2024 | 1,400 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_QWEN2_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-R1 · `DM_DEEPSEEK_R1` · 700 W per accelerator | 2025 | 11,900 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_DEEPSEEK_R1_REPORT`, `S_COURSE_DESIGN` |
+| Gemma 3 27B · `DM_GEMMA3_27B` · 700 W per accelerator | 2025 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_GOOGLE_GEMMA3_REPORT`, `S_COURSE_DESIGN` |
+| Kimi K2 · `DM_KIMI_K2` · 700 W per accelerator | 2025 | 17,500 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_MOONSHOT_KIMI_K2_REPORT`, `S_COURSE_DESIGN` |
+| Llama 4 Scout · `DM_LLAMA4_SCOUT` · 700 W per accelerator | 2025 | 2,100 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_META_LLAMA4_CARD`, `S_COURSE_DESIGN` |
+| Qwen3-235B-A22B · `DM_QWEN3_235B_A22B` · 700 W per accelerator | 2025 | 4,200 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_QWEN3_REPORT`, `S_COURSE_DESIGN` |
+| Qwen3-30B-A3B · `DM_QWEN3_30B_A3B` · 700 W per accelerator | 2025 | 700 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_DASH_QWEN3_REPORT`, `S_COURSE_DESIGN` |
+| Kimi K3 · `DM_KIMI_K3` · 700 W per accelerator | 2026 | 49,000 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_MOONSHOT_KIMI_K3_PAPER`, `S_COURSE_DESIGN` |
+| Qwen3.8-2.4T-A95B · `DM_QWEN38_24T_A95B` · 700 W per accelerator | 2026 | 42,000 | W | `SCENARIO` | `not_applicable` | accelerator_only_tdp_scenario_not_wall_power | `S_QWEN38_MODELSCOPE`, `S_COURSE_DESIGN` |
+[AI_DASHBOARD:inference_tdp_floor:END]: #
 
-Las listas de agregados de variante y filas sin versión del snapshot preservan exclusiones; no se imputan al modelo principal.
+[AI_DASHBOARD:inference_capex_floor:START]: #
+### ¿Qué CAPEX accelerator-only sugiere el piso de capacidad?
+
+![¿Qué CAPEX accelerator-only sugiere el piso de capacidad? Multiplicar el mismo entero por USD 30,000 permite comparar CAPEX accelerator-only bajo una premisa común. Límite: No incluye chasis, CPU, red, almacenamiento, soporte ni operación.](../../_assets/ai-dashboard-inference-capex.svg)
+
+**Conclusión:** Multiplicar el mismo entero por USD 30,000 permite comparar CAPEX accelerator-only bajo una premisa común.
+
+**Di esto:** La cuenta compara una frontera económica explícita y reproducible.
+
+**No concluyas esto:** No es precio cotizado, costo del sistema ni costo total de propiedad.
+
+**Límite:** No incluye chasis, CPU, red, almacenamiento, soporte ni operación.
+
+### tabla-capex-inferencia
+
+Tabla equivalente completa de `ai-dashboard-inference-capex.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
+
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BERT-Large · `DM_BERT_LARGE` · USD 30000 per accelerator | 2018 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_GOOGLE_BERT_REPORT`, `S_COURSE_DESIGN` |
+| T5-11B · `DM_T5_11B` · USD 30000 per accelerator | 2019 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_GOOGLE_T5_REPORT`, `S_COURSE_DESIGN` |
+| BLOOM 176B · `DM_BLOOM_176B` · USD 30000 per accelerator | 2022 | 150,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_BIGSCIENCE_BLOOM_PAPER`, `S_COURSE_DESIGN` |
+| OPT-175B · `DM_OPT_175B` · USD 30000 per accelerator | 2022 | 150,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_META_OPT_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek LLM 67B · `DM_DEEPSEEK_LLM_67B` · USD 30000 per accelerator | 2023 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_DEEPSEEK_LLM_REPORT`, `S_COURSE_DESIGN` |
+| Llama 1 65B · `DM_LLAMA1_65B` · USD 30000 per accelerator | 2023 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_META_LLAMA1_REPORT`, `S_COURSE_DESIGN` |
+| Llama 2 70B · `DM_LLAMA2_70B` · USD 30000 per accelerator | 2023 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_META_LLAMA2_REPORT`, `S_COURSE_DESIGN` |
+| Mistral 7B v0.1 · `DM_MISTRAL_7B_V01` · USD 30000 per accelerator | 2023 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_MISTRAL7_REPORT`, `S_COURSE_DESIGN` |
+| Mixtral 8x7B · `DM_MIXTRAL_8X7B` · USD 30000 per accelerator | 2023 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_MIXTRAL_REPORT`, `S_COURSE_DESIGN` |
+| Qwen-72B · `DM_QWEN_72B` · USD 30000 per accelerator | 2023 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_QWEN_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V2 · `DM_DEEPSEEK_V2` · USD 30000 per accelerator | 2024 | 180,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_DEEPSEEK_V2_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V3 · `DM_DEEPSEEK_V3` · USD 30000 per accelerator | 2024 | 510,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DEEPSEEK_V3_PAPER`, `S_COURSE_DESIGN` |
+| Gemma 2 27B · `DM_GEMMA2_27B` · USD 30000 per accelerator | 2024 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_GOOGLE_GEMMA2_REPORT`, `S_COURSE_DESIGN` |
+| Gemma 7B · `DM_GEMMA_7B` · USD 30000 per accelerator | 2024 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_GOOGLE_GEMMA1_CARD`, `S_COURSE_DESIGN` |
+| Grok-1 · `DM_GROK1` · USD 30000 per accelerator | 2024 | 240,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_XAI_GROK1_REPO`, `S_COURSE_DESIGN` |
+| Llama 3.1-405B · `DM_LLAMA31_405B` · USD 30000 per accelerator | 2024 | 330,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+| Llama 3.1-70B · `DM_LLAMA31_70B` · USD 30000 per accelerator | 2024 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+| Llama 3.1-8B · `DM_LLAMA31_8B` · USD 30000 per accelerator | 2024 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN` |
+| Mistral Large 2 · `DM_MISTRAL_LARGE2_2407` · USD 30000 per accelerator | 2024 | 120,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_MISTRAL_LARGE2_CARD`, `S_COURSE_DESIGN` |
+| Qwen2.5-72B · `DM_QWEN25_72B` · USD 30000 per accelerator | 2024 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_QWEN25_REPORT`, `S_COURSE_DESIGN` |
+| Qwen2-72B · `DM_QWEN2_72B` · USD 30000 per accelerator | 2024 | 60,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_QWEN2_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-R1 · `DM_DEEPSEEK_R1` · USD 30000 per accelerator | 2025 | 510,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_DEEPSEEK_R1_REPORT`, `S_COURSE_DESIGN` |
+| Gemma 3 27B · `DM_GEMMA3_27B` · USD 30000 per accelerator | 2025 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_GOOGLE_GEMMA3_REPORT`, `S_COURSE_DESIGN` |
+| Kimi K2 · `DM_KIMI_K2` · USD 30000 per accelerator | 2025 | 750,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_MOONSHOT_KIMI_K2_REPORT`, `S_COURSE_DESIGN` |
+| Llama 4 Scout · `DM_LLAMA4_SCOUT` · USD 30000 per accelerator | 2025 | 90,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_META_LLAMA4_CARD`, `S_COURSE_DESIGN` |
+| Qwen3-235B-A22B · `DM_QWEN3_235B_A22B` · USD 30000 per accelerator | 2025 | 180,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_QWEN3_REPORT`, `S_COURSE_DESIGN` |
+| Qwen3-30B-A3B · `DM_QWEN3_30B_A3B` · USD 30000 per accelerator | 2025 | 30,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_DASH_QWEN3_REPORT`, `S_COURSE_DESIGN` |
+| Kimi K3 · `DM_KIMI_K3` · USD 30000 per accelerator | 2026 | 2,100,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_MOONSHOT_KIMI_K3_PAPER`, `S_COURSE_DESIGN` |
+| Qwen3.8-2.4T-A95B · `DM_QWEN38_24T_A95B` · USD 30000 per accelerator | 2026 | 1,800,000 | USD | `SCENARIO` | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price | `S_QWEN38_MODELSCOPE`, `S_COURSE_DESIGN` |
+[AI_DASHBOARD:inference_capex_floor:END]: #
+
+## Tablas completas equivalentes a las nueve visuales
+
+Las cinco tablas restantes corresponden a la ruta esencial. Junto con las cuatro anteriores, contienen una fila por cada marca dibujada.
+
+[AI_DASHBOARD:parameters:START]: #
+### tabla-parametros
+
+Tabla equivalente completa de `ai-dashboard-parameters.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
+
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BERT-Large · `DM_BERT_LARGE` · active | 2018 | 336,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_DASH_GOOGLE_BERT_REPORT` |
+| BERT-Large · `DM_BERT_LARGE` · total | 2018 | 336,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_DASH_GOOGLE_BERT_REPORT` |
+| T5-11B · `DM_T5_11B` · active | 2019 | 11,000,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_DASH_GOOGLE_T5_REPORT` |
+| T5-11B · `DM_T5_11B` · total | 2019 | 11,000,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_DASH_GOOGLE_T5_REPORT` |
+| GPT-3 175B · `DM_GPT3_175B` · active | 2020 | 174,600,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_OPENAI_GPT3_PAPER` |
+| GPT-3 175B · `DM_GPT3_175B` · total | 2020 | 174,600,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_OPENAI_GPT3_PAPER` |
+| Gopher 280B · `DM_GOPHER_280B` · active | 2021 | 280,000,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_DASH_DEEPMIND_GOPHER_REPORT` |
+| Gopher 280B · `DM_GOPHER_280B` · total | 2021 | 280,000,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_DASH_DEEPMIND_GOPHER_REPORT` |
+| BLOOM 176B · `DM_BLOOM_176B` · active | 2022 | 176,247,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_BIGSCIENCE_BLOOM_PAPER` |
+| BLOOM 176B · `DM_BLOOM_176B` · total | 2022 | 176,247,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_BIGSCIENCE_BLOOM_PAPER` |
+| Chinchilla 70B · `DM_CHINCHILLA_70B` · active | 2022 | 70,000,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_DASH_DEEPMIND_CHINCHILLA_REPORT` |
+| Chinchilla 70B · `DM_CHINCHILLA_70B` · total | 2022 | 70,000,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_DASH_DEEPMIND_CHINCHILLA_REPORT` |
+| LaMDA 137B · `DM_LAMDA_137B` · active | 2022 | 137,000,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_DASH_GOOGLE_LAMDA_REPORT` |
+| LaMDA 137B · `DM_LAMDA_137B` · total | 2022 | 137,000,000,000 | parameter | `FACT` | `high` | published_parameter_counts | `S_DASH_GOOGLE_LAMDA_REPORT` |
+| OPT-175B · `DM_OPT_175B` · active | 2022 | 175,000,000,000 | parameter_per_token | `DERIVED` | `high` | published_parameter_counts | `S_DASH_META_OPT_REPORT` |
+[AI_DASHBOARD:parameters:END]: #
+
+[AI_DASHBOARD:training_flop:START]: #
+### tabla-flop-entrenamiento
+
+Tabla equivalente completa de `ai-dashboard-training-flop.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
+
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| T5-11B · `DM_T5_11B` · training FLOP | 2019 | 65,999,999,999,999,995,805,696 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_GOOGLE_T5_REPORT` |
+| GPT-3 175B · `DM_GPT3_175B` · training FLOP | 2020 | 314,279,999,999,999,972,737,024 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_OPENAI_GPT3_PAPER` |
+| Gopher 280B · `DM_GOPHER_280B` · training FLOP | 2021 | 504,000,000,000,000,016,777,216 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_DEEPMIND_GOPHER_REPORT` |
+| BLOOM 176B · `DM_BLOOM_176B` · training FLOP | 2022 | 387,038,411,999,999,996,985,344 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_BIGSCIENCE_BLOOM_PAPER` |
+| Chinchilla 70B · `DM_CHINCHILLA_70B` · training FLOP | 2022 | 588,000,000,000,000,008,388,608 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_DEEPMIND_CHINCHILLA_REPORT` |
+| OPT-175B · `DM_OPT_175B` · training FLOP | 2022 | 188,999,999,999,999,997,902,848 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_META_OPT_REPORT` |
+| PaLM 540B · `DM_PALM_540B` · training FLOP | 2022 | 2,528,838,000,000,000,044,564,480 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_GOOGLE_PALM_PAPER` |
+| DeepSeek LLM 67B · `DM_DEEPSEEK_LLM_67B` · training FLOP | 2023 | 804,000,000,000,000,025,165,824 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_DEEPSEEK_LLM_REPORT` |
+| Llama 1 65B · `DM_LLAMA1_65B` · training FLOP | 2023 | 545,999,999,999,999,979,028,480 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_META_LLAMA1_REPORT` |
+| Llama 2 70B · `DM_LLAMA2_70B` · training FLOP | 2023 | 840,000,000,000,000,050,331,648 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_META_LLAMA2_REPORT` |
+| Qwen-72B · `DM_QWEN_72B` · training FLOP | 2023 | 1,296,000,000,000,000,100,663,296 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_QWEN_REPORT` |
+| DeepSeek-V2 · `DM_DEEPSEEK_V2` · training FLOP | 2024 | 816,479,999,999,999,974,834,176–1,275,750,000,000,000,036,175,872 | FLOP | `ESTIMATE` | `medium` | training_work_fact_derived_or_estimate | `S_DASH_DEEPSEEK_V2_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V3 · `DM_DEEPSEEK_V3` · training FLOP | 2024 | 2,628,480,000,000,000,033,554,432–4,107,000,000,000,000,253,755,392 | FLOP | `ESTIMATE` | `medium` | training_work_fact_derived_or_estimate | `S_DEEPSEEK_V3_PAPER`, `S_COURSE_DESIGN` |
+| Gemma 2 27B · `DM_GEMMA2_27B` · training FLOP | 2024 | 2,105,999,999,999,999,995,805,696 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_GOOGLE_GEMMA2_REPORT` |
+| Gemma 7B · `DM_GEMMA_7B` · training FLOP | 2024 | 252,000,000,000,000,008,388,608 | FLOP | `DERIVED` | `high` | training_work_fact_derived_or_estimate | `S_DASH_GOOGLE_GEMMA1_CARD` |
+[AI_DASHBOARD:training_flop:END]: #
+
+[AI_DASHBOARD:artifact_or_weight_floor:START]: #
+### tabla-memoria-inferencia
+
+Tabla equivalente completa de `ai-dashboard-inference-memory.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
+
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BERT-Large · `DM_BERT_LARGE` · BF16 weight floor | 2018 | 672,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_GOOGLE_BERT_REPORT` |
+| BERT-Large · `DM_BERT_LARGE` · documented artifact | 2018 | 1,344,952,014 | byte | `FACT` | `high` | documented_artifact_bytes_precision_unspecified_not_runtime | `S_ARTIFACT_BERT_LARGE` |
+| T5-11B · `DM_T5_11B` · BF16 weight floor | 2019 | 22,000,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_GOOGLE_T5_REPORT` |
+| T5-11B · `DM_T5_11B` · documented artifact | 2019 | 45,229,452,544 | byte | `FACT` | `high` | documented_artifact_bytes_precision_unspecified_not_runtime | `S_ARTIFACT_T5_11B` |
+| BLOOM 176B · `DM_BLOOM_176B` · BF16 weight floor | 2022 | 352,494,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_BIGSCIENCE_BLOOM_PAPER` |
+| BLOOM 176B · `DM_BLOOM_176B` · documented artifact | 2022 | 352,494,635,619 | byte | `FACT` | `high` | documented_artifact_bytes_precision_unspecified_not_runtime | `S_ARTIFACT_BLOOM` |
+| OPT-175B · `DM_OPT_175B` · BF16 weight floor | 2022 | 350,000,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_META_OPT_REPORT` |
+| DeepSeek LLM 67B · `DM_DEEPSEEK_LLM_67B` · BF16 weight floor | 2023 | 134,000,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_DEEPSEEK_LLM_REPORT` |
+| DeepSeek LLM 67B · `DM_DEEPSEEK_LLM_67B` · documented artifact | 2023 | 134,850,303,988 | byte | `FACT` | `high` | documented_artifact_bytes_precision_unspecified_not_runtime | `S_ARTIFACT_DEEPSEEK_LLM_67B` |
+| Llama 1 65B · `DM_LLAMA1_65B` · BF16 weight floor | 2023 | 130,000,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_META_LLAMA1_REPORT` |
+| Llama 2 70B · `DM_LLAMA2_70B` · BF16 weight floor | 2023 | 140,000,000,000 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_META_LLAMA2_REPORT` |
+| Llama 2 70B · `DM_LLAMA2_70B` · documented artifact | 2023 | 137,953,408,928 | byte | `FACT` | `high` | documented_artifact_bytes_precision_unspecified_not_runtime | `S_ARTIFACT_LLAMA2_70B` |
+| Mistral 7B v0.1 · `DM_MISTRAL_7B_V01` · BF16 weight floor | 2023 | 14,483,464,192 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_MISTRAL7_REPORT` |
+| Mistral 7B v0.1 · `DM_MISTRAL_7B_V01` · documented artifact | 2023 | 14,483,498,040 | byte | `FACT` | `high` | documented_artifact_bytes_precision_unspecified_not_runtime | `S_ARTIFACT_MISTRAL7` |
+| Mixtral 8x7B · `DM_MIXTRAL_8X7B` · BF16 weight floor | 2023 | 93,405,585,408 | byte | `DERIVED` | `high` | theoretical_weight_payload_floor_not_artifact_not_runtime | `S_DASH_MIXTRAL_REPORT` |
+[AI_DASHBOARD:artifact_or_weight_floor:END]: #
+
+[AI_DASHBOARD:h100_capacity_floor:START]: #
+### tabla-hardware-inferencia
+
+Tabla equivalente completa de `ai-dashboard-inference-hardware.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
+
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| BERT-Large · `DM_BERT_LARGE` · 80 GB HBM capacity floor | 2018 | 1 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_GOOGLE_BERT_REPORT`, `S_COURSE_DESIGN` |
+| T5-11B · `DM_T5_11B` · 80 GB HBM capacity floor | 2019 | 1 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_GOOGLE_T5_REPORT`, `S_COURSE_DESIGN` |
+| BLOOM 176B · `DM_BLOOM_176B` · 80 GB HBM capacity floor | 2022 | 5 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_BIGSCIENCE_BLOOM_PAPER`, `S_COURSE_DESIGN` |
+| OPT-175B · `DM_OPT_175B` · 80 GB HBM capacity floor | 2022 | 5 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_META_OPT_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek LLM 67B · `DM_DEEPSEEK_LLM_67B` · 80 GB HBM capacity floor | 2023 | 2 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_DEEPSEEK_LLM_REPORT`, `S_COURSE_DESIGN` |
+| Llama 1 65B · `DM_LLAMA1_65B` · 80 GB HBM capacity floor | 2023 | 2 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_META_LLAMA1_REPORT`, `S_COURSE_DESIGN` |
+| Llama 2 70B · `DM_LLAMA2_70B` · 80 GB HBM capacity floor | 2023 | 2 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_META_LLAMA2_REPORT`, `S_COURSE_DESIGN` |
+| Mistral 7B v0.1 · `DM_MISTRAL_7B_V01` · 80 GB HBM capacity floor | 2023 | 1 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_MISTRAL7_REPORT`, `S_COURSE_DESIGN` |
+| Mixtral 8x7B · `DM_MIXTRAL_8X7B` · 80 GB HBM capacity floor | 2023 | 2 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_MIXTRAL_REPORT`, `S_COURSE_DESIGN` |
+| Qwen-72B · `DM_QWEN_72B` · 80 GB HBM capacity floor | 2023 | 2 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_QWEN_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V2 · `DM_DEEPSEEK_V2` · 80 GB HBM capacity floor | 2024 | 6 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_DEEPSEEK_V2_REPORT`, `S_COURSE_DESIGN` |
+| DeepSeek-V3 · `DM_DEEPSEEK_V3` · 80 GB HBM capacity floor | 2024 | 17 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DEEPSEEK_V3_PAPER`, `S_COURSE_DESIGN` |
+| Gemma 2 27B · `DM_GEMMA2_27B` · 80 GB HBM capacity floor | 2024 | 1 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_GOOGLE_GEMMA2_REPORT`, `S_COURSE_DESIGN` |
+| Gemma 7B · `DM_GEMMA_7B` · 80 GB HBM capacity floor | 2024 | 1 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_GOOGLE_GEMMA1_CARD`, `S_COURSE_DESIGN` |
+| Grok-1 · `DM_GROK1` · 80 GB HBM capacity floor | 2024 | 8 | accelerator | `SCENARIO` | `not_applicable` | physical_capacity_floor_not_topology_not_sla | `S_DASH_XAI_GROK1_REPO`, `S_COURSE_DESIGN` |
+[AI_DASHBOARD:h100_capacity_floor:END]: #
+
+[AI_DASHBOARD:pareto_inference:START]: #
+### tabla-pareto-inferencia
+
+Tabla equivalente completa de `ai-dashboard-pareto-inference.svg`. Cada fila procede del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual del año no cambia el año exacto mostrado aquí.
+
+| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |
+|---|---:|---:|---|---|---|---|---|
+| Gemma 2 27B · `DM_GEMMA2_27B` · ECI | 2024 | ECI 115.4–124.27; costo USD 30,000 | ECI y USD | `SCENARIO`; frontera dominated | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_DASH_GOOGLE_GEMMA2_REPORT`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| Gemma 3 27B · `DM_GEMMA3_27B` · ECI | 2025 | ECI 124.67–133.1; costo USD 30,000 | ECI y USD | `SCENARIO`; frontera safe | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_DASH_GOOGLE_GEMMA3_REPORT`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| Gemma 7B · `DM_GEMMA_7B` · ECI | 2024 | ECI 101.34–115.86; costo USD 30,000 | ECI y USD | `SCENARIO`; frontera dominated | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_DASH_GOOGLE_GEMMA1_CARD`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| Llama 3.1-8B · `DM_LLAMA31_8B` · ECI | 2024 | ECI 105.01–121.29; costo USD 30,000 | ECI y USD | `SCENARIO`; frontera dominated | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| Llama 3.1-70B · `DM_LLAMA31_70B` · ECI | 2024 | ECI 119.5–127.39; costo USD 60,000 | ECI y USD | `SCENARIO`; frontera possible | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_META_LLAMA31_PAPER`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| Qwen2-72B · `DM_QWEN2_72B` · ECI | 2024 | ECI 118.95–126.79; costo USD 60,000 | ECI y USD | `SCENARIO`; frontera possible | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_DASH_QWEN2_REPORT`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| Qwen3-235B-A22B · `DM_QWEN3_235B_A22B` · ECI | 2025 | ECI 134.85–140.96; costo USD 180,000 | ECI y USD | `SCENARIO`; frontera safe | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_DASH_QWEN3_REPORT`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+| DeepSeek-R1 · `DM_DEEPSEEK_R1` · ECI | 2025 | ECI 137.09–140.74; costo USD 510,000 | ECI y USD | `SCENARIO`; frontera possible | `not_applicable` | accelerator_equivalent_scenario_not_api_not_system_price;eci_exact_variant | `S_DASH_DEEPSEEK_R1_REPORT`, `S_COURSE_DESIGN`, `S_EPOCH_ECI_SCORES` |
+[AI_DASHBOARD:pareto_inference:END]: #
 
 ## Fuentes
 

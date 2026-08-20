@@ -62,11 +62,16 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
             assert page.evaluate("document.documentElement.scrollWidth") == width
 
             images = page.locator(
-                'img[src*="ai-training-"], img[src*="ai-inference-"], img[src*="ai-pareto-"]'
+                'img[src*="ai-dashboard-"]'
             )
-            assert images.count() == 12
+            assert images.count() == 5
             boxes = [images.nth(index).bounding_box() for index in range(images.count())]
-            assert all(box and box["width"] >= 320 and box["height"] < 600 for box in boxes)
+            assert all(
+                box
+                and box["width"] >= 320
+                and 2.14 <= box["height"] / box["width"] <= 2.16
+                for box in boxes
+            )
             for index in range(images.count()):
                 effective = images.nth(index).evaluate(
                     """async image => {
@@ -74,7 +79,9 @@ def test_real_raya_dashboard_has_bounded_height_and_svg_geometry():
                       const svg = new DOMParser().parseFromString(xml, 'image/svg+xml').documentElement;
                       const vb = svg.viewBox.baseVal.width;
                       const minFont = Math.min(...[...svg.querySelectorAll('text')]
-                        .map(node => parseFloat(node.getAttribute('font-size'))));
+                        .map(node => parseFloat(
+                          node.getAttribute('font-size') || node.style.fontSize
+                        )));
                       return minFont * image.getBoundingClientRect().width / vb;
                     }"""
                 )

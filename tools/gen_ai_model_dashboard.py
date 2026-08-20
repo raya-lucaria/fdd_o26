@@ -46,6 +46,13 @@ DATA_PATH = TOOLS / "data/ai_hardware_costs.yaml"
 ECI_PATH = TOOLS / "data/eci_snapshot_2026-08-18.yaml"
 FONT_PATH = TOOLS / "fonts/DejaVuSans.ttf"
 ASSETS_DIR = ROOT / "course/3_arquitectura_de_computadoras/_assets"
+MAIN_PAGE = (
+    ROOT
+    / "course/3_arquitectura_de_computadoras/4_ai_escala_y_decision/0_index.md"
+)
+ANNEX_PAGE = (
+    MAIN_PAGE.parent / "1_evidencia_dashboard/0_index.md"
+)
 SVG_FILENAMES = (
     "ai-dashboard-parameters.svg",
     "ai-dashboard-training-flop.svg",
@@ -57,6 +64,93 @@ SVG_FILENAMES = (
     "ai-dashboard-inference-power.svg",
     "ai-dashboard-inference-capex.svg",
 )
+
+TABLE_ANCHORS = {
+    "parameters": "tabla-parametros",
+    "training_flop": "tabla-flop-entrenamiento",
+    "artifact_or_weight_floor": "tabla-memoria-inferencia",
+    "h100_capacity_floor": "tabla-hardware-inferencia",
+    "pareto_inference": "tabla-pareto-inferencia",
+    "training_accelerators": "tabla-aceleradores-entrenamiento",
+    "training_replacement_value": "tabla-reemplazo-entrenamiento",
+    "inference_tdp_floor": "tabla-potencia-inferencia",
+    "inference_capex_floor": "tabla-capex-inferencia",
+}
+
+TEACHING_COPY = {
+    "parameters": {
+        "conclusion": "El total fija almacenamiento; en MoE, el activo aproxima lo usado por token.",
+        "say": "“Total” y “activo” difieren; en dense coinciden y no se duplica la marca.",
+        "avoid": "Más parámetros no demuestran más calidad ni velocidad.",
+        "limit": "La tabla completa enumera cada marca y fuente.",
+    },
+    "training_flop": {
+        "conclusion": "El trabajo publicado cruza órdenes de magnitud; muchas cuentas no se divulgan.",
+        "say": "FLOP mide trabajo; los ausentes no se dibujan como cero.",
+        "avoid": "FLOP no es FLOP/s, duración, energía ni costo.",
+        "limit": "Cada derivación exige parámetros, tokens y fórmula aplicables.",
+    },
+    "artifact_or_weight_floor": {
+        "conclusion": "Artefacto y piso BF16 preguntan cuánto debe caber, no cómo corre.",
+        "say": "El artefacto se observa; el piso es parámetros por bits entre ocho.",
+        "avoid": "No incluye KV, activaciones, runtime, workspace ni reserva.",
+        "limit": "Sin pesos o total aplicable, queda una ausencia.",
+    },
+    "h100_capacity_floor": {
+        "conclusion": "Piso ÷ 80 GB, redondeado arriba, da H100-equivalentes de capacidad.",
+        "say": "El mismo entero produce TDP y CAPEX accelerator-only comparables.",
+        "avoid": "El resultado no es un servidor. TDP no es potencia de pared; CAPEX no es el costo real ni un SLA.",
+        "limit": "Usa 700 W y USD 30,000 por H100-equivalente.",
+    },
+    "pareto_inference": {
+        "conclusion": "Con costo y ECI declarados, hay opciones seguras, posibles o dominadas.",
+        "say": "Dominar es costar no más y tener ECI no menor, con rangos incluidos.",
+        "avoid": "ECI no es IQ ni selecciona el mejor modelo universal.",
+        "limit": "Sólo vale para estas variantes, snapshot y frontera de costo.",
+    },
+    "training_accelerators": {
+        "conclusion": (
+            "Sólo unas cuantas publicaciones identifican una flota concurrente de "
+            "entrenamiento comparable."
+        ),
+        "say": "El conteo concurrente es distinto de accelerator-hours.",
+        "avoid": (
+            "Más aceleradores no demuestra menor duración, mayor eficiencia ni una "
+            "misma clase de chip."
+        ),
+        "limit": "Las ausencias documentadas no se reemplazan con rumores.",
+    },
+    "training_replacement_value": {
+        "conclusion": (
+            "Una banda común de USD 20,000–40,000 por plaza hace visible el orden de "
+            "magnitud de cuatro flotas documentadas."
+        ),
+        "say": "Es un escenario de reemplazo accelerator-only al corte del curso.",
+        "avoid": (
+            "No reconstruye contratos históricos ni equipara el rendimiento de TPU, "
+            "A100, H100 o H800."
+        ),
+        "limit": "Excluye servidores, red, almacenamiento, energía y personal.",
+    },
+    "inference_tdp_floor": {
+        "conclusion": (
+            "Multiplicar el piso H100-equivalente por 700 W muestra una envolvente "
+            "térmica de aceleradores."
+        ),
+        "say": "La cifra es TDP accelerator-only derivado del mismo piso de capacidad.",
+        "avoid": "TDP no es potencia de pared ni energía consumida durante una tarea.",
+        "limit": "Faltan CPU, memoria, red, refrigeración, utilización y tiempo.",
+    },
+    "inference_capex_floor": {
+        "conclusion": (
+            "Multiplicar el mismo entero por USD 30,000 permite comparar CAPEX "
+            "accelerator-only bajo una premisa común."
+        ),
+        "say": "La cuenta compara una frontera económica explícita y reproducible.",
+        "avoid": "No es precio cotizado, costo del sistema ni costo total de propiedad.",
+        "limit": "No incluye chasis, CPU, red, almacenamiento, soporte ni operación.",
+    },
+}
 
 SVG_NS = "http://www.w3.org/2000/svg"
 XLINK_NS = "http://www.w3.org/1999/xlink"
@@ -859,6 +953,329 @@ def write_svg(spec: FigureSpec, path: Path) -> Path:
     return Path(path)
 
 
+def _markdown_number(value: float) -> str:
+    """Render a stable, compact value without changing its declared precision."""
+    if value == int(value):
+        return f"{int(value):,}"
+    if abs(value) >= 1e6 or abs(value) < 0.01:
+        return format(value, ".6g")
+    return format(value, ".6f").rstrip("0").rstrip(".")
+
+
+def _markdown_range(low: float, high: float) -> str:
+    if low == high:
+        return _markdown_number(low)
+    return f"{_markdown_number(low)}–{_markdown_number(high)}"
+
+
+def _escape_cell(value: str) -> str:
+    return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def _model_names(ledger: dict) -> dict[str, str]:
+    return {
+        model["id"]: model["canonical_name"]
+        for model in ledger["dashboard_models"]
+    }
+
+
+def _compact_reading(spec: FigureSpec, row: FigureRow) -> str:
+    value = _markdown_range(row.low, row.high)
+    if spec.figure_id == "parameters":
+        value = _markdown_range(row.low / 1e9, row.high / 1e9)
+        return f"{value} mil millones; {row.label}; **{row.status}**"
+    if spec.figure_id == "training_flop":
+        value = (
+            format(row.low, ".3g")
+            if row.low == row.high
+            else f"{format(row.low, '.3g')}–{format(row.high, '.3g')}"
+        )
+        return f"{value} FLOP; **{row.status}**"
+    if spec.figure_id == "artifact_or_weight_floor":
+        value = _markdown_range(row.low / 1e9, row.high / 1e9)
+        return f"{value} GB; {row.label}; **{row.status}**"
+    if spec.figure_id == "h100_capacity_floor":
+        low_h100 = int(row.low)
+        high_h100 = int(row.high)
+        h100 = str(low_h100) if low_h100 == high_h100 else f"{low_h100}–{high_h100}"
+        watts = _markdown_range(row.low * 700, row.high * 700)
+        capex = _markdown_range(row.low * 30_000, row.high * 30_000)
+        return (
+            f"{h100} H100-equivalente(s); {watts} W TDP y USD {capex} CAPEX, "
+            f"**{row.status}**"
+        )
+    if spec.figure_id == "pareto_inference":
+        cost = _markdown_range(row.cost_low, row.cost_high)
+        return (
+            f"ECI {value}; USD {cost}; frontera {row.frontier}, "
+            f"**{row.status}**"
+        )
+    return f"{value} {row.unit}; {row.label}; **{row.status}**"
+
+
+def _alt_text(spec: FigureSpec) -> str:
+    copy = TEACHING_COPY[spec.figure_id]
+    return f"{spec.question} {copy['conclusion']} Límite: {copy['limit']}"
+
+
+def _sentinel(spec: FigureSpec, content: str) -> str:
+    return (
+        f"[AI_DASHBOARD:{spec.figure_id}:START]: #\n"
+        f"{content.rstrip()}\n"
+        f"[AI_DASHBOARD:{spec.figure_id}:END]: #"
+    )
+
+
+def _compact_table(spec: FigureSpec, names: dict[str, str]) -> str:
+    lines = ["| Modelo | Lectura |", "|---|---|"]
+    for row in spec.compact_rows:
+        lines.append(
+            f"| **{_escape_cell(names[row.model_id])}** | "
+            f"{_escape_cell(_compact_reading(spec, row))} |"
+        )
+    return "\n".join(lines)
+
+
+def _full_table(spec: FigureSpec, names: dict[str, str]) -> str:
+    lines = [
+        "| Modelo e ID | Año | Valor o rango | Unidad | Estado | Confianza | Alcance | Fuentes |",
+        "|---|---:|---:|---|---|---|---|---|",
+    ]
+    for row in spec.rows:
+        value = _markdown_range(row.low, row.high)
+        unit = row.unit
+        if row.cost_low is not None and row.cost_high is not None:
+            value = (
+                f"ECI {value}; costo USD "
+                f"{_markdown_range(row.cost_low, row.cost_high)}"
+            )
+            unit = "ECI y USD"
+        frontier = f"; frontera {row.frontier}" if row.frontier else ""
+        lines.append(
+            "| "
+            + " | ".join((
+                _escape_cell(f"{names[row.model_id]} · `{row.model_id}` · {row.label}"),
+                str(row.year),
+                _escape_cell(value),
+                _escape_cell(unit),
+                f"`{row.status}`{frontier}",
+                f"`{row.confidence}`",
+                _escape_cell(row.scope),
+                _escape_cell(", ".join(f"`{source}`" for source in row.source_ids)),
+            ))
+            + " |"
+        )
+    return "\n".join(lines)
+
+
+def _essential_block(index: int, spec: FigureSpec, names: dict[str, str]) -> str:
+    copy = TEACHING_COPY[spec.figure_id]
+    anchor = TABLE_ANCHORS[spec.figure_id]
+    content = f"""### {index}. {spec.question}
+
+![{_alt_text(spec)}](../_assets/{spec.filename})
+
+**Conclusión:** {copy['conclusion']}
+
+**Di esto:** {copy['say']}
+
+**No concluyas esto:** {copy['avoid']}
+
+{_compact_table(spec, names)}
+
+**Límite:** {copy['limit']}
+
+Ve la [tabla completa](raya:evidencia-dashboard-ia#{anchor}) para año, rango, confianza y fuentes.
+"""
+    return _sentinel(spec, content)
+
+
+def _full_table_block(
+    spec: FigureSpec,
+    names: dict[str, str],
+    *,
+    include_visual: bool,
+) -> str:
+    copy = TEACHING_COPY[spec.figure_id]
+    parts = []
+    if include_visual:
+        parts.extend((
+            f"### {spec.question}",
+            f"![{_alt_text(spec)}](../../_assets/{spec.filename})",
+            f"**Conclusión:** {copy['conclusion']}",
+            f"**Di esto:** {copy['say']}",
+            f"**No concluyas esto:** {copy['avoid']}",
+            f"**Límite:** {copy['limit']}",
+        ))
+    parts.extend((
+        f"### {TABLE_ANCHORS[spec.figure_id]}",
+        (
+            f"Tabla equivalente completa de `{spec.filename}`. Cada fila procede "
+            "del mismo `FigureSpec` que dibuja la marca; el desplazamiento visual "
+            "del año no cambia el año exacto mostrado aquí."
+        ),
+        _full_table(spec, names),
+    ))
+    return _sentinel(spec, "\n\n".join(parts))
+
+
+def _master_cards(ledger: dict) -> str:
+    groups = (
+        ("Google", {"Google"}),
+        ("OpenAI y Anthropic", {"OpenAI", "Anthropic"}),
+        ("Meta y BigScience", {"Meta", "BigScience"}),
+        ("Qwen", {"Qwen"}),
+        ("DeepSeek y Mistral", {"DeepSeek", "Mistral AI"}),
+        ("xAI y Moonshot", {"xAI", "Moonshot AI"}),
+    )
+    models = ledger["dashboard_models"]
+    sections = []
+    for heading, organizations in groups:
+        lines = [f"##### {heading}", "", "| Modelo · año | Ficha física |", "|---|---|"]
+        for model in models:
+            if model["organization"] not in organizations:
+                continue
+            openness = "abierto" if model["availability"] == "open_weights" else "cerrado"
+            architecture = model["architecture"].get("value") or "no publicado"
+            training = (
+                "cifra"
+                if any(
+                    model["metrics"][key]["status"] in {"FACT", "DERIVED", "ESTIMATE"}
+                    for key in ("training_flop", "accelerators_concurrent", "accelerator_hours")
+                )
+                else "no publicado"
+            )
+            inference = (
+                "artefacto"
+                if model["metrics"]["artifact_bytes"]["status"] == "FACT"
+                else "piso BF16"
+                if model["metrics"]["weight_floor_bf16"]["status"] in {"FACT", "DERIVED", "ESTIMATE"}
+                else "no identificable"
+            )
+            lines.append(
+                f"| **{model['canonical_name']} · {model['year']['value']}** | "
+                f"{openness} · {architecture} · E: {training} · I: {inference} |"
+            )
+        sections.append("\n".join(lines))
+    return "\n\n".join(sections)
+
+
+def _main_dashboard(specs: tuple[FigureSpec, ...], ledger: dict) -> str:
+    names = _model_names(ledger)
+    essentials = [spec for spec in specs if spec.route == "essential"]
+    blocks = [
+        "### En 30 segundos\n\n"
+        "- Empieza por pregunta y unidad: cada figura tiene un eje Y.\n"
+        "- **FACT** se publica; **DERIVED** se calcula; **ESTIMATE** acota; **SCENARIO** supone.\n"
+        "- **no publicado** es ausencia, nunca cero.",
+        "### Cómo leer el dashboard\n\n"
+        "X muestra el año; el desplazamiento sólo separa marcas. En Y logarítmico, igual distancia significa multiplicar. **Confianza** califica evidencia, no calidad. **FLOP es trabajo**; **FLOP/s es una tasa**.\n\n"
+        "La ruta pregunta por **parámetros totales** y **parámetros activos**, trabajo, memoria, hardware y costo–ECI. Lee visual, conclusión, frase defendible, inferencia prohibida, tabla y límite.",
+    ]
+    blocks.extend(
+        _essential_block(index, spec, names)
+        for index, spec in enumerate(essentials, start=1)
+    )
+    blocks.extend((
+        "### Qué sí y qué no puedes concluir\n\n"
+        "| Sí puedes decir | No puedes decir |\n"
+        "|---|---|\n"
+        "| “El estado y la unidad están declarados.” | “Un faltante vale cero.” |\n"
+        "| “El artefacto exige esta capacidad.” | “Garantiza throughput o latencia.” |\n"
+        "| “No está dominado bajo estos ejes.” | “Es mejor para cualquier tarea.” |\n"
+        "| “La magnitud cambia por órdenes.” | “FLOP, watts o USD miden calidad.” |",
+        "**Fin de la ruta esencial. Continúa al anexo sólo si deseas profundizar.**\n\n"
+        "[[evidencia-dashboard-ia]] conserva tabla maestra, cuatro vistas opcionales y nueve tablas completas. No se dibuja Pareto de entrenamiento: no existe una intersección exacta entre las cuatro flotas y variantes ECI elegibles.",
+        "### Recapitulación del dashboard\n\n"
+        "1. Total almacena; activo aproxima trabajo MoE.\n"
+        "2. Trabajo, tasa, tiempo, flota y potencia difieren.\n"
+        "3. Un piso responde “¿cabe?”, no “¿cumple SLA?”.\n"
+        "4. TDP no es pared; CAPEX parcial no es costo real.\n"
+        "5. ECI no es IQ; Pareto descarta, no decide.",
+    ))
+    return "\n\n".join(blocks)
+
+
+def _annex_generated(specs: tuple[FigureSpec, ...], ledger: dict) -> str:
+    names = _model_names(ledger)
+    optional = [spec for spec in specs if spec.route == "annex"]
+    essentials = [spec for spec in specs if spec.route == "essential"]
+    parts = [(
+        "Estas cuatro vistas no forman parte de la ruta oral esencial. Separan "
+        "flota, valor de reemplazo, potencia y CAPEX para que una transformación "
+        "no parezca un hallazgo independiente. El Pareto usa el Snapshot ECI "
+        "fechado que se documenta en la metodología."
+    )]
+    parts.extend(_full_table_block(spec, names, include_visual=True) for spec in optional)
+    parts.extend((
+        "## Tablas completas equivalentes a las nueve visuales",
+        (
+            "Las cinco tablas restantes corresponden a la ruta esencial. Junto con "
+            "las cuatro anteriores, contienen una fila por cada marca dibujada."
+        ),
+    ))
+    parts.extend(_full_table_block(spec, names, include_visual=False) for spec in essentials)
+    return "\n\n".join(parts)
+
+
+def _replace_section(text: str, start: str, end: str, replacement: str) -> str:
+    if start not in text or end not in text:
+        raise ValueError(f"cannot find Markdown section boundaries: {start!r}, {end!r}")
+    prefix, remainder = text.split(start, 1)
+    _old, suffix = remainder.split(end, 1)
+    return f"{prefix}{start}\n\n{replacement.rstrip()}\n\n{end}{suffix}"
+
+
+def write_dashboard_markdown(
+    specs: tuple[FigureSpec, ...],
+    ledger: dict,
+    main_path: Path = MAIN_PAGE,
+    annex_path: Path = ANNEX_PAGE,
+) -> tuple[Path, Path]:
+    """Regenerate the main route, master ledger, optional views, and full tables."""
+    main_path = Path(main_path)
+    annex_path = Path(annex_path)
+    main = main_path.read_text(encoding="utf-8")
+    main = _replace_section(
+        main,
+        "## Dashboard: modelos, hardware y costo",
+        "## Guía de decisión",
+        _main_dashboard(specs, ledger),
+    )
+    main_path.write_text(main, encoding="utf-8", newline="\n")
+
+    annex = annex_path.read_text(encoding="utf-8")
+    intro = (
+        "**Anexo opcional.** Conserva el detalle que haría ilegible la ruta oral, "
+        "pero no forma parte del recorrido principal de la clase. El corte del ledger "
+        "es **2026-08-18**. Regresa a [[ia-escala-decision]] para explicar las cinco "
+        "gráficas esenciales; usa esta página para auditar una celda o profundizar.\n\n"
+        "## Tabla maestra de 39 modelos\n\n"
+        "Esta tabla vive fuera de la ruta esencial. Resume acceso, arquitectura y la "
+        "frontera de evidencia de entrenamiento e inferencia; los registros verticales "
+        "posteriores conservan las 546 celdas completas.\n\n"
+        + _master_cards(ledger)
+    )
+    annex = _replace_section(
+        annex,
+        "# Evidencia del dashboard de modelos de IA",
+        "## Estados y frontera de la afirmación",
+        intro,
+    )
+    retired_heading = "## Tablas reconstruibles de las doce visuales"
+    if retired_heading in annex:
+        annex = annex.replace(retired_heading, "## Profundización opcional", 1)
+    generated_start = "## Profundización opcional"
+    annex = _replace_section(
+        annex,
+        generated_start,
+        "## Fuentes",
+        _annex_generated(specs, ledger),
+    )
+    annex_path.write_text(annex, encoding="utf-8", newline="\n")
+    return main_path, annex_path
+
+
 def render_dashboard(
     ledger_path: Path = DATA_PATH,
     eci_path: Path = ECI_PATH,
@@ -877,7 +1294,12 @@ def render_dashboard(
 
 
 def main() -> None:
+    ledger = yaml.safe_load(DATA_PATH.read_text(encoding="utf-8"))
+    eci = yaml.safe_load(ECI_PATH.read_text(encoding="utf-8"))
+    specs = build_figure_specs({"ledger": ledger, "eci": eci})
     for output in render_dashboard():
+        print(output.relative_to(ROOT))
+    for output in write_dashboard_markdown(specs, ledger):
         print(output.relative_to(ROOT))
 
 

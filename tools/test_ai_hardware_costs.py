@@ -345,7 +345,7 @@ def test_ai_hardware_panels_preservan_fronteras_y_significado_fisico():
 
 
 def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
-    """Los SVG retirados conservan semántica, pero no reaparecen en la ruta oral."""
+    """Las cinco visuales de hardware ajenas al dashboard siguen fuera de la ruta oral."""
     generator = load_chart_generator()
     page = PAGE.read_text(encoding="utf-8")
     assets = ROOT / "course/3_arquitectura_de_computadoras/_assets"
@@ -365,9 +365,13 @@ def test_ai_hardware_alt_desc_lectura_y_tabla_son_equivalentes():
 
 
 def test_ai_hardware_eliminar_una_tabla_fallback_completa_falla():
-    """La ruta nueva no puede reintroducir el paquete visual retirado."""
+    """La ruta esencial usa la vista Seaborn sin reintroducir el paquete de apoyo."""
     page = PAGE.read_text(encoding="utf-8")
     assert all(name not in page for name in AI_SVG_NAMES)
+    assert page.count("../_assets/ai-dashboard-inference-hardware.svg") == 1
+    block = page.split("[AI_DASHBOARD:h100_capacity_floor:START]: #", 1)[1]
+    block = block.split("[AI_DASHBOARD:h100_capacity_floor:END]: #", 1)[0]
+    assert all(term in block for term in ("H100-equivalente", "W TDP", "USD", "CAPEX"))
 
 
 def test_ai_hardware_svg_real_conserva_orden_y_contenido_de_metadata():

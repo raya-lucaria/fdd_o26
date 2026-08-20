@@ -25,6 +25,36 @@ DASHBOARD_ANNEX = (
 )
 AI_LEDGER = ROOT / "tools/data/ai_hardware_costs.yaml"
 DASHBOARD_ASSETS = {
+    "ai-dashboard-parameters.svg",
+    "ai-dashboard-training-flop.svg",
+    "ai-dashboard-inference-memory.svg",
+    "ai-dashboard-inference-hardware.svg",
+    "ai-dashboard-pareto-inference.svg",
+    "ai-dashboard-training-accelerators.svg",
+    "ai-dashboard-training-replacement.svg",
+    "ai-dashboard-inference-power.svg",
+    "ai-dashboard-inference-capex.svg",
+}
+ESSENTIAL_DASHBOARD_ASSETS = {
+    "ai-dashboard-parameters.svg",
+    "ai-dashboard-training-flop.svg",
+    "ai-dashboard-inference-memory.svg",
+    "ai-dashboard-inference-hardware.svg",
+    "ai-dashboard-pareto-inference.svg",
+}
+ANNEX_DASHBOARD_ASSETS = DASHBOARD_ASSETS - ESSENTIAL_DASHBOARD_ASSETS
+DASHBOARD_TABLE_ANCHORS = {
+    "parameters": "tabla-parametros",
+    "training_flop": "tabla-flop-entrenamiento",
+    "artifact_or_weight_floor": "tabla-memoria-inferencia",
+    "h100_capacity_floor": "tabla-hardware-inferencia",
+    "pareto_inference": "tabla-pareto-inferencia",
+    "training_accelerators": "tabla-aceleradores-entrenamiento",
+    "training_replacement_value": "tabla-reemplazo-entrenamiento",
+    "inference_tdp_floor": "tabla-potencia-inferencia",
+    "inference_capex_floor": "tabla-capex-inferencia",
+}
+RETIRED_DASHBOARD_ASSETS = {
     "ai-training-parameters.svg",
     "ai-training-flop.svg",
     "ai-training-accelerators.svg",
@@ -38,7 +68,7 @@ DASHBOARD_ASSETS = {
     "ai-pareto-training.svg",
     "ai-pareto-inference.svg",
 }
-RETIRED_DASHBOARD_ASSETS = {
+PRESERVED_HARDWARE_ASSETS = {
     "ai-aceleradores-entrenamiento.svg",
     "ai-hbm-entrenamiento.svg",
     "ai-potencia-hardware.svg",
@@ -227,18 +257,6 @@ def test_assets_have_exact_credits_alt_and_text_fallbacks():
         "ai-potencia-hardware.svg",
         "ai-capex-hardware.svg",
         "ai-inferencia-capacidad.svg",
-        "ai-training-parameters.svg",
-        "ai-training-flop.svg",
-        "ai-training-accelerators.svg",
-        "ai-training-power.svg",
-        "ai-training-replacement-value.svg",
-        "ai-inference-memory.svg",
-        "ai-inference-accelerators.svg",
-        "ai-inference-power.svg",
-        "ai-inference-capex.svg",
-        "ai-inference-parameters.svg",
-        "ai-pareto-training.svg",
-        "ai-pareto-inference.svg",
         "ai-dashboard-parameters.svg",
         "ai-dashboard-training-flop.svg",
         "ai-dashboard-inference-memory.svg",
@@ -264,13 +282,14 @@ def test_required_beginner_visual_topics_and_current_models_are_present():
     memory = body(PAGES[2])
     performance = body(PAGES[3])
     ai = body(PAGES[4])
+    ai_with_annex = ai + body(DASHBOARD_ANNEX)
     assert all(term in compute for term in ("threads-cores-simd.svg", "latencia-throughput.svg"))
     assert "rutas-cpu-gpu.svg" in memory
     assert all(term in memory for term in ("L1", "L2", "L3", "escala logarítmica"))
     assert all(term in performance for term in ("FLOP/byte", "foco LED", "microondas", "aire acondicionado"))
     assert all(term in ai for term in ("precision-parametros.svg", "dense-moe.svg", "prefill-decode.svg"))
     assert all(
-        term in ai
+        term in ai_with_annex
         for term in (
             "GPT-5.6 Sol",
             "Claude Sonnet 5",
@@ -300,18 +319,21 @@ def visible_words(markdown: str) -> list[str]:
 def test_dashboard_main_route_is_short_visual_and_model_rich():
     section = dashboard_section()
     assert 900 <= len(visible_words(section)) <= 1400
-    assert {name for name in DASHBOARD_ASSETS if name in section} == DASHBOARD_ASSETS
+    assert {name for name in DASHBOARD_ASSETS if name in section} == ESSENTIAL_DASHBOARD_ASSETS
+    assert section.count("ai-dashboard-") == 5
     assert "[[evidencia-dashboard-ia]]" in section
+    assert "Fin de la ruta esencial" in section
+    assert "39 modelos" not in section
     assert "data-source-ids" not in section
     assert not re.search(r"\b(?:S|DM|T|V)_[A-Z0-9_]{4,}\b", section)
     assert all(name not in section for name in RETIRED_DASHBOARD_ASSETS)
 
 
 def test_dashboard_model_cards_expose_each_model_boundary_without_ids():
-    section = dashboard_section()
+    section = body(DASHBOARD_ANNEX)
     models = load_yaml(AI_LEDGER)["dashboard_models"]
-    cards = section.split("#### Los 39 modelos, por ficha", 1)[1].split(
-        "### Entrenamiento a través del tiempo", 1
+    cards = section.split("## Tabla maestra de 39 modelos", 1)[1].split(
+        "## Metodología de las series", 1
     )[0]
     assert cards.count("\n| **") == 39
     for model in models:
@@ -342,7 +364,7 @@ def test_dashboard_model_cards_expose_each_model_boundary_without_ids():
 
 
 def test_dashboard_inference_cards_distinguish_artifact_floor_and_absence():
-    section = dashboard_section()
+    section = body(DASHBOARD_ANNEX)
     models = load_yaml(AI_LEDGER)["dashboard_models"]
     for model in models:
         artifact = model["metrics"]["artifact_bytes"]["status"] == "FACT"
@@ -357,9 +379,11 @@ def test_dashboard_main_route_has_teaching_order_and_plain_language_boundaries()
     headings = (
         "### En 30 segundos",
         "### Cómo leer el dashboard",
-        "### Entrenamiento a través del tiempo",
-        "### Inferencia local a través del tiempo",
-        "### Pareto: mejorar una cosa sin empeorar la otra",
+        "### 1. ¿Cuántos parámetros almacena o activa el modelo?",
+        "### 2. ¿Cuánto trabajo requirió el entrenamiento?",
+        "### 3. ¿Cuánta memoria mínima requieren los pesos?",
+        "### 4. ¿Qué hardware mínimo sugiere ese piso?",
+        "### 5. ¿Qué opciones quedan en la frontera costo–ECI?",
         "### Qué sí y qué no puedes concluir",
         "### Recapitulación del dashboard",
     )
@@ -398,9 +422,66 @@ def test_dashboard_main_route_is_mobile_scannable():
 
 def test_dashboard_visuals_render_inline_instead_of_thumbnail_inspector():
     section = dashboard_section()
-    for name in DASHBOARD_ASSETS:
-        pattern = rf"\[!\[[^]]+]\(\.\./_assets/{re.escape(name)}\)\]\(\.\./_assets/{re.escape(name)}\)"
+    for name in ESSENTIAL_DASHBOARD_ASSETS:
+        pattern = rf"!\[[^]]+]\(\.\./_assets/{re.escape(name)}\)"
         assert re.search(pattern, section), name
+
+
+def test_dashboard_blocks_keep_teaching_sequence_and_generated_tables():
+    main = body(AI_PAGE)
+    annex = body(DASHBOARD_ANNEX)
+    ledger = load_yaml(AI_LEDGER)
+    eci = load_yaml(ROOT / "tools/data/eci_snapshot_2026-08-18.yaml")
+    from ai_model_dashboard import build_figure_specs
+
+    specs = build_figure_specs({"ledger": ledger, "eci": eci})
+    for spec in specs:
+        target = main if spec.route == "essential" else annex
+        start = f"[AI_DASHBOARD:{spec.figure_id}:START]: #"
+        end = f"[AI_DASHBOARD:{spec.figure_id}:END]: #"
+        assert target.count(start) == target.count(end) == 1
+        block = target.split(start, 1)[1].split(end, 1)[0]
+        assert spec.question in block
+        assert spec.filename in block
+        if spec.route == "essential":
+            assert block.index(spec.filename) < block.index("**Conclusión:**")
+            assert block.index("**Conclusión:**") < block.index("**Di esto:**")
+            assert block.index("**Di esto:**") < block.index("**No concluyas esto:**")
+            assert block.index("**No concluyas esto:**") < block.index("| Modelo | Lectura |")
+            assert 4 <= block.count("\n| **") <= 6
+            target = (
+                f"raya:evidencia-dashboard-ia#"
+                f"{DASHBOARD_TABLE_ANCHORS[spec.figure_id]}"
+            )
+            assert f"]({target})" in block
+
+    for spec in specs:
+        anchor = f"### {DASHBOARD_TABLE_ANCHORS[spec.figure_id]}"
+        assert anchor in annex
+        table = annex.split(anchor, 1)[1].split("<!-- AI_DASHBOARD:", 1)[0]
+        for row in spec.rows:
+            assert f"`{row.model_id}`" in table
+
+
+def test_retired_assets_have_no_active_consumers_and_are_absent():
+    active_files = [
+        *ROOT.glob("course/**/*.md"),
+        *ROOT.glob("tools/*.py"),
+        *ROOT.glob(".github/**/*.yml"),
+        ROOT / "raya.yaml",
+        ROOT / "README.md",
+    ]
+    active_files = [
+        path
+        for path in active_files
+        if path.is_file()
+        and path != Path(__file__)
+        and not path.name.startswith("test_")
+    ]
+    for basename in RETIRED_DASHBOARD_ASSETS:
+        hits = [path for path in active_files if basename in path.read_text(encoding="utf-8")]
+        assert not hits, (basename, hits)
+        assert not (ASSETS / basename).exists()
 
 
 def test_dashboard_annex_preserves_complete_evidence():
@@ -428,7 +509,7 @@ def test_dashboard_annex_preserves_complete_evidence():
     assert all(term in annex for term in required)
     assert "id: evidencia-dashboard-ia" in DASHBOARD_ANNEX.read_text(encoding="utf-8")
     assert "\n+##" not in annex
-    assert "## Tablas reconstruibles de las doce visuales" in annex
+    assert "## Tablas completas equivalentes a las nueve visuales" in annex
 
 
 def test_dashboard_annex_reproduces_all_546_metric_cells_exactly():
@@ -470,8 +551,9 @@ def test_dashboard_annex_uses_vertical_records_not_a_wide_ledger():
     )[0]
     assert "| Métrica |" not in records
     assert "- **parameters_total:**" in records
-    for index, line in enumerate(annex.splitlines()[:-1]):
-        if line.startswith("|") and annex.splitlines()[index + 1].startswith("|---"):
+    editorial = annex.split("## Profundización opcional", 1)[0]
+    for index, line in enumerate(editorial.splitlines()[:-1]):
+        if line.startswith("|") and editorial.splitlines()[index + 1].startswith("|---"):
             assert len(line.strip().strip("|").split("|")) <= 3
 
 

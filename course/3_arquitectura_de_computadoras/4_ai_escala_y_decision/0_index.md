@@ -201,151 +201,151 @@ No son un ranking: la aplicación y la medición completa deciden.
 
 ### En 30 segundos
 
-- Los modelos crecieron, pero la evidencia física no creció al mismo ritmo: en modelos cerrados es normal encontrar **no publicado**.
-- Entrenar pregunta cuánto trabajo y cuántos aceleradores participaron. Inferir localmente pregunta primero si los pesos caben.
-- Un punto alto o barato no gana por sí solo: cada gráfica responde una pregunta distinta y conserva su incertidumbre.
+- Empieza por pregunta y unidad: cada figura tiene un eje Y.
+- **FACT** se publica; **DERIVED** se calcula; **ESTIMATE** acota; **SCENARIO** supone.
+- **no publicado** es ausencia, nunca cero.
 
 ### Cómo leer el dashboard
 
-La leyenda: **FACT** publicado; **DERIVED** calculado; **ESTIMATE** rango; **SCENARIO** supuesto docente; gris, ausencia. **Confianza** alta/media/baja califica evidencia, no calidad. En un escenario es “no aplica”: se verifica la cuenta, no la premisa.
+X muestra el año; el desplazamiento sólo separa marcas. En Y logarítmico, igual distancia significa multiplicar. **Confianza** califica evidencia, no calidad. **FLOP es trabajo**; **FLOP/s es una tasa**.
 
-El eje X siempre es el año de publicación. Cuando Y dice “log”, subir la misma distancia significa multiplicar, no sumar. **FLOP es trabajo** realizado; **FLOP/s es una tasa** de trabajo por segundo.
+La ruta pregunta por **parámetros totales** y **parámetros activos**, trabajo, memoria, hardware y costo–ECI. Lee visual, conclusión, frase defendible, inferencia prohibida, tabla y límite.
 
-#### Los 39 modelos, por ficha
+[AI_DASHBOARD:parameters:START]: #
+### 1. ¿Cuántos parámetros almacena o activa el modelo?
 
-Cada ficha separa año, acceso a pesos, arquitectura y evidencia física. **No publicado** no significa cero. `E` es entrenamiento; `I`, inferencia.
+![¿Cuántos parámetros almacena o activa el modelo? El total fija almacenamiento; en MoE, el activo aproxima lo usado por token. Límite: La tabla completa enumera cada marca y fuente.](../_assets/ai-dashboard-parameters.svg)
 
-##### Google
+**Conclusión:** El total fija almacenamiento; en MoE, el activo aproxima lo usado por token.
 
-| Modelo · año | Ficha física |
+**Di esto:** “Total” y “activo” difieren; en dense coinciden y no se duplica la marca.
+
+**No concluyas esto:** Más parámetros no demuestran más calidad ni velocidad.
+
+| Modelo | Lectura |
 |---|---|
-| **BERT-Large · 2018** | abierto · dense · E: no publicado · I: artefacto |
-| **T5-11B · 2019** | abierto · dense · E: cifra · I: artefacto |
-| **Gopher 280B · 2021** | cerrado · dense · E: cifra · I: no identificable |
-| **LaMDA 137B · 2022** | cerrado · dense · E: no publicado · I: no identificable |
-| **Chinchilla 70B · 2022** | cerrado · dense · E: cifra · I: no identificable |
-| **PaLM 540B · 2022** | cerrado · dense · E: cifra · I: no identificable |
-| **Gemma 7B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Gemma 2 27B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Gemma 3 27B · 2025** | abierto · dense · E: cifra · I: artefacto |
-| **Gemini 3.1 Pro · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **BERT-Large** | 0.336 mil millones; active; **DERIVED** |
+| **BERT-Large** | 0.336 mil millones; total; **FACT** |
+| **T5-11B** | 11 mil millones; active; **DERIVED** |
+| **T5-11B** | 11 mil millones; total; **FACT** |
 
-##### OpenAI y Anthropic
+**Límite:** La tabla completa enumera cada marca y fuente.
 
-| Modelo · año | Ficha física |
+Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-parametros) para año, rango, confianza y fuentes.
+[AI_DASHBOARD:parameters:END]: #
+
+[AI_DASHBOARD:training_flop:START]: #
+### 2. ¿Cuánto trabajo requirió el entrenamiento?
+
+![¿Cuánto trabajo requirió el entrenamiento? El trabajo publicado cruza órdenes de magnitud; muchas cuentas no se divulgan. Límite: Cada derivación exige parámetros, tokens y fórmula aplicables.](../_assets/ai-dashboard-training-flop.svg)
+
+**Conclusión:** El trabajo publicado cruza órdenes de magnitud; muchas cuentas no se divulgan.
+
+**Di esto:** FLOP mide trabajo; los ausentes no se dibujan como cero.
+
+**No concluyas esto:** FLOP no es FLOP/s, duración, energía ni costo.
+
+| Modelo | Lectura |
 |---|---|
-| **GPT-3 175B · 2020** | cerrado · dense · E: cifra · I: no identificable |
-| **GPT-5.6 Sol · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
-| **Claude Sonnet 5 · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
+| **T5-11B** | 6.6e+22 FLOP; **DERIVED** |
+| **GPT-3 175B** | 3.14e+23 FLOP; **DERIVED** |
+| **Gopher 280B** | 5.04e+23 FLOP; **DERIVED** |
+| **BLOOM 176B** | 3.87e+23 FLOP; **DERIVED** |
 
-##### Meta y BigScience
+**Límite:** Cada derivación exige parámetros, tokens y fórmula aplicables.
 
-| Modelo · año | Ficha física |
+Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-flop-entrenamiento) para año, rango, confianza y fuentes.
+[AI_DASHBOARD:training_flop:END]: #
+
+[AI_DASHBOARD:artifact_or_weight_floor:START]: #
+### 3. ¿Cuánta memoria mínima requieren los pesos?
+
+![¿Cuánta memoria mínima requieren los pesos? Artefacto y piso BF16 preguntan cuánto debe caber, no cómo corre. Límite: Sin pesos o total aplicable, queda una ausencia.](../_assets/ai-dashboard-inference-memory.svg)
+
+**Conclusión:** Artefacto y piso BF16 preguntan cuánto debe caber, no cómo corre.
+
+**Di esto:** El artefacto se observa; el piso es parámetros por bits entre ocho.
+
+**No concluyas esto:** No incluye KV, activaciones, runtime, workspace ni reserva.
+
+| Modelo | Lectura |
 |---|---|
-| **OPT-175B · 2022** | abierto · dense · E: cifra · I: piso BF16 |
-| **BLOOM 176B · 2022** | abierto · dense · E: cifra · I: artefacto |
-| **Llama 1 65B · 2023** | abierto · dense · E: cifra · I: piso BF16 |
-| **Llama 2 70B · 2023** | abierto · dense · E: cifra · I: artefacto |
-| **Llama 3.1-8B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Llama 3.1-70B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Llama 3.1-405B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Llama 4 Scout · 2025** | abierto · MoE · E: no publicado · I: artefacto |
+| **BERT-Large** | 0.672 GB; BF16 weight floor; **DERIVED** |
+| **BERT-Large** | 1.344952 GB; documented artifact; **FACT** |
+| **T5-11B** | 22 GB; BF16 weight floor; **DERIVED** |
+| **T5-11B** | 45.229453 GB; documented artifact; **FACT** |
 
-##### Qwen
+**Límite:** Sin pesos o total aplicable, queda una ausencia.
 
-| Modelo · año | Ficha física |
+Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-memoria-inferencia) para año, rango, confianza y fuentes.
+[AI_DASHBOARD:artifact_or_weight_floor:END]: #
+
+[AI_DASHBOARD:h100_capacity_floor:START]: #
+### 4. ¿Qué hardware mínimo sugiere ese piso?
+
+![¿Qué hardware mínimo sugiere ese piso? Piso ÷ 80 GB, redondeado arriba, da H100-equivalentes de capacidad. Límite: Usa 700 W y USD 30,000 por H100-equivalente.](../_assets/ai-dashboard-inference-hardware.svg)
+
+**Conclusión:** Piso ÷ 80 GB, redondeado arriba, da H100-equivalentes de capacidad.
+
+**Di esto:** El mismo entero produce TDP y CAPEX accelerator-only comparables.
+
+**No concluyas esto:** El resultado no es un servidor. TDP no es potencia de pared; CAPEX no es el costo real ni un SLA.
+
+| Modelo | Lectura |
 |---|---|
-| **Qwen-72B · 2023** | abierto · dense · E: cifra · I: artefacto |
-| **Qwen2-72B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Qwen2.5-72B · 2024** | abierto · dense · E: cifra · I: artefacto |
-| **Qwen3-30B-A3B · 2025** | abierto · MoE · E: cifra · I: artefacto |
-| **Qwen3-235B-A22B · 2025** | abierto · MoE · E: cifra · I: artefacto |
-| **Qwen3.8-Max · 2026** | cerrado · MoE · E: no publicado · I: no identificable |
-| **Qwen3.8-2.4T-A95B · 2026** | abierto · MoE · E: no publicado · I: piso BF16 |
+| **BERT-Large** | 1 H100-equivalente(s); 700 W TDP y USD 30,000 CAPEX, **SCENARIO** |
+| **T5-11B** | 1 H100-equivalente(s); 700 W TDP y USD 30,000 CAPEX, **SCENARIO** |
+| **BLOOM 176B** | 5 H100-equivalente(s); 3,500 W TDP y USD 150,000 CAPEX, **SCENARIO** |
+| **OPT-175B** | 5 H100-equivalente(s); 3,500 W TDP y USD 150,000 CAPEX, **SCENARIO** |
 
-##### DeepSeek y Mistral
+**Límite:** Usa 700 W y USD 30,000 por H100-equivalente.
 
-| Modelo · año | Ficha física |
+Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-hardware-inferencia) para año, rango, confianza y fuentes.
+[AI_DASHBOARD:h100_capacity_floor:END]: #
+
+[AI_DASHBOARD:pareto_inference:START]: #
+### 5. ¿Qué opciones quedan en la frontera costo–ECI?
+
+![¿Qué opciones quedan en la frontera costo–ECI? Con costo y ECI declarados, hay opciones seguras, posibles o dominadas. Límite: Sólo vale para estas variantes, snapshot y frontera de costo.](../_assets/ai-dashboard-pareto-inference.svg)
+
+**Conclusión:** Con costo y ECI declarados, hay opciones seguras, posibles o dominadas.
+
+**Di esto:** Dominar es costar no más y tener ECI no menor, con rangos incluidos.
+
+**No concluyas esto:** ECI no es IQ ni selecciona el mejor modelo universal.
+
+| Modelo | Lectura |
 |---|---|
-| **DeepSeek LLM 67B · 2023** | abierto · dense · E: cifra · I: artefacto |
-| **Mistral 7B v0.1 · 2023** | abierto · dense · E: no publicado · I: artefacto |
-| **Mixtral 8x7B · 2023** | abierto · MoE · E: no publicado · I: artefacto |
-| **DeepSeek-V2 · 2024** | abierto · MoE · E: cifra · I: artefacto |
-| **Mistral Large 2 · 2024** | abierto · dense · E: no publicado · I: artefacto |
-| **DeepSeek-V3 · 2024** | abierto · MoE · E: cifra · I: artefacto |
-| **DeepSeek-R1 · 2025** | abierto · MoE · E: no publicado · I: artefacto |
+| **Gemma 2 27B** | ECI 115.4–124.27; USD 30,000; frontera dominated, **SCENARIO** |
+| **Gemma 3 27B** | ECI 124.67–133.1; USD 30,000; frontera safe, **SCENARIO** |
+| **Gemma 7B** | ECI 101.34–115.86; USD 30,000; frontera dominated, **SCENARIO** |
+| **Llama 3.1-8B** | ECI 105.01–121.29; USD 30,000; frontera dominated, **SCENARIO** |
 
-##### xAI y Moonshot
+**Límite:** Sólo vale para estas variantes, snapshot y frontera de costo.
 
-| Modelo · año | Ficha física |
-|---|---|
-| **Grok-1 · 2024** | abierto · MoE · E: no publicado · I: piso BF16 |
-| **Kimi K2 · 2025** | abierto · MoE · E: cifra · I: artefacto |
-| **Kimi K3 · 2026** | abierto · MoE · E: no publicado · I: artefacto |
-| **Grok 4.5 · 2026** | cerrado · no publicado · E: no publicado · I: no identificable |
-
-### Entrenamiento a través del tiempo
-
-[![Serie temporal de parámetros totales y activos; los modelos MoE separan lo almacenado de lo usado por token.](../_assets/ai-training-parameters.svg)](../_assets/ai-training-parameters.svg)
-
-[![Serie temporal del trabajo de entrenamiento expresado en FLOP, con rangos cuando la cuenta depende de supuestos.](../_assets/ai-training-flop.svg)](../_assets/ai-training-flop.svg)
-
-Los **parámetros totales** deben almacenarse; los **parámetros activos** son la parte aproximada que un MoE usa por token. La serie va de 336 millones en BERT-Large a 2.8 billones en Kimi K3; el trabajo documentado va de 6.6e22 FLOP en T5-11B a 3.7908e25 en Llama 3.1-405B. Son escala y trabajo, no tiempo ni FLOP/s sostenidos.
-
-[![Serie temporal de aceleradores concurrentes y accelerator-hours, conservados como magnitudes diferentes.](../_assets/ai-training-accelerators.svg)](../_assets/ai-training-accelerators.svg)
-
-[![Serie temporal de bases publicadas de potencia o energía del entrenamiento, sin tratarlas como mediciones de pared.](../_assets/ai-training-power.svg)](../_assets/ai-training-power.svg)
-
-BLOOM publica 384 aceleradores; PaLM, 6,144; Llama 3.1-405B, 16,384 y 30.84 millones de GPU-h. Sólo tres modelos permiten una envolvente de potencia comparable. **TDP no es potencia de pared**: la suma térmica no es lectura del medidor.
-
-[![Valor temporal de reemplazo de aceleradores bajo una base económica común y explícitamente hipotética.](../_assets/ai-training-replacement-value.svg)](../_assets/ai-training-replacement-value.svg)
-
-Para las cuatro flotas con conteo publicado: `aceleradores × USD 20,000–40,000` al 18 de agosto de 2026. Conserva el tipo nativo, pero es un **SCENARIO**: no es el costo real ni una equivalencia de rendimiento. Excluye servidores, red, almacenamiento, energía y personal.
-
-### Inferencia local a través del tiempo
-
-[![Tamaño del artefacto publicado o piso teórico de pesos por año y precisión.](../_assets/ai-inference-memory.svg)](../_assets/ai-inference-memory.svg)
-
-[![Número H100-equivalente requerido sólo por capacidad física de los pesos.](../_assets/ai-inference-accelerators.svg)](../_assets/ai-inference-accelerators.svg)
-
-El artefacto es el archivo real; el piso BF16 usa `parámetros × 16 ÷ 8`. La capacidad va de una H100 para BERT-Large hasta 70 para el piso de Kimi K3. Es sólo “¿cabe?”: **no es un servidor**, topología recomendada ni garantía del runtime.
-
-[![Suma de TDP de aceleradores bajo el escenario común de capacidad local.](../_assets/ai-inference-power.svg)](../_assets/ai-inference-power.svg)
-
-[![CAPEX accelerator-only correspondiente al mismo piso de capacidad local.](../_assets/ai-inference-capex.svg)](../_assets/ai-inference-capex.svg)
-
-Ambos paneles reutilizan el mismo entero: `H100 × 700 W` y `H100 × USD 30,000`. Por eso el rango va de 700 W/USD 30,000 a 49 kW/USD 2.1 millones. No incluye CPU, RAM, chasis, red, KV, reserva, pared o nivel de servicio.
-
-[![Parámetros totales y activos de los modelos con una ruta de inferencia local identificable.](../_assets/ai-inference-parameters.svg)](../_assets/ai-inference-parameters.svg)
-
-Esta última vista devuelve la comparación al tamaño del modelo. Un MoE puede activar menos parámetros por token, pero todavía necesita alojar o repartir todos sus expertos.
-
-### Pareto: mejorar una cosa sin empeorar la otra
-
-[![Frontera de Pareto entre capacidad general ECI y valor de reemplazo del hardware de entrenamiento.](../_assets/ai-pareto-training.svg)](../_assets/ai-pareto-training.svg)
-
-[![Frontera de Pareto entre capacidad general ECI y CAPEX mínimo del escenario de inferencia local.](../_assets/ai-pareto-inference.svg)](../_assets/ai-pareto-inference.svg)
-
-Entrenamiento queda sin frontera: ninguna de las cuatro flotas coincide con una variante ECI exacta. Inferencia cruza ECI con el piso de capacidad local. Dominar significa costar no más y lograr ECI no menor. **ECI no es IQ** y ninguna frontera decide por sí sola qué modelo conviene.
+Ve la [tabla completa](raya:evidencia-dashboard-ia#tabla-pareto-inferencia) para año, rango, confianza y fuentes.
+[AI_DASHBOARD:pareto_inference:END]: #
 
 ### Qué sí y qué no puedes concluir
 
 | Sí puedes decir | No puedes decir |
 |---|---|
-| “Este valor es publicado, derivado o escenario.” | “Un número faltante vale cero.” |
-| “Este artefacto exige al menos esta capacidad.” | “Esta cantidad garantiza throughput o latencia.” |
-| “Este punto no está dominado bajo estos ejes.” | “Es el mejor modelo para cualquier tarea.” |
-| “La tendencia abarca varios órdenes de magnitud.” | “Parámetros, FLOP, watts y dólares miden calidad.” |
+| “El estado y la unidad están declarados.” | “Un faltante vale cero.” |
+| “El artefacto exige esta capacidad.” | “Garantiza throughput o latencia.” |
+| “No está dominado bajo estos ejes.” | “Es mejor para cualquier tarea.” |
+| “La magnitud cambia por órdenes.” | “FLOP, watts o USD miden calidad.” |
 
-Para auditar fórmulas, rangos, variantes, fuentes, resultados negativos y el snapshot de ECI, abre [[evidencia-dashboard-ia]]. Ahí vive el expediente completo; esta página conserva sólo la ruta para explicar.
+**Fin de la ruta esencial. Continúa al anexo sólo si deseas profundizar.**
+
+[[evidencia-dashboard-ia]] conserva tabla maestra, cuatro vistas opcionales y nueve tablas completas. No se dibuja Pareto de entrenamiento: no existe una intersección exacta entre las cuatro flotas y variantes ECI elegibles.
 
 ### Recapitulación del dashboard
 
-1. Primero identifica el eje, la unidad y el estado del dato.
-2. En entrenamiento, separa trabajo, tasa, flota, tiempo y potencia.
-3. En inferencia, un piso de pesos responde “¿cabe?”, no “¿sirve bien?”.
-4. CAPEX comparable es una frontera declarada, no costo total real.
-5. Una frontera de Pareto ayuda a descartar opciones dominadas; no reemplaza la decisión de uso.
+1. Total almacena; activo aproxima trabajo MoE.
+2. Trabajo, tasa, tiempo, flota y potencia difieren.
+3. Un piso responde “¿cabe?”, no “¿cumple SLA?”.
+4. TDP no es pared; CAPEX parcial no es costo real.
+5. ECI no es IQ; Pareto descarta, no decide.
 
 ## Guía de decisión
 
