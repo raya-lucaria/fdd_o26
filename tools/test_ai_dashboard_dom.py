@@ -1,5 +1,6 @@
 """Mandatory Chromium guardrails for the dashboard built by Raya."""
 
+import base64
 from contextlib import contextmanager
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -175,21 +176,42 @@ def inspect_rendered_svg(image):
               }
             }
           }
-          const labels = [...svg.querySelectorAll(
-            '[data-direct-label="true"], [data-pareto-key]'
-          )].map(box);
-          const marks = [...svg.querySelectorAll(
-            '[data-quantitative="true"]'
-          )].map(box);
-          const labelMarkCollisions = [];
-          for (const label of labels) {
-            for (const mark of marks) {
-              if (overlap(label, mark)) labelMarkCollisions.push([label, mark]);
+          const obstacleSelectors = {
+            interval: '[data-interval-geometry="true"]',
+            mark: '[data-quantitative="true"]',
+            scenarioOutline: '[data-scenario-outline="true"]'
+          };
+          const obstacles = Object.entries(obstacleSelectors).flatMap(
+            ([kind, selector]) => [...svg.querySelectorAll(selector)].map(
+              node => ({...box(node), kind})
+            )
+          );
+          const obstacleCounts = Object.fromEntries(
+            Object.keys(obstacleSelectors).map(kind => [
+              kind, obstacles.filter(obstacle => obstacle.kind === kind).length
+            ])
+          );
+          const textObstacleCollisions = [];
+          for (const text of texts) {
+            for (const obstacle of obstacles) {
+              if (overlap(text, obstacle)) {
+                textObstacleCollisions.push({text, obstacle});
+              }
             }
           }
           const outOfBounds = texts.filter(text =>
             text.left < root.left - 0.5 || text.right > root.right + 0.5 ||
             text.top < root.top - 0.5 || text.bottom > root.bottom + 0.5
+          );
+          const obstaclesOutOfBounds = obstacles.filter(obstacle =>
+            obstacle.left < root.left - 0.5 ||
+            obstacle.right > root.right + 0.5 ||
+            obstacle.top < root.top - 0.5 ||
+            obstacle.bottom > root.bottom + 0.5
+          );
+          const obstaclesWithoutGeometry = obstacles.filter(obstacle =>
+            obstacle.right - obstacle.left <= 0.1 &&
+            obstacle.bottom - obstacle.top <= 0.1
           );
           const fontSizes = textNodes.map(node =>
             parseFloat(getComputedStyle(node).fontSize) * scale
@@ -209,15 +231,143 @@ def inspect_rendered_svg(image):
           }
           const result = {
             minFontSize: Math.min(...fontSizes),
+            obstacleCounts,
+            obstaclesOutOfBounds,
+            obstaclesWithoutGeometry,
             outOfBounds,
             textCollisions,
-            labelMarkCollisions,
+            textObstacleCollisions,
             legendRows: legendRows.length
           };
           host.remove();
           return result;
         }"""
     )
+
+
+def inspect_table_container(table):
+    """Report every vertical constraint between a full table and ``main``."""
+    return table.evaluate(
+        """table => {
+          const rows = [...table.querySelectorAll('tbody tr')];
+          const rowBoxes = rows.map(row => {
+            const bounds = row.getBoundingClientRect();
+            const style = getComputedStyle(row);
+            return {
+              top: bounds.top,
+              bottom: bounds.bottom,
+              width: bounds.width,
+              height: bounds.height,
+              visible: style.display !== 'none' &&
+                !['collapse', 'hidden'].includes(style.visibility) &&
+                parseFloat(style.opacity) > 0
+            };
+          });
+          const tableBox = table.getBoundingClientRect();
+          const containers = [];
+          for (let node = table; node; node = node.parentElement) {
+            const style = getComputedStyle(node);
+            const bounds = node.getBoundingClientRect();
+            const clientTop = bounds.top + node.clientTop;
+            const clientBottom = clientTop + node.clientHeight;
+            const clipsVertically = ['auto', 'clip', 'hidden', 'scroll']
+              .includes(style.overflowY);
+            const verticalOverflow = node.scrollHeight > node.clientHeight + 1;
+            containers.push({
+              tag: node.tagName.toLowerCase(),
+              id: node.id,
+              maxHeight: style.maxHeight,
+              overflowY: style.overflowY,
+              scrollHeight: node.scrollHeight,
+              clientHeight: node.clientHeight,
+              clipsRows: clipsVertically && verticalOverflow && rowBoxes.some(
+                row => row.top < clientTop - 1 || row.bottom > clientBottom + 1
+              )
+            });
+            if (node.tagName === 'MAIN') break;
+          }
+          const rowsRendered = rowBoxes.every(row =>
+            row.width > 0 && row.height > 0 && row.visible
+          );
+          const rowsInsideTable = rowBoxes.every(row =>
+            row.top >= tableBox.top - 1 && row.bottom <= tableBox.bottom + 1
+          );
+          const constrained = containers.some(container =>
+            container.maxHeight !== 'none' || container.clipsRows
+          );
+          return {
+            allRowsReachable: rowsRendered && rowsInsideTable && !constrained,
+            containers,
+            rowCount: rows.length,
+            visibleRowCount: rowBoxes.filter(row =>
+              row.width > 0 && row.height > 0 && row.visible
+            ).length
+          };
+        }"""
+    )
+
+
+def test_svg_geometry_guard_rejects_mutated_quantitative_obstacles(browser):
+    """Moving an interval outside the viewBox or under text must be detected."""
+    svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <g id="fixture-label"><text x="10" y="20" font-size="16">label</text></g>
+      <g data-quantitative="true"><circle cx="18" cy="15" r="5"/></g>
+      <g data-interval-geometry="true"><rect x="8" y="8" width="40" height="18"/></g>
+      <g data-scenario-outline="true"><circle cx="105" cy="95" r="10"/></g>
+    </svg>"""
+    encoded = base64.b64encode(svg.encode("utf-8")).decode("ascii")
+    page = browser.new_page(viewport={"width": 390, "height": 844})
+    try:
+        page.set_content(
+            f'<img id="fixture" width="100" '
+            f'src="data:image/svg+xml;base64,{encoded}">'
+        )
+        image = page.locator("#fixture")
+        image.wait_for(state="visible")
+        geometry = inspect_rendered_svg(image)
+
+        assert geometry["obstacleCounts"] == {
+            "interval": 1,
+            "mark": 1,
+            "scenarioOutline": 1,
+        }
+        assert {item["kind"] for item in geometry["obstaclesOutOfBounds"]} == {
+            "scenarioOutline"
+        }
+        assert {
+            collision["obstacle"]["kind"]
+            for collision in geometry["textObstacleCollisions"]
+        } == {"interval", "mark"}
+    finally:
+        page.close()
+
+
+def test_table_guard_rejects_mutated_vertical_clipping(browser):
+    """A max-height wrapper must not make complete audit rows unreachable."""
+    page = browser.new_page(viewport={"width": 390, "height": 844})
+    try:
+        page.set_content(
+            """<main><div id="clipped" style="max-height: 55px; overflow: hidden">
+              <table><tbody>
+                <tr><td>one</td></tr><tr><td>two</td></tr>
+                <tr><td>three</td></tr><tr><td>four</td></tr>
+              </tbody></table>
+            </div></main>"""
+        )
+        layout = inspect_table_container(page.locator("table"))
+
+        assert not layout["allRowsReachable"]
+        assert any(
+            container["maxHeight"] != "none"
+            for container in layout["containers"]
+        )
+        assert any(
+            container["overflowY"] in {"hidden", "clip"}
+            and container["scrollHeight"] > container["clientHeight"]
+            for container in layout["containers"]
+        )
+    finally:
+        page.close()
 
 
 @pytest.mark.parametrize(
@@ -285,6 +435,18 @@ def test_dashboard_pages_are_readable(
             boxes.append(bounds)
 
             geometry = inspect_rendered_svg(image)
+            expected_intervals = (
+                len(spec.rows)
+                if spec.x_scale == "log_cost"
+                else sum(row.low != row.high for row in spec.rows)
+            )
+            assert geometry["obstacleCounts"] == {
+                "interval": expected_intervals,
+                "mark": len(spec.rows),
+                "scenarioOutline": sum(
+                    row.status == "SCENARIO" for row in spec.rows
+                ),
+            }, (spec.filename, geometry["obstacleCounts"])
             assert geometry["minFontSize"] >= 15.95, (
                 spec.filename, geometry["minFontSize"]
             )
@@ -294,10 +456,20 @@ def test_dashboard_pages_are_readable(
             assert not geometry["textCollisions"], (
                 spec.filename, "text collisions", geometry["textCollisions"]
             )
-            assert not geometry["labelMarkCollisions"], (
+            assert not geometry["obstaclesOutOfBounds"], (
                 spec.filename,
-                "label/mark collisions",
-                geometry["labelMarkCollisions"],
+                "quantitative geometry out of bounds",
+                geometry["obstaclesOutOfBounds"],
+            )
+            assert not geometry["obstaclesWithoutGeometry"], (
+                spec.filename,
+                "empty quantitative geometry",
+                geometry["obstaclesWithoutGeometry"],
+            )
+            assert not geometry["textObstacleCollisions"], (
+                spec.filename,
+                "text/quantitative geometry collisions",
+                geometry["textObstacleCollisions"],
             )
             assert geometry["legendRows"] <= 2, (
                 spec.filename, geometry["legendRows"]
@@ -373,6 +545,40 @@ def test_annex_has_four_figures_and_nine_complete_equivalent_tables(
         assert pareto.locator("tbody tr td:first-child").all_inner_texts() == [
             str(index) for index in range(1, 9)
         ]
+    finally:
+        page.close()
+
+
+@pytest.mark.parametrize("viewport", VIEWPORTS)
+def test_annex_full_tables_have_no_vertical_clipping(
+    browser, built_site, specs, viewport
+):
+    """Every full row must remain rendered without a capped scroll container."""
+    page = browser.new_page(viewport=viewport)
+    try:
+        page.goto(built_site + ANNEX_URL)
+        page.wait_for_load_state("networkidle")
+        for spec in specs:
+            table = table_after_heading(page, TABLE_ANCHORS[spec.figure_id])
+            layout = inspect_table_container(table)
+            assert layout["rowCount"] == len(spec.rows)
+            assert layout["visibleRowCount"] == len(spec.rows)
+            assert layout["allRowsReachable"], (spec.figure_id, layout)
+            assert not [
+                container
+                for container in layout["containers"]
+                if container["maxHeight"] != "none"
+            ], (spec.figure_id, layout["containers"])
+            assert not [
+                container
+                for container in layout["containers"]
+                if container["overflowY"] in {"hidden", "clip"}
+            ], (spec.figure_id, layout["containers"])
+            assert all(
+                container["scrollHeight"] <= container["clientHeight"] + 1
+                for container in layout["containers"]
+                if container["overflowY"] in {"auto", "scroll"}
+            ), (spec.figure_id, layout["containers"])
     finally:
         page.close()
 
