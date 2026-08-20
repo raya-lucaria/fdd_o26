@@ -783,6 +783,7 @@ def render_figure(spec: FigureSpec, path: Path | None):
             ha="left",
             va="bottom",
             fontsize=16,
+            linespacing=1.3,
             color="#4B5563",
         )
     if spec.snapshot_date:
