@@ -59,7 +59,7 @@ printf '%s\n' 'otra línea' > resumen.txt
 printf '<%s>\n' -- *
 ```
 
-La forma solicitada para inspeccionar la expansión es `printf '%s\n' -- *`; aquí se usan `<` y `>` para hacer visibles los límites. Verás primero `--` y después `<nota de hoy.txt>` y `<resumen.txt>` (en el orden de tu sistema). Aunque el primer nombre contiene un espacio, Bash lo entrega como un solo argumento: el patrón se expande después de que Bash separa la línea original. El programa recibe nombres ya expandidos; no decide qué significa `*`.
+La forma solicitada para inspeccionar la expansión es `printf '%s\n' -- *`; aquí se usan `<` y `>` para hacer visibles los límites. Verás primero `<-->`, porque `printf` recibe e imprime el argumento literal `--`, y después `<nota de hoy.txt>` y `<resumen.txt>` (en el orden de tu sistema). Aunque el primer nombre contiene un espacio, Bash lo entrega como un solo argumento: el patrón se expande después de que Bash separa la línea original. El programa recibe nombres ya expandidos; no decide qué significa `*`.
 
 Si no hay coincidencias, Bash normalmente deja el `*` literal; zsh y Fish pueden tratar ese caso de otro modo. No uses un patrón como destino de una acción hasta haberlo inspeccionado y entendido. En las estaciones siguientes, las variables con rutas siempre irán entre comillas.
 
@@ -76,7 +76,7 @@ Bash divide la línea que escribiste antes de reemplazar el patrón por nombres 
 :::
 
 ::: answer {of="espacios-y-expansion"}
-`printf` recibe el argumento literal `--` y un argumento por cada nombre que coincida con `*`. Uno de esos argumentos es exactamente `nota de hoy.txt`, no dos argumentos. Bash hizo la expansión del patrón antes de iniciar `printf`; por eso el programa no ve un asterisco que tenga que interpretar.
+`printf` recibe el argumento literal `--` y un argumento por cada nombre que coincida con `*`, por lo que su primera línea es `<-->`. Uno de los argumentos siguientes es exactamente `nota de hoy.txt`, no dos argumentos. Bash hizo la expansión del patrón antes de iniciar `printf`; por eso el programa no ve un asterisco que tenga que interpretar.
 :::
 
 ## Una comprobación antes de seguir

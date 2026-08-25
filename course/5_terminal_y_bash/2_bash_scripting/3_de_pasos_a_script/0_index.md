@@ -73,7 +73,7 @@ else
 fi
 
 reporte="$directorio/reporte.txt"
-find "$directorio" -type d ! -path "$directorio" -prune -o -type f -name '*.txt' ! -name 'reporte.txt' -exec wc -l {} + > "$reporte"
+find "$directorio" -type d ! -path "$directorio" -prune -o -type f -name '*.txt' ! -name 'reporte.txt' -exec wc -l {} \; > "$reporte"
 
 if [[ ! -s "$reporte" ]]; then
     printf '%s\n' 'No se encontraron archivos .txt directamente en el directorio.' > "$reporte"
@@ -84,7 +84,7 @@ EOF
 chmod +x inventario.sh
 ```
 
-La prueba `if [[ -d "$1" ]]` comprueba que el primer argumento sea una carpeta antes de pedir trabajo a otras herramientas. En el caso de error, el mensaje va a stderr (`>&2`) y `exit 1` señala que no hubo éxito. `find` limita la búsqueda a esa carpeta: cuando encuentra una subcarpeta, `-prune` evita entrar en ella. `wc -l` escribe un conteo por cada `.txt`; el archivo `reporte.txt` queda excluido para que una ejecución posterior no se cuente a sí misma.
+La prueba `if [[ -d "$1" ]]` comprueba que el primer argumento sea una carpeta antes de pedir trabajo a otras herramientas. En el caso de error, el mensaje va a stderr (`>&2`) y `exit 1` señala que no hubo éxito. `find` limita la búsqueda a esa carpeta: cuando encuentra una subcarpeta, `-prune` evita entrar en ella. La forma `-exec wc -l {} \;` llama a `wc` una vez por cada `.txt`, así que el reporte lleva un conteo por archivo y no una línea adicional `total`; con `{} +`, `wc` podría recibir varios archivos a la vez y añadirla. El archivo `reporte.txt` queda excluido para que una ejecución posterior no se cuente a sí misma.
 
 `find`, `wc` y Bash están disponibles en Ubuntu, WSL2 y macOS. El script evita opciones específicas de una sola plataforma y no necesita que el nombre de un archivo carezca de espacios.
 
