@@ -54,11 +54,11 @@ cd "$HOME/fdd/terminal-lab"
 printf '%s\n' 'Ana' 'Beto' > nombres.txt
 printf '%s\n' 'falló una prueba' > errores.txt
 printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
-printf '%s\n' 'archivo que empieza con guion' > -- -borrador.txt
+printf '%s\n' 'archivo que empieza con guion' > ./-borrador.txt
 ls -l -- -borrador.txt
 ```
 
-Primero pregunta antes de adivinar: `man ls` abre el manual (sales con `q`) en las tres plataformas. En Ubuntu y WSL2, `ls --help` también muestra ayuda breve; en macOS usa `man ls` como ruta de ayuda para ese comando. `type -a cd` revela si un nombre es parte de la shell, una función o un programa; `command -v ls` muestra qué se ejecutaría al escribir `ls`.
+`--` termina las opciones de un programa; una redirección no es un argumento del programa, así que `./-borrador.txt` nombra ese archivo sin que la shell lo confunda con una opción. Primero pregunta antes de adivinar: `man ls` abre el manual (sales con `q`) en las tres plataformas. En Ubuntu y WSL2, `ls --help` también muestra ayuda breve; en macOS usa `man ls` como ruta de ayuda para ese comando. `type -a cd` revela si un nombre es parte de la shell, una función o un programa; `command -v ls` muestra qué se ejecutaría al escribir `ls`.
 
 ::: activity {#consulta-ayuda-comando title="Pregunta antes de cambiar"}
 Ejecuta `type -a cd`, `command -v ls` y `man ls`. Si usas Ubuntu o WSL2, añade `ls --help`. Escribe una diferencia entre una orden integrada a la shell y un programa encontrado en una ruta del sistema.
@@ -75,8 +75,8 @@ cd "$HOME/fdd/terminal-lab"
 printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
 printf '%s\n' 'faltó una columna' > errores.txt
 printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
-cp nombres.txt reportes/nombres-copia.txt
-mv errores.txt reportes/errores.txt
+cp -- nombres.txt reportes/nombres-copia.txt
+mv -- errores.txt reportes/errores.txt
 wc -l nombres.txt reportes/errores.txt
 cat reportes/nombres-copia.txt
 ```

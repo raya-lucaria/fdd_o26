@@ -51,8 +51,10 @@ cd "$HOME/fdd/terminal-lab"
 printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
 printf '%s\n' 'faltó una columna' > errores.txt
 printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
+set -o pipefail
 sort nombres.txt | uniq -c | tee reportes/conteos.txt
 estado=$?
+set +o pipefail
 printf 'Estado de la tubería: %s\n' "$estado"
 if test "$estado" -eq 0; then
     printf '%s\n' 'reporte creado'
@@ -61,7 +63,7 @@ else
 fi
 ```
 
-`sort` junta iguales antes de que `uniq -c` pueda contarlos. `tee` conserva una copia legible en `reportes/conteos.txt`. Como `$?` cambia con cada orden posterior, el ejemplo lo guarda e imprime inmediatamente en `estado`, antes de ramificar. Puedes usar `&&` y `||` para encadenar acciones por éxito o fallo, pero guarda el estado primero si quieres examinar el resultado del comando anterior.
+`sort` junta iguales antes de que `uniq -c` pueda contarlos. `tee` conserva una copia legible en `reportes/conteos.txt`. `set -o pipefail` hace que la tubería falle si falla cualquiera de sus programas; luego el ejemplo guarda `$?` en `estado` antes de apagar esa opción y ramificar. Puedes usar `&&` y `||` para encadenar acciones por éxito o fallo, pero guarda el estado primero si quieres examinar el resultado del comando anterior.
 :::
 
 ::: activity {#predice-antes-de-ejecutar title="Predice los flujos"}
@@ -146,4 +148,4 @@ La shell solicita interrumpir el proceso en primer plano y normalmente recupera 
 
 `apt`, `brew`, `htop` y `fastfetch` son herramientas opcionales: entender los flujos anteriores no depende de tenerlas instaladas.
 
-Para cerrar la práctica aplicada, sigue la [[terminal-y-bash|tarea oficial Bandit]]: usarás el mismo hábito de leer el prompt, pedir ayuda y distinguir salida de errores.
+Para cerrar la práctica aplicada, sigue la [[bandit-terminal|tarea oficial Bandit]]: usarás el mismo hábito de leer el prompt, pedir ayuda y distinguir salida de errores.
