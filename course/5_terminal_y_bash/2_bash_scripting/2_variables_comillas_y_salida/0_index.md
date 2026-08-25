@@ -45,7 +45,7 @@ printf '%s\n' informe-{lunes,martes}.txt
 | Comillas simples: `'$HOME'` | Conservan cada carácter; no expanden variables ni comandos. | Texto literal. |
 | Comillas dobles: `"$archivo"` | Expanden variables y `$(...)`, pero conservan espacios como parte de un argumento. | Rutas y texto guardado en variables. |
 
-::: activity {#cuatro-predicciones-de-expansion title="Predice antes de ejecutar"}
+::: example {#cuatro-predicciones-de-expansion title="Predice antes de ejecutar"}
 En una terminal Bash, anota primero el resultado o los argumentos que esperas. Luego crea las variables indicadas y ejecuta cada bloque.
 
 ```bash

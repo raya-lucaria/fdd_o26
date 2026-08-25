@@ -60,7 +60,7 @@ ls -l -- -borrador.txt
 
 `--` termina las opciones de un programa; una redirección no es un argumento del programa, así que `./-borrador.txt` nombra ese archivo sin que la shell lo confunda con una opción. Primero pregunta antes de adivinar: `man ls` abre el manual (sales con `q`) en las tres plataformas. En Ubuntu y WSL2, `ls --help` también muestra ayuda breve; en macOS usa `man ls` como ruta de ayuda para ese comando. `type -a cd` revela si un nombre es parte de la shell, una función o un programa; `command -v ls` muestra qué se ejecutaría al escribir `ls`.
 
-::: activity {#consulta-ayuda-comando title="Pregunta antes de cambiar"}
+::: example {#consulta-ayuda-comando title="Pregunta antes de cambiar"}
 Ejecuta `type -a cd`, `command -v ls` y `man ls`. Si usas Ubuntu o WSL2, añade `ls --help`. Escribe una diferencia entre una orden integrada a la shell y un programa encontrado en una ruta del sistema.
 :::
 

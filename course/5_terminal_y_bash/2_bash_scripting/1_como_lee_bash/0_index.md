@@ -85,7 +85,7 @@ Bash divide la línea que escribiste antes de reemplazar el patrón por nombres 
 
 ## Una comprobación antes de seguir
 
-::: activity {#lee-una-linea title="Explica el orden"}
+::: example {#lee-una-linea title="Explica el orden"}
 En `lectura-bash`, crea un archivo llamado `plan semanal.txt`. Ejecuta `printf '<%s>\n' -- *.txt` y señala qué parte de la línea interpreta Bash, cuál llega como formato a `printf` y cuáles son los argumentos producidos por el patrón. Si el resultado no enumera los nombres que esperabas, detente y revisa la carpeta con `pwd` y `printf '<%s>\n' -- *`.
 :::
 

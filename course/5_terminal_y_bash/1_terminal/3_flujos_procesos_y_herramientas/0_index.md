@@ -66,7 +66,7 @@ fi
 `sort` junta iguales antes de que `uniq -c` pueda contarlos. `tee` conserva una copia legible en `reportes/conteos.txt`. `set -o pipefail` hace que la tubería falle si falla cualquiera de sus programas; luego el ejemplo guarda `$?` en `estado` antes de apagar esa opción y ramificar. Puedes usar `&&` y `||` para encadenar acciones por éxito o fallo, pero guarda el estado primero si quieres examinar el resultado del comando anterior.
 :::
 
-::: activity {#predice-antes-de-ejecutar title="Predice los flujos"}
+::: example {#predice-antes-de-ejecutar title="Predice los flujos"}
 Sin ejecutarlos, anota qué verá la terminal y qué quedará en cada archivo para estas líneas. Después pruébalas en tu laboratorio.
 
 ```bash

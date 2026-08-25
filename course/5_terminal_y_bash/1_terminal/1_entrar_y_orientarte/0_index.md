@@ -62,7 +62,7 @@ pwd
 
 `$HOME` representa tu carpeta personal; las comillas protegen la ruta si contiene espacios. A partir de aquí, los ejemplos de esta estación pueden repetirse sin afectar archivos fuera de `~/fdd/terminal-lab`.
 
-::: activity {#orientacion-laboratorio title="Comprueba tu punto de partida"}
+::: example {#orientacion-laboratorio title="Comprueba tu punto de partida"}
 En tu laboratorio, ejecuta `pwd` y `whoami`. Di en voz alta qué parte de la salida cambia si otra persona abre una sesión distinta y qué parte cambiaría si usaras `cd` para entrar a otra carpeta.
 :::
 
@@ -90,7 +90,7 @@ No confundas copiar con interrumpir: dentro de una terminal Unix, `Ctrl-C` suele
 | `Ctrl-R` | Busca hacia atrás en el historial; escribe parte del comando y pulsa otra vez para seguir buscando. |
 | `Ctrl-D` | Envía fin de entrada; con la línea vacía suele cerrar la shell actual. |
 
-::: activity {#atajos-sin-riesgo title="Haz, comprueba, pausa"}
+::: example {#atajos-sin-riesgo title="Haz, comprueba, pausa"}
 **Haz:** ejecuta `history`, pulsa `Ctrl-R` y busca `pwd`. **Comprueba:** la línea aparece sin ejecutarse; pulsa Enter sólo después de leerla. **Pausa:** en una segunda pestaña, usa `Ctrl-D` con la línea vacía y explica por qué se cerró esa shell, no toda la aplicación.
 :::
 
