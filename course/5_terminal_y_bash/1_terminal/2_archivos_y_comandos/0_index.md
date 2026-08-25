@@ -2,131 +2,167 @@
 id: archivos-y-comandos
 title: "Archivos y comandos"
 nav_title: "Archivos y comandos"
-summary: "Nombra rutas, pide ayuda y modifica archivos de práctica con vista previa."
+summary: "Crea una nota, léela y practica cambios seguros dentro del laboratorio."
 status: ready
-estimated_time: 15m
-tags: [terminal, archivos, rutas, comandos, seguridad]
+estimated_time: 20m
+tags: [terminal, archivos, comandos, seguridad]
 prerequisites: [entrar-y-orientarte]
 ---
 
 # Archivos y comandos
 
-Esta estación vuelve a preparar sus propios archivos, así que puedes iniciarla directamente. Todo ocurre dentro de `~/fdd/terminal-lab`.
+Vas a construir una lista real y a cuidarla. Cada bloque prepara lo que necesita dentro de `~/fdd/terminal-lab`; puedes empezar aquí aunque hayas cerrado la terminal anterior.
 
-## El árbol y las rutas
+## Misión 1: crea una nota
 
-Las carpetas forman un árbol: `/` es la raíz; cada carpeta puede contener archivos y otras carpetas. Una ruta absoluta empieza en `/`, como `/home/ana/fdd/terminal-lab`; una ruta relativa parte de donde estás. `.` significa «esta carpeta» y `..`, «la carpeta contenedora».
+`touch` crea un archivo vacío si no existe; si ya existe, no borra su contenido. `echo` produce una línea de texto y `>` envía esa salida al archivo: si ya tenía contenido, lo reemplaza.
 
-Los nombres que empiezan con punto, como `.config`, son archivos ocultos por convención. Para verlos usa `ls -a`; para ver detalles, `ls -la`.
-
-![Árbol del laboratorio local: la ruta ~/fdd/terminal-lab contiene nombres.txt, dos palabras.txt y la carpeta reportes.](../../_assets/d-terminal-lab.svg)
-
-**Lectura visual:** todos los ejemplos crean archivos dentro de una sola carpeta local. Antes de copiar, mover o borrar, confirma con `pwd` que la ruta sigue siendo `~/fdd/terminal-lab` o una de sus subcarpetas.
-
-::: definition {#forma-de-comando title="La forma de una orden"}
-Muchos comandos siguen la forma `command [options] [arguments]`: el comando indica la acción, las opciones cambian cómo actúa y los argumentos nombran sus datos o destinos. Los corchetes solo muestran partes opcionales; no se escriben.
-:::
-
-::: example {#prepara-y-muestra-archivos title="Crea antes de leer"}
-Este bloque crea todos los archivos de práctica antes de listarlos o leerlos.
+**Haz:** prepara la carpeta, ubícate y escribe la primera tarea.
 
 ```bash
-mkdir -p "$HOME/fdd/terminal-lab/reportes"
-cd "$HOME/fdd/terminal-lab"
-printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
-printf '%s\n' 'faltó una columna' 'archivo no encontrado' > errores.txt
-printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
-ls -la
-cat nombres.txt
-cat 'dos palabras.txt'
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+pwd
+touch lista.txt
+echo "practicar rutas" > lista.txt
 ```
 
-Las comillas conservan `dos palabras.txt` como un solo argumento.
-:::
+**Deberías ver:** `pwd` termina en `fdd/terminal-lab/notas/hoy`. `touch` y `echo` no imprimen nada cuando funcionan; la salida de `echo` quedó en `lista.txt`.
+
+**Pausa:** antes de leerlo, predice qué pasaría con la primera línea si ejecutaras `echo "otra tarea" > lista.txt`.
+
+## Misión 2: anexa y lee
+
+`>>` agrega la salida al final sin borrar lo anterior. `cat` muestra completo un archivo breve.
+
+**Haz:** este bloque también crea la carpeta y la primera línea, así que funciona por sí solo.
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+echo "practicar rutas" > lista.txt
+echo "leer la ayuda" >> lista.txt
+cat lista.txt
+```
+
+**Deberías ver:** dos líneas, en el mismo orden en que las escribiste.
+
+**Pausa:** explica en una frase la diferencia entre `>` y `>>`. Si no puedes hacerlo, no avances: repite el bloque cambiando sólo la segunda tarea.
+
+## Misión 3: mira los extremos
+
+Para texto largo, `head` muestra el inicio y `tail`, el final. La opción `-n 1` les entrega el argumento `1`: cuántas líneas mostrar.
+
+**Haz:** prepara tres líneas y observa extremos distintos.
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+echo "primera" > lista.txt
+echo "segunda" >> lista.txt
+echo "tercera" >> lista.txt
+head -n 1 lista.txt
+tail -n 1 lista.txt
+```
+
+**Deberías ver:** `primera` y después `tercera`.
+
+**Pausa:** predice la salida de `head -n 2 lista.txt`; luego compruébala.
+
+## Misión 4: descubre un archivo oculto
+
+Un nombre que comienza con `.`, como `.secreto`, queda fuera del listado simple por convención. **Oculto no significa cifrado ni protegido.**
+
+**Haz:** crea uno y compara los listados.
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+touch .secreto
+ls
+ls -la
+```
+
+**Deberías ver:** el primer `ls` no muestra `.secreto`; `ls -la` sí lo muestra, junto con `.` y `..`.
+
+**Pausa:** ¿un archivo oculto protege una contraseña? Responde antes de seguir.
 
 ## Opciones y ayuda
 
-Una opción corta suele empezar con un guion (`-l`); una larga, con dos (`--all`); y algunas reciben valor (`--color=auto`). El marcador `--` termina las opciones: es útil si un archivo empieza con guion.
+La forma habitual es `comando [opciones] [argumentos]`. No escribas los corchetes: sólo indican partes que pueden variar.
+
+`printf` es una alternativa precisa para producir varias líneas con un formato repetible:
 
 ```bash
-mkdir -p "$HOME/fdd/terminal-lab/reportes"
-cd "$HOME/fdd/terminal-lab"
-printf '%s\n' 'Ana' 'Beto' > nombres.txt
-printf '%s\n' 'falló una prueba' > errores.txt
-printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
 printf '%s\n' 'archivo que empieza con guion' > ./-borrador.txt
 ls -l -- -borrador.txt
 ```
 
-`--` termina las opciones de un programa; una redirección no es un argumento del programa, así que `./-borrador.txt` nombra ese archivo sin que la shell lo confunda con una opción. Primero pregunta antes de adivinar: `man ls` abre el manual (sales con `q`) en las tres plataformas. En Ubuntu y WSL2, `ls --help` también muestra ayuda breve; en macOS usa `man ls` como ruta de ayuda para ese comando. `type -a cd` revela si un nombre es parte de la shell, una función o un programa; `command -v ls` muestra qué se ejecutaría al escribir `ls`.
+| Pieza | Ejemplo | Lectura |
+|---|---|---|
+| Opción corta | `ls -l` | `-l` cambia la forma del listado. |
+| Opciones cortas juntas | `ls -la` | Equivale a usar `-l` y `-a`. |
+| Opción con argumento | `head -n 2 lista.txt` | `-n` consume `2`; el archivo sigue después. |
+| Fin de opciones | `ls -- -borrador.txt` | Después de `--`, el nombre ya no se interpreta como opción. |
 
-::: example {#consulta-ayuda-comando title="Pregunta antes de cambiar"}
-Ejecuta `type -a cd`, `command -v ls` y `man ls`. Si usas Ubuntu o WSL2, añade `ls --help`. Escribe una diferencia entre una orden integrada a la shell y un programa encontrado en una ruta del sistema.
-:::
+**Haz:** abre la documentación de `ls` con `man ls`; desplázate y pulsa `q` para salir. En Ubuntu o WSL2 también prueba `ls --help`. En macOS, usa `man ls`: su versión de `ls` no ofrece la misma opción larga.
 
-## Crear, copiar, mover y revisar
+**Deberías ver:** una descripción y una lista de opciones. No supongas que `-h` siempre significa ayuda: en `ls -h` cambia el formato de los tamaños. Revisa `man` o `--help` para cada comando.
 
-::: example {#archivos-sin-suposiciones title="Opera sobre un laboratorio recién creado"}
-Cada archivo que se lee aquí acaba de crearse en el mismo bloque.
+**Pausa:** en `head -n 2 lista.txt`, identifica comando, opción, argumento de la opción y archivo.
 
-```bash
-mkdir -p "$HOME/fdd/terminal-lab/reportes"
-cd "$HOME/fdd/terminal-lab"
-printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
-printf '%s\n' 'faltó una columna' > errores.txt
-printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
-cp -- nombres.txt reportes/nombres-copia.txt
-mv -- errores.txt reportes/errores.txt
-wc -l nombres.txt reportes/errores.txt
-cat reportes/nombres-copia.txt
-```
-:::
+## Misión 5: copia y renombra
 
-`mkdir` crea carpetas; `cp` copia; `mv` mueve o renombra; `cat` muestra contenido breve; `wc -l` cuenta líneas. Lee la línea completa antes de pulsar Enter: cambiar el orden de origen y destino cambia el resultado.
+`cp -i` copia y pregunta antes de reemplazar un destino existente. `mv -i` mueve o renombra con el mismo freno.
 
-## Borrar es una decisión, no un atajo
-
-Dentro del laboratorio, primero lista exactamente lo que coincide y luego actúa solo sobre un nombre explícito:
+**Haz:** crea una fuente, cópiala y renombra la copia.
 
 ```bash
-mkdir -p "$HOME/fdd/terminal-lab/reportes"
-cd "$HOME/fdd/terminal-lab"
-printf '%s\n' 'Ana' > nombres.txt
-printf '%s\n' 'falló una prueba' > errores.txt
-printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
-mkdir -p reportes/vacio reportes/para-revisar
-printf '%s\n' -- *
-rm -i -- 'dos palabras.txt'
-printf '%s\n' -- reportes/*
-rmdir -- reportes/vacio
-printf '%s\n' -- reportes/*
-rm -r -- reportes/para-revisar
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+printf '%s\n' "practicar rutas" "leer la ayuda" > lista.txt
+cp -i -- lista.txt lista-copia.txt
+mv -i -- lista-copia.txt lista-renombrada.txt
+ls -l -- lista*.txt
 ```
 
-La primera vista previa `printf '%s\n' -- *` te deja revisar los nombres antes de que `rm -i` pida confirmación para un único archivo. Las dos vistas previas `printf '%s\n' -- reportes/*` listan el contenido real de `reportes` antes de cada borrado de carpeta. `rmdir` solo borra carpetas vacías; `rm -r` borra el contenido de la carpeta indicada, por lo que aquí se limita a una carpeta recién creada dentro de `~/fdd/terminal-lab`. `--` trata lo que sigue como nombre, incluso si comenzara con un guion. Detente si la lista no coincide con tu intención: nunca combines borrado recursivo con la opción de forzar, ni uses borrados masivos o comandos cuyo alcance no puedas explicar.
+**Deberías ver:** `lista.txt` y `lista-renombrada.txt`, ambos con contenido. Si repetiste el bloque, `-i` puede preguntar antes de reemplazar: lee el destino antes de responder.
 
-::: problem {#ruta-relativa-o-absoluta title="Ubica el archivo"}
-Estás en `~/fdd/terminal-lab` y quieres leer el archivo `errores.txt` que está dentro de `reportes`. Escribe una ruta relativa y una ruta que use `$HOME` para nombrarlo.
-:::
+**Pausa:** ¿cuál archivo es la fuente que conservó su nombre? Confírmalo con `cat`, no con una suposición.
 
-::: hint {of="ruta-relativa-o-absoluta"}
-La ruta relativa empieza desde la carpeta actual. La otra empieza en tu carpeta personal, no en el texto literal `~` dentro de comillas.
-:::
+`cp` copia un archivo; para copiar una carpeta completa necesita una opción recursiva que todavía no usaremos. `mv` puede renombrar archivos o carpetas. En ambos casos, primero va el origen y luego el destino.
 
-::: answer {of="ruta-relativa-o-absoluta"}
-La ruta relativa es `reportes/errores.txt`. Una ruta basada en la carpeta personal es `"$HOME/fdd/terminal-lab/reportes/errores.txt"`; las comillas mantienen la ruta como un argumento.
-:::
+## Misión 6: borra sólo lo que nombraste
 
-::: problem {#doble-guion-protege-nombres title="Desactiva las opciones"}
-Existe un archivo llamado `-borrador.txt`. ¿Por qué `ls -l -- -borrador.txt` es más claro que `ls -l -borrador.txt`?
-:::
+`rm -i` elimina un archivo después de pedir confirmación. `rmdir` elimina exclusivamente una carpeta vacía. No son lo mismo.
 
-::: hint {of="doble-guion-protege-nombres"}
-Piensa en cómo suele interpretar un programa los argumentos que comienzan con `-`.
-:::
+**Haz:** crea dos objetivos desechables, verifica sus nombres y elimina uno de cada tipo.
 
-::: answer {of="doble-guion-protege-nombres"}
-Sin `--`, el programa puede interpretar `-borrador.txt` como una combinación de opciones. `--` indica que las opciones terminaron y que el texto siguiente es un nombre de archivo.
-:::
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas/hoy/caja-vacia"
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+echo "desechable" > borrar-este.txt
+ls -ld -- borrar-este.txt caja-vacia
+rm -i -- borrar-este.txt
+rmdir -- caja-vacia
+ls -la
+```
+
+**Deberías ver:** `rm -i` pregunta por `borrar-este.txt`; confirma sólo si el nombre coincide. `rmdir` termina sin salida porque `caja-vacia` no contiene nada. El listado final conserva `lista.txt` y `.secreto` si hiciste las misiones anteriores.
+
+**Pausa:** si `rmdir` dice que la carpeta no está vacía, detente y usa `ls -la caja-vacia`. No cambies a una orden más agresiva.
+
+## Mapa de bolsillo
+
+| Quiero… | Comando | Freno mental |
+|---|---|---|
+| Crear un archivo vacío | `touch nombre.txt` | Confirma primero con `pwd`. |
+| Reemplazar texto | `echo "texto" > nombre.txt` | `>` borra el contenido anterior. |
+| Anexar texto | `echo "texto" >> nombre.txt` | `>>` conserva y agrega. |
+| Leer | `cat`, `head`, `tail` | Empieza con archivos breves. |
+| Copiar / renombrar | `cp -i`, `mv -i` | Lee origen y destino en ese orden. |
+| Borrar archivo / carpeta vacía | `rm -i`, `rmdir` | Un nombre explícito dentro del laboratorio. |
 
 Continúa con [[flujos-procesos-y-herramientas|Flujos, procesos y herramientas]].

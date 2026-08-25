@@ -45,13 +45,37 @@ def ejecutar(script: str, home: Path) -> subprocess.CompletedProcess[str]:
     )
 
 
+def test_archivos_construye_una_nota_antes_de_copiar_o_borrar():
+    """Evita volver a presentar operaciones destructivas antes de crear y leer."""
+    texto = TERMINAL_ARCHIVOS.read_text(encoding="utf-8")
+
+    posiciones = [texto.index(token) for token in ("`touch`", "`cp -i`", "`rm -i`")]
+    assert posiciones == sorted(posiciones)
+    assert all(
+        token in texto
+        for token in ("`echo`", "`>`", "`>>`", "`cat`", "`head`", "`tail`")
+    )
+
+
+def test_la_primera_mision_crea_una_nota_reproducible(tmp_path):
+    """Un HOME nuevo basta para producir la primera nota con contenido verificable."""
+    resultado = ejecutar(
+        bloque_despues_de_encabezado(TERMINAL_ARCHIVOS, "Misión 1: crea una nota"),
+        tmp_path,
+    )
+    nota = tmp_path / "fdd/terminal-lab/notas/hoy/lista.txt"
+
+    assert resultado.returncode == 0, resultado.stderr
+    assert nota.read_text(encoding="utf-8") == "practicar rutas\n"
+
+
 def test_el_ejemplo_crea_un_archivo_cuyo_nombre_empieza_con_guion(tmp_path):
     """Evita redirigir accidentalmente stdout al archivo literal ``--``."""
     resultado = ejecutar(
         bloque_despues_de_encabezado(TERMINAL_ARCHIVOS, "Opciones y ayuda"),
         tmp_path,
     )
-    archivo = tmp_path / "fdd/terminal-lab/-borrador.txt"
+    archivo = tmp_path / "fdd/terminal-lab/notas/hoy/-borrador.txt"
 
     assert resultado.returncode == 0, resultado.stderr
     assert archivo.read_text(encoding="utf-8") == "archivo que empieza con guion\n"
@@ -107,7 +131,18 @@ def test_el_estado_de_la_tuberia_usa_pipefail_antes_de_consultar_dollar_question
 
 def test_copiar_y_mover_terminan_las_opciones_antes_de_las_rutas():
     """Los ejemplos de mutación tratan sus rutas como datos, no como opciones."""
-    ejemplo = bloque(TERMINAL_ARCHIVOS, "Opera sobre un laboratorio recién creado")
+    ejemplo = bloque_despues_de_encabezado(
+        TERMINAL_ARCHIVOS, "Misión 5: copia y renombra"
+    )
 
-    assert "cp -- nombres.txt reportes/nombres-copia.txt" in ejemplo
-    assert "mv -- errores.txt reportes/errores.txt" in ejemplo
+    assert "cp -i -- lista.txt lista-copia.txt" in ejemplo
+    assert "mv -i -- lista-copia.txt lista-renombrada.txt" in ejemplo
+
+
+def test_borrado_principiante_no_es_recursivo_ni_elevado():
+    """La primera práctica de borrado se limita a un archivo y una carpeta vacía."""
+    texto = TERMINAL_ARCHIVOS.read_text(encoding="utf-8")
+
+    assert "rm -r" not in texto
+    assert "rm -f" not in texto
+    assert "sudo rm" not in texto
