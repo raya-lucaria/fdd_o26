@@ -11,34 +11,86 @@ prerequisites: [terminal-directa]
 
 # Entrar y orientarte
 
-Una terminal es una ventana de texto para dar instrucciones al sistema. La *shell* lee la línea que escribes, la interpreta y ejecuta programas; Bash es una shell frecuente.
+Abre una terminal y úsala como un mapa: primero averigua dónde estás, después muévete y sólo entonces crea un archivo. Al terminar tendrás un laboratorio aislado en `~/fdd/terminal-lab/notas/hoy/`.
 
-Las terminales nacieron para conversar con computadoras a distancia y hoy siguen siendo una interfaz rápida, precisa y automatizable.
-
-::: definition {#terminal-shell-bash title="Tres nombres, tres papeles"}
-La **terminal** muestra texto y recibe el teclado; la **shell** interpreta los comandos; **Bash** es una shell concreta. Puedes abrir una terminal que use otra shell y, aun así, ejecutar `bash` cuando lo necesites.
-:::
-
-## El árbol familiar, en 30 segundos
-
-| Momento | Qué importa hoy |
-|---|---|
-| **Thompson shell** | Uno de los primeros intérpretes de órdenes de Unix, escrito por Ken Thompson. |
-| **Bourne shell (`sh`)** | Stephen Bourne consolidó una sintaxis para uso interactivo y scripts; muchas shells posteriores conservan esa base. |
-| **GNU Bash** | GNU necesitaba una shell libre compatible con `sh`. Bash significa *Bourne Again Shell*: un juego de palabras con Bourne y *born again*. |
-
-Bash hereda ideas de esa familia, pero no todas las shells aceptan exactamente la misma sintaxis. La [introducción del manual de GNU Bash](https://www.gnu.org/software/bash/manual/html_node/What-is-Bash_003f.html) cuenta el parentesco completo.
-
-## Abre el entorno correcto
+Elige el entorno correcto:
 
 - En **Ubuntu**, abre «Terminal»; normalmente ya estás en una shell Unix.
 - En **WSL2**, abre tu distribución de Ubuntu, no el símbolo de sistema de Windows. Trabajas dentro de Linux, aunque tus archivos de Windows estén disponibles en `/mnt/c/`.
 - En **macOS**, abre «Terminal»; su shell predeterminada suele ser zsh, pero Bash también está disponible.
 
-No copies a ciegas un prompt: el texto antes del cursor es información sobre el usuario, equipo y carpeta. El signo final suele ser `$` para una cuenta normal y `#` para una cuenta con privilegios elevados.
+## Misión 1: mira antes de moverte
 
-::: example {#primer-mapa-terminal title="Identifica tu sesión"}
-Ejecuta estas consultas; ninguna modifica archivos.
+**Haz:** ejecuta estas dos consultas. Ninguna modifica archivos.
+
+```bash
+pwd
+ls
+```
+
+`pwd` viene de *print working directory*: imprime la ruta de la carpeta en la que estás. `ls` lista lo que esa carpeta contiene.
+
+**Deberías ver:** una ruta en la primera salida, por ejemplo `/home/ana` o `/Users/ana`. La segunda puede mostrar nombres o no mostrar nada si la carpeta está vacía.
+
+**Pausa:** señala en la salida de `pwd` cuál es la carpeta actual. Antes de avanzar, explica por qué `ls` puede producir una salida distinta en otra computadora.
+
+## Misión 2: construye una ruta y recórrela
+
+**Haz:** crea de una vez las carpetas del laboratorio y recorre la ruta en ambos sentidos.
+
+```bash
+mkdir -p ~/fdd/terminal-lab/notas/hoy
+cd ~/fdd/terminal-lab
+pwd
+cd notas/hoy
+pwd
+cd ..
+pwd
+cd ~/fdd/terminal-lab/notas/hoy
+pwd
+```
+
+`mkdir -p` crea todas las carpetas que falten en la ruta y no se queja si ya existen. `cd` cambia la carpeta actual. El atajo `~` representa tu carpeta personal; `cd ..` sube a la carpeta madre.
+
+**Deberías ver:** las cuatro salidas de `pwd` terminan, en orden, en `terminal-lab`, `notas/hoy`, `notas` y `notas/hoy`.
+
+**Pausa:** sin ejecutar otro comando, dibuja la cadena `fdd → terminal-lab → notas → hoy` y marca dónde quedaste. Si una salida no coincide, usa `pwd` antes de repetir el `cd` que corresponda.
+
+## Misión 3: compara formas de nombrar un lugar
+
+**Haz:** crea un archivo vacío, muestra también las entradas ocultas y visita los mismos lugares con distintas clases de ruta.
+
+```bash
+touch observaciones.txt
+ls -la
+cd ~/fdd/terminal-lab
+ls -la notas/hoy
+ls -la "$HOME/fdd/terminal-lab/notas/hoy"
+ls -la .
+ls -la ..
+cd ~/fdd/terminal-lab/notas/hoy
+pwd
+```
+
+`touch` crea `observaciones.txt` si no existe. En `ls -la`, la opción `-l` muestra detalles y `-a` incluye nombres ocultos.
+
+- Una **ruta absoluta** empieza en la raíz `/`, como `/home/ana/fdd`. La variable `$HOME` se expande a una ruta absoluta; las comillas conservan esa ruta como un solo argumento.
+- Una **ruta relativa** empieza en la carpeta actual. Desde `terminal-lab`, `notas/hoy` llega a la carpeta que acabas de crear.
+- `.` nombra la carpeta actual y `..` nombra su carpeta madre.
+- `~` es el atajo que la shell expande a tu carpeta personal antes de ejecutar el comando.
+
+**Deberías ver:** `observaciones.txt` aparece al listar `notas/hoy` por su ruta relativa y por la ruta que comienza en `$HOME`. `ls -la .` lista `terminal-lab`; `ls -la ..` lista su carpeta madre, `fdd`. El último `pwd` termina en `fdd/terminal-lab/notas/hoy`.
+
+**Pausa:** predice desde qué carpeta funcionarían `ls -la notas/hoy`, `ls -la .` y `ls -la ..`. Comprueba tu respuesta con `pwd`, no con el texto del *prompt*.
+
+::: definition {#terminal-shell-bash title="Tarjeta: terminal, shell y Bash"}
+La **terminal** muestra texto y recibe el teclado; la **shell** interpreta los comandos; **Bash** es una shell concreta. Puedes abrir una terminal que use otra shell y, aun así, ejecutar `bash` cuando lo necesites.
+
+No copies a ciegas un *prompt*: el texto antes del cursor suele resumir usuario, equipo y carpeta. El signo final suele ser `$` para una cuenta normal y `#` para una cuenta con privilegios elevados.
+:::
+
+::: example {#primer-mapa-terminal title="Tarjeta: identifica tu sesión"}
+Estas consultas tampoco modifican archivos:
 
 ```bash
 whoami
@@ -47,28 +99,24 @@ uname -s
 bash --version
 ```
 
-`whoami` dice qué cuenta ejecuta el comando, `pwd` imprime la carpeta actual y `uname -s` identifica el sistema. `bash --version` pregunta por el programa Bash que se puede ejecutar.
+`whoami` dice qué cuenta ejecuta el comando, `uname -s` identifica el sistema y `bash --version` pregunta por el programa Bash que se puede ejecutar.
 :::
 
-## Tu laboratorio local
+::: example {#historia-shell title="Tarjeta: el árbol familiar, en 30 segundos"}
+Las terminales nacieron para conversar con computadoras a distancia y hoy siguen siendo una interfaz rápida, precisa y automatizable.
 
-No necesitas haber visitado otra estación. Crea una carpeta de práctica y entra en ella:
+| Momento | Qué importa hoy |
+|---|---|
+| **Thompson shell** | Uno de los primeros intérpretes de órdenes de Unix, escrito por Ken Thompson. |
+| **Bourne shell (`sh`)** | Stephen Bourne consolidó una sintaxis para uso interactivo y scripts; muchas shells posteriores conservan esa base. |
+| **GNU Bash** | GNU necesitaba una shell libre compatible con `sh`. Bash significa *Bourne Again Shell*: un juego de palabras con Bourne y *born again*. |
 
-```bash
-mkdir -p "$HOME/fdd/terminal-lab"
-cd "$HOME/fdd/terminal-lab"
-pwd
-```
-
-`$HOME` representa tu carpeta personal; las comillas protegen la ruta si contiene espacios. A partir de aquí, los ejemplos de esta estación pueden repetirse sin afectar archivos fuera de `~/fdd/terminal-lab`.
-
-::: example {#orientacion-laboratorio title="Comprueba tu punto de partida"}
-En tu laboratorio, ejecuta `pwd` y `whoami`. Di en voz alta qué parte de la salida cambia si otra persona abre una sesión distinta y qué parte cambiaría si usaras `cd` para entrar a otra carpeta.
+Bash hereda ideas de esa familia, pero no todas las shells aceptan exactamente la misma sintaxis. La [introducción del manual de GNU Bash](https://www.gnu.org/software/bash/manual/html_node/What-is-Bash_003f.html) cuenta el parentesco completo.
 :::
 
-## Ventanas, pestañas y portapapeles
-
+::: example {#atajos-terminal title="Tarjeta: ventanas, portapapeles y edición"}
 Estos son valores comunes, no promesas globales: la aplicación de terminal, el escritorio y tus preferencias pueden cambiarlos. Si uno no responde, abre el menú de la aplicación y busca la acción por nombre.
+
 
 | Entorno | Abrir | Nueva pestaña | Copiar / pegar |
 |---|---|---|---|
@@ -77,8 +125,6 @@ Estos son valores comunes, no promesas globales: la aplicación de terminal, el 
 | macOS | `Cmd-Espacio`, escribe «Terminal» y pulsa Enter. | `Cmd-T`. | Selecciona texto y usa `Cmd-C` / `Cmd-V`. |
 
 No confundas copiar con interrumpir: dentro de una terminal Unix, `Ctrl-C` suele detener el proceso actual. Por eso Linux y Windows Terminal agregan `Shift` al atajo de copiar.
-
-## Atajos dentro de la línea
 
 | Atajo | Efecto |
 |---|---|
@@ -90,7 +136,6 @@ No confundas copiar con interrumpir: dentro de una terminal Unix, `Ctrl-C` suele
 | `Ctrl-R` | Busca hacia atrás en el historial; escribe parte del comando y pulsa otra vez para seguir buscando. |
 | `Ctrl-D` | Envía fin de entrada; con la línea vacía suele cerrar la shell actual. |
 
-::: example {#atajos-sin-riesgo title="Haz, comprueba, pausa"}
 **Haz:** ejecuta `history`, pulsa `Ctrl-R` y busca `pwd`. **Comprueba:** la línea aparece sin ejecutarse; pulsa Enter sólo después de leerla. **Pausa:** en una segunda pestaña, usa `Ctrl-D` con la línea vacía y explica por qué se cerró esa shell, no toda la aplicación.
 :::
 
@@ -131,4 +176,4 @@ Una variable de entorno describe la shell de inicio o configurada; la segunda l�
 
 ## Cierre
 
-Ya tienes un lugar seguro para practicar y cuatro preguntas de orientación: quién eres, dónde estás, qué sistema usas y qué Bash está disponible. Continúa con [[archivos-y-comandos|Archivos y comandos]].
+Ya sabes mirar antes de actuar, cambiar de carpeta y distinguir varias maneras de nombrar una ruta. Tu laboratorio quedó en `~/fdd/terminal-lab/notas/hoy/`. Continúa con [[archivos-y-comandos|Archivos y comandos]].

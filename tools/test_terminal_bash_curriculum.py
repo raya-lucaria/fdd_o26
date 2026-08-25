@@ -32,6 +32,13 @@ def test_orientation_covers_shell_history_and_daily_shortcuts():
         assert platform in page
 
 
+def test_orientacion_guia_pwd_y_rutas():
+    texto = ORIENTATION.read_text(encoding="utf-8")
+    assert texto.index("`pwd`") < texto.index("`touch`")
+    assert all(token in texto for token in ("`~`", "`/`", ".", "`..`"))
+    assert "Haz:" in texto and "Deberías ver:" in texto and "Pausa:" in texto
+
+
 def test_route_is_scannable_and_includes_daily_tools_by_platform():
     """Catches losing the compact action/check/pause rhythm or tool routes."""
     route = read(TERMINAL_INDEX) + read(BASH_INDEX)
