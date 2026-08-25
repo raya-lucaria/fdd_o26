@@ -102,18 +102,24 @@
 **Files:**
 - Create: `course/5_terminal_y_bash/_assets/d-shell-flujo.svg`
 - Create: `course/5_terminal_y_bash/_assets/d-terminal-lab.svg`
+- Create: `course/5_terminal_y_bash/_assets/hero-terminal-original.png`
+- Create: `course/5_terminal_y_bash/_assets/hero-bash-original.png`
 - Create: `course/5_terminal_y_bash/_assets/CREDITOS.md`
 - Modify: `course/5_terminal_y_bash/0_index.md`
+- Modify: `course/5_terminal_y_bash/1_terminal/0_index.md`
+- Modify: `course/5_terminal_y_bash/2_bash_scripting/0_index.md`
 
 **Interfaces:**
 - Consumes: tokens visuales existentes de `fdd-eva` y el contrato de créditos del curso.
 - Produces: dos SVG con alt text y enlaces desde la portada; no se copia una imagen de P26 sin licencia/crédito verificable.
 
-- [ ] **Step 1: Dibujar `d-shell-flujo.svg`** como flujo estático `tecla → Bash → expansión → programa → stdout/stderr`, con texto legible en móvil.
-- [ ] **Step 2: Dibujar `d-terminal-lab.svg`** como árbol de `~/fdd/terminal-lab` con `nombres.txt`, `dos palabras.txt` y `reportes/`.
-- [ ] **Step 3: Añadir ambos SVG a `CREDITOS.md`** como diagramas propios y añadir alt text descriptivo en la portada y páginas que los usan.
-- [ ] **Step 4: Construir y verificar que ningún SVG contiene texto ilegible o overflow.**
-- [ ] **Step 5: Commit** `feat(unidad-5): añade diagramas del laboratorio`.
+- [ ] **Step 1: Conservar los dos PNG originales generados** `hero-terminal-original.png` y `hero-bash-original.png`; no añadir texto técnico encima de la imagen y mantener espacio negativo para títulos.
+- [ ] **Step 2: Dibujar `d-shell-flujo.svg`** como flujo estático `tecla → Bash → expansión → programa → stdout/stderr`, con texto legible en móvil.
+- [ ] **Step 3: Dibujar `d-terminal-lab.svg`** como árbol de `~/fdd/terminal-lab` con `nombres.txt`, `dos palabras.txt` y `reportes/`.
+- [ ] **Step 4: Añadir ambos PNG, ambos SVG y sus prompts resumidos a `CREDITOS.md`**; los PNG se acreditan como generados con OpenAI Image Generation el 2026-08-25, sin personajes, logos ni texto legible.
+- [ ] **Step 5: Añadir alt text descriptivo y usar un PNG sólo en cada portada de subtema; los diagramas se reservan para las estaciones conceptuales.**
+- [ ] **Step 6: Construir y verificar que ningún SVG contiene texto ilegible o overflow y que los PNG recortan bien en móvil.**
+- [ ] **Step 7: Commit** `feat(unidad-5): añade visuales originales del laboratorio`.
 
 ### Task 6: Actualizar calendario y retirar duplicados de preparación
 

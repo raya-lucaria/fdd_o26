@@ -241,16 +241,25 @@ comando, búsquedas sobre el comando y pistas oficiales de Bandit.
 
 ## Visuales y créditos
 
-El diseño no depende de imágenes decorativas. Se crearán dos SVG fuente de
-verdad y se registrarán en `_assets/CREDITOS.md`:
+El diseño usa dos portadas raster originales y dos diagramas funcionales. Las
+portadas conservan el ambiente anime-tech nocturno de P26 sin copiar personajes
+ni franquicias; los diagramas son la fuente de verdad para conceptos técnicos.
+Todo se registra en `_assets/CREDITOS.md`:
+
+- `hero-terminal-original.png`: estudiante anónimo ante una terminal, espacio
+  negativo para el título.
+- `hero-bash-original.png`: terminal → script → reporte, espacio negativo para
+  el título.
 
 - `d-shell-flujo.svg`: entrada, expansión de Bash, proceso, stdout y stderr.
 - `d-terminal-lab.svg`: árbol seguro bajo `~/fdd/terminal-lab`.
 
-Se puede reutilizar una imagen de portada de P26 sólo si se verifica su crédito
-original y se agrega una fila de atribución en la nueva unidad. No se copian
-las imágenes anime como secuencia pedagógica ni se crean imágenes adicionales
-sin una función explicativa.
+Las dos portadas originales se generaron con OpenAI Image Generation el
+2026-08-25, sin texto legible, logos o personajes reconocibles. Las imágenes de
+P26 se revisaron visualmente, pero no se reutilizan porque el material fuente no
+conserva prompts ni créditos/licencias verificables. No se copian las imágenes
+anime como secuencia pedagógica ni se crean imágenes adicionales sin una
+función explicativa.
 
 ## Fuera de alcance
 
