@@ -26,9 +26,3 @@ Usar una terminal para explorar y modificar con cuidado un laboratorio local, en
 | 3. [[flujos-procesos-y-herramientas|Flujos, procesos y herramientas]] | 15 min | conectas la salida de un programa con otro y reconoces un error. |
 
 Trabaja siempre en `~/fdd/terminal-lab`: es una carpeta local de práctica, no un repositorio.
-
-## El laboratorio antes de tocar archivos
-
-![Árbol del laboratorio local: la ruta ~/fdd/terminal-lab contiene nombres.txt, dos palabras.txt y la carpeta reportes.](../_assets/d-terminal-lab.svg)
-
-**Lectura visual:** todos los ejemplos crean archivos dentro de una sola carpeta local. Antes de copiar, mover o borrar, confirma con `pwd` que la ruta sigue siendo `~/fdd/terminal-lab` o una de sus subcarpetas.

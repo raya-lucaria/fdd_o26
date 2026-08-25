@@ -13,6 +13,10 @@ prerequisites: [bash-scripting]
 
 Bash no entrega tu línea al programa tal como la tecleaste. Primero reconoce separadores, sustituye variables y construye argumentos; después llama al programa. Anticipar esas transformaciones evita sorpresas con rutas y nombres de archivos.
 
+![Flujo vertical: una tecla llega a Bash, Bash expande la línea, un programa recibe los argumentos y produce stdout como salida normal o stderr como diagnóstico.](../../_assets/d-shell-flujo.svg)
+
+**Lectura visual:** Bash no entrega una línea al programa sin cambios. Primero interpreta separadores y comillas, expande variables o patrones y después inicia el programa; por eso conviene predecir los argumentos antes de ejecutar una acción.
+
 ## Una shell ahora; un script después
 
 Una **shell interactiva** espera una línea, la ejecuta y muestra otro prompt. Un **script** guarda varias líneas para que Bash las lea en orden. Los dos usan las reglas de Bash cuando ejecutas `bash`; no dependen de cuál sea la shell predeterminada de la terminal.

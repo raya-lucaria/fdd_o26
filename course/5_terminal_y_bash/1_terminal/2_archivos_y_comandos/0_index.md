@@ -19,6 +19,10 @@ Las carpetas forman un árbol: `/` es la raíz; cada carpeta puede contener arch
 
 Los nombres que empiezan con punto, como `.config`, son archivos ocultos por convención. Para verlos usa `ls -a`; para ver detalles, `ls -la`.
 
+![Árbol del laboratorio local: la ruta ~/fdd/terminal-lab contiene nombres.txt, dos palabras.txt y la carpeta reportes.](../../_assets/d-terminal-lab.svg)
+
+**Lectura visual:** todos los ejemplos crean archivos dentro de una sola carpeta local. Antes de copiar, mover o borrar, confirma con `pwd` que la ruta sigue siendo `~/fdd/terminal-lab` o una de sus subcarpetas.
+
 ::: definition {#forma-de-comando title="La forma de una orden"}
 Muchos comandos siguen la forma `command [options] [arguments]`: el comando indica la acción, las opciones cambian cómo actúa y los argumentos nombran sus datos o destinos. Los corchetes solo muestran partes opcionales; no se escriben.
 :::
