@@ -94,15 +94,13 @@ bash --version
 :::
 
 ::: hint {of="shell-no-es-version-bash"}
-Una variable de entorno describe cómo se inició tu sesión; la segunda línea consulta un ejecutable llamado `bash`.
+Una variable de entorno describe la shell de inicio o configurada; la segunda línea consulta un ejecutable llamado `bash`.
 :::
 
 ::: answer {of="shell-no-es-version-bash"}
-`echo "$SHELL"` imprime la ruta de la shell configurada para la sesión, por ejemplo `/bin/zsh`. `bash --version` informa la versión de Bash disponible en el sistema. En macOS es común que la primera indique zsh y la segunda siga funcionando.
+`echo "$SHELL"` imprime la ruta de la shell de inicio o configurada para la sesión, por ejemplo `/bin/zsh`. No identifica de forma fiable la shell actual si después ejecutaste `bash` desde esa sesión. `bash --version` informa la versión de Bash disponible en el sistema. En macOS es común que la primera indique zsh y la segunda siga funcionando.
 :::
 
 ## Cierre
 
 Ya tienes un lugar seguro para practicar y cuatro preguntas de orientación: quién eres, dónde estás, qué sistema usas y qué Bash está disponible. Continúa con [[archivos-y-comandos|Archivos y comandos]].
-
-![Persona frente a una terminal con una constelación de comandos abstractos](../../_assets/hero-terminal-original.png)

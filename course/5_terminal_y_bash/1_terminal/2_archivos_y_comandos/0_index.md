@@ -54,10 +54,10 @@ printf '%s\n' 'archivo que empieza con guion' > -- -borrador.txt
 ls -l -- -borrador.txt
 ```
 
-Primero pregunta antes de adivinar: `man ls` abre el manual (sales con `q`) y `ls --help` muestra ayuda breve. `type -a cd` revela si un nombre es parte de la shell, una función o un programa; `command -v ls` muestra qué se ejecutaría al escribir `ls`.
+Primero pregunta antes de adivinar: `man ls` abre el manual (sales con `q`) en las tres plataformas. En Ubuntu y WSL2, `ls --help` también muestra ayuda breve; en macOS usa `man ls` como ruta de ayuda para ese comando. `type -a cd` revela si un nombre es parte de la shell, una función o un programa; `command -v ls` muestra qué se ejecutaría al escribir `ls`.
 
 ::: activity {#consulta-ayuda-comando title="Pregunta antes de cambiar"}
-Ejecuta `type -a cd`, `command -v ls` y `ls --help`. Escribe una diferencia entre una orden integrada a la shell y un programa encontrado en una ruta del sistema.
+Ejecuta `type -a cd`, `command -v ls` y `man ls`. Si usas Ubuntu o WSL2, añade `ls --help`. Escribe una diferencia entre una orden integrada a la shell y un programa encontrado en una ruta del sistema.
 :::
 
 ## Crear, copiar, mover y revisar
@@ -82,7 +82,7 @@ cat reportes/nombres-copia.txt
 
 ## Borrar es una decisión, no un atajo
 
-Dentro del laboratorio, primero lista exactamente lo que coincide y luego elimina un único nombre explícito:
+Dentro del laboratorio, primero lista exactamente lo que coincide y luego actúa solo sobre un nombre explícito:
 
 ```bash
 mkdir -p "$HOME/fdd/terminal-lab/reportes"
@@ -90,11 +90,16 @@ cd "$HOME/fdd/terminal-lab"
 printf '%s\n' 'Ana' > nombres.txt
 printf '%s\n' 'falló una prueba' > errores.txt
 printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
+mkdir -p reportes/vacio reportes/para-revisar
 printf '%s\n' -- *
-rm -- 'dos palabras.txt'
+rm -i -- 'dos palabras.txt'
+printf '%s\n' -- reportes/*
+rmdir -- reportes/vacio
+printf '%s\n' -- reportes/*
+rm -r -- reportes/para-revisar
 ```
 
-La vista previa `printf '%s\n' -- *` te deja revisar los nombres que existen antes del borrado. `rm --` trata lo que sigue como nombre, incluso si comenzara con un guion. Detente si la lista no coincide con tu intención; no ejecutes borrados masivos ni comandos cuyo alcance no puedas explicar.
+La primera vista previa `printf '%s\n' -- *` te deja revisar los nombres antes de que `rm -i` pida confirmación para un único archivo. Las dos vistas previas `printf '%s\n' -- reportes/*` listan el contenido real de `reportes` antes de cada borrado de carpeta. `rmdir` solo borra carpetas vacías; `rm -r` borra el contenido de la carpeta indicada, por lo que aquí se limita a una carpeta recién creada dentro de `~/fdd/terminal-lab`. `--` trata lo que sigue como nombre, incluso si comenzara con un guion. Detente si la lista no coincide con tu intención: nunca combines borrado recursivo con la opción de forzar, ni uses borrados masivos o comandos cuyo alcance no puedas explicar.
 
 ::: problem {#ruta-relativa-o-absoluta title="Ubica el archivo"}
 Estás en `~/fdd/terminal-lab` y quieres leer el archivo `errores.txt` que está dentro de `reportes`. Escribe una ruta relativa y una ruta que use `$HOME` para nombrarlo.
