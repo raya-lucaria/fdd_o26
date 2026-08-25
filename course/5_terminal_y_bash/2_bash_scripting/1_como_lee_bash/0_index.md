@@ -71,7 +71,7 @@ Si no hay coincidencias, Bash normalmente deja el `*` literal; zsh y Fish pueden
 Después de crear `nota de hoy.txt` y `resumen.txt`, predice qué argumentos recibe `printf` en esta línea y por qué el espacio no parte el primer nombre en dos:
 
 ```bash
-printf '%s\n' -- *
+printf '<%s>\n' -- *
 ```
 :::
 

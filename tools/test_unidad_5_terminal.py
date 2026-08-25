@@ -76,11 +76,23 @@ def test_el_ejemplo_de_globbing_muestra_el_argumento_doble_guion(tmp_path):
     ]
 
 
-def test_el_enlace_de_bandit_apunta_al_objeto_oficial():
-    """Evita que la estación final dirija a la portada de la unidad."""
+def test_la_pregunta_de_globbing_usa_el_mismo_formato_que_su_respuesta():
+    """La predicción debe mostrar los delimitadores que luego explica."""
+    texto = BASH_LECTURA.read_text(encoding="utf-8")
+
+    problema = re.search(
+        r'::: problem \{#espacios-y-expansion.*?```bash\n(.*?)```', texto, re.S
+    )
+    assert problema
+    assert "printf '<%s>\\n' -- *" in problema.group(1)
+
+
+def test_la_estacion_dirige_a_bandit_sin_un_wikilink_de_objeto_oficial():
+    """Los objetos oficiales no son páginas y Raya no puede resolverlos como wikilinks."""
     texto = TERMINAL_FLUJOS.read_text(encoding="utf-8")
 
-    assert "[[bandit-terminal|tarea oficial Bandit]]" in texto
+    assert "[[bandit-terminal" not in texto
+    assert "https://overthewire.org/wargames/bandit/" in texto
 
 
 def test_el_estado_de_la_tuberia_usa_pipefail_antes_de_consultar_dollar_question():

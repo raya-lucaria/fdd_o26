@@ -148,4 +148,4 @@ La shell solicita interrumpir el proceso en primer plano y normalmente recupera 
 
 `apt`, `brew`, `htop` y `fastfetch` son herramientas opcionales: entender los flujos anteriores no depende de tenerlas instaladas.
 
-Para cerrar la práctica aplicada, sigue la [[bandit-terminal|tarea oficial Bandit]]: usarás el mismo hábito de leer el prompt, pedir ayuda y distinguir salida de errores.
+Para cerrar la práctica aplicada, abre [OverTheWire Bandit](https://overthewire.org/wargames/bandit/) y consulta la entrega oficial **“Bandit: investiga la terminal en los niveles 0–5”** en el curso. Usarás el mismo hábito de leer el prompt, pedir ayuda y distinguir salida de errores.
