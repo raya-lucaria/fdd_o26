@@ -26,3 +26,11 @@ Entender cómo Bash transforma una línea antes de ejecutarla y convertir pasos 
 | 6. [[de-pasos-a-script|De pasos a script]] | 15 min | ejecutas y depuras un script que valida una carpeta y escribe un reporte. |
 
 El script vive en `~/fdd/terminal-lab`, tu espacio local de práctica; no necesita un repositorio.
+
+## Ritmo de trabajo
+
+| Paso | Qué haces |
+|---|---|
+| **Haz** | Escribe o ejecuta un ejemplo pequeño. |
+| **Comprueba** | Compara argumentos, salida y estado con tu predicción. |
+| **Pausa** | Cambia una sola cosa y explica por qué cambió el resultado. |

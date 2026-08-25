@@ -128,7 +128,7 @@ git config --global user.email "tu-correo@itam.mx"
 **Cuatro, mira tu sistema:**
 
 ```bash
-sudo apt install neofetch && neofetch
+sudo apt install fastfetch && fastfetch
 ```
 
 Es puro adorno. Vale la pena de todos modos: es la primera vez que la computadora te dice qué es sin que tengas que buscarlo.

@@ -15,17 +15,20 @@ Un script convierte una secuencia comprobable en un archivo que Bash puede volve
 
 ## Dos maneras de ejecutar el mismo archivo
 
-Guarda este primer script en el laboratorio. El bloque usa una construcción que copia literalmente las líneas entre `EOF`, así que no necesitas depender de un editor instalado.
+Entra al laboratorio y abre un archivo con `nano muestra-argumentos.sh` o con el editor de texto que ya uses. En `nano`, guarda con `Ctrl-O`, confirma con Enter y sal con `Ctrl-X`. Escribe exactamente esto:
 
 ```bash
-mkdir -p "$HOME/fdd/terminal-lab"
-cd "$HOME/fdd/terminal-lab"
-cat > muestra-argumentos.sh <<'EOF'
 #!/usr/bin/env bash
+
 printf 'Primer argumento: %s\n' "$1"
 printf 'Cada argumento recibido:\n'
 printf '  <%s>\n' "$@"
-EOF
+```
+
+Después ejecútalo de las dos formas:
+
+```bash
+cd "$HOME/fdd/terminal-lab"
 bash muestra-argumentos.sh 'dos palabras' final
 chmod +x muestra-argumentos.sh
 ./muestra-argumentos.sh 'dos palabras' final
@@ -37,15 +40,19 @@ chmod +x muestra-argumentos.sh
 
 ## Lee texto y responde con `printf`
 
-Cuando una persona debe introducir un valor, `read -r` lo lee sin tratar las barras invertidas como escapes. Este script no modifica archivos:
+Cuando una persona debe introducir un valor, `read -r` lo lee sin tratar las barras invertidas como escapes. Abre `nano saluda.sh`, escribe este script y guárdalo:
+
+```bash
+#!/usr/bin/env bash
+
+read -r -p 'Escribe tu nombre: ' nombre
+printf 'Hola, %s.\n' "$nombre"
+```
+
+Ejecútalo:
 
 ```bash
 cd "$HOME/fdd/terminal-lab"
-cat > saluda.sh <<'EOF'
-#!/usr/bin/env bash
-read -r -p 'Escribe tu nombre: ' nombre
-printf 'Hola, %s.\n' "$nombre"
-EOF
 bash saluda.sh
 ```
 
@@ -53,12 +60,11 @@ Prueba con un nombre que contenga un espacio. `printf` conserva el valor entreco
 
 ## Un script completo: inventario de textos
 
-El siguiente script exige exactamente una carpeta existente. Si la recibe, busca solo archivos `.txt` directamente dentro de ella, cuenta sus líneas y reemplaza `reporte.txt` en esa misma carpeta. Los nombres y rutas se entrecomillan, y el reporte tiene un destino explícito.
+El siguiente script exige exactamente una carpeta existente. Si la recibe, busca solo archivos `.txt` directamente dentro de ella, cuenta sus líneas y reemplaza `reporte.txt` en esa misma carpeta. Los nombres y rutas se entrecomillan, y el reporte tiene un destino explícito. Abre `nano inventario.sh`, escribe el bloque y guárdalo:
 
 ```bash
-cd "$HOME/fdd/terminal-lab"
-cat > inventario.sh <<'EOF'
 #!/usr/bin/env bash
+set -u
 
 if [[ $# -ne 1 ]]; then
     printf 'Uso: %s DIRECTORIO_EXISTENTE\n' "${0##*/}" >&2
@@ -80,9 +86,16 @@ if [[ ! -s "$reporte" ]]; then
 fi
 
 printf 'Reporte escrito: %s\n' "$reporte"
-EOF
+```
+
+Hazlo ejecutable:
+
+```bash
+cd "$HOME/fdd/terminal-lab"
 chmod +x inventario.sh
 ```
+
+`set -u` detiene el script si intenta leer una variable que nunca recibió valor. Aquí la comprobación de `$#` ocurre antes de consultar `$1`, así que una ejecución sin argumento todavía produce el mensaje de uso que diseñamos.
 
 La prueba `if [[ -d "$1" ]]` comprueba que el primer argumento sea una carpeta antes de pedir trabajo a otras herramientas. En el caso de error, el mensaje va a stderr (`>&2`) y `exit 1` señala que no hubo éxito. `find` limita la búsqueda a esa carpeta: cuando encuentra una subcarpeta, `-prune` evita entrar en ella. La forma `-exec wc -l {} \;` llama a `wc` una vez por cada `.txt`, así que el reporte lleva un conteo por archivo y no una línea adicional `total`; con `{} +`, `wc` podría recibir varios archivos a la vez y añadirla. El archivo `reporte.txt` queda excluido para que una ejecución posterior no se cuente a sí misma.
 

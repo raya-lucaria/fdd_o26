@@ -15,22 +15,15 @@ content:
     BitLocker, descarga la clave de recuperación. El dual boot no borra
     Windows, sólo le encoge el espacio libre.
     Sube a Canvas una sola imagen o PDF con la evidencia:
-    (1) la salida de `neofetch` o de `inxi -Fxz` en tu terminal, donde se vea
+    (1) la salida de `fastfetch` o de `inxi -Fxz` en tu terminal, donde se vea
     el sistema y el modelo de tu equipo; (2) la salida de `python3 --version`;
     y (3) un párrafo corto —cinco líneas bastan— que diga qué distribución
     elegiste y por qué, qué fue lo que se te complicó y cómo lo resolviste.
     Si algo quedó sin funcionar, dilo. Reportar el pendiente cuenta como
     entrega completa; presumir que todo salió bien cuando no es cierto, no.
-    Ve además el video "Curso: Domina la terminal en Linux (1)" de EDteam,
-    listado abajo. Es la introducción a la terminal que vas a usar el resto
-    del semestre y da por hecho que ya tienes un sistema donde practicarla,
-    así que velo después de instalar. Se preguntará al respecto en clase.
     Evidencia en Canvas:
     https://itam.instructure.com/courses/17979/assignments/225402
   resources:
-    - title: "Curso: Domina la terminal en Linux (1) — EDteam"
-      url: "https://www.youtube.com/watch?v=5NUODlQIEQw"
-      note: "Velo después de instalar: es la entrada a la terminal del resto del curso."
     - title: "Guía completa de la unidad — Instalar Linux"
       url: "https://rayalucaria.org/fdd_o26/software-libre-y-sistemas-operativos/instalar-linux/"
       note: "Las cinco paradas, con los prompts para investigar tu propio hardware."
@@ -58,4 +51,4 @@ content:
   due: "2026-08-25"
   points: 20
   status: published
-  tags: [linux, instalacion, dual-boot, wsl2, terminal, video, canvas]
+  tags: [linux, instalacion, dual-boot, wsl2, terminal, canvas]

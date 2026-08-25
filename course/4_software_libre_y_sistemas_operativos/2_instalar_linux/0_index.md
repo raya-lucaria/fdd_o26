@@ -99,8 +99,6 @@ Si en algún punto te bloqueas: [[planes-b]] tiene WSL2 y la opción de nube, pa
 
 La entrega de esta sesión es exactamente esto: **tener un Linux funcionando antes de la clase del martes 25 de agosto**. La definición completa, con la evidencia que hay que subir a Canvas, está en el objeto de tarea de esta unidad.
 
-La tarea trae además un video: **[Curso: Domina la terminal en Linux (1)](https://www.youtube.com/watch?v=5NUODlQIEQw)**, de EDteam. Déjalo para el final, cuando ya tengas dónde practicar — es la entrada a la terminal que vas a usar el resto del semestre, y se va a preguntar en clase.
-
 ## Qué te llevas
 
 - **El dual boot no borra Windows.** Le encoge el espacio y agrega un menú al arrancar.
