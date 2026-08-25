@@ -23,4 +23,4 @@ Entender cómo Bash transforma una línea antes de ejecutarla y convertir pasos 
 | 5. [[variables-comillas-y-salida|Variables, comillas y salida]] | 15 min | eliges comillas y variables sin perder rutas ni texto. |
 | 6. [[de-pasos-a-script|De pasos a script]] | 15 min | ejecutas y depuras un script que valida una carpeta y escribe un reporte. |
 
-El script vive en `~/fdd/terminal-lab`, tu espacio local de práctica; no necesita Git ni un repositorio.
+El script vive en `~/fdd/terminal-lab`, tu espacio local de práctica; no necesita un repositorio.
