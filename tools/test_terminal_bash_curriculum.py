@@ -8,9 +8,11 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 UNIT = ROOT / "course/5_terminal_y_bash"
 ORIENTATION = UNIT / "1_terminal/1_entrar_y_orientarte/0_index.md"
+FLOWS = UNIT / "1_terminal/3_flujos_procesos_y_herramientas/0_index.md"
 TERMINAL_INDEX = UNIT / "1_terminal/0_index.md"
 BASH_INDEX = UNIT / "2_bash_scripting/0_index.md"
 SCRIPT = UNIT / "2_bash_scripting/3_de_pasos_a_script/0_index.md"
+BANDIT_ASSIGNMENT = UNIT / "_official/assignments/1_bandit.yaml"
 INSTALL_ASSIGNMENT = (
     ROOT
     / "course/4_software_libre_y_sistemas_operativos/_official/assignments/1_instalar_linux.yaml"
@@ -79,3 +81,44 @@ def test_install_assignment_uses_fastfetch_and_no_old_terminal_video():
     assert "neofetch" not in content["instructions"].lower()
     assert not any("terminal" in resource["title"].lower() for resource in content["resources"])
     assert "video" not in content["tags"]
+
+
+def test_flujos_arranca_con_historial_antes_de_los_flows_avanzados():
+    """Evita volver a abrir la estación con teoría de stdin/stdout/stderr."""
+    page = read(FLOWS)
+
+    assert page.index("`history`") < page.index("stdin")
+    assert "history | grep pwd" in page
+    assert "Haz:" in page and "Deberías ver:" in page and "Pausa:" in page
+
+
+def test_bandit_exige_exactamente_las_tres_transiciones_iniciales():
+    """Evita asignar niveles posteriores al ingreso comprobable a bandit3."""
+    content = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]
+    instructions = content["instructions"]
+
+    assert all(step in instructions for step in ("0→1", "1→2", "2→3"))
+    assert all(step not in instructions for step in ("3→4", "4→5", "5→6"))
+    assert "bandit3" in instructions
+    assert content["due"] == "2026-08-27"
+
+
+def test_bandit_preflight_es_multiplataforma_y_no_pide_secretos():
+    """Evita una tarea de SSH frágil o que solicite material sensible."""
+    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+
+    for command in (
+        "command -v bash",
+        "bash --version",
+        'echo "$SHELL"',
+        "sudo apt update",
+        "sudo apt install btop",
+        "brew install btop fastfetch",
+        "ssh -V",
+        "ssh-add -l",
+    ):
+        assert command in instructions
+    for platform in ("Ubuntu", "WSL2", "macOS"):
+        assert platform in instructions
+    assert "ssh-agent no guarda contraseñas de Bandit" in instructions
+    assert "llave privada" in instructions

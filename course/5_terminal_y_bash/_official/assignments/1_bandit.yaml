@@ -2,40 +2,103 @@ id: bandit-terminal
 type: assignment
 authority: official
 content:
-  title: "Bandit: investiga la terminal en los niveles 0–5"
-  instructions: >-
-    Resuelve exactamente los niveles 0–5 de Bandit: alcanza las transiciones
-    0→1, 1→2, 2→3, 3→4, 4→5 y 5→6. La evidencia de término es haber entrado
-    al nivel 6; no continúes con el nivel 6. Antes de iniciar el nivel 0, haz
-    un preflight de conectividad: confirma que tu cliente SSH está disponible
-    con `ssh -V`, identifica el host y puerto oficiales, e intenta la conexión
-    SSH. Si no puedes conectarte, entrega una bitácora de bloqueo con la fecha,
-    la prueba de conectividad, el mensaje de error y lo que intentaste ajustar;
-    no inventes una solución ni incluyas secretos.
+  title: "Prepara Bash y SSH; llega a bandit3"
+  instructions: |-
+    Completa esta preparación y las transiciones **0→1, 1→2 y 2→3** de
+    OverTheWire Bandit. Termina cuando hayas iniciado sesión como `bandit3`.
 
-    Entrega en Canvas una bitácora breve y una captura de la sesión ya dentro
-    del nivel 6. En cada transición registra: (1) tu hipótesis antes de probar,
-    (2) la documentación o pista oficial que consultaste, (3) los comandos que
-    ejecutaste y qué observaron, y (4) el ajuste que hiciste después. La
-    captura debe mostrar una comprobación segura de la sesión, por ejemplo
-    `whoami`, sin mostrar contraseñas, prompts donde se escribieron ni archivos
-    que las contengan. No pegues contraseñas en la bitácora, archivos ni
-    capturas. Trabaja con tu propia investigación: no uses walkthroughs,
-    soluciones publicadas, asistentes LLM ni IA generativa.
+    ## 1. Comprueba Bash
+
+    Ejecuta y registra qué ruta, versión y shell de inicio observaste:
+
+    ```bash
+    command -v bash
+    bash --version
+    echo "$SHELL"
+    ```
+
+    Que `$SHELL` muestre `zsh` en macOS no significa que falte Bash: son datos
+    distintos. Si instalas algo, cierra y abre una terminal y repite estas tres
+    comprobaciones; esa es tu verificación posterior a la instalación.
+
+    - **Ubuntu:** ejecuta `sudo apt update`, `sudo apt install bash` y
+      `sudo apt install btop`. Usa `apt search fastfetch`; instálalo sólo si tu
+      versión de Ubuntu lo ofrece.
+    - **WSL2 con Ubuntu:** usa los mismos comandos dentro de Ubuntu. Los paquetes
+      se instalan en esa distribución, no en Windows completo.
+    - **macOS:** comprueba primero `command -v brew`. Si Homebrew ya funciona,
+      ejecuta `brew install bash` y `brew install btop fastfetch`. No cambies tu
+      shell de inicio para completar esta tarea.
+
+    `apt` es la interfaz cómoda para una persona; `apt-get` es la interfaz
+    tradicional, muy usada por scripts. No ejecutes las dos para instalar lo
+    mismo. Homebrew usa `brew` y no debe necesitar `sudo`. Abre `btop`, observa
+    CPU y memoria, y sal con `q`; ejecuta `fastfetch` si quedó disponible.
+
+    ## 2. Comprueba SSH y su agente
+
+    Ejecuta:
+
+    ```bash
+    ssh -V
+    ssh-add -l
+    ```
+
+    `ssh-add -l` puede responder que no hay identidades o que no encuentra un
+    agente. Eso es un diagnóstico, no una razón para inventar una llave. Elige el
+    prompt de tu plataforma, busca documentación oficial de OpenSSH o del sistema
+    operativo y sigue sólo los pasos para iniciar el agente y, si ya tienes una,
+    agregar una llave existente:
+
+    - **Ubuntu:** `configurar ssh-agent persistente en Ubuntu y agregar una llave existente documentación oficial`
+    - **WSL2:** `configurar ssh-agent en WSL2 Ubuntu y agregar una llave existente documentación oficial`
+    - **macOS:** `usar ssh-agent y una llave existente en macOS Keychain documentación oficial`
+
+    Cierra y abre la terminal, repite `ssh-add -l` y anota en dos líneas qué
+    ocurrió. Si no tienes llave, la respuesta sin identidades es evidencia
+    válida para esta tarea. **ssh-agent no guarda contraseñas de Bandit**: ayuda
+    a usar llaves SSH. Nunca pegues, captures ni entregues una llave privada,
+    contraseña, frase de paso o contenido secreto.
+
+    ## 3. Resuelve Bandit hasta bandit3
+
+    Consulta la página oficial del nivel 0 para obtener host, puerto y acceso
+    inicial. En cada una de las tres transiciones registra:
+
+    1. tu hipótesis antes de probar;
+    2. la pista o ayuda oficial que consultaste;
+    3. los comandos que ejecutaste;
+    4. qué observaste y qué ajustaste, sin copiar el secreto.
+
+    Detente cuando `whoami` confirme `bandit3`. No abras archivos del siguiente
+    reto. Si la conexión falla, registra fecha, prueba, error y ajuste intentado.
+
+    ## Entrega
+
+    Entrega una bitácora breve, la comprobación posterior de Bash/SSH y una
+    captura ya dentro de `bandit3`. Recorta o tapa cualquier dato sensible. No
+    incluyas secretos, soluciones publicadas, walkthroughs ni respuestas de LLM
+    o IA generativa.
   resources:
     - title: "OverTheWire Bandit — niveles y pistas oficiales"
       url: "https://overthewire.org/wargames/bandit/"
-      note: "Lee el objetivo y los comandos sugeridos por cada nivel; no copies soluciones."
+      note: "Usa los objetivos y comandos sugeridos; evita soluciones de terceros."
     - title: "OverTheWire Bandit Level 0 — conexión oficial"
       url: "https://overthewire.org/wargames/bandit/bandit0.html"
-      note: "Consulta aquí el host, puerto y acceso inicial; no reproduzcas credenciales en tu entrega."
-    - title: "Manual local de SSH"
-      url: "https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh.1.html"
-      note: "En tu terminal, usa también `man ssh` para entender las opciones de conexión."
-    - title: "Ayuda incorporada de comandos"
-      url: "https://www.gnu.org/software/coreutils/manual/coreutils.html"
-      note: "Prueba `comando --help` y la página `man` correspondiente antes de cambiar tu hipótesis."
+      note: "Obtén aquí host, puerto y acceso inicial; no los reproduzcas en la entrega."
+    - title: "Manual de GNU Bash"
+      url: "https://www.gnu.org/software/bash/manual/bash.html"
+      note: "Referencia oficial para comprobar Bash."
+    - title: "Homebrew — instalación oficial"
+      url: "https://docs.brew.sh/Installation"
+      note: "Consulta esta guía sólo si Homebrew no está instalado en macOS."
+    - title: "btop — proyecto oficial"
+      url: "https://github.com/aristocratos/btop"
+      note: "Visor interactivo de recursos para Linux y macOS."
+    - title: "fastfetch — proyecto oficial"
+      url: "https://github.com/fastfetch-cli/fastfetch"
+      note: "Revisa los paquetes disponibles para tu plataforma."
   due: "2026-08-27"
   points: 20
   status: published
-  tags: [terminal, ssh, bandit, investigacion, bitacora]
+  tags: [terminal, bash, ssh, bandit, investigacion, bitacora]

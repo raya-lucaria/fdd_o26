@@ -1,151 +1,194 @@
 ---
 id: flujos-procesos-y-herramientas
-title: "Flujos, procesos y herramientas"
-nav_title: "Flujos y procesos"
-summary: "Conecta programas, separa errores y reconoce procesos con herramientas por plataforma."
+title: "Historial, tuberías y herramientas"
+nav_title: "Historial y tuberías"
+summary: "Recupera comandos, filtra texto y prepara las herramientas de tu terminal."
 status: ready
 estimated_time: 15m
-tags: [terminal, pipes, procesos, stdin, stdout, stderr]
+tags: [terminal, history, pipes, procesos, stdout, stderr]
 prerequisites: [archivos-y-comandos]
 ---
 
-# Flujos, procesos y herramientas
+# Historial, tuberías y herramientas
 
-Un proceso es un programa que está ejecutándose. La shell conecta tres flujos: **stdin** (entrada), **stdout** (salida normal) y **stderr** (mensajes de error). Separarlos permite conservar resultados y diagnosticar fallas.
+Tu terminal ya recuerda lo que escribiste. En esta estación vas a **encontrar un comando anterior**, contar coincidencias y guardar el resultado.
 
-::: definition {#tres-flujos title="Tres caminos de texto"}
-Por defecto, un programa lee desde stdin y escribe tanto stdout como stderr en la terminal. `>` redirige stdout y reemplaza un archivo; `>>` agrega stdout al final; `2>` redirige stderr; `2>&1` envía stderr al mismo destino que stdout en ese punto de la línea.
-:::
+## Misión 1: recupera un comando
 
-## Redirecciones reproducibles
+`history` muestra comandos recientes de esta sesión. No modifica archivos.
 
-::: example {#salida-y-error-separados title="Guarda resultado y diagnóstico"}
-El bloque prepara sus archivos antes de usarlos y luego separa un error esperado.
+::: example {#recupera-tu-historial title="Mira y recupera tu historial"}
+**Haz:**
 
 ```bash
-mkdir -p "$HOME/fdd/terminal-lab/reportes"
 cd "$HOME/fdd/terminal-lab"
-printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
-printf '%s\n' 'faltó una columna' > errores.txt
-printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
-ls nombres.txt > reportes/salida.txt 2> reportes/errores-ls.txt
-ls inexistente > reportes/salida-vacia.txt 2> reportes/errores-ls.txt
-cat reportes/errores-ls.txt
+pwd
+history
 ```
 
-El segundo `ls` no encuentra ese nombre: stdout queda en `salida-vacia.txt` y su diagnóstico queda en `errores-ls.txt`.
+**Deberías ver:** el número y el texto de comandos recientes. La cantidad cambia en cada computadora.
+
+**Pausa:** ¿reconoces el `pwd` que acabas de ejecutar?
 :::
 
-Para registrar salida y error juntos, redirige en este orden: `comando > reporte.txt 2>&1`. `2>&1` copia el destino actual de stdout; si lo inviertes, no se comporta igual.
+Para reutilizar sin teclear todo:
 
-## Tuberías y decisiones
+| Gesto | Resultado |
+|---|---|
+| ↑ / ↓ | Recorre comandos anteriores y posteriores. |
+| `Ctrl-R` | Busca hacia atrás; escribe unas letras y pulsa `Enter`. |
+| `Ctrl-C` | Cancela la búsqueda o el comando actual y devuelve el prompt. |
 
-El símbolo `|` entrega stdout de un programa como stdin del siguiente. `tee` muestra la salida y a la vez la guarda. `&&` ejecuta la segunda orden solo si la primera tuvo éxito; `||` la ejecuta solo si la primera falló. Después de un comando, `$?` contiene su estado: `0` suele significar éxito.
+Revisa el comando recuperado **antes** de pulsar `Enter`: el historial también recuerda errores.
+
+## Misión 2: encuentra sólo los `pwd`
+
+`grep texto` conserva las líneas que contienen ese texto. El símbolo `|` conecta dos programas de izquierda a derecha.
+
+::: example {#filtra-tu-historial title="Conecta history con grep"}
+**Haz:** ejecuta primero `pwd` para producir una coincidencia propia y después filtra el historial.
+
+```bash
+pwd
+history | grep pwd
+```
+
+**Deberías ver:** una o más líneas que incluyen `pwd`.
+
+**Pausa:** ¿qué lado produce muchas líneas y qué lado decide cuáles pasan?
+:::
+
+Lee `history | grep pwd` así:
+
+```text
+history  ──texto por stdout──>  |  ──texto por stdin──>  grep pwd
+muchas líneas                                      sólo coincidencias
+```
+
+La tubería mueve **texto**, no archivos. `grep` no cambia el historial ni el directorio.
+
+::: problem {#cambia-el-filtro title="Predice antes de filtrar"}
+¿Qué esperarías si cambias `pwd` por `cd` en `history | grep pwd`?
+:::
+
+::: hint {of="cambia-el-filtro"}
+Piensa qué texto busca el programa de la derecha.
+:::
+
+::: answer {of="cambia-el-filtro"}
+`grep cd` conservaría las líneas del historial que contienen los caracteres `cd`. No ejecutaría esos comandos.
+:::
+
+## Misión 3: cuenta coincidencias
+
+`wc -l` cuenta líneas. Puede recibir el texto de otra tubería.
+
+::: example {#cuenta-tu-historial title="Agrega un tercer paso"}
+**Haz:**
+
+```bash
+pwd
+history | grep pwd | wc -l
+```
+
+**Deberías ver:** un número. Es el total de líneas que llegaron a `wc -l`, no el total de archivos.
+
+**Pausa:** tapa el resultado y predice si crecerá después de ejecutar otro `pwd`.
+:::
+
+Cada `|` entrega la salida del programa izquierdo al siguiente. Puedes leer la línea completa como una frase: **recuerda, filtra, cuenta**.
+
+## Misión 4: guarda una búsqueda
+
+Ya conoces `>` y `>>`: aquí guardan el resultado final de la tubería.
+
+::: example {#guarda-la-busqueda title="Crea una bitácora pequeña"}
+**Haz:**
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/reportes"
+cd "$HOME/fdd/terminal-lab"
+pwd
+history | grep pwd > reportes/comandos-pwd.txt
+cat reportes/comandos-pwd.txt
+history | grep pwd >> reportes/comandos-pwd.txt
+wc -l reportes/comandos-pwd.txt
+```
+
+**Deberías ver:** primero las coincidencias guardadas y luego su conteo. `>` reemplaza; `>>` agrega.
+
+**Pausa:** ¿por qué el segundo conteo puede ser mayor que el primero?
+:::
+
+## Sólo para reconocer después
+
+No necesitas memorizar esta tarjeta hoy.
+
+| Pieza | Idea mínima |
+|---|---|
+| **stdin** | Texto que recibe un programa. |
+| **stdout** | Salida normal; `|`, `>` y `>>` trabajan con ella. |
+| **stderr** | Diagnóstico; `2>` puede guardarlo por separado. |
+| `$?` | Estado del comando anterior: `0` suele indicar éxito. |
+| `tee` | Muestra texto y además guarda una copia. |
+| `set -o pipefail` | Hace visible una falla en cualquier parte de una tubería. |
+
+::: example {#salida-y-error-separados title="Opcional: separa salida y diagnóstico"}
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/reportes"
+cd "$HOME/fdd/terminal-lab"
+ls notas > reportes/listado.txt 2> reportes/error.txt
+ls no-existe > reportes/listado-vacio.txt 2> reportes/error.txt
+estado=$?
+cat reportes/error.txt
+echo "$estado"
+```
+
+El segundo `ls` manda su diagnóstico a `error.txt`. El ejemplo guarda `$?` inmediatamente porque cualquier comando posterior lo reemplaza.
+:::
 
 ::: example {#cuenta-y-registra-nombres title="Transforma una entrada preparada"}
-El ejemplo crea la entrada antes de ordenarla y contar repeticiones.
+Este ejemplo queda como ampliación: crea su propia entrada y conserva el resultado de una tubería más larga.
 
 ```bash
 mkdir -p "$HOME/fdd/terminal-lab/reportes"
 cd "$HOME/fdd/terminal-lab"
 printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
-printf '%s\n' 'faltó una columna' > errores.txt
-printf '%s\n' 'contenido con espacio' > 'dos palabras.txt'
 set -o pipefail
 sort nombres.txt | uniq -c | tee reportes/conteos.txt
 estado=$?
 set +o pipefail
 printf 'Estado de la tubería: %s\n' "$estado"
-if test "$estado" -eq 0; then
-    printf '%s\n' 'reporte creado'
-else
-    printf '%s\n' 'revisa el reporte'
-fi
 ```
 
-`sort` junta iguales antes de que `uniq -c` pueda contarlos. `tee` conserva una copia legible en `reportes/conteos.txt`. `set -o pipefail` hace que la tubería falle si falla cualquiera de sus programas; luego el ejemplo guarda `$?` en `estado` antes de apagar esa opción y ramificar. Puedes usar `&&` y `||` para encadenar acciones por éxito o fallo, pero guarda el estado primero si quieres examinar el resultado del comando anterior.
+`sort` junta nombres iguales, `uniq -c` los cuenta y `tee` muestra y guarda. Puedes volver a este bloque cuando las cuatro misiones anteriores ya sean naturales.
 :::
 
-::: example {#predice-antes-de-ejecutar title="Predice los flujos"}
-Sin ejecutarlos, anota qué verá la terminal y qué quedará en cada archivo para estas líneas. Después pruébalas en tu laboratorio.
+## Procesos: mirar y recuperar el prompt
+
+`ps` toma una instantánea de procesos. `btop` ofrece una vista interactiva de CPU, memoria y procesos; sales con `q`. Si un programa en primer plano no termina, `Ctrl-C` solicita interrumpirlo: recupera el prompt, pero **no deshace** cambios ya realizados.
+
+## Prepara Bash y dos herramientas
+
+Primero comprueba; instala sólo lo que falte.
 
 ```bash
-ls inexistente > salida 2> errores
-ls inexistente | wc -l
-printf '%s\n' Ana Beto Ana | sort | uniq -c
+command -v bash
+bash --version
+echo "$SHELL"
 ```
 
-Recuerda: una tubería mueve stdout, no stderr.
-:::
+`$SHELL` suele indicar tu shell de inicio. En macOS puede decir `zsh` aunque Bash esté disponible: no es un error.
 
-::: problem {#redireccion-error-prediccion title="¿Dónde quedó el error?"}
-Tras ejecutar `ls inexistente > salida 2> errores`, ¿qué esperas encontrar en `salida`, en `errores` y en la terminal?
-:::
-
-::: hint {of="redireccion-error-prediccion"}
-`>` trata la salida normal; el `2` nombra el flujo de diagnóstico.
-:::
-
-::: answer {of="redireccion-error-prediccion"}
-`salida` queda vacío porque `ls` no pudo listar el nombre. `errores` contiene el diagnóstico de que no existe. La terminal no muestra ese mensaje porque stderr fue redirigido.
-:::
-
-::: problem {#tuberia-no-cuenta-errores title="Una tubería no absorbe stderr"}
-¿Por qué `ls inexistente | wc -l` normalmente imprime `0` como conteo, aunque el mensaje de error sigue siendo visible en la terminal?
-:::
-
-::: hint {of="tuberia-no-cuenta-errores"}
-Identifica qué flujo entra a `wc -l` y cuál permanece conectado a la terminal.
-:::
-
-::: answer {of="tuberia-no-cuenta-errores"}
-La tubería pasa stdout de `ls` a stdin de `wc`. Como no hubo nombres listados, `wc -l` cuenta cero líneas. El diagnóstico viaja por stderr, que no entra en la tubería y por eso se ve en la terminal.
-:::
-
-::: problem {#ordenar-antes-de-contar title="Agrupa antes de contar"}
-¿Qué efecto tiene `sort | uniq -c` sobre una entrada con tres líneas `Ana`, `Beto`, `Ana`, y por qué importa el orden?
-:::
-
-::: hint {of="ordenar-antes-de-contar"}
-`uniq` cuenta grupos consecutivos, no todas las apariciones dispersas.
-:::
-
-::: answer {of="ordenar-antes-de-contar"}
-`sort` ordena las líneas para que las dos apariciones de `Ana` queden juntas; luego `uniq -c` imprime un conteo de 2 para `Ana` y 1 para `Beto`. Sin ordenar, nombres iguales separados no formarían un mismo grupo.
-:::
-
-## Procesos y herramientas disponibles
-
-`ps` muestra una instantánea de procesos; `ps aux` suele dar una lista más amplia. `htop` es un visor interactivo: si está instalado, sales con `q`. `fastfetch` resume el sistema si está disponible. Antes de instalar o ejecutar una herramienta opcional, pregunta si existe:
-
-```bash
-command -v htop
-command -v fastfetch
-ps
-```
-
-`Ctrl-C` envía una interrupción al proceso que ocupa la terminal, por ejemplo un comando que sigue esperando entrada. Normalmente vuelve al prompt; no deshace una operación que ya terminó ni elimina archivos.
-
-::: problem {#ctrl-c-interrumpe-primer-plano title="Interrumpe, no deshace"}
-Ejecutas un programa que sigue esperando y pulsas `Ctrl-C`. ¿Qué efecto esperas y qué no puedes concluir sobre cambios que el programa hubiera hecho antes?
-:::
-
-::: hint {of="ctrl-c-interrumpe-primer-plano"}
-Distingue entre detener el proceso actual y revertir acciones pasadas.
-:::
-
-::: answer {of="ctrl-c-interrumpe-primer-plano"}
-La shell solicita interrumpir el proceso en primer plano y normalmente recupera el prompt. No es un botón de deshacer: cualquier salida o cambio completado antes de la interrupción puede permanecer.
-:::
-
-## Tarjetas por plataforma
-
-| Plataforma | Herramientas y regla de cuidado |
+| Plataforma | Ruta corta |
 |---|---|
-| Ubuntu | `apt` consulta e instala paquetes. `sudo` ejecuta **una** orden con privilegios elevados y puede pedir tu contraseña; úsalo solo cuando entiendas la orden y el origen del paquete. Por ejemplo, revisa primero `apt search htop`; si tu docente o documentación oficial te indicó instalarlo, `sudo apt install htop`. |
-| WSL2 con Ubuntu | Dentro de la distribución usa las mismas órdenes de Ubuntu; lo instalado afecta esa distribución Linux, no todas las aplicaciones de Windows. |
-| macOS | `brew` administra paquetes si ya está instalado. Compruébalo con `command -v brew`; busca con `brew search htop` y revisa el resultado antes de decidir instalar. |
+| Ubuntu | `sudo apt update` actualiza el catálogo; `apt search btop` permite revisar; `sudo apt install btop` instala. Prueba `apt search fastfetch` antes de instalarlo porque su disponibilidad depende de la versión. |
+| WSL2 + Ubuntu | Usa la misma ruta dentro de Ubuntu. Los paquetes quedan en esa distribución WSL2. |
+| macOS | Comprueba `command -v brew`. Si Homebrew ya funciona: `brew install btop fastfetch`. Para una versión reciente de Bash: `brew install bash`; compruébala sin cambiar todavía tu shell de inicio. |
 
-`apt`, `brew`, `htop` y `fastfetch` son herramientas opcionales: entender los flujos anteriores no depende de tenerlas instaladas.
+`apt` está pensado para uso interactivo. `apt-get` es la interfaz tradicional y estable que aparece mucho en scripts y documentación; **no necesitas ejecutar ambos** para instalar el mismo paquete. `brew` es el gestor de paquetes de Homebrew en macOS y normalmente no se ejecuta con `sudo`.
 
-Para cerrar la práctica aplicada, abre [OverTheWire Bandit](https://overthewire.org/wargames/bandit/) y consulta la entrega oficial **“Bandit: investiga la terminal en los niveles 0–5”** en el curso. Usarás el mismo hábito de leer el prompt, pedir ayuda y distinguir salida de errores.
+Ejecuta `btop` para observar CPU y memoria; pulsa `q` para salir. `fastfetch` resume sistema, kernel, shell y hardware en una sola pantalla.
+
+La práctica continúa en [OverTheWire Bandit](https://overthewire.org/wargames/bandit/). La entrega oficial pide preparar Bash/SSH y completar sólo **0→1, 1→2 y 2→3**.
