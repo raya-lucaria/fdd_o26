@@ -1,0 +1,41 @@
+id: bandit-terminal
+type: assignment
+authority: official
+content:
+  title: "Bandit: investiga la terminal en los niveles 0–5"
+  instructions: >-
+    Resuelve exactamente los niveles 0–5 de Bandit: alcanza las transiciones
+    0→1, 1→2, 2→3, 3→4, 4→5 y 5→6. La evidencia de término es haber entrado
+    al nivel 6; no continúes con el nivel 6. Antes de iniciar el nivel 0, haz
+    un preflight de conectividad: confirma que tu cliente SSH está disponible
+    con `ssh -V`, identifica el host y puerto oficiales, e intenta la conexión
+    SSH. Si no puedes conectarte, entrega una bitácora de bloqueo con la fecha,
+    la prueba de conectividad, el mensaje de error y lo que intentaste ajustar;
+    no inventes una solución ni incluyas secretos.
+
+    Entrega en Canvas una bitácora breve y una captura de la sesión ya dentro
+    del nivel 6. En cada transición registra: (1) tu hipótesis antes de probar,
+    (2) la documentación o pista oficial que consultaste, (3) los comandos que
+    ejecutaste y qué observaron, y (4) el ajuste que hiciste después. La
+    captura debe mostrar una comprobación segura de la sesión, por ejemplo
+    `whoami`, sin mostrar contraseñas, prompts donde se escribieron ni archivos
+    que las contengan. No pegues contraseñas en la bitácora, archivos ni
+    capturas. Trabaja con tu propia investigación: no uses walkthroughs,
+    soluciones publicadas, asistentes LLM ni IA generativa.
+  resources:
+    - title: "OverTheWire Bandit — niveles y pistas oficiales"
+      url: "https://overthewire.org/wargames/bandit/"
+      note: "Lee el objetivo y los comandos sugeridos por cada nivel; no copies soluciones."
+    - title: "OverTheWire Bandit Level 0 — conexión oficial"
+      url: "https://overthewire.org/wargames/bandit/bandit0.html"
+      note: "Consulta aquí el host, puerto y acceso inicial; no reproduzcas credenciales en tu entrega."
+    - title: "Manual local de SSH"
+      url: "https://manpages.ubuntu.com/manpages/jammy/en/man1/ssh.1.html"
+      note: "En tu terminal, usa también `man ssh` para entender las opciones de conexión."
+    - title: "Ayuda incorporada de comandos"
+      url: "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+      note: "Prueba `comando --help` y la página `man` correspondiente antes de cambiar tu hipótesis."
+  due: "2026-08-27"
+  points: 20
+  status: published
+  tags: [terminal, ssh, bandit, investigacion, bitacora]

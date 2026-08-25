@@ -1,0 +1,14 @@
+id: examen-escrito-unidad-inicial
+type: exam
+authority: official
+content:
+  title: "Examen escrito: arquitectura, sistemas operativos y pipeline de datos"
+  instructions: >-
+    Evaluación presencial y escrita, de duración corta según indique el
+    docente. Responde de forma individual preguntas breves sobre Arquitectura
+    de computadoras, Sistemas operativos y Pipeline de datos, usando conceptos
+    y ejemplos vistos en clase. Esta evaluación se realiza en el salón y no se
+    entrega en Canvas ni tiene una URL de entrega.
+  due: "2026-08-27"
+  status: published
+  tags: [examen, presencial, arquitectura, sistemas-operativos, pipeline-de-datos]
