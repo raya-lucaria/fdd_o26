@@ -4,6 +4,31 @@
 2026-08-25.  **Alcance:** contenido, objetos oficiales y calendario; no incluye
 flashcards ni actividad con estado del estudiante.
 
+## Enmienda aprobada: recorrido cotidiano de Terminal
+
+La primera versión introduce demasiados conceptos antes de que el estudiante
+pueda hacer operaciones cotidianas. Terminal se reordena como un recorrido
+continuo sobre una carpeta real:
+
+1. **Orientarte y moverte:** `pwd`, `ls`, `ls -la`, `~`, rutas absolutas y
+   relativas, `.`, `..`, `cd` y `mkdir`.
+2. **Crear y cuidar archivos:** `touch`, `echo`, `>`, `>>`, `cat`, `head`,
+   `tail`, ayuda, `cp`, `mv`, `rm -i` y `rmdir`.
+3. **Encontrar, repetir y conectar:** historial, `Ctrl-R`, `history | grep`,
+   `grep`, `wc -l`, redirección simple, y al final procesos/streams avanzados.
+
+Cada estación usa tres misiones de 3–5 minutos con el formato visible **Haz →
+deberías ver → pausa**. `stdin`, `stderr`, `tee`, `pipefail`, `&&` y `||` se
+conservan como extensión de la tercera estación, no como puerta de entrada.
+
+Bandit cambia a **0→1, 1→2 y 2→3**, con evidencia segura de entrada a
+`bandit3`. Antes de Bandit incluye un preflight de Bash, cliente SSH y recursos:
+Ubuntu/WSL2 usan `apt update` y `btop`; macOS usa Homebrew para `btop` y
+`fastfetch`. Se confirma `bash --version`, sin imponer un cambio de shell de
+inicio. La preparación de `ssh-agent` es una guía de investigación por
+plataforma y una comprobación local (`ssh-add -l`); nunca se comparten llaves
+privadas ni contraseñas. Bandit no usa un agente para sus contraseñas.
+
 ## Propósito
 
 La unidad convierte una terminal recién instalada en una herramienta cotidiana.
