@@ -41,14 +41,16 @@ events:
     date: "2026-08-25"
     start_time: "19:00"
     end_time: "20:30"
-    title: "Bash & Shell"
+    title: "Terminal: uso directo"
+    page: terminal-directa
 
   - id: session-06
     kind: session
     date: "2026-08-27"
     start_time: "19:00"
     end_time: "20:30"
-    title: "Regex"
+    title: "Bash scripting y examen"
+    page: bash-scripting
 
   - id: session-07
     kind: session
