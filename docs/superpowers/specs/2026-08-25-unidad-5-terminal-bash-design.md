@@ -6,9 +6,10 @@ flashcards ni actividad con estado del estudiante.
 
 ## Propósito
 
-La unidad convierte una terminal recién instalada en una herramienta cotidiana y
-prepara el uso posterior de Git, GitHub, Docker y Python. No pretende formar
-administradores de sistemas ni cubrir Bash completo.
+La unidad convierte una terminal recién instalada en una herramienta cotidiana.
+Todo ocurre en una carpeta local de práctica, sin repositorio, Git, GitHub,
+Docker ni dependencias de desarrollo. No pretende formar administradores de
+sistemas ni cubrir Bash completo.
 
 El lector debe poder, al terminar:
 
@@ -96,6 +97,17 @@ El código es corto y copiable. Las instrucciones nunca asumen que copiar es
 comprender: cada bloque ejecutable nombra el resultado esperado. Las listas no
 deben exceder cinco elementos sin agruparlas en "ahora" y "después".
 
+### Política de ejemplos
+
+Los ejemplos son el centro de la unidad. Cada estación trabaja sobre archivos
+inventados dentro de `~/fdd/terminal-lab`: `nombres.txt`, `errores.txt`,
+`dos palabras.txt` y un directorio `reportes/`. No se necesita instalar un
+editor, crear cuenta, inicializar repositorio ni entender una herramienta que
+aún no se ha enseñado. Un ejemplo introduce una acción; el siguiente pide
+predecir una variante; la actividad final mezcla sólo las dos o tres acciones
+ya vistas. Las rutas y los archivos se crean en el propio bloque antes de
+usarse, para que cualquier estación pueda retomarse sin memoria de la anterior.
+
 ## Estaciones
 
 ### Terminal 1 — Entrar y orientarte
@@ -114,7 +126,8 @@ deben exceder cinco elementos sin agruparlas en "ahora" y "después".
   Copiar/pegar y pestañas se presentan como funciones del emulador: se da la
   convención Linux/WSL2 `Ctrl-Shift-C/V` y macOS `Cmd-C/V`, sin prometer
   atajos universales de pestañas.
-- Crear el único espacio de práctica:
+- Crear el único espacio de práctica. Es una carpeta local desechable, no un
+  repositorio ni una estructura que deban conservar:
 
   ```bash
   mkdir -p ~/fdd/terminal-lab
@@ -244,7 +257,7 @@ sin una función explicativa.
 Regex real (la siguiente unidad), `sed`, `awk`, `xargs`, `find -exec`,
 here-documents, arrays, `eval`, `source`, aliases, RC files, permisos octales
 profundos, ownership, SSH distinto al uso mínimo de Bandit, cron, redes,
-usuarios, discos, Docker, Git y configuración persistente del PATH.
+usuarios, discos, Docker, Git, GitHub y configuración persistente del PATH.
 
 ## Verificación al implementar
 
