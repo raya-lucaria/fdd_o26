@@ -32,10 +32,23 @@ def test_orientation_covers_shell_history_and_daily_shortcuts():
         assert platform in page
 
 
-def test_orientacion_guia_pwd_y_rutas():
-    texto = ORIENTATION.read_text(encoding="utf-8")
-    assert texto.index("`pwd`") < texto.index("`touch`")
-    assert all(token in texto for token in ("`~`", "`/`", ".", "`..`"))
+def test_orientacion_guia_comandos_en_orden_sin_crear_archivos():
+    texto = read(ORIENTATION)
+    secuencia = ("`pwd`", "`ls`", "`mkdir -p`", "`cd`", "**ruta absoluta**")
+    posiciones = [texto.index(token) for token in secuencia]
+    assert posiciones == sorted(posiciones)
+    assert "`touch`" not in texto
+
+
+def test_orientacion_distingue_tokens_exactos_de_ruta():
+    texto = read(ORIENTATION)
+    assert all(token in texto for token in ("`~`", "`/`", "`.`", "`..`", "`...`"))
+    assert "`...` no es una ruta ni una sintaxis especial en Bash" in texto
+
+
+def test_orientacion_explica_ls_y_mantiene_ritmo_de_mision():
+    texto = read(ORIENTATION)
+    assert "`ls` muestra el contenido de la carpeta actual; no imprime su nombre" in texto
     assert "Haz:" in texto and "Deberías ver:" in texto and "Pausa:" in texto
 
 

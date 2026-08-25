@@ -11,7 +11,7 @@ prerequisites: [terminal-directa]
 
 # Entrar y orientarte
 
-Abre una terminal y úsala como un mapa: primero averigua dónde estás, después muévete y sólo entonces crea un archivo. Al terminar tendrás un laboratorio aislado en `~/fdd/terminal-lab/notas/hoy/`.
+Abre una terminal y úsala como un mapa: primero averigua dónde estás, después muévete y compara distintas formas de nombrar un lugar. Al terminar tendrás un laboratorio aislado en `~/fdd/terminal-lab/notas/hoy/`.
 
 Elige el entorno correcto:
 
@@ -28,7 +28,7 @@ pwd
 ls
 ```
 
-`pwd` viene de *print working directory*: imprime la ruta de la carpeta en la que estás. `ls` lista lo que esa carpeta contiene.
+`pwd` viene de *print working directory*: imprime la ruta de la carpeta en la que estás. `ls` muestra el contenido de la carpeta actual; no imprime su nombre.
 
 **Deberías ver:** una ruta en la primera salida, por ejemplo `/home/ana` o `/Users/ana`. La segunda puede mostrar nombres o no mostrar nada si la carpeta está vacía.
 
@@ -58,10 +58,9 @@ pwd
 
 ## Misión 3: compara formas de nombrar un lugar
 
-**Haz:** crea un archivo vacío, muestra también las entradas ocultas y visita los mismos lugares con distintas clases de ruta.
+**Haz:** muestra también las entradas ocultas y visita los mismos lugares con distintas clases de ruta.
 
 ```bash
-touch observaciones.txt
 ls -la
 cd ~/fdd/terminal-lab
 ls -la notas/hoy
@@ -72,14 +71,15 @@ cd ~/fdd/terminal-lab/notas/hoy
 pwd
 ```
 
-`touch` crea `observaciones.txt` si no existe. En `ls -la`, la opción `-l` muestra detalles y `-a` incluye nombres ocultos.
+En `ls -la`, la opción `-l` muestra detalles y `-a` incluye nombres ocultos.
 
 - Una **ruta absoluta** empieza en la raíz `/`, como `/home/ana/fdd`. La variable `$HOME` se expande a una ruta absoluta; las comillas conservan esa ruta como un solo argumento.
 - Una **ruta relativa** empieza en la carpeta actual. Desde `terminal-lab`, `notas/hoy` llega a la carpeta que acabas de crear.
 - `.` nombra la carpeta actual y `..` nombra su carpeta madre.
+- `...` no es una ruta ni una sintaxis especial en Bash: es sólo un nombre literal y únicamente funcionará como ruta si existe una entrada llamada `...`. A diferencia de `.` y `..`, para subir dos niveles debes escribir `../..`.
 - `~` es el atajo que la shell expande a tu carpeta personal antes de ejecutar el comando.
 
-**Deberías ver:** `observaciones.txt` aparece al listar `notas/hoy` por su ruta relativa y por la ruta que comienza en `$HOME`. `ls -la .` lista `terminal-lab`; `ls -la ..` lista su carpeta madre, `fdd`. El último `pwd` termina en `fdd/terminal-lab/notas/hoy`.
+**Deberías ver:** los tres primeros listados de la misión muestran el mismo contenido de `notas/hoy`; como todavía está vacía, incluyen al menos `.` y `..`. `ls -la .` muestra el contenido de `terminal-lab`; `ls -la ..` muestra el de su carpeta madre, `fdd`. El último `pwd` termina en `fdd/terminal-lab/notas/hoy`.
 
 **Pausa:** predice desde qué carpeta funcionarían `ls -la notas/hoy`, `ls -la .` y `ls -la ..`. Comprueba tu respuesta con `pwd`, no con el texto del *prompt*.
 
