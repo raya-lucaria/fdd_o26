@@ -28,6 +28,8 @@ prerequisites: [software-libre-y-sistemas-operativos]
 
 La carpeta `~/fdd/terminal-lab` es tu laboratorio: puedes crear, mover y borrar ahí sin tocar tu proyecto de clase. Es una práctica local, no un repositorio.
 
+Los dos recorridos incluyen una portada para orientarte y un diagrama de consulta: empieza por [[terminal-directa|Terminal: uso directo]] y continúa con [[bash-scripting|Bash scripting]].
+
 ## Antes de empezar
 
 Necesitas una terminal Unix: Ubuntu, Ubuntu dentro de WSL2 o macOS. Si vienes de la unidad anterior, ya tienes el contexto de Linux; ahora toca usarlo con intención.

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 850" role="img" aria-labelledby="lab-tree-title lab-tree-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="lab-tree-title">Árbol del laboratorio local de terminal</title>
+  <desc id="lab-tree-desc">La carpeta personal contiene fdd y, dentro, terminal-lab. El laboratorio contiene los archivos nombres.txt y dos palabras.txt, más la carpeta reportes.</desc>
+  <defs>
+    <linearGradient id="lab-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#0b0f12"/>
+      <stop offset="1" stop-color="#14242b"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .heading { font-family: system-ui, sans-serif; font-size: 38px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .note { font-family: system-ui, sans-serif; font-size: 25px; font-weight: 500; fill: #a7b8ad; text-anchor: middle; }
+    .path { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 28px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .name { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 27px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .kind { font-family: system-ui, sans-serif; font-size: 22px; font-weight: 500; fill: #a7b8ad; text-anchor: middle; }
+    .line { fill: none; stroke: #4a7a63; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .box { stroke-width: 4; }
+  </style>
+  <rect width="720" height="850" rx="32" fill="url(#lab-bg)"/>
+  <text x="360" y="58" class="heading">Un laboratorio, una ruta segura</text>
+  <text x="360" y="96" class="note">Puedes practicar aquí sin afectar otra carpeta.</text>
+
+  <rect x="92" y="142" width="536" height="98" rx="22" fill="#173b2a" stroke="#7ef29d" class="box"/>
+  <text x="360" y="201" class="path">~/fdd/terminal-lab</text>
+
+  <path d="M360 240V282H98V310M360 282H360V430M360 282H622V550" class="line"/>
+  <rect x="100" y="324" width="520" height="92" rx="20" fill="#164e63" stroke="#6fd8e8" class="box"/>
+  <text x="360" y="364" class="name">nombres.txt</text>
+  <text x="360" y="397" class="kind">archivo de texto</text>
+
+  <rect x="100" y="444" width="520" height="92" rx="20" fill="#4c3814" stroke="#ffc857" class="box"/>
+  <text x="360" y="484" class="name">dos palabras.txt</text>
+  <text x="360" y="517" class="kind">archivo de texto</text>
+
+  <rect x="100" y="564" width="520" height="92" rx="20" fill="#382057" stroke="#c9a7ff" class="box"/>
+  <text x="360" y="604" class="name">reportes/</text>
+  <text x="360" y="637" class="kind">carpeta</text>
+
+  <rect x="56" y="730" width="608" height="86" rx="18" fill="#141b20" stroke="#4a7a63" class="box"/>
+  <text x="360" y="768" class="note">Antes de mover o borrar, confirma</text>
+  <text x="360" y="800" class="note">que sigues dentro de esta ruta.</text>
+</svg>

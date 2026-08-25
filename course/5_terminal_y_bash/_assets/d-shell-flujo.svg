@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 970" role="img" aria-labelledby="shell-flow-title shell-flow-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="shell-flow-title">Del teclado a la salida de un programa</title>
+  <desc id="shell-flow-desc">Una tecla llega a Bash. Bash expande la línea y llama a un programa. El programa puede escribir salida normal en stdout o diagnósticos en stderr.</desc>
+  <defs>
+    <linearGradient id="shell-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#0b0f12"/>
+      <stop offset="1" stop-color="#16302a"/>
+    </linearGradient>
+    <marker id="shell-arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0 0 12 6 0 12Z" fill="#7ef29d"/>
+    </marker>
+  </defs>
+  <style>
+    .heading { font-family: system-ui, sans-serif; font-size: 38px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .label { font-family: system-ui, sans-serif; font-size: 34px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .detail { font-family: system-ui, sans-serif; font-size: 25px; font-weight: 500; fill: #a7b8ad; text-anchor: middle; }
+    .mono { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 30px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .arrow { fill: none; stroke: #7ef29d; stroke-width: 7; marker-end: url(#shell-arrow); }
+    .box { stroke-width: 4; }
+  </style>
+  <rect width="720" height="970" rx="32" fill="url(#shell-bg)"/>
+  <text x="360" y="58" class="heading">Bash prepara tu línea</text>
+
+  <rect x="112" y="104" width="496" height="108" rx="24" fill="#164e63" stroke="#6fd8e8" class="box"/>
+  <text x="360" y="151" class="label">Tecla</text>
+  <text x="360" y="184" class="detail">escribes una línea</text>
+  <path d="M360 212V270" class="arrow"/>
+
+  <rect x="112" y="280" width="496" height="108" rx="24" fill="#173b2a" stroke="#7ef29d" class="box"/>
+  <text x="360" y="327" class="label">Bash</text>
+  <text x="360" y="360" class="detail">lee separadores y comillas</text>
+  <path d="M360 388V446" class="arrow"/>
+
+  <rect x="112" y="456" width="496" height="108" rx="24" fill="#4c3814" stroke="#ffc857" class="box"/>
+  <text x="360" y="503" class="label">Expansión</text>
+  <text x="360" y="536" class="detail">variables y patrones producen argumentos</text>
+  <path d="M360 564V622" class="arrow"/>
+
+  <rect x="112" y="632" width="496" height="108" rx="24" fill="#382057" stroke="#c9a7ff" class="box"/>
+  <text x="360" y="679" class="label">Programa</text>
+  <text x="360" y="712" class="detail">recibe los argumentos ya preparados</text>
+  <path d="M360 740V776M360 776H168V810M360 776H552V810" class="arrow"/>
+
+  <rect x="56" y="822" width="244" height="102" rx="22" fill="#16302a" stroke="#7ef29d" class="box"/>
+  <text x="178" y="864" class="mono">stdout</text>
+  <text x="178" y="898" class="detail">salida normal</text>
+  <rect x="420" y="822" width="244" height="102" rx="22" fill="#4a2420" stroke="#ff8a7a" class="box"/>
+  <text x="542" y="864" class="mono">stderr</text>
+  <text x="542" y="898" class="detail">diagnóstico</text>
+</svg>
