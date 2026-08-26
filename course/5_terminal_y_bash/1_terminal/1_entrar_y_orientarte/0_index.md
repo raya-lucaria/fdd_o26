@@ -28,6 +28,32 @@ ls
 
 **Pausa:** señala en la salida de `pwd` cuál es la carpeta actual. Antes de avanzar, explica por qué `ls` puede producir una salida distinta en otra computadora.
 
+## Antes de moverte: dos maneras de escribir una ruta
+
+Una **ruta** es la dirección que la shell usa para localizar un archivo o una carpeta.
+
+- **Ruta absoluta:** empieza en la raíz `/` y nombra el lugar completo; funciona igual sin importar dónde estés. Ejemplo: `/home/ana/fdd/terminal-lab/notas/hoy`.
+- **Ruta relativa:** no empieza en `/`; la shell la completa desde la carpeta que indica `pwd`. Ejemplo: si estás en `~/fdd/terminal-lab`, `notas/hoy` significa `~/fdd/terminal-lab/notas/hoy`.
+
+`~` es un atajo que la shell cambia por tu carpeta personal antes de ejecutar el comando. Por eso `~/fdd/...` es cómodo, pero la ruta absoluta resultante empieza en `/`.
+
+### La misma carpeta, dos rutas
+
+**Haz:** crea el lugar una vez y llega a él primero con una ruta absoluta (con `$HOME`) y después con una relativa.
+
+```bash
+mkdir -p ~/fdd/terminal-lab/notas/hoy
+cd "$HOME/fdd/terminal-lab/notas/hoy"
+pwd
+cd ~/fdd/terminal-lab
+cd notas/hoy
+pwd
+```
+
+**Deberías ver:** las dos salidas de `pwd` terminan en `fdd/terminal-lab/notas/hoy`. Lo que cambia es cómo se escribió el camino, no el destino.
+
+**Pausa:** cambia solamente `cd notas/hoy` por `cd /notas/hoy`. Predice por qué casi seguro fallará: esa segunda ruta empieza en la raíz del sistema, no en tu laboratorio.
+
 ## Misión 2: construye una ruta y recórrela
 
 **Haz:** crea de una vez las carpetas del laboratorio y recorre la ruta en ambos sentidos.
@@ -78,6 +104,23 @@ En `ls -la`, la opción `-l` muestra detalles y `-a` incluye nombres ocultos.
 **Deberías ver:** los tres primeros listados de la misión muestran el mismo contenido de `notas/hoy`; como todavía está vacía, incluyen al menos `.` y `..`. `ls -la .` muestra el contenido de `terminal-lab`; `ls -la ..` muestra el de su carpeta madre, `fdd`. El último `pwd` termina en `fdd/terminal-lab/notas/hoy`.
 
 **Pausa:** predice desde qué carpeta funcionarían `ls -la notas/hoy`, `ls -la .` y `ls -la ..`. Comprueba tu respuesta con `pwd`, no con el texto del *prompt*.
+
+## Cheat sheet: comandos de todos los días
+
+| Necesito… | Comando | Idea clave |
+| --- | --- | --- |
+| Saber dónde estoy | `pwd` | Imprime la carpeta actual. |
+| Ver qué hay | `ls` / `ls -la` | `-a` incluye ocultos; `-l` añade detalles. |
+| Moverme | `cd ruta` | Usa una ruta absoluta, relativa, `.` o `..`. |
+| Volver a mi inicio | `cd ~` | `~` representa tu carpeta personal. |
+| Crear una carpeta | `mkdir -p ruta` | Crea los tramos que falten. |
+| Crear un archivo vacío | `touch archivo.txt` | No escribe contenido. |
+| Escribir / anexar texto | `echo "texto" > archivo` / `>>` | `>` reemplaza; `>>` agrega al final. |
+| Leer poco o todo | `cat`, `head`, `tail` | Prefiere `head` o `tail` para archivos largos. |
+| Copiar / renombrar | `cp -i`, `mv -i` | `-i` pregunta antes de reemplazar. |
+| Borrar con cuidado | `rm -i archivo` / `rmdir carpeta` | Sólo nombres explícitos del laboratorio. |
+| Pedir ayuda | `man comando` / `comando --help` | Lee primero el uso y las opciones. |
+| Recuperar un comando | `history` / `Ctrl-R` | Busca antes de volver a escribir. |
 
 ::: example {#entorno-correcto title="Tarjeta: abre el entorno correcto"}
 - En **Ubuntu**, abre «Terminal»; normalmente ya estás en una shell Unix.

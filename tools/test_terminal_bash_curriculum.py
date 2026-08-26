@@ -88,6 +88,18 @@ def test_orientacion_resumen_movil_da_siguiente_accion():
     assert len(resumen) <= 80
 
 
+def test_orientacion_define_y_compara_rutas_antes_de_navegar():
+    """Mantiene absoluta/relativa como la primera idea de rutas."""
+    texto = read(ORIENTATION)
+    assert "**Ruta absoluta:**" in texto
+    assert "**Ruta relativa:**" in texto
+    assert "La misma carpeta, dos rutas" in texto
+    assert texto.index("**Ruta absoluta:**") < texto.index("## Misión 2:")
+    assert "Cheat sheet: comandos de todos los días" in texto
+    for comando in ("`pwd`", "`ls`", "`cd ruta`", "`touch archivo.txt`", "`cat`", "`cp -i`", "`mv -i`", "`rm -i archivo`", "`man comando`", "`history`"):
+        assert comando in texto
+
+
 def test_orientacion_distingue_tokens_exactos_de_ruta():
     texto = read(ORIENTATION)
     assert all(token in texto for token in ("`~`", "`/`", "`.`", "`..`", "`...`"))
