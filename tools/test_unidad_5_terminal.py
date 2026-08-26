@@ -119,12 +119,14 @@ def test_la_estacion_dirige_a_bandit_sin_un_wikilink_de_objeto_oficial():
     assert "https://overthewire.org/wargames/bandit/" in texto
 
 
-def test_el_estado_de_la_tuberia_usa_pipefail_antes_de_consultar_dollar_question():
-    """Una falla en ``sort`` o ``uniq`` no debe parecer éxito solo porque ``tee`` terminó."""
+def test_pipefail_esta_acotado_a_la_tuberia_opcional():
+    """La ampliación activa pipefail antes de la tubería y lo apaga después."""
     ejemplo = bloque(TERMINAL_FLUJOS, "Transforma una entrada preparada")
 
     assert re.search(
-        r"set -o pipefail\nsort nombres\.txt \| uniq -c \| tee reportes/conteos\.txt\nestado=\$\?",
+        r'set -o pipefail\nsort "\$HOME/fdd/terminal-lab/nombres\.txt" '
+        r'\| uniq -c \| tee "\$HOME/fdd/terminal-lab/reportes/conteos\.txt"\n'
+        r"set \+o pipefail",
         ejemplo,
     )
 

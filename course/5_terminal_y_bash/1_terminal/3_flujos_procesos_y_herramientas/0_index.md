@@ -174,29 +174,18 @@ echo "$estado"
 El segundo `ls` manda su diagnóstico a `error.txt`. El ejemplo guarda `$?` inmediatamente porque cualquier comando posterior lo reemplaza.
 :::
 
-::: example {#prepara-nombres title="Opcional A: prepara nombres repetidos"}
+::: example {#cuenta-y-registra-nombres title="Transforma una entrada preparada"}
+Este bloque opcional crea su propia entrada y conserva el resultado de una tubería más larga.
 
 ```bash
 mkdir -p "$HOME/fdd/terminal-lab/reportes"
-cd "$HOME/fdd/terminal-lab"
-printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
-```
-
-Este paso crea una entrada pequeña y conocida para la siguiente tubería.
-:::
-
-::: example {#cuenta-y-registra-nombres title="Transforma una entrada preparada"}
-**Opcional B:** ejecuta este bloque justo después del anterior. Conserva el resultado de una tubería más larga.
-
-```bash
+printf '%s\n' 'Ana' 'Beto' 'Ana' > "$HOME/fdd/terminal-lab/nombres.txt"
 set -o pipefail
-sort nombres.txt | uniq -c | tee reportes/conteos.txt
-estado=$?
+sort "$HOME/fdd/terminal-lab/nombres.txt" | uniq -c | tee "$HOME/fdd/terminal-lab/reportes/conteos.txt"
 set +o pipefail
-printf 'Estado de la tubería: %s\n' "$estado"
 ```
 
-`sort` junta nombres iguales, `uniq -c` los cuenta y `tee` muestra y guarda. Puedes volver a este bloque cuando las cuatro misiones anteriores ya sean naturales.
+`sort` junta nombres iguales, `uniq -c` los cuenta y `tee` muestra y guarda. `pipefail` sólo permanece activo durante esta ampliación. Puedes volver al bloque cuando las cuatro misiones anteriores ya sean naturales.
 :::
 
 ## Procesos: mirar y recuperar el prompt

@@ -145,6 +145,20 @@ def test_ejemplo_de_stderr_crea_su_entrada_antes_de_listarla(tmp_path):
     assert (reports / "error.txt").read_text(encoding="utf-8")
 
 
+def test_ejemplo_de_pipefail_es_autonomo_desde_un_home_vacio(tmp_path):
+    """Evita que la ampliación B dependa del bloque opcional anterior."""
+    result = run_bash(
+        bash_block_with_title(FLOWS, "Transforma una entrada preparada"),
+        tmp_path,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert (tmp_path / "fdd/terminal-lab/nombres.txt").read_text(
+        encoding="utf-8"
+    ) == "Ana\nBeto\nAna\n"
+    assert (tmp_path / "fdd/terminal-lab/reportes/conteos.txt").is_file()
+
+
 def test_filtro_de_history_advierte_que_puede_encontrarse_a_si_mismo():
     """Evita atribuir cada coincidencia del historial a un pwd previo."""
     page = read(FLOWS)
@@ -182,3 +196,27 @@ def test_bandit_preflight_es_multiplataforma_y_no_pide_secretos():
         assert platform in instructions
     assert "ssh-agent no guarda contraseñas de Bandit" in instructions
     assert "llave privada" in instructions
+
+
+def test_bandit_busca_btop_antes_de_instalarlo_en_ubuntu_y_wsl2():
+    """Evita instalar sin revisar primero el paquete disponible."""
+    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+
+    assert instructions.index("apt search btop") < instructions.index(
+        "sudo apt install btop"
+    )
+    assert "WSL2 con Ubuntu" in instructions
+    assert "mismos comandos" in instructions
+
+
+def test_bandit_guia_shellenv_sin_hardcodear_homebrew():
+    """Evita una posinstalación de Homebrew dependiente de la arquitectura."""
+    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+
+    assert instructions.index("command -v brew") < instructions.index("shellenv")
+    assert instructions.index("shellenv") < instructions.index(
+        "brew install btop fastfetch"
+    )
+    assert instructions.count("command -v brew") >= 2
+    assert "/opt/homebrew" not in instructions
+    assert "/usr/local" not in instructions

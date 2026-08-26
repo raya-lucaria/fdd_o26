@@ -21,14 +21,19 @@ content:
     distintos. Si instalas algo, cierra y abre una terminal y repite estas tres
     comprobaciones; esa es tu verificación posterior a la instalación.
 
-    - **Ubuntu:** ejecuta `sudo apt update`, `sudo apt install bash` y
+    - **Ubuntu:** ejecuta `sudo apt update` y `sudo apt install bash`. Después
+      usa `apt search btop`, revisa el resultado y ejecuta
       `sudo apt install btop`. Usa `apt search fastfetch`; instálalo sólo si tu
       versión de Ubuntu lo ofrece.
     - **WSL2 con Ubuntu:** usa los mismos comandos dentro de Ubuntu. Los paquetes
       se instalan en esa distribución, no en Windows completo.
-    - **macOS:** comprueba primero `command -v brew`. Si Homebrew ya funciona,
-      ejecuta `brew install bash` y `brew install btop fastfetch`. No cambies tu
-      shell de inicio para completar esta tarea.
+    - **macOS:** comprueba primero `command -v brew`. Si no devuelve una ruta,
+      abre el recurso oficial de Homebrew incluido abajo y sigue su instalador.
+      Al terminar, ejecuta exactamente la acción con `shellenv` que el propio
+      instalador muestre para tu equipo; no copies una ruta de otra computadora.
+      Abre una terminal nueva y repite `command -v brew`. Sólo cuando devuelva
+      una ruta ejecuta `brew install bash` y `brew install btop fastfetch`. No
+      cambies tu shell de inicio para completar esta tarea.
 
     `apt` es la interfaz cómoda para una persona; `apt-get` es la interfaz
     tradicional, muy usada por scripts. No ejecutes las dos para instalar lo
