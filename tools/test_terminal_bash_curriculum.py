@@ -1,6 +1,8 @@
 """Guardas focales para la cobertura esencial de Terminal y Bash."""
 
 from pathlib import Path
+import re
+import subprocess
 
 import yaml
 
@@ -21,6 +23,26 @@ INSTALL_ASSIGNMENT = (
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def bash_block_with_title(path: Path, title: str) -> str:
+    page = read(path)
+    match = re.search(
+        rf'title="{re.escape(title)}".*?```bash\n(.*?)```', page, re.S
+    )
+    assert match, f"No se encontró el bloque {title!r}"
+    return match.group(1)
+
+
+def run_bash(script: str, home: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["bash", "-c", script],
+        cwd=home,
+        env={"HOME": str(home), "PATH": "/usr/bin:/bin"},
+        capture_output=True,
+        check=False,
+        text=True,
+    )
 
 
 def test_orientation_covers_shell_history_and_daily_shortcuts():
@@ -90,6 +112,45 @@ def test_flujos_arranca_con_historial_antes_de_los_flows_avanzados():
     assert page.index("`history`") < page.index("stdin")
     assert "history | grep pwd" in page
     assert "Haz:" in page and "Deberías ver:" in page and "Pausa:" in page
+
+
+def test_flujos_prepara_su_laboratorio_desde_un_home_vacio(tmp_path):
+    """Evita que la tercera estación falle si no se ejecutaron las anteriores."""
+    result = run_bash(bash_block_with_title(FLOWS, "Mira y recupera tu historial"), tmp_path)
+
+    assert result.returncode == 0, result.stderr
+    assert (tmp_path / "fdd/terminal-lab/notas").is_dir()
+
+
+def test_mision_cuatro_limita_cada_paso_a_cinco_comandos():
+    """Evita volver a presentar una pared de comandos en una sola ejecución."""
+    page = read(FLOWS)
+    section = page.split("## Misión 4", 1)[1].split("## Sólo", 1)[0]
+    blocks = re.findall(r"```bash\n(.*?)```", section, re.S)
+
+    assert len(blocks) >= 2
+    assert all(len([line for line in block.splitlines() if line.strip()]) <= 5 for block in blocks)
+
+
+def test_ejemplo_de_stderr_crea_su_entrada_antes_de_listarla(tmp_path):
+    """Evita que el ejemplo opcional dependa de carpetas creadas en otra página."""
+    result = run_bash(
+        bash_block_with_title(FLOWS, "Opcional: separa salida y diagnóstico"),
+        tmp_path,
+    )
+    reports = tmp_path / "fdd/terminal-lab/reportes"
+
+    assert result.returncode == 0, result.stderr
+    assert (tmp_path / "fdd/terminal-lab/notas").is_dir()
+    assert (reports / "listado.txt").is_file()
+    assert (reports / "error.txt").read_text(encoding="utf-8")
+
+
+def test_filtro_de_history_advierte_que_puede_encontrarse_a_si_mismo():
+    """Evita atribuir cada coincidencia del historial a un pwd previo."""
+    page = read(FLOWS)
+
+    assert "puede incluir la propia línea del filtro" in page
 
 
 def test_bandit_exige_exactamente_las_tres_transiciones_iniciales():

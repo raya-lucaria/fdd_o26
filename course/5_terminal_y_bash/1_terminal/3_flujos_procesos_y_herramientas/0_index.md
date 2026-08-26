@@ -21,6 +21,7 @@ Tu terminal ya recuerda lo que escribiste. En esta estación vas a **encontrar u
 **Haz:**
 
 ```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas"
 cd "$HOME/fdd/terminal-lab"
 pwd
 history
@@ -57,6 +58,8 @@ history | grep pwd
 
 **Pausa:** ¿qué lado produce muchas líneas y qué lado decide cuáles pasan?
 :::
+
+Como el comando del filtro también contiene `pwd`, el resultado **puede incluir la propia línea del filtro**. No es otra ejecución de `pwd`; es texto guardado en el historial.
 
 Lee `history | grep pwd` así:
 
@@ -103,19 +106,33 @@ Cada `|` entrega la salida del programa izquierdo al siguiente. Puedes leer la l
 Ya conoces `>` y `>>`: aquí guardan el resultado final de la tubería.
 
 ::: example {#guarda-la-busqueda title="Crea una bitácora pequeña"}
-**Haz:**
+**Haz — paso A:** reemplaza el reporte con una búsqueda nueva.
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas" "$HOME/fdd/terminal-lab/reportes"
+cd "$HOME/fdd/terminal-lab"
+pwd
+history | grep pwd > reportes/comandos-pwd.txt
+cat reportes/comandos-pwd.txt
+```
+
+**Deberías ver:** las coincidencias guardadas. `>` reemplaza el contenido anterior.
+
+**Pausa:** ¿el archivo contiene el texto de `history` completo o sólo lo que dejó pasar `grep`?
+:::
+
+::: example {#anexa-la-busqueda title="Agrega y cuenta la bitácora"}
+**Haz — paso B:** agrega otra búsqueda y cuenta las líneas.
 
 ```bash
 mkdir -p "$HOME/fdd/terminal-lab/reportes"
 cd "$HOME/fdd/terminal-lab"
 pwd
-history | grep pwd > reportes/comandos-pwd.txt
-cat reportes/comandos-pwd.txt
 history | grep pwd >> reportes/comandos-pwd.txt
 wc -l reportes/comandos-pwd.txt
 ```
 
-**Deberías ver:** primero las coincidencias guardadas y luego su conteo. `>` reemplaza; `>>` agrega.
+**Deberías ver:** un conteo. `>>` agrega sin borrar lo anterior y también crearía el archivo si faltara.
 
 **Pausa:** ¿por qué el segundo conteo puede ser mayor que el primero?
 :::
@@ -136,7 +153,7 @@ No necesitas memorizar esta tarjeta hoy.
 ::: example {#salida-y-error-separados title="Opcional: separa salida y diagnóstico"}
 
 ```bash
-mkdir -p "$HOME/fdd/terminal-lab/reportes"
+mkdir -p "$HOME/fdd/terminal-lab/notas" "$HOME/fdd/terminal-lab/reportes"
 cd "$HOME/fdd/terminal-lab"
 ls notas > reportes/listado.txt 2> reportes/error.txt
 ls no-existe > reportes/listado-vacio.txt 2> reportes/error.txt
