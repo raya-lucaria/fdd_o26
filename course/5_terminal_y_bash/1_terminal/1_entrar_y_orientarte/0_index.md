@@ -58,9 +58,11 @@ pwd
 
 ## Misión 3: compara formas de nombrar un lugar
 
-**Haz:** muestra también las entradas ocultas y visita los mismos lugares con distintas clases de ruta.
+**Haz:** esta misión prepara su propio punto de partida. Crea la ruta si falta, entra en ella, muestra también las entradas ocultas y visita los mismos lugares con distintas clases de ruta.
 
 ```bash
+mkdir -p ~/fdd/terminal-lab/notas/hoy
+cd ~/fdd/terminal-lab/notas/hoy
 ls -la
 cd ~/fdd/terminal-lab
 ls -la notas/hoy

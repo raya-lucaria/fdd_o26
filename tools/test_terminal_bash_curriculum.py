@@ -76,6 +76,20 @@ def test_orientacion_explica_ls_y_mantiene_ritmo_de_mision():
     assert "Haz:" in texto and "Deberías ver:" in texto and "Pausa:" in texto
 
 
+def test_orientacion_mision_tres_fija_directorio_antes_de_listar():
+    texto = read(ORIENTATION)
+    mision = texto.split("## Misión 3:", 1)[1].split("::: definition", 1)[0]
+    bloque = mision.split("```bash\n", 1)[1].split("\n```", 1)[0]
+    secuencia = (
+        "mkdir -p ~/fdd/terminal-lab/notas/hoy",
+        "cd ~/fdd/terminal-lab/notas/hoy",
+        "ls -la",
+    )
+    posiciones = [bloque.find(paso) for paso in secuencia]
+    assert all(posicion >= 0 for posicion in posiciones)
+    assert posiciones == sorted(posiciones)
+
+
 def test_route_is_scannable_and_includes_daily_tools_by_platform():
     """Catches losing the compact action/check/pause rhythm or tool routes."""
     route = read(TERMINAL_INDEX) + read(BASH_INDEX)
