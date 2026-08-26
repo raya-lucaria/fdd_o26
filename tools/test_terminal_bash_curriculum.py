@@ -122,13 +122,12 @@ def test_flujos_prepara_su_laboratorio_desde_un_home_vacio(tmp_path):
     assert (tmp_path / "fdd/terminal-lab/notas").is_dir()
 
 
-def test_mision_cuatro_limita_cada_paso_a_cinco_comandos():
-    """Evita volver a presentar una pared de comandos en una sola ejecución."""
+def test_flujos_limita_cada_bloque_a_cinco_comandos():
+    """Evita paredes de comandos incluso en las ampliaciones opcionales."""
     page = read(FLOWS)
-    section = page.split("## Misión 4", 1)[1].split("## Sólo", 1)[0]
-    blocks = re.findall(r"```bash\n(.*?)```", section, re.S)
+    blocks = re.findall(r"```bash\n(.*?)```", page, re.S)
 
-    assert len(blocks) >= 2
+    assert blocks
     assert all(len([line for line in block.splitlines() if line.strip()]) <= 5 for block in blocks)
 
 
@@ -142,7 +141,7 @@ def test_ejemplo_de_stderr_crea_su_entrada_antes_de_listarla(tmp_path):
 
     assert result.returncode == 0, result.stderr
     assert (tmp_path / "fdd/terminal-lab/notas").is_dir()
-    assert (reports / "listado.txt").is_file()
+    assert (reports / "listado-vacio.txt").read_text(encoding="utf-8") == ""
     assert (reports / "error.txt").read_text(encoding="utf-8")
 
 

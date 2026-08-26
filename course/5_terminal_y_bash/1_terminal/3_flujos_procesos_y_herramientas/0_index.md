@@ -150,28 +150,45 @@ No necesitas memorizar esta tarjeta hoy.
 | `tee` | Muestra texto y además guarda una copia. |
 | `set -o pipefail` | Hace visible una falla en cualquier parte de una tubería. |
 
+::: example {#prepara-salida-normal title="Opcional A: prepara una salida normal"}
+
+```bash
+mkdir -p "$HOME/fdd/terminal-lab/notas" "$HOME/fdd/terminal-lab/reportes"
+ls "$HOME/fdd/terminal-lab/notas" > "$HOME/fdd/terminal-lab/reportes/listado.txt" 2> "$HOME/fdd/terminal-lab/reportes/error.txt"
+cat "$HOME/fdd/terminal-lab/reportes/listado.txt"
+```
+
+La carpeta `notas` existe, así que su listado viaja por stdout hacia `listado.txt`.
+:::
+
 ::: example {#salida-y-error-separados title="Opcional: separa salida y diagnóstico"}
 
 ```bash
 mkdir -p "$HOME/fdd/terminal-lab/notas" "$HOME/fdd/terminal-lab/reportes"
-cd "$HOME/fdd/terminal-lab"
-ls notas > reportes/listado.txt 2> reportes/error.txt
-ls no-existe > reportes/listado-vacio.txt 2> reportes/error.txt
+ls "$HOME/fdd/terminal-lab/no-existe" > "$HOME/fdd/terminal-lab/reportes/listado-vacio.txt" 2> "$HOME/fdd/terminal-lab/reportes/error.txt"
 estado=$?
-cat reportes/error.txt
+cat "$HOME/fdd/terminal-lab/reportes/error.txt"
 echo "$estado"
 ```
 
 El segundo `ls` manda su diagnóstico a `error.txt`. El ejemplo guarda `$?` inmediatamente porque cualquier comando posterior lo reemplaza.
 :::
 
-::: example {#cuenta-y-registra-nombres title="Transforma una entrada preparada"}
-Este ejemplo queda como ampliación: crea su propia entrada y conserva el resultado de una tubería más larga.
+::: example {#prepara-nombres title="Opcional A: prepara nombres repetidos"}
 
 ```bash
 mkdir -p "$HOME/fdd/terminal-lab/reportes"
 cd "$HOME/fdd/terminal-lab"
 printf '%s\n' 'Ana' 'Beto' 'Ana' > nombres.txt
+```
+
+Este paso crea una entrada pequeña y conocida para la siguiente tubería.
+:::
+
+::: example {#cuenta-y-registra-nombres title="Transforma una entrada preparada"}
+**Opcional B:** ejecuta este bloque justo después del anterior. Conserva el resultado de una tubería más larga.
+
+```bash
 set -o pipefail
 sort nombres.txt | uniq -c | tee reportes/conteos.txt
 estado=$?
