@@ -64,6 +64,22 @@ def test_orientacion_guia_comandos_en_orden_sin_crear_archivos():
     assert "`touch`" not in texto
 
 
+def test_orientacion_abre_con_meta_y_mision_pwd():
+    texto = read(ORIENTATION)
+    cuerpo = texto.split("# Entrar y orientarte\n", 1)[1]
+    antes_mision = cuerpo.split("## Misión 1:", 1)[0].strip()
+    assert antes_mision.startswith("Meta:")
+    assert "\n\n" not in antes_mision
+
+    posicion_mision = texto.find("## Misión 1:")
+    posicion_plataforma = texto.find('title="Tarjeta: abre el entorno correcto"')
+    assert 0 <= posicion_mision < posicion_plataforma
+
+    mision = texto.split("## Misión 1:", 1)[1].split("## Misión 2:", 1)[0]
+    bloque = mision.split("```bash\n", 1)[1].split("\n```", 1)[0]
+    assert bloque.splitlines()[:2] == ["pwd", "ls"]
+
+
 def test_orientacion_distingue_tokens_exactos_de_ruta():
     texto = read(ORIENTATION)
     assert all(token in texto for token in ("`~`", "`/`", "`.`", "`..`", "`...`"))

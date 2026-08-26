@@ -11,13 +11,7 @@ prerequisites: [terminal-directa]
 
 # Entrar y orientarte
 
-Abre una terminal y úsala como un mapa: primero averigua dónde estás, después muévete y compara distintas formas de nombrar un lugar. Al terminar tendrás un laboratorio aislado en `~/fdd/terminal-lab/notas/hoy/`.
-
-Elige el entorno correcto:
-
-- En **Ubuntu**, abre «Terminal»; normalmente ya estás en una shell Unix.
-- En **WSL2**, abre tu distribución de Ubuntu, no el símbolo de sistema de Windows. Trabajas dentro de Linux, aunque tus archivos de Windows estén disponibles en `/mnt/c/`.
-- En **macOS**, abre «Terminal»; su shell predeterminada suele ser zsh, pero Bash también está disponible.
+Meta: ubícate con `pwd`, recorre rutas y termina en `~/fdd/terminal-lab/notas/hoy/`.
 
 ## Misión 1: mira antes de moverte
 
@@ -84,6 +78,12 @@ En `ls -la`, la opción `-l` muestra detalles y `-a` incluye nombres ocultos.
 **Deberías ver:** los tres primeros listados de la misión muestran el mismo contenido de `notas/hoy`; como todavía está vacía, incluyen al menos `.` y `..`. `ls -la .` muestra el contenido de `terminal-lab`; `ls -la ..` muestra el de su carpeta madre, `fdd`. El último `pwd` termina en `fdd/terminal-lab/notas/hoy`.
 
 **Pausa:** predice desde qué carpeta funcionarían `ls -la notas/hoy`, `ls -la .` y `ls -la ..`. Comprueba tu respuesta con `pwd`, no con el texto del *prompt*.
+
+::: example {#entorno-correcto title="Tarjeta: abre el entorno correcto"}
+- En **Ubuntu**, abre «Terminal»; normalmente ya estás en una shell Unix.
+- En **WSL2**, abre tu distribución de Ubuntu, no el símbolo de sistema de Windows. Trabajas dentro de Linux, aunque tus archivos de Windows estén disponibles en `/mnt/c/`.
+- En **macOS**, abre «Terminal»; su shell predeterminada suele ser zsh, pero Bash también está disponible.
+:::
 
 ::: definition {#terminal-shell-bash title="Tarjeta: terminal, shell y Bash"}
 La **terminal** muestra texto y recibe el teclado; la **shell** interpreta los comandos; **Bash** es una shell concreta. Puedes abrir una terminal que use otra shell y, aun así, ejecutar `bash` cuando lo necesites.
