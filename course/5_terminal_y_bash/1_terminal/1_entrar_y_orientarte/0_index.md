@@ -2,7 +2,7 @@
 id: entrar-y-orientarte
 title: "Entrar y orientarte"
 nav_title: "Orientarte"
-summary: "Abre una terminal, identifica tu entorno y prepara un laboratorio local."
+summary: "Ejecuta `pwd` y `ls`: ubícate antes de moverte por la terminal."
 status: ready
 estimated_time: 15m
 tags: [terminal, shell, bash, ubuntu, wsl2, macos]

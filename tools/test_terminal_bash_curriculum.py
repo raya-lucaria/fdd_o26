@@ -80,6 +80,14 @@ def test_orientacion_abre_con_meta_y_mision_pwd():
     assert bloque.splitlines()[:2] == ["pwd", "ls"]
 
 
+def test_orientacion_resumen_movil_da_siguiente_accion():
+    texto = read(ORIENTATION)
+    metadata = yaml.safe_load(texto.split("---", 2)[1])
+    resumen = metadata["summary"]
+    assert resumen.startswith("Ejecuta `pwd` y `ls`")
+    assert len(resumen) <= 80
+
+
 def test_orientacion_distingue_tokens_exactos_de_ruta():
     texto = read(ORIENTATION)
     assert all(token in texto for token in ("`~`", "`/`", "`.`", "`..`", "`...`"))
