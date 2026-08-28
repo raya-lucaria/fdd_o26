@@ -68,11 +68,13 @@ A bare `![]()` renders without a "Figura N" caption. Figure IDs must be unique p
 
 `course/_official/calendar/1_2026-o26.yaml` is a calendar document — a separate family from official learning objects, excluded from `data/official.json`.
 
-Sessions are **Tuesday and Thursday, 19:00–20:30**, from 2026-08-11 to 2026-12-01: 32 sessions, one `cancellation` (Thu 2026-09-17, ITAM descanso obligatorio), three `milestone` entries. `calesc2026.pdf` at the repo root is the ITAM academic calendar those dates come from.
+Sessions run **Tuesday and Thursday, 19:00–20:30**, from 2026-08-11 to 2026-12-01. `calesc2026.pdf` at the repo root is the ITAM academic calendar those dates come from.
+
+**The session list is incremental on purpose.** The calendar used to carry all 32 sessions pre-titled through December; the plan drifted far enough from that outline that the future entries were removed. Only sessions whose content actually exists are listed — currently `session-01` through `session-06`, ending at 2026-08-27 — plus one `cancellation` (Thu 2026-09-17, ITAM descanso obligatorio) and three `milestone` entries. **Add the next `session-NN` when you author the unit it teaches, not before.** Keep the numbering and the Tue/Thu 19:00–20:30 slot; an empty future is the intended state, not a gap to fill with placeholders.
 
 **Do not hand-write assignment dates as calendar events.** Every official object with `content.due` or `content.available` contributes its own occurrence automatically. Write the `assignment` once; the calendar derives it.
 
-Only `session-01` (`page: el-curso`), `session-02` (`page: pipeline-de-datos`), `session-03` (`page: arquitectura-de-computadoras`) and `session-04` (`page: software-libre-y-sistemas-operativos`) carry a `page` reference. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
+Every listed session carries a `page` reference: `el-curso`, `pipeline-de-datos`, `arquitectura-de-computadoras`, `software-libre-y-sistemas-operativos`, `terminal-directa` and `bash-scripting`. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
 
 ## Images
 
