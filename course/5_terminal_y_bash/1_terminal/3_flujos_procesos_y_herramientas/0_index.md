@@ -208,10 +208,61 @@ echo "$SHELL"
 |---|---|
 | Ubuntu | `sudo apt update` actualiza el catálogo; `apt search btop` permite revisar; `sudo apt install btop` instala. Prueba `apt search fastfetch` antes de instalarlo porque su disponibilidad depende de la versión. |
 | WSL2 + Ubuntu | Usa la misma ruta dentro de Ubuntu. Los paquetes quedan en esa distribución WSL2. |
-| macOS | Comprueba `command -v brew`. Si Homebrew ya funciona: `brew install btop fastfetch`. Para una versión reciente de Bash: `brew install bash`; compruébala sin cambiar todavía tu shell de inicio. |
+| macOS | Comprueba primero `command -v brew`. Si ya devuelve una ruta, instala con `brew`; si no devuelve nada, lee la nota de abajo antes de instalar nada. Para una versión reciente de Bash: `brew install bash`, sin cambiar todavía tu shell de inicio. |
+
+Si `command -v brew` no devuelve nada, Homebrew no está instalado: abre la [guía oficial de instalación](https://docs.brew.sh/Installation) y sigue su instalador. Al terminar, ejecuta **exactamente la acción con `shellenv` que el propio instalador imprima para tu equipo**; no la copies de otra computadora, porque la ruta cambia entre un Mac con Apple Silicon y uno con Intel. Abre una terminal nueva, repite `command -v brew` y sólo cuando devuelva una ruta continúa con `brew install btop fastfetch`.
 
 `apt` está pensado para uso interactivo. `apt-get` es la interfaz tradicional y estable que aparece mucho en scripts y documentación; **no necesitas ejecutar ambos** para instalar el mismo paquete. `brew` es el gestor de paquetes de Homebrew en macOS y normalmente no se ejecuta con `sudo`.
 
 Ejecuta `btop` para observar CPU y memoria; pulsa `q` para salir. `fastfetch` resume sistema, kernel, shell y hardware en una sola pantalla.
 
-La práctica continúa en [OverTheWire Bandit](https://overthewire.org/wargames/bandit/). La entrega oficial pide preparar Bash/SSH y completar sólo **0→1, 1→2 y 2→3**.
+## Comprueba SSH antes de salir
+
+Bandit no se resuelve en tu máquina: se resuelve **dentro** de un servidor al que entras por SSH. Comprueba que el cliente existe antes de necesitarlo.
+
+::: example {#comprueba-ssh title="Confirma el cliente SSH y su agente"}
+**Haz:**
+
+```bash
+ssh -V
+ssh-add -l
+```
+
+**Deberías ver:** una versión de OpenSSH en la primera línea. La segunda puede responder que no hay identidades cargadas o que no encuentra un agente.
+
+**Pausa:** esa segunda respuesta es un diagnóstico, no un error que debas arreglar hoy. A Bandit se entra con contraseña, no con llave.
+:::
+
+> [!WARNING]
+> `ssh-agent` no guarda contraseñas de Bandit: guarda **llaves**. Nunca pegues, captures ni entregues una llave privada, una frase de paso ni el contenido de un secreto.
+
+## La misión: Bandit hasta la contraseña del nivel 7
+
+La práctica continúa en [OverTheWire Bandit](https://overthewire.org/wargames/bandit/). La entrega oficial pide recorrer las transiciones **0→1 hasta 6→7** y terminar con la **contraseña del nivel 7 en la mano**.
+
+Cada nivel te da un objetivo y una lista de comandos sugeridos. Ninguno te dice qué escribir. **Ese hueco es el ejercicio.**
+
+| Regla | Por qué |
+|---|---|
+| Busca **comandos** en internet, no soluciones | Leer una página `man`, la documentación oficial o una respuesta de foro y decidir si aplica *es* la habilidad. Copiar el resultado la salta. |
+| Nada de LLMs ni IA generativa en esta tarea | Un modelo te entrega el paso ya resuelto y te quita justo lo que se evalúa: convertir un objetivo en un comando. |
+| Nada de walkthroughs ni videos de solución | Mismo motivo. Si ya viste la respuesta de un nivel, dilo en la bitácora. |
+| No abras archivos del nivel siguiente | Cada nivel se resuelve con lo que ese nivel te da. |
+
+El movimiento que estás practicando es este: traducir «necesito el archivo más grande de este directorio» en «entonces el comando es éste, con estas banderas». Es el mismo movimiento que vas a hacer el resto del semestre cada vez que una herramienta no haga lo que esperabas.
+
+::: problem {#hipotesis-antes-del-comando title="Escribe la hipótesis antes de teclear"}
+Antes de cada transición, anota en una línea qué **crees** que hay que hacer y con qué comando lo harías. Después pruébalo.
+
+Cuando la hipótesis falla, ¿qué cambias más seguido: el comando, o tu idea de dónde está el dato?
+:::
+
+::: hint {of="hipotesis-antes-del-comando"}
+El objetivo de cada nivel casi siempre nombra una **propiedad** del archivo —su nombre, su tamaño, su tipo, sus permisos, dónde está—. Esa propiedad es la que te dice qué comando buscar.
+:::
+
+::: answer {of="hipotesis-antes-del-comando"}
+Casi siempre cambias tu idea de **dónde está el dato**, no el comando. Por eso la bitácora pide la hipótesis por escrito: sin ella no queda registro de lo que aprendiste al fallar, que es la parte que se califica.
+:::
+
+Por cada transición registra cuatro cosas: tu hipótesis, qué consultaste, qué comandos ejecutaste y qué observaste cuando algo no salió. **Nunca copies un secreto en la bitácora.**

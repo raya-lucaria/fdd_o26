@@ -216,20 +216,47 @@ def test_filtro_de_history_advierte_que_puede_encontrarse_a_si_mismo():
     assert "puede incluir la propia línea del filtro" in page
 
 
-def test_bandit_exige_exactamente_las_tres_transiciones_iniciales():
-    """Evita asignar niveles posteriores al ingreso comprobable a bandit3."""
+def test_bandit_llega_exactamente_hasta_la_contrasena_del_nivel_7():
+    """Evita mover el alcance de la misión o su fecha de entrega."""
     content = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]
     instructions = content["instructions"]
 
-    assert all(step in instructions for step in ("0→1", "1→2", "2→3"))
-    assert all(step not in instructions for step in ("3→4", "4→5", "5→6"))
-    assert "bandit3" in instructions
-    assert content["due"] == "2026-08-27"
+    transiciones = ("0→1", "1→2", "2→3", "3→4", "4→5", "5→6", "6→7")
+    assert all(paso in instructions for paso in transiciones)
+    assert "7→8" not in instructions
+    assert "bandit7" in instructions
+    assert "nivel 8" in instructions
+    assert content["due"] == "2026-09-01"
+
+    pagina = read(FLOWS)
+    assert "0→1 hasta 6→7" in pagina
+    assert "contraseña del nivel 7" in pagina
+
+
+def test_bandit_prohibe_llms_y_pide_buscar_comandos_no_soluciones():
+    """Evita que la tarea deje de ejercitar el razonamiento que evalúa."""
+    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+    pagina = read(FLOWS)
+
+    for texto in (instructions, pagina):
+        assert "no las soluciones" in texto or "no soluciones" in texto
+        assert "LLM" in texto
+        assert "IA generativa" in texto
+        assert "walkthrough" in texto.lower()
+    assert "por determinar" in instructions
+
+
+def test_bandit_instructions_no_traen_markdown_sin_renderizar():
+    """El renderer escapa content.instructions: el Markdown saldría literal."""
+    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+
+    for marca in ("##", "**", "`", "```", "- ", "|"):
+        assert marca not in instructions, f"Markdown crudo en instructions: {marca!r}"
 
 
 def test_bandit_preflight_es_multiplataforma_y_no_pide_secretos():
-    """Evita una tarea de SSH frágil o que solicite material sensible."""
-    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+    """Evita una preparación de Bash/SSH frágil o que solicite material sensible."""
+    pagina = read(FLOWS)
 
     for command in (
         "command -v bash",
@@ -241,32 +268,32 @@ def test_bandit_preflight_es_multiplataforma_y_no_pide_secretos():
         "ssh -V",
         "ssh-add -l",
     ):
-        assert command in instructions
+        assert command in pagina
     for platform in ("Ubuntu", "WSL2", "macOS"):
-        assert platform in instructions
-    assert "ssh-agent no guarda contraseñas de Bandit" in instructions
-    assert "llave privada" in instructions
+        assert platform in pagina
+    assert "no guarda contraseñas de Bandit" in pagina
+    assert "llave privada" in pagina
+
+    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+    assert "llaves privadas" in instructions
+    assert "nunca incluyas contraseñas" in instructions
 
 
 def test_bandit_busca_btop_antes_de_instalarlo_en_ubuntu_y_wsl2():
     """Evita instalar sin revisar primero el paquete disponible."""
-    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+    pagina = read(FLOWS)
 
-    assert instructions.index("apt search btop") < instructions.index(
-        "sudo apt install btop"
-    )
-    assert "WSL2 con Ubuntu" in instructions
-    assert "mismos comandos" in instructions
+    assert pagina.index("apt search btop") < pagina.index("sudo apt install btop")
+    assert "WSL2 + Ubuntu" in pagina
+    assert "apt search fastfetch" in pagina
 
 
 def test_bandit_guia_shellenv_sin_hardcodear_homebrew():
     """Evita una posinstalación de Homebrew dependiente de la arquitectura."""
-    instructions = yaml.safe_load(read(BANDIT_ASSIGNMENT))["content"]["instructions"]
+    pagina = read(FLOWS)
 
-    assert instructions.index("command -v brew") < instructions.index("shellenv")
-    assert instructions.index("shellenv") < instructions.index(
-        "brew install btop fastfetch"
-    )
-    assert instructions.count("command -v brew") >= 2
-    assert "/opt/homebrew" not in instructions
-    assert "/usr/local" not in instructions
+    assert pagina.index("command -v brew") < pagina.index("shellenv")
+    assert pagina.index("shellenv") < pagina.index("brew install btop fastfetch")
+    assert pagina.count("command -v brew") >= 2
+    assert "/opt/homebrew" not in pagina
+    assert "/usr/local" not in pagina
