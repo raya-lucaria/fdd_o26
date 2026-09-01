@@ -28,6 +28,10 @@ prerequisites: [software-libre-y-sistemas-operativos]
 
 La carpeta `~/fdd/terminal-lab` es tu laboratorio: puedes crear, mover y borrar ahí sin tocar tu proyecto de clase. Es una práctica local, no un repositorio.
 
+![Árbol del laboratorio local: la carpeta personal contiene fdd y, dentro, terminal-lab, que a su vez contiene los archivos nombres.txt y dos palabras.txt más la carpeta reportes.](_assets/d-terminal-lab.svg)
+
+**Lectura visual:** así se ve el laboratorio una vez que lo hayas construido. Todo lo que crees, muevas o borres en estas seis estaciones vive bajo esa única ruta; antes de una acción destructiva, confirma con `pwd` que sigues dentro de ella.
+
 Los dos recorridos incluyen una portada para orientarte y un diagrama de consulta: empieza por [[terminal-directa|Terminal: uso directo]] y continúa con [[bash-scripting|Bash scripting]].
 
 ## Antes de empezar

@@ -11,7 +11,7 @@
     .heading { font-family: system-ui, sans-serif; font-size: 38px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
     .note { font-family: system-ui, sans-serif; font-size: 25px; font-weight: 500; fill: #a7b8ad; text-anchor: middle; }
     .path { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 28px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
-    .name { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 22px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
+    .name { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 19px; font-weight: 700; fill: #e8f0e8; text-anchor: middle; }
     .kind { font-family: system-ui, sans-serif; font-size: 20px; font-weight: 500; fill: #a7b8ad; text-anchor: middle; }
     .line { fill: none; stroke: #4a7a63; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
     .box { stroke-width: 4; }
