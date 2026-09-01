@@ -85,13 +85,17 @@ grep 'Ana' contactos.txt
 
 **Pausa:** el patrón `Ana` no lleva ningún símbolo especial. Una cadena literal **ya es** una expresión regular: la más simple que existe.
 
-Ahora prueba con minúscula:
+Ahora prueba con minúscula, y sin archivo: puedes darle a `grep` unas cadenas escritas en la propia línea.
 
 ```bash
-grep 'ana' contactos.txt
+printf '%s\n' 'Ana' 'ana' 'Mariana' 'Susana' | grep -n 'ana'
 ```
 
-Aparece **Mariana**, y desaparecen las que empiezan con `Ana` mayúscula. Dos cosas de golpe: `grep` distingue mayúsculas, y busca la cadena **en cualquier parte de la línea**, no como palabra suelta. Las dos se arreglan más adelante; por ahora sólo hay que verlas.
+**Deberías ver:** pasan las líneas 2, 3 y 4. La 1 no.
+
+Dos cosas de golpe. `grep` **distingue mayúsculas**, así que `Ana` no pasa. Y busca la cadena **en cualquier parte de la línea**, así que `Mariana` y `Susana` sí. Las dos se arreglan más adelante; por ahora basta con verlas.
+
+Esta forma —`printf` unas cadenas, un `|`, y `grep -n` para numerarlas— es la que se usa toda la unidad para probar un patrón en segundos, sin tocar ningún archivo.
 
 ::: problem {#rx-p1-subcadena title="Predice antes de correr"}
 ¿Qué crees que devuelve `grep 'Sol' contactos.txt` y por qué?

@@ -337,3 +337,46 @@ def test_ninguna_clase_negada_vive_fuera_de_un_bloque_cercado(pagina):
         "raya la lee como referencia a nota al pie y falla el build:\n"
         + "\n".join(ofensas)
     )
+
+
+# --------------------------------------------------------------------------
+# Cadenas inline
+# --------------------------------------------------------------------------
+
+_INLINE = re.compile(r"printf .*\|\s*(?:LC_ALL=\S+ )?grep")
+
+
+@pytest.mark.parametrize("pagina", LECCIONES, ids=IDS)
+def test_cada_pagina_prueba_con_cadenas_en_vivo(pagina):
+    """Un archivo de por medio aleja el patron de su resultado.
+
+    La unidad empezo apoyandose casi solo en archivos: para ver que hacia un
+    cuantificador habia que crear un .txt, acordarse de su contenido y correr
+    grep contra el. Con las cadenas en la propia linea, el patron y las cadenas
+    que casan —y las que no— caben en el mismo bloque de tres renglones.
+
+    Los archivos del laboratorio se quedan donde el dato sucio es el punto:
+    correos con dos arrobas, la bitacora, el CSV con la coma entre comillas.
+    """
+    inline = [b for b in bloques_bash(lee(pagina)) if _INLINE.search(b)]
+    assert inline, (
+        f"{pagina.name} no prueba ningun patron con cadenas en vivo; "
+        "usa printf '%s\\n' 'una' 'otra' | grep -nE '...'"
+    )
+
+
+def test_las_paginas_de_sintaxis_no_dependen_de_archivos_de_juguete(home):
+    """Paginas 2 a 4: la sintaxis se ensena con cadenas, no con .txt desechables.
+
+    Antes cada una creaba su propio archivo de tres palabras. Si alguien vuelve
+    a hacerlo, el ejemplo deja de leerse de un vistazo.
+    """
+    redirige = re.compile(r">\s*[\w./~-]+\.(?:txt|log|csv)\b")
+    for pagina in LECCIONES[1:4]:
+        for bloque in bloques_bash(lee(pagina)):
+            escrito = redirige.search(bloque)
+            assert not escrito, (
+                f"{pagina.name} vuelve a escribir el archivo de juguete "
+                f"{escrito.group()!r}; estas paginas se prueban con cadenas "
+                "en vivo, que se leen de un vistazo"
+            )

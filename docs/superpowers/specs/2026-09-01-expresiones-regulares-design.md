@@ -237,3 +237,35 @@ corregido: `rx-clases`; uno retirado: `rx-goloso`, absorbido por
 `rx-backtracking`— y **una portada generada con gpt-image-2**, que a la unidad
 le faltaba: `tools/gen_ilustraciones.py` y su guarda tenían la ruta de assets
 fija en Pipeline de Datos y ahora resuelven la unidad desde el catálogo.
+
+## Cadenas en vivo
+
+De unos treinta bloques ejecutables, sólo **dos** probaban un patrón con
+cadenas escritas en la propia línea. Todo lo demás pasaba por un archivo, y
+varios de esos archivos existían nada más para guardar tres palabras de tres
+letras: para ver qué hacía un cuantificador había que crear un `.txt`,
+acordarse de su contenido y correr `grep` contra él. El patrón y su resultado
+quedaban a dos pasos de distancia.
+
+La regla que queda, con guarda:
+
+> **Cadenas inline cuando lo que se enseña es la construcción; archivos sólo
+> cuando el dato sucio es el punto.**
+
+El laboratorio se queda donde importa —los correos con dos arrobas, la
+bitácora, el CSV con la coma entre comillas— y desaparecen los seis archivos de
+juguete: `cinta.txt`, `simbolos.txt`, `formas.txt`, `n.txt`, `repes.txt`,
+`vacio.txt`, `clases.txt` y `nombres.txt`.
+
+El idioma es uno solo, presentado en la página 2 para que no sea magia:
+
+```bash
+printf '%s\n' 'una' 'otra' 'tercera' | grep -nE 'patrón'
+```
+
+`-n` numera la entrada, así se ve **cuáles pasan** y se deduce cuáles no. Cada
+ejemplo lleva ahora un caso que casa y al menos uno que no, elegidos para que
+la diferencia se lea de un vistazo y no por longitud: `3.14` contra `3x14` y
+`3-14`; `a` contra `aa` y `aaa`; `a1` contra `ad`; `ab` contra `abbb` y
+`ababab`. El caso goloso se prueba primero con `<a> y <b>` —la cadena exacta
+del diagrama— y sólo después contra el archivo real.

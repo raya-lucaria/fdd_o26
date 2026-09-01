@@ -25,24 +25,16 @@ Meta: extraer un pedazo de una línea y reescribirlo.
 - La alternancia parte **la expresión completa**, no sólo lo que tiene al lado. Los paréntesis la acotan.
 - Lo que capturaste con `(…)` se recupera después como `\1`, `\2`, `\3`.
 
-## Prepara
-
-```bash
-mkdir -p ~/fdd/regex-lab && cd ~/fdd/regex-lab
-printf '%s\n' 'ana' 'anaconda' 'beto' 'yo soy beto' > nombres.txt
-cat nombres.txt
-```
-
 ## Misión 1: la trampa de precedencia
 
-**Haz:**
+**Haz:** cuatro cadenas, dos patrones que sólo se diferencian en un par de paréntesis.
 
 ```bash
-grep -E '^ana|beto$'   nombres.txt
-grep -E '^(ana|beto)$' nombres.txt
+printf '%s\n' 'ana' 'anaconda' 'beto' 'yo soy beto' | grep -nE '^ana|beto$'
+printf '%s\n' 'ana' 'anaconda' 'beto' 'yo soy beto' | grep -nE '^(ana|beto)$'
 ```
 
-**Deberías ver:** el primero devuelve **las cuatro** líneas. El segundo devuelve **dos**, `ana` y `beto`.
+**Deberías ver:** el primero pasa **las cuatro**. El segundo pasa **dos**, la 1 y la 3.
 
 La alternancia tiene la precedencia más baja de todas: parte la expresión entera. `^ana|beto$` se lee como «(`^ana`) o (`beto$`)», es decir «empieza con ana **o** termina con beto» — y las cuatro líneas cumplen una de las dos. Los paréntesis cambian el reparto: `^(ana|beto)$` es «la línea completa es `ana` o es `beto`».
 
@@ -55,6 +47,7 @@ Cada `(…)` **recuerda** lo que casó. Ese texto se recupera dentro del mismo p
 **Haz:** busca una palabra repetida en la bitácora.
 
 ```bash
+cd ~/fdd/regex-lab
 grep -Eo '\b(\w+) \1\b' bitacora.log
 ```
 

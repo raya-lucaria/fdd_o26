@@ -25,24 +25,16 @@ Meta: leer los patrones abreviados que hay en internet, y escribir los que sí f
 - **`\d` no funciona en `grep -E`** — y no avisa: busca una `d` literal.
 - Las clases POSIX (`[[:digit:]]`) sí funcionan en todas partes. Son las que conviene escribir.
 
-## Prepara
-
-```bash
-mkdir -p ~/fdd/regex-lab && cd ~/fdd/regex-lab
-printf '%s\n' 'a1' 'ad' 'Sofía Muñoz_3' > clases.txt
-cat clases.txt
-```
-
 ## Misión 1: el atajo que traiciona
 
-**Haz:**
+**Haz:** dos cadenas, una con dígito y otra con la letra `d`.
 
 ```bash
-grep -E '\d' clases.txt
-grep -E '[0-9]' clases.txt
+printf '%s\n' 'a1' 'ad' | grep -nE '\d'
+printf '%s\n' 'a1' 'ad' | grep -nE '[0-9]'
 ```
 
-**Deberías ver:** la primera devuelve `ad` — la única línea con una letra `d`. La segunda devuelve `a1` y `Sofía Muñoz_3`, las dos que sí traen un dígito. **El patrón que parecía buscar dígitos no encontró ninguno.**
+**Deberías ver:** el primero pasa la línea **2**, `ad`. El segundo pasa la **1**, `a1`. **Están al revés de lo que esperarías: el patrón que parecía buscar dígitos encontró la letra.**
 
 `grep -E` no conoce `\d`. Cuando ve `\d`, entiende «una `d` escapada», o sea: una `d` literal. No lanza ningún error — simplemente busca otra cosa. Es el fallo silencioso más común de esta unidad.
 
@@ -66,6 +58,7 @@ Existe `grep -P`, que sí entiende toda la taquigrafía de Perl — pero **no vi
 **Haz:** una fecha y un teléfono, escritos de la forma portátil.
 
 ```bash
+cd ~/fdd/regex-lab
 grep -Eo '^[0-9]{4}-[0-9]{2}-[0-9]{2}' bitacora.log | sort -u
 grep -Eo '[0-9]{2}[ -][0-9]{4}[ -][0-9]{4}' contactos.txt
 ```
@@ -78,15 +71,15 @@ grep -Eo '[0-9]{2}[ -][0-9]{4}[ -][0-9]{4}' contactos.txt
 
 Esta muerde en español, y no muerde como esperarías.
 
-**Haz:**
+**Haz:** una sola cadena con acento, eñe, mayúsculas y un guion bajo.
 
 ```bash
-grep -Eo '[a-z]+' clases.txt
-grep -Eo '\w+'    clases.txt
-LC_ALL=C grep -Eo '\w+' clases.txt
+printf 'Sofía Muñoz_3\n' | grep -Eo '[a-z]+'
+printf 'Sofía Muñoz_3\n' | grep -Eo '\w+'
+printf 'Sofía Muñoz_3\n' | LC_ALL=C grep -Eo '\w+'
 ```
 
-**Deberías ver** tres respuestas distintas para el mismo archivo:
+**Deberías ver** tres respuestas distintas para la misma cadena:
 
 | Comando | Sobre `Sofía Muñoz_3` devuelve |
 |---|---|
@@ -110,12 +103,21 @@ Ahora que «carácter de palabra» tiene definición, se puede cerrar la familia
 | `$` | al final de la línea |
 | `\b` | en el borde de una palabra |
 
-**Haz:**
+**Haz:** primero en vivo, para ver la frontera aislada.
 
 ```bash
-grep -o   'ana'     contactos.txt | wc -l
-grep -Eo '\bana\b'  contactos.txt | wc -l
-grep -c  -w 'Ana'   contactos.txt
+printf '%s\n' 'ana' 'Mariana' 'ana@itam.mx' | grep -nE '\bana\b'
+```
+
+**Deberías ver:** pasan la 1 y la 3, **no** la 2. En `ana@itam.mx` hay frontera porque la arroba no es carácter de palabra; dentro de `Mariana` no la hay.
+
+Ahora sobre el archivo:
+
+```bash
+cd ~/fdd/regex-lab
+grep -o   'ana'    contactos.txt | wc -l
+grep -Eo '\bana\b' contactos.txt | wc -l
+grep -cw  'Ana'    contactos.txt
 ```
 
 **Deberías ver:** `5`, luego `3`, luego `3`.

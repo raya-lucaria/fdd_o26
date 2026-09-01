@@ -28,10 +28,8 @@ Meta: convertir lo aprendido en una tubería que limpia un archivo de verdad.
 ## La tarjeta de peligro, primero
 
 ::: definition {#rx-def-comillas title="Por qué las comillas simples"}
-Bash procesa tu línea **antes** de llamar a `grep`. Sin comillas, `grep -E ^ana.*$ archivo` puede convertirse en otra cosa: `*` se expande a los nombres de archivo de la carpeta y `$a` a una variable vacía. Con comillas simples, Bash entrega el patrón intacto. Es exactamente el mecanismo de [[como-lee-bash|Cómo lee Bash]].
+Bash procesa tu línea **antes** de llamar a `grep`. Sin comillas, `grep -E ^ana.*$ archivo` puede convertirse en otra cosa: `*` se expande a los nombres de archivo de la carpeta y `$a` a una variable vacía. Con comillas simples, Bash entrega el patrón intacto — es el mecanismo de [[como-lee-bash|Cómo lee Bash]]. Compruébalo: `printf '<%s>\n' -- *` imprime tus archivos y `printf '<%s>\n' -- '*'` imprime un asterisco, que es el que `grep` necesita recibir.
 :::
-
-**Compruébalo sin dañar nada:** `printf '<%s>\n' -- *` imprime los nombres de tus archivos y `printf '<%s>\n' -- '*'` imprime un asterisco. Ese segundo asterisco es el que `grep` necesita recibir.
 
 ## Misión 1: las banderas que sí usarás
 
@@ -58,6 +56,13 @@ grep -F '$750'  precios.csv
 ```
 
 **Deberías ver:** `3`; sus tres números de línea; `5`; después **nada**; y por último la línea de la webcam.
+
+Compruébalo aislado, sin archivo de por medio:
+
+```bash
+printf '%s\n' 'cuesta $750' | grep -E '$750'
+printf '%s\n' 'cuesta $750' | grep -F '$750'
+```
 
 **Pausa:** en ERE el `$` es un anclaje de fin de línea **en cualquier posición del patrón**, así que `-E '$750'` pide «fin de línea, y luego 750»: imposible. `-F` apaga toda interpretación y busca el texto tal cual. **`-F` es la escotilla de emergencia**: cuando el dato que buscas trae metacaracteres y no quieres escaparlos uno por uno. La otra salida es escaparlo: `grep -E '\$750'` también funciona.
 
@@ -92,9 +97,7 @@ wc -l correos.txt
 
 **Deberías ver:** cinco direcciones únicas, todas en minúsculas.
 
-`grep -Eoih` extrae los candidatos sin importar mayúsculas; `tr` normaliza, para que `BETO@ITAM.MX` y `beto@itam.mx` dejen de ser dos cosas; `sort -u` ordena y quita repetidos. De ocho coincidencias quedaron cinco. Las tres que se fueron eran el mismo correo escrito distinto. **La regex encontró; la tubería limpió.** Ese reparto es el patrón general.
-
-**Pausa:** guarda la tubería como script y ya tienes una herramienta reutilizable, con lo de [[de-pasos-a-script|De pasos a script]].
+De ocho coincidencias quedaron cinco: las tres que se fueron eran el mismo correo escrito distinto. **La regex encontró; la tubería limpió** — ese reparto es el patrón general. Guárdala como script y ya tienes una herramienta, con lo de [[de-pasos-a-script|De pasos a script]].
 
 ## Misión 4: `awk`, en dos ejemplos
 
@@ -109,9 +112,7 @@ awk -F, '$3 ~ /^[0-9]+$/ {s += $3} END {print s}' precios.csv
 
 **Deberías ver:** las tres líneas de ERROR reducidas a fecha, hora y código; y después la suma `25670`.
 
-`$1`, `$2`… son las columnas. `-F,` dice que el separador es la coma. `~` es «casa con esta regex». `END` corre una vez al final.
-
-`awk` usa ERE, igual que `grep -E`, y **tampoco conoce `\d`**.
+`$1`, `$2`… son las columnas, `-F,` fija el separador, `~` es «casa con esta regex» y `END` corre una vez al final. `awk` usa ERE, igual que `grep -E`, y **tampoco conoce `\d`**.
 
 ## Dónde deja de servir
 
@@ -147,7 +148,7 @@ grep -Ec 'ok$' crlf.txt
 cat -A crlf.txt
 ```
 
-Cuenta `1`, no `2`. `cat -A` muestra el `^M` culpable; `tr -d '\r' < crlf.txt` lo quita.
+Cuenta `1`, no `2`: `cat -A` muestra el `^M` culpable y `tr -d '\r' < crlf.txt` lo quita.
 
 > [!NOTE]
 > **Si sólo recuerdas una cosa:** Cuando un patrón correcto no encuentre nada, sospecha primero de lo invisible: comillas que se comió Bash, un `\r` al final, o un locale distinto.

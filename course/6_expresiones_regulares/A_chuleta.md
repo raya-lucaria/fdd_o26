@@ -20,7 +20,13 @@ Todo lo de esta unidad, junto. Si algo de aquí no te suena, la columna «dónde
 1. **Separa el patrón en piezas** de izquierda a derecha. Una pieza es un carácter literal, un `.`, una clase `[…]` o un grupo `(…)`.
 2. **Marca los cuantificadores.** Cada uno pertenece a la pieza que tiene justo a la izquierda, y todos son un rango: `?`=`{0,1}`, `*`=`{0,}`, `+`=`{1,}`. Si el mínimo es cero, esa pieza no filtra nada.
 3. **Localiza las anclas.** `^` `$` `\b` no consumen nada: sólo exigen estar en cierta posición.
-4. **Pruébalo con `grep -o`** sobre un archivo pequeño. Lo que imprime es lo que el patrón realmente encuentra.
+4. **Pruébalo con dos o tres cadenas inline.** Lo que imprime es lo que el patrón realmente encuentra:
+
+```bash
+printf '%s\n' 'casa que sí' 'casa que no' | grep -nE 'patrón'
+```
+
+`-n` numera la entrada, así ves cuáles pasaron y deduces cuáles no. Con `-o` ves además **qué pedazo** se llevó.
 
 Está aplicado paso a paso, sobre el patrón de correo, en [[grupos-y-captura|la página 6]].
 

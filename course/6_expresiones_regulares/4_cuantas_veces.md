@@ -25,15 +25,6 @@ Meta: saber a qué se pega un cuantificador y hasta dónde llega.
 - «Cero veces» significa que la pieza puede **no aparecer**: eso es `ε`, la cadena vacía.
 - La repetición toma todo lo que puede y después **cede** hasta que el resto del patrón encaja.
 
-## Prepara
-
-```bash
-mkdir -p ~/fdd/regex-lab && cd ~/fdd/regex-lab
-printf '%s\n' 'gto' 'gato' 'gaaato' 'color' 'colour' > formas.txt
-printf '%s\n' 'a' 'aa' 'aaa' > n.txt
-cat formas.txt
-```
-
 ## Misión 1: los cuatro son el mismo
 
 `{n,m}` es la forma general: «al menos `n` veces, como mucho `m`». Los otros tres son atajos suyos.
@@ -45,16 +36,24 @@ cat formas.txt
 | `+` | `{1,}` | 1 | sin límite |
 | `{2,4}` | `{2,4}` | 2 | 4 |
 
-**Haz:** comprueba que el atajo y la forma larga son la misma cosa.
+**Haz:** las mismas tres cadenas contra el atajo y contra su rango.
 
 ```bash
-grep -cE '^a?$'    n.txt
-grep -cE '^a{0,1}$' n.txt
-grep -cE '^a+$'    n.txt
-grep -cE '^a{1,}$' n.txt
+printf '%s\n' 'a' 'aa' 'aaa' | grep -nE '^a?$'
+printf '%s\n' 'a' 'aa' 'aaa' | grep -nE '^a{0,1}$'
+printf '%s\n' 'a' 'aa' 'aaa' | grep -nE '^a+$'
+printf '%s\n' 'a' 'aa' 'aaa' | grep -nE '^a{1,}$'
 ```
 
-**Deberías ver:** `1`, `1`, `3`, `3`. Cada atajo cuenta exactamente lo mismo que su rango.
+**Deberías ver:** los dos primeros pasan **sólo la línea 1**; los dos últimos pasan **las tres**. Cada atajo se comporta exactamente igual que su rango.
+
+Y para ver el otro extremo del rango, prueba con un techo:
+
+```bash
+printf '%s\n' 'a' 'aa' 'aaa' 'aaaa' | grep -nE '^a{2,3}$'
+```
+
+Pasan la 2 y la 3. Ni una `a` sola ni cuatro: el rango tiene mínimo **y** máximo.
 
 **Pausa:** `*` es la *cerradura de Kleene* de la página 1 — la idea de 1951, escrita con un asterisco. Ahora ya sabes que es sólo el rango «de cero a lo que sea».
 
@@ -62,15 +61,15 @@ grep -cE '^a{1,}$' n.txt
 
 Un cuantificador actúa sobre **la pieza que tiene inmediatamente a su izquierda**. A ninguna otra.
 
-**Haz:**
+**Haz:** tres patrones que se escriben casi igual, sobre las mismas tres cadenas.
 
 ```bash
-printf '%s\n' 'ab' 'abbb' 'ababab' > repes.txt
-grep -E '^ab*$'   repes.txt
-grep -E '^(ab)*$' repes.txt
+printf '%s\n' 'ab' 'abbb' 'ababab' | grep -nE '^ab*$'
+printf '%s\n' 'ab' 'abbb' 'ababab' | grep -nE '^(ab)*$'
+printf '%s\n' 'ab' 'abbb' 'ababab' | grep -nE '^[ab]*$'
 ```
 
-**Deberías ver:** `ab*` encuentra `ab` y `abbb` — repite **la `b`**, porque la pieza a su izquierda es la `b`. `(ab)*` encuentra `ab` y `ababab` — repite **el grupo entero**.
+**Deberías ver:** el primero pasa 1 y 2, el segundo pasa 1 y 3, y el tercero pasa **las tres**. Tres respuestas distintas para un cambio de dos caracteres.
 
 Como una clase y un grupo son **una** pieza, el cuantificador se aplica a todo el conjunto:
 
@@ -92,17 +91,17 @@ En un autómata, un **salto ε** es una flecha que la máquina recorre **sin lee
 **Consecuencia:** una pieza cuyo mínimo es cero puede casar **en cualquier posición**, incluso donde no hay nada.
 :::
 
-**Haz:**
+**Haz:** fíjate en que la segunda cadena está **vacía**.
 
 ```bash
-printf '%s\n' 'bbb' '' 'aaa' > vacio.txt
-grep -nE '^a*$' vacio.txt
-grep -cE 'x*'   formas.txt
+printf '%s\n' 'bbb' '' 'aaa' | grep -nE '^a*$'
+printf '%s\n' 'uno' 'dos' 'tres' | grep -cE 'x*'
+printf '%s\n' 'uno' 'dos' 'tres' | grep -cE 'x+'
 ```
 
-**Deberías ver:** el primero devuelve la línea 2 —**la línea vacía**— y la 3, pero no `bbb`. El segundo devuelve `5`: **las cinco líneas**, aunque no haya una sola `x` en el archivo.
+**Deberías ver:** el primero pasa la línea 2 —**la vacía**— y la 3, pero no `bbb`. El segundo devuelve `3`: **las tres líneas**, aunque no haya una sola `x`. El tercero devuelve `0`.
 
-Ese `5` es la prueba de que `ε` no es una curiosidad teórica. `x*` pide «cero o más `x`», y cero `x` es algo que ocurre en todas partes. Un patrón cuyo mínimo es cero **no descarta nada**.
+Ese `3` es la prueba de que `ε` no es una curiosidad teórica. `x*` pide «cero o más `x`», y cero `x` ocurre en todas partes: el patrón se satisface sin leer nada. `x+`, con mínimo uno, sí exige algo. Un patrón cuyo mínimo es cero **no descarta nada**.
 
 **Pausa:** por eso `.*$` al final de un patrón casi siempre sobra, como viste en la página 2.
 
@@ -114,15 +113,15 @@ Ese `5` es la prueba de que `ε` no es una curiosidad teórica. `x*` pide «cero
 
 Un cuantificador es **goloso**: primero intenta llevarse todo lo que pueda, y sólo si el resto del patrón no encaja va **cediendo** un carácter a la vez.
 
-**Haz:**
+**Haz:** primero la cadena exacta del dibujo, y después el archivo de verdad.
 
 ```bash
-cd ~/fdd/regex-lab
-grep -Eo '<.*>'    contactos.txt | tail -1
-grep -Eo '<[^>]*>' contactos.txt | tail -2
+printf '<a> y <b>\n' | grep -Eo '<.*>'
+printf '<a> y <b>\n' | grep -Eo '<[^>]*>'
+cd ~/fdd/regex-lab && grep -Eo '<.*>' contactos.txt | tail -1
 ```
 
-**Deberías ver:** el goloso devuelve, en la línea del Equipo 3, **una** coincidencia gigante del primer `<` al último `>`. La clase negada devuelve **dos**, una por correo.
+**Deberías ver:** el goloso devuelve **una** coincidencia, `<a> y <b>` entera. La clase negada devuelve **dos**, `<a>` y `<b>`. Y en `contactos.txt` pasa exactamente lo mismo, con dos correos en vez de dos letras.
 
 > [!WARNING]
 > Esto **no** contradice la página 2. Ahí lo que no retrocede es **dónde empieza** el intento: una posición descartada no se reintenta. Aquí lo que se mueve es **hasta dónde llega la repetición dentro de un mismo intento**. Son dos cosas distintas y sólo la segunda cede terreno.
@@ -130,7 +129,7 @@ grep -Eo '<[^>]*>' contactos.txt | tail -2
 `.` también casa el `>`, así que `.*` se lo pasa de largo, llega al final, y retrocede hasta encontrar el último `>`. Una clase que niega el `>` no puede pasarlo: se detiene sola, sin vaivén.
 
 ::: problem {#rx-p4-cero title="¿Por qué cinco y no cero?"}
-`formas.txt` no contiene ninguna `x`. ¿Por qué `grep -cE 'x*' formas.txt` devuelve `5` y no `0`? ¿Y qué patrón habrías querido escribir?
+Ninguna de esas tres cadenas contiene una `x`. ¿Por qué `grep -cE 'x*'` devuelve `3` y no `0`? ¿Y qué patrón habrías querido escribir?
 :::
 
 ::: hint {of="rx-p4-cero"}

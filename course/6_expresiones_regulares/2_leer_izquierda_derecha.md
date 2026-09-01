@@ -5,7 +5,7 @@ nav_title: "Izquierda a derecha"
 summary: "Cómo recorre el motor una línea, por qué nunca regresa, y los tres primeros metacaracteres."
 status: ready
 estimated_time: 15m
-tags: [regex, grep, automata, anclajes, escapes]
+tags: [regex, grep, automata, anclas, escapes]
 prerequisites: [que-es-una-regex]
 ---
 
@@ -25,24 +25,28 @@ Meta: predecir qué encuentra un patrón antes de ejecutarlo.
 - Cuando encuentra una coincidencia, **sigue desde donde terminó**: no vuelve a mirar lo que ya consumió.
 - `grep -o` imprime **lo que encontró**, no la línea. Es la herramienta para ver qué está pasando.
 
-## Prepara
+## El banco de pruebas de toda la unidad
+
+De aquí en adelante, cada construcción nueva se prueba con cadenas escritas en la propia línea, sin archivo de por medio:
 
 ```bash
-mkdir -p ~/fdd/regex-lab && cd ~/fdd/regex-lab
-printf '%s\n' 'Mariana' 'Ana' 'aaaa' '3.14' '3x14' > cinta.txt
-cat cinta.txt
+printf '%s\n' 'ana' 'anaconda' 'Mariana' | grep -n 'ana'
 ```
+
+`printf '%s\n'` convierte cada argumento en una línea, `|` se las entrega a `grep`, y `-n` **numera las líneas de entrada** para que veas cuáles pasaron y deduzcas cuáles no. Aquí pasan la 1 y la 2, y también la 3: `Mariana` contiene `ana`.
+
+Cambia las cadenas y vuelve a correr. Ese es el ciclo de toda la unidad.
 
 ## Misión 1: mira la coincidencia, no la línea
 
 **Haz:**
 
 ```bash
-grep    'ana' cinta.txt
-grep -o 'ana' cinta.txt
+printf 'Mariana\n' | grep    'ana'
+printf 'Mariana\n' | grep -o 'ana'
 ```
 
-**Deberías ver:** la primera devuelve `Mariana` (la línea entera). La segunda devuelve `ana` (sólo el pedazo).
+**Deberías ver:** la primera devuelve `Mariana` —la línea entera— y la segunda devuelve `ana`, sólo el pedazo.
 
 **Pausa:** esa diferencia es la que confunde a todo el mundo al principio. `grep` **decide por línea** pero **casa por subcadena**. Usa `-o` cada vez que no entiendas por qué una línea pasó.
 
@@ -51,13 +55,14 @@ grep -o 'ana' cinta.txt
 **Haz:**
 
 ```bash
-grep -o 'aa' cinta.txt
-grep -o 'aa' cinta.txt | wc -l
+printf 'aaaa\n' | grep -o 'aa'
+printf 'aaaa\n' | grep -o 'aa' | wc -l
+printf 'aaaa\n' | grep -o 'aaa'
 ```
 
-**Deberías ver:** dos coincidencias de `aa` sobre la línea `aaaa`, no tres. (`wc -l` cuenta las coincidencias; `grep -c` **no** sirve aquí, porque cuenta líneas y `aaaa` es una sola.)
+**Deberías ver:** **dos** coincidencias de `aa`, no tres. Y una sola de `aaa`.
 
-En `aaaa` hay tres lugares donde empieza un `aa`: posiciones 0, 1 y 2. El motor encuentra el de la posición 0, **consume esos dos caracteres** y reanuda en la posición 2, donde encuentra el segundo. La posición 1 nunca se prueba porque ya quedó atrás.
+En `aaaa` hay tres lugares donde empieza un `aa`: las posiciones 0, 1 y 2. El motor encuentra el de la posición 0, **consume esos dos caracteres** y reanuda en la 2, donde encuentra el segundo. La posición 1 nunca se prueba porque ya quedó atrás.
 
 ::: table {#rx-traza-aaaa title="Por qué `aa` sobre `aaaa` da dos coincidencias y no tres"}
 
@@ -68,8 +73,6 @@ En `aaaa` hay tres lugares donde empieza un `aa`: posiciones 0, 1 y 2. El motor 
 | 4 | fin de línea, se detiene | — |
 :::
 
-**Pausa:** predice el resultado de `grep -o 'aaa' cinta.txt` antes de correrlo. ¿Una coincidencia o dos?
-
 ## Misión 3: el punto casa cualquier cosa
 
 `.` significa **un carácter cualquiera** (menos el salto de línea). Es el primer metacarácter.
@@ -77,13 +80,13 @@ En `aaaa` hay tres lugares donde empieza un `aa`: posiciones 0, 1 y 2. El motor 
 **Haz:**
 
 ```bash
-grep -o '3.14' cinta.txt
-grep -o '3\.14' cinta.txt
+printf '%s\n' '3.14' '3x14' '3-14' | grep -n '3.14'
+printf '%s\n' '3.14' '3x14' '3-14' | grep -n '3\.14'
 ```
 
-**Deberías ver:** la primera encuentra **dos** cosas, `3.14` y `3x14`. La segunda encuentra sólo `3.14`.
+**Deberías ver:** el primero pasa **las tres** —el punto acepta la `x` y el guion igual que el punto—. El segundo pasa **sólo la 1**.
 
-La barra invertida **escapa** el punto: le quita su significado especial y lo vuelve un punto literal. Esta es la regla general — `\` delante de un metacarácter significa «este carácter, tal cual».
+La barra invertida **escapa** el punto: le quita su significado especial y lo vuelve un punto literal.
 
 ::: definition {#rx-def-metacaracter title="Metacarácter"}
 Un carácter que la regex **no** interpreta literalmente, sino como una instrucción. Son estos trece:
@@ -99,6 +102,16 @@ Para buscar cualquiera de ellos tal cual, se escapa con `\`. Cualquier otro car�
 
 `^` significa «aquí empieza la línea» y `$` significa «aquí termina». Ninguna de las dos se lleva un carácter: **marcan una posición**.
 
+**Haz:**
+
+```bash
+printf '%s\n' 'ana' 'anaconda' 'Mariana' 'Ana' | grep -n 'ana'
+printf '%s\n' 'ana' 'anaconda' 'Mariana' 'Ana' | grep -n '^ana'
+printf '%s\n' 'ana' 'anaconda' 'Mariana' 'Ana' | grep -n '^ana$'
+```
+
+**Deberías ver:** el primero pasa 1, 2 y 3. El segundo pasa 1 y 2 — `Mariana` cae porque no **empieza** con `ana`. El tercero pasa sólo la 1: es la única línea que **es** exactamente `ana`.
+
 Esa diferencia parte en dos todo lo que puede ir en un patrón, y conviene fijarla desde ya:
 
 | | Qué hace | Ejemplos |
@@ -106,26 +119,15 @@ Esa diferencia parte en dos todo lo que puede ir en un patrón, y conviene fijar
 | **Consume** | se lleva caracteres del texto | `a`, `.`, `[0-9]` |
 | **No consume** | sólo exige algo de la posición | `^`, `$`, y `\b` de la página 5 |
 
-La página siguiente le pone nombre a la primera columna.
-
-**Haz:**
-
-```bash
-grep -o 'ana'   cinta.txt
-grep -o '^ana'  cinta.txt
-grep -o '^Ana$' cinta.txt
-```
-
-**Deberías ver:** la primera encuentra `ana` dentro de `Mariana`. La segunda no encuentra nada, porque ninguna línea **empieza** con `ana`. La tercera encuentra `Ana`, la única línea que es exactamente eso.
-
-**Pausa:** `^…$` es la forma de pasar de «lo contiene» a «es exactamente». Vas a usarlo cada vez que quieras validar en lugar de buscar.
+**Pausa:** `^…$` es la forma de pasar de «lo contiene» a «es exactamente». Lo usarás cada vez que quieras validar en lugar de buscar. La página siguiente le pone nombre a la primera columna.
 
 ::: problem {#rx-p2-anclaje title="¿Cuál devuelve más líneas?"}
-Sin ejecutarlos, ordena estos tres de más a menos coincidencias sobre `contactos.txt`:
+Ahora sobre un archivo de verdad. Sin ejecutarlos, ordena estos tres de más a menos coincidencias:
 
 ```bash
-grep -c 'Ana'    contactos.txt
-grep -c '^Ana'   contactos.txt
+cd ~/fdd/regex-lab
+grep -c 'Ana'     contactos.txt
+grep -c '^Ana'    contactos.txt
 grep -c '^Ana.*$' contactos.txt
 ```
 :::
@@ -146,10 +148,10 @@ Un patrón es una máquina de estados. `ana` son cuatro estados y las flechas di
 ![Autómata de cuatro estados: q0 avanza a q1 al leer a, q1 avanza a q2 al leer n, q2 avanza al estado de aceptación al leer a; cualquier otro carácter devuelve la máquina a q0](_assets/rx-automata-ana.svg)
 :::
 
-**Lectura visual:** el bucle ámbar es el detalle fino. Si estás en q1 (ya viste una `a`) y llega **otra** `a`, la máquina **no** vuelve al principio: esa nueva `a` puede ser el inicio de la coincidencia buena. Compruébalo con `printf '%s\n' 'aana' | grep -o 'ana'`.
+**Lectura visual:** el bucle ámbar es el detalle fino. Si estás en q1 —ya viste una `a`— y llega **otra** `a`, la máquina **no** vuelve al principio: esa nueva `a` puede ser el inicio de la coincidencia buena. Compruébalo con `printf 'aana\n' | grep -o 'ana'`.
 
 > [!NOTE]
-> **Si sólo recuerdas una cosa:** Cuando un patrón encuentre de más o de menos, corre `grep -o` y pregúntate desde qué posición empezó la cabeza.
+> **Si sólo recuerdas una cosa:** cuando un patrón encuentre de más o de menos, pruébalo con dos o tres cadenas inline y `grep -o`, y pregúntate desde qué posición empezó la cabeza.
 
 ## Cierre
 

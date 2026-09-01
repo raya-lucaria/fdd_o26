@@ -25,14 +25,6 @@ Meta: partir cualquier patrón en sus piezas y saber qué significa cada símbol
 - Una **pieza** se lleva caracteres; una **ancla** sólo mira dónde estás y no se lleva nada.
 - El significado de un símbolo depende de **dónde** esté: suelto, dentro de corchetes o escapado.
 
-## Prepara
-
-```bash
-mkdir -p ~/fdd/regex-lab && cd ~/fdd/regex-lab
-printf '%s\n' 'a+b' 'a.b' 'a]b' 'a-b' 'a*b' 'a^b' > simbolos.txt
-cat simbolos.txt
-```
-
 ## La distinción que ordena todo el resto
 
 ::: definition {#rx-def-pieza title="Pieza y ancla"}
@@ -91,16 +83,18 @@ printf '%s\n' 'a' 'b' 'ab' 'z' | grep -E '^[abc]$'
 
 Esta es la parte que más confunde y la que más rinde entenderla: **dentro de los corchetes casi ningún símbolo conserva su poder.**
 
-**Haz:**
+**Haz:** cuatro corchetes sobre las mismas cuatro cadenas.
 
 ```bash
-grep -Eo '[a+b]' simbolos.txt
-grep -Eo '[.]'   simbolos.txt
-grep -Eo '[]]'   simbolos.txt
-grep -Eo '[a-]'  simbolos.txt
+printf '%s\n' 'a+b' 'a.b' 'a]b' 'a-b' | grep -Eo '[a+b]'
+printf '%s\n' 'a+b' 'a.b' 'a]b' 'a-b' | grep -n  '[.]'
+printf '%s\n' 'a+b' 'a.b' 'a]b' 'a-b' | grep -n  '[]]'
+printf '%s\n' 'a+b' 'a.b' 'a-b'       | grep -Eo '[a-]'
 ```
 
-**Deberías ver:** el primero encuentra `a`, `+` y `b` — **el `+` no cuantifica nada ahí adentro**, es un signo de más literal. El segundo encuentra el punto, sin escaparlo. El tercero encuentra el corchete de cierre. El cuarto encuentra las `a` y el guion.
+**Deberías ver:** el primero saca `a`, `+`, `b` de la cadena `a+b` y sólo `a` y `b` de las otras — **el `+` no cuantifica nada ahí adentro**, es un signo de más literal, y por eso lo encuentra. El segundo pasa sólo la línea 2, sin haber escapado el punto. El tercero pasa sólo la 3: `[]]` es el corchete de cierre. El cuarto saca las `a` y el guion de `a-b`.
+
+**Pausa:** compara la primera línea con `printf 'a+b\n' | grep -Eo 'a+b'`, que no encuentra nada. Los mismos tres caracteres, dentro y fuera del corchete, son dos patrones sin nada que ver.
 
 | Adentro | Regla |
 |---|---|
@@ -123,19 +117,19 @@ grep -Eo '[a-]'  simbolos.txt
 Antes de seguir, un detalle de herramienta que muerde hoy mismo:
 
 ```bash
-grep    'a+b' simbolos.txt
-grep -E 'a+b' simbolos.txt
+printf '%s\n' 'a+b' 'aab' | grep    -n 'a+b'
+printf '%s\n' 'a+b' 'aab' | grep -E -n 'a+b'
 ```
 
-**Deberías ver:** el primero encuentra la línea `a+b`, y el segundo **no encuentra nada**. Sin `-E`, `grep` habla **BRE**, el dialecto de 1992, donde `+ ? { } ( ) |` son literales y hay que escribirlos `\+`: por eso buscó un signo de más de verdad. Con `-E` habla **ERE**, donde `a+b` pide «una o más `a` y luego una `b`», que ninguna línea tiene. **Regla de la unidad: usa `grep -E` siempre.** Cuando veas en internet un patrón lleno de barras invertidas raras, ya sabes que está escrito en BRE.
+**Deberías ver:** el primero pasa la línea 1 —el signo de más literal— y el segundo pasa la 2 —una o más `a` seguidas de `b`—. **El mismo patrón, dos resultados opuestos, sólo por la bandera.** Sin `-E`, `grep` habla **BRE**, el dialecto de 1992, donde `+ ? { } ( ) |` son literales y hay que escribirlos `\+`: por eso buscó un signo de más de verdad. Con `-E` habla **ERE**, donde `a+b` pide «una o más `a` y luego una `b`», que ninguna línea tiene. **Regla de la unidad: usa `grep -E` siempre.** Cuando veas en internet un patrón lleno de barras invertidas raras, ya sabes que está escrito en BRE.
 
 ::: problem {#rx-p3-contexto title="Tres corchetes, tres resultados"}
-Sin ejecutarlos, di qué encuentra cada uno sobre `simbolos.txt`:
+Sin ejecutarlos, di qué encuentra cada uno sobre las mismas tres cadenas:
 
 ```bash
-grep -Eo '[a*b]' simbolos.txt
-grep -Eo 'a*b'   simbolos.txt
-grep -Eo '[a^b]' simbolos.txt
+printf '%s\n' 'a*b' 'ab' 'xb' | grep -Eo '[a*b]'
+printf '%s\n' 'a*b' 'ab' 'xb' | grep -Eo 'a*b'
+printf '%s\n' 'a*b' 'ab' 'xb' | grep -Eo '[a^b]'
 ```
 :::
 
@@ -144,7 +138,7 @@ En el primero y el tercero, el símbolo está **dentro** de los corchetes. En el
 :::
 
 ::: answer {of="rx-p3-contexto"}
-El primero casa una `a`, un `*` o una `b`, uno a la vez: el `*` adentro es literal, así que en la línea `a*b` encuentra los tres caracteres por separado. El segundo es otra cosa: `a*` es una pieza con cuantificador —cero o más `a`— seguida de una `b`, y como ninguna línea tiene una `a` pegada a una `b`, el `a*` casa **cero veces** y sólo queda la `b`: seis `b` sueltas, una por línea. El tercero casa `a`, `^` o `b`: el `^` **no** niega porque no es el primer carácter de adentro. Tres patrones que se parecen y no tienen nada que ver.
+El primero casa una `a`, un `*` o una `b`, uno a la vez: el `*` adentro es literal, así que de `a*b` saca los tres caracteres por separado, y de `ab` y `xb` saca lo que haya de `a` y `b`. El segundo es otra cosa: `a*` es una pieza con cuantificador —cero o más `a`— seguida de una `b`. En `ab` casa `ab` completo; en `a*b` el `*` literal le estorba, así que `a*` casa **cero veces** y sólo se lleva la `b`; en `xb` pasa lo mismo. El tercero casa `a`, `^` o `b`: el `^` **no** niega porque no es el primer carácter de adentro. Tres patrones que se parecen y no tienen nada que ver.
 :::
 
 > [!NOTE]
