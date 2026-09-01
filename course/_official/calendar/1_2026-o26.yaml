@@ -52,6 +52,14 @@ events:
     title: "Bash scripting y examen"
     page: bash-scripting
 
+  - id: session-07
+    kind: session
+    date: "2026-09-01"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Expresiones regulares"
+    page: expresiones-regulares
+
   - id: descanso-obligatorio-septiembre
     kind: cancellation
     date: "2026-09-17"

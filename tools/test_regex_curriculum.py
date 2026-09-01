@@ -1,0 +1,290 @@
+"""Guardas focales de la unidad de Expresiones regulares.
+
+Dos cosas distintas se vigilan aqui:
+
+1. **Que los comandos corran.** Cada pagina prepara su propia entrada, asi que
+   los bloques ```bash de una pagina se ejecutan seguidos en un HOME temporal
+   sembrado con el laboratorio de la pagina 1. No se exige codigo de salida 0
+   —varios ejemplos existen justamente para no encontrar nada— pero si se exige
+   que ningun comando escriba en stderr: eso es lo que delata un patron mal
+   escrito, una bandera inexistente o un archivo que nadie creo.
+
+2. **La forma de la pagina.** La unidad se escribio con reglas explicitas para
+   que se pueda leer con la atencion dispersa: una meta de una linea, un
+   diagrama arriba, un "En corto" de tres vinetas, un solo ejercicio y un
+   cierre de una frase. Sin guarda, esas reglas se erosionan en la primera
+   edicion apurada.
+"""
+import re
+import subprocess
+from pathlib import Path
+
+import pytest
+
+RAIZ = Path(__file__).resolve().parent.parent
+UNIDAD = RAIZ / "course/6_expresiones_regulares"
+INDICE = UNIDAD / "0_index.md"
+CHULETA = UNIDAD / "A_chuleta.md"
+
+# Las seis paginas de leccion, en el orden en que se leen.
+LECCIONES = [
+    UNIDAD / "1_que_es_una_regex.md",
+    UNIDAD / "2_leer_izquierda_derecha.md",
+    UNIDAD / "3_clases_y_repeticion.md",
+    UNIDAD / "4_taquigrafia_perl.md",
+    UNIDAD / "5_grupos_y_captura.md",
+    UNIDAD / "6_grep_awk_en_serio.md",
+]
+IDS = [p.stem for p in LECCIONES]
+
+# Techo de longitud: unas tres pantallas. La unidad 5 llego a 268 lineas en una
+# sola pagina y ahi es donde se pierde el lector al que apunta esta unidad.
+MAX_LINEAS = 160
+
+
+def lee(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def bloques_bash(texto: str):
+    return re.findall(r"```bash\n(.*?)```", texto, re.S)
+
+
+@pytest.fixture(scope="module")
+def home(tmp_path_factory):
+    """Un HOME desechable con el laboratorio de la pagina 1 ya montado."""
+    raiz = tmp_path_factory.mktemp("regex-home")
+    guion = "\n".join(bloques_bash(lee(LECCIONES[0])))
+    resultado = corre(guion, raiz)
+    assert resultado.returncode == 0, resultado.stderr
+    return raiz
+
+
+def corre(guion: str, home: Path) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["bash", "-c", guion],
+        cwd=home,
+        env={"HOME": str(home), "PATH": "/usr/bin:/bin", "LANG": "en_US.UTF-8"},
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+
+
+# --------------------------------------------------------------------------
+# Los comandos corren
+# --------------------------------------------------------------------------
+
+def test_la_pagina_1_deja_los_tres_archivos_del_laboratorio(home):
+    lab = home / "fdd/regex-lab"
+    for nombre in ("contactos.txt", "bitacora.log", "precios.csv"):
+        assert (lab / nombre).is_file(), f"la pagina 1 no creo {nombre}"
+
+
+def test_el_laboratorio_conserva_las_trampas_plantadas(home):
+    """Los edge cases de las paginas 2 a 6 viven en los datos, no en el texto.
+
+    Si alguien 'limpia' el laboratorio, media unidad deja de tener ejemplos.
+    """
+    contactos = (home / "fdd/regex-lab/contactos.txt").read_text(encoding="utf-8")
+    for trampa, porque in (
+        ("Mariana", "la subcadena que sorprende en la pagina 2"),
+        ("raul@@itam.mx", "las dos arrobas que rechaza el patron de correo"),
+        ("Muñoz", "el acento del caso de locale de la pagina 4"),
+        ("Equipo 3:", "la linea con dos correos, para el caso goloso"),
+    ):
+        assert trampa in contactos, f"falta {trampa!r} en contactos.txt: {porque}"
+
+    bitacora = (home / "fdd/regex-lab/bitacora.log").read_text(encoding="utf-8")
+    assert "el el archivo" in bitacora, "falta la palabra repetida para la retro-referencia"
+
+    precios = (home / "fdd/regex-lab/precios.csv").read_text(encoding="utf-8")
+    assert '"cable, 2 metros"' in precios, "falta la coma entre comillas que rompe a awk"
+
+
+@pytest.mark.parametrize("pagina", LECCIONES, ids=IDS)
+def test_los_bloques_de_la_pagina_corren_sin_diagnosticos(pagina, home):
+    """Ningun comando de la unidad debe escribir en stderr.
+
+    No se exige returncode 0: `grep` sale con 1 cuando no encuentra nada, y
+    varios ejemplos existen precisamente para no encontrar nada. Lo que si
+    delata un error real es un diagnostico: patron invalido, bandera que no
+    existe, archivo que nadie creo.
+    """
+    guion = "\n".join(bloques_bash(lee(pagina)))
+    assert guion.strip(), f"{pagina.name} no tiene ningun bloque bash"
+    resultado = corre(guion, home)
+    assert not resultado.stderr.strip(), (
+        f"{pagina.name} produjo diagnosticos:\n{resultado.stderr}"
+    )
+
+
+def test_la_tuberia_de_limpieza_deja_cinco_correos_unicos(home):
+    """La cifra del diagrama rx-tuberia tiene que ser la de verdad."""
+    guion = "\n".join(bloques_bash(lee(LECCIONES[5])))
+    corre(guion, home)
+    correos = (home / "fdd/regex-lab/correos.txt").read_text(encoding="utf-8")
+    lineas = [l for l in correos.splitlines() if l.strip()]
+    assert len(lineas) == 5, f"la tuberia dejo {len(lineas)} correos, no 5: {lineas}"
+    assert lineas == sorted(lineas), "sort -u deberia dejarlos ordenados"
+    assert all(l == l.lower() for l in lineas), "tr deberia haberlos pasado a minusculas"
+
+
+# --------------------------------------------------------------------------
+# La forma de la pagina
+# --------------------------------------------------------------------------
+
+@pytest.mark.parametrize("pagina", LECCIONES + [INDICE, CHULETA],
+                         ids=IDS + ["0_index", "A_chuleta"])
+def test_ninguna_pagina_pasa_el_techo_de_longitud(pagina):
+    lineas = len(lee(pagina).splitlines())
+    assert lineas <= MAX_LINEAS, (
+        f"{pagina.name} tiene {lineas} lineas y el techo es {MAX_LINEAS}: "
+        "parte la pagina o manda la referencia larga a A_chuleta.md"
+    )
+
+
+@pytest.mark.parametrize("i,pagina", list(enumerate(LECCIONES, 1)), ids=IDS)
+def test_cada_pagina_abre_con_su_posicion_meta_y_diagrama(i, pagina):
+    """Meta de una linea, diagrama, y despues el texto. En ese orden."""
+    texto = lee(pagina)
+    cuerpo = texto.split("\n# ", 1)[1]
+
+    assert f"**Página {i} de 6**" in cuerpo, (
+        f"{pagina.name} no dice en que punto de la unidad estas"
+    )
+    meta = re.search(r"^Meta: (.+)$", cuerpo, re.M)
+    assert meta, f"{pagina.name} no abre con una linea 'Meta:'"
+    assert len(meta.group(1)) <= 120, "la meta debe caber en una linea"
+
+    pos_meta = cuerpo.index("Meta:")
+    pos_figura = cuerpo.index("::: figure")
+    pos_corto = cuerpo.index("## En corto")
+    assert pos_meta < pos_figura < pos_corto, (
+        f"{pagina.name}: el orden tiene que ser meta, diagrama y despues "
+        "'En corto'; el ancla visual va antes del texto"
+    )
+
+
+@pytest.mark.parametrize("pagina", LECCIONES, ids=IDS)
+def test_el_en_corto_cabe_en_tres_vinetas(pagina):
+    seccion = lee(pagina).split("## En corto", 1)[1].split("\n## ", 1)[0]
+    vinetas = [l for l in seccion.splitlines() if l.startswith("- ")]
+    assert 1 <= len(vinetas) <= 3, (
+        f"{pagina.name}: 'En corto' tiene {len(vinetas)} vinetas; el maximo es 3"
+    )
+
+
+@pytest.mark.parametrize("pagina", LECCIONES, ids=IDS)
+def test_cada_pagina_trae_un_solo_ejercicio_completo(pagina):
+    """Uno, con su pista y su respuesta. Dos seguidos rompen el ritmo."""
+    texto = lee(pagina)
+    problemas = re.findall(r'::: problem \{#([\w-]+)', texto)
+    assert len(problemas) == 1, (
+        f"{pagina.name} tiene {len(problemas)} ejercicios; debe tener exactamente 1"
+    )
+    for directiva in ("hint", "answer"):
+        assert f'::: {directiva} {{of="{problemas[0]}"}}' in texto, (
+            f"{pagina.name}: al ejercicio {problemas[0]} le falta su {directiva}"
+        )
+
+
+@pytest.mark.parametrize("pagina", LECCIONES, ids=IDS)
+def test_cada_pagina_cierra_con_una_sola_frase(pagina):
+    """El cierre va como callout, no como objeto numerado.
+
+    `note` no es una familia de objeto numerado de Raya —el build falla con
+    "Unknown numbered object family"— y ademas una nota numerada no es lo que
+    se quiere aqui: es un recordatorio, no una pieza a la que se referencie.
+    """
+    texto = lee(pagina)
+    nota = re.search(r"^> \[!NOTE\]\n> \*\*Si sólo recuerdas una cosa:\*\* (.+)$",
+                     texto, re.M)
+    assert nota, f"{pagina.name} no cierra con el callout 'Si sólo recuerdas una cosa'"
+    assert "::: note" not in texto, (
+        f"{pagina.name}: `note` no es una familia valida de objeto numerado"
+    )
+
+
+# --------------------------------------------------------------------------
+# El orden de los conceptos
+# --------------------------------------------------------------------------
+
+def test_grep_o_llega_antes_que_los_cuantificadores():
+    """Sin `-o` no se ve que encontro el patron, y todo lo demas confunde."""
+    pos_o = lee(LECCIONES[1]).index("grep -o")
+    pos_meta = lee(LECCIONES[1]).index("Meta:")
+    assert pos_meta < pos_o, "grep -o se presenta en la pagina 2"
+
+    cuantificadores = lee(LECCIONES[2])
+    assert "grep -E" in cuantificadores.split("## Misión 2", 1)[0], (
+        "la trampa BRE/ERE tiene que aparecer antes del primer cuantificador"
+    )
+
+
+def test_la_unidad_no_ensena_grep_P_como_solucion():
+    """-P no existe en macOS: la unidad vive en -E y en las clases POSIX."""
+    for pagina in LECCIONES:
+        for bloque in bloques_bash(lee(pagina)):
+            assert "grep -P" not in bloque and "-Po" not in bloque, (
+                f"{pagina.name} usa grep -P en un bloque ejecutable; no esta en macOS"
+            )
+
+
+def test_la_chuleta_apunta_a_las_seis_paginas():
+    texto = lee(CHULETA)
+    for pagina in LECCIONES:
+        ident = re.search(r"^id: ([\w-]+)$", lee(pagina), re.M).group(1)
+        assert f"[[{ident}" in texto, f"la chuleta no enlaza a {ident}"
+
+
+def test_el_indice_lista_las_seis_paginas_y_la_chuleta():
+    texto = lee(INDICE)
+    for pagina in LECCIONES + [CHULETA]:
+        ident = re.search(r"^id: ([\w-]+)$", lee(pagina), re.M).group(1)
+        assert f"[[{ident}" in texto, f"el indice no enlaza a {ident}"
+
+
+def test_el_calendario_apunta_a_la_unidad():
+    calendario = lee(RAIZ / "course/_official/calendar/1_2026-o26.yaml")
+    assert "page: expresiones-regulares" in calendario, (
+        "falta la sesion de la unidad en el calendario"
+    )
+
+
+# --------------------------------------------------------------------------
+# La colision con la sintaxis de footnote
+# --------------------------------------------------------------------------
+
+_FENCE = re.compile(r"^\s{0,3}(```+|~~~+)")
+_FOOTNOTE_REF = re.compile(r"(?<!\\)\[\^([^\]\s]+)\]")
+
+
+@pytest.mark.parametrize("pagina", LECCIONES + [INDICE, CHULETA],
+                         ids=IDS + ["0_index", "A_chuleta"])
+def test_ninguna_clase_negada_vive_fuera_de_un_bloque_cercado(pagina):
+    """`[^X]` en prosa es, para el validador, una referencia a nota al pie.
+
+    Raya busca footnotes con `(?<!\\\\)\\[\\^([^\\]\\s]+)\\]` sobre el cuerpo al que
+    solo le quito los bloques cercados: un code span en linea NO lo protege.
+    Como la clase negada es la construccion mas util de la unidad, colisiona
+    en cada pagina y tumba el build entero con "Missing footnote definition".
+
+    La regla, entonces: las clases negadas se muestran dentro de un bloque
+    ```bash, y en prosa y en tablas se nombran en palabras.
+    """
+    dentro, ofensas = False, []
+    for numero, linea in enumerate(lee(pagina).splitlines(), 1):
+        if _FENCE.match(linea):
+            dentro = not dentro
+            continue
+        if dentro:
+            continue
+        encontradas = _FOOTNOTE_REF.findall(linea)
+        if encontradas:
+            ofensas.append(f"  linea {numero}: {encontradas} -> {linea.strip()[:80]}")
+    assert not ofensas, (
+        f"{pagina.name} escribe una clase negada fuera de un bloque cercado; "
+        "raya la lee como referencia a nota al pie y falla el build:\n"
+        + "\n".join(ofensas)
+    )
