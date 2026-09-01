@@ -4,42 +4,40 @@ authority: official
 content:
   title: "Imprescindible: deja GitHub y tu llave SSH funcionando"
   instructions: >-
-    Esto es lo más importante que tienes que hacer esta semana, y es lo único
-    que bloquea todo lo que sigue. A partir de la semana entrante vamos a
-    trabajar dentro del repositorio del curso, así que si esto no queda
-    configurado no vas a poder participar. No lo dejes para la noche anterior:
+    Esto es lo más importante que tienes que hacer esta semana. De aquí en
+    adelante vamos a usar git mucho, y si no queda configurado, cada sesión se
+    te va a ir peleando con la herramienta. No lo dejes para la noche anterior:
     lo que se atora aquí casi siempre se resuelve en diez minutos, y esos diez
     minutos existen sólo si empiezas con tiempo.
     No hay nada que subir ni que entregar. Es hacerlo y que te quede
     funcionando.
-    Sigue las dos hojas de la unidad Git y GitHub, en orden. Son cinco cosas y
+    El objetivo de hoy es modesto y concreto: que puedas clonar el repositorio
+    del curso y traer lo nuevo con git pull. Ojo con esto, para que nadie se
+    frustre intentando de más: este no es el repositorio sobre el que vas a
+    trabajar. No tienes permiso de escritura ahí y no lo necesitas. Cuando
+    llegue el momento de entregar, cada quien va a tener su propio fork, una
+    copia del repositorio en su cuenta, y desde ahí se proponen los cambios.
+    Eso tiene su orden y lo vemos en clase, así que por ahora no hagas nada al
+    respecto.
+    Sigue las dos hojas de la unidad Git y GitHub, en orden. Son cuatro cosas y
     ni una más. Una, crea tu cuenta de GitHub si no la tienes, con un correo
     personal y no con el del ITAM, porque el institucional deja de funcionar
     cuando te gradúas y se lleva tu historial. Dos, genera un par de llaves con
     ssh-keygen usando ed25519 y ponle una passphrase. Tres, deja el agente
     configurado para que no te la vuelva a pedir en cada operación, con las
     líneas que la hoja 1 da para tu sistema. Cuatro, pega la llave pública en
-    tu cuenta y clona el repositorio del curso en la carpeta fdd de tu casa.
-    Cinco, crea una rama con tu nombre de usuario, haz un commit pequeño en
-    ella y súbela con git push.
-    Ahí te detienes. No abras un pull request ni intentes incorporar tu rama a
-    main: eso lo vamos a ver en clase, en su momento, y tiene su orden. Subir
-    la rama es todo lo que se pide.
-    Sabrás que terminaste cuando estos comandos te respondan bien, y los corres
-    tú, para ti. El primero es ssh -T git@github.com, que debe saludarte con Hi
-    seguido de tu nombre de usuario; ese mismo mensaje dice que GitHub no da
-    acceso a una shell, y eso es parte de la respuesta correcta, no un error.
-    El segundo es git remote -v dentro de la carpeta clonada, que debe mostrar
-    dos líneas terminadas en fdd_o26 punto git. El tercero es git log con dos
-    guiones oneline, que debe listarte los commits del curso. Y el cuarto es el
-    propio git push, que debe confirmarte que la rama quedó creada en GitHub.
-    Una advertencia de orden: el push necesita acceso de escritura al
-    repositorio, y ese acceso lo doy yo a partir de tu nombre de usuario de
-    GitHub. Mándamelo o tráelo a clase en cuanto tengas la cuenta. Si el push
-    te responde Permission denied o 403, no es un error tuyo: quiere decir que
-    todavía no te he dado acceso. Todo lo demás —la llave, el clon, la rama y
-    el commit— lo puedes dejar hecho desde ya, y el push queda pendiente de un
-    minuto.
+    tu cuenta, clona el repositorio del curso en la carpeta fdd de tu casa y
+    corre git pull ahí dentro.
+    Sabrás que terminaste cuando estos tres comandos te respondan bien, y los
+    corres tú, para ti. El primero es ssh -T git@github.com, que debe saludarte
+    con Hi seguido de tu nombre de usuario; ese mismo mensaje dice que GitHub
+    no da acceso a una shell, y eso es parte de la respuesta correcta, no un
+    error. El segundo es git remote -v dentro de la carpeta clonada, que debe
+    mostrar dos líneas terminadas en fdd_o26 punto git. Y el tercero es git
+    pull, que debe responderte que ya estás al día o bajarte lo que falte. Si
+    git pull funciona, tu configuración está bien.
+    Trae tu nombre de usuario de GitHub a la mano para la clase; lo vamos a
+    necesitar cuando montemos los forks.
     Una advertencia que va en serio. Tu llave privada, el archivo id_ed25519
     sin extensión, no se comparte nunca: ni por correo, ni por mensaje, ni en
     una captura de pantalla. Lo único que se copia a algún lado es el archivo
@@ -54,9 +52,9 @@ content:
     - title: "Unidad — Cuenta y llave"
       url: "https://rayalucaria.org/fdd_o26/git-y-github/cuenta-y-llave/"
       note: "Los cinco pasos, con las variantes de Ubuntu, WSL2 y macOS."
-    - title: "Unidad — Clonar y trabajar"
-      url: "https://rayalucaria.org/fdd_o26/git-y-github/clonar-y-trabajar/"
-      note: "El clonado, tu identidad en git y qué hacer si formateas la máquina."
+    - title: "Unidad — Clonar y mantener al día"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/clonar-y-actualizar/"
+      note: "El clonado, git pull y qué hacer si formateas la máquina."
     - title: "Crear una cuenta de GitHub"
       url: "https://github.com/signup"
       note: "Usa un correo personal y activa la verificación en dos pasos."

@@ -35,7 +35,7 @@ Crea tu cuenta en [github.com/signup](https://github.com/signup) si aún no tien
 | Nombre de usuario | Algo que puedas decir en voz alta en una entrevista. Es una dirección pública y vas a cargar con él años. |
 | Verificación en dos pasos | Actívala. GitHub la exige y recuperar una cuenta sin ella es un trámite lento. |
 
-Cuando termines, anota tu **nombre de usuario**: lo vas a necesitar para la entrega, porque con él se te da acceso de escritura al repositorio del curso.
+Cuando termines, anota tu **nombre de usuario** y tráelo a clase: lo vamos a necesitar más adelante, cuando cada quien monte su propio fork del repositorio.
 
 ## Paso 2: genera el par de llaves
 
@@ -66,7 +66,7 @@ ls -l ~/.ssh/id_ed25519*
 
 ## Paso 3: que no te la vuelva a pedir
 
-Sin esto, cada `git push` te pide la passphrase. El **agente** la guarda en memoria; el archivo `~/.ssh/config` le dice a `ssh` que la use sola.
+Sin esto, cada vez que `git` hable con GitHub te va a pedir la passphrase. El **agente** la guarda en memoria; el archivo `~/.ssh/config` le dice a `ssh` que la use sola.
 
 **Haz:**
 
@@ -118,7 +118,7 @@ La primera vez te pregunta si confías en el servidor: escribe `yes`. Después:
 Hi tu-usuario! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-**Eso es un éxito, no un error.** Dice literalmente «no te doy acceso a una shell» porque GitHub no es un servidor donde te conectes a trabajar: la llave sirve para que `git` empuje y jale, nada más. Si aparece tu nombre de usuario, terminaste.
+**Eso es un éxito, no un error.** Dice literalmente «no te doy acceso a una shell» porque GitHub no es un servidor donde te conectes a trabajar: la llave sirve para que `git` hable con GitHub, nada más. Si aparece tu nombre de usuario, terminaste.
 
 ::: problem {#git-p1-fallo title="Permission denied (publickey)"}
 Corres `ssh -T git@github.com` y responde `Permission denied (publickey).` ¿Cuáles son las tres causas más probables, en orden?
@@ -141,4 +141,4 @@ Tercero, que **pegaste la privada o un pedazo**. GitHub rechaza lo que no tenga 
 
 ## Cierre
 
-Ya tienes la llave y GitHub te reconoce. Continúa con [[clonar-y-trabajar|Clonar y trabajar]] para bajar el repositorio del curso.
+Ya tienes la llave y GitHub te reconoce. Continúa con [[clonar-y-actualizar|Clonar y mantener al día]] para bajar el repositorio del curso.

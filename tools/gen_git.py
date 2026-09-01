@@ -73,45 +73,52 @@ def git_llaves():
 
 
 def git_flujo():
-    """De clonar a subir tu rama. Lo que pase despues llega mas adelante."""
+    """Este repositorio se lee, no se escribe: clone una vez, pull cada vez."""
     ancho, alto = 1080, 470
     aria = (
-        "Cuatro pasos encadenados: clonar una vez, crear una rama, hacer "
-        "commits y subir la rama. Debajo, la rama main aparece aparte y marcada "
-        "como intocable porque publica el sitio, con una flecha roja que "
-        "muestra que no se hace push directo a ella"
+        "A la izquierda el repositorio del curso en GitHub; a la derecha tu "
+        "copia local. Una flecha baja el codigo con git clone la primera vez y "
+        "otra lo actualiza con git pull cada vez que hay algo nuevo. Una "
+        "tercera flecha, en rojo y de vuelta hacia GitHub, aparece marcada como "
+        "que no aplica: en este repositorio no escribes. Abajo, una caja "
+        "punteada anuncia que el trabajo se hara sobre un fork propio, mas "
+        "adelante"
     )
-    pasos = (
-        ("git clone", "una sola vez", CIAN),
-        ("git switch -c", "tu rama", ACENTO),
-        ("git commit", "las veces que haga falta", ACENTO),
-        ("git push", "tu rama queda en GitHub", ACENTO),
-    )
-    w, sep, y0, h = 224, 26, 118, 92
-    x0 = (ancho - (len(pasos) * w + (len(pasos) - 1) * sep)) / 2
     p = [marco(ancho, alto, aria)]
-    p.append(texto(ancho / 2, 44, "Tu trabajo vive en tu rama", TEXTO, 21, peso="600"))
+    p.append(texto(ancho / 2, 44, "Este repositorio lo lees; no escribes en él", TEXTO, 21, peso="600"))
 
-    centros = []
-    for i, (titulo, glosa, color) in enumerate(pasos):
-        x = x0 + i * (w + sep)
-        p.append(caja(x, y0, w, h, PANEL, color))
-        p.append(teclado(x + w / 2, y0 + 40, titulo, color, 15))
-        p.append(texto(x + w / 2, y0 + 66, glosa, SUAVE, 12.5))
-        centros.append(x + w / 2)
-        if i:
-            p.append(flecha(x - sep + 2, y0 + h / 2, x - 6, y0 + h / 2, SUAVE))
+    p.append(caja(56, 100, 384, 130, PANEL, ACENTO))
+    p.append(texto(248, 134, "GitHub", ACENTO, 16, peso="600"))
+    p.append(teclado(248, 164, "raya-lucaria/fdd_o26", ACENTO, 15))
+    p.append(texto(248, 192, "el repositorio del curso", SUAVE, 13))
+    p.append(texto(248, 212, "público: cualquiera puede leerlo", SUAVE, 13))
 
-    # main queda aparte y sin flecha que llegue: nadie empuja ahi.
-    ancho_main, x_main = 300, (ancho - 300) / 2
-    p.append(caja(x_main, 300, ancho_main, 86, TINTE, AMBAR))
-    p.append(teclado(x_main + ancho_main / 2, 334, "main", AMBAR, 18))
-    p.append(texto(x_main + ancho_main / 2, 360, "publica el sitio — no la toques", AMBAR, 13))
+    p.append(caja(640, 100, 384, 130, PANEL, CIAN))
+    p.append(texto(832, 134, "tu computadora", CIAN, 16, peso="600"))
+    p.append(teclado(832, 164, "~/fdd/fdd_o26", CIAN, 15))
+    p.append(texto(832, 192, "tu copia, para leer y consultar", SUAVE, 13))
+    p.append(texto(832, 212, "y para correr lo que trae dentro", SUAVE, 13))
 
-    p.append(arco(centros[1], y0 + h + 6, x_main + ancho_main / 2, 296, 62, ROJO))
-    p.append(chip((centros[1] + x_main + ancho_main / 2) / 2, cima_arco(230, 62), "push directo: no", ROJO, tam=13))
+    # Lo que si se hace: bajar una vez y actualizar siempre. Cada flecha lleva
+    # su chip arriba y su glosa abajo, para que no se lean cruzadas.
+    p.append(flecha(448, 140, 632, 140, ACENTO, 2.5))
+    p.append(chip(540, 118, "git clone", ACENTO, tam=13))
+    p.append(texto(540, 162, "la primera vez", SUAVE, 12.5))
 
-    p.append(texto(ancho / 2, 424, "Al terminar el push, tu rama ya está en GitHub y ahí se queda. Cómo se incorpora a main lo vemos más adelante.", SUAVE, 14))
+    p.append(flecha(448, 210, 632, 210, ACENTO, 2.5))
+    p.append(chip(540, 188, "git pull", ACENTO, tam=13))
+    p.append(texto(540, 232, "cada vez que haya algo nuevo", SUAVE, 12.5))
+
+    # Lo que no: escribir de vuelta.
+    p.append(arco(632, 268, 448, 268, 56, ROJO))
+    p.append(chip(540, cima_arco(268, 56), "git push: no", ROJO, tam=13))
+    p.append(texto(540, 344, "no tienes permiso de escritura, y no lo necesitas", ROJO, 13))
+
+    # El futuro, sin entrar en detalle.
+    p.append(f'<rect x="290" y="372" width="500" height="52" rx="10" fill="none" '
+             f'stroke="{SUAVE}" stroke-width="1.6" stroke-dasharray="8 6"/>')
+    p.append(texto(540, 396, "Cuando toque trabajar será sobre un fork tuyo,", SUAVE, 13.5))
+    p.append(texto(540, 415, "una copia del repositorio en tu propia cuenta. Eso lo vemos en clase.", SUAVE, 13.5))
     p.append(cierre())
     return "".join(p)
 
