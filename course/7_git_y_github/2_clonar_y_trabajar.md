@@ -127,4 +127,4 @@ Tu commit sigue en `mi-rama` y `main` vuelve a estar igual que el del servidor. 
 
 ## Cierre
 
-Ya tienes el repositorio, tu identidad configurada y el camino por el que entra un cambio. La entrega de esta unidad es exactamente esto: la llave funcionando y el repositorio clonado.
+Ya tienes el repositorio, tu identidad configurada y el camino por el que entra un cambio. No hay nada que subir: la unidad se da por terminada cuando `ssh -T` te saluda, `git remote -v` apunta a `fdd_o26.git` y `git log` te lista los commits del curso. Llega a clase con tu nombre de usuario de GitHub a la mano.

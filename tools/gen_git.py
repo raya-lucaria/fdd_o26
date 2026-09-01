@@ -65,7 +65,7 @@ def git_llaves():
     p.append(arco(632, 288, 448, 288, 60, CIAN))
     p.append(chip(540, cima_arco(288, 60), "ssh -T", CIAN, tam=13))
 
-    p.append(texto(ancho / 2, 412, "La privada se queda en tu disco y nunca se manda, ni por correo, ni en una captura, ni en una tarea.", ROJO, 14))
+    p.append(texto(ancho / 2, 412, "La privada se queda en tu disco y nunca se manda, ni por correo, ni por mensaje, ni en una captura de pantalla.", ROJO, 14))
     p.append(texto(ancho / 2, 442, "Si reseteas la computadora la pierdes, y eso está bien: se genera otra y se agrega. Una cuenta admite varias.", SUAVE, 14))
     p.append(texto(ancho / 2, 470, "El archivo que termina en .pub es el único que se copia a algún lado.", SUAVE, 14))
     p.append(cierre())

@@ -1,0 +1,67 @@
+id: github-ssh-setup
+type: task
+authority: official
+content:
+  title: "Imprescindible: deja GitHub y tu llave SSH funcionando"
+  instructions: >-
+    Esto es lo más importante que tienes que hacer esta semana, y es lo único
+    que bloquea todo lo que sigue. A partir de la semana entrante vamos a
+    trabajar dentro del repositorio del curso, así que si esto no queda
+    configurado no vas a poder participar. No lo dejes para la noche anterior:
+    lo que se atora aquí casi siempre se resuelve en diez minutos, y esos diez
+    minutos existen sólo si empiezas con tiempo.
+    No hay nada que subir ni que entregar. Es hacerlo y que te quede
+    funcionando.
+    Sigue las dos hojas de la unidad Git y GitHub, en orden. Son cuatro cosas.
+    Una, crea tu cuenta de GitHub si no la tienes, con un correo personal y no
+    con el del ITAM, porque el institucional deja de funcionar cuando te
+    gradúas y se lleva tu historial. Dos, genera un par de llaves con
+    ssh-keygen usando ed25519 y ponle una passphrase. Tres, deja el agente
+    configurado para que no te la vuelva a pedir en cada operación, con las
+    líneas que la hoja 1 da para tu sistema. Cuatro, pega la llave pública en
+    tu cuenta y clona el repositorio del curso en la carpeta fdd de tu casa.
+    Sabrás que terminaste cuando estos tres comandos te respondan bien, y los
+    corres tú, para ti. El primero es ssh -T git@github.com, que debe saludarte
+    con Hi seguido de tu nombre de usuario; ese mismo mensaje dice que GitHub
+    no da acceso a una shell, y eso es parte de la respuesta correcta, no un
+    error. El segundo es git remote -v dentro de la carpeta clonada, que debe
+    mostrar dos líneas terminadas en fdd_o26 punto git. El tercero es git log
+    con dos guiones oneline, que debe listarte los commits del curso.
+    Llega a clase con tu nombre de usuario de GitHub a la mano. Lo necesito
+    para darte acceso de escritura al repositorio, y sin eso no vas a poder
+    subir nada después.
+    Una advertencia que va en serio. Tu llave privada, el archivo id_ed25519
+    sin extensión, no se comparte nunca: ni por correo, ni por mensaje, ni en
+    una captura de pantalla. Lo único que se copia a algún lado es el archivo
+    que termina en punto pub. Si alguna vez la mandas por accidente, se borra
+    el par y se genera otro; toma dos minutos y no pasa nada grave, pero
+    conviene que lo notes tú.
+    Si algo no sale, no te quedes callado. Anota qué comando corriste, qué
+    esperabas y qué salió, y tráelo a clase. Un Permission denied publickey
+    tiene tres causas probables y las tres están explicadas en el ejercicio de
+    la hoja 1.
+  resources:
+    - title: "Unidad — Cuenta y llave"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/cuenta-y-llave/"
+      note: "Los cinco pasos, con las variantes de Ubuntu, WSL2 y macOS."
+    - title: "Unidad — Clonar y trabajar"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/clonar-y-trabajar/"
+      note: "El clonado, tu identidad en git y qué hacer si formateas la máquina."
+    - title: "Crear una cuenta de GitHub"
+      url: "https://github.com/signup"
+      note: "Usa un correo personal y activa la verificación en dos pasos."
+    - title: "GitHub — generar una llave SSH nueva"
+      url: "https://docs.github.com/es/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent"
+      note: "Documentación oficial, en español, con las tres plataformas."
+    - title: "GitHub — agregar la llave a tu cuenta"
+      url: "https://docs.github.com/es/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
+      note: "Dónde se pega: Settings, SSH and GPG keys, New SSH key."
+    - title: "GitHub — probar la conexión"
+      url: "https://docs.github.com/es/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection"
+      note: "Qué respuesta esperar de ssh -T y qué significa cada error."
+    - title: "Repositorio del curso"
+      url: "https://github.com/raya-lucaria/fdd_o26"
+      note: "El que vas a clonar. Es público, así que puedes verlo antes de tener la llave."
+  due: "2026-09-03"
+  status: published
+  tags: [git, github, ssh, setup, imprescindible]
