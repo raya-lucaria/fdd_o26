@@ -11,7 +11,7 @@ prerequisites: [grupos-y-captura]
 
 # grep, history y awk
 
-**Página 6 de 6** · 15 min
+**Página 7 de 7** · 15 min
 
 Meta: convertir lo aprendido en una tubería que limpia un archivo de verdad.
 

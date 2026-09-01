@@ -11,7 +11,7 @@ prerequisites: [taquigrafia-perl]
 
 # Grupos y captura
 
-**Página 5 de 6** · 15 min
+**Página 6 de 7** · 15 min
 
 Meta: extraer un pedazo de una línea y reescribirlo.
 
@@ -21,7 +21,7 @@ Meta: extraer un pedazo de una línea y reescribirlo.
 
 ## En corto
 
-- `(…)` agrupa: hace que un cuantificador o una alternancia apliquen a **todo el pedazo**.
+- `(…)` convierte varios caracteres en **una sola pieza**: por eso `(ab)+` repite el bloque entero.
 - La alternancia parte **la expresión completa**, no sólo lo que tiene al lado. Los paréntesis la acotan.
 - Lo que capturaste con `(…)` se recupera después como `\1`, `\2`, `\3`.
 
@@ -48,18 +48,7 @@ La alternancia tiene la precedencia más baja de todas: parte la expresión ente
 
 **Pausa:** este es el bug más caro de la unidad, porque **no falla: devuelve de más**. Un filtro que deja pasar todo se ve igual que un filtro que funciona.
 
-## Misión 2: agrupar para repetir
-
-Ya lo viste en la página 3; ahora con nombre.
-
-```bash
-printf '%s\n' 'ab' 'abbb' 'ababab' > repes.txt
-grep -E '^(ab)+$' repes.txt
-```
-
-`(ab)+` repite el grupo entero: encuentra `ab` y `ababab`, no `abbb`. El paréntesis convierte varios caracteres en **una sola pieza** para el cuantificador que viene después.
-
-## Misión 3: capturar y volver a usar
+## Misión 2: capturar y volver a usar
 
 Cada `(…)` **recuerda** lo que casó. Ese texto se recupera dentro del mismo patrón como `\1`.
 
@@ -75,7 +64,7 @@ Léelo de izquierda a derecha: frontera de palabra, captura una palabra, un espa
 
 **Pausa:** las retro-referencias en ERE son una extensión de GNU, no parte del estándar POSIX. Funcionan en Linux y en macOS reciente, pero no des por hecho que están en cualquier herramienta.
 
-## Misión 4: reescribir con `sed`
+## Misión 3: reescribir con `sed`
 
 Aquí es donde la captura paga. `sed -E 's/BUSCA/REEMPLAZA/'` sustituye, y en el reemplazo puedes usar los grupos.
 
@@ -96,13 +85,30 @@ grep -Eo '<[^>]+>' contactos.txt | head -3 | sed -E 's/<([^@]+)@([^>]+)>/\2/'
 
 **Pausa:** `sed` es un programa distinto de `grep`, pero habla el mismo dialecto con `-E`. Todo lo que aprendiste sirve igual.
 
-## Misión 5: el patrón de correo, estado por estado
+## Misión 4: el patrón de correo, estado por estado
 
 ::: figure {#rx-automata-email title="Un patrón de correo, estado por estado"}
 ![Autómata de cinco estados: una o más caracteres de la parte local, la arroba, una o más del dominio, un punto literal y al menos dos letras de terminación; debajo, cuatro cadenas de prueba con su resultado](_assets/rx-automata-email.svg)
 :::
 
-Se construye sumando **un estado a la vez**. Corre cada línea y mira cuántas coincidencias más aparecen:
+Antes de correr nada, **léelo con el método de cuatro pasos**. Es el mismo que usarás con cualquier patrón que te encuentres:
+
+::: table {#rx-lectura-email title="El patrón del correo, leído pieza por pieza"}
+
+| # | Trozo | ¿Pieza o ancla? | Cuántas veces |
+|---:|---|---|---|
+| 1 | `^` | ancla | — |
+| 2 | `[a-z0-9._%+-]` | pieza: una clase | `+` → una o más |
+| 3 | `@` | pieza: un literal | una |
+| 4 | `[a-z0-9.-]` | pieza: una clase | `+` → una o más |
+| 5 | `\.` | pieza: un punto literal | una |
+| 6 | `[a-z]` | pieza: una clase | `{2,}` → dos o más |
+| 7 | `$` | ancla | — |
+:::
+
+Fíjate en el trozo 2: dentro de esa clase hay un `.`, un `%`, un `+` y un `-`, y **ninguno cuantifica ni escapa nada** — son cuatro caracteres literales, por lo que viste en la página 3. El `+` que sí cuantifica es el que va **fuera** del corchete de cierre. El `-` va al final para ser literal.
+
+Ahora sí, corre cada línea sumando **un estado a la vez** y mira cómo se estrecha el filtro:
 
 ```bash
 grep -Eoi '[a-z0-9._%+-]+'                              contactos.txt | head -3

@@ -149,3 +149,91 @@ generalizado). `pytest tools/`: 385 pasan. `raya build` con el SHA que fija CI
 (`9f17ce9`): sin errores.
 
 Pendiente deliberado: la unidad no trae tarea, flashcards ni quizzes.
+
+---
+
+# Revisión: la unidad enseñaba comportamiento, no gramática
+
+Segunda lectura completa. El diagnóstico: se podía terminar la unidad
+reconociendo ejemplos y sin poder **leer un patrón que no habías visto**,
+porque las reglas de composición nunca se enunciaban. Ocho huecos y una
+contradicción propia.
+
+## La contradicción
+
+Página 2 afirmaba, con tabla y autómata, que el motor **no vuelve atrás**.
+Página 3 mostraba el goloso, que retrocede. Ambas cosas son ciertas y hablan de
+niveles distintos —dónde **empieza** el intento, contra hasta dónde llega la
+repetición **dentro** de un intento— pero la unidad nunca lo decía, así que el
+goloso quedaba como magia. Ahora se reconcilia explícitamente y hay guarda.
+
+## El concepto que faltaba
+
+«El cuantificador se agarra de lo que tiene inmediatamente a la izquierda»
+existía, enterrado como *Pausa* al final de una misión. Ese es el concepto del
+que cuelga todo lo demás. Ahora se llama **pieza**, tiene definición propia y
+llega antes que el primer cuantificador de la unidad:
+
+- una pieza **consume** caracteres; una **ancla** sólo mira la posición
+- hay cuatro clases de pieza: literal, `.`, clase `[…]`, grupo `(…)`
+- un cuantificador actúa sobre una pieza; una ancla no admite cuantificador
+
+## Los cuatro cuantificadores son uno
+
+`?`, `*`, `+` y `{n,m}` se presentaban como cuatro símbolos a memorizar. Son un
+rango: `{0,1}`, `{0,}`, `{1,}`. Con eso, `{n,m}` deja de ser el raro del final y
+pasa a ser el caso general, y «cero veces» —o sea `ε`— pasa a ser una casilla de
+la tabla en vez de una letra griega suelta dentro de un dibujo.
+
+## ε, definido
+
+Aparecía **sólo** dentro de `rx-cuantificadores`; ningún texto de la unidad la
+nombraba. Ahora tiene definición —la cadena de longitud cero, y un salto ε es
+una flecha que se recorre sin leer nada— y una demostración que la vuelve
+tangible: `grep -cE 'x*' formas.txt` devuelve `5`, las cinco líneas, aunque no
+haya una sola `x` en el archivo.
+
+## El contexto de cada símbolo
+
+Lo que más confunde y estaba en cuatro datos apretados en un párrafo. Ahora es
+un diagrama y una tabla: qué significa cada símbolo suelto, dentro de `[…]` y
+escapado. Con los casos que muerden: `[a+b]` casa `a`, `+` o `b` porque el `+`
+adentro no cuantifica; `[]]` es un corchete literal; `[a-]` termina en guion; el
+`^` sólo niega en primera posición.
+
+Y la regla real del escape: `\` ante un metacarácter lo vuelve literal; ante
+cualquier otra cosa, el resultado lo decide el motor. `\d` en `grep -E` **es**
+ese caso, así que las páginas 3 y 5 dejan de ser dos anécdotas separadas.
+
+## Correcciones menores
+
+- La lista de metacaracteres decía «diez» y enumeraba once, sin `{` ni `}`.
+- `rx-clases` pintaba `\d` con un ✓ verde y el texto de esa misma página decía
+  que no funciona en `grep -E`: el ancla visual enseñaba lo contrario. Ahora
+  lleva la marca «no la conoce grep -E».
+- `\b` vivía en la página de taquigrafía, lejos de `^` y `$`. Sigue ahí —su
+  definición necesita «carácter de palabra»— pero ahora se presenta como la
+  tercera ancla y cierra la tabla que abre la página 2.
+- El método de lectura de cuatro pasos sólo existía en la chuleta. Ahora se
+  aplica en vivo, paso a paso, sobre el patrón de correo.
+
+## Estructura final
+
+Siete páginas, ~97 min. La antigua «Clases y repetición» se parte en dos porque
+la teoría no cabía sin volverla densa, que es justo lo contrario del encargo.
+
+| # | Página |
+|---:|---|
+| 1 | Qué es y de dónde salió |
+| 2 | Leer de izquierda a derecha — **anclas como familia** |
+| 3 | **Las piezas de un patrón** |
+| 4 | **Cuántas veces** |
+| 5 | La taquigrafía de Perl |
+| 6 | Grupos y captura |
+| 7 | grep, history y awk |
+
+Once diagramas —tres nuevos: `rx-piezas`, `rx-contexto`, `rx-backtracking`; uno
+corregido: `rx-clases`; uno retirado: `rx-goloso`, absorbido por
+`rx-backtracking`— y **una portada generada con gpt-image-2**, que a la unidad
+le faltaba: `tools/gen_ilustraciones.py` y su guarda tenían la ruta de assets
+fija en Pipeline de Datos y ahora resuelven la unidad desde el catálogo.

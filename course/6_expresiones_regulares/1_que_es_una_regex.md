@@ -11,7 +11,7 @@ prerequisites: [expresiones-regulares]
 
 # Qué es y de dónde salió
 
-**Página 1 de 6** · 10 min
+**Página 1 de 7** · 10 min
 
 Meta: tener el laboratorio en pie y haber corrido tu primer `grep`.
 
@@ -27,7 +27,7 @@ Meta: tener el laboratorio en pie y haber corrido tu primer `grep`.
 
 ## Misión 1: arma el laboratorio
 
-**Haz:** este bloque crea la carpeta y los tres archivos con los que vas a trabajar las seis páginas. Las comillas en `<<'EOF'` son importantes: le dicen a Bash que **no** expanda nada del texto de adentro.
+**Haz:** este bloque crea la carpeta y los tres archivos con los que vas a trabajar las siete páginas. Las comillas en `<<'EOF'` son importantes: le dicen a Bash que **no** expanda nada del texto de adentro.
 
 ```bash
 mkdir -p ~/fdd/regex-lab && cd ~/fdd/regex-lab
@@ -117,7 +117,7 @@ No es una herramienta nueva. Es una idea de teoría de autómatas que llegó a l
 | 1992 | POSIX | Estandariza **dos** dialectos: BRE (básico) y ERE (extendido). Por eso `grep` y `grep -E` no entienden lo mismo. |
 | 1987 | Larry Wall | Perl agrega la taquigrafía `\d`, `\w`, `\s`. En 1997 PCRE la lleva a todos los demás lenguajes. |
 
-Dos consecuencias prácticas de esa historia, que vas a sentir esta misma clase: **hay más de un dialecto** (página 3) y **la taquigrafía cómoda no es la portátil** (página 4).
+Dos consecuencias prácticas de esa historia, que vas a sentir esta misma clase: **hay más de un dialecto** (página 3) y **la taquigrafía cómoda no es la portátil** (página 5).
 
 > [!NOTE]
 > **Si sólo recuerdas una cosa:** `grep patrón archivo` imprime las líneas donde **encontró** el patrón; la coincidencia pudo haber sido sólo un pedazo de la línea.

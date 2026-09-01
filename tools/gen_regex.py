@@ -402,7 +402,7 @@ def rx_goloso():
 
 def rx_clases():
     """Que cubre cada clase sobre los mismos ocho caracteres."""
-    ancho, alto = 980, 452
+    ancho, alto = 1120, 452
     aria = (
         "Ocho caracteres en fila y tres bandas debajo que marcan cuales cubre "
         "cada clase: barra d solo el digito, barra w las letras el digito y el "
@@ -412,9 +412,9 @@ def rx_clases():
     fila = ("a", "Z", "7", "_", "ñ", "␣", ".", "-")
     NINA = 4  # la columna que depende del locale
     clases = (
-        (r"\d", {2}, AMBAR, "[[:digit:]]"),
-        (r"\w", {0, 1, 2, 3}, CIAN, "[[:alnum:]_]"),
-        (r"\s", {5}, VIOLETA, "[[:space:]]"),
+        (r"\d", {2}, AMBAR, "[[:digit:]]", "no la conoce grep -E"),
+        (r"\w", {0, 1, 2, 3}, CIAN, "[[:alnum:]_]", ""),
+        (r"\s", {5}, VIOLETA, "[[:space:]]", ""),
     )
     w, x0, y0 = 74, 290, 92
     p = [marco(ancho, alto, aria)]
@@ -424,7 +424,7 @@ def rx_clases():
     for i, ch in enumerate(fila):
         p.append(celda(x0 + i * w, y0, w - 6, 54, ch, LINEA, TEXTO, PANEL))
 
-    for k, (clase, indices, color, posix) in enumerate(clases):
+    for k, (clase, indices, color, posix, aviso) in enumerate(clases):
         y = 180 + k * 66
         p.append(teclado(x0 - 24, y + 20, clase, color, 20, anclaje="end"))
         p.append(teclado(x0 - 24, y + 42, posix, SUAVE, 13, anclaje="end", peso="normal"))
@@ -439,6 +439,10 @@ def rx_clases():
                 p.append(teclado(x0 + i * w + (w - 6) / 2, y + 30, "✓", color, 20))
             else:
                 p.append(caja(x0 + i * w, y, w - 6, 44, "none", "#232c31", radio=6, grosor=1.5))
+        if aviso:
+            # El texto de la pagina dice que \\d no sirve en grep -E; sin marcarlo
+            # aqui, el ancla visual ensena justo lo contrario.
+            p.append(chip(x0 + len(fila) * w + 106, y + 22, aviso, ROJO, tam=13))
 
     p.append(texto(ancho / 2, 404, "La ñ depende del locale: en UTF-8 entra en \\w, con LC_ALL=C no entra.", AMBAR, 14))
     p.append(texto(ancho / 2, 428, "El mismo patrón puede dar respuestas distintas en dos máquinas. Las clases POSIX no arreglan eso: lo hacen visible.", SUAVE, 13.5))
@@ -595,12 +599,191 @@ def rx_tuberia():
     return "".join(p)
 
 
+# --------------------------------------------------------------------------
+# Pagina 3: las piezas de un patron y el contexto de cada simbolo
+# --------------------------------------------------------------------------
+
+def rx_piezas():
+    """Un patron real, partido en piezas y anclas, con el alcance de cada
+    cuantificador y el texto que consume cada pieza."""
+    ancho, alto = 1080, 500
+    aria = (
+        "Un patron de telefono partido en cinco partes: dos anclas que no "
+        "consumen ningun caracter y tres piezas que si; debajo, el texto 55 "
+        "1234 con cada caracter coloreado segun la pieza que lo consumio"
+    )
+    # (etiqueta, cuantificador, glosa, ancho, es_pieza, color, consume)
+    partes = (
+        ("^", "", "ancla", 78, False, SUAVE, ""),
+        ("[0-9]", "{2}", "×2", 200, True, CIAN, "55"),
+        ("[ -]", "?", "×0 o 1", 176, True, AMBAR, " "),
+        ("[0-9]", "{4}", "×4", 200, True, VIOLETA, "1234"),
+        ("$", "", "ancla", 78, False, SUAVE, ""),
+    )
+    sep, y0, h = 18, 118, 76
+    total = sum(p[3] for p in partes) + sep * (len(partes) - 1)
+    x0 = (ancho - total) / 2
+
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 42, "Un patrón es una fila de piezas", TEXTO, 21, peso="600"))
+    p.append(teclado(ancho / 2, 82, "^[0-9]{2}[ -]?[0-9]{4}$", ACENTO, 20))
+
+    x = x0
+    centros = []
+    for etiqueta, cuant, glosa, w, es_pieza, color, _ in partes:
+        relleno = PANEL if es_pieza else FONDO
+        p.append(caja(x, y0, w, h, relleno, color, radio=10,
+                      grosor=2.5 if es_pieza else 1.5))
+        p.append(teclado(x + w / 2, y0 + 34, etiqueta, color, 18))
+        p.append(teclado(x + w / 2, y0 + 60, cuant or "—", SUAVE, 14, peso="normal"))
+        p.append(texto(x + w / 2, y0 + h + 24, glosa, color, 13.5))
+        p.append(texto(x + w / 2, y0 + h + 44,
+                       "consume" if es_pieza else "no consume", SUAVE, 12.5))
+        centros.append((x + w / 2, w, color, es_pieza))
+        x += w + sep
+
+    # La cadena que casa, con cada caracter tenido por la pieza que lo consumio.
+    cadena = "55 1234"
+    cw, cy = 62, 336
+    cx0 = (ancho - len(cadena) * cw) / 2
+    tintes = [CIAN, CIAN, AMBAR, VIOLETA, VIOLETA, VIOLETA, VIOLETA]
+    for i, ch in enumerate(cadena):
+        visible = "␣" if ch == " " else ch
+        p.append(celda(cx0 + i * cw, cy, cw - 6, 52, visible, tintes[i], tintes[i]))
+
+    # Las anclas se marcan como un corte sin ancho a los lados de la cadena.
+    for borde in (cx0 - 14, cx0 + len(cadena) * cw - 6 + 14):
+        p.append(f'<line x1="{borde}" y1="{cy - 10}" x2="{borde}" y2="{cy + 62}" '
+                 f'stroke="{SUAVE}" stroke-width="3" stroke-dasharray="6 5"/>')
+
+    for centro, w, color, es_pieza in centros:
+        destino = cx0 + {CIAN: 62, AMBAR: 155, VIOLETA: 310}.get(color, 0)
+        if es_pieza:
+            p.append(arco(centro, y0 + h + 56, destino, cy - 8, 26, color, 1.8))
+
+    p.append(texto(ancho / 2, 434, "Las anclas de los extremos no se llevan ningún carácter: sólo exigen estar al principio y al final.", SUAVE, 14))
+    p.append(texto(ancho / 2, 462, "El cuantificador se pega a la pieza que tiene justo a su izquierda. A ninguna otra.", ACENTO, 14))
+    p.append(cierre())
+    return "".join(p)
+
+
+def rx_contexto():
+    """El mismo simbolo significa tres cosas segun donde este."""
+    ancho, alto = 1080, 484
+    aria = (
+        "Tabla de seis simbolos y tres columnas: que significa cada uno suelto "
+        "en el patron, dentro de unos corchetes y precedido de barra invertida; "
+        "dentro de los corchetes casi todos pierden su poder"
+    )
+    filas = (
+        (".", "cualquier carácter", "un punto literal", "un punto literal"),
+        ("*", "repite lo anterior", "un asterisco literal", "un asterisco literal"),
+        ("+", "una o más veces", "un signo más literal", "un signo más literal"),
+        ("^", "inicio de línea", "niega, sólo si va primero", "un circunflejo literal"),
+        ("-", "un guion literal", "rango, salvo en los extremos", "un guion literal"),
+        ("]", "un corchete literal", "cierra, salvo si va primero", "un corchete literal"),
+    )
+    cols = (200, 296, 302, 242)
+    x0, y0, hf = 20, 132, 50
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 42, "El mismo símbolo, tres significados", TEXTO, 21, peso="600"))
+    p.append(texto(ancho / 2, 68, "lo que decide no es el símbolo: es dónde está", SUAVE, 14))
+
+    encabezados = ("símbolo", "suelto en el patrón", "dentro de [ … ]", "escapado con \\")
+    colores = (TEXTO, ACENTO, AMBAR, CIAN)
+    x = x0
+    for i, cab in enumerate(encabezados):
+        p.append(texto(x + cols[i] / 2, y0 - 16, cab, colores[i], 15, peso="600"))
+        x += cols[i]
+    p.append(f'<line x1="{x0}" y1="{y0 - 2}" x2="{x0 + sum(cols)}" y2="{y0 - 2}" '
+             f'stroke="{LINEA}" stroke-width="2"/>')
+
+    for k, fila in enumerate(filas):
+        y = y0 + k * hf
+        if k % 2:
+            p.append(caja(x0, y, sum(cols), hf, PANEL, "none", radio=6, grosor=0))
+        x = x0
+        for i, celda_texto in enumerate(fila):
+            cx = x + cols[i] / 2
+            if i == 0:
+                p.append(teclado(cx, y + 31, celda_texto, TEXTO, 19))
+            else:
+                especial = "literal" not in celda_texto
+                p.append(texto(cx, y + 31, celda_texto,
+                               colores[i] if especial else SUAVE, 14,
+                               peso="600" if especial else "normal"))
+            x += cols[i]
+
+    p.append(texto(ancho / 2, 448, "Dentro de los corchetes casi todo pierde su poder: por eso [.] es un punto y [a+b] casa una a, un + o una b.", AMBAR, 14))
+    p.append(cierre())
+    return "".join(p)
+
+
+# --------------------------------------------------------------------------
+# Pagina 4: el goloso, paso a paso
+# --------------------------------------------------------------------------
+
+def rx_backtracking():
+    """La repeticion toma de mas y despues cede, hasta que el resto encaja."""
+    ancho, alto = 1080, 560
+    aria = (
+        "Sobre el texto menor a mayor que, el punto asterisco toma ocho "
+        "caracteres y falla porque despues no queda ningun mayor que; cede uno "
+        "y entonces si encaja, dejando una sola coincidencia que abarca todo el "
+        "renglon; debajo, la clase negada se detiene sola y da dos "
+        "coincidencias cortas"
+    )
+    cadena = "<a>␣y␣<b>"
+    w, x0, y0 = 56, 150, 108
+    fin_cinta = x0 + len(cadena) * w
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 42, "El goloso toma de más y después cede", TEXTO, 21, peso="600"))
+    p.append(texto(ancho / 2, 68, "patrón <.*> sobre este renglón — «␣» es un espacio", SUAVE, 14))
+
+    for i, ch in enumerate(cadena):
+        p.append(celda(x0 + i * w, y0, w - 6, 50, ch, LINEA, TEXTO))
+
+    def barra(y, desde, hasta, color, etiqueta):
+        p.append(caja(x0 + desde * w, y, (hasta - desde) * w - 6, 36, "none",
+                      color, radio=8, grosor=3))
+        p.append(teclado(x0 + desde * w + ((hasta - desde) * w - 6) / 2, y + 24,
+                         etiqueta, color, 15, peso="normal"))
+
+    # `<` casa la celda 0; `.*` empieza en la 1. Toma hasta el final, falla, y
+    # cede exactamente un caracter: entonces la celda 8 es el `>` que faltaba.
+    pasos = (
+        (190, 1, 9, ROJO, "a>␣y␣<b>", ".* toma los ocho", "y después no queda ningún >"),
+        (256, 1, 8, ACENTO, "a>␣y␣<b", "cede uno", "el siguiente sí es > → encaja"),
+    )
+    for y, desde, hasta, color, etiqueta, que, porque in pasos:
+        barra(y, desde, hasta, color, etiqueta)
+        p.append(texto(fin_cinta + 18, y + 16, que, color, 13.5, anclaje="start"))
+        p.append(texto(fin_cinta + 18, y + 36, porque, SUAVE, 12.5, anclaje="start"))
+
+    barra(322, 0, 9, ACENTO, "<a>␣y␣<b>")
+    p.append(texto(fin_cinta + 18, 346, "una sola coincidencia", ACENTO, 13.5, anclaje="start"))
+
+    p.append(texto(ancho / 2, 406, "Ese ceder es lo único que retrocede. La cabeza sigue sin volver atrás: lo que se mueve es hasta dónde llega la repetición", SUAVE, 13.5))
+    p.append(texto(ancho / 2, 428, "dentro de un mismo intento.", SUAVE, 13.5))
+
+    p.append(teclado(ancho / 2, 470, "<[^>]*>", ACENTO, 18))
+    barra(492, 0, 3, ACENTO, "<a>")
+    barra(492, 6, 9, ACENTO, "<b>")
+    p.append(texto(fin_cinta + 18, 516, "no cede nada:", ACENTO, 13.5, anclaje="start"))
+    p.append(texto(fin_cinta + 18, 536, "se detiene sola en el primer >", SUAVE, 12.5, anclaje="start"))
+    p.append(cierre())
+    return "".join(p)
+
+
+
 DIAGRAMAS = {
     "rx-que-es": rx_que_es,
     "rx-cabeza": rx_cabeza,
     "rx-automata-ana": rx_automata_ana,
+    "rx-piezas": rx_piezas,
+    "rx-contexto": rx_contexto,
     "rx-cuantificadores": rx_cuantificadores,
-    "rx-goloso": rx_goloso,
+    "rx-backtracking": rx_backtracking,
     "rx-clases": rx_clases,
     "rx-alternancia": rx_alternancia,
     "rx-automata-email": rx_automata_email,

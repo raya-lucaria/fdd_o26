@@ -11,10 +11,28 @@ from pathlib import Path
 from PIL import Image
 
 RAIZ = Path(__file__).resolve().parent.parent
-ASSETS = RAIZ / "course/2_pipeline_de_datos/_assets"
 CATALOGO = RAIZ / "tools/ilustraciones.json"
-CREDITOS = ASSETS / "CREDITOS.md"
-PAGINAS = RAIZ / "course/2_pipeline_de_datos"
+# Cada ilustracion declara su unidad en el catalogo. Antes esta guarda tenia una
+# sola ruta fija, asi que una portada de otra unidad quedaba sin vigilar.
+UNIDAD_POR_OMISION = "2_pipeline_de_datos"
+
+
+def unidad_de(nombre):
+    return catalogo().get("unidades", {}).get(nombre, UNIDAD_POR_OMISION)
+
+
+def paginas_de(nombre):
+    return RAIZ / "course" / unidad_de(nombre)
+
+
+def assets_de(nombre):
+    return paginas_de(nombre) / "_assets"
+
+
+# Las dos ultimas guardas de este archivo vigilan convenciones propias de
+# Pipeline de Datos, no reglas del curso, y conservan su ruta fija.
+PAGINAS_PIPELINE = RAIZ / "course/2_pipeline_de_datos"
+ASSETS_PIPELINE = PAGINAS_PIPELINE / "_assets"
 
 # Nombres propios de personas reales que rondan el temario de la unidad, y
 # personajes con derechos que un prompt podria invocar por descuido.
@@ -46,19 +64,30 @@ def nombres():
 
 def test_catalogo_tiene_las_llaves_esperadas():
     datos = catalogo()
-    assert set(datos) == {"estilo", "tamano", "ilustraciones"}
+    assert set(datos) == {"estilo", "tamano", "ilustraciones", "unidades"}
     assert datos["tamano"] == "1024x1024"
     assert datos["ilustraciones"], "el catalogo no declara ninguna ilustracion"
 
 
+def test_cada_ilustracion_declara_su_unidad():
+    datos = catalogo()
+    for nombre in nombres():
+        unidad = datos["unidades"].get(nombre)
+        assert unidad, f"'{nombre}' no declara unidad en el catalogo"
+        assert (RAIZ / "course" / unidad).is_dir(), (
+            f"'{nombre}' apunta a la unidad '{unidad}', que no existe"
+        )
+
+
 def test_todas_generadas():
     for nombre in nombres():
-        assert (ASSETS / f"ilus-{nombre}.jpg").is_file(), f"falta ilus-{nombre}.jpg"
+        ruta = assets_de(nombre) / f"ilus-{nombre}.jpg"
+        assert ruta.is_file(), f"falta {ruta.relative_to(RAIZ)}"
 
 
 def test_dimensiones_y_peso():
     for nombre in nombres():
-        ruta = ASSETS / f"ilus-{nombre}.jpg"
+        ruta = assets_de(nombre) / f"ilus-{nombre}.jpg"
         with Image.open(ruta) as im:
             assert im.width == 1024, f"{ruta.name} mide {im.width}px de ancho"
         assert ruta.stat().st_size < 400_000, f"{ruta.name} pesa demasiado"
@@ -108,42 +137,45 @@ def test_el_estilo_prohibe_texto_y_rostros_identificables():
 
 
 def test_creditos_marcan_las_generadas():
-    creditos = CREDITOS.read_text(encoding="utf-8").lower()
     for nombre in nombres():
+        creditos = (assets_de(nombre) / "CREDITOS.md").read_text(encoding="utf-8").lower()
         assert f"ilus-{nombre}.jpg" in creditos, f"ilus-{nombre}.jpg sin credito"
-    assert "generada" in creditos
-    assert "ninguna" in creditos and "personas reales" in creditos, (
-        "el encabezado de CREDITOS.md debe decir que ninguna ilustracion "
-        "representa personas reales"
-    )
+        assert "generada" in creditos
+        assert "ninguna" in creditos and "personas reales" in creditos, (
+            f"el CREDITOS.md de {unidad_de(nombre)} debe decir que ninguna "
+            "ilustracion representa personas reales"
+        )
 
 
 def test_cada_ilustracion_se_usa_en_una_pagina():
-    texto = "\n".join(
-        p.read_text(encoding="utf-8") for p in sorted(PAGINAS.rglob("*.md"))
-    )
     for nombre in nombres():
+        texto = "\n".join(
+            p.read_text(encoding="utf-8")
+            for p in sorted(paginas_de(nombre).rglob("*.md"))
+            if p.name != "CREDITOS.md"
+        )
         assert f"_assets/ilus-{nombre}.jpg" in texto, (
-            f"ilus-{nombre}.jpg no se usa en ninguna pagina de la unidad"
+            f"ilus-{nombre}.jpg no se usa en ninguna pagina de "
+            f"{unidad_de(nombre)}"
         )
 
 
 def test_no_queda_png_de_ilustracion_huerfano():
-    huerfanos = sorted(p.name for p in ASSETS.glob("ilus-*.png"))
+    huerfanos = sorted(p.name for p in ASSETS_PIPELINE.glob("ilus-*.png"))
     assert not huerfanos, f"PNGs de ilustracion sin reemplazar por jpg: {huerfanos}"
 
 
 def test_cada_pagina_es_un_directorio_con_indice():
     sueltas = sorted(
-        p.name for p in PAGINAS.glob("*.md") if p.name != "0_index.md"
+        p.name for p in PAGINAS_PIPELINE.glob("*.md") if p.name != "0_index.md"
     )
     assert not sueltas, f"paginas sin promover a directorio: {sueltas}"
     directorios = sorted(
-        d.name for d in PAGINAS.iterdir()
+        d.name for d in PAGINAS_PIPELINE.iterdir()
         if d.is_dir() and not d.name.startswith("_")
     )
     assert directorios, "la unidad no tiene ninguna pagina"
     for nombre in directorios:
-        assert (PAGINAS / nombre / "0_index.md").is_file(), (
+        assert (PAGINAS_PIPELINE / nombre / "0_index.md").is_file(), (
             f"{nombre}/ no tiene 0_index.md"
         )

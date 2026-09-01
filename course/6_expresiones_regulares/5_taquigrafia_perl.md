@@ -6,12 +6,12 @@ summary: "Las abreviaturas que verás en todos lados, cuáles funcionan en grep 
 status: ready
 estimated_time: 12m
 tags: [regex, grep, perl, posix, locale, acentos]
-prerequisites: [clases-y-repeticion]
+prerequisites: [cuantas-veces]
 ---
 
 # La taquigrafía de Perl
 
-**Página 4 de 6** · 12 min
+**Página 5 de 7** · 12 min
 
 Meta: leer los patrones abreviados que hay en internet, y escribir los que sí funcionan en tu terminal.
 
@@ -72,7 +72,7 @@ grep -Eo '[0-9]{2}[ -][0-9]{4}[ -][0-9]{4}' contactos.txt
 
 **Deberías ver:** dos fechas distintas, y tres teléfonos de los cuatro que hay. El de Sofía, `5511223344`, no aparece: no tiene separadores.
 
-**Pausa:** para incluirlo, el separador tendría que ser opcional. Prueba `'[0-9]{2}[ -]?[0-9]{4}[ -]?[0-9]{4}'` y observa qué cambia — ese `?` es el de la página 3.
+**Pausa:** para incluirlo, el separador tendría que ser opcional. Prueba `'[0-9]{2}[ -]?[0-9]{4}[ -]?[0-9]{4}'` y observa qué cambia — ese `?` es el de la página 4.
 
 ## Misión 3: acentos y locale
 
@@ -100,9 +100,15 @@ Lo importante no es cuál gana, sino **por qué son tres**. Un rango como `[a-z]
 
 Regla práctica para esta unidad: con texto en español **usa `\w` o `[[:alpha:]]`, no `[a-z]`**. `[a-z]` te va a tirar las mayúsculas sin avisarte, que es el error que sí vas a cometer hoy.
 
-## Misión 4: fronteras de palabra
+## Misión 4: `\b`, la tercera ancla
 
-`\b` marca la frontera entre un carácter de palabra y uno que no lo es. Como `^` y `$`, **no consume nada**: marca una posición.
+Ahora que «carácter de palabra» tiene definición, se puede cerrar la familia que empezó en la página 2. `\b` marca la frontera entre un carácter de palabra y uno que no lo es. Como `^` y `$`, **no consume nada**: marca una posición, y por eso tampoco admite cuantificador.
+
+| Ancla | Exige estar… |
+|---|---|
+| `^` | al principio de la línea |
+| `$` | al final de la línea |
+| `\b` | en el borde de una palabra |
 
 **Haz:**
 
@@ -135,4 +141,4 @@ De la línea del Equipo 3, que también contiene el correo `ana` seguido de arro
 
 ## Cierre
 
-Ya distingues la abreviatura cómoda de la portátil. Continúa con [[grupos-y-captura|Grupos y captura]], donde el patrón deja de sólo buscar y empieza a extraer.
+Ya distingues la abreviatura cómoda de la portátil y tienes las tres anclas. Continúa con [[grupos-y-captura|Grupos y captura]], donde el patrón deja de sólo buscar y empieza a extraer.

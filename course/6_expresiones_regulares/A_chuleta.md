@@ -17,10 +17,33 @@ Todo lo de esta unidad, junto. Si algo de aquí no te suena, la columna «dónde
 
 ## Cómo leer una regex que no escribiste
 
-1. **Separa el patrón en piezas** de izquierda a derecha. Cada pieza es un carácter, una clase `[…]` o un grupo `(…)`.
-2. **Marca los cuantificadores.** Cada `? * + {n,m}` pertenece a la pieza que tiene justo a la izquierda.
-3. **Localiza los anclajes.** `^` `$` `\b` no consumen nada: sólo exigen estar en cierta posición.
+1. **Separa el patrón en piezas** de izquierda a derecha. Una pieza es un carácter literal, un `.`, una clase `[…]` o un grupo `(…)`.
+2. **Marca los cuantificadores.** Cada uno pertenece a la pieza que tiene justo a la izquierda, y todos son un rango: `?`=`{0,1}`, `*`=`{0,}`, `+`=`{1,}`. Si el mínimo es cero, esa pieza no filtra nada.
+3. **Localiza las anclas.** `^` `$` `\b` no consumen nada: sólo exigen estar en cierta posición.
 4. **Pruébalo con `grep -o`** sobre un archivo pequeño. Lo que imprime es lo que el patrón realmente encuentra.
+
+Está aplicado paso a paso, sobre el patrón de correo, en [[grupos-y-captura|la página 6]].
+
+## Las dos clases de cosas que hay en un patrón
+
+| | Se lleva caracteres | Ejemplos |
+|---|---|---|
+| **Pieza** | sí | `a` · `.` · `[0-9]` · `(ab)` |
+| **Ancla** | no, sólo mira la posición | `^` · `$` · `\b` |
+
+Un cuantificador se pega a **una pieza**; una ancla no admite cuantificador porque no hay nada que repetir.
+
+## El mismo símbolo, según dónde esté
+
+| Símbolo | Suelto | Dentro de `[ … ]` |
+|---|---|---|
+| `.` | cualquier carácter | un punto literal |
+| `*` `+` `?` | cuantifican | literales |
+| `^` | inicio de línea | niega, **sólo** si va primero |
+| `-` | guion literal | rango, salvo en los extremos |
+| `]` | corchete literal | cierra, salvo si va primero |
+
+`\` ante un metacarácter lo vuelve literal. Ante cualquier otra cosa el resultado lo decide el motor: por eso `\d` en `grep -E` busca una `d`.
 
 ## Sintaxis
 
@@ -30,18 +53,19 @@ Todo lo de esta unidad, junto. Si algo de aquí no te suena, la columna «dónde
 | `.` | un carácter cualquiera menos el salto de línea | [[leer-izquierda-derecha|2]] |
 | `\.` | un punto literal; `\` escapa cualquier metacarácter | [[leer-izquierda-derecha|2]] |
 | `^` `$` | inicio y fin de línea | [[leer-izquierda-derecha|2]] |
-| `[abc]` | uno de esos caracteres | [[clases-y-repeticion|3]] |
-| `[a-z]` | un rango, según el locale | [[clases-y-repeticion|3]] |
-| `[abc]` con `^` al principio | uno que **no** sea de esos | [[clases-y-repeticion|3]] |
-| `?` | cero o una vez | [[clases-y-repeticion|3]] |
-| `*` | cero o más veces | [[clases-y-repeticion|3]] |
-| `+` | una o más veces | [[clases-y-repeticion|3]] |
-| `{2,4}` | entre dos y cuatro veces | [[clases-y-repeticion|3]] |
-| `\w` `\s` `\b` | palabra, espacio, frontera de palabra | [[taquigrafia-perl|4]] |
-| `[[:digit:]]` | la clase POSIX portátil | [[taquigrafia-perl|4]] |
-| `(ab)` | un grupo: una sola pieza, y se captura | [[grupos-y-captura|5]] |
-| `a\|b` | alternancia; parte la expresión completa | [[grupos-y-captura|5]] |
-| `\1` | lo que capturó el primer grupo | [[grupos-y-captura|5]] |
+| `[abc]` | uno de esos caracteres | [[piezas-de-un-patron|3]] |
+| `[a-z]` | un rango, según el locale | [[piezas-de-un-patron|3]] |
+| `[abc]` con `^` al principio | uno que **no** sea de esos | [[piezas-de-un-patron|3]] |
+| `?` | `{0,1}` — cero o una vez | [[cuantas-veces|4]] |
+| `*` | `{0,}` — cero o más veces | [[cuantas-veces|4]] |
+| `+` | `{1,}` — una o más veces | [[cuantas-veces|4]] |
+| `{2,4}` | entre dos y cuatro veces | [[cuantas-veces|4]] |
+| `ε` | la cadena vacía: cero caracteres. Es lo que casa una pieza cuyo mínimo es cero | [[cuantas-veces|4]] |
+| `\w` `\s` `\b` | palabra, espacio, frontera de palabra | [[taquigrafia-perl|5]] |
+| `[[:digit:]]` | la clase POSIX portátil | [[taquigrafia-perl|5]] |
+| `(ab)` | un grupo: una sola pieza, y se captura | [[grupos-y-captura|6]] |
+| `a\|b` | alternancia; parte la expresión completa | [[grupos-y-captura|6]] |
+| `\1` | lo que capturó el primer grupo | [[grupos-y-captura|6]] |
 
 ## Banderas de `grep`
 

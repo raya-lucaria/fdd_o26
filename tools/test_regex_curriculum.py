@@ -30,10 +30,11 @@ CHULETA = UNIDAD / "A_chuleta.md"
 LECCIONES = [
     UNIDAD / "1_que_es_una_regex.md",
     UNIDAD / "2_leer_izquierda_derecha.md",
-    UNIDAD / "3_clases_y_repeticion.md",
-    UNIDAD / "4_taquigrafia_perl.md",
-    UNIDAD / "5_grupos_y_captura.md",
-    UNIDAD / "6_grep_awk_en_serio.md",
+    UNIDAD / "3_piezas_de_un_patron.md",
+    UNIDAD / "4_cuantas_veces.md",
+    UNIDAD / "5_taquigrafia_perl.md",
+    UNIDAD / "6_grupos_y_captura.md",
+    UNIDAD / "7_grep_awk_en_serio.md",
 ]
 IDS = [p.stem for p in LECCIONES]
 
@@ -150,7 +151,7 @@ def test_cada_pagina_abre_con_su_posicion_meta_y_diagrama(i, pagina):
     texto = lee(pagina)
     cuerpo = texto.split("\n# ", 1)[1]
 
-    assert f"**Página {i} de 6**" in cuerpo, (
+    assert f"**Página {i} de 7**" in cuerpo, (
         f"{pagina.name} no dice en que punto de la unidad estas"
     )
     meta = re.search(r"^Meta: (.+)$", cuerpo, re.M)
@@ -212,14 +213,62 @@ def test_cada_pagina_cierra_con_una_sola_frase(pagina):
 
 def test_grep_o_llega_antes_que_los_cuantificadores():
     """Sin `-o` no se ve que encontro el patron, y todo lo demas confunde."""
-    pos_o = lee(LECCIONES[1]).index("grep -o")
-    pos_meta = lee(LECCIONES[1]).index("Meta:")
-    assert pos_meta < pos_o, "grep -o se presenta en la pagina 2"
-
-    cuantificadores = lee(LECCIONES[2])
-    assert "grep -E" in cuantificadores.split("## Misión 2", 1)[0], (
-        "la trampa BRE/ERE tiene que aparecer antes del primer cuantificador"
+    pagina = lee(LECCIONES[1])
+    assert pagina.index("Meta:") < pagina.index("grep -o"), (
+        "grep -o se presenta en la pagina 2"
     )
+
+
+def test_la_pieza_se_define_antes_de_cuantificarla():
+    """El orden que hacia opaca a la unidad: se cuantificaba sin decir sobre que.
+
+    «Pieza» es el concepto del que cuelga todo lo demas —a que se pega un
+    cuantificador, por que una clase o un grupo cuentan como una sola cosa, por
+    que una ancla no admite repeticion—. Tiene que estar definido antes de que
+    aparezca el primer cuantificador de la unidad.
+    """
+    piezas, cuantos = lee(LECCIONES[2]), lee(LECCIONES[3])
+    assert "::: definition {#rx-def-pieza" in piezas, (
+        "la pagina 3 debe definir que es una pieza"
+    )
+    for termino in ("concatenaci", "ancla"):
+        assert termino in piezas.lower(), f"falta '{termino}' en la pagina 3"
+    assert "prerequisites: [piezas-de-un-patron]" in cuantos, (
+        "cuantificar sin haber definido la pieza deja el concepto en el aire"
+    )
+
+
+def test_epsilon_se_define_donde_se_usa():
+    """`ε` aparecia solo dentro de un diagrama, sin definirse en ninguna parte."""
+    cuantos = lee(LECCIONES[3])
+    assert "::: definition {#rx-def-epsilon" in cuantos, (
+        "la pagina 4 debe definir ε antes de que el diagrama la muestre"
+    )
+    assert "cadena vac" in cuantos.lower()
+    assert cuantos.index("ε") < cuantos.index("rx-backtracking"), (
+        "ε se define antes de usarla"
+    )
+
+
+def test_el_backtracking_se_reconcilia_con_la_cabeza_que_no_regresa():
+    """La unidad afirmaba las dos cosas sin decir que hablan de niveles distintos.
+
+    Pagina 2: la cabeza no vuelve a una posicion descartada. Pagina 4: el
+    cuantificador goloso cede caracteres. Sin la aclaracion, la segunda parece
+    desmentir a la primera.
+    """
+    cuantos = lee(LECCIONES[3])
+    assert "no** contradice la página 2" in cuantos or "no contradice la página 2" in cuantos, (
+        "la pagina 4 debe explicar por que ceder no contradice a la pagina 2"
+    )
+
+
+def test_la_tabla_de_contexto_existe_como_diagrama_y_como_texto():
+    """Que significa cada simbolo suelto, dentro de corchetes y escapado."""
+    piezas = lee(LECCIONES[2])
+    assert "rx-contexto.svg" in piezas
+    for caso in ("[]]", "[a+b]", "[a-]"):
+        assert caso in piezas, f"falta el caso {caso} en la tabla de contexto"
 
 
 def test_la_unidad_no_ensena_grep_P_como_solucion():
@@ -231,7 +280,7 @@ def test_la_unidad_no_ensena_grep_P_como_solucion():
             )
 
 
-def test_la_chuleta_apunta_a_las_seis_paginas():
+def test_la_chuleta_apunta_a_todas_las_paginas():
     texto = lee(CHULETA)
     for pagina in LECCIONES:
         ident = re.search(r"^id: ([\w-]+)$", lee(pagina), re.M).group(1)

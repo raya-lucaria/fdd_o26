@@ -11,7 +11,7 @@ prerequisites: [que-es-una-regex]
 
 # Leer de izquierda a derecha
 
-**Página 2 de 6** · 15 min
+**Página 2 de 7** · 15 min
 
 Meta: predecir qué encuentra un patrón antes de ejecutarlo.
 
@@ -86,12 +86,27 @@ grep -o '3\.14' cinta.txt
 La barra invertida **escapa** el punto: le quita su significado especial y lo vuelve un punto literal. Esta es la regla general — `\` delante de un metacarácter significa «este carácter, tal cual».
 
 ::: definition {#rx-def-metacaracter title="Metacarácter"}
-Un carácter que la regex **no** interpreta literalmente, sino como una instrucción. En esta unidad vas a conocer diez: `. ^ $ [ ] * + ? ( ) |`. Para buscar cualquiera de ellos tal cual, se escapa con `\`.
+Un carácter que la regex **no** interpreta literalmente, sino como una instrucción. Son estos trece:
+
+```text
+.  ^  $  [  ]  (  )  {  }  *  +  ?  |
+```
+
+Para buscar cualquiera de ellos tal cual, se escapa con `\`. Cualquier otro carácter es literal por sí solo y **no** hace falta escaparlo: `\` delante de algo que no es metacarácter no significa «literal», significa «lo que decida el motor». En la página 5 verás qué caro sale eso.
 :::
 
-## Misión 4: anclajes
+## Misión 4: anclas
 
-`^` significa «aquí empieza la línea» y `$` significa «aquí termina». No consumen ningún carácter: **marcan una posición**.
+`^` significa «aquí empieza la línea» y `$` significa «aquí termina». Ninguna de las dos se lleva un carácter: **marcan una posición**.
+
+Esa diferencia parte en dos todo lo que puede ir en un patrón, y conviene fijarla desde ya:
+
+| | Qué hace | Ejemplos |
+|---|---|---|
+| **Consume** | se lleva caracteres del texto | `a`, `.`, `[0-9]` |
+| **No consume** | sólo exige algo de la posición | `^`, `$`, y `\b` de la página 5 |
+
+La página siguiente le pone nombre a la primera columna.
 
 **Haz:**
 
@@ -138,4 +153,4 @@ Un patrón es una máquina de estados. `ana` son cuatro estados y las flechas di
 
 ## Cierre
 
-Ya sabes cómo recorre el motor una línea y tienes `.`, `^`, `$` y el escape. Continúa con [[clases-y-repeticion|Clases y repetición]], donde un solo símbolo empieza a representar muchos caracteres.
+Ya sabes cómo recorre el motor una línea y tienes `.`, `^`, `$` y el escape. Continúa con [[piezas-de-un-patron|Las piezas de un patrón]], donde el patrón deja de ser una fila de caracteres y pasa a ser una fila de piezas.
