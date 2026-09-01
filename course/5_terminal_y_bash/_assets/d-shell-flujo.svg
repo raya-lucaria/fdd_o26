@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 970" role="img" aria-labelledby="shell-flow-title shell-flow-desc" preserveAspectRatio="xMidYMid meet">
+<svg width="720" height="970" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 970" role="img" aria-labelledby="shell-flow-title shell-flow-desc" preserveAspectRatio="xMidYMid meet">
   <title id="shell-flow-title">Del teclado a la salida de un programa</title>
   <desc id="shell-flow-desc">Una tecla llega a Bash. Bash expande la línea y llama a un programa. El programa puede escribir salida normal en stdout o diagnósticos en stderr.</desc>
   <defs>

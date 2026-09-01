@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="isa-title isa-desc" preserveAspectRatio="xMidYMid meet">
+<svg width="960" height="620" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="isa-title isa-desc" preserveAspectRatio="xMidYMid meet">
   <title id="isa-title">La ISA conecta programas con la CPU</title>
   <desc id="isa-desc">Los programas llegan a las instrucciones de una ISA mediante un compilador o runtime. La CPU implementa esa ISA. Buscar, decodificar y ejecutar son etapas simplificadas, no ciclos fijos.</desc>
   <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#172554"/></linearGradient><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#67e8f9"/></marker></defs>

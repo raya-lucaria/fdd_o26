@@ -97,6 +97,12 @@ def _add(parent, tag, attrs=None, text=None):
 
 def _root(title: str, desc: str):
     root = _svg("svg", {
+        # width/height explicitos ademas del viewBox: el sitio incrusta estos
+        # SVG con <img>, y un SVG sin tamano intrinseco se pinta al tamano por
+        # omision de un elemento reemplazado (~300x150 CSS px) en vez de llenar
+        # su columna. Misma convencion que gen_ai_hardware_costs.svg_header.
+        "width": str(W),
+        "height": str(H),
         "viewBox": f"0 0 {W} {H}",
         "role": "img",
         "aria-labelledby": "title desc",

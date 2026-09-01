@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="cvg-title cvg-desc" preserveAspectRatio="xMidYMid meet">
+<svg width="960" height="620" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="cvg-title cvg-desc" preserveAspectRatio="xMidYMid meet">
   <title id="cvg-title">CPU versus GPU</title>
   <desc id="cvg-desc">Una CPU concentra pocas rutas flexibles para decisiones y baja latencia. Una GPU reúne muchas unidades paralelas para aplicar trabajo parecido a muchos datos.</desc>
   <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#312e81"/></linearGradient></defs>

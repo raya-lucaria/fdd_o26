@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Pareto · inferencia local — dashboard de modelos de IA</title>
   <desc id="desc">Frontera de Pareto entre CAPEX de capacidad (USD) y capacidad general según ECI, snapshot 2026-08-18. Un borde sólido marca una frontera segura en todo el rango; un borde punteado marca una frontera posible en algún valor del rango; n=8. Capacidad general según ECI es el eje vertical.</desc>
   <rect width="600" height="300" rx="24" fill="#111827" />

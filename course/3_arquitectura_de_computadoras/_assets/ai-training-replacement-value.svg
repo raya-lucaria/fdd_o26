@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300" role="img" aria-labelledby="title desc" style="max-width:100%;height:auto">
   <title id="title">Valor de reemplazo — dashboard de modelos de IA</title>
   <desc id="desc">Serie por Año de publicación, logarítmica, de USD comparables. Cada punto conserva estado, fuente, unidad y alcance; n=4. Igual distancia = multiplicar.</desc>
   <rect width="600" height="300" rx="24" fill="#111827" />

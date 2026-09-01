@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="ai-title ai-desc" preserveAspectRatio="xMidYMid meet">
+<svg width="960" height="620" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="ai-title ai-desc" preserveAspectRatio="xMidYMid meet">
   <title id="ai-title">La memoria de IA es más que los pesos</title>
   <desc id="ai-desc">En inferencia importan pesos, caché KV y temporales. En entrenamiento también se añaden activaciones, gradientes y estados del optimizador. Las tarjetas son categorías, no cantidades a escala.</desc>
   <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0f172a"/><stop offset="1" stop-color="#312e81"/></linearGradient></defs>

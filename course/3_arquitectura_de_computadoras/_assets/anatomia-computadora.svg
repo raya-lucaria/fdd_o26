@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="anatomia-title anatomia-desc" preserveAspectRatio="xMidYMid meet">
+<svg width="960" height="620" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-labelledby="anatomia-title anatomia-desc" preserveAspectRatio="xMidYMid meet">
   <title id="anatomia-title">Anatomía funcional de una computadora</title>
   <desc id="anatomia-desc">Una CPU se conecta mediante una interconexión con RAM, almacenamiento, acelerador, red y entrada y salida. Las piezas especializadas intercambian datos.</desc>
   <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#172554"/></linearGradient></defs>

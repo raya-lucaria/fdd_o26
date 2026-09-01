@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="energia-title energia-desc">
+<svg width="960" height="720" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="energia-title energia-desc">
   <title id="energia-title">Escala logarítmica de potencia desde un foco hasta un rack de IA</title>
   <desc id="energia-desc">Barras comparan un foco LED de diez watts, una laptop de decenas de watts, un refrigerador de cientos, una GPU RTX 5090 de 575 watts, un microondas de alrededor de 1.5 kilowatts, un aire acondicionado de varios kilowatts y un rack GB300 de hasta 142 kilowatts.</desc>
   <defs><linearGradient id="bg-en" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172554"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs>
