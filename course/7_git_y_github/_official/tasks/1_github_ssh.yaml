@@ -12,24 +12,34 @@ content:
     minutos existen sólo si empiezas con tiempo.
     No hay nada que subir ni que entregar. Es hacerlo y que te quede
     funcionando.
-    Sigue las dos hojas de la unidad Git y GitHub, en orden. Son cuatro cosas.
-    Una, crea tu cuenta de GitHub si no la tienes, con un correo personal y no
-    con el del ITAM, porque el institucional deja de funcionar cuando te
-    gradúas y se lleva tu historial. Dos, genera un par de llaves con
+    Sigue las dos hojas de la unidad Git y GitHub, en orden. Son cinco cosas y
+    ni una más. Una, crea tu cuenta de GitHub si no la tienes, con un correo
+    personal y no con el del ITAM, porque el institucional deja de funcionar
+    cuando te gradúas y se lleva tu historial. Dos, genera un par de llaves con
     ssh-keygen usando ed25519 y ponle una passphrase. Tres, deja el agente
     configurado para que no te la vuelva a pedir en cada operación, con las
     líneas que la hoja 1 da para tu sistema. Cuatro, pega la llave pública en
     tu cuenta y clona el repositorio del curso en la carpeta fdd de tu casa.
-    Sabrás que terminaste cuando estos tres comandos te respondan bien, y los
-    corres tú, para ti. El primero es ssh -T git@github.com, que debe saludarte
-    con Hi seguido de tu nombre de usuario; ese mismo mensaje dice que GitHub
-    no da acceso a una shell, y eso es parte de la respuesta correcta, no un
-    error. El segundo es git remote -v dentro de la carpeta clonada, que debe
-    mostrar dos líneas terminadas en fdd_o26 punto git. El tercero es git log
-    con dos guiones oneline, que debe listarte los commits del curso.
-    Llega a clase con tu nombre de usuario de GitHub a la mano. Lo necesito
-    para darte acceso de escritura al repositorio, y sin eso no vas a poder
-    subir nada después.
+    Cinco, crea una rama con tu nombre de usuario, haz un commit pequeño en
+    ella y súbela con git push.
+    Ahí te detienes. No abras un pull request ni intentes incorporar tu rama a
+    main: eso lo vamos a ver en clase, en su momento, y tiene su orden. Subir
+    la rama es todo lo que se pide.
+    Sabrás que terminaste cuando estos comandos te respondan bien, y los corres
+    tú, para ti. El primero es ssh -T git@github.com, que debe saludarte con Hi
+    seguido de tu nombre de usuario; ese mismo mensaje dice que GitHub no da
+    acceso a una shell, y eso es parte de la respuesta correcta, no un error.
+    El segundo es git remote -v dentro de la carpeta clonada, que debe mostrar
+    dos líneas terminadas en fdd_o26 punto git. El tercero es git log con dos
+    guiones oneline, que debe listarte los commits del curso. Y el cuarto es el
+    propio git push, que debe confirmarte que la rama quedó creada en GitHub.
+    Una advertencia de orden: el push necesita acceso de escritura al
+    repositorio, y ese acceso lo doy yo a partir de tu nombre de usuario de
+    GitHub. Mándamelo o tráelo a clase en cuanto tengas la cuenta. Si el push
+    te responde Permission denied o 403, no es un error tuyo: quiere decir que
+    todavía no te he dado acceso. Todo lo demás —la llave, el clon, la rama y
+    el commit— lo puedes dejar hecho desde ya, y el push queda pendiente de un
+    minuto.
     Una advertencia que va en serio. Tu llave privada, el archivo id_ed25519
     sin extensión, no se comparte nunca: ni por correo, ni por mensaje, ni en
     una captura de pantalla. Lo único que se copia a algún lado es el archivo

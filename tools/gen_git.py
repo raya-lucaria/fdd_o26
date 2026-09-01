@@ -73,25 +73,24 @@ def git_llaves():
 
 
 def git_flujo():
-    """De clonar a que el sitio se publique, sin tocar main directamente."""
-    ancho, alto = 1140, 470
+    """De clonar a subir tu rama. Lo que pase despues llega mas adelante."""
+    ancho, alto = 1080, 470
     aria = (
-        "Cinco pasos encadenados: clonar, crear una rama, hacer commits, subir "
-        "la rama y abrir un pull request; solo al aceptarse el pull request "
-        "entra a main y el sitio se publica. Una flecha roja tachada muestra "
-        "que no se hace push directo a main"
+        "Cuatro pasos encadenados: clonar una vez, crear una rama, hacer "
+        "commits y subir la rama. Debajo, la rama main aparece aparte y marcada "
+        "como intocable porque publica el sitio, con una flecha roja que "
+        "muestra que no se hace push directo a ella"
     )
     pasos = (
-        ("git clone", "una vez", CIAN),
+        ("git clone", "una sola vez", CIAN),
         ("git switch -c", "tu rama", ACENTO),
         ("git commit", "las veces que haga falta", ACENTO),
-        ("git push", "sube tu rama", ACENTO),
-        ("Pull Request", "alguien lo revisa", VIOLETA),
+        ("git push", "tu rama queda en GitHub", ACENTO),
     )
-    w, sep, y0, h = 190, 22, 118, 92
+    w, sep, y0, h = 224, 26, 118, 92
     x0 = (ancho - (len(pasos) * w + (len(pasos) - 1) * sep)) / 2
     p = [marco(ancho, alto, aria)]
-    p.append(texto(ancho / 2, 44, "Tu cambio llega a main por una puerta, no por la ventana", TEXTO, 21, peso="600"))
+    p.append(texto(ancho / 2, 44, "Tu trabajo vive en tu rama", TEXTO, 21, peso="600"))
 
     centros = []
     for i, (titulo, glosa, color) in enumerate(pasos):
@@ -103,22 +102,19 @@ def git_flujo():
         if i:
             p.append(flecha(x - sep + 2, y0 + h / 2, x - 6, y0 + h / 2, SUAVE))
 
-    # main y el efecto de tocarlo.
-    p.append(caja(x0 + 2 * (w + sep), 288, w, 84, TINTE, AMBAR))
-    p.append(teclado(x0 + 2 * (w + sep) + w / 2, 322, "main", AMBAR, 18))
-    p.append(texto(x0 + 2 * (w + sep) + w / 2, 348, "publica el sitio", AMBAR, 13))
+    # main queda aparte y sin flecha que llegue: nadie empuja ahi.
+    ancho_main, x_main = 300, (ancho - 300) / 2
+    p.append(caja(x_main, 300, ancho_main, 86, TINTE, AMBAR))
+    p.append(teclado(x_main + ancho_main / 2, 334, "main", AMBAR, 18))
+    p.append(texto(x_main + ancho_main / 2, 360, "publica el sitio — no la toques", AMBAR, 13))
 
-    p.append(arco(centros[4], y0 + h + 4, x0 + 2 * (w + sep) + w / 2 + 40, 284, 70, VIOLETA))
-    p.append(chip((centros[4] + x0 + 2 * (w + sep) + w / 2) / 2 + 30, 246, "al aceptarse", VIOLETA, tam=13))
+    p.append(arco(centros[1], y0 + h + 6, x_main + ancho_main / 2, 296, 62, ROJO))
+    p.append(chip((centros[1] + x_main + ancho_main / 2) / 2, cima_arco(230, 62), "push directo: no", ROJO, tam=13))
 
-    # El atajo que no se toma.
-    p.append(arco(centros[1], y0 + h + 4, x0 + 2 * (w + sep) + w / 2 - 40, 284, -70, ROJO))
-    p.append(chip((centros[1] + x0 + 2 * (w + sep) + w / 2) / 2 - 30, 246, "push directo: no", ROJO, tam=13))
-
-    p.append(texto(ancho / 2, 414, "Un push a main dispara la publicación del sitio. Por eso el trabajo entra por una rama y un pull request:", SUAVE, 14))
-    p.append(texto(ancho / 2, 440, "así hay un paso donde alguien mira el cambio antes de que salga al aire.", SUAVE, 14))
+    p.append(texto(ancho / 2, 424, "Al terminar el push, tu rama ya está en GitHub y ahí se queda. Cómo se incorpora a main lo vemos más adelante.", SUAVE, 14))
     p.append(cierre())
     return "".join(p)
+
 
 
 DIAGRAMAS = {

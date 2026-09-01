@@ -15,8 +15,8 @@ prerequisites: [cuenta-y-llave]
 
 Meta: tener el repositorio del curso en tu disco y saber cómo entra un cambio.
 
-::: figure {#git-flujo title="Tu cambio llega a main por una puerta, no por la ventana"}
-![Cinco pasos encadenados: clonar, crear una rama, hacer commits, subir la rama y abrir un pull request; sólo al aceptarse el pull request entra a main y el sitio se publica. Una flecha roja muestra que no se hace push directo a main](_assets/git-flujo.svg)
+::: figure {#git-flujo title="Tu trabajo vive en tu rama"}
+![Cuatro pasos encadenados: clonar una sola vez, crear una rama, hacer commits y subir la rama. Debajo, main aparece aparte y marcada como intocable porque publica el sitio, con una flecha roja que muestra que no se hace push directo a ella](_assets/git-flujo.svg)
 :::
 
 ## En corto
@@ -59,20 +59,31 @@ Si prefieres no usar SSH, `git clone https://github.com/raya-lucaria/fdd_o26.git
 
 **Pausa:** ya tienes el curso completo en tu disco. `ls` te muestra `course/`, `tools/`, `skins/`. Todo el sitio que has estado leyendo sale de ahí.
 
-## Paso 3: por dónde entra un cambio
+## Paso 3: tu primera rama
 
-Este repositorio no es un ejercicio: **cada commit que llega a `main` publica el sitio del curso**. Por eso el trabajo entra por una rama y un *pull request*, donde alguien lo mira antes de que salga al aire.
+Este repositorio no es un ejercicio: **cada commit que llega a `main` publica el sitio del curso**. Por eso nadie trabaja sobre `main` — cada cosa que hagas vive en una rama tuya.
+
+**Haz:** crea la rama, deja un archivo con tu nombre de usuario dentro y súbela.
 
 ```bash
 cd ~/fdd/fdd_o26
-git switch -c mi-primer-cambio
-# ...editas archivos...
-git add archivo-que-tocaste
-git commit -m "describe qué cambiaste y por qué"
-git push -u origin mi-primer-cambio
+git switch main
+git pull
+git switch -c hola-TU-USUARIO
+mkdir -p saludos
+printf 'Hola, soy TU-USUARIO.\n' > saludos/TU-USUARIO.md
+git add saludos/TU-USUARIO.md
+git status
+git commit -m "saludo de TU-USUARIO"
+git push -u origin hola-TU-USUARIO
 ```
 
-El `push` te devuelve un enlace para abrir el pull request en GitHub. Ábrelo, describe el cambio y espera revisión.
+Cambia `TU-USUARIO` por tu nombre de usuario de GitHub en las cinco líneas donde aparece. `git status` antes del commit no es opcional: es la costumbre que evita subir lo que no querías.
+
+**Deberías ver**, al final, que GitHub confirma la rama creada. Ahí se queda. **Cómo se incorpora tu rama a `main` lo vemos más adelante** — por ahora, subirla es todo.
+
+> [!WARNING]
+> El `push` sólo funciona si ya tienes acceso de escritura al repositorio, y eso lo doy yo a partir de tu nombre de usuario. Si te responde `Permission denied` o `403`, **no** es un error tuyo: significa que todavía no te he dado acceso. Todo lo demás —clonar, la rama, el commit— sí lo puedes dejar hecho desde ya.
 
 | Comando | Qué hace |
 |---|---|

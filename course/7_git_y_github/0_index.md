@@ -30,7 +30,7 @@ A partir de ahora vas a **entregar trabajo dentro del repositorio del curso**, y
 | # | Página | Terminas cuando… | Tiempo |
 |---:|---|---|---:|
 | 1 | [[cuenta-y-llave|Cuenta y llave]] | `ssh -T` te saluda por tu nombre de usuario | 25 min |
-| 2 | [[clonar-y-trabajar|Clonar y trabajar]] | tienes el repositorio clonado y sabes cómo entra un cambio | 20 min |
+| 2 | [[clonar-y-trabajar|Clonar y trabajar]] | clonaste el repositorio y subiste tu primera rama | 20 min |
 
 ## Antes de empezar
 
