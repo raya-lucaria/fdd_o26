@@ -380,3 +380,36 @@ def test_las_paginas_de_sintaxis_no_dependen_de_archivos_de_juguete(home):
                 f"{escrito.group()!r}; estas paginas se prueban con cadenas "
                 "en vivo, que se leen de un vistazo"
             )
+
+
+# --------------------------------------------------------------------------
+# La tarea
+# --------------------------------------------------------------------------
+
+TAREA = UNIDAD / "_official/assignments/1_regexone.yaml"
+
+
+def test_la_tarea_apunta_a_canvas_y_al_ultimo_nivel():
+    """Una tarea sin enlace de entrega es una tarea que nadie puede entregar."""
+    import yaml
+
+    contenido = yaml.safe_load(lee(TAREA))["content"]
+    assert "itam.instructure.com" in contenido["instructions"], (
+        "la tarea debe nombrar su enlace de entrega en Canvas"
+    )
+    urls = [r["url"] for r in contenido["resources"]]
+    assert any("itam.instructure.com" in u for u in urls), "falta Canvas en recursos"
+    assert any("regexone.com/problem/matching_html" in u for u in urls), (
+        "los recursos deben apuntar al ultimo nivel de la entrega, de donde "
+        "sale la captura"
+    )
+    assert contenido["due"] == "2026-09-03"
+
+
+def test_las_instrucciones_no_traen_markdown_sin_renderizar():
+    """El renderer escapa content.instructions: el Markdown saldria literal."""
+    import yaml
+
+    instrucciones = yaml.safe_load(lee(TAREA))["content"]["instructions"]
+    for marca in ("##", "**", "`", "- ", "|"):
+        assert marca not in instrucciones, f"Markdown crudo en instructions: {marca!r}"

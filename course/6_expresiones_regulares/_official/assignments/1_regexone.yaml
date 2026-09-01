@@ -1,0 +1,64 @@
+id: regexone-practica
+type: assignment
+authority: official
+content:
+  title: "RegexOne: de la lección 1 al problema 4"
+  instructions: >-
+    Para la clase del jueves 3 de septiembre recorre RegexOne hasta terminar el
+    Problema 4. Son dos tramos.
+    Primero el tutorial completo: las lecciones 1 a 15. Son dieciséis pantallas
+    porque hay una lección 1½. Cada una te da unas cadenas que deben casar y
+    otras que no, y sólo avanzas cuando tu patrón las separa bien.
+    Después los primeros cuatro problemas de práctica: 1 números decimales,
+    2 teléfonos, 3 correos y 4 etiquetas HTML. Detente ahí y no sigas al
+    problema 5. Esos cuatro son, uno por uno, lo que ya construimos en la
+    unidad: los rangos y el separador opcional del teléfono, el autómata del
+    correo y el caso goloso de las etiquetas. Si alguno se te atora, la página
+    de la unidad que lo trata está en la lista de recursos.
+    Un aviso que te va a ahorrar tiempo: la caja interactiva de RegexOne usa el
+    dialecto de JavaScript, donde \d y \w sí funcionan. En tu terminal con
+    grep -E, \d busca una letra d. Es exactamente la trampa de la página 5, y
+    ahora la vas a ver desde los dos lados. Cuando pases un patrón del sitio a
+    la terminal, traduce \d a [0-9].
+    Entrega una captura de pantalla del último nivel que resolviste, con el
+    patrón que escribiste y las marcas de verde visibles. Si llegaste hasta el
+    Problema 4, esa es la captura. Si te quedaste antes, captura hasta donde
+    llegaste y dilo: reportar el pendiente cuenta como entrega, presumir un
+    avance que no ocurrió no.
+    Sobre la ayuda: no está prohibido buscar, pero te pido de verdad que
+    intentes cada nivel sin preguntarle a un modelo de lenguaje. Un LLM te
+    devuelve el patrón ya escrito y te salta justo lo único que esta tarea
+    entrena, que es leer una expresión de izquierda a derecha y decidir qué
+    hace. Es un ejercicio de cabeza, y la cabeza sólo se ejercita fallando un
+    par de veces primero. Si acabas consultando algo, anótalo; no baja la
+    calificación.
+    Se entrega en Canvas: https://itam.instructure.com/courses/17979/assignments/227512
+  resources:
+    - title: "Entrega en Canvas"
+      url: "https://itam.instructure.com/courses/17979/assignments/227512"
+      note: "Sube aquí la captura del último nivel que resolviste."
+    - title: "RegexOne — tutorial interactivo"
+      url: "https://regexone.com/"
+      note: "Empieza en la lección 1; el sitio guarda tu avance en el navegador."
+    - title: "RegexOne — Problema 1: números decimales"
+      url: "https://regexone.com/problem/matching_decimal_numbers"
+      note: "Aquí empieza el segundo tramo, después de la lección 15."
+    - title: "RegexOne — Problema 4: etiquetas HTML"
+      url: "https://regexone.com/problem/matching_html"
+      note: "El último nivel de la entrega. De aquí sale la captura."
+    - title: "Unidad — Las piezas de un patrón"
+      url: "https://rayalucaria.org/fdd_o26/expresiones-regulares/piezas-de-un-patron/"
+      note: "Qué cuenta como una pieza y qué significa cada símbolo dentro de los corchetes."
+    - title: "Unidad — Cuántas veces"
+      url: "https://rayalucaria.org/fdd_o26/expresiones-regulares/cuantas-veces/"
+      note: "Los cuantificadores como rango, y el caso goloso del Problema 4."
+    - title: "Unidad — Grupos y captura"
+      url: "https://rayalucaria.org/fdd_o26/expresiones-regulares/grupos-y-captura/"
+      note: "Los paréntesis que piden los problemas 2, 3 y 4, y el patrón de correo."
+    - title: "Unidad — La chuleta"
+      url: "https://rayalucaria.org/fdd_o26/expresiones-regulares/chuleta/"
+      note: "La referencia completa y los siete errores frecuentes."
+  due: "2026-09-03"
+  points: 10
+  status: published
+  tags: [regex, practica, regexone, lectura-de-patrones]

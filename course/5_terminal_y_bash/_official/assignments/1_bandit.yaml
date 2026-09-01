@@ -29,8 +29,11 @@ content:
     contenido de un secreto. Si te atoraste en un nivel, descríbelo con lo que
     probaste; reportar el pendiente cuenta como entrega, presumir un avance que
     no ocurrió no.
-    El enlace de entrega en Canvas está por determinar y se anunciará en clase.
+    Se entrega en Canvas: https://itam.instructure.com/courses/17979/assignments/227511
   resources:
+    - title: "Entrega en Canvas"
+      url: "https://itam.instructure.com/courses/17979/assignments/227511"
+      note: "Sube aquí la bitácora y la captura dentro de bandit7."
     - title: "Estación de la unidad — Historial, tuberías y herramientas"
       url: "https://rayalucaria.org/fdd_o26/terminal-y-bash/terminal/flujos-procesos-y-herramientas/"
       note: "Preparación de Bash y SSH, y las reglas de la misión Bandit."

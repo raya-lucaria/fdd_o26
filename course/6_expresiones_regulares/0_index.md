@@ -56,6 +56,12 @@ Y una idea que se repite las siete páginas: un patrón es **una fila de piezas*
 
 Necesitas una terminal Unix: Ubuntu, Ubuntu dentro de WSL2 o macOS, y `grep` — que ya viene instalado en las tres. Si vienes de [[terminal-y-bash|Terminal y Bash]], no necesitas nada más.
 
+## La práctica
+
+La entrega de esta unidad es [RegexOne](https://regexone.com/), un tutorial interactivo donde escribes el patrón y el sitio te dice, cadena por cadena, cuáles casan y cuáles no. Se pide el tutorial completo —lecciones 1 a 15— más los primeros cuatro problemas de práctica, que son uno por uno lo que construimos aquí: números, teléfonos, correos y etiquetas. **Vence el jueves 3 de septiembre**, y se entrega con una captura del último nivel que resolviste.
+
+Dos cosas antes de empezar. La caja de RegexOne usa el dialecto de JavaScript, así que ahí `\d` **sí** funciona: al pasar un patrón a tu terminal, tradúcelo a `[0-9]`. Y el punto de la tarea es que pienses cada nivel sin pedirle el patrón a un modelo — leer una expresión de izquierda a derecha es lo único que se entrena aquí, y no se entrena viendo la respuesta.
+
 ## Qué te llevas
 
 - Puedes leer una regex que no escribiste y predecir qué va a encontrar.

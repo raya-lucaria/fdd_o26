@@ -243,7 +243,11 @@ def test_bandit_prohibe_llms_y_pide_buscar_comandos_no_soluciones():
         assert "LLM" in texto
         assert "IA generativa" in texto
         assert "walkthrough" in texto.lower()
-    assert "por determinar" in instructions
+    # El enlace de Canvas existia como pendiente; ahora la invariante util es
+    # que la tarea diga a donde se entrega, no que siga sin decidirse.
+    assert "itam.instructure.com" in instructions, (
+        "la tarea debe nombrar su enlace de entrega en Canvas"
+    )
 
 
 def test_bandit_instructions_no_traen_markdown_sin_renderizar():
