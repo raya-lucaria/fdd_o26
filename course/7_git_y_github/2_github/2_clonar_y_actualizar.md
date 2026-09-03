@@ -11,12 +11,12 @@ prerequisites: [cuenta-y-llave]
 
 # Clonar y mantener al día
 
-**Página 2 de 12** · 20 min
+**GitHub · página 2 de 6** · 20 min
 
 Meta: tener el repositorio del curso en tu disco y poder traer lo nuevo con un comando.
 
 ::: figure {#git-flujo title="Este repositorio lo lees; no escribes en él"}
-![A la izquierda el repositorio del curso en GitHub; a la derecha tu copia local. Una flecha baja el código con git clone la primera vez y otra lo actualiza con git pull cada vez que hay algo nuevo. Una tercera flecha roja de vuelta aparece marcada como que no aplica. Abajo, una caja punteada anuncia que el trabajo se hará sobre un fork propio, más adelante](_assets/git-flujo.svg)
+![A la izquierda el repositorio del curso en GitHub; a la derecha tu copia local. Una flecha baja el código con git clone la primera vez y otra lo actualiza con git pull cada vez que hay algo nuevo. Una tercera flecha roja de vuelta aparece marcada como que no aplica. Abajo, una caja punteada anuncia que el trabajo se hará sobre un fork propio, más adelante](../_assets/git-flujo.svg)
 :::
 
 ## En corto
@@ -125,6 +125,6 @@ Lo primero es `git status`, que te lista exactamente qué archivos difieren. Si 
 
 Con esto termina el setup. Si `ssh -T` te saluda por tu nombre de usuario y `git pull` funciona dentro de `~/fdd/fdd_o26`, estás listo para la clase.
 
-De aquí en adelante empieza Git de verdad, y conviene decir algo antes de que suene contradictorio: en las páginas que siguen vas a construir un repositorio que nunca toca internet. Sí, acabas de clonar de GitHub. La diferencia entre las dos cosas es justo lo que vas a entender.
+Con esto termina el setup de GitHub.
 
-Sigue con [[de-donde-viene-git|De dónde viene Git]].
+Si todavía no has hecho la sección de [[seccion-git|Git]], ése es el siguiente paso y no necesita nada de lo que acabas de configurar. Si ya la hiciste, sigue con [[git-no-es-github|Git no es GitHub]], donde se conectan las dos mitades.

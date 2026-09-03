@@ -11,12 +11,12 @@ prerequisites: [git-no-es-github]
 
 # Dos personas, un archivo
 
-**Página 10 de 12** · 12 min
+**GitHub · página 4 de 6** · 12 min
 
 Meta: predecir qué va a pasar antes de que pase, para que la regla de la página siguiente tenga sentido.
 
 ::: figure {#git-race title="Dos personas, un repositorio"}
-![Tres columnas con tres escenarios: en el primero cada persona toca un archivo distinto y funciona, en el segundo tocan el mismo archivo en líneas separadas y también funciona, y en el tercero tocan la misma línea y hay conflicto](_assets/git-race.svg)
+![Tres columnas con tres escenarios: en el primero cada persona toca un archivo distinto y funciona, en el segundo tocan el mismo archivo en líneas separadas y también funciona, y en el tercero tocan la misma línea y hay conflicto](../_assets/git-race.svg)
 :::
 
 ## En corto
@@ -77,7 +77,7 @@ git push
 
 Y ya. En el escenario B eso ocurre sin que Beto tenga que hacer nada más que el `pull`. En el C tiene que decidir qué línea se queda, exactamente como practicaste.
 
-![Ciudad densa bajo lluvia intensa en teal frío y concreto húmedo, vista desde lo alto entre dos torres enfrentadas: tras una ventana iluminada de cada torre trabaja una figura pequeña de espaldas, y un solo cable tenso une las dos ventanas con una gota de luz ámbar suspendida en el centro exacto, sin avanzar hacia ningún lado.](_assets/ilus-git-colaboracion.jpg)
+![Ciudad densa bajo lluvia intensa en teal frío y concreto húmedo, vista desde lo alto entre dos torres enfrentadas: tras una ventana iluminada de cada torre trabaja una figura pequeña de espaldas, y un solo cable tenso une las dos ventanas con una gota de luz ámbar suspendida en el centro exacto, sin avanzar hacia ningún lado.](../_assets/ilus-git-colaboracion.jpg)
 
 ## Las dos salidas equivocadas
 

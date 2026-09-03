@@ -6,17 +6,17 @@ summary: "Crea tu cuenta de GitHub, genera un par de llaves SSH y déjalo config
 status: ready
 estimated_time: 25m
 tags: [github, ssh, ssh-keygen, ssh-agent, llaves]
-prerequisites: [git-y-github]
+prerequisites: [seccion-github]
 ---
 
 # Cuenta y llave
 
-**Página 1 de 12** · 25 min
+**GitHub · página 1 de 6** · 25 min
 
 Meta: que `ssh -T` te salude por tu nombre de usuario.
 
 ::: figure {#git-llaves title="Dos llaves: una se queda, la otra viaja"}
-![A la izquierda, la carpeta .ssh de tu computadora con dos archivos: la llave privada, que nunca sale de ahí, y la pública. A la derecha, GitHub. Una flecha lleva sólo la llave pública hacia GitHub, y otra de vuelta representa la comprobación con ssh -T](_assets/git-llaves.svg)
+![A la izquierda, la carpeta .ssh de tu computadora con dos archivos: la llave privada, que nunca sale de ahí, y la pública. A la derecha, GitHub. Una flecha lleva sólo la llave pública hacia GitHub, y otra de vuelta representa la comprobación con ssh -T](../_assets/git-llaves.svg)
 :::
 
 ## En corto

@@ -11,12 +11,12 @@ prerequisites: [que-guarda-un-commit]
 
 # Lo que no se sube
 
-**Página 6 de 12** · 12 min
+**Git · página 4 de 6** · 12 min
 
 Meta: que nunca subas un archivo que no miraste, y que sepas qué hacer cuando ya lo hiciste.
 
 ::: figure {#git-lo-que-no-se-sube title="El mismo montón, dos maneras de recogerlo"}
-![Dos columnas comparadas: a la izquierda git add punto recoge todo lo que hay en el repositorio, incluida la basura del sistema operativo y un archivo de credenciales; a la derecha git add con una ruta con nombre recoge únicamente lo que pediste](_assets/git-lo-que-no-se-sube.svg)
+![Dos columnas comparadas: a la izquierda git add punto recoge todo lo que hay en el repositorio, incluida la basura del sistema operativo y un archivo de credenciales; a la derecha git add con una ruta con nombre recoge únicamente lo que pediste](../_assets/git-lo-que-no-se-sube.svg)
 :::
 
 ## En corto

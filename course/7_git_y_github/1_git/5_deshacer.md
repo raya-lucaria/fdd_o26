@@ -11,12 +11,12 @@ prerequisites: [lo-que-no-se-sube]
 
 # Deshacer
 
-**Página 7 de 12** · 20 min
+**Git · página 5 de 6** · 20 min
 
 Meta: que cuando algo salga mal sepas en qué zona estás parado, porque eso determina el comando.
 
 ::: figure {#git-deshacer title="No preguntes qué comando quieres; pregunta dónde está el cambio"}
-![Un árbol de decisión: de la pregunta dónde está el cambio bajan cuatro ramas, en el working directory, en el staging area, en el último commit y a medias, y cada una termina en su comando. Una franja al pie separa lo que reescribe la historia de lo que no](_assets/git-deshacer.svg)
+![Un árbol de decisión: de la pregunta dónde está el cambio bajan cuatro ramas, en el working directory, en el staging area, en el último commit y a medias, y cada una termina en su comando. Una franja al pie separa lo que reescribe la historia de lo que no](../_assets/git-deshacer.svg)
 :::
 
 ## En corto
@@ -174,7 +174,7 @@ Dos límites que conviene saber:
 - Las entradas que quedan inalcanzables se conservan **unos 30 días**, no para siempre.
 - **El reflog es local y es de este repositorio.** Si borras la carpeta y vuelves a clonar, se va con ella. Esto importa más de lo que parece, porque "borrar todo y clonar de nuevo" es justo lo que la gente hace cuando entra en pánico.
 
-![Una colina amplia de verdes suaves bajo un cielo de acuarela, con un solo árbol viejo en la cima y un sendero gastado que sube hasta él; sobre el sendero se superponen tres siluetas translúcidas del mismo árbol, cada una más joven y más tenue, mientras una figura diminuta de espaldas se detiene a mirarlo.](_assets/ilus-git-memoria.jpg)
+![Una colina amplia de verdes suaves bajo un cielo de acuarela, con un solo árbol viejo en la cima y un sendero gastado que sube hasta él; sobre el sendero se superponen tres siluetas translúcidas del mismo árbol, cada una más joven y más tenue, mientras una figura diminuta de espaldas se detiene a mirarlo.](../_assets/ilus-git-memoria.jpg)
 
 ## La línea que divide
 
@@ -216,4 +216,4 @@ Y ojo con el plazo: los objetos inalcanzables viven unos 30 días. El reflog es 
 
 ## Cierre
 
-Con esto termina la parte de Git que funciona sin conexión. En [[branches-y-merge|Branches y merge]] empieza la segunda clase, y el primer tema es cómo trabajar en varias líneas a la vez.
+Ya sabes salir de casi cualquier lío. Queda una página de esta sección: [[branches-y-merge|Branches y merge]], donde vas a trabajar en varias líneas a la vez y a provocarte un conflicto.

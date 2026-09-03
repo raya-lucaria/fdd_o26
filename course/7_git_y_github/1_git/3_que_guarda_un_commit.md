@@ -11,12 +11,12 @@ prerequisites: [tu-primer-repositorio]
 
 # Qué guarda un commit
 
-**Página 5 de 12** · 12 min
+**Git · página 3 de 6** · 12 min
 
 Meta: entender qué es ese identificador de cuarenta caracteres, para que deje de ser magia.
 
 ::: figure {#git-objetos title="Un commit apunta a un árbol; el árbol apunta al contenido"}
-![Tres tipos de objeto encadenados: un commit apunta a un tree y a su commit padre y guarda autor, fecha y mensaje; el tree lista nombres de archivo y apunta a los blobs; cada blob es el contenido de un archivo sin su nombre](_assets/git-objetos.svg)
+![Tres tipos de objeto encadenados: un commit apunta a un tree y a su commit padre y guarda autor, fecha y mensaje; el tree lista nombres de archivo y apunta a los blobs; cada blob es el contenido de un archivo sin su nombre](../_assets/git-objetos.svg)
 :::
 
 ## En corto

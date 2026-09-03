@@ -11,12 +11,12 @@ prerequisites: [el-flujo-del-curso]
 
 # El ritual
 
-**Página 12 de 12** · 10 min
+**GitHub · página 6 de 6** · 10 min
 
 Meta: que esto salga sin pensar, siempre en el mismo orden.
 
 ::: figure {#git-el-ritual title="Tres bloques, siempre en este orden"}
-![Tres carriles verticales con el flujo completo: el primero, ponte al día, sincroniza main con el repositorio del curso y actualiza tu fork; el segundo, abre tu espacio, crea la branch de la tarea y copia el código a tu carpeta; el tercero, entrega, revisa el estado, agrega por ruta, commitea, sube la branch y abre el pull request](_assets/git-el-ritual.svg)
+![Tres carriles verticales con el flujo completo: el primero, ponte al día, sincroniza main con el repositorio del curso y actualiza tu fork; el segundo, abre tu espacio, crea la branch de la tarea y copia el código a tu carpeta; el tercero, entrega, revisa el estado, agrega por ruta, commitea, sube la branch y abre el pull request](../_assets/git-el-ritual.svg)
 :::
 
 ## En corto

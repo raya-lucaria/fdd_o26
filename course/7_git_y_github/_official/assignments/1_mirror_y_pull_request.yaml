@@ -53,13 +53,13 @@ content:
     esperabas y qué salió, y tráelo a clase.
   resources:
     - title: "Unidad — El flujo del curso"
-      url: "https://rayalucaria.org/fdd_o26/git-y-github/el-flujo-del-curso/"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
       note: "La zona roja y la verde, la regla del mirror y qué revisa el robot."
     - title: "Unidad — El ritual"
-      url: "https://rayalucaria.org/fdd_o26/git-y-github/el-ritual/"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
       note: "Los tres bloques con sus comandos exactos, y la barra del pull request."
     - title: "Unidad — Git no es GitHub"
-      url: "https://rayalucaria.org/fdd_o26/git-y-github/git-no-es-github/"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/git-no-es-github/"
       note: "El fork, tu login exacto y cómo arreglar los remotes."
     - title: "Unidad — Cheatsheet"
       url: "https://rayalucaria.org/fdd_o26/git-y-github/cheatsheet/"

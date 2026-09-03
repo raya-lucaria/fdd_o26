@@ -11,12 +11,12 @@ prerequisites: [de-donde-viene-git]
 
 # Tu primer repositorio
 
-**Página 4 de 12** · 30 min
+**Git · página 2 de 6** · 30 min
 
 Meta: hacer tres commits en un repositorio que puedes romper sin consecuencias, y entender por qué existe el staging area.
 
 ::: figure {#git-tres-zonas title="Las tres zonas: nada avanza solo"}
-![Tres cajas en fila: el working directory donde editas, el staging area donde apartas lo que va a entrar, y el repositorio local donde queda guardado. Arcos verdes avanzan con git add y git commit; arcos ámbar regresan con git restore y git reset](_assets/git-tres-zonas.svg)
+![Tres cajas en fila: el working directory donde editas, el staging area donde apartas lo que va a entrar, y el repositorio local donde queda guardado. Arcos verdes avanzan con git add y git commit; arcos ámbar regresan con git restore y git reset](../_assets/git-tres-zonas.svg)
 :::
 
 ## En corto

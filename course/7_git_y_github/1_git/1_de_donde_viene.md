@@ -6,22 +6,22 @@ summary: "En abril de 2005 el kernel de Linux se quedó sin sistema de versiones
 status: ready
 estimated_time: 8m
 tags: [git, historia, bitkeeper, torvalds, control-de-versiones]
-prerequisites: [clonar-y-actualizar]
+prerequisites: [seccion-git]
 ---
 
 # De dónde viene Git
 
-**Página 3 de 12** · 8 min
+**Git · página 1 de 6** · 8 min
 
 Meta: entender qué problema resuelve Git, para que los comandos de las próximas páginas no parezcan arbitrarios.
 
 ::: figure {#git-linea-del-tiempo title="Treinta años buscando lo mismo"}
-![Seis sistemas de control de versiones en orden cronológico, de SCCS en 1972 a Git en 2005, cada uno coloreado según su modelo: ámbar para los locales, violeta para los centralizados y verde para los distribuidos](_assets/git-linea-del-tiempo.svg)
+![Seis sistemas de control de versiones en orden cronológico, de SCCS en 1972 a Git en 2005, cada uno coloreado según su modelo: ámbar para los locales, violeta para los centralizados y verde para los distribuidos](../_assets/git-linea-del-tiempo.svg)
 :::
 
 ## En corto
 
-- Ya clonaste de GitHub, así que la siguiente frase suena rara: **Git no sabe qué es internet.** Hoy la vas a creer a medias y el martes la vas a entender.
+- La frase que sostiene toda esta sección: **Git no sabe qué es internet.** Suena rara si ya clonaste de GitHub, y por eso vale la pena comprobarla.
 - Git existe porque en 2005 el kernel de Linux se quedó de golpe sin herramienta para versionar.
 - Antes de Git, o trabajabas solo, o dependías de un servidor. Git fue el primero libre en no necesitar ninguna de las dos cosas.
 - Hoy lo usa el 93 % de quienes programan. No es una opción entre varias.
@@ -42,7 +42,7 @@ Initial revision of "git", the information manager from hell
 
 Sobre el nombre, Torvalds le dijo a Computerworld ese mismo mes: *"I'm an egotistical bastard, so I name all my projects after myself. First Linux, now git."* En inglés británico, `git` es un insulto suave.
 
-![Calle suburbana vacía al anochecer, en sepia lavado y violeta: una maraña densa de cables de teléfono y electricidad cruza el cielo sostenida por postes de madera, y la única luz cálida sale del resplandor verdoso de un monitor de tubo en una ventana de planta baja, hacia la que mira de espaldas una figura pequeña.](_assets/ilus-git-historia.jpg)
+![Calle suburbana vacía al anochecer, en sepia lavado y violeta: una maraña densa de cables de teléfono y electricidad cruza el cielo sostenida por postes de madera, y la única luz cálida sale del resplandor verdoso de un monitor de tubo en una ventana de planta baja, hacia la que mira de espaldas una figura pequeña.](../_assets/ilus-git-historia.jpg)
 
 ## Lo que había antes, y por qué no bastaba
 

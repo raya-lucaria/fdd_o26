@@ -50,10 +50,10 @@ content:
     la hoja 1.
   resources:
     - title: "Unidad — Cuenta y llave"
-      url: "https://rayalucaria.org/fdd_o26/git-y-github/cuenta-y-llave/"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/cuenta-y-llave/"
       note: "Los cinco pasos, con las variantes de Ubuntu, WSL2 y macOS."
     - title: "Unidad — Clonar y mantener al día"
-      url: "https://rayalucaria.org/fdd_o26/git-y-github/clonar-y-actualizar/"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/clonar-y-actualizar/"
       note: "El clonado, git pull y qué hacer si formateas la máquina."
     - title: "Crear una cuenta de GitHub"
       url: "https://github.com/signup"

@@ -6,17 +6,17 @@ summary: "Qué le agrega GitHub a Git, cómo arreglar el remote que te quedó ap
 status: ready
 estimated_time: 25m
 tags: [github, fork, remote, upstream, origin, fetch, pull-request]
-prerequisites: [branches-y-merge]
+prerequisites: [clonar-y-actualizar]
 ---
 
 # Git no es GitHub
 
-**Página 9 de 12** · 25 min
+**GitHub · página 3 de 6** · 25 min
 
 Meta: dejar tu máquina hablando con dos repositorios distintos y entender cuál es cuál.
 
 ::: figure {#git-tres-repos title="Tres repositorios, y sólo en dos puedes escribir"}
-![Tres repositorios y las flechas entre ellos: arriba a la izquierda el del curso llamado upstream que sólo se lee, arriba a la derecha tu fork llamado origin donde sí escribes, y abajo tu copia en el disco. Una flecha baja lo nuevo con git fetch, otra sube tu trabajo con git push, y una punteada representa el pull request](_assets/git-tres-repos.svg)
+![Tres repositorios y las flechas entre ellos: arriba a la izquierda el del curso llamado upstream que sólo se lee, arriba a la derecha tu fork llamado origin donde sí escribes, y abajo tu copia en el disco. Una flecha baja lo nuevo con git fetch, otra sube tu trabajo con git push, y una punteada representa el pull request](../_assets/git-tres-repos.svg)
 :::
 
 ## En corto

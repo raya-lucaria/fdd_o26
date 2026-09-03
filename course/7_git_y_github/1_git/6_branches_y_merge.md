@@ -11,12 +11,12 @@ prerequisites: [deshacer-en-git]
 
 # Branches y merge
 
-**Página 8 de 12** · 25 min
+**Git · página 6 de 6** · 25 min
 
 Meta: provocarte un conflicto a propósito y resolverlo, para que el día que llegue solo no te asuste.
 
 ::: figure {#git-branches title="Una branch no copia archivos"}
-![Una cadena de commits con dos etiquetas: la línea de abajo es main con tres commits, y de la segunda se desprende hacia arriba una branch de tarea con dos commits propios. Abajo, dos paneles comparan el merge fast-forward con el que crea un commit nuevo de dos padres](_assets/git-branches.svg)
+![Una cadena de commits con dos etiquetas: la línea de abajo es main con tres commits, y de la segunda se desprende hacia arriba una branch de tarea con dos commits propios. Abajo, dos paneles comparan el merge fast-forward con el que crea un commit nuevo de dos padres](../_assets/git-branches.svg)
 :::
 
 ## En corto
@@ -150,7 +150,7 @@ Automatic merge failed; fix conflicts and then commit the result.
 ## Paso 4: léelo
 
 ::: figure {#git-conflicto title="Un conflicto no es un error"}
-![El contenido de un archivo en conflicto con sus tres marcadores: entre el primero y la línea de iguales está la versión de la branch en la que estás parado, y entre la línea de iguales y el último marcador está la versión que trae la otra branch](_assets/git-conflicto.svg)
+![El contenido de un archivo en conflicto con sus tres marcadores: entre el primero y la línea de iguales está la versión de la branch en la que estás parado, y entre la línea de iguales y el último marcador está la versión que trae la otra branch](../_assets/git-conflicto.svg)
 :::
 
 **Haz:**
@@ -246,4 +246,6 @@ Ese rechazo es una protección, no un obstáculo. Las dos salidas son commitear 
 
 ## Cierre
 
-Ya sabes trabajar en varias líneas dentro de tu propia máquina. Ahora, en [[git-no-es-github|Git no es GitHub]], por fin aparece la red.
+Con esto **termina la sección de Git**. Ya sabes commitear, ramificar, mergear y resolver un conflicto, y no has tocado internet ni una vez.
+
+Sigue con [[seccion-github|GitHub]], donde por fin aparece la red.

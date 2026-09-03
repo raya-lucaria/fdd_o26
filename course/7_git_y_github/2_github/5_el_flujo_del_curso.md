@@ -11,12 +11,12 @@ prerequisites: [dos-personas-un-archivo]
 
 # El flujo del curso
 
-**Página 11 de 12** · 15 min
+**GitHub · página 5 de 6** · 15 min
 
 Meta: que nunca tengas que preguntar dónde va un archivo ni cómo se llama tu carpeta.
 
 ::: figure {#git-el-mirror title="Tu carpeta es un espejo"}
-![Dos árboles de archivos lado a lado: a la izquierda en rojo la carpeta de código del curso que es de sólo lectura, y a la derecha en verde tu carpeta dentro de estudiantes con tu nombre de usuario de GitHub, con los mismos nombres de subcarpeta y archivo en los dos lados](_assets/git-el-mirror.svg)
+![Dos árboles de archivos lado a lado: a la izquierda en rojo la carpeta de código del curso que es de sólo lectura, y a la derecha en verde tu carpeta dentro de estudiantes con tu nombre de usuario de GitHub, con los mismos nombres de subcarpeta y archivo en los dos lados](../_assets/git-el-mirror.svg)
 :::
 
 ## En corto
@@ -134,7 +134,7 @@ Cuando algo falla, el mensaje dice qué archivo y qué hacer. Y hay una cosa que
 > [!NOTE]
 > **Un pull request rechazado se corrige haciendo `push` a la misma branch.** No abras otro. El pull request se actualiza solo con tus commits nuevos y la revisión se vuelve a correr.
 
-![Un corredor técnico largo y estrecho partido en dos mitades por un umbral iluminado en ámbar: la mitad cercana es cálida y ordenada, con estantes alineados, y la lejana se disuelve en azul frío; en primer plano, de espaldas y en silueta, una figura se detiene un paso antes del umbral, sin cruzarlo.](_assets/ilus-git-disciplina.jpg)
+![Un corredor técnico largo y estrecho partido en dos mitades por un umbral iluminado en ámbar: la mitad cercana es cálida y ordenada, con estantes alineados, y la lejana se disuelve en azul frío; en primer plano, de espaldas y en silueta, una figura se detiene un paso antes del umbral, sin cruzarlo.](../_assets/ilus-git-disciplina.jpg)
 
 ## Por qué tanta insistencia
 

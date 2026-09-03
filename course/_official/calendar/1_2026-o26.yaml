@@ -66,15 +66,15 @@ events:
     start_time: "19:00"
     end_time: "20:30"
     title: "Git: qué guarda y cómo se deshace"
-    page: git-y-github
+    page: seccion-git
 
   - id: session-09
     kind: session
     date: "2026-09-08"
     start_time: "19:00"
     end_time: "20:30"
-    title: "GitHub: branches, forks y el flujo del curso"
-    page: branches-y-merge
+    title: "GitHub: forks, pull requests y el flujo del curso"
+    page: seccion-github
 
   - id: descanso-obligatorio-septiembre
     kind: cancellation

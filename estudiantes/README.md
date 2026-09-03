@@ -26,4 +26,4 @@ https://github.com/settings/profile
    otro.
 
 Una revisión automática comprueba las cinco cosas en cada pull request. El
-flujo completo está en https://rayalucaria.org/fdd_o26/git-y-github/el-ritual/
+flujo completo está en https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/

@@ -31,4 +31,4 @@ carpeta en vez de su contenido, y la segunda vez que lo corras acabas con
 El nombre de la subcarpeta no se inventa ni se traduce. Si aquí se llama
 `07_git`, en tu carpeta se llama `07_git`.
 
-Todo esto está explicado en la unidad: https://rayalucaria.org/fdd_o26/git-y-github/el-flujo-del-curso/
+Todo esto está explicado en la unidad: https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/

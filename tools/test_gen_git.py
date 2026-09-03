@@ -19,6 +19,8 @@ import yaml
 RAIZ = Path(__file__).resolve().parent.parent
 GENERADOR = RAIZ / "tools/gen_git.py"
 ASSETS = RAIZ / "course/7_git_y_github/_assets"
+# La unidad se divide en dos secciones, 1_git y 2_github, asi que las figuras
+# se buscan en todo el arbol y no solo en la raiz.
 UNIDAD = RAIZ / "course/7_git_y_github"
 SKIN = RAIZ / "skins/fdd-eva.yaml"
 
@@ -83,7 +85,7 @@ def test_los_colores_salen_del_skin():
 def test_cada_svg_esta_referenciado_por_alguna_pagina():
     paginas = "".join(
         p.read_text(encoding="utf-8")
-        for p in sorted(UNIDAD.glob("*.md")) if p.name != "CREDITOS.md"
+        for p in sorted(UNIDAD.rglob("*.md")) if p.name != "CREDITOS.md"
     )
     for nombre in _cargar().DIAGRAMAS:
         assert f"{nombre}.svg" in paginas, f"{nombre}.svg no aparece en ninguna pagina"
