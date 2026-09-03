@@ -11,7 +11,7 @@ prerequisites: [git-y-github]
 
 # Cuenta y llave
 
-**Hoja 1 de 2** · 25 min
+**Página 1 de 12** · 25 min
 
 Meta: que `ssh -T` te salude por tu nombre de usuario.
 

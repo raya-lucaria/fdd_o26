@@ -11,7 +11,7 @@ prerequisites: [cuenta-y-llave]
 
 # Clonar y mantener al día
 
-**Hoja 2 de 2** · 20 min
+**Página 2 de 12** · 20 min
 
 Meta: tener el repositorio del curso en tu disco y poder traer lo nuevo con un comando.
 
@@ -123,4 +123,8 @@ Lo primero es `git status`, que te lista exactamente qué archivos difieren. Si 
 
 ## Cierre
 
-Ya tienes el repositorio y tu identidad configurada. No hay nada que subir: la unidad se da por terminada cuando `ssh -T` te saluda por tu nombre de usuario y `git pull` funciona dentro de `~/fdd/fdd_o26`. El resto —el fork, y cómo se proponen cambios— lo vemos en clase.
+Con esto termina el setup. Si `ssh -T` te saluda por tu nombre de usuario y `git pull` funciona dentro de `~/fdd/fdd_o26`, estás listo para la clase.
+
+De aquí en adelante empieza Git de verdad, y conviene decir algo antes de que suene contradictorio: en las páginas que siguen vas a construir un repositorio que nunca toca internet. Sí, acabas de clonar de GitHub. La diferencia entre las dos cosas es justo lo que vas a entender.
+
+Sigue con [[de-donde-viene-git|De dónde viene Git]].
