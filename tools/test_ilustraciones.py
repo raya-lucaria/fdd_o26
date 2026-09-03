@@ -64,7 +64,9 @@ def nombres():
 
 def test_catalogo_tiene_las_llaves_esperadas():
     datos = catalogo()
-    assert set(datos) == {"estilo", "tamano", "ilustraciones", "unidades"}
+    obligatorias = {"estilo", "tamano", "ilustraciones", "unidades"}
+    assert obligatorias <= set(datos), "al catalogo le falta una llave obligatoria"
+    assert set(datos) <= obligatorias | {"estilos"}, "el catalogo declara una llave desconocida"
     assert datos["tamano"] == "1024x1024"
     assert datos["ilustraciones"], "el catalogo no declara ninguna ilustracion"
 
@@ -128,12 +130,24 @@ def test_ningun_prompt_pide_una_figura_humana_identificable():
             )
 
 
+def test_cada_estilo_extra_apunta_a_una_ilustracion_real():
+    datos = catalogo()
+    for nombre in datos.get("estilos", {}):
+        assert nombre in datos["ilustraciones"], (
+            f"'estilos' declara '{nombre}', que no es una ilustracion del catalogo"
+        )
+
+
 def test_el_estilo_prohibe_texto_y_rostros_identificables():
-    estilo = catalogo()["estilo"]
-    assert estilo.rstrip().endswith(
-        "Sin texto, sin letras, sin marcas de agua, sin firmas."
-    ), "el estilo debe cerrar prohibiendo texto, marcas de agua y firmas"
-    assert "sin rostros identificables" in estilo.lower()
+    datos = catalogo()
+    # El compartido y cualquier estilo por lamina cargan la misma guarda: si uno
+    # se salta el cierre, esa ilustracion se genera sin proteccion.
+    estilos = [datos["estilo"], *datos.get("estilos", {}).values()]
+    for estilo in estilos:
+        assert estilo.rstrip().endswith(
+            "Sin texto, sin letras, sin marcas de agua, sin firmas."
+        ), "todo estilo debe cerrar prohibiendo texto, marcas de agua y firmas"
+        assert "sin rostros identificables" in estilo.lower()
 
 
 def test_creditos_marcan_las_generadas():

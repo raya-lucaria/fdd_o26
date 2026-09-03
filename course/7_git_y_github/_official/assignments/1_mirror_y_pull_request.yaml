@@ -1,0 +1,73 @@
+id: mirror-y-pull-request
+type: assignment
+authority: official
+content:
+  title: "Tu carpeta y tu primer pull request"
+  instructions: >-
+    Esta tarea no tiene contenido difícil. Todo el peso está en que el flujo
+    salga perfecto, porque así se entrega el resto del curso y porque una
+    revisión automática lo comprueba.
+    Antes de empezar necesitas tres cosas ya hechas de la clase: tu llave SSH
+    funcionando, tu fork del repositorio del curso, y los remotes arreglados.
+    Comprueba lo último con git remote -v: tienen que salir cuatro líneas, dos
+    de origin con tu usuario y dos de upstream con raya-lucaria. Si las cuatro
+    dicen raya-lucaria, todavía no arreglaste los remotes y nada de lo que
+    sigue va a funcionar. Está en la página Git no es GitHub.
+    Lo que hay que entregar son cuatro cosas. Una, tu carpeta en estudiantes,
+    con un nombre idéntico a tu usuario de GitHub. Ese nombre lo obtienes con
+    un comando y no lo escribes a mano: gh api user seguido de jq punto login.
+    Dos, dentro de ella la carpeta 07 guion bajo git, con el contenido copiado
+    de la carpeta codigo del mismo nombre, respetando la regla del mirror.
+    Tres, el archivo bitacora punto md lleno: tus datos, la salida de los dos
+    comandos que ahí se piden, y tres o cuatro líneas sobre algo que se te haya
+    roto durante la unidad y cómo lo resolviste. Si de verdad no se te rompió
+    nada, dilo y explica qué parte te costó más entender; reportar el pendiente
+    cuenta, presumir un avance que no ocurrió no. Cuatro, el pull request
+    abierto contra el repositorio del curso desde una branch, nunca desde tu
+    main.
+    Sobre la copia, un detalle que arruina la entrega si se pasa por alto. El
+    comando es cp guion r, después codigo diagonal 07 guion bajo git diagonal
+    punto, y después tu carpeta destino con diagonal al final. Esa diagonal y
+    ese punto copian el contenido de la carpeta y no la carpeta misma. Sin
+    ellos, la segunda vez que corras el comando acabas con 07 guion bajo git
+    dentro de 07 guion bajo git, y la revisión automática lo deja pasar porque
+    técnicamente está dentro de tu carpeta. No copies arrastrando en el Finder
+    ni en el Explorador: producen nombres con la palabra copia y ésos sí se
+    rechazan.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión
+    automática esté en verde. Ese es el criterio: entregado significa pull
+    request abierto antes de la fecha, con el check en verde. Que yo lo mergee
+    es un trámite posterior y no depende de ti. Si la revisión sale roja, lee
+    el mensaje, que dice qué archivo y qué hacer, corrige, y haz push a la
+    misma branch. El pull request se actualiza solo. No abras otro.
+    Un error que se repite todos los semestres y que vale la pena evitar. Al
+    crear el pull request, GitHub te muestra arriba cuatro casillas. La de la
+    izquierda tiene que decir raya-lucaria diagonal fdd o26 y main. Si dice tu
+    propio usuario, el pull request se crea, se ve bien, y no me llega. Revisa
+    esa barra antes de darle crear.
+    El flujo completo, en tres bloques, está en la última página de la unidad.
+    Vale la pena que lo hagas hasta que salga sin pensar, porque se pregunta de
+    memoria en el examen y porque todas las tareas de aquí a diciembre se
+    entregan así.
+    Si algo no sale, no te quedes callado. Anota qué comando corriste, qué
+    esperabas y qué salió, y tráelo a clase.
+  resources:
+    - title: "Unidad — El flujo del curso"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/el-flujo-del-curso/"
+      note: "La zona roja y la verde, la regla del mirror y qué revisa el robot."
+    - title: "Unidad — El ritual"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/el-ritual/"
+      note: "Los tres bloques con sus comandos exactos, y la barra del pull request."
+    - title: "Unidad — Git no es GitHub"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/git-no-es-github/"
+      note: "El fork, tu login exacto y cómo arreglar los remotes."
+    - title: "Unidad — Cheatsheet"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/cheatsheet/"
+      note: "Todos los comandos, y la tabla de mensajes de error con qué hacer."
+    - title: "Repositorio del curso"
+      url: "https://github.com/raya-lucaria/fdd_o26"
+      note: "Aquí se hace el fork, con el botón de arriba a la derecha."
+  due: "2026-09-10"
+  points: 20
+  status: published
+  tags: [git, github, fork, pull-request, mirror, flujo]

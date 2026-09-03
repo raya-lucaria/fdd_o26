@@ -36,7 +36,10 @@ def generar(nombre):
     datos = json.loads(CATALOGO.read_text(encoding="utf-8"))
     assets = assets_de(datos, nombre)
     assets.mkdir(parents=True, exist_ok=True)
-    prompt = f'{datos["ilustraciones"][nombre]} {datos["estilo"]}'
+    # Casi todas comparten el estilo del curso; una lamina puede declarar el
+    # suyo en "estilos" cuando su registro visual no es el urbano.
+    estilo = datos.get("estilos", {}).get(nombre, datos["estilo"])
+    prompt = f'{datos["ilustraciones"][nombre]} {estilo}'
     cuerpo = json.dumps({
         "model": MODELO,
         "prompt": prompt,

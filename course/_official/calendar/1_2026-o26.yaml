@@ -60,6 +60,22 @@ events:
     title: "Expresiones regulares"
     page: expresiones-regulares
 
+  - id: session-08
+    kind: session
+    date: "2026-09-03"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Git: qué guarda y cómo se deshace"
+    page: git-y-github
+
+  - id: session-09
+    kind: session
+    date: "2026-09-08"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "GitHub: branches, forks y el flujo del curso"
+    page: branches-y-merge
+
   - id: descanso-obligatorio-septiembre
     kind: cancellation
     date: "2026-09-17"

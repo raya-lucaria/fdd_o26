@@ -174,6 +174,8 @@ Dos límites que conviene saber:
 - Las entradas que quedan inalcanzables se conservan **unos 30 días**, no para siempre.
 - **El reflog es local y es de este repositorio.** Si borras la carpeta y vuelves a clonar, se va con ella. Esto importa más de lo que parece, porque "borrar todo y clonar de nuevo" es justo lo que la gente hace cuando entra en pánico.
 
+![Una colina amplia de verdes suaves bajo un cielo de acuarela, con un solo árbol viejo en la cima y un sendero gastado que sube hasta él; sobre el sendero se superponen tres siluetas translúcidas del mismo árbol, cada una más joven y más tenue, mientras una figura diminuta de espaldas se detiene a mirarlo.](_assets/ilus-git-memoria.jpg)
+
 ## La línea que divide
 
 ::: table {#git-historia-linea title="Reescribir o no reescribir"}

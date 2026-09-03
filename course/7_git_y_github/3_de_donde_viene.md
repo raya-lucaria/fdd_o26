@@ -42,6 +42,8 @@ Initial revision of "git", the information manager from hell
 
 Sobre el nombre, Torvalds le dijo a Computerworld ese mismo mes: *"I'm an egotistical bastard, so I name all my projects after myself. First Linux, now git."* En inglés británico, `git` es un insulto suave.
 
+![Calle suburbana vacía al anochecer, en sepia lavado y violeta: una maraña densa de cables de teléfono y electricidad cruza el cielo sostenida por postes de madera, y la única luz cálida sale del resplandor verdoso de un monitor de tubo en una ventana de planta baja, hacia la que mira de espaldas una figura pequeña.](_assets/ilus-git-historia.jpg)
+
 ## Lo que había antes, y por qué no bastaba
 
 ::: table {#git-antes title="Cada modelo aparece porque el anterior no daba"}

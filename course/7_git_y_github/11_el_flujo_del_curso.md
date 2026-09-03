@@ -134,6 +134,8 @@ Cuando algo falla, el mensaje dice qué archivo y qué hacer. Y hay una cosa que
 > [!NOTE]
 > **Un pull request rechazado se corrige haciendo `push` a la misma branch.** No abras otro. El pull request se actualiza solo con tus commits nuevos y la revisión se vuelve a correr.
 
+![Un corredor técnico largo y estrecho partido en dos mitades por un umbral iluminado en ámbar: la mitad cercana es cálida y ordenada, con estantes alineados, y la lejana se disuelve en azul frío; en primer plano, de espaldas y en silueta, una figura se detiene un paso antes del umbral, sin cruzarlo.](_assets/ilus-git-disciplina.jpg)
+
 ## Por qué tanta insistencia
 
 Vale la pena decirlo directo. Este flujo se pide con una precisión que puede parecer excesiva, y hay dos razones.
