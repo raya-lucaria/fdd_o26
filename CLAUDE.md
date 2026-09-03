@@ -58,7 +58,7 @@ Enforced by `raya validate`. These are the rules most likely to bite:
 :::
 ```
 
-A bare `![]()` renders without a "Figura N" caption. Figure IDs must be unique per page.
+A bare `![]()` renders without a "Figura N" caption. Numbered-object IDs (figure, table, definition, problem) are unique **course-wide**, not per page — the builder keeps one set of seen IDs across every page, so a reused ID fails the build with `Duplicate numbered object ID`. Prefix them per unit (`rx-`, `git-`).
 
 **Official learning objects.** YAML under `_official/<family>/`. Valid families: `assignments`, `cards`, `exams`, `examples`, `projects`, `prompts`, `quizzes`, `tasks`. Objects colocated beside a quantum omit `scope.quantum` (it is inferred); objects under source-root `course/_official/` **must** declare it. All IDs share one course-global namespace, including derived calendar occurrence IDs.
 
@@ -70,11 +70,11 @@ A bare `![]()` renders without a "Figura N" caption. Figure IDs must be unique p
 
 Sessions run **Tuesday and Thursday, 19:00–20:30**, from 2026-08-11 to 2026-12-01. `calesc2026.pdf` at the repo root is the ITAM academic calendar those dates come from.
 
-**The session list is incremental on purpose.** The calendar used to carry all 32 sessions pre-titled through December; the plan drifted far enough from that outline that the future entries were removed. Only sessions whose content actually exists are listed — currently `session-01` through `session-06`, ending at 2026-08-27 — plus one `cancellation` (Thu 2026-09-17, ITAM descanso obligatorio) and three `milestone` entries. **Add the next `session-NN` when you author the unit it teaches, not before.** Keep the numbering and the Tue/Thu 19:00–20:30 slot; an empty future is the intended state, not a gap to fill with placeholders.
+**The session list is incremental on purpose.** The calendar used to carry all 32 sessions pre-titled through December; the plan drifted far enough from that outline that the future entries were removed. Only sessions whose content actually exists are listed — currently `session-01` through `session-07`, ending at 2026-09-01 — plus one `cancellation` (Thu 2026-09-17, ITAM descanso obligatorio) and three `milestone` entries. **Add the next `session-NN` when you author the unit it teaches, not before.** Keep the numbering and the Tue/Thu 19:00–20:30 slot; an empty future is the intended state, not a gap to fill with placeholders.
 
 **Do not hand-write assignment dates as calendar events.** Every official object with `content.due` or `content.available` contributes its own occurrence automatically. Write the `assignment` once; the calendar derives it.
 
-Every listed session carries a `page` reference: `el-curso`, `pipeline-de-datos`, `arquitectura-de-computadoras`, `software-libre-y-sistemas-operativos`, `terminal-directa` and `bash-scripting`. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
+Every listed session carries a `page` reference: `el-curso`, `pipeline-de-datos`, `arquitectura-de-computadoras`, `software-libre-y-sistemas-operativos`, `terminal-directa`, `bash-scripting` and `expresiones-regulares`. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
 
 ## Images
 

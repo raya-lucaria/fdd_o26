@@ -564,7 +564,15 @@ literales (`! [rejected] ... (fetch first)`, `Permission denied (publickey)`,
 `nothing added to commit but untracked files present`). El triage es lo que
 de verdad hace un profesional.
 
-Queda como decisión abierta.
+**Decisión tomada: se adopta el compromiso.** La exigencia de memoria se
+conserva, que es lo que el profesor pidió y lo que construye la disciplina;
+lo que cambia es sobre qué recae. Se memorizan los **tres bloques con
+nombre** y lo que hace cada uno, no doce líneas sueltas, y el resto del peso
+se reparte en ordenar los pasos barajados, ubicar en qué zona vive un cambio,
+y triage de mensajes de error literales. Sigue siendo un examen exigente y
+sin margen, y sigue siendo cierto que una desviación del flujo cuenta como
+entrega no hecha. El profesor puede revertirlo a memorización literal de los
+doce pasos si prefiere.
 
 ## La tarea
 
@@ -791,23 +799,36 @@ La tarea no se escribe como evento: su `content.due` genera la ocurrencia.
 Flashcards, quizzes y el examen. El deck de la presentación. La
 implementación del Action. El contenido de `codigo/07_git/`.
 
-## Decisiones abiertas
+## Estado de los pendientes
 
-1. **La evaluación.** Memorización literal de doce pasos contra el compromiso
-   descrito arriba. Es decisión del profesor.
-2. **Id de Canvas** para el assignment.
-3. **Renumeración del prework.** Las páginas 1 y 2 dicen "Hoja 1 de 2" y el
-   índice dice "Las dos hojas". Con catorce páginas hay que reescribir esas
-   líneas. Trabajo que la versión 1 no contabilizaba al decir que no se
-   tocaban.
-4. **`git-flujo.svg`** queda conceptualmente obsoleto cuando aparece el fork,
-   no sólo su fila en CREDITOS.
-5. **Doble nombre en el curso:** la unidad 6 publica `chuleta-regex` y ésta
-   publicará `cheatsheet-git`. Queda inconsistente hasta que se unifique.
+**Cerrados en este commit:**
 
-## Correcciones pendientes en CLAUDE.md
+- `CLAUDE.md` decía que los ids de figura son únicos por página. Verificado
+  contra el código de raya: el builder mantiene un solo conjunto de ids vistos
+  y su prueba de contrato usa dos páginas distintas para provocar el error.
+  Corregido, y de paso la lista de páginas del calendario, que no incluía
+  `expresiones-regulares`.
+- `CLAUDE.md` decía que la última sesión es `session-06`. Corregido a
+  `session-07`, 2026-09-01.
+- La fila de `git-flujo.svg` en `CREDITOS.md` describía un diagrama que ya no
+  existe. Reescrita para el SVG actual.
+- La evaluación. Ver la sección correspondiente.
+- El doble nombre `chuleta` contra `cheatsheet`. Se queda `cheatsheet` para
+  esta unidad, por instrucción explícita de dejar los términos en inglés.
+  `chuleta-regex` de la unidad 6 no se toca: ya está publicado y renombrarlo
+  cambia su URL. Queda como inconsistencia consciente, no como pendiente.
 
-- Dice que los ids de figura son únicos por página. Son únicos en todo el
-  curso: el builder mantiene un solo conjunto de ids vistos.
-- Dice que la última sesión del calendario es `session-06`. Ya existe
-  `session-07`.
+**Trabajo de implementación, no decisiones:**
+
+- Renumerar el prework. Las páginas 1 y 2 dicen "Hoja 1 de 2" y el índice dice
+  "Las dos hojas". Se reescriben **junto con** las páginas nuevas, nunca
+  antes: un índice que enlace a doce páginas inexistentes tumba el build.
+- `git-flujo.svg` queda conceptualmente incompleto cuando aparece el fork. Se
+  reemplaza o se complementa con `git-tres-repos.svg` al escribir la página 9.
+- Crear `codigo/` y `estudiantes/` con su `.gitkeep`, antes de la sesión 09.
+
+**Bloqueado, requiere acción del profesor fuera de este repo:**
+
+- **El id de Canvas del assignment.** Hay que crear la tarea en Canvas para
+  obtener el número. Los ya usados son 225402, 227511 y 227512. Sin él, el
+  assignment se escribe completo salvo la URL, que queda como el único hueco.
