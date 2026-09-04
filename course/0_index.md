@@ -38,13 +38,16 @@ https://itam.instructure.com/courses/17979/assignments/225402
 ## Fechas académicas que afectan al curso
 
 - **10 de agosto**: inicio de cursos.
-- **17 de septiembre** (jueves): descanso obligatorio del ITAM; no hay clase.
+- **15 de septiembre** (martes): asueto; no hay clase.
+- **3 de noviembre** (martes): asueto; no hay clase.
+- **17 de noviembre** (martes): descanso obligatorio del ITAM; no hay clase.
 - **2 de diciembre**: fin de cursos.
 - **Del 7 al 19 de diciembre**: período de exámenes finales.
 
-Los asuetos del 16 de septiembre, 2 de noviembre y 16 de noviembre caen en días
-en los que esta materia no sesiona, así que no nos quitan clase. La única sesión
-que se pierde en todo el semestre es la del jueves 17 de septiembre.
+Los tres días que nos quitan clase caen en martes. El descanso obligatorio del
+**16 de septiembre** es miércoles, así que a esta materia no le toca. En total
+se pierden tres sesiones en el semestre, todas de martes; los jueves salen
+completos.
 
 ## Contacto
 

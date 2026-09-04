@@ -76,11 +76,29 @@ events:
     title: "GitHub: forks, pull requests y el flujo del curso"
     page: seccion-github
 
-  - id: descanso-obligatorio-septiembre
+  - id: asueto-septiembre
     kind: cancellation
-    date: "2026-09-17"
+    date: "2026-09-15"
+    title: "Asueto — no hay clase"
+    summary: "El martes 15 de septiembre no hay sesión de Fuentes de Datos."
+
+  - id: descanso-obligatorio-septiembre
+    kind: milestone
+    date: "2026-09-16"
+    title: "Descanso obligatorio del ITAM"
+    summary: "Miércoles 16 de septiembre. No cae sesión de esta materia, que va martes y jueves."
+
+  - id: asueto-noviembre
+    kind: cancellation
+    date: "2026-11-03"
+    title: "Asueto — no hay clase"
+    summary: "El martes 3 de noviembre no hay sesión de Fuentes de Datos."
+
+  - id: descanso-obligatorio-noviembre
+    kind: cancellation
+    date: "2026-11-17"
     title: "Descanso obligatorio — no hay clase"
-    summary: "El jueves 17 de septiembre no hay sesión de Fuentes de Datos."
+    summary: "El martes 17 de noviembre no hay sesión de Fuentes de Datos."
 
   - id: inicio-de-cursos
     kind: milestone
