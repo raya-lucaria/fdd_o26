@@ -11,7 +11,7 @@ prerequisites: [de-donde-viene-git]
 
 # Tu primer repositorio
 
-**Git · página 2 de 6** · 30 min
+**Git · página 2 de 7** · 30 min
 
 Meta: hacer tres commits en un repositorio que puedes romper sin consecuencias, y entender por qué existe el staging area.
 

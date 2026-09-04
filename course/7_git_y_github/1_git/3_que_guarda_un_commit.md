@@ -11,7 +11,7 @@ prerequisites: [tu-primer-repositorio]
 
 # Qué guarda un commit
 
-**Git · página 3 de 6** · 12 min
+**Git · página 3 de 7** · 12 min
 
 Meta: entender qué es ese identificador de cuarenta caracteres, para que deje de ser magia.
 

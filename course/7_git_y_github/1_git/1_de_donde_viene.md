@@ -11,7 +11,7 @@ prerequisites: [seccion-git]
 
 # De dónde viene Git
 
-**Git · página 1 de 6** · 8 min
+**Git · página 1 de 7** · 8 min
 
 Meta: entender qué problema resuelve Git, para que los comandos de las próximas páginas no parezcan arbitrarios.
 

@@ -11,7 +11,7 @@ prerequisites: [deshacer-en-git]
 
 # Branches y merge
 
-**Git · página 6 de 6** · 25 min
+**Git · página 6 de 7** · 25 min
 
 Meta: provocarte un conflicto a propósito y resolverlo, para que el día que llegue solo no te asuste.
 
@@ -246,6 +246,4 @@ Ese rechazo es una protección, no un obstáculo. Las dos salidas son commitear 
 
 ## Cierre
 
-Con esto **termina la sección de Git**. Ya sabes commitear, ramificar, mergear y resolver un conflicto, y no has tocado internet ni una vez.
-
-Sigue con [[seccion-github|GitHub]], donde por fin aparece la red.
+Ya sabes ramificar y resolver un conflicto que tú mismo provocaste. Queda una página de esta sección: [[trabajo-en-paralelo|Cuando dos avanzan a la vez]], donde vas a poder **predecir** el conflicto antes de correr el merge.

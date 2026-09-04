@@ -4,14 +4,14 @@ title: "Git"
 nav_title: "Git"
 summary: "La herramienta que vive en tu máquina y no sabe qué es internet. Seis páginas sin conexión, en un repositorio de juguete que existe para romperse."
 status: ready
-estimated_time: 107m
+estimated_time: 122m
 tags: [git, commit, staging, branch, merge, deshacer]
 prerequisites: [git-y-github]
 ---
 
 # Git
 
-**Sección 1 de 2** · 6 páginas · unos 107 min
+**Sección 1 de 2** · 7 páginas · unos 122 min
 
 Meta: entender qué guarda Git y por qué, trabajando en un repositorio que puedes destruir sin consecuencias.
 
@@ -24,7 +24,7 @@ Meta: entender qué guarda Git y por qué, trabajando en un repositorio que pued
 
 ## Dónde empieza y dónde acaba
 
-Ésta es la primera de las dos mitades de la unidad. Empieza en la historia del problema y **acaba cuando sabes trabajar en varias líneas dentro de tu propia máquina**, con un conflicto resuelto por tus manos.
+Ésta es la primera de las dos mitades de la unidad. Empieza en la historia del problema y **acaba cuando puedes predecir un conflicto antes de provocarlo**, con el mecanismo del merge entendido.
 
 Lo que **no** hay aquí: fork, pull request, `push`, `origin`, ni una sola conexión de red. Todo eso es la [[seccion-github|segunda sección]].
 
@@ -36,6 +36,7 @@ Lo que **no** hay aquí: fork, pull request, `push`, `origin`, ni una sola conex
 | 4 | [[lo-que-no-se-sube|Lo que no se sube]] | Por qué `git add .` es la peor costumbre; el `.gitignore` | 12 min |
 | 5 | [[deshacer-en-git|Deshacer]] | `restore`, `reset`, `stash` y la red de seguridad | 20 min |
 | 6 | [[branches-y-merge|Branches y merge]] | La branch como etiqueta; provócate un conflicto y resuélvelo | 25 min |
+| 7 | [[trabajo-en-paralelo|Cuando dos avanzan a la vez]] | El merge de tres vías, los bloques de contexto y los casos raros | 15 min |
 
 ## Antes de empezar
 

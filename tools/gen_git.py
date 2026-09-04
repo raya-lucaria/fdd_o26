@@ -664,6 +664,194 @@ def git_el_ritual():
     return "".join(p)
 
 
+def git_tres_vias():
+    """El merge de tres vias: Git compara las dos versiones contra el ancestro."""
+    ancho, alto = 1080, 560
+    aria = (
+        "El mecanismo del merge. Arriba, tres columnas con el mismo archivo: la "
+        "version base que es el ancestro comun, la version tuya y la version de "
+        "la otra branch. Cada linea esta marcada segun quien la cambio respecto "
+        "de la base. Abajo, el resultado: donde solo uno cambio, Git toma ese "
+        "cambio sin preguntar; donde cambiaron los dos, marca conflicto"
+    )
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 40, "Git no compara tu versión con la otra: compara las dos contra el ancestro", TEXTO, 20, peso="600"))
+
+    cols = [
+        (40, SUAVE, "base", "el último commit que", "las dos compartían",
+         [("línea 3", "hola", SUAVE), ("línea 12", "buenos días", SUAVE), ("línea 60", "adiós", SUAVE)]),
+        (390, CIAN, "tu versión", "lo que hiciste", "en tu branch",
+         [("línea 3", "hola", SUAVE), ("línea 12", "qué tal", CIAN), ("línea 60", "adiós", SUAVE)]),
+        (740, VIOLETA, "la otra versión", "lo que hicieron", "en la otra branch",
+         [("línea 3", "buenas", VIOLETA), ("línea 12", "buenas tardes", VIOLETA), ("línea 60", "adiós", SUAVE)]),
+    ]
+    for x, color, titulo, g1, g2, filas in cols:
+        cx = x + 150
+        p.append(caja(x, 76, 300, 210, PANEL, color))
+        p.append(texto(cx, 106, titulo, color, 17, peso="600"))
+        p.append(texto(cx, 128, g1, SUAVE, 12))
+        p.append(texto(cx, 146, g2, SUAVE, 12))
+        y = 168
+        for etiqueta, valor, c in filas:
+            p.append(caja(x + 18, y, 264, 34, FONDO, c, radio=6, grosor=1.2))
+            p.append(texto(x + 46, y + 22, etiqueta, SUAVE, 11.5, anclaje="start"))
+            p.append(teclado(x + 200, y + 22, valor, c, 13, anclaje="middle", peso="normal"))
+            y += 40
+
+    p.append(caja(240, 366, 600, 128, PANEL, ACENTO))
+    p.append(texto(540, 396, "resultado del merge", ACENTO, 17, peso="600"))
+    res = [
+        ("línea 3", "buenas", "sólo la otra la tocó", ACENTO),
+        ("línea 12", "CONFLICTO", "las dos la tocaron", ROJO),
+        ("línea 60", "adiós", "nadie la tocó", ACENTO),
+    ]
+    y = 414
+    for etiqueta, valor, nota, c in res:
+        p.append(texto(288, y + 16, etiqueta, SUAVE, 11.5, anclaje="start"))
+        p.append(teclado(430, y + 16, valor, c, 13, anclaje="middle", peso="600" if c is ROJO else "normal"))
+        p.append(texto(660, y + 16, nota, SUAVE, 11.5, anclaje="start"))
+        y += 26
+
+    p.append(flecha(190, 296, 400, 358, CIAN, 2))
+    p.append(flecha(540, 296, 540, 358, SUAVE, 2))
+    p.append(flecha(890, 296, 680, 358, VIOLETA, 2))
+
+    p.append(texto(ancho / 2, 526, "La regla es una sola: si un cambio viene de un solo lado, Git lo toma. Si viene de los dos, te pregunta a ti.", TEXTO, 14, peso="600"))
+    p.append(cierre())
+    return "".join(p)
+
+
+def git_hunks():
+    """Por que 'lineas distintas' no basta: Git compara bloques con contexto."""
+    ancho, alto = 1080, 540
+    aria = (
+        "Dos casos del mismo archivo de setenta lineas. En el primero, las dos "
+        "personas editan lineas muy separadas y los bloques de contexto que Git "
+        "toma alrededor de cada cambio no se tocan, asi que el merge sale solo. "
+        "En el segundo editan lineas vecinas, los bloques se traslapan y hay "
+        "conflicto aunque las lineas sean distintas"
+    )
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 40, "«Líneas distintas» no basta: Git compara bloques, no líneas sueltas", TEXTO, 20, peso="600"))
+
+    TOP, REG = 138, 240
+
+    def columna(x0, titulo, color, ediciones, veredicto, nota, colv):
+        s = [caja(x0, 74, 470, 356, PANEL, color)]
+        s.append(texto(x0 + 235, 104, titulo, color, 16, peso="600"))
+        xr = x0 + 40
+        s.append(caja(xr, TOP, 44, REG, FONDO, SUAVE, radio=6, grosor=1.2))
+        for n in (1, 20, 40, 70):
+            yy = TOP + (n - 1) / 69 * REG
+            s.append(texto(xr - 12, yy + 5, str(n), SUAVE, 10.5, anclaje="end"))
+        # Las etiquetas van en ranuras fijas: si dos ediciones caen juntas, sus
+        # textos se encimarian al colgarlos de la banda.
+        for linea, quien, c, ranura in ediciones:
+            yy = TOP + (linea - 1) / 69 * REG
+            s.append(f'<rect x="{xr}" y="{yy - 11}" width="44" height="22" rx="4" '
+                     f'fill="{c}" fill-opacity="0.3" stroke="{c}" stroke-width="1.3"/>')
+            s.append(f'<line x1="{xr + 44}" y1="{yy}" x2="{x0 + 128}" y2="{ranura}" '
+                     f'stroke="{c}" stroke-width="1.2" stroke-dasharray="4 3"/>')
+            s.append(texto(x0 + 136, ranura - 4, f"{quien} edita la línea {linea}", c, 13, anclaje="start"))
+            s.append(texto(x0 + 136, ranura + 15, "y su bloque de contexto", SUAVE, 11.5, anclaje="start"))
+        s.append(texto(x0 + 235, 402, veredicto, colv, 17, peso="600"))
+        s.append(texto(x0 + 235, 456, nota, SUAVE, 13))
+        return s
+
+    p.extend(columna(40, "lejos: los bloques no se tocan", ACENTO,
+                     [(8, "ana", CIAN, 178), (62, "beto", VIOLETA, 336)],
+                     "Merge automático", "Git aplica los dos cambios sin preguntar.", ACENTO))
+    p.extend(columna(570, "pegados: los bloques se traslapan", ROJO,
+                     [(33, "ana", CIAN, 200), (37, "beto", VIOLETA, 300)],
+                     "Conflicto", "Aunque las líneas sean distintas.", ROJO))
+
+    p.append(texto(ancho / 2, 502, "No hay un número mágico de líneas de separación: depende de cuánto contexto tome Git alrededor de cada cambio.", SUAVE, 13.5))
+    p.append(cierre())
+    return "".join(p)
+
+
+def git_paralelo_matriz():
+    """Que hace Git segun que hayan tocado los dos lados."""
+    ancho, alto = 1080, 500
+    aria = (
+        "Una tabla de seis escenarios de trabajo simultaneo. Cada fila dice que "
+        "toco cada persona y que hace Git: en los tres primeros resuelve solo, y "
+        "en los tres ultimos marca conflicto y pide que alguien decida. Los "
+        "casos van de archivos distintos hasta uno que borra mientras el otro "
+        "edita el mismo archivo"
+    )
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 40, "Qué hace Git según lo que haya tocado cada quien", TEXTO, 20, peso="600"))
+
+    filas = [
+        ("archivos distintos", "toca main.py", "toca app.py", "resuelve solo", ACENTO),
+        ("mismo archivo, lejos", "línea 3", "línea 60", "resuelve solo", ACENTO),
+        ("una branch no avanzó", "3 commits", "nada", "fast-forward", ACENTO),
+        ("mismo archivo, pegados", "línea 33", "línea 37", "conflicto", ROJO),
+        ("la misma línea", "línea 12", "línea 12", "conflicto", ROJO),
+        ("uno borra, otro edita", "borra notas.md", "edita notas.md", "conflicto", ROJO),
+    ]
+    encabezados = ("el escenario", "ana", "beto", "qué hace Git")
+    xs = (60, 380, 620, 860)
+    p.append(texto(xs[0], 90, encabezados[0], SUAVE, 12.5, anclaje="start"))
+    for k in (1, 2, 3):
+        p.append(texto(xs[k], 90, encabezados[k], SUAVE, 12.5, anclaje="middle"))
+
+    y = 108
+    for escenario, a, b, resultado, color in filas:
+        p.append(caja(40, y, 1000, 52, PANEL, color, radio=8, grosor=1.4))
+        p.append(texto(xs[0], y + 32, escenario, TEXTO, 14, anclaje="start"))
+        p.append(teclado(xs[1], y + 32, a, CIAN, 12.5, peso="normal"))
+        p.append(teclado(xs[2], y + 32, b, VIOLETA, 12.5, peso="normal"))
+        p.append(texto(xs[3], y + 32, resultado, color, 14, peso="600"))
+        y += 60
+
+    p.append(texto(ancho / 2, 484, "Conflicto no significa que algo se rompió: significa que Git no puede decidir por ti y se detiene antes de tirar trabajo.", SUAVE, 13.5))
+    p.append(cierre())
+    return "".join(p)
+
+
+def git_paralelo_raros():
+    """Tres conflictos que no son de contenido y confunden la primera vez."""
+    ancho, alto = 1080, 430
+    aria = (
+        "Tres casos de conflicto que no son de contenido. En el primero uno "
+        "borra un archivo mientras el otro lo edita. En el segundo los dos crean "
+        "un archivo con el mismo nombre y distinto contenido. En el tercero uno "
+        "renombra el archivo mientras el otro lo edita, y Git suele seguir el "
+        "contenido y aplicar la edicion sobre el nombre nuevo"
+    )
+    p = [marco(ancho, alto, aria)]
+    p.append(texto(ancho / 2, 40, "Tres conflictos que no son de contenido", TEXTO, 20, peso="600"))
+
+    casos = [
+        (40, ROJO, "borrar contra editar", "ana borra notas.md",
+         "beto edita notas.md", "Git no adivina si el archivo",
+         "debe existir. Tú decides."),
+        (375, ROJO, "los dos lo crean", "ana crea guia.md",
+         "beto crea guia.md", "Mismo nombre, distinto contenido.",
+         "Conflicto desde la primera línea."),
+        (710, AMBAR, "renombrar contra editar", "ana lo llama apuntes.md",
+         "beto edita notas.md", "Git sigue el contenido y suele",
+         "aplicar la edición al nombre nuevo."),
+    ]
+    for x, color, titulo, a, b, n1, n2 in casos:
+        cx = x + 165
+        p.append(caja(x, 76, 330, 280, PANEL, color))
+        p.append(texto(cx, 108, titulo, color, 15.5, peso="600"))
+        p.append(caja(x + 22, 132, 286, 38, FONDO, CIAN, radio=7, grosor=1.2))
+        p.append(teclado(cx, 156, a, CIAN, 12.5, peso="normal"))
+        p.append(caja(x + 22, 180, 286, 38, FONDO, VIOLETA, radio=7, grosor=1.2))
+        p.append(teclado(cx, 204, b, VIOLETA, 12.5, peso="normal"))
+        p.append(texto(cx, 254, n1, SUAVE, 12.5))
+        p.append(texto(cx, 274, n2, SUAVE, 12.5))
+        p.append(texto(cx, 324, "git status te dice cuál es", color, 12.5))
+
+    p.append(texto(ancho / 2, 396, "En los tres, la salida es la misma que ya conoces: git merge --abort para volver atrás, o resolver y hacer git add.", SUAVE, 13.5))
+    p.append(cierre())
+    return "".join(p)
+
+
 DIAGRAMAS = {
     "git-llaves": git_llaves,
     "git-flujo": git_flujo,
@@ -678,6 +866,10 @@ DIAGRAMAS = {
     "git-race": git_race,
     "git-el-mirror": git_el_mirror,
     "git-el-ritual": git_el_ritual,
+    "git-tres-vias": git_tres_vias,
+    "git-hunks": git_hunks,
+    "git-paralelo-matriz": git_paralelo_matriz,
+    "git-paralelo-raros": git_paralelo_raros,
 }
 
 

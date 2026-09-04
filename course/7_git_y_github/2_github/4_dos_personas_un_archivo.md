@@ -26,6 +26,8 @@ Meta: predecir qué va a pasar antes de que pase, para que la regla de la págin
 - Cuando sí choca, gana quien hizo push primero. Al segundo lo rechazan.
 - El rechazo protege trabajo. Las dos formas de "arreglarlo" que se le ocurren a todo el mundo son destructivas.
 
+En la sección de Git ya viste el mecanismo en [[trabajo-en-paralelo|Cuando dos avanzan a la vez]]: Git compara los dos lados contra el ancestro común. Esta página agrega lo único que faltaba, que es la red: qué pasa cuando las dos copias están en máquinas distintas.
+
 ## El experimento
 
 Ana y Beto clonan el mismo repositorio a la misma hora. Los dos se ponen a trabajar sin hablarse. Piensa qué va a pasar en cada caso antes de leer la respuesta.

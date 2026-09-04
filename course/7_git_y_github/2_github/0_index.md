@@ -6,7 +6,7 @@ summary: "Lo que GitHub le agrega a Git: hospedaje, forks y pull requests. Aquí
 status: ready
 estimated_time: 102m
 tags: [github, ssh, fork, upstream, origin, pull-request, flujo]
-prerequisites: [branches-y-merge]
+prerequisites: [trabajo-en-paralelo]
 ---
 
 # GitHub

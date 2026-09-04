@@ -4,7 +4,7 @@ title: "Git y GitHub"
 nav_title: "Git y GitHub"
 summary: "Dos secciones. Primero Git en tu propia máquina, sin internet. Después GitHub, y el flujo con el que se entrega todo el resto del curso."
 status: ready
-estimated_time: 214m
+estimated_time: 229m
 tags: [git, github, ssh, commit, branch, merge, fork, pull-request, flujo]
 prerequisites: [expresiones-regulares]
 ---
@@ -26,7 +26,7 @@ prerequisites: [expresiones-regulares]
 
 | Sección | Empieza en | Acaba cuando | Páginas | Tiempo |
 |---|---|---|---:|---:|
-| **[[seccion-git|1. Git]]** | La historia del problema, en 2005 | Resolviste un conflicto entre dos branches, sin conexión | 6 | 107 min |
+| **[[seccion-git|1. Git]]** | La historia del problema, en 2005 | Puedes predecir un conflicto antes de provocarlo, sin conexión | 7 | 122 min |
 | **[[seccion-github|2. GitHub]]** | Tu cuenta y tu llave SSH | Tu pull request está abierto y en verde | 6 | 102 min |
 
 :::
@@ -45,6 +45,7 @@ En la sección de GitHub aparece todo eso de golpe, y con ello la parte que se u
 | 4 | [[lo-que-no-se-sube|Lo que no se sube]] | Por qué `git add .` es la peor costumbre; el `.gitignore` | 12 min |
 | 5 | [[deshacer-en-git|Deshacer]] | `restore`, `reset`, `stash` y la red de seguridad | 20 min |
 | 6 | [[branches-y-merge|Branches y merge]] | La branch como etiqueta; provócate un conflicto y resuélvelo | 25 min |
+| 7 | [[trabajo-en-paralelo|Cuando dos avanzan a la vez]] | El merge de tres vías, los bloques de contexto y los casos raros | 15 min |
 
 ### Sección 2 — GitHub
 

@@ -11,7 +11,7 @@ prerequisites: [que-guarda-un-commit]
 
 # Lo que no se sube
 
-**Git · página 4 de 6** · 12 min
+**Git · página 4 de 7** · 12 min
 
 Meta: que nunca subas un archivo que no miraste, y que sepas qué hacer cuando ya lo hiciste.
 

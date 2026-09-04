@@ -11,7 +11,7 @@ prerequisites: [lo-que-no-se-sube]
 
 # Deshacer
 
-**Git · página 5 de 6** · 20 min
+**Git · página 5 de 7** · 20 min
 
 Meta: que cuando algo salga mal sepas en qué zona estás parado, porque eso determina el comando.
 
