@@ -403,7 +403,13 @@ def test_la_tarea_apunta_a_canvas_y_al_ultimo_nivel():
         "los recursos deben apuntar al ultimo nivel de la entrega, de donde "
         "sale la captura"
     )
-    assert contenido["due"] == "2026-09-03"
+    # La fecha es una decision de calendario: se movio al martes 8 cuando el
+    # examen de terminal y regex quedo ese mismo dia.
+    assert contenido["due"] == "2026-09-08"
+    import datetime
+    assert datetime.date.fromisoformat(contenido["due"]).weekday() in (1, 3), (
+        "la entrega cae en un dia sin clase: el curso sesiona martes y jueves"
+    )
 
 
 def test_las_instrucciones_no_traen_markdown_sin_renderizar():

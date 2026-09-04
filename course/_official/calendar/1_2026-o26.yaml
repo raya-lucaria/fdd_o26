@@ -73,7 +73,7 @@ events:
     date: "2026-09-08"
     start_time: "19:00"
     end_time: "20:30"
-    title: "GitHub: forks, pull requests y el flujo del curso"
+    title: "GitHub: el flujo del curso, y examen de terminal y regex"
     page: seccion-github
 
   - id: asueto-septiembre

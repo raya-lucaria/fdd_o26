@@ -4,7 +4,7 @@ authority: official
 content:
   title: "RegexOne: de la lección 1 al problema 4"
   instructions: >-
-    Para la clase del jueves 3 de septiembre recorre RegexOne hasta terminar el
+    Para la clase del martes 8 de septiembre recorre RegexOne hasta terminar el
     Problema 4. Son dos tramos.
     Primero el tutorial completo: las lecciones 1 a 15. Son dieciséis pantallas
     porque hay una lección 1½. Cada una te da unas cadenas que deben casar y
@@ -58,7 +58,7 @@ content:
     - title: "Unidad — La chuleta"
       url: "https://rayalucaria.org/fdd_o26/expresiones-regulares/chuleta/"
       note: "La referencia completa y los siete errores frecuentes."
-  due: "2026-09-03"
+  due: "2026-09-08"
   points: 10
   status: published
   tags: [regex, practica, regexone, lectura-de-patrones]

@@ -1,0 +1,55 @@
+id: datacamp-introduccion-git
+type: assignment
+authority: official
+content:
+  title: "DataCamp: Introduction to Git"
+  instructions: >-
+    Termina el curso Introduction to Git de DataCamp y sube la evidencia por el
+    flujo del curso. El enlace está abajo, en los recursos. Entras con la cuenta
+    del grupo de DataCamp del ITAM, la misma que creaste en la primera semana;
+    si perdiste el acceso, dilo pronto y no la noche anterior.
+    Aunque se traslapa con lo que vimos en clase, no es tiempo perdido. Un curso
+    interactivo te obliga a teclear los comandos y te corrige al momento, que es
+    exactamente lo que no puede hacer una página que lees. Si algo de la clase
+    te quedó a medias, ahí se acomoda.
+    La evidencia va en una carpeta llamada github, dentro de tu carpeta de
+    estudiante. Como todo en este curso, esa carpeta es un espejo de la que
+    publiqué en codigo, así que se copia con el comando de siempre y no se crea
+    a mano. Para esta entrega deben quedar dos archivos. El primero es
+    certificaciones punto md, que es la plantilla que copiaste, con la sección
+    de Introduction to Git llena; la del segundo curso la dejas para la próxima
+    entrega. El segundo archivo es la captura, llamada introduccion guion a
+    guion git. Si te sale en formato jpg en vez de png no pasa nada, pero el
+    resto del nombre se respeta.
+    Sobre la captura: la que sirve es la de la página del curso ya terminado,
+    donde se vea tu nombre y el cien por ciento completado. No sirve una foto
+    del certificado suelto sin contexto, ni una donde no se distinga de qué
+    curso se trata. Recorta lo que sobre, pero deja visible el nombre del curso.
+    La entrega es un pull request, con el mismo ritual de tres bloques de
+    siempre. Puedes usar la misma branch y el mismo pull request que la tarea de
+    tu carpeta, porque vencen el mismo día, o abrir uno aparte; las dos formas
+    están bien mientras el flujo sea correcto.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión esté
+    en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma
+    branch; el pull request se actualiza solo y no hay que abrir otro.
+    Los cursos se hacen, no se simulan: la captura es evidencia de que lo
+    hiciste, no el objetivo. Si no alcanzaste a terminarlo, sube lo que sí
+    completaste y dilo en el archivo. Reportar el pendiente cuenta como entrega;
+    presumir un avance que no ocurrió, no.
+  resources:
+    - title: "DataCamp — Introduction to Git"
+      url: "https://app.datacamp.com/learn/courses/introduction-to-git"
+      note: "El curso de esta entrega. Entra con la cuenta del grupo del ITAM."
+    - title: "Unidad — El ritual"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
+      note: "Los tres bloques del flujo, con sus comandos exactos."
+    - title: "Unidad — El flujo del curso"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
+      note: "La regla del mirror y qué revisa la revisión automática."
+    - title: "Unidad — Cheatsheet"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/cheatsheet/"
+      note: "Los comandos y la tabla de errores frecuentes con qué hacer."
+  due: "2026-09-10"
+  points: 10
+  status: published
+  tags: [git, github, datacamp, certificacion, evidencia]

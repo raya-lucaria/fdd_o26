@@ -15,16 +15,17 @@ Después trabajas en `estudiantes/$U/github/`, nunca aquí.
 
 ## Qué debe quedar dentro
 
-Tres archivos, con estos nombres exactos:
+Son **dos entregas** sobre esta misma carpeta, en dos fechas distintas.
 
-| Archivo | Qué es |
-|---|---|
-| `certificaciones.md` | La plantilla, llena con tus datos |
-| `introduccion-a-git.png` | Captura de haber terminado el primer curso |
-| `git-intermedio.png` | Captura de haber terminado el segundo curso |
+| Entrega | Archivos que deben estar | Curso |
+|---|---|---|
+| Primera | `certificaciones.md` con la primera sección llena, y `introduccion-a-git.png` | Introduction to Git |
+| Segunda | Lo anterior, más `certificaciones.md` completo y `git-intermedio.png` | Intermediate Git |
 
 Los nombres no se inventan ni se traducen. Si tu captura es `.jpg` en vez de
 `.png`, está bien, pero el resto del nombre se respeta.
+
+La segunda entrega no borra la primera: se le agrega encima.
 
 ## Cómo tomar la captura
 

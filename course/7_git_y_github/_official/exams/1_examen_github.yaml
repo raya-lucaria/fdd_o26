@@ -1,0 +1,28 @@
+id: examen-github
+type: exam
+authority: official
+content:
+  title: "Examen: Git, GitHub y el flujo del curso"
+  instructions: >-
+    Evaluación presencial y escrita, individual, en el salón. No se entrega en
+    Canvas ni tiene URL de entrega. Sin cheatsheet y sin computadora.
+    La parte que se pregunta de memoria es el flujo del curso: los tres bloques
+    con su nombre, en orden, qué hace cada uno y con qué comandos. Ponte al día,
+    abre tu espacio, entrega. Eso se escribe completo y sin consultar nada.
+    El resto del examen no es de memoria sino de comprensión, y cubre lo demás
+    de la unidad. Dónde vive un cambio y qué comando lo deshace, según esté en
+    el working directory, en el staging area o en un commit. Qué guarda un
+    commit y por qué el hash sale del contenido. Qué es una branch y qué pasa al
+    cambiar de una a otra. Cómo decide Git si un merge sale solo o hay
+    conflicto, y qué significan los tres marcadores. La diferencia entre Git y
+    GitHub, y quién es upstream y quién es origin. Y la regla del mirror.
+    Habrá también triage de errores: te doy la salida literal de un comando que
+    falló y escribes qué pasó y cuál es el siguiente comando. Por ejemplo un
+    push rechazado, un permiso denegado, o un archivo que no aparece en git
+    status. Eso es lo que de verdad hace alguien que trabaja con esto.
+    La mejor preparación no es releer las páginas: es hacer el flujo completo
+    dos o tres veces hasta que salga sin pensar, y romper cosas a propósito en
+    el laboratorio para ver qué responde Git.
+  due: "2026-09-17"
+  status: published
+  tags: [examen, presencial, git, github, flujo, memoria]

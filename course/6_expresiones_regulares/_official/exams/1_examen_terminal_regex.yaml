@@ -1,0 +1,22 @@
+id: examen-terminal-regex
+type: exam
+authority: official
+content:
+  title: "Examen: terminal, bash y expresiones regulares"
+  instructions: >-
+    Evaluación presencial y escrita, individual, en el salón. No se entrega en
+    Canvas ni tiene URL de entrega.
+    Cubre dos unidades. De terminal y bash: moverte y orientarte con pwd, ls y
+    cd; crear, copiar, mover y borrar archivos; leer y filtrar con cat, grep y
+    tuberías; y lo esencial de un script, es decir variables, comillas y cómo
+    lee bash una línea. De expresiones regulares: leer un patrón de izquierda a
+    derecha y decir qué hace, las piezas de un patrón, los cuantificadores, la
+    taquigrafía y los grupos de captura.
+    Lo que se pide no es recitar la lista de banderas de cada comando, sino leer
+    un comando o un patrón que no escribiste tú y decir con precisión qué va a
+    hacer, y al revés, escribir uno que resuelva un caso concreto.
+    La mejor preparación es haber hecho Bandit y RegexOne con las manos. Si los
+    dejaste a medias, terminarlos vale más que releer las páginas.
+  due: "2026-09-08"
+  status: published
+  tags: [examen, presencial, terminal, bash, regex]

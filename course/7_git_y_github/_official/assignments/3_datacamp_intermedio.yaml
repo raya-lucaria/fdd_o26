@@ -1,0 +1,49 @@
+id: datacamp-git-intermedio
+type: assignment
+authority: official
+content:
+  title: "DataCamp: Intermediate Git"
+  instructions: >-
+    Termina el curso Intermediate Git de DataCamp y sube la evidencia por el
+    flujo del curso. Va después de Introduction to Git y da por sabido lo de
+    aquel, así que si te falta el primero, ése va antes.
+    Este curso cubre cosas que en clase vimos de pasada o no vimos: rehacer y
+    deshacer con más detalle, trabajar con varias ramas, y la mecánica de
+    resolver conflictos con las manos. Es la práctica que le falta a la unidad.
+    La evidencia va en la misma carpeta github de la entrega anterior, dentro de
+    tu carpeta de estudiante. Ahora deben quedar tres archivos: el
+    certificaciones punto md ya completo, con las dos secciones llenas y la
+    reflexión final; la captura del primer curso, que ya habías subido; y la
+    captura de éste, llamada git guion intermedio. Si te sale en jpg en vez de
+    png no pasa nada, pero el resto del nombre se respeta.
+    Sobre la captura: la que sirve es la de la página del curso ya terminado,
+    donde se vea tu nombre y el cien por ciento completado. No sirve una foto
+    del certificado suelto sin contexto.
+    La entrega es un pull request, con el mismo ritual de tres bloques. Para
+    entonces vas a llevar varias entregas con este flujo, así que debería
+    salirte sin consultar nada. Acuérdate del bloque A: ponerte al día con el
+    repositorio del curso antes de crear la branch, o tu pull request va a
+    arrastrar archivos que no son tuyos.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión esté
+    en verde, con los tres archivos dentro de la carpeta github. Si sale roja,
+    corrige y haz push a la misma branch.
+    Los cursos se hacen, no se simulan. Si no alcanzaste a terminarlo, sube lo
+    que sí completaste y dilo en el archivo. Reportar el pendiente cuenta como
+    entrega; presumir un avance que no ocurrió, no.
+  resources:
+    - title: "DataCamp — Intermediate Git"
+      url: "https://app.datacamp.com/learn/courses/intermediate-git"
+      note: "El curso de esta entrega. Va después de Introduction to Git."
+    - title: "DataCamp — Introduction to Git"
+      url: "https://app.datacamp.com/learn/courses/introduction-to-git"
+      note: "El primero, por si te falta. Éste da por sabido lo de aquél."
+    - title: "Unidad — El ritual"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
+      note: "Los tres bloques del flujo. Acuérdate del bloque A."
+    - title: "Unidad — Cheatsheet"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/cheatsheet/"
+      note: "Los comandos y la tabla de errores frecuentes con qué hacer."
+  due: "2026-09-17"
+  points: 10
+  status: published
+  tags: [git, github, datacamp, certificacion, evidencia]
