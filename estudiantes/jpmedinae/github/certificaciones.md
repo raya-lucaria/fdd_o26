@@ -20,7 +20,7 @@ Fecha en que lo terminaste: 05/09/2026
 
 Se llena en la **segunda** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 06/09/2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
@@ -33,4 +33,4 @@ no habías visto en clase, o que en clase entendiste a medias y ahí se te
 acomodó. Si sientes que no aprendiste nada nuevo, dilo y explica qué parte de
 los cursos te pareció repetida.
 
-
+Prácticamente aprendí todo. No sabía nada de Github. Me cuesta entender la diferencia entre las branches y los cambios.
