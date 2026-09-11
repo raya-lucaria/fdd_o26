@@ -4,17 +4,17 @@ Llena este archivo en **tu copia**, dentro de `estudiantes/<tu-login>/github/`.
 
 ## Quién soy
 
-- Nombre:
-- Usuario de GitHub:
-- Correo con el que entraste a DataCamp:
+- Nombre: Cristopher Góngora 
+- Usuario de GitHub: cristoredentor
+- Correo con el que entraste a DataCamp: cgongor1@itam.mx
 
 ## Introduction to Git
 
 Se llena en la **primera** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 2026/09/10
 
-![Captura del curso Introduction to Git terminado](./introduccion-a-git.png)
+![Captura del curso Introduction to Git terminado](./vertificate.pdf)
 
 ## Intermediate Git
 
