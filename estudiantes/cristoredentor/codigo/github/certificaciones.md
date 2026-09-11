@@ -14,7 +14,7 @@ Se llena en la **primera** entrega.
 
 Fecha en que lo terminaste: 2026/09/10
 
-![Captura del curso Introduction to Git terminado](./vertificate.pdf)
+![Captura del curso Introduction to Git terminado](IntroductionToGit.png)
 
 ## Intermediate Git
 
@@ -22,7 +22,7 @@ Se llena en la **segunda** entrega.
 
 Fecha en que lo terminaste:
 
-![Captura del curso Intermediate Git terminado](./git-intermedio.png)
+![Captura del curso Intermediate Git terminado](IntermediateGit.png)
 
 ## Una cosa que aprendiste y no sabías
 
