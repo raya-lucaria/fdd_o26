@@ -26,9 +26,9 @@ Meta: terminar la unidad con un pull request abierto y en verde.
 
 ```bash
 cd ~/fdd/fdd_o26
-# define $GHUSER si falta, y compruébala
-[ -n "$GHUSER" ] || GHUSER=$(gh api user --jq .login)
 echo "$GHUSER"                   # tiene que salir tu login
+# ¿vacío? te falta la línea del perfil, en la página 2.
+# Para salir del paso ahora:  GHUSER=tu-login
 
 # ¿tienes los dos remotes? si imprime FALTA, para aquí
 git remote -v | grep -q upstream \
@@ -144,14 +144,9 @@ git push     # a la MISMA branch: el PR se actualiza solo
 
 ## Y cuando te lo mergee
 
-```bash
-# ─── D · CIERRA
-git switch main
-git fetch upstream && git merge upstream/main
-git push origin main
-git branch -d tarea-07-git
-git branch          # sólo main. Listo para la tarea 8
-```
+Nada. En serio: no hay bloque de limpieza.
+
+El propio pull request te ofrece un botón **Delete branch** cuando se mergea; presiónalo y ya. Tu branch local puede quedarse ahí sin estorbar, y la próxima vez que corras el **bloque A** te devuelve a `main` y lo sincroniza, vinieras de donde vinieras.
 
 ## Qué cuenta como entregado
 
@@ -175,4 +170,4 @@ Que yo lo mergee es un trámite posterior y **no depende de ti**.
 
 Este mismo ritual, con otro número de unidad, es cómo se entrega todo el resto del curso. La segunda vez toma cinco minutos; la tercera, dos.
 
-Si algo no sale, anota qué comando corriste, qué esperabas y qué salió, y tráelo a clase. Ten a mano el [[cheatsheet-git|cheatsheet]]: está para consultarlo, con la única excepción de los cuatro bloques de [[el-ritual-del-curso|El ritual]].
+Si algo no sale, anota qué comando corriste, qué esperabas y qué salió, y tráelo a clase. Ten a mano el [[cheatsheet-git|cheatsheet]]: está para consultarlo, con la única excepción de los tres bloques de [[el-ritual-del-curso|El ritual]].

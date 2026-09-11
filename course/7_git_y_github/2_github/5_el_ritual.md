@@ -2,7 +2,7 @@
 id: el-ritual-del-curso
 title: "El ritual"
 nav_title: "El ritual"
-summary: "Los cuatro bloques del flujo, en orden y con sus comandos comentados: la tarjeta para copiar, qué hace cada línea, y por qué existe cada bloque."
+summary: "Los tres bloques del flujo, en orden y con sus comandos comentados: la tarjeta para copiar, qué hace cada línea, y por qué existe cada bloque."
 status: ready
 estimated_time: 25m
 tags: [flujo, ritual, pull-request, branch, examen, disciplina]
@@ -17,8 +17,8 @@ Meta: que esto salga sin pensar, siempre en el mismo orden.
 
 ## En corto
 
-- **Cuatro bloques con nombre**, no quince comandos sueltos. Memoriza los bloques.
-- El paso 0 es **una vez en el semestre**; los cuatro bloques, **en cada entrega**.
+- **Tres bloques con nombre**, no quince comandos sueltos. Memoriza los bloques.
+- El paso 0 es **una vez en el semestre**; los tres bloques, **en cada entrega**.
 - Siempre en este orden, siempre desde la raíz del repositorio.
 - Los dos `git status` del bloque C no son adorno.
 
@@ -35,8 +35,12 @@ cd ~/fdd/fdd_o26                 # el paso 0 va aquí dentro
 # ¿ya lo hice?  si imprime SALTA, brinca al bloque A
 git remote -v | grep -q upstream && echo SALTA
 
-GHUSER=$(gh api user --jq .login)     # tu login EXACTO
-echo "$GHUSER"                        # NO lo teclees a mano
+# tu login, una vez en la vida, en el perfil de tu shell.
+# Sale de la URL de tu fork. ~/.bashrc si usas bash.
+echo 'export GHUSER=tu-login' >> ~/.zshrc
+exec $SHELL                      # recarga el perfil
+echo "$GHUSER"                   # tiene que salir tu login
+
 git remote rename origin upstream   # el curso: aquí BAJAS
 git remote add origin \
   git@github.com:$GHUSER/fdd_o26_$GHUSER.git
@@ -73,18 +77,13 @@ git commit -m "unidad 07: mi copia de trabajo"
 git push -u origin tarea-07-git  # sube LA BRANCH al fork
 #   → navegador: Compare & pull request
 #     revisa las 4 casillas de arriba
-
-
-# ─── D · CIERRA · ya te lo mergearon ───────────────────
-git switch main
-git fetch upstream && git merge upstream/main
-git push origin main
-git branch -d tarea-07-git       # se niega si falta mergear
-git branch                       # sólo main. Listo
+#
+#   Cuando te lo mergee, el propio pull request te ofrece
+#   un botón "Delete branch". Eso es toda la limpieza.
 ```
 
-::: figure {#git-el-ritual title="Cuatro bloques, siempre en este orden"}
-![Cuatro carriles verticales con el flujo completo: ponte al día sincroniza main con el repositorio del curso y actualiza el fork; abre tu espacio crea la branch de la tarea y copia el código a tu carpeta; entrega revisa el estado, agrega por ruta, commitea, sube la branch y abre el pull request; y cierra regresa a main, sincroniza y borra la branch](../_assets/git-el-ritual.svg)
+::: figure {#git-el-ritual title="Tres bloques, siempre en este orden"}
+![Tres carriles verticales con el flujo completo: ponte al día sincroniza main con el repositorio del curso y actualiza el fork; abre tu espacio crea la branch de la tarea y copia el código a tu carpeta; y entrega revisa el estado, agrega por ruta, commitea, sube la branch y abre el pull request](../_assets/git-el-ritual.svg)
 :::
 
 ## La compuerta de arriba, explicada
@@ -103,18 +102,31 @@ git remote -v | grep -q upstream && echo SALTA
 
 En palabras: *lista mis remotes, busca en esa lista la palabra `upstream`, y si la encuentras imprime `SALTA`.* Si no imprime nada, te falta el paso 0.
 
+## Los tres bloques no son del curso
+
+Vale la pena repetir lo de la página 1, ahora que ya viste los comandos: **A, B y C son el ciclo de contribución de código abierto**, con otros nombres.
+
+| Bloque | En cualquier proyecto se llama |
+|---|---|
+| **A. Ponte al día** | *sync your fork* — ponerte al corriente con el proyecto antes de proponer nada |
+| **B. Abre tu espacio** | *create a feature branch* — un nombre para el cambio que vas a proponer |
+| **C. Entrega** | *push and open a pull request* — subir tu branch y proponerla |
+
+Lo único que este curso agrega es **dónde** van tus archivos, que es la regla del espejo. Todo lo demás lo vas a volver a hacer, igual, el día que contribuyas a algo que no es tuyo.
+
 ## Qué hace cada bloque, y por qué existe
 
-::: table {#git-ritual-resumen title="Los cuatro bloques"}
+::: table {#git-ritual-resumen title="Los tres bloques"}
 
 | Bloque | Termina cuando | Por qué existe |
 |---|---|---|
-| **A. Ponte al día** | Los tres `main` son idénticos: el del curso, el de tu fork y el tuyo | Una branch nacida de un `main` atrasado arrastra al PR archivos que no escribiste |
-| **B. Abre tu espacio** | Estás en tu branch, con tu carpeta ya como espejo | La branch mantiene tu `main` limpio, que es lo que A necesita la próxima semana |
+| **A. Ponte al día** | Los tres `main` son idénticos: el del curso, el de tu fork y el tuyo | Se cura solo: su primer comando es `git switch main`, así que da igual dónde te haya dejado la semana pasada |
+| **B. Abre tu espacio** | Estás en tu branch, con tu carpeta ya como espejo | Tu `main` es tu copia del curso; si le metes tu trabajo deja de serlo, y cuánto se estropee depende de cómo yo mergee ([[branches-en-serio|por qué]]) |
 | **C. Entrega** | Pull request abierto y con la revisión en verde | Los dos `git status` son el hábito que separa una entrega limpia de una con basura |
-| **D. Cierra** | `git branch` muestra sólo `main`, y estás ahí | Sin él, la próxima semana empiezas parado en la branch equivocada |
 
 :::
+
+No hay un cuarto bloque de limpieza. **El bloque A ya es la limpieza**: empieza con `git switch main`, así que te devuelve a `main` vinieras de donde vinieras. Y la branch vieja la borra el botón **Delete branch** que el propio pull request te ofrece al mergearse.
 
 ## Cada comando, en una línea
 
@@ -127,7 +139,7 @@ La tabla de arriba dice qué hace cada **bloque**. Ésta dice qué hace cada **c
 | `git remote -v` | Lista los repositorios remotos que tu copia conoce, con el apodo y la URL de cada uno | [[el-fork|GitHub · 2]] |
 | `git remote rename <viejo> <nuevo>` | Le cambia el apodo a un remote. No mueve nada, sólo lo renombra | [[el-fork|GitHub · 2]] |
 | `git remote add <apodo> <url>` | Agrega un remote nuevo con ese apodo | [[el-fork|GitHub · 2]] |
-| `gh api user --jq .login` | Le pregunta a GitHub cuál es tu login exacto | [[el-fork|GitHub · 2]] |
+| `$GHUSER` | Tu login. Sale de la URL de tu fork y vive en el perfil de tu shell | [[el-fork|GitHub · 2]] |
 | `echo "$GHUSER"` | Imprime lo que guardaste en `$GHUSER`, para comprobar que no está vacío | [[el-fork|GitHub · 2]] |
 | `git switch <branch>` | Te mueve a esa branch **y reescribe los archivos de tu carpeta** | [[branches-en-serio|GitHub · 3]] |
 | `git switch -c <branch>` | La crea desde donde estás parado y te mueve a ella | [[branches-en-serio|GitHub · 3]] |
@@ -206,7 +218,7 @@ git status
 git commit -m "ensayo"
 git push -u origin ensayo        # sube, pero NO abras PR
 
-# D
+# y a limpiar el ensayo, que no se entrega
 git switch main
 git branch -D ensayo             # bórrala aquí
 git push origin --delete ensayo  # y también en tu fork
@@ -215,7 +227,7 @@ git push origin --delete ensayo  # y también en tu fork
 Si esto salió sin error, el de verdad va a salir.
 
 > [!WARNING]
-> **Los cuatro bloques se preguntan de memoria en el examen**: en orden, qué hace cada uno y con qué comandos. Todas las tareas de aquí a diciembre se entregan así, y una desviación del flujo cuenta como entrega no hecha. La forma de aprendérselo no es leerlo: es hacerlo hasta que salga solo.
+> **Los tres bloques se preguntan de memoria en el examen**: en orden, qué hace cada uno y con qué comandos. Todas las tareas de aquí a diciembre se entregan así, y una desviación del flujo cuenta como entrega no hecha. La forma de aprendérselo no es leerlo: es hacerlo hasta que salga solo.
 
 ::: problem {#git-p12-orden title="Se me olvidó el bloque A"}
 Trabajaste toda la tarde. Hiciste la branch, copiaste el código, editaste, commiteaste y pusheaste. Al abrir el pull request, GitHub te muestra que tu branch toca **once archivos**, y sólo dos son tuyos: los otros nueve están en `course/` y son cambios que yo publiqué el martes.
@@ -252,7 +264,7 @@ Por eso el bloque A va primero y no en medio. Hacerlo después funciona, pero cu
 :::
 
 > [!NOTE]
-> **Si sólo recuerdas una cosa:** A, B, C, D. Ponte al día, abre tu espacio, entrega, cierra. Nunca en otro orden.
+> **Si sólo recuerdas una cosa:** A, B, C. Ponte al día, abre tu espacio, entrega. Nunca en otro orden.
 
 ## Cierre
 

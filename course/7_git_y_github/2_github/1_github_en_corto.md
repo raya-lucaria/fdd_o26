@@ -2,25 +2,25 @@
 id: github-en-corto
 title: "GitHub, en corto"
 nav_title: "GitHub, en corto"
-summary: "Qué le agrega GitHub a Git, dicho en una tabla, y las tres comprobaciones que te dicen si ya puedes seguir o te falta setup."
+summary: "De dónde sale el flujo del curso —el ciclo de contribución de código abierto—, qué le agrega GitHub a Git, y las dos comprobaciones que te dicen si ya puedes seguir."
 status: ready
-estimated_time: 10m
+estimated_time: 15m
 tags: [github, git, remote, setup, comprobacion]
 prerequisites: [seccion-github]
 ---
 
 # GitHub, en corto
 
-**GitHub · página 1 de 6** · 10 min
+**GitHub · página 1 de 6** · 15 min
 
-Meta: comprobar en tres comandos que tu máquina está lista.
+Meta: ver de dónde sale el flujo del curso, y comprobar que tu máquina está lista.
 
 ## En corto
 
 - Git corre en tu máquina. **GitHub es un servidor donde se guardan repositorios de Git**, con cosas encima que Git no tiene.
 - La sección pasada fue sin conexión. Ésta es toda red.
 - Hoy no se instala nada: se comprueba y se trabaja.
-- Dos comprobaciones obligatorias y una opcional.
+- Dos comprobaciones, y las dos son de `git`.
 
 ## Corre esto antes de leer nada más
 
@@ -31,11 +31,9 @@ ssh -T git@github.com
 # 2. ¿tengo el repositorio del curso en el disco?
 cd ~/fdd/fdd_o26 && git log --oneline -3
 
-# 3. opcional: ¿tengo gh? no se instala en este curso
-gh api user --jq .login
 ```
 
-Las dos primeras son obligatorias. **La tercera no**: `gh` es el programa de GitHub para la terminal, es cómodo y no lo necesitas. Si responde `command not found`, sigue igual — la página 2 te da la alternativa.
+Con esas dos basta. **Todo el curso se hace con `git` y un navegador**; no hace falta instalar nada más.
 
 ::: table {#git-compuertas title="Qué hacer con cada resultado"}
 
@@ -43,12 +41,23 @@ Las dos primeras son obligatorias. **La tercera no**: `gh` es el programa de Git
 |---|---|---|
 | `ssh -T` | dice `Hi <tu-usuario>!` | [[cuenta-y-llave|Apéndice: cuenta y llave]] |
 | `git log` | te muestra tres commits | [[clonar-y-actualizar|Apéndice: clonar]] |
-| `gh api user` | imprime una palabra | nada, es opcional; la página 2 da la alternativa |
 
 :::
 
 > [!NOTE]
 > El mensaje de `ssh -T` **también** dice que GitHub no da acceso a una shell. Eso es parte de la respuesta correcta, no un error.
+
+## Esto no lo inventó el curso
+
+Antes de nada, para que lo que sigue no parezca burocracia de la materia.
+
+::: figure {#git-contribucion title="Así se contribuye a cualquier proyecto de código abierto"}
+![El ciclo con el que se contribuye a cualquier proyecto de codigo abierto: el repositorio del proyecto donde no tienes permiso de escritura, un fork que lo copia a tu cuenta, un clone que lo baja a tu maquina, una branch donde commiteas, un push que sube esa branch a tu fork, y un pull request que propone tus commits de vuelta al proyecto, cerrando el ciclo](../_assets/git-contribucion.svg)
+:::
+
+Nadie tiene permiso de escritura en Linux, ni en Python, ni en GitHub mismo. **Se propone, y alguien con permiso decide.** Esos cinco pasos —fork, clone, branch, push, pull request— son cómo entra un cambio a cualquier proyecto de código abierto del mundo.
+
+El flujo de este curso **es ése**, sin adornos. El repositorio de la materia hace de proyecto, tú haces de contribuidor, y lo que propones vive dentro de tu carpeta para que treinta propuestas no choquen. Lo que aprendas aquí lo vas a usar igual el día que mandes tu primer parche a un proyecto que no es tuyo.
 
 ## Git vs GitHub, de una vez
 
@@ -76,7 +85,7 @@ Y el matiz que más confunde: **Git sí sabe clonar.** Lo que agrega GitHub es h
   2. El fork            → tu copia y tus dos remotes
   3. Branches           → practicarlas hasta que no den miedo
   4. Tu espejo          → dónde va cada archivo, y por qué
-  5. El ritual          → los cuatro bloques del flujo
+  5. El ritual          → los tres bloques del flujo
   6. El pull request    → la entrega de verdad
 ```
 

@@ -4,14 +4,14 @@ title: "El fork y tus dos remotes"
 nav_title: "El fork"
 summary: "Qué es un fork y por qué existe, cómo dejar tu máquina hablando con dos repositorios distintos, y qué hace exactamente cada comando que lo logra."
 status: ready
-estimated_time: 25m
+estimated_time: 30m
 tags: [github, fork, remote, upstream, origin, fetch, merge, pull]
 prerequisites: [github-en-corto]
 ---
 
 # El fork y tus dos remotes
 
-**GitHub · página 2 de 6** · 25 min
+**GitHub · página 2 de 6** · 30 min
 
 Meta: tu máquina hablando con dos repositorios, y saber cuál es cuál sin pensarlo.
 
@@ -20,6 +20,7 @@ Meta: tu máquina hablando con dos repositorios, y saber cuál es cuál sin pens
 - Un **fork** es una copia del repositorio del curso **en tu cuenta de GitHub**, donde sí puedes escribir.
 - Al clonar quedaste apuntando al del curso, donde **no** puedes. Se arregla hoy.
 - Terminas con dos apodos: **`upstream` para bajar**, **`origin` para subir**.
+- Y con el modelo de las **tres copias de `main`**, que es lo que hace falta para sincronizar sin romper nada.
 - Son **dos pasos**: el fork en el navegador, y el resto en la terminal.
 - Esto es **una vez en el semestre**. Después nunca más.
 
@@ -104,8 +105,8 @@ Con el fork ya hecho, lo demás es terminal. Todo lo que falta de esta página c
 # El fork del paso 1 tiene que estar hecho ANTES de esto.
 cd ~/fdd/fdd_o26
 
-# tu login EXACTO. No lo teclees
-GHUSER=$(gh api user --jq .login) && echo "$GHUSER"
+# tu login, guardado una vez en el perfil (paso 2, abajo)
+echo "$GHUSER"                    # tiene que salir tu login
 
 git remote -v                     # ahora: 2 líneas del curso
 git remote rename origin upstream # el del curso: aquí BAJAS
@@ -163,6 +164,9 @@ echo "$GHUSER"   # tu login, no una línea vacía
 
 Si lo tecleas mal no se queda callado: `git push` responde `Repository not found` al primer intento, y si tu carpeta queda con otro nombre la revisión automática te dice el nombre exacto que esperaba.
 
+> [!NOTE]
+> Si además tienes `gh`, el programa de GitHub para la terminal, `gh api user --jq .login` te lo imprime sin buscarlo. **No hace falta y no se instala en este curso**: todo se hace con `git` y un navegador.
+
 
 ### `git remote rename` y `git remote add`
 
@@ -206,6 +210,37 @@ upstream  git@github.com:raya-lucaria/fdd_o26.git (push)
 :::
 
 `git pull` funciona. Pero mientras aprendes conviene separarlos, porque cuando algo falla necesitas saber **cuál de las dos mitades** falló.
+
+## Sincronizar: hay dos caminos, y conviene no confundirlos
+
+Tarde o temprano vas a abrir tu fork en GitHub y vas a ver un aviso: `This branch is 12 commits behind raya-lucaria:main`, con un botón **Sync fork**. Y vas a pensar: *¿entonces para qué el bloque A?*
+
+Lo primero es tener claro qué se está sincronizando.
+
+::: figure {#git-dos-syncs title="Tres copias de main, y dos formas de igualarlas"}
+![Los dos caminos para poner al dia tu copia, lado a lado. Hay tres copias de main: la del curso, la de tu fork en el servidor de GitHub y la de tu maquina. Por la terminal, el curso baja primero a tu maquina con fetch y merge, y de ahi sube a tu fork con push. Por el navegador, el boton Sync fork actualiza primero tu fork en el servidor, y de ahi baja a tu maquina con git pull](../_assets/git-dos-syncs.svg)
+:::
+
+**Hay tres copias de `main`**, no dos: la del curso, la de tu fork —que vive en el servidor de GitHub, no en tu computadora— y la de tu disco. Sincronizar es hacer que las tres coincidan. Los dos caminos hacen eso mismo, pero **en orden inverso**:
+
+::: table {#git-dos-caminos title="Quién recibe primero, y quién hace de puente"}
+
+| | Por la terminal | Por el navegador |
+|---|---|---|
+| Primero se actualiza | tu **máquina** | tu **fork** |
+| El puente es | tu máquina | tu fork |
+| Paso 1 | `git fetch upstream` + `git merge upstream/main` | el botón **Sync fork → Update branch** |
+| Paso 2 | `git push origin main` | `git pull origin main` |
+| Cuándo usarlo | **siempre**: es el bloque A | sólo si aún no clonaste, o tu copia local está rota |
+
+:::
+
+**Por qué el bloque A es el bueno.** Ya estás en la terminal; no depende de un botón que GitHub puede mover de sitio; y es el que te obliga a ver la diferencia entre bajar (`fetch`) y aplicar (`merge`), que es justo lo que necesitas entender cuando algo falle.
+
+> [!WARNING]
+> **No mezcles los dos.** Si aprietas el botón teniendo commits propios en tu `main` local, el `git pull` que sigue no es un fast-forward: te crea un commit de merge y tu `main` empieza a divergir del curso. Escoge un camino y quédate ahí.
+
+Y una honestidad sobre el último comando del bloque A: **`git push origin main` no hace falta para que tu entrega funcione.** El pull request compara `raya-lucaria:main` contra `tu-fork:tu-branch`; el `main` de tu fork no entra en esa cuenta. Está ahí por higiene —que GitHub deje de mostrarte el aviso, y que si algún día re-clonas desde tu fork obtengas algo actual— y porque deja un invariante fácil de comprobar: **las tres copias iguales**.
 
 ## Quién es quién
 

@@ -7,13 +7,13 @@ Ese nombre no se teclea, se obtiene:
 
 ```bash
 cd ~/fdd/fdd_o26
-GHUSER=$(gh api user --jq .login) && echo "$GHUSER"
+echo "$GHUSER"   # tu login, del perfil de tu shell
 mkdir -p estudiantes/$GHUSER
 touch estudiantes/$GHUSER/.gitkeep
 ```
 
-Sin `gh` instalado, tu login es el campo *Username* de
-https://github.com/settings/profile
+Tu login sale de la URL de tu fork, y se guarda una vez con
+`export GHUSER=tu-login` en `~/.zshrc` o `~/.bashrc`.
 
 ## Las reglas
 

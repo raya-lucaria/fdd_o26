@@ -19,7 +19,7 @@ Lo que yo publico en `codigo/07_git/` tú lo copias a
 
 ```bash
 cd ~/fdd/fdd_o26
-GHUSER=$(gh api user --jq .login) && echo "$GHUSER"
+echo "$GHUSER"   # tu login, del perfil de tu shell
 mkdir -p estudiantes/$GHUSER/07_git
 cp -r codigo/07_git/. estudiantes/$GHUSER/07_git/
 ```

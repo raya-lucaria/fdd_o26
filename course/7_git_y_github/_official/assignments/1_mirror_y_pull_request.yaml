@@ -14,8 +14,9 @@ content:
     dicen raya-lucaria, todavía no arreglaste los remotes y nada de lo que
     sigue va a funcionar. Está en la página El fork y tus dos remotes.
     Lo que hay que entregar son cuatro cosas. Una, tu carpeta en estudiantes,
-    con un nombre idéntico a tu usuario de GitHub. Ese nombre lo obtienes con
-    un comando y no lo escribes a mano: gh api user seguido de jq punto login.
+    con un nombre idéntico a tu usuario de GitHub. Ese nombre sale de la URL de tu
+    propio fork y lo dejas guardado en la variable GHUSER, en el perfil de tu
+    shell, para no teclearlo cada vez.
     Dos, dentro de ella la carpeta 07 guion bajo git, con el contenido copiado
     de la carpeta codigo del mismo nombre, respetando la regla del mirror.
     Tres, el archivo bitacora punto md lleno: tus datos, la salida de los dos
@@ -46,7 +47,7 @@ content:
     izquierda tiene que decir raya-lucaria diagonal fdd o26 y main. Si dice tu
     propio usuario, el pull request se crea, se ve bien, y no me llega. Revisa
     esa barra antes de darle crear.
-    El flujo completo, en cuatro bloques, está en la página El ritual.
+    El flujo completo, en tres bloques, está en la página El ritual.
     Vale la pena que lo hagas hasta que salga sin pensar, porque se pregunta de
     memoria en el examen y porque todas las tareas de aquí a diciembre se
     entregan así.
@@ -61,7 +62,7 @@ content:
       note: "Esta misma entrega, guiada paso a paso de principio a fin."
     - title: "Unidad — El ritual"
       url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
-      note: "Los cuatro bloques con sus comandos exactos, y la barra del pull request."
+      note: "Los tres bloques con sus comandos exactos, y la barra del pull request."
     - title: "Unidad — El fork y tus dos remotes"
       url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-fork/"
       note: "El fork, tu login exacto y cómo arreglar los remotes."

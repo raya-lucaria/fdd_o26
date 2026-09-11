@@ -15,11 +15,11 @@ prerequisites: [el-ritual-del-curso]
 
 Aquí sólo están los comandos que esta unidad enseñó. Si un comando no aparece, es a propósito: no lo necesitas todavía.
 
-La única parte que sí se memoriza son los cuatro bloques de [[el-ritual-del-curso|El ritual]], y están completos aquí abajo.
+La única parte que sí se memoriza son los tres bloques de [[el-ritual-del-curso|El ritual]], y están completos aquí abajo.
 
 ## El flujo, completo
 
-Lo único de esta página que se memoriza. Son dos bloques: el paso 0 va una vez en el semestre, y A–D en cada entrega. Explicados en [[el-ritual-del-curso|El ritual]].
+Lo único de esta página que se memoriza. Son dos bloques: el paso 0 va una vez en el semestre, y A–C en cada entrega. Explicados en [[el-ritual-del-curso|El ritual]].
 
 ```bash
 # ═══ PASO 0 · UNA VEZ EN EL SEMESTRE ══════════════════
@@ -30,8 +30,12 @@ cd ~/fdd/fdd_o26                 # el paso 0 va aquí dentro
 # ¿ya lo hice?  si imprime SALTA, brinca al bloque A
 git remote -v | grep -q upstream && echo SALTA
 
-GHUSER=$(gh api user --jq .login)     # tu login EXACTO
-echo "$GHUSER"                        # NO lo teclees a mano
+# tu login, una vez en la vida, en el perfil de tu shell.
+# Sale de la URL de tu fork. ~/.bashrc si usas bash.
+echo 'export GHUSER=tu-login' >> ~/.zshrc
+exec $SHELL                      # recarga el perfil
+echo "$GHUSER"                   # tiene que salir tu login
+
 git remote rename origin upstream   # el curso: aquí BAJAS
 git remote add origin \
   git@github.com:$GHUSER/fdd_o26_$GHUSER.git
@@ -70,14 +74,9 @@ git push -u origin tarea-NN-nombre
 #     base repository: raya-lucaria/fdd_o26   base: main
 #     head repository: tu-login/fdd_o26_tu-login
 #     compare:         tarea-NN-nombre
-
-
-# ─── D · CIERRA · ya te lo mergearon ───────────────────
-git switch main
-git fetch upstream && git merge upstream/main
-git push origin main
-git branch -d tarea-NN-nombre    # se niega si falta mergear
-git branch                       # sólo main. Listo
+#
+#   Al mergearse, el pull request te ofrece "Delete branch".
+#   No hay cuarto bloque: el A ya te devuelve a main.
 ```
 
 ## Orientarte
@@ -154,12 +153,14 @@ Para resolver un conflicto: edita el archivo hasta que no queden marcadores, `gi
 
 | Quiero | Comando | Dónde |
 |---|---|---|
-| Saber mi login exacto | `gh api user --jq .login` | [[el-fork|GitHub · 2]] |
+| Saber mi login exacto | está en la URL de tu fork | [[el-fork|GitHub · 2]] |
 | Bajar lo nuevo del curso | `git fetch upstream` | [[el-fork|GitHub · 2]] |
 | Juntarlo con mi branch | `git merge upstream/main` | [[el-fork|GitHub · 2]] |
 | Subir a mi fork | `git push origin main` | [[el-fork|GitHub · 2]] |
 | Subir una branch por primera vez | `git push -u origin <nombre>` | [[el-ritual-del-curso|GitHub · 5]] |
 | Bajar y juntar de un jalón | `git pull` | [[el-fork|GitHub · 2]] |
+| Poner mi fork al día desde el navegador | botón **Sync fork** | [[el-fork|GitHub · 2]] |
+| …y después bajarlo a mi máquina | `git pull origin main` | [[el-fork|GitHub · 2]] |
 
 :::
 
@@ -203,5 +204,4 @@ Patrones útiles de `.gitignore`: `.DS_Store`, `__pycache__/`, `*.pyc`, `.env`, 
 4. Tu carpeta es un espejo de `codigo/`: misma ruta, mismo nombre.
 5. Una branch por tarea, nacida de un `main` recién actualizado. Nunca entregues desde `main`.
 6. Un pull request rechazado se corrige con `push` a la misma branch, no abriendo otro.
-7. Después del merge, cierra: vuelve a `main`, sincroniza y borra la branch.
 8. Todo se entrega por GitHub. No hay Canvas.

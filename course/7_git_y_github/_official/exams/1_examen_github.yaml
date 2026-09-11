@@ -6,10 +6,9 @@ content:
   instructions: >-
     Evaluación presencial y escrita, individual, en el salón. No se entrega en
     Canvas ni tiene URL de entrega. Sin cheatsheet y sin computadora.
-    La parte que se pregunta de memoria es el flujo del curso: los cuatro bloques
-    con su nombre, en orden, qué hace cada uno y con qué comandos. Ponte al día,
-    abre tu espacio, entrega, cierra. Eso se escribe completo y sin consultar
-    nada.
+    La parte que se pregunta de memoria es el flujo del curso: los tres bloques con
+    su nombre, en orden, qué hace cada uno y con qué comandos. Ponte al día,
+    abre tu espacio, entrega. Eso se escribe completo y sin consultar nada.
     El resto del examen no es de memoria sino de comprensión, y cubre lo demás
     de la unidad. Dónde vive un cambio y qué comando lo deshace, según esté en
     el working directory, en el staging area o en un commit. Qué guarda un

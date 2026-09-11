@@ -19,7 +19,7 @@ Meta: que crear, cambiar y borrar branches deje de dar miedo, porque el resto de
 
 - Ya sabes que una branch es **una etiqueta que apunta a un commit**. Aquí ves qué te hace *en el disco*.
 - `git switch` **reescribe los archivos de tu carpeta** para que coincidan con la branch a la que llegas.
-- Una branch por tarea no es burocracia: mantiene tu `main` limpio para la semana siguiente.
+- Una branch por tarea no es burocracia: **una branch es un nombre para un intento**, y en `main` sólo tienes uno.
 - Una branch nacida de un `main` atrasado arrastra basura a tu pull request. Se rescata con un comando.
 - Y resolver un conflicto es **editar el archivo y borrar los marcadores**. Git no comprueba que lo hayas hecho.
 
@@ -180,13 +180,27 @@ Todo lo que creaste vivía en branches, así que borrarlas basta: **tu `main` nu
 
 `-d` **se niega** si la branch tiene commits que no están en ningún lado. Esa negativa es una protección: cuando aparece hay que leerla, no escalarla a `-D`.
 
+## Por qué una branch por tarea
+
+Hasta aquí podrías pensar que entregar desde `main` daría igual: tu trabajo se acumula ahí y ya. Se acumula, sí, y de hecho no pasa nada malo **el mismo día**. El problema llega después.
+
+**Una branch es un nombre para un intento.** Puedes tener varios, tirar uno, y entregar uno mientras empiezas otro. En `main` tienes exactamente un intento, para siempre, y entregar y seguir trabajando son la misma acción: cualquier cosa que subas a `main` se mete sola al pull request que dejaste abierto.
+
+Y hay una razón más dura, que no depende de tu disciplina sino de un botón que aprieta otra persona:
+
+> **Tu `main` es tu copia del curso.** Si le metes tu trabajo, deja de serlo. Y cuánto se estropee depende de cómo yo mergee tu pull request, que es algo que tú ni ves ni controlas.
+
+Con el botón *Create a merge commit*, tu commit entra tal cual y tu siguiente sincronización sigue siendo un fast-forward. Con el de junto, *Squash and merge*, lo que llega al curso es un commit **nuevo, con otro hash**: el tuyo deja de estar en la historia, tu `main` se bifurca del mío **para siempre**, y de ahí en adelante cada `git merge upstream/main` te crea un commit de merge.
+
+Entregando desde una branch eso no puede pasar, porque tu `main` nunca es lo que se mergea. Sigue siendo una copia exacta del curso, y el bloque A siempre es un fast-forward.
+
 ## Cómo se llaman en este curso
 
 ```text
 tarea-07-git      tarea-08-python      tarea-09-sql
 ```
 
-Sin espacios, sin acentos, en minúsculas. Y **nunca se entrega desde `main`**: un pull request que sale de tu `main` se rechaza automáticamente.
+Sin espacios, sin acentos, en minúsculas. Y **nunca se entrega desde `main`**, por lo de arriba: un pull request que sale de tu `main` lo rechaza la revisión automática.
 
 > [!NOTE]
 > **Si sólo recuerdas una cosa:** una branch por tarea, nacida de un `main` recién actualizado. Si `git log --oneline tu-branch..upstream/main` no sale vacío, tu pull request va a incluir cosas que no son tuyas.

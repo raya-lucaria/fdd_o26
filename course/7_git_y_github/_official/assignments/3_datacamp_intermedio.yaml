@@ -19,7 +19,7 @@ content:
     Sobre la captura: la que sirve es la de la página del curso ya terminado,
     donde se vea tu nombre y el cien por ciento completado. No sirve una foto
     del certificado suelto sin contexto.
-    La entrega es un pull request, con el mismo ritual de cuatro bloques. Para
+    La entrega es un pull request, con el mismo ritual de tres bloques. Para
     entonces vas a llevar varias entregas con este flujo, así que debería
     salirte sin consultar nada. Acuérdate del bloque A: ponerte al día con el
     repositorio del curso antes de crear la branch, o tu pull request va a
@@ -39,7 +39,7 @@ content:
       note: "El primero, por si te falta. Éste da por sabido lo de aquél."
     - title: "Unidad — El ritual"
       url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
-      note: "Los cuatro bloques del flujo. Acuérdate del bloque A."
+      note: "Los tres bloques del flujo. Acuérdate del bloque A."
     - title: "Unidad — Cheatsheet"
       url: "https://rayalucaria.org/fdd_o26/git-y-github/cheatsheet/"
       note: "Los comandos y la tabla de errores frecuentes con qué hacer."

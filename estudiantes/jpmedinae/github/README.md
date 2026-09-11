@@ -6,12 +6,12 @@ Como todo lo demás, esta carpeta se copia a la tuya respetando el mirror:
 
 ```bash
 cd ~/fdd/fdd_o26
-echo "$GHUSER"   # tu login, del perfil de tu shell
-mkdir -p estudiantes/$GHUSER/github
-cp -r codigo/github/. estudiantes/$GHUSER/github/
+U=$(gh api user --jq .login) && echo "$U"
+mkdir -p estudiantes/$U/github
+cp -r codigo/github/. estudiantes/$U/github/
 ```
 
-Después trabajas en `estudiantes/$GHUSER/github/`, nunca aquí.
+Después trabajas en `estudiantes/$U/github/`, nunca aquí.
 
 ## Qué debe quedar dentro
 
