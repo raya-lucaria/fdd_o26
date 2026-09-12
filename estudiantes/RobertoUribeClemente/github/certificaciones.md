@@ -20,7 +20,7 @@ Fecha en que lo terminaste: 10 de septiembre de 2026
 
 Se llena en la **segunda** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 12 de septiembre de 2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
@@ -34,3 +34,6 @@ acomodó. Si sientes que no aprendiste nada nuevo, dilo y explica qué parte de
 los cursos te pareció repetida.
 
 
+Algo que aprendí en el curso de Intermediate Git fue que una forma para crear y
+trasladarse a otra rama nueva, aparte de usar git checkout -b (nombre del branch)
+es con el comando git switch -c (nombre del branch)
