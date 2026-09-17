@@ -20,17 +20,10 @@ Fecha en que lo terminaste: 10/09/2026
 
 Se llena en la **segunda** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 10/09/2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
 ## Una cosa que aprendiste y no sabías
 
-Se llena en la **segunda** entrega, cuando ya hiciste los dos cursos.
-
-Dos o tres líneas. Algo concreto que salió en alguno de los dos cursos y que
-no habías visto en clase, o que en clase entendiste a medias y ahí se te
-acomodó. Si sientes que no aprendiste nada nuevo, dilo y explica qué parte de
-los cursos te pareció repetida.
-
-
+Aprendí la diferencia exacta entre git reset y git revert. No sabía que revert es la forma segura de deshacer cambios en ramas compartidas porque crea un nuevo commit, mientras que reset reescribe el historial y puede romper el trabajo de otros si ya se hizo push.
