@@ -20,7 +20,7 @@ Fecha en que lo terminaste: 10/septiembre/2026
 
 Se llena en la **segunda** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 17/septiembre/2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
@@ -32,5 +32,9 @@ Dos o tres líneas. Algo concreto que salió en alguno de los dos cursos y que
 no habías visto en clase, o que en clase entendiste a medias y ahí se te
 acomodó. Si sientes que no aprendiste nada nuevo, dilo y explica qué parte de
 los cursos te pareció repetida.
+
+Me ayudo para entender lo que nos aprendimos de memoria, en especifico la sección A (para estar al día)pues no entendía bien 
+las llamadas de upstream y origin y las de push y pull. Ejemplos: git fetch upstream dice upstream porque de ahi quieres actualizar tu repo, y
+git push origin main por que quieres subir lo nuevo a origin (nuestro repo) desde main.
 
 
