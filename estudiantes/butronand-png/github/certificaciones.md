@@ -14,12 +14,11 @@ Fecha en que lo terminaste: 11 de septiembre de 2026
 
 ## Intermediate Git
 
-Se llena en la **segunda** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 17 de septiembre de 2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
 ## Una cosa que aprendiste y no sabías
 
-Se llena en la **segunda** entrega, cuando ya hiciste los dos cursos.
+Los dos cursos me repitieron lo que ya habíamos hecho en clase: el flujo de add, commit y push, y el manejo de branches. Lo que sí sirvió fue teclearlo yo con corrección inmediata, en vez de leerlo. La parte de deshacer cambios es la que menos habíamos tocado en clase.
