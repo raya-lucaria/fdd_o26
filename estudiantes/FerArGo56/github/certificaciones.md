@@ -16,7 +16,7 @@ Fecha en que lo terminaste:10 de septiembre de 2026
 
 ## Intermediate Git
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste:16 de septiembre de 2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
@@ -27,4 +27,7 @@ no habías visto en clase, o que en clase entendiste a medias y ahí se te
 acomodó. Si sientes que no aprendiste nada nuevo, dilo y explica qué parte de
 los cursos te pareció repetida.
 
-
+Pude entender todos los comandos de git mejor ya que los pude poner aprueba
+Ademas entendi mejor como miverme con las ramas y como crearlas, lo unico que
+Senti repetitivo es que ya entendia bien como funcionaban las branches y para
+que eran.
