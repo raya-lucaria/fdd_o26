@@ -1,0 +1,97 @@
+login,tarea,pr,intento,abierto,due,dias_tarde,resultado,motivo,senales,override,revisado
+jpmedinae,datacamp-introduccion-git,2,1,2026-09-04T20:10:05Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+jpmedinae,mirror-y-pull-request,2,1,2026-09-04T20:10:05Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+butronand-png,mirror-y-pull-request,3,1,2026-09-05T19:04:20Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+Meyer03,mirror-y-pull-request,5,1,2026-09-09T02:29:48Z,2026-09-10,0,cerrada,cerrado sin merge; cerrado por el alumno; sólo crea la carpeta (.gitkeep),,,
+RobertoUribeClemente,mirror-y-pull-request,6,1,2026-09-09T02:29:50Z,2026-09-10,0,bien,mergeado; sólo crea la carpeta (.gitkeep),,,2026-09-10
+dacorzo,mirror-y-pull-request,7,1,2026-09-09T02:29:51Z,2026-09-10,0,bien,mergeado; crea la carpeta y arrastra archivos del curso desde su main,,,2026-09-10
+fernandalh25,datacamp-introduccion-git,8,1,2026-09-09T02:29:53Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+goldzweigarie-bit,mirror-y-pull-request,9,1,2026-09-09T02:29:56Z,2026-09-10,0,bien,mergeado; sólo crea la carpeta (.gitkeep),,,2026-09-10
+LuisRyes,mirror-y-pull-request,10,1,2026-09-09T02:30:17Z,2026-09-10,0,bien,mergeado; sólo crea la carpeta (.gitkeep),,,2026-09-10
+nat-aglo,mirror-y-pull-request,11,1,2026-09-09T02:30:17Z,2026-09-10,0,bien,mergeado; sólo crea la carpeta (.gitkeep),,,2026-09-10
+cristoredentor,mirror-y-pull-request,12,1,2026-09-09T02:31:05Z,2026-09-10,0,bien,mergeado; sólo crea la carpeta (.gitkeep),,,2026-09-08
+DabtcAvila,mirror-y-pull-request,13,1,2026-09-09T02:33:29Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+camila7866,mirror-y-pull-request,14,1,2026-09-09T02:36:23Z,2026-09-10,0,bien,mergeado; sólo crea la carpeta (.gitkeep),,,2026-09-10
+Domdimad0m,desconocida,15,1,2026-09-09T04:37:41Z,,,cerrada,PR sin archivos; cerrado por el alumno,,,
+FerArGo56,desconocida,16,1,2026-09-09T20:06:57Z,,,cerrada,"cerrado: sólo trae prueba.txt, no es una entrega",,,2026-09-17
+RobertoUribeClemente,mirror-y-pull-request,17,2,2026-09-10T23:41:04Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+geraVillV,datacamp-introduccion-git,18,1,2026-09-10T23:53:08Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+dacorzo,datacamp-introduccion-git,19,1,2026-09-11T00:07:11Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+RobertoUribeClemente,datacamp-introduccion-git,20,1,2026-09-11T00:08:04Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+fernandalh25,datacamp-introduccion-git,21,2,2026-09-11T00:19:19Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+emilianomillan,mirror-y-pull-request,22,1,2026-09-11T00:20:15Z,2026-09-10,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
+dacorzo,datacamp-introduccion-git,23,2,2026-09-11T00:22:01Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+dacorzo,mirror-y-pull-request,23,2,2026-09-11T00:22:01Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+emilianomillan,mirror-y-pull-request,24,2,2026-09-11T00:25:15Z,2026-09-10,0,cerrada,cerrado: duplicado del contenido que entró por #25,,,2026-09-17
+emilianomillan,mirror-y-pull-request,25,3,2026-09-11T00:25:43Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+butronand-png,datacamp-introduccion-git,26,1,2026-09-11T00:34:41Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+emilianomillan,mirror-y-pull-request,27,4,2026-09-11T00:44:49Z,2026-09-10,0,cerrada,cerrado: bitácora duplicada de #25 y la captura de RegexOne se entrega en Canvas,,,2026-09-17
+emilianomillan,regexone-practica,27,1,2026-09-11T00:44:49Z,2026-09-08,2,cerrada,cerrado: bitácora duplicada de #25 y la captura de RegexOne se entrega en Canvas,,,2026-09-17
+camila7866,mirror-y-pull-request,28,2,2026-09-11T00:50:55Z,2026-09-10,0,bien,mergeado,,,2026-09-17
+goldzweigarie-bit,datacamp-introduccion-git,29,1,2026-09-11T00:57:36Z,2026-09-10,0,cerrada,cerrado: contenido idéntico al que entró por #32,,,2026-09-17
+FerArGo56,datacamp-introduccion-git,30,1,2026-09-11T01:03:08Z,2026-09-10,0,bien,aceptada; README.md en versión vieja del espejo,,,2026-09-17
+loretmikel,datacamp-introduccion-git,31,1,2026-09-11T01:05:57Z,2026-09-10,0,bien,aceptada; falta github/README.md del espejo,,,2026-09-17
+goldzweigarie-bit,datacamp-git-intermedio,32,1,2026-09-11T01:23:50Z,2026-09-17,0,bien,mergeado,,,2026-09-10
+goldzweigarie-bit,datacamp-introduccion-git,32,2,2026-09-11T01:23:50Z,2026-09-10,0,bien,mergeado,,,2026-09-10
+cristoredentor,desconocida,33,1,2026-09-11T01:29:02Z,,,cerrada,"cerrado: certificate.pdf suelto, sin certificaciones.md ni carpeta de entrega",,,2026-09-17
+camila7866,datacamp-introduccion-git,34,1,2026-09-11T02:51:04Z,2026-09-10,0,mal,"certificaciones.md sin llenar: faltan nombre, usuario, correo y fecha",plantilla-sin-llenar,,2026-09-22
+cristoredentor,datacamp-introduccion-git,35,1,2026-09-11T03:18:20Z,2026-09-10,0,cerrada,cerrado: reemplazado por #36; todo bajo una copia de codigo/,carpeta-codigo-anidada,,2026-09-17
+cristoredentor,mirror-y-pull-request,35,2,2026-09-11T03:18:20Z,2026-09-10,0,cerrada,cerrado: reemplazado por #36; todo bajo una copia de codigo/,carpeta-codigo-anidada,,2026-09-17
+cristoredentor,datacamp-introduccion-git,36,2,2026-09-11T04:55:48Z,2026-09-10,0,cerrada,cerrado: certificaciones cuentan por #57; la bitácora de la unidad 7 quedó fuera de su carpeta y va en un PR nuevo,carpeta-codigo-anidada,,2026-09-22
+cristoredentor,mirror-y-pull-request,36,3,2026-09-11T04:55:48Z,2026-09-10,0,cerrada,cerrado: certificaciones cuentan por #57; la bitácora de la unidad 7 quedó fuera de su carpeta y va en un PR nuevo,carpeta-codigo-anidada,,2026-09-22
+nat-aglo,desconocida,37,1,2026-09-11T05:48:51Z,,,cerrada,toca archivos fuera de su carpeta de estudiante; cerrado por el alumno,,,
+nat-aglo,datacamp-introduccion-git,38,1,2026-09-11T06:20:14Z,2026-09-10,1,bien,mergeado,,,2026-09-17
+Domdimad0m,datacamp-introduccion-git,39,1,2026-09-11T12:37:14Z,2026-09-10,1,bien,mergeado,,,2026-09-17
+Domdimad0m,datacamp-git-intermedio,40,1,2026-09-11T12:57:27Z,2026-09-17,0,bien,mergeado,,,2026-09-17
+Domdimad0m,datacamp-introduccion-git,40,2,2026-09-11T12:57:27Z,2026-09-10,1,bien,mergeado,,,2026-09-17
+jpmedinae,datacamp-git-intermedio,41,1,2026-09-11T19:30:05Z,2026-09-17,0,bien,aceptada: el enlace de certificaciones.md ya nombra el PDF subido,,,2026-09-22
+RobertoUribeClemente,datacamp-git-intermedio,42,1,2026-09-12T18:04:23Z,2026-09-17,0,bien,mergeado,,,2026-09-17
+Meyer03,datacamp-introduccion-git,43,1,2026-09-16T04:01:27Z,2026-09-10,5,bien,aceptada con Statement of Accomplishment en PDF,,,2026-09-17
+LuisRyes,datacamp-introduccion-git,44,1,2026-09-16T22:41:41Z,2026-09-10,6,bien,mergeado,,,2026-09-17
+fernandalh25,datacamp-introduccion-git,45,3,2026-09-17T01:22:42Z,2026-09-10,6,bien,mergeado; la corrección también venía en #46,,,2026-09-17
+fernandalh25,datacamp-git-intermedio,46,1,2026-09-17T01:58:59Z,2026-09-17,0,bien,mergeado,,,2026-09-17
+nat-aglo,mirror-y-pull-request,47,2,2026-09-17T02:51:01Z,2026-09-10,6,bien,mergeado,,,2026-09-17
+FerArGo56,datacamp-git-intermedio,48,1,2026-09-17T17:25:07Z,2026-09-17,0,cerrada,cerrado: reemplazado por #49; carpeta y nombre de captura distintos a la plantilla,,,2026-09-17
+FerArGo56,datacamp-git-intermedio,49,2,2026-09-17T19:18:10Z,2026-09-17,0,cerrada,cerrado por el alumno: contenido de Intermediate Git bajo una branch de la unidad 8,branch-de-otra-tarea,,2026-09-17
+dacorzo,datacamp-git-intermedio,50,1,2026-09-17T19:32:47Z,2026-09-17,0,mal,PDF en una carpeta que no existe en codigo/; fecha y reflexión de Intermediate Git vacías,carpeta-fuera-del-espejo;seccion-vacia,,2026-09-22
+emilianomillan,datacamp-introduccion-git,51,1,2026-09-17T19:35:26Z,2026-09-10,7,cerrada,cerrado: el contenido entró por #52,,,2026-09-17
+emilianomillan,datacamp-git-intermedio,52,1,2026-09-17T19:48:25Z,2026-09-17,0,bien,"aceptada: los tres archivos, las dos fechas y la reflexión",,,2026-09-17
+emilianomillan,datacamp-introduccion-git,52,2,2026-09-17T19:48:25Z,2026-09-10,7,bien,"aceptada: los tres archivos, las dos fechas y la reflexión",,,2026-09-17
+goldzweigarie-bit,datacamp-git-intermedio,53,2,2026-09-17T21:13:20Z,2026-09-17,0,bien,aceptada: fecha de Intermediate Git y reflexión completas,,,2026-09-22
+Domdimad0m,tarea-08-imagen,54,1,2026-09-17T21:22:30Z,2026-09-22,0,bien,aceptada tras corregir la bitácora; mirror completo y usuario consistente,,,2026-09-22
+nat-aglo,datacamp-git-intermedio,55,1,2026-09-17T23:48:27Z,2026-09-17,0,bien,aceptada: las dos fechas y la reflexión,,,2026-09-22
+reginaquevedo,datacamp-git-intermedio,56,1,2026-09-18T00:00:55Z,2026-09-17,0,bien,aceptada; dos entregas en un solo PR y texto mezclado con la plantilla,dos-entregas-en-un-pr;texto-mezclado-con-plantilla,,2026-09-22
+reginaquevedo,datacamp-introduccion-git,56,1,2026-09-18T00:00:55Z,2026-09-10,7,bien,aceptada; dos entregas en un solo PR y texto mezclado con la plantilla,dos-entregas-en-un-pr;texto-mezclado-con-plantilla,,2026-09-22
+cristoredentor,datacamp-git-intermedio,57,1,2026-09-18T00:32:30Z,2026-09-17,0,bien,aceptada: capturas con nombres exactos y fechas llenas; la reflexión no es de los cursos,texto-de-plantilla-sin-borrar,,2026-09-22
+cristoredentor,datacamp-introduccion-git,57,3,2026-09-18T00:32:30Z,2026-09-10,7,bien,aceptada: capturas con nombres exactos y fechas llenas; la reflexión no es de los cursos,texto-de-plantilla-sin-borrar,,2026-09-22
+DabtcAvila,datacamp-introduccion-git,58,1,2026-09-18T01:44:48Z,2026-09-10,7,mal,"la fecha de Introduction to Git es relativa («hace un año»), no una fecha concreta",fecha-relativa,,2026-09-22
+butronand-png,datacamp-git-intermedio,59,1,2026-09-18T02:00:01Z,2026-09-17,0,bien,"aceptada: fechas, captura y reflexión",,,2026-09-22
+FerArGo56,datacamp-git-intermedio,60,3,2026-09-18T03:41:14Z,2026-09-17,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
+nat-aglo,vim-adventures,61,1,2026-09-19T18:08:38Z,,,bien,aceptada: captura del final del nivel 3 en vim_adventures/,,,2026-09-22
+cristoredentor,tarea-08-imagen,62,1,2026-09-19T19:46:57Z,2026-09-22,0,mal,"info.sh igual al original, digest con texto de plantilla, la imagen publicada no contiene su trabajo y la bitácora cita una imagen que no está en su lista",igual-al-original;plantilla-sin-llenar;salidas-incoherentes;texto-igual-a:#54,,2026-09-22
+geraVillV,tarea-08-datacamp-intro,63,1,2026-09-20T20:05:03Z,2026-09-22,0,bien,"aceptada: fecha, URL y captura con nombre exacto",,,2026-09-22
+LuisRyes,datacamp-git-intermedio,64,1,2026-09-20T23:13:22Z,2026-09-17,3,bien,"aceptada: fechas, reflexión y captura",,,2026-09-22
+RobertoUribeClemente,tarea-08-datacamp-intro,65,1,2026-09-20T23:46:13Z,2026-09-22,0,bien,aceptada; usuario de GitHub escrito distinto al login y captura JPG con extensión .png,login-distinto;extension-no-coincide,,2026-09-22
+RobertoUribeClemente,tarea-08-imagen,66,1,2026-09-21T02:08:47Z,2026-09-22,0,bien,aceptada tras corregir mi-imagen.md y la bitácora; el digest coincide con Docker Hub,login-distinto,,2026-09-22
+jpmedinae,tarea-08-datacamp-intro,67,1,2026-09-22T00:10:28Z,2026-09-22,0,bien,aceptada; el PR también sube un .gitignore ajeno a la entrega,archivo-fuera-de-tarea,,2026-09-22
+jpmedinae,tarea-08-imagen,68,1,2026-09-22T00:54:59Z,2026-09-22,0,bien,aceptada: tres defectos arreglados y digest verificado,archivo-fuera-de-tarea,,2026-09-22
+nat-aglo,tarea-08-datacamp-intro,69,1,2026-09-22T02:23:53Z,2026-09-22,0,bien,aceptada; la fecha de término es posterior a hoy,fecha-futura,,2026-09-22
+Meyer03,datacamp-git-intermedio,70,1,2026-09-22T13:50:08Z,2026-09-17,5,bien,aceptada: fecha de Intermediate Git y captura,,,2026-09-22
+cristoredentor,tarea-08-datacamp-intro,71,1,2026-09-22T15:07:07Z,2026-09-22,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
+cristoredentor,tarea-08-datacamp-intro,72,2,2026-09-22T15:22:41Z,2026-09-22,0,cerrada,cerrado por el alumno: branch con nombre distinto al asignado,,,
+cristoredentor,tarea-08-datacamp-intro,73,3,2026-09-22T15:27:33Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
+FerArGo56,tarea-08-datacamp-intro,74,1,2026-09-22T16:32:24Z,2026-09-22,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
+FerArGo56,tarea-08-datacamp-intro,75,2,2026-09-22T16:37:32Z,2026-09-22,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
+FerArGo56,tarea-08-imagen,76,1,2026-09-22T17:50:13Z,2026-09-22,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
+FerArGo56,desconocida,77,2,2026-09-22T18:01:01Z,,,cerrada,PR sin archivos; cerrado por el alumno,,,
+FerArGo56,tarea-08-imagen,78,2,2026-09-22T18:05:09Z,2026-09-22,0,mal,la bitácora describe defectos que no están en roto/Dockerfile,bitacora-no-corresponde,,2026-09-22
+FerArGo56,tarea-08-datacamp-intro,79,3,2026-09-22T18:14:14Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
+geraVillV,tarea-08-imagen,80,1,2026-09-22T22:03:52Z,2026-09-22,0,mal,roto/Dockerfile sigue corriendo como root y la bitácora explica otro defecto,defecto-sin-corregir;bitacora-no-corresponde,,2026-09-22
+loretmikel,tarea-08-imagen,81,1,2026-09-22T22:08:27Z,2026-09-22,0,bien,aceptada: tres defectos y digest verificado; fecha de build fijada en la imagen,,,2026-09-22
+loretmikel,tarea-08-datacamp-intro,82,1,2026-09-22T22:52:19Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
+goldzweigarie-bit,tarea-08-datacamp-intro,83,1,2026-09-22T23:04:35Z,2026-09-22,0,bien,aceptada; la fecha de término es posterior a hoy,fecha-futura,,2026-09-22
+butronand-png,tarea-08-datacamp-intro,84,1,2026-09-22T23:28:27Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
+goldzweigarie-bit,tarea-08-imagen,85,1,2026-09-22T23:49:43Z,2026-09-22,0,mal,"info.sh igual al original, salida esperada que el código no produce, descarga recortada, digest incompleto y un defecto sin explicar",igual-al-original;salidas-incoherentes;salida-recortada;digest-recortado,,2026-09-22
+Meyer03,tarea-08-datacamp-intro,86,1,2026-09-23T00:00:25Z,2026-09-22,0,mal,la fecha dice «No termine» y la URL del Statement of Accomplishment está vacía,curso-no-terminado;seccion-vacia,,2026-09-22
+nat-aglo,tarea-08-imagen,87,1,2026-09-23T00:34:49Z,2026-09-22,0,pendiente,sin revisar,,,
+fernandalh25,tarea-08-datacamp-intro,88,1,2026-09-23T00:38:49Z,2026-09-22,0,pendiente,sin revisar,,,
