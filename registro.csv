@@ -91,7 +91,7 @@ loretmikel,tarea-08-imagen,81,1,2026-09-22T22:08:27Z,2026-09-22,0,bien,aceptada:
 loretmikel,tarea-08-datacamp-intro,82,1,2026-09-22T22:52:19Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
 goldzweigarie-bit,tarea-08-datacamp-intro,83,1,2026-09-22T23:04:35Z,2026-09-22,0,bien,aceptada; la fecha de término es posterior a hoy,fecha-futura,,2026-09-22
 butronand-png,tarea-08-datacamp-intro,84,1,2026-09-22T23:28:27Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
-goldzweigarie-bit,tarea-08-imagen,85,1,2026-09-22T23:49:43Z,2026-09-22,0,mal,"info.sh igual al original, salida esperada que el código no produce, descarga recortada, digest incompleto y un defecto sin explicar",igual-al-original;salidas-incoherentes;salida-recortada;digest-recortado,,2026-09-22
+goldzweigarie-bit,tarea-08-imagen,85,1,2026-09-22T23:49:43Z,2026-09-22,0,mal,info.sh igual al original; bitacora sin salidas y sin el defecto del orden de COPY; digest de 61 caracteres; prueba de descarga recortada; salida esperada que ningun archivo imprime,igual-al-original;digest-recortado;salida-recortada;salidas-incoherentes,,2026-09-22
 Meyer03,tarea-08-datacamp-intro,86,1,2026-09-23T00:00:25Z,2026-09-22,0,mal,la fecha dice «No termine» y la URL del Statement of Accomplishment está vacía,curso-no-terminado;seccion-vacia,,2026-09-22
 nat-aglo,tarea-08-imagen,87,1,2026-09-23T00:34:49Z,2026-09-22,0,bien,mergeado con nota: URL de capa en vez de /r/; la imagen publicada no es la del Dockerfile entregado (instruccion ambigua nuestra),,,2026-09-22
 fernandalh25,tarea-08-datacamp-intro,88,1,2026-09-23T00:38:49Z,2026-09-22,0,bien,mergeado,,,2026-09-22
