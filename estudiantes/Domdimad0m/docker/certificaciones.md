@@ -27,7 +27,7 @@ Se llena en la **segunda** entrega. El curso no está terminado todavía, así q
 **no hay certificado**: la captura que sirve es la página del curso con sus
 cuatro capítulos, donde se vean los dos primeros al 100 % y tu nombre.
 
-Fecha:
+Fecha:09/24/2026
 
 ![Captura de los capítulos 1 y 2 de Intermediate Docker](./intermedio-1-2.png)
 
