@@ -34,7 +34,7 @@ loretmikel,datacamp-introduccion-git,31,1,2026-09-11T01:05:57Z,2026-09-10,0,bien
 goldzweigarie-bit,datacamp-git-intermedio,32,1,2026-09-11T01:23:50Z,2026-09-17,0,bien,mergeado,,,2026-09-10
 goldzweigarie-bit,datacamp-introduccion-git,32,2,2026-09-11T01:23:50Z,2026-09-10,0,bien,mergeado,,,2026-09-10
 cristoredentor,desconocida,33,1,2026-09-11T01:29:02Z,,,cerrada,"cerrado: certificate.pdf suelto, sin certificaciones.md ni carpeta de entrega",,,2026-09-17
-camila7866,datacamp-introduccion-git,34,1,2026-09-11T02:51:04Z,2026-09-10,0,mal,"certificaciones.md sin llenar: faltan nombre, usuario, correo y fecha",plantilla-sin-llenar,,2026-09-22
+camila7866,datacamp-introduccion-git,34,1,2026-09-11T02:51:04Z,2026-09-10,0,bien,mergeado tras completar Quién soy y la fecha,plantilla-sin-llenar,,2026-10-01
 cristoredentor,datacamp-introduccion-git,35,1,2026-09-11T03:18:20Z,2026-09-10,0,cerrada,cerrado: reemplazado por #36; todo bajo una copia de codigo/,carpeta-codigo-anidada,,2026-09-17
 cristoredentor,mirror-y-pull-request,35,2,2026-09-11T03:18:20Z,2026-09-10,0,cerrada,cerrado: reemplazado por #36; todo bajo una copia de codigo/,carpeta-codigo-anidada,,2026-09-17
 cristoredentor,datacamp-introduccion-git,36,2,2026-09-11T04:55:48Z,2026-09-10,0,cerrada,cerrado: certificaciones cuentan por #57; la bitácora de la unidad 7 quedó fuera de su carpeta y va en un PR nuevo,carpeta-codigo-anidada,,2026-09-22
