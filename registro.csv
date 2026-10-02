@@ -86,7 +86,7 @@ FerArGo56,tarea-08-imagen,76,1,2026-09-22T17:50:13Z,2026-09-22,0,cerrada,cerrado
 FerArGo56,desconocida,77,2,2026-09-22T18:01:01Z,,,cerrada,PR sin archivos; cerrado por el alumno,,,
 FerArGo56,tarea-08-imagen,78,2,2026-09-22T18:05:09Z,2026-09-22,0,mal,la bitácora describe defectos que no están en roto/Dockerfile,bitacora-no-corresponde,,2026-09-22
 FerArGo56,tarea-08-datacamp-intro,79,3,2026-09-22T18:14:14Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
-geraVillV,tarea-08-imagen,80,1,2026-09-22T22:03:52Z,2026-09-22,0,mal,roto/Dockerfile sigue corriendo como root y la bitácora explica otro defecto,defecto-sin-corregir;bitacora-no-corresponde,,2026-09-22
+geraVillV,tarea-08-imagen,80,1,2026-09-22T22:03:52Z,2026-09-22,0,bien,mergeado tras corregir USER y bitácora; digest comprobado en Docker Hub,defecto-sin-corregir;bitacora-no-corresponde,,2026-10-01
 loretmikel,tarea-08-imagen,81,1,2026-09-22T22:08:27Z,2026-09-22,0,bien,aceptada: tres defectos y digest verificado; fecha de build fijada en la imagen,,,2026-09-22
 loretmikel,tarea-08-datacamp-intro,82,1,2026-09-22T22:52:19Z,2026-09-22,0,bien,"aceptada: carpeta docker, fecha, URL y captura",,,2026-09-22
 goldzweigarie-bit,tarea-08-datacamp-intro,83,1,2026-09-22T23:04:35Z,2026-09-22,0,bien,aceptada; la fecha de término es posterior a hoy,fecha-futura,,2026-09-22
