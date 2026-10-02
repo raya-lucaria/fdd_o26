@@ -64,7 +64,7 @@ reginaquevedo,datacamp-git-intermedio,56,1,2026-09-18T00:00:55Z,2026-09-17,0,bie
 reginaquevedo,datacamp-introduccion-git,56,1,2026-09-18T00:00:55Z,2026-09-10,7,bien,aceptada; dos entregas en un solo PR y texto mezclado con la plantilla,dos-entregas-en-un-pr;texto-mezclado-con-plantilla,,2026-09-22
 cristoredentor,datacamp-git-intermedio,57,1,2026-09-18T00:32:30Z,2026-09-17,0,bien,aceptada: capturas con nombres exactos y fechas llenas; la reflexión no es de los cursos,texto-de-plantilla-sin-borrar,,2026-09-22
 cristoredentor,datacamp-introduccion-git,57,3,2026-09-18T00:32:30Z,2026-09-10,7,bien,aceptada: capturas con nombres exactos y fechas llenas; la reflexión no es de los cursos,texto-de-plantilla-sin-borrar,,2026-09-22
-DabtcAvila,datacamp-introduccion-git,58,1,2026-09-18T01:44:48Z,2026-09-10,7,mal,"la fecha de Introduction to Git es relativa («hace un año»), no una fecha concreta",fecha-relativa,,2026-09-22
+DabtcAvila,datacamp-introduccion-git,58,1,2026-09-18T01:44:48Z,2026-09-10,7,bien,mergeado tras poner fecha concreta,fecha-relativa,,2026-10-01
 butronand-png,datacamp-git-intermedio,59,1,2026-09-18T02:00:01Z,2026-09-17,0,bien,"aceptada: fechas, captura y reflexión",,,2026-09-22
 FerArGo56,datacamp-git-intermedio,60,3,2026-09-18T03:41:14Z,2026-09-17,0,cerrada,cerrado sin merge; cerrado por el alumno,,,
 nat-aglo,vim-adventures,61,1,2026-09-19T18:08:38Z,,,bien,aceptada: captura del final del nivel 3 en vim_adventures/,,,2026-09-22
