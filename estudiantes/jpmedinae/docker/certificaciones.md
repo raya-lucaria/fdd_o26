@@ -27,7 +27,7 @@ Se llena en la **segunda** entrega. El curso no está terminado todavía, así q
 **no hay certificado**: la captura que sirve es la página del curso con sus
 cuatro capítulos, donde se vean los dos primeros al 100 % y tu nombre.
 
-Fecha:
+Fecha:24/09/2026
 
 ![Captura de los capítulos 1 y 2 de Intermediate Docker](./intermedio-1-2.png)
 
@@ -35,9 +35,9 @@ Fecha:
 
 Se llena en la **tercera** entrega, cuando el curso ya está completo.
 
-Fecha:
+Fecha:27/09/2026
 
-URL del Statement of Accomplishment:
+URL del Statement of Accomplishment:https:https://www.datacamp.com/courses/intermediate-docker?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=coursedetailpage
 
 ![Captura del curso Intermediate Docker terminado](./intermedio-3-4.png)
 
@@ -46,3 +46,6 @@ URL del Statement of Accomplishment:
 Se llena en la **tercera** entrega. Dos o tres líneas. Algo concreto de alguno
 de los dos cursos que no habías visto en clase, o que en clase entendiste a
 medias y ahí se te acomodó.
+
+Todo lo que viene en el curso fue completamente nuevo para mí. Realmente no fui capaz de ver la utilidad de docker. Sin embargo, siento que sí aprendí bastante.
+
