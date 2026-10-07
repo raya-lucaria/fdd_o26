@@ -1,0 +1,9 @@
+[project]
+name = "por-dentro"
+version = "0.1.0"
+description = "Labs de la sección 9.2 Python por dentro"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = ["ipykernel>=6"]

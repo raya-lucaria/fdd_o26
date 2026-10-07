@@ -1,0 +1,10 @@
+region,cliente,monto,descuento
+norte,Ana Núñez,100.10,0.10
+norte,Beto Peña,200.20,0
+norte,Carla Ríos,"1,200.00",0.05
+sur,Dana Ibáñez,150.15,0.10
+sur,Ana Núñez,80.80,0.05
+sur,Emilio Sáenz,300.30,0.10
+centro,Fátima López,99.99,0.05
+centro,Gael Muñoz,250.25,0.10
+centro,Beto Peña,120.12,0.05
