@@ -153,3 +153,4 @@ RobertoUribeClemente,tarea-09-por-dentro,145,1,2026-10-09T21:31:49Z,2026-10-13,0
 fernandalh25,tarea-09-datacamp-python,146,1,2026-10-10T02:10:30Z,2026-10-06,3,bien,Statement of Accomplishment con nombre visible; mergeado,texto-de-plantilla-sin-borrar,,2026-10-11
 jpmedinae,tarea-09-por-dentro,147,1,2026-10-11T00:21:19Z,2026-10-13,0,mal,revision.md: Error 3 y Error 5 describen el mismo sintoma; falta uno de los cinco sintomas,,,2026-10-11
 fernandalh25,tarea-09-uv-docker,148,1,2026-10-11T03:09:33Z,2026-10-06,4,mal,prueba de descarga sin cierre de sesion ni borrado local; versiones iguales atribuidas al venv y no al lock; salidas de la variante arm64,salida-recortada,,2026-10-11
+cristoredentor,tarea-09-stack,149,1,2026-10-12T01:05:47Z,2026-10-15,0,mal,"captura muestra correo personal en el menu del navegador; primera fila de decisiones.md sin patron; codigo, pruebas, ruff y mypy verificados en verde",,,2026-10-12
