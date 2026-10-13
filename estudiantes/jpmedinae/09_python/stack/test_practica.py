@@ -25,3 +25,27 @@ def test_fila_buena_se_convierte() -> None:
     venta = Venta.model_validate(BUENA)
     assert venta.cantidad == 3
     assert venta.precio == 120.5
+
+def test_fila_con_cantidad_negativa() -> None:
+    sucia = {
+        "fecha": "2025-01-03",
+        "tienda": "Centro",
+        "producto": "P001",
+        "cantidad": "-3",
+        "precio": "120.50",
+    }
+
+    with pytest.raises(ValueError):
+        Venta.model_validate(sucia)
+
+def test_fila_con_cantidad_cero() -> None:
+    borde = {
+        "fecha": "2025-01-03",
+        "tienda": "Centro",
+        "producto": "P001",
+        "cantidad": "0",
+        "precio": "120.50",
+    }
+
+    with pytest.raises(ValueError):
+        Venta.model_validate(borde)

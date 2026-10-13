@@ -2,33 +2,33 @@
 
 ## Qué cambié, por qué y qué patrón
 
-Al menos tres filas. El patrón es uno de los ocho de la página «Patrones y
-el stack escrito».
-
 | Qué cambié | Por qué | Qué patrón |
 |---|---|---|
-| | | |
-| | | |
-| | | |
+| Reemplacé `@validator` y `class Config` por `@field_validator` y `ConfigDict` de Pydantic v2. | Para validar los datos al ingresar al programa, utilizando la versión actual de Pydantic. | Validación en la frontera |
+| Reemplacé Pandas por Polars y eliminé `.apply()` para calcular las ventas mediante expresiones. | Para realizar operaciones por columnas y evitar recorrer las filas individualmente. | Expresiones de Polars |
+| Incorporé tres pruebas con pytest: una venta válida, una con cantidad negativa y otra con cantidad cero. | Para comprobar automáticamente que las reglas de validación funcionan correctamente. | Pruebas automatizadas |
 
 ## Salida de pytest
 
-Pega la salida completa de `pytest -v --no-header test_practica.py`,
-corrido en `stack/`. `--no-header` quita las líneas con la ruta de tu máquina.
-
 ```text
+============================ test session starts =============================
+collected 3 items
+
+test_practica.py::test_fila_buena_se_convierte PASSED                  [ 33%]
+test_practica.py::test_fila_con_cantidad_negativa PASSED               [ 66%]
+test_practica.py::test_fila_con_cantidad_cero PASSED                   [100%]
+
+============================= 3 passed in 0.04s ==============================
 ```
 
 ## Salida de ruff
 
-Pega la salida de `ruff check practica.py test_practica.py`.
-
 ```text
+All checks passed!
 ```
 
 ## Salida de mypy
 
-Pega la salida de `mypy practica.py`.
-
 ```text
+Success: no issues found in 1 source file
 ```
