@@ -1,0 +1,2 @@
+# Lo que necesita hola.py. Formato de pip: un paquete por línea.
+rich==15.0.0
