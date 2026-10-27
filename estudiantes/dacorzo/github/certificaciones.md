@@ -20,11 +20,12 @@ Fecha en que lo terminaste: 10 de septiembre del 2026
 
 Se llena en la **segunda** entrega.
 
-Fecha en que lo terminaste:
+Fecha en que lo terminaste: 17 de septiembre del 2026
 
 ![Captura del curso Intermediate Git terminado](./git-intermedio.png)
 
 ## Una cosa que aprendiste y no sabías
+A dominar el uso de git en la terminal. Poco a poco me voy dando cuenta cuan más práctico es usar la terminal para manipular archivos y para utilizar git.
 
 Se llena en la **segunda** entrega, cuando ya hiciste los dos cursos.
 
