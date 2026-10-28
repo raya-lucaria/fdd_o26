@@ -44,7 +44,7 @@ print("P =", P, "CPU lógicas")
 #
 # La celda 8.1 usa los **3.32 s** de la corrida de referencia. En la ampliación se reemplazan por los tuyos.
 #
-# **Qué esperar.** $\lambda$ ideal 160/s, cota 3.20 s, $\lambda$ medido 151/s, $W$ efectiva 0.212 s y unos 30
+# **Qué esperar.** $\lambda$ ideal 160/s, cota 3.20 s, $\lambda$ medido 151/s, $W\le0.212$ s (una cota: $L\le32$) y unos 30
 # hilos del servidor; si cada llamada tardara 2 s, 301.
 
 # %%
@@ -57,10 +57,10 @@ n, medido = 500, 3.32           # llamadas y segundos medidos (pon los tuyos)
 lam_ideal = k / W               # Little con L = k: λ ≤ k / W
 cota = math.ceil(n / k) * W     # ⌈n/k⌉ tandas de W segundos
 lam_medido = n / medido         # peticiones terminadas por segundo
-W_efectiva = k / lam_medido     # despeja W = L / λ
+W_max = k / lam_medido          # L ≤ k, así que W = L / λ ≤ k / λ: una cota, no una medida
 
 print(f"λ ideal  {lam_ideal:.0f}/s   cota  {cota:.2f} s")
-print(f"λ medido {lam_medido:.0f}/s   W efectiva {W_efectiva:.3f} s")
+print(f"λ medido {lam_medido:.0f}/s   W ≤ {W_max:.3f} s")
 print(f"hilos del servidor: {lam_medido * W:.0f}; con W = 2 s: {lam_medido * 2:.0f}")
 
 # %% [markdown]

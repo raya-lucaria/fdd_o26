@@ -28,13 +28,15 @@ prerequisites: [secuencial-concurrente-paralelo]
 ## En corto
 
 - **Asíncrono describe el código; concurrente describe la traza.** `await` uno tras otro es asíncrono y secuencial (720 ms); `gather` es asíncrono y concurrente (280 ms).
-- **El event loop es un ciclo de tres pasos**: correr todas las listas hasta su siguiente `await`, dormir en el sistema operativo hasta el vencimiento más próximo, pasar a listas las que despertaron. Que la respuesta llegue no significa que la tarea corra: pasa a **lista** y espera turno.
-- **La planificación es cooperativa**: nadie interrumpe a la tarea que corre. Un `time.sleep`, un `requests.get` o un cálculo largo dentro del loop dejan a todas las demás listas y sin turno.
+- **El event loop es un ciclo de tres pasos**: correr cada tarea lista hasta que se suspende en un `await` o termina; preguntar al sistema qué esperas se cumplieron, durmiendo sólo si no hay listas; pasar a listas las que despertaron. Que la respuesta llegue no significa que la tarea corra: pasa a **lista** y espera turno.
+- **La planificación es cooperativa**: nadie interrumpe a la tarea que corre. Un `time.sleep`, un `requests.get` o un cálculo largo dentro del loop dejan sin turno a todas las tareas que ya podían avanzar.
 
 ## Asíncrono: la llamada regresa antes del resultado
 
 ::: definition {#cmp-def-asincrono title="Llamada síncrona y llamada asíncrona"}
-Sea $\operatorname{hilo}(\tau)$ el hilo del sistema operativo que ejecuta la tarea $\tau$.
+**En palabras.** Una llamada asíncrona regresa antes del resultado; quien lo necesita hace `await`, se suspende y cede su hilo para que corra otra tarea lista. Una síncrona retiene el hilo hasta el resultado. ([[notacion-computo]])
+
+Sea $\operatorname{hilo}(\tau)$ el hilo del sistema operativo que ejecuta la tarea $\tau$. **Formalmente:**
 
 - Una llamada es **síncrona** (bloqueante) si, mientras la operación está pendiente, $\operatorname{hilo}(\tau)$ queda bloqueado: ninguna otra tarea de ese hilo ejecuta.
 - Una llamada es **asíncrona** si **regresa antes del resultado** con un pendiente (un futuro, una `Task`). Cuando $\tau$ necesita el resultado hace `await`: **se suspende y devuelve su hilo** al planificador (el event loop), que da el turno a otra tarea lista.
@@ -82,12 +84,14 @@ El Gantt de hilos y el de `gather` son idénticos; lo que los distingue es la fi
 
 - **Cuándo sí:** muchas esperas independientes (cientos o miles) en un proceso; servidores con muchas conexiones abiertas.
 - **Cuándo no:** pocas llamadas (una serie o unos hilos bastan); el tiempo está en calcular, no en esperar; la biblioteca que necesitas sólo existe bloqueante.
-- **Qué cuesta:** `async` contagia. Una función que hace `await` tiene que ser `async def`, y quien la llama también; mezclar una biblioteca bloqueante dentro de ese código lo rompe (sección `time.sleep` abajo).
+- **Qué cuesta:** una función que hace `await` tiene que ser `async def`, y quien la llama también, hasta el loop; mezclar una biblioteca bloqueante dentro de ese código lo rompe (sección `time.sleep` abajo).
 - **Sistema real:** `httpx` ofrece las dos interfaces con la misma API (`Client` y `AsyncClient`); FastAPI acepta manejadores `def` y `async def`, y corre los `def` fuera del loop.
 
 ## Cooperativo contra preventivo
 
 ::: definition {#cmp-def-cooperativo title="Planificación cooperativa y preventiva"}
+**En palabras.** En la planificación cooperativa la tarea que corre suelta el hilo ella misma, en un `await` que suspende o al terminar; en la preventiva el sistema operativo le quita el turno (y en CPython el GIL le pide soltar el intérprete). ([[notacion-computo]])
+
 - **Cooperativa** (event loop): la tarea que ejecuta suelta el hilo **ella misma**, en un `await` que suspende o al terminar. Nadie la interrumpe.
 - **Preventiva** (hilos, procesos): el sistema operativo le quita la CPU al hilo cuando decide; en CPython, además, el GIL obliga a ceder el intérprete cada `sys.getswitchinterval()` segundos (5 ms por omisión).
 :::
@@ -106,7 +110,7 @@ El Gantt de hilos y el de `gather` son idénticos; lo que los distingue es la fi
 
 $$r_j\ \ge\ e_k\qquad\text{para toda } \tau_j \text{ lista mientras corre el tramo de } \tau_k$$
 
-Con hilos y GIL, el tramo máximo sin ceder el intérprete es de unos 5 ms, sea cual sea $e_k$.
+Con hilos y GIL, el tramo sin ceder el intérprete ronda los 5 ms, sea cual sea $e_k$; el intervalo es orientativo y una función interna larga en C puede excederlo.
 
 **Ejemplo.** En la traza de abajo, en el tick 1 A y B ejecutan 10 ms cada una sin `await`; C, lista desde $t=0$, no corre hasta 20 ms: $r_C=10+10=20$ ms. Si B calculara 2 s en lugar de 10 ms, $r_C$ sería 2010 ms: el loop no tiene manera de quitarle el turno.
 
@@ -164,7 +168,7 @@ El **event loop** es un ciclo que corre en **un** hilo y guarda tres cosas: la *
 mientras queden tareas:
     1. listas = todas las de la cola de listas            ← las que llegan durante el paso 1 esperan al tick siguiente
        para cada tarea en listas: córrela hasta su próximo await o su fin
-    2. timeout = 0 si la cola de listas no está vacía; si no, vencimiento más próximo − ahora
+    2. timeout = 0 si la cola de listas no está vacía; si no, max(0, vencimiento más próximo − ahora); sin temporizadores, sin límite
        cumplidas = sistema_operativo.select(esperas_pendientes, timeout)   ← aquí el hilo duerme
     3. para cada espera cumplida: su tarea → cola de listas
 ```
@@ -185,25 +189,27 @@ Los estados de una tarea (los de [[donde-pasa-el-tiempo]]), leídos dentro del l
 
 **Matemática.** En el paso 2, con $t$ el instante actual y $\operatorname{vence}_j$ el vencimiento de cada temporizador pendiente:
 
-$$\text{timeout}=\min_j \operatorname{vence}_j - t\qquad\text{si la cola de listas está vacía}$$
+$$\text{timeout}=\max\big(0,\ \min_j \operatorname{vence}_j - t\big)\qquad\text{si la cola de listas está vacía}$$
 
-y $\text{timeout}=0$ si no lo está: hay trabajo pendiente y no se duerme.
+y $\text{timeout}=0$ si no lo está: hay trabajo pendiente y no se duerme. Sin temporizadores ni listas, duerme sin límite hasta que un socket tenga datos.
 
 En la traza de abajo, al cerrar el tick 1 ($t=30$ ms) vencen A en 310, B en 120 y C en 230: $\text{timeout}=\min(310,120,230)-30=90$ ms.
 
 **Ejemplo (traza ilustrativa).** `gather(A, B, C)`: cada tarea ejecuta 10 ms, hace `await asyncio.sleep(d)` y ejecuta 10 ms, con $d_A=0.3$ s, $d_B=0.1$ s, $d_C=0.2$ s. Un hilo, tiempos en ms; el vencimiento de cada `sleep` es el instante en que lo pidió más $d$.
 
-| tick | t (ms) | ejecutando | cola de listas (al abrir) | esperando (vence) | qué pasó |
+| tick | t (ms) | ejecutando (en el único hilo) | listas **al abrir** el tick | esperando o bloqueadas **al cerrar** (vence) | qué pasó |
 |---:|---|---|---|---|---|
-| 0 | 0 | main | main | — | main llama `gather`: crea tres `Task` (nuevas → listas) y hace `await`; main pasa a esperando |
-| 1 | 0–30 | A → B → C | A, B, C | A (310), B (120), C (230), main | A corre $[0,10)$ y pide `sleep(0.3)`: vence $10+300=310$; B corre $[10,20)$, vence 120; C corre $[20,30)$, vence 230 |
-| paso 2 | 30–120 | nadie | vacía | A, B, C, main | timeout $=120-30=90$ ms: el hilo duerme en `select`, CPU libre |
-| 2 | 120–130 | B | B | A (310), C (230), main | vence B → lista → corre sus 10 ms y termina; `gather` guarda su resultado |
-| paso 2 | 130–230 | nadie | vacía | A, C, main | timeout $=230-130=100$ ms |
-| 3 | 230–240 | C | C | A (310), main | vence C → lista → corre y termina |
-| paso 2 | 240–310 | nadie | vacía | A, main | timeout $=310-240=70$ ms |
-| 4 | 310–320 | A | A | main | vence A → lista → corre y termina; `gather` completo: main pasa a lista |
+| 0 | 0 | main | main | main (bloqueada) | main llama `gather`: crea tres `Task` (nuevas → listas) y hace `await`; main queda bloqueada: espera a otras tareas del programa |
+| 1 | 0–30 | A → B → C | A, B, C | A (310), B (120), C (230), main (bloqueada) | A corre $[0,10)$ y pide `sleep(0.3)`: vence $10+300=310$; B corre $[10,20)$, vence 120; C corre $[20,30)$, vence 230 |
+| 1 (pasos 2–3) | 30–120 | nadie | — | A, B, C, main | timeout $=120-30=90$ ms: el hilo duerme en `select`, CPU libre |
+| 2 | 120–130 | B | B | A (310), C (230), main (bloqueada) | vence B → lista → corre sus 10 ms y termina; `gather` guarda su resultado |
+| 2 (pasos 2–3) | 130–230 | nadie | — | A, C, main | timeout $=230-130=100$ ms |
+| 3 | 230–240 | C | C | A (310), main (bloqueada) | vence C → lista → corre y termina |
+| 3 (pasos 2–3) | 240–310 | nadie | — | A, main | timeout $=310-240=70$ ms |
+| 4 | 310–320 | A | A | main pasa a lista | vence A → lista → corre y termina; `gather` completo: main pasa a lista |
 | 5 | 320 | main | main | — | main recibe `['A', 'B', 'C']`: el orden de los argumentos, no el de llegada (B, C, A) |
+
+Cómo leer la tabla: cada tick abre con el paso 1 y cierra con los pasos 2 y 3. La columna de listas se lee **antes** de correr el tick; la de esperando, **después**. Las filas «pasos 2–3» son el sueño en `select` y el despertar con que cierra el tick de arriba. Todo corre en un solo hilo: B queda lista de 0 a 10 ms porque el hilo lo tiene A, y C de 0 a 20 porque lo tienen A y luego B; en 120 B corre en cuanto vence porque el hilo está libre.
 
 ::: figure {#cmp-event-loop-ticks title="El event loop, tick por tick: quién corre, quién está lista, quién espera"}
 ![Traza del event loop de gather con tres tareas A, B y C, cada una ejecuta 10 ms, duerme con await asyncio.sleep y ejecuta 10 ms; A duerme 300 ms, B 100 y C 200. Una columna por tick y tres carriles: ejecutando, cola de listas y esperando con su vencimiento. En el tick 1 corren A, B y C hasta su sleep; de 30 a 120 ms el loop duerme en select con la CPU libre; en el tick 2 corre y termina B, en el 3 C, en el 4 A; en el tick 5, a los 320 ms, main recibe los resultados en el orden de los argumentos. Abajo, la fila de CPU en tiempo real](_assets/cmp-event-loop-ticks.svg)
@@ -219,9 +225,9 @@ Las cuentas de la traza, con $\operatorname{start}=0$ para las tres (las crea el
 
 - $T=320$ ms; $C=60$ ms de CPU; $U=60/320\approx18.8\,\%$. Las esperas suman $300+100+200=600$ ms y el lote dura 320: se solaparon.
 - En secuencia serían $320+120+220=660$ ms, la suma de las vidas de cada tarea sola. Es justo lo que da la celda 3.5.
-- main no ejecuta mientras espera a `gather`. En rigor espera a otras tareas del mismo programa: la hoja de notación llama a ese estado `blocked`, y se define en [[concurrencia-acotada]].
+- main no ejecuta mientras espera a `gather`: espera a otras tareas del mismo programa, así que está `blocked` (definición en [[notacion-computo]]).
 
-**Respuesta disponible no es tarea reanudada.** Que se cumpla la espera de una tarea la mueve de **esperando** a **lista**; no la pone a ejecutar. Ejecuta cuando el paso 1 de un tick le da el hilo. En la traza el loop estaba ocioso y las dos cosas coincidieron, pero no tienen por qué:
+**Respuesta disponible no es tarea reanudada.** Que llegue la respuesta (o venza el temporizador) es un evento del sistema; reanudar la tarea es que el loop le dé el hilo. Lo primero la mueve de **esperando** a **lista**; lo segundo ocurre en el paso 1 de un tick posterior. En la traza el loop estaba ocioso y las dos cosas coincidieron, pero no tienen por qué:
 
 | Variante (cifras supuestas) | A vence | A corre | $\operatorname{ready}(A)$ |
 |---|---:|---:|---|
@@ -315,7 +321,7 @@ Para la tarea que llama `time.sleep`, ese tramo es `wait`: espera un temporizado
 - Las respuestas de $\tau_1$ y $\tau_2$ llegan a los 220 y 240 ms; sus tareas pasan a **lista** y se quedan ahí 1820 ms. Respuesta disponible, tarea sin reanudar.
 - $C=40+40+2000=2080=T$: $U=100\,\%$. La CPU nunca estuvo ociosa y aun así las dos peticiones tardaron 2060 y 2080 ms en lugar de 240 y 260. Utilización alta no significa buen servicio.
 
-**Ejemplo (traza ilustrativa).** Las tres tareas de la traza por ticks, con `time.sleep(d)` en lugar de `await asyncio.sleep(d)` (celda 3.5): A ocupa el hilo $[0,320)$, B $[320,440)$, C $[440,660)$. Todo ocurre en **un solo tick**, porque nadie regresa al loop. Total 660 ms contra 320: la suma de las vidas, igual que en secuencia.
+**Ejemplo (traza ilustrativa).** Las tres tareas de la traza por ticks, con `time.sleep(d)` en lugar de `await asyncio.sleep(d)` (celda 3.5): A ocupa el hilo $[0,320)$, B $[320,440)$, C $[440,660)$. Todo ocurre en **un solo tick**, porque nadie regresa al loop. Total 660 ms contra 320: la suma de lo que dura cada tarea sola ($320+120+220$). Las vidas empiezan las tres en 0 y duran 320, 440 y 660 ms: la traza sigue siendo concurrente, pero no solapa ninguna espera.
 
 **Arquitectura.** «Async de punta a punta».
 
@@ -348,7 +354,7 @@ clientes ──► socket ──► selector (epoll): miles de conexiones, cada 
 | quién decide el turno | el sistema operativo | los `await` del código |
 | una conexión que calcula 50 ms | frena su hilo; las demás siguen | frena a **todas** |
 | bibliotecas | cualquiera | sólo asíncronas dentro del manejador |
-| CPU por proceso | varias (fuera del GIL) | una por loop |
+| CPU por proceso | una para Python (el GIL); más sólo con código nativo que lo suelta | una por loop |
 
 **Matemática (cifras supuestas, rotuladas).** Llegan $\lambda=1000$ peticiones/s; cada una pasa $W=0.2$ s en el servidor, casi todo esperando a la base de datos, y ejecuta $e=0.2$ ms de CPU.
 
@@ -357,7 +363,7 @@ clientes ──► socket ──► selector (epoll): miles de conexiones, cada 
 | conexiones en vuelo (Little) | $L=\lambda W=1000\times0.2$ | 200, todas en un hilo |
 | CPU que usa el loop | $\lambda e=1000\times0.0002$ | 0.2 s por segundo: 20 % de una CPU |
 | techo de un loop | $\lambda\le1/e=1/0.0002$ | 5000 peticiones/s, sin importar $W$ |
-| un manejador calcula 50 ms | cada uno retiene el hilo 50 ms | las otras 199 conexiones suman 50 ms de `ready` por cada uno; con sólo esos, $\lambda\le1/0.05=20$/s |
+| un manejador calcula 50 ms | cada uno retiene el hilo 50 ms | toda conexión cuya respuesta llegue en esos 50 ms queda lista sin turno hasta que el manejador suelte el hilo; techo $\lambda\le1/0.05=20$/s |
 
 Con hilo por conexión, las mismas 200 conexiones serían 200 hilos. Con un loop, la capacidad la decide la CPU por petición, no la espera.
 
@@ -492,7 +498,7 @@ marca(f"main recibe {resultado}")
 |---|---|---|
 | `await asyncio.sleep(d)` | una espera que registra un temporizador en el loop y cede el hilo | es la espera que el loop puede solapar |
 | `asyncio.gather(a, b, c)` | crea una `Task` por corrutina y espera a todas; devuelve los resultados en el orden de los argumentos | programa las tres antes de esperar |
-| `time.sleep(0.01)` | retiene el hilo 10 ms | fabrica los 10 ms de ejecución: para el loop, retener el hilo es igual que calcular |
+| `time.sleep(0.01)` | retiene el hilo 10 ms | simula retener el hilo, no calcular: la tarea está en `wait`, no en `exec`; para las demás el efecto es el mismo, no les toca turno |
 | `await` fuera de una función | el notebook acepta `await` de nivel superior | por eso no hace falta `asyncio.run` |
 
 **Qué pasó:** cada línea impresa cae en un tick de la tabla de la sección del event loop.

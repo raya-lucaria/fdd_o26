@@ -1,4 +1,4 @@
-"""Servidor de ventas para la clase de APIs (sección 10.1).
+"""Servidor de ventas de la clase de APIs (10.1) y de la unidad 11.
 
 Sólo usa la librería estándar. Córrelo en una terminal aparte y déjalo
 abierto: cada petición que llega se imprime completa, tal como viajó
@@ -61,7 +61,7 @@ ventas = {}
 siguiente_id = 1
 respuestas_guardadas = {}   # Idempotency-Key -> (status, cuerpo)
 peticiones = 0
-candado = Lock()          # un cambio a la vez: el servidor atiende varias peticiones en paralelo
+candado = Lock()          # un cambio a la vez: los hilos del servidor atienden peticiones concurrentes
 
 
 def reiniciar():
@@ -107,7 +107,7 @@ class Ventas(BaseHTTPRequestHandler):
     # ── entrada ───────────────────────────────────────────────────────────
     def leer(self):
         global peticiones
-        with candado:   # `+= 1` lee, suma y escribe: sin candado dos hilos pierden una cuenta
+        with candado:   # `+= 1` lee, suma y escribe: sin candado dos hilos pueden perder una cuenta
             peticiones += 1
             numero = peticiones
         self.n_en_conexion += 1
@@ -187,7 +187,8 @@ class Ventas(BaseHTTPRequestHandler):
                          if self.query.get("tienda") in (None, v.get("tienda"))]
             return self.con_etag(filas)
         if self.id_de_la_ruta() is not None:
-            venta = ventas.get(self.id_de_la_ruta())
+            with candado:
+                venta = ventas.get(self.id_de_la_ruta())
             if venta is None:
                 return self.error(404, f"no hay venta {self.id_de_la_ruta()}")
             return self.con_etag(venta)
@@ -227,28 +228,32 @@ class Ventas(BaseHTTPRequestHandler):
 
     def do_POST(self):
         cuerpo = self.leer()
-        with candado:
-            self.crear(cuerpo)
-
-    def crear(self, cuerpo):
-        global siguiente_id
         if self.ruta == "/reiniciar":
-            reiniciar()
-            return self.responder(200, {"ok": True, "ventas": len(ventas)})
+            with candado:
+                reiniciar()
+                n = len(ventas)
+            return self.responder(200, {"ok": True, "ventas": n})
         if self.ruta != "/ventas":
             return self.error(405, "aquí no se crea nada", {"Allow": "GET, HEAD"})
         if not self.autorizado():
             return
+        with candado:   # revisar la llave, dar el id y guardar sin que otro hilo se cuele
+            status, datos, headers, tipo = self.crear(cuerpo)
+        self.responder(status, datos, headers, tipo)   # escribir a la red, fuera del candado
+
+    def crear(self, cuerpo):
+        """Sólo toca los datos y regresa la respuesta; no escribe al socket."""
+        global siguiente_id
         llave = self.headers.get("Idempotency-Key")
         if llave in respuestas_guardadas:
             status, guardada = respuestas_guardadas[llave]
-            return self.responder(status, guardada, {"Idempotent-Replayed": "true"})
+            return status, guardada, {"Idempotent-Replayed": "true"}, None
         try:
             nueva = json.loads(cuerpo)
         except json.JSONDecodeError:
-            return self.error(400, "el body no es JSON válido")
+            return 400, {"error": "el body no es JSON válido"}, None, "application/json"
         if not isinstance(nueva, dict):
-            return self.error(400, "el body debe ser un objeto JSON")
+            return 400, {"error": "el body debe ser un objeto JSON"}, None, "application/json"
         while siguiente_id in ventas:  # un PUT pudo haber ocupado este id
             siguiente_id += 1
         nueva["id"] = siguiente_id
@@ -256,7 +261,7 @@ class Ventas(BaseHTTPRequestHandler):
         siguiente_id += 1
         if llave:
             respuestas_guardadas[llave] = (201, nueva)
-        self.responder(201, nueva, {"Location": f"/ventas/{nueva['id']}"})
+        return 201, nueva, {"Location": f"/ventas/{nueva['id']}"}, None
 
     def do_PUT(self):
         cuerpo = self.leer()

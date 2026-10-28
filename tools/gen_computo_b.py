@@ -315,7 +315,7 @@ def cmp_gantt_pool():
     p.append(texto(X0 - 16, y_p6 + barra / 2 + 5, "petición 6", AMBAR, 14,
                    anclaje="end", peso="600"))
     p.append(_barra("espera_conexion", xs(0), y_p6, xs(POOL_MS) - xs(0), barra,
-                    "espera conexión"))
+                    f"espera: {POOL_K} en vuelo"))
     p.append(_barra("vuelo", xs(POOL_MS), y_p6, xs(2 * POOL_MS) - xs(POOL_MS), barra,
                     "en la conexión 1"))
 
@@ -327,19 +327,20 @@ def cmp_gantt_pool():
         w = xs(ini + POOL_MS) - xs(ini)
         if esperan:
             p.append(_barra("espera_conexion", xs(ini), y_cola, w, barra,
-                            f"{esperan} esperan"))
+                            f"{esperan} esperan conexión"))
         else:
             p.append(texto(xs(ini) + w / 2, y_cola + barra / 2 + 5, "vacía", SUAVE, 13))
 
     p.append(_eje(xs, y_eje, eje_max, paso))
     p.append(_total(xs, total, arriba - 30, y_eje, f"total {total} ms", 108))
     p.append(_leyenda(y_eje + 64, (
-        ("vuelo", "en vuelo: la conexión lleva una petición"),
-        ("espera_conexion", "espera conexión: en la cola del pool"),
+        ("vuelo", "en vuelo: espera la respuesta, CPU libre"),
+        ("espera_conexion", "espera conexión: las 5 están prestadas"),
     )))
     p.append(texto(ANCHO / 2, y_eje + 104,
-                   "20 peticiones / 5 conexiones = 4 olas; 4 × 0.2 s ≈ 0.8 s "
-                   "(esquema, sin sobrecosto de red)", TEXTO, 14))
+                   f"p16 a p20 toman conexión en {total - POOL_MS} ms y vuelven en {total}: "
+                   f"{POOL_N} / {POOL_K} = {olas} olas × {POOL_MS} ms = {total} ms (esquema)",
+                   AMBAR, 14, peso="600"))
     p.append(texto(ANCHO / 2, y_eje + 132,
                    "mientras p1 a p5 siguen en vuelo, p6 no puede usar ninguna de "
                    "sus conexiones", SUAVE, 14))
@@ -394,16 +395,17 @@ def cmp_pool_soltar_antes():
         f"BD 100 ms, llama a una API lenta 1000 ms y escribe en la BD 100 ms. "
         f"Arriba, retener: cada tarea guarda su conexión durante la llamada "
         f"lenta, cada conexión pasa 1000 de cada 1200 ms sin usarse y las "
-        f"tareas 4 a 6 esperan una ola entera: total {total_r} ms. Abajo, "
-        f"soltar: la tarea devuelve la conexión antes de llamar a la API y "
-        f"toma otra para escribir; las seis esperas a la API se solapan sin "
-        f"ocupar conexión: total {total_s} ms."
+        f"tareas 4 a 6 esperan en la cola del pool una ola entera, porque las 3 "
+        f"conexiones están retenidas: total {total_r} ms. Abajo, soltar: la "
+        f"tarea devuelve la conexión antes de llamar a la API y toma otra para "
+        f"escribir; t4 a t6 esperan conexión solo 100 ms y las seis esperas a la "
+        f"API se solapan sin ocupar conexión: total {total_s} ms."
     )
     fila, barra = 38, 24
     y_a = 132
-    y_b = y_a + SOLTAR_K * fila + 40
-    y_eje = y_b + (SOLTAR_K + 2) * fila + 8
-    alto = y_eje + 140
+    y_b = y_a + (SOLTAR_K + 1) * fila + 40
+    y_eje = y_b + (SOLTAR_K + 3) * fila + 8
+    alto = y_eje + 166
 
     p = [marco(ANCHO, alto, aria)]
     p.append(texto(ANCHO / 2, 42, "Soltar la conexión antes de la espera larga",
@@ -421,7 +423,12 @@ def cmp_pool_soltar_antes():
                        anclaje="end"))
         for tipo, ini, fin, rot in tramos:
             p.append(_barra(tipo, xs(ini), y, xs(fin) - xs(ini), barra, rot))
-    p.append(_total(xs, total_r, y_a - 8, y_a + SOLTAR_K * fila - 10,
+    vida = CONSULTA_MS + API_MS + ESCRIBE_MS
+    y = y_a + SOLTAR_K * fila
+    p.append(texto(X0 - 16, y + barra / 2 + 5, "cola del pool", AMBAR, 14, anclaje="end"))
+    p.append(_barra("espera_conexion", xs(0), y, xs(vida) - xs(0), barra,
+                    f"t4 a t6 esperan conexión: las {SOLTAR_K} están retenidas"))
+    p.append(_total(xs, total_r, y_a - 8, y_a + (SOLTAR_K + 1) * fila - 10,
                     f"total {total_r} ms (esquema)", y_a - 14))
 
     p.append(_linea(20, y_b - 34, ANCHO - 20, y_b - 34, LINEA, 1))
@@ -436,13 +443,19 @@ def cmp_pool_soltar_antes():
         libre0, libre1 = 2 * CONSULTA_MS, CONSULTA_MS + API_MS
         p.append(_barra("libre", xs(libre0), y + 3, xs(libre1) - xs(libre0), barra - 6,
                         "libre: la BD atiende a otras"))
+    y = y_b + SOLTAR_K * fila
+    p.append(texto(X0 - 16, y + barra / 2 + 5, "cola del pool", AMBAR, 14, anclaje="end"))
+    p.append(_barra("espera_conexion", xs(0), y, xs(CONSULTA_MS) - xs(0), barra))
+    p.append(texto(xs(CONSULTA_MS) + 8, y + barra / 2 + 5,
+                   "t4 a t6 esperan conexión 0–100 ms: t1 a t3 consultan",
+                   AMBAR, 13, anclaje="start"))
     for j, (ini, rot) in enumerate(((CONSULTA_MS, "API: t1 a t3"),
                                     (2 * CONSULTA_MS, "API: t4 a t6"))):
-        y = y_b + (SOLTAR_K + j) * fila
+        y = y_b + (SOLTAR_K + 1 + j) * fila
         p.append(texto(X0 - 16, y + barra / 2 + 5, rot, CIAN, 14, anclaje="end"))
         p.append(_barra("vuelo", xs(ini), y, xs(ini + API_MS) - xs(ini), barra,
                         "esperan la API sin retener conexión"))
-    p.append(_total(xs, total_s, y_b - 8, y_b + (SOLTAR_K + 2) * fila - 10,
+    p.append(_total(xs, total_s, y_b - 8, y_b + (SOLTAR_K + 3) * fila - 10,
                     f"total {total_s} ms (esquema)", y_b - 14))
 
     p.append(_eje(xs, y_eje, eje_max, paso))
@@ -450,10 +463,14 @@ def cmp_pool_soltar_antes():
         ("bd", "usa la BD con una conexión"),
         ("retenida", "conexión retenida sin uso"),
         ("vuelo", "espera la API, sin conexión"),
+        ("espera_conexion", "espera conexión: pool lleno"),
     )))
     p.append(texto(ANCHO / 2, y_eje + 104,
-                   f"retener: 2 olas × 1200 ms = {total_r} ms · soltar: 200 ms de "
-                   f"conexión por tarea y esperas solapadas = {total_s} ms", TEXTO, 14))
+                   f"retener: t4 a t6 esperan la ola 1 entera; 2 olas × (100 + 1000 + 100) "
+                   f"= {total_r} ms", AMBAR, 14, peso="600"))
+    p.append(texto(ANCHO / 2, y_eje + 130,
+                   f"soltar: t4 a t6 consultan de 100 a 200 ms, la API vuelve en 1200 y "
+                   f"escriben hasta {total_s}: total {total_s} ms", AMBAR, 14, peso="600"))
     p.append(cierre())
     return "".join(p)
 
@@ -479,7 +496,7 @@ def cmp_run_in_executor():
     arriba, fila, barra = 120, 56, 26
     y_cor, y_loop, y_proc = arriba, arriba + fila, arriba + 2 * fila
     y_eje = y_proc + barra + 44
-    alto = y_eje + 156
+    alto = y_eje + 182
 
     p = [marco(ANCHO, alto, aria)]
     p.append(texto(ANCHO / 2, 42, "run_in_executor: el cálculo sale del hilo del loop",
@@ -490,6 +507,7 @@ def cmp_run_in_executor():
     p.append(_rejilla(xs, arriba - 8, y_eje, eje_max, paso))
 
     p.append(texto(X0 - 16, y_cor + barra / 2 + 5, "corrutina", TEXTO, 14, anclaje="end"))
+    p.append(texto(X0 - 16, y_loop - 8, "latido: otra corrutina", SUAVE, 13, anclaje="end"))
     p.append(_barra("ejecuta", xs(0), y_cor, xs(20) - xs(0), barra))
     p.append(_barra("vuelo", xs(20), y_cor, xs(calc) - xs(20), barra,
                     "await: espera el Future; el hilo del loop queda libre"))
@@ -503,7 +521,7 @@ def cmp_run_in_executor():
     p.append(texto(X0 - 16, y_proc + barra / 2 + 5, "proceso del pool", VIOLETA, 14,
                    anclaje="end", peso="600"))
     p.append(_barra("calcula", xs(0), y_proc, xs(calc) - xs(0), barra,
-                    "calcula 2000 ms en otro proceso, con su propio GIL"))
+                    "calcula 2000 ms en otro proceso, en otra CPU, con su propio GIL"))
     p.append(flecha(xs(10), y_cor + barra + 2, xs(10), y_proc - 3, CIAN, 2))
     p.append(texto(xs(0), y_proc + barra + 22,
                    "run_in_executor envía calcula(datos) al pool", CIAN, 13,
@@ -514,14 +532,18 @@ def cmp_run_in_executor():
 
     p.append(_eje(xs, y_eje, eje_max, paso))
     p.append(_leyenda(y_eje + 64, (
-        ("ejecuta", "corre en el hilo del loop (latido o corrutina)"),
-        ("vuelo", "espera con await"),
-        ("calcula", "calcula en otro proceso"),
+        ("ejecuta", "corre en el hilo del loop"),
+        ("vuelo", "espera el Future, CPU libre"),
+        ("calcula", "calcula en otro proceso y otra CPU"),
     )))
     p.append(texto(ANCHO / 2, y_eje + 102,
+                   f"la corrutina termina en {calc + 20} ms: {calc} de cálculo en el pool "
+                   f"+ 20 suyos en el loop; mientras, el loop late {calc // 100} veces",
+                   AMBAR, 14, peso="600"))
+    p.append(texto(ANCHO / 2, y_eje + 128,
                    "los latidos siguen cada 100 ms durante los 2000 ms: el hilo del "
                    "loop sólo envía y recibe", TEXTO, 14))
-    p.append(texto(ANCHO / 2, y_eje + 128,
+    p.append(texto(ANCHO / 2, y_eje + 154,
                    "con el cálculo dentro del loop, ese carril quedaría vacío 2000 ms",
                    SUAVE, 14))
     p.append(cierre())

@@ -40,7 +40,7 @@ La regla con la que un servidor asigna **ejecutores** (hilos, procesos, el hilo 
 **Otro ángulo.**
 
 ::: figure {#cmp-arq-servidores title="Tres modelos de servidor lado a lado, y el híbrido"}
-![Tres modelos de servidor lado a lado. Hilo por conexión: accept entrega cada conexión a un hilo y todos tocan un estado con un Lock; cuesta un hilo con su pila por conexión; sí para pocas conexiones y código bloqueante, no para miles de conexiones ociosas; ejemplo, el ThreadingHTTPServer de la clase. Event loop: un selector vigila los sockets, las listas pasan a una cola y un hilo las ejecuta una a la vez; sí para miles de conexiones que esperan, no para manejadores que calculan o bloquean; nginx, Node.js, Uvicorn. Prefork: un maestro crea K procesos que aceptan del mismo socket, cada uno con su GIL; sí para cálculo por petición y aislar fallos, no para estado compartido en memoria; Gunicorn, PostgreSQL. Abajo, el híbrido: un event loop por proceso.](_assets/cmp-arq-servidores.svg)
+![Tres modelos de servidor lado a lado. Hilo por conexión: accept entrega cada conexión a un hilo y todos tocan un estado con un Lock; cuesta un hilo con su pila por conexión; sí para pocas conexiones y código bloqueante, no para miles de conexiones ociosas; ejemplo, el ThreadingHTTPServer de la clase. Event loop: un selector vigila los sockets, las listas pasan a una cola y un hilo las ejecuta una a la vez; sí para miles de conexiones que esperan, no para manejadores que calculan o bloquean; nginx, Node.js, Uvicorn. Prefork: un maestro crea K procesos que aceptan del mismo socket, cada uno con su GIL; sí para cálculo por petición y aislar fallos, no para estado compartido en memoria; Gunicorn. Abajo, el híbrido: un event loop por proceso.](_assets/cmp-arq-servidores.svg)
 :::
 
 | | Hilo por conexión | Event loop | Prefork / multiproceso | Híbrido: loop + procesos |
@@ -65,13 +65,23 @@ Si la misma carga llegara con $W=2$ s (una dependencia lenta), $L\approx300$ hil
 |---|---|---|---|---|
 | hilo por conexión | decenas o cientos de conexiones, librerías bloqueantes | miles de conexiones abiertas que casi no hablan (keep-alive largo, WebSocket) | memoria por hilo; sin tope, un pico abre miles | `ThreadingHTTPServer` (la clase); Apache httpd con MPM `worker` |
 | event loop | miles de conexiones que casi sólo esperan | manejadores que calculan o usan librerías bloqueantes | todo el código del camino debe ser `async`; un bloqueo congela a todos | nginx, Node.js, Uvicorn; Redis ejecuta sus comandos en un hilo |
-| prefork / multiproceso | cálculo por petición en Python; aislar fallos (un proceso muere, los otros siguen) | estado en memoria que deba ser uno solo | $K\times$ la memoria de un proceso; $K>P$ no suma en cálculo | Gunicorn (maestro + workers; su documentación sugiere $2\times$ núcleos $+1$ workers); PostgreSQL (un proceso por conexión) |
+| prefork / multiproceso | cálculo por petición en Python; aislar fallos (un proceso muere, los otros siguen) | estado en memoria que deba ser uno solo | $K\times$ la memoria de un proceso; $K>P$ no suma en cálculo | Gunicorn (maestro + workers; su documentación sugiere $2\times$ núcleos $+1$ workers como punto de partida); PostgreSQL es multiproceso pero no prefork: crea un proceso *backend* por cada conexión que acepta |
 | híbrido | servicios `async` en producción que deben usar todos los núcleos | una máquina de 1 CPU | lo de los dos: memoria $\times K$ y disciplina `async` | nginx (`worker_processes auto`); Gunicorn con workers de Uvicorn; `uvicorn --workers` |
 
 ## Capacidad, latencia y la cola
 
+::: definition {#cmp-def-arq-little title="Ley de Little"}
+**En palabras.** En régimen estable, el número medio de peticiones dentro de una frontera es lo que entra por segundo por lo que cada una pasa dentro. Con un tope de $k$ dentro, el throughput no pasa de $k$ entre ese tiempo.
+
+**Formalmente.** $L=\lambda\cdot W$, con $L$ la ocupación media, $\lambda$ el throughput y $W$ el tiempo medio dentro de la frontera elegida. Si $L\le k$, entonces $\lambda\le k/W$. Modelo completo en [[notacion-computo]].
+:::
+
 ::: definition {#cmp-def-arq-capacidad title="Throughput y capacidad"}
-**Throughput** $\lambda$: peticiones que **terminan** por segundo, en régimen estable (lo que entra es lo que sale). **Capacidad**: el $\lambda$ más alto que el sistema sostiene **cumpliendo una latencia objetivo** declarada (por ejemplo, $p_{99}\le300$ ms) y sin que la cola crezca. Sin el objetivo, la capacidad no está definida: casi cualquier sistema «aguanta» más carga si se acepta esperar más.
+**En palabras.** El throughput es cuántas peticiones terminan por segundo; la capacidad es el throughput más alto que el sistema sostiene cumpliendo una latencia objetivo declarada y sin que la cola crezca.
+
+**Formalmente.** $\lambda$ = peticiones terminadas por segundo en régimen estable (lo que entra es lo que sale). $\lambda_{\max}=\max\{\lambda : p_{99}(\lambda)\le\text{objetivo y la cola no crece}\}$. El techo ideal $k/W$ de Little es una cota superior de $\lambda_{\max}$, no su valor. Modelo completo en [[notacion-computo]].
+
+Sin el objetivo, la capacidad no está definida: casi cualquier sistema «aguanta» más carga si se acepta esperar más.
 :::
 
 ::: definition {#cmp-def-arq-latencia-cola title="Latencia de cola y latencia de servicio"}
@@ -89,7 +99,7 @@ Ordena las latencias de todas las peticiones de una ventana: $p_{99}$ es el valo
 **Otro ángulo.**
 
 ::: figure {#cmp-arq-little title="Ley de Little con las cifras medidas"}
-![Ley de Little: L igual a lambda por W, peticiones en vuelo igual a throughput por latencia. Un tubo con 32 peticiones en vuelo, cada una dentro 0.2 s, entran y salen 160 por segundo: 32 = 160 por 0.2. Debajo, 500 llamadas con 32 en vuelo son 16 tandas de 0.2 s: cota de 3.2 s contra 3.32 s medidos, 151 por segundo. En serie, 20 llamadas con L = 1 dan 5 por segundo; medido 20 entre 4.04 s, 4.95 por segundo. Despejando, W = 32 / 151, unos 0.212 s: 12 ms de sobrecosto. El servidor de la clase con 151 por segundo y 0.2 s tiene unos 30 hilos ocupados; si W sube a 2 s, unos 300.](_assets/cmp-arq-little.svg)
+![Ley de Little: L igual a lambda por W, peticiones en vuelo igual a throughput por latencia. Un tubo con 32 peticiones en vuelo, cada una dentro 0.2 s, entran y salen 160 por segundo: 32 = 160 por 0.2. Debajo, 500 llamadas con 32 en vuelo son 16 tandas de 0.2 s: cota de 3.2 s contra 3.32 s medidos, 151 por segundo. En serie, 20 llamadas con L = 1 dan 5 por segundo; medido 20 entre 4.04 s, 4.95 por segundo. Despejando, W es a lo más 32 / 151, unos 0.212 s: una cota superior, no una medición. El servidor de la clase con 151 por segundo y 0.2 s tiene unos 30 hilos ocupados; si W sube a 2 s, unos 300.](_assets/cmp-arq-little.svg)
 :::
 
 **Matemática.** Tres cuentas, todas de [[concurrencia-acotada]] y [[pools-y-recursos]]:
@@ -108,12 +118,12 @@ Ordena las latencias de todas las peticiones de una ventana: $p_{99}$ es el valo
 | 500 llamadas, `asyncio` con tope 32 | 32 | 160/s | 500 en 3.39 s | parejo con hilos |
 | servidor de la clase a 151/s | — | — | $151\times0.2\approx30$ hilos | con $W=2$ s, unos 300 |
 
-Despejando $W=L/\lambda=32/151\approx0.212$ s: unos 12 ms por llamada que no son el `sleep` del servidor (cliente, servidor y red local). Esa diferencia es lo que separa la cota de 3.2 s de los 3.32 medidos.
+Con $\lambda=500/3.32\approx151$/s y $L\le32$, Little sólo da una cota: $W=L/\lambda\le32/151\approx0.212$ s. No se midió $W$ ni un sobrecosto de 12 ms por llamada: la distancia entre la cota de 3.2 s y los 3.32 medidos mezcla el costo de cliente, servidor y red local con la última tanda incompleta (500 no es múltiplo de 32), que baja la ocupación media por debajo de 32.
 
 **Arquitectura.**
 
 - **Qué es:** dimensionar con Little. Los hilos, permisos y conexiones que necesitas son $\lambda\cdot W$ de **esa** frontera: el pool de la BD se dimensiona con lo que tarda cada préstamo de conexión, no con lo que tarda la petición HTTP completa.
-- **Cuándo sí:** siempre que fijes un tope, un pool o un número de workers. Si un proveedor acepta 10 peticiones/s y tarda 1.5 s, $k=10\times1.5=15$; más en vuelo sólo produce `429`.
+- **Cuándo sí:** siempre que fijes un tope, un pool o un número de workers. Si un proveedor acepta 10 peticiones/s y tarda 1.5 s, hacen falta unas $10\times1.5=15$ en vuelo para llegar a su cuota. Ese $k$ no hace respetar la cuota: si $W$ baja a 0.5 s, los mismos 15 dejan pasar 30/s. La cuota se aplica con un limitador de tasa aparte ([[concurrencia-acotada]]).
 - **Cuándo no:** Little habla de **promedios** en régimen estable. No te da el $p_{99}$ ni garantiza nada durante un pico.
 - **Qué cuesta:** medir $\lambda$ y $W$ en la misma frontera. Mezclar el $W$ del cliente con el $\lambda$ del servidor da números sin sentido.
 - **Sistema real:** el `max_connections` de PostgreSQL, el tamaño de un pool como PgBouncer, el número de workers de Gunicorn y el `Semaphore(32)` de la unidad salen de la misma cuenta.
@@ -132,7 +142,7 @@ Un **timeout** es el tope de espera de **una** llamada: al vencer, quien espera 
 | un hilo con `requests.get(..., timeout=…)` | la llamada lanza una excepción y el hilo sigue | nada, pero un hilo **no** se puede cancelar desde fuera si no tiene timeout |
 | cualquiera de los dos | el cliente deja de esperar | el servidor remoto puede seguir trabajando (y cobrando) |
 
-**Matemática.** Sin timeout, una llamada colgada tiene $W\to\infty$: retiene su hilo, permiso o conexión para siempre, y con $\lambda$ fijo Little dice $L=\lambda W$ crece hasta agotar el tope $k$. Con un timeout $t_{\max}$, $W\le t_{\max}$ y $L\le\lambda\cdot t_{\max}$.
+**Matemática.** Sin timeout, una llamada colgada tiene $W\to\infty$: retiene su hilo, permiso o conexión para siempre, y con $\lambda$ fijo Little dice $L=\lambda W$ crece hasta agotar el tope $k$. Con un deadline $t_{\max}$ que cubra la petición completa (adquirir la conexión del pool, conectar, cada lectura y los reintentos), $W\le t_{\max}$ y $L\le\lambda\cdot t_{\max}$: con $\lambda=50$/s y $t_{\max}=2$ s, a lo más 100 en vuelo. Los timeouts de `requests` y `httpx` no bastan para eso: limitan conectar o el silencio entre lecturas, no la duración total.
 
 **Ejemplo.** Presupuesto de 2 s para una petición que consulta la BD y llama a una API: si la BD tardó 0.5 s, la API recibe un timeout de 1.5 s, no de 2 s. Con timeouts fijos de 2 s por paso la petición podría tardar 4 s y responder cuando el cliente ya se fue.
 
@@ -142,7 +152,7 @@ Un **timeout** es el tope de espera de **una** llamada: al vencer, quien espera 
 - **Cuándo sí:** siempre. Lo que se discute es el valor, no la existencia.
 - **Cuándo no:** no hay caso razonable sin timeout; un trabajo que de verdad tarda minutos no va en el camino de la petición (va a una cola de trabajos).
 - **Qué cuesta:** errores visibles en vez de esperas invisibles, y decidir qué hacer con el «no sé».
-- **Sistema real:** `requests` **no** tiene timeout por omisión; `httpx` sí (5 s). PostgreSQL tiene `statement_timeout`. En `asyncio`, `asyncio.timeout()` (3.11+).
+- **Sistema real:** `requests` **no** tiene timeout por omisión; `httpx` sí (5 s para conectar, leer, escribir y esperar el pool, cada uno por separado). PostgreSQL tiene `statement_timeout`. En `asyncio`, `asyncio.timeout()` (3.11+) es un deadline sobre todo el bloque.
 
 ## Reintentos, idempotencia y estampidas
 
@@ -295,7 +305,7 @@ Las cifras de los tres casos son **supuestos** para hacer la cuenta, no medicion
 | latencia objetivo | ninguna por URL; importa el total y poder reanudar |
 | aislamiento | un dominio lento no debe frenar a los demás |
 
-**Decisión.** `asyncio` con `httpx.AsyncClient` (un cliente, un pool de conexiones por host), un semáforo global de 100 y **un semáforo por dominio** (bulkhead, por ejemplo 2 en vuelo por dominio), timeout por llamada, reintento con backoff sólo en `GET` y respetando `Retry-After`, y el resultado de cada URL guardado al terminarla para reanudar. Si la librería disponible es `requests`, hilos con `Session` por hilo y el mismo esquema de topes.
+**Decisión.** `asyncio` con un `httpx.AsyncClient` (su pool reutiliza conexiones por host, pero `max_connections` es un límite compartido entre todos los destinos), un semáforo global de 100 y **un semáforo por dominio** (bulkhead, por ejemplo 2 en vuelo por dominio), timeout por llamada, reintento con backoff sólo en `GET` y respetando `Retry-After`, y el resultado de cada URL guardado al terminarla para reanudar. Si la librería disponible es `requests`, hilos con `Session` por hilo y el mismo esquema de topes.
 
 **La cuenta.** En serie: $10\,000\times0.5=5000$ s. Con $\lambda=200$/s: $10\,000/200=50$ s. Procesos: **no**, no hay cálculo que repartir; si el parseo del HTML resulta pesado ($\rho$ alto al medirlo), ese parseo va a un pool de procesos aparte.
 
@@ -308,13 +318,13 @@ Las cifras de los tres casos son **supuestos** para hacer la cuenta, no medicion
 | tipo de trabajo | calcula: la predicción es CPU (o GPU) por petición |
 | dependencia | el modelo cargado en memoria de cada worker |
 | recurso limitante | CPU; memoria $\times K$ por tener el modelo en cada proceso |
-| concurrencia | **supuesto**: 8 workers y 80 ms por predicción: $\lambda_{\max}=8/0.08=100$/s |
+| concurrencia | **supuesto**: 8 workers y 80 ms por predicción: techo ideal $8/0.08=100$/s; la capacidad que cumple el $p_{99}$ se mide y queda debajo |
 | latencia objetivo | interactiva: un $p_{99}$ declarado y un deadline |
 | aislamiento | una predicción lenta no debe congelar la recepción de las demás |
 
-**Decisión.** El borde recibe con un event loop (Uvicorn) y la predicción **no** corre en el loop: va a un pool de procesos de $\min(\text{workers},P)$ creado una vez, con el modelo cargado una vez por proceso (o un híbrido de $K$ procesos con su loop). Delante del pool, una **cola acotada** que responde `429` o `503` con `Retry-After` cuando se llena: sin ella, la latencia de cola crece sin límite. Hilos sólo si la librería suelta el GIL durante la predicción, y entonces cuidando que procesos e hilos internos no pidan más CPU que $P$ entre todos.
+**Decisión.** Recibe con Uvicorn. Ejecuta la predicción fuera del loop, en un pool de $\min(\text{workers},P)$ procesos creado al arrancar; carga el modelo una vez por proceso (o usa un híbrido de $K$ procesos, cada uno con su loop). Delante del pool, una **cola acotada** que responde `429` o `503` con `Retry-After` cuando se llena: sin ella, la latencia de cola crece sin límite. Hilos sólo si la librería suelta el GIL durante la predicción, y entonces cuidando que procesos e hilos internos no pidan más CPU que $P$ entre todos.
 
-**La cuenta.** **Supuesto** de demanda: 300/s contra $\lambda_{\max}=100$/s por réplica. Faltan $200$/s: o 3 réplicas sin estado detrás de un balanceador ($3\times100=300$, sin margen), o *batching* (juntar varias predicciones en una llamada al modelo) si el costo por lote crece menos que el número de elementos. Con 300/s de entrada y 100/s de salida en una sola réplica, la cola crecería 200 peticiones por segundo.
+**La cuenta.** **Supuesto** de demanda: 300/s contra un techo ideal de 100/s por réplica. Faltan al menos $200$/s: o 3 réplicas sin estado detrás de un balanceador ($3\times100=300$, sin margen), o *batching* (juntar varias predicciones en una llamada al modelo) si el costo por lote crece menos que el número de elementos. Con 300/s de entrada y 100/s de salida en una sola réplica, la cola crecería 200 peticiones por segundo.
 
 **Qué se mide.** $p_{99}$ contra carga creciente (dónde se dobla: esa es la capacidad); largo de la cola y rechazos; CPU por worker; latencia de cola separada de la de servicio.
 
@@ -325,11 +335,11 @@ Las cifras de los tres casos son **supuestos** para hacer la cuenta, no medicion
 | tipo de trabajo | dos fases: ingesta que espera, transformación que calcula |
 | dependencia | tres proveedores con cuotas y latencias distintas |
 | recurso limitante | la cuota de cada API en la ingesta; la CPU (y la memoria) en la transformación |
-| concurrencia | por API: $k_i=\lambda_i\cdot W_i$; **supuesto**: una API de 10 peticiones/s que tarda 1.5 s pide $k=15$ |
+| concurrencia | por API: $L_i=\lambda_i\cdot W_i$ estima la ocupación media; **supuesto**: una API de 10 peticiones/s que tarda 1.5 s necesita unas 15 en vuelo para usar su cuota |
 | latencia objetivo | ninguna por petición; importa el total del lote |
 | aislamiento | una API caída no debe detener la ingesta de las otras dos |
 
-**Decisión.** Ingesta con `asyncio`: un `AsyncClient` (pool de conexiones) por host, **un semáforo por API** dimensionado con su cuota (bulkhead), timeouts, reintentos sólo en `GET`. Transformación: concatenar **una vez** todas las respuestas en un `DataFrame` o arreglo y operar por columnas: en la medición de [[vectorizar]], bucle 0.141 s contra NumPy 0.0091 s (unas 16 veces). Procesos **sólo** si después de vectorizar el cálculo sigue dominando y los datos se parten sin copiar mucho entre procesos. Escalado vertical primero; horizontal sólo si el lote deja de caber en una máquina.
+**Decisión.** Ingesta con `asyncio`: un `AsyncClient` (pool de conexiones) por host y, por API, un **limitador de tasa** que aplica su cuota y un **semáforo independiente** que acota cuántas van en vuelo (bulkhead): $L=\lambda W$ estima la ocupación, pero no garantiza la cuota ni fija por sí solo el tope. Timeouts, reintentos sólo en `GET`. Transformación: concatenar **una vez** todas las respuestas en un `DataFrame` o arreglo y operar por columnas: en la medición de [[vectorizar]], bucle 0.141 s contra NumPy 0.0091 s (unas 16 veces). Procesos **sólo** si después de vectorizar el cálculo sigue dominando y los datos se parten sin copiar mucho entre procesos. Escalado vertical primero; horizontal sólo si el lote deja de caber en una máquina.
 
 **La cuenta.** Amdahl: desde el punto de vista del cálculo, la ingesta y la concatenación son la fracción serial $f$; repartir la transformación entre $N$ procesos no baja el total por debajo de ese tramo. Medir las dos fases por separado dice cuál atacar.
 
@@ -377,10 +387,10 @@ n, medido = 500, 3.32           # llamadas y segundos medidos (pon los tuyos)
 lam_ideal = k / W               # Little con L = k: λ ≤ k / W
 cota = math.ceil(n / k) * W     # ⌈n/k⌉ tandas de W segundos
 lam_medido = n / medido         # peticiones terminadas por segundo
-W_efectiva = k / lam_medido     # despeja W = L / λ
+W_max = k / lam_medido          # L ≤ k, así que W = L / λ ≤ k / λ: una cota, no una medida
 
 print(f"λ ideal  {lam_ideal:.0f}/s   cota  {cota:.2f} s")
-print(f"λ medido {lam_medido:.0f}/s   W efectiva {W_efectiva:.3f} s")
+print(f"λ medido {lam_medido:.0f}/s   W ≤ {W_max:.3f} s")
 print(f"hilos del servidor: {lam_medido * W:.0f}; con W = 2 s: {lam_medido * 2:.0f}")
 ```
 
@@ -398,18 +408,18 @@ print(f"hilos del servidor: {lam_medido * W:.0f}; con W = 2 s: {lam_medido * 2:.
 | $\lambda$ ideal | $32/0.2$ | 160/s |
 | cota | $\lceil500/32\rceil\times0.2=16\times0.2$ | 3.20 s |
 | $\lambda$ medido | $500/3.32$ | 151/s |
-| $W$ efectiva | $32/151$ | 0.212 s |
+| cota superior de $W$ | $32/151$ | 0.212 s |
 | hilos del servidor | $151\times0.2$; con $W=2$: $151\times2$ | 30; 301 |
 
 **Deberías ver** (con los 3.32 s de la corrida de referencia; con tu medición cambian las dos últimas líneas):
 
 ```text
 λ ideal  160/s   cota  3.20 s
-λ medido 151/s   W efectiva 0.212 s
+λ medido 151/s   W ≤ 0.212 s
 hilos del servidor: 30; con W = 2 s: 301
 ```
 
-- Los 12 ms entre 0.2 y 0.212 s son lo que cada llamada gasta fuera del `sleep` del servidor.
+- 0.212 s es un tope para $W$, no una medición: $L$ promedio es menor que 32 (la última tanda va incompleta), así que los 12 ms no son un sobrecosto medido por llamada.
 
 **Haz (celda 8.2):** manda una `lambda` a un proceso.
 

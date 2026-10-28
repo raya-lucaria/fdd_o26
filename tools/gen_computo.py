@@ -93,13 +93,14 @@ def _segmento(tipo, x, y, w, h, rotulo=None, rotular=True):
             pon(rotulo, 0, FONDO, peso="600")
     elif tipo == "espera":
         p.append(_rect(x, y, w, h, PANEL, CIAN, 1.6, "6 4"))
-        pon("espera la red", 120, CIAN)
+        pon("espera la red: CPU libre", 120, CIAN)
     elif tipo == "permiso":
         p.append(_rect(x, y, w, h, PANEL, AMBAR, 2, "2 3"))
         pon("espera permiso", 120, AMBAR)
     elif tipo == "lista":
         p.append(_rect(x, y, w, h, "url(#rayado)", VIOLETA, 1.4))
-        pon("lista, sin turno", 60, TEXTO, respaldo=True)
+        if rotulo:
+            pon(rotulo, 60, TEXTO, respaldo=True)
     elif tipo == "bloquea":
         p.append(_rect(x, y, w, h, ROJO))
         pon("calcula 2000 ms sin await", 200, FONDO, tam=14, peso="600")
@@ -133,20 +134,51 @@ def _leyenda(y, items):
     return "".join(p), renglones
 
 
-def _filas(p, filas, arriba, xs, escala, alto_fila=42, alto_barra=26):
-    """Filas de tareas: [(etiqueta, [(tipo, ini, fin[, rotulo]), ...])]."""
-    for i, (etiqueta, segmentos) in enumerate(filas):
+def _nota_fila(p, segmentos, nota, y, xs, alto_barra=26, x_notas=None):
+    """El porqué de una fila, en texto junto a sus tramos.
+
+    nota: texto a la derecha del último tramo (o en la columna x_notas), o
+    ("izq", texto) a la izquierda del primero. Falla si el texto no cabe:
+    un rótulo que se sale del viewBox no se lee.
+    """
+    if not nota:
+        return
+    medio = y + alto_barra / 2 + 5
+    if isinstance(nota, tuple):
+        _, s = nota
+        x = xs(min(ini for _, ini, *_ in segmentos)) - 10
+        assert x - _ancho(s) >= X0, f"nota izquierda no cabe: {s!r}"
+        p.append(_rect(x - _ancho(s) - 4, y + 4, _ancho(s) + 8, alto_barra - 8, FONDO, radio=2))
+        p.append(texto(x, medio, s, SUAVE, 13, anclaje="end"))
+        return
+    x = x_notas if x_notas is not None else xs(max(fin for _, _, fin, *_ in segmentos)) + 12
+    assert x + _ancho(nota) <= ANCHO - 16, f"nota derecha no cabe: {nota!r}"
+    # Fondo bajo el texto: la rejilla y la marca del total no lo cruzan.
+    p.append(_rect(x - 4, y + 4, _ancho(nota) + 8, alto_barra - 8, FONDO, radio=2))
+    p.append(texto(x, medio, nota, SUAVE, 13, anclaje="start"))
+
+
+def _filas(p, filas, arriba, xs, escala, alto_fila=42, alto_barra=26, x_notas=None):
+    """Filas de tareas: [(etiqueta, [(tipo, ini, fin[, rotulo]), ...][, nota])]."""
+    for i, (etiqueta, segmentos, *nota) in enumerate(filas):
         y = arriba + i * alto_fila
+        assert _ancho(etiqueta, 14) <= X0 - 36, f"etiqueta larga: {etiqueta!r}"
         p.append(texto(X0 - 16, y + alto_barra / 2 + 5, etiqueta, TEXTO, 14,
                        anclaje="end"))
         for tipo, ini, fin, *rotulo in segmentos:
             p.append(_segmento(tipo, xs(ini), y, (fin - ini) * escala, alto_barra,
                                rotulo[0] if rotulo else None))
+        _nota_fila(p, segmentos, nota[0] if nota else None, y, xs, alto_barra, x_notas)
 
 
 def _fila_cpu(p, y, etiqueta, ocupados, total, xs, escala, bloqueo=False,
               alto_barra=26):
-    """Fila de una CPU: tramos ocupados (ini, fin, rotulo) e inactiva el resto."""
+    """Fila de una CPU: tramos ocupados (ini, fin, rotulo) e inactiva el resto.
+
+    El rótulo de cada tramo nombra a la tarea con su prefijo (T1, P1, main):
+    nunca un dígito suelto, que se confunde con el número de la CPU. Si no
+    cabe dentro de la barra va debajo de ella.
+    """
     p.append(texto(X0 - 16, y + alto_barra / 2 + 5, etiqueta, ACENTO, 14,
                    anclaje="end", peso="600"))
     cursor = 0
@@ -159,12 +191,16 @@ def _fila_cpu(p, y, etiqueta, ocupados, total, xs, escala, bloqueo=False,
                 p.append(texto(xs(cursor) + w / 2, y + alto_barra / 2 + 5,
                                "inactiva", SUAVE, 13))
         if rotulo is not None:
-            color = ROJO if rotulo.startswith("c3") and bloqueo else ACENTO
+            assert not rotulo.isdigit(), f"rótulo de CPU sin prefijo: {rotulo!r}"
+            color = ROJO if rotulo.startswith("T3") and bloqueo else ACENTO
             w = (fin - ini) * escala
             p.append(_rect(xs(ini), y, w, alto_barra, color))
             if w >= max(18, len(rotulo) * 8 + 4):
                 p.append(texto(xs(ini) + w / 2, y + alto_barra / 2 + 5,
                                rotulo, FONDO, 13, peso="600"))
+            elif rotulo:
+                p.append(texto(xs(ini) + w / 2, y + alto_barra + 14,
+                               rotulo, ACENTO, 13, peso="600"))
         cursor = max(cursor, fin)
 
 
@@ -185,14 +221,18 @@ def _marca_total(p, total, xs, arriba, y_eje, rotulo=None):
                    AMBAR, 14, anclaje="start" if a_la_derecha else "end", peso="600"))
 
 
-def _gantt(titulo, subtitulo, aria, filas, cpus, total, nota,
-           eje_max=800, paso=100, bloqueo=False, leyenda=None, extra=None):
+def _gantt(titulo, subtitulo, aria, filas, cpus, total, nota, cuenta=None,
+           eje_max=800, paso=100, bloqueo=False, leyenda=None, extra=None,
+           x_notas=None):
     """Gantt comun: filas de tareas, filas de CPU, eje en ms, leyenda y nota.
 
-    filas: [(etiqueta, [(tipo, ini_ms, fin_ms[, rotulo]), ...])]
+    filas: [(etiqueta, [(tipo, ini_ms, fin_ms[, rotulo]), ...][, nota])]
     cpus:  [(etiqueta, [(ini_ms, fin_ms, rotulo), ...])]
+    cuenta: la linea que explica el total, en ambar como la marca del total.
     extra: funcion (xs, y_fila) -> svg que se dibuja encima (flechas, notas).
     """
+    for s, tam in ((titulo, 20), (subtitulo, 14), (nota, 14), (cuenta or "", 14)):
+        assert _ancho(s, tam) <= ANCHO - 40, f"no cabe en {ANCHO}: {s!r}"
     escala = (X1 - X0) / eje_max
 
     def xs(ms):
@@ -208,7 +248,8 @@ def _gantt(titulo, subtitulo, aria, filas, cpus, total, nota,
         if bloqueo:
             leyenda[3] = ("bloquea", "calcula dentro del loop")
     svg_ley, renglones = _leyenda(y_ley, leyenda)
-    y_nota = y_ley + (renglones - 1) * 28 + 36
+    y_cuenta = y_ley + (renglones - 1) * 28 + 36
+    y_nota = y_cuenta + (28 if cuenta else 0)
     alto = y_nota + (24 if nota else -6)
 
     p = [_marco(ANCHO, alto, aria)]
@@ -219,7 +260,12 @@ def _gantt(titulo, subtitulo, aria, filas, cpus, total, nota,
     for ms in range(0, eje_max + 1, paso):
         p.append(_linea(xs(ms), arriba - 6, xs(ms), y_eje, LINEA, 0.6, "2 6"))
 
-    _filas(p, filas, arriba, xs, escala, alto_fila, alto_barra)
+    if x_notas is None:
+        # Columna comun de notas despues de la marca del total, si caben.
+        derechas = [f[2] for f in filas if len(f) > 2 and isinstance(f[2], str)]
+        if derechas and xs(total) + 14 + max(map(_ancho, derechas)) <= ANCHO - 16:
+            x_notas = xs(total) + 14
+    _filas(p, filas, arriba, xs, escala, alto_fila, alto_barra, x_notas)
 
     p.append(_linea(X0 - 170, y_cpu - 8, X1, y_cpu - 8, LINEA, 1))
     for j, (etiqueta, ocupados) in enumerate(cpus):
@@ -232,6 +278,8 @@ def _gantt(titulo, subtitulo, aria, filas, cpus, total, nota,
         p.append(extra(xs, lambda i: arriba + i * alto_fila))
 
     p.append(svg_ley)
+    if cuenta:
+        p.append(texto(ANCHO / 2, y_cuenta, cuenta, AMBAR, 14, peso="600"))
     if nota:
         p.append(texto(ANCHO / 2, y_nota, nota, TEXTO, 14))
     p.append(cierre())
@@ -256,117 +304,156 @@ def _tarea(inicio_ejecuta, espera_desde=None, lista=None, segunda=None):
 SUBTITULO = "las mismas 3 tareas: ejecuta 20 ms, espera 200 ms la red, ejecuta 20 ms"
 
 
-def _secuenciales(prefijo):
+def _leyenda_de(ejecuta, espera, lista, inactiva="CPU inactiva: nadie la usa"):
+    """Leyenda de las Gantt de comparacion, con el porque de cada estado."""
+    return [("ejecuta", ejecuta), ("espera", espera), ("lista", lista),
+            ("inactiva", inactiva)]
+
+
+def _secuenciales(etiqueta):
+    """Tres tareas en serie; la fila de CPU nombra a cada tarea con su prefijo."""
     filas, cpu = [], []
     for i in range(3):
         t0 = i * (2 * EJECUTA_MS + ESPERA_MS)
-        filas.append((f"{prefijo} {i + 1}", _tarea(t0)))
-        cpu += [(t0, t0 + EJECUTA_MS, str(i + 1)),
-                (t0 + EJECUTA_MS + ESPERA_MS, t0 + 2 * EJECUTA_MS + ESPERA_MS, str(i + 1))]
+        nota = ("izq", f"empieza cuando T{i} termina") if i else None
+        filas.append((etiqueta(i + 1), _tarea(t0), nota))
+        cpu += [(t0, t0 + EJECUTA_MS, f"T{i + 1}"),
+                (t0 + EJECUTA_MS + ESPERA_MS, t0 + 2 * EJECUTA_MS + ESPERA_MS, f"T{i + 1}")]
     return filas, cpu
 
 
-def _intercaladas(prefijo):
+def _intercaladas(etiqueta, notas):
     """Tres tareas que se turnan una CPU: el patron de hilos y de asyncio."""
     filas, cpu = [], []
     for i in range(3):
         t0 = i * EJECUTA_MS
         lista = (0, t0) if t0 else None
-        filas.append((f"{prefijo} {i + 1}", _tarea(t0, lista=lista)))
+        filas.append((etiqueta(i + 1), _tarea(t0, lista=lista), notas[i]))
         s0 = t0 + EJECUTA_MS + ESPERA_MS
-        cpu += [(t0, t0 + EJECUTA_MS, str(i + 1)), (s0, s0 + EJECUTA_MS, str(i + 1))]
+        cpu += [(t0, t0 + EJECUTA_MS, f"T{i + 1}"), (s0, s0 + EJECUTA_MS, f"T{i + 1}")]
     return filas, cpu
 
 
 def cmp_gantt_secuencial():
-    filas, cpu = _secuenciales("tarea")
+    filas, cpu = _secuenciales(lambda k: f"T{k}")
     aria = (
         "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 800. Tres "
-        "tareas en serie: cada una ejecuta 20 ms, espera 200 ms la red y "
-        "ejecuta 20 ms; la tarea 2 empieza cuando termina la 1, en 240 ms, y "
-        "la 3 en 480 ms. El total es 720 ms. La fila de CPU esta ocupada solo "
-        "en seis tramos de 20 ms e inactiva durante las tres esperas, 600 de "
-        "los 720 ms."
+        "tareas en serie, T1, T2 y T3: cada una ejecuta 20 ms, espera 200 ms "
+        "la red y ejecuta 20 ms; T2 no empieza hasta que T1 termina, en 240 "
+        "ms, y T3 hasta que termina T2, en 480 ms. La unica CPU rotula cada "
+        "tramo con la tarea que la usa y queda inactiva durante las tres "
+        "esperas. Total 720 ms: 3 por (20 + 200 + 20)."
     )
     return _gantt(
         "Secuencial: una tarea termina antes de que empiece la siguiente",
         SUBTITULO, aria, filas, [("CPU", cpu)], 720,
         "La CPU trabaja 120 ms de 720: el resto del tiempo nadie la usa.",
+        cuenta="T3 empieza cuando T2 termina: 3 × (20 + 200 + 20) = 720 ms.",
+        leyenda=_leyenda_de("ejecuta: la tarea usa la única CPU",
+                            "espera: la red, CPU libre",
+                            "lista: puede seguir, espera turno (aquí no hay)"),
     )
 
 
 def cmp_gantt_hilos():
-    filas, cpu = _intercaladas("hilo")
+    filas, cpu = _intercaladas(lambda k: f"T{k} · hilo {k}", (
+        "toma el GIL primero; al esperar la red lo suelta",
+        "lista 0–20 ms: el hilo 1 tiene el GIL",
+        "lista 0–40 ms: el GIL lo tienen el hilo 1 y luego el 2",
+    ))
     aria = (
         "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 800. Las "
-        "mismas tres tareas, una por hilo. Las tres esperas de 200 ms se "
-        "solapan. La ejecucion se turna por el GIL: el hilo 2 queda listo sin "
-        "turno, en rayado, de 0 a 20 ms y el hilo 3 de 0 a 40 ms, porque solo "
-        "un hilo ejecuta Python a la vez. La fila de CPU nunca tiene dos "
-        "tramos al mismo tiempo. Total 280 ms contra 720 del secuencial."
+        "mismas tres tareas, T1 a T3, una por hilo. Las tres esperas de 200 ms "
+        "se solapan. La ejecucion se turna por el GIL: T2 queda lista, en "
+        "rayado, de 0 a 20 ms porque el hilo 1 tiene el GIL, y T3 de 0 a 40 "
+        "ms. La fila de CPU rotula T1, T2 o T3 segun que hilo tiene el GIL y "
+        "nunca tiene dos tramos a la vez. Total 280 ms: 40 + 20 + 200 + 20."
     )
     return _gantt(
         "Hilos: las esperas se solapan, la ejecución se turna por el GIL",
         SUBTITULO, aria, filas, [("CPU (GIL)", cpu)], 280,
         "280 ms contra 720: se gana porque se espera a la vez, no porque se calcule a la vez.",
+        cuenta="T3 espera el GIL 40 ms y luego ejecuta, espera y ejecuta: 40 + 20 + 200 + 20 = 280 ms.",
+        leyenda=_leyenda_de("ejecuta: el hilo tiene el GIL y usa la CPU",
+                            "espera: la red; el hilo suelta el GIL",
+                            "lista: puede seguir; otro hilo tiene el GIL"),
     )
 
 
 def cmp_gantt_asyncio():
-    filas, cpu = _intercaladas("corrutina")
+    filas, cpu = _intercaladas(lambda k: f"T{k} · corrutina", (
+        "corre primero; su await cede el loop",
+        "lista 0–20 ms: el loop atiende a T1",
+        "lista 0–40 ms: el loop atiende a T1 y luego a T2",
+    ))
     aria = (
         "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 800. Las "
-        "mismas tres tareas como corrutinas en un solo hilo, lanzadas juntas "
-        "con gather. Cada corrutina ejecuta 20 ms hasta su await, cede el "
-        "control y el loop arranca la siguiente, que estaba lista, en rayado; "
-        "las tres esperas de 200 ms se solapan. La fila de CPU muestra tramos "
-        "cortos intercalados. Total 280 ms, igual que con hilos y sin ningun "
+        "mismas tres tareas, T1 a T3, como corrutinas en el hilo del loop, "
+        "lanzadas juntas con gather. Cada corrutina ejecuta 20 ms hasta su "
+        "await y cede el loop; T2 queda lista, en rayado, de 0 a 20 ms "
+        "mientras el loop atiende a T1, y T3 de 0 a 40 ms. Las tres esperas "
+        "de 200 ms se solapan. Total 280 ms, igual que con hilos y sin ningun "
         "hilo extra."
     )
     return _gantt(
         "asyncio con gather: un hilo, cada await cede el turno",
-        SUBTITULO, aria, filas, [("CPU (1 hilo)", cpu)], 280,
-        "Mismo total que con hilos: 280 ms. La diferencia es quién decide el turno: el await, no el sistema.",
+        SUBTITULO, aria, filas, [("hilo del loop", cpu)], 280,
+        "Mismo total que con hilos. La diferencia es quién decide el turno: el await, no el sistema.",
+        cuenta="T3 espera su turno 40 ms y luego ejecuta, espera y ejecuta: 40 + 20 + 200 + 20 = 280 ms.",
+        leyenda=_leyenda_de("ejecuta: corre en el hilo del loop (usa la CPU)",
+                            "espera: la red; cedió el loop con await",
+                            "lista: puede seguir; el loop atiende a otra"),
     )
 
 
 def cmp_gantt_await_en_serie():
-    filas, cpu = _secuenciales("corrutina")
+    filas, cpu = _secuenciales(lambda k: f"T{k} · corrutina")
     aria = (
         "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 800. El "
-        "anti patron: tres corrutinas con await una tras otra, sin gather. "
-        "Cada await espera su respuesta completa antes de lanzar la siguiente "
-        "llamada, asi que el dibujo es identico al secuencial: total 720 ms y "
-        "la CPU inactiva durante las tres esperas de 200 ms."
+        "anti patron: tres corrutinas, T1 a T3, con await una tras otra, sin "
+        "gather. Cada await espera su respuesta completa antes de lanzar la "
+        "siguiente llamada: T2 no empieza hasta que T1 termina y el dibujo es "
+        "identico al secuencial. El hilo del loop queda inactivo durante las "
+        "tres esperas de 200 ms. Total 720 ms: 3 por (20 + 200 + 20)."
     )
     return _gantt(
         "await uno tras otro: async en el código, secuencial en el reloj",
-        SUBTITULO, aria, filas, [("CPU (1 hilo)", cpu)], 720,
-        "Mientras corrutina 1 espera, nadie más está lanzado: el loop no tiene a quién dar el turno.",
+        SUBTITULO, aria, filas, [("hilo del loop", cpu)], 720,
+        "Mientras T1 espera, nadie más está lanzado: el loop no tiene a quién dar el turno.",
+        cuenta="Cada await espera la respuesta completa: 3 × (20 + 200 + 20) = 720 ms.",
+        leyenda=_leyenda_de("ejecuta: corre en el hilo del loop (usa la CPU)",
+                            "espera: la red; nadie más está lanzado",
+                            "lista: puede seguir, espera turno (aquí no hay)",
+                            "inactiva: el loop no tiene a quién correr"),
     )
 
 
 def cmp_gantt_procesos():
     # Tres procesos sobre dos CPU: el tercero espera una CPU libre.
     filas = [
-        ("proceso 1", _tarea(0)),
-        ("proceso 2", _tarea(0)),
-        ("proceso 3", _tarea(20, lista=(0, 20), segunda=240)),
+        ("P1 · CPU 1", _tarea(0), "ejecuta en la CPU 1"),
+        ("P2 · CPU 2", _tarea(0), "ejecuta en la CPU 2, a la vez que P1"),
+        ("P3 · CPU 1", _tarea(20, lista=(0, 20), segunda=240),
+         "lista 0–20 ms: CPU 1 y 2 ocupadas; luego usa la CPU 1"),
     ]
-    cpu1 = [(0, 20, "1"), (20, 40, "3"), (220, 240, "1"), (240, 260, "3")]
-    cpu2 = [(0, 20, "2"), (220, 240, "2")]
+    cpu1 = [(0, 20, "P1"), (20, 40, "P3"), (220, 240, "P1"), (240, 260, "P3")]
+    cpu2 = [(0, 20, "P2"), (220, 240, "P2")]
     aria = (
         "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 800. Las "
-        "mismas tres tareas en tres procesos sobre dos CPU. Los procesos 1 y "
-        "2 ejecutan al mismo tiempo, uno en la CPU 1 y otro en la CPU 2; el "
-        "proceso 3 queda listo sin CPU, en rayado, hasta los 20 ms. Hay dos "
-        "filas de CPU con tramos simultaneos. Total 260 ms: con esta carga "
-        "casi todo es espera y la ganancia sobre hilos es de solo 20 ms."
+        "mismas tres tareas en tres procesos, P1, P2 y P3, sobre dos CPU. P1 "
+        "ejecuta en la CPU 1 y P2 en la CPU 2 al mismo tiempo; P3 queda lista, "
+        "en rayado, de 0 a 20 ms porque las dos CPU estan ocupadas, y luego "
+        "ejecuta en la CPU 1. Las filas de CPU rotulan cada tramo con P1, P2 "
+        "o P3. Total 260 ms: 20 + 20 + 200 + 20."
     )
     return _gantt(
         "Procesos: dos CPU ejecutan al mismo tiempo",
         SUBTITULO, aria, filas, [("CPU 1", cpu1), ("CPU 2", cpu2)], 260,
         "260 ms contra 280 de hilos: con tareas que esperan, el paralelismo casi no rinde.",
+        cuenta="P3 espera 20 ms una CPU libre y ejecuta en la CPU 1: 20 + 20 + 200 + 20 = 260 ms.",
+        leyenda=_leyenda_de("ejecuta: el proceso usa la CPU de su fila",
+                            "espera: la red, CPU libre",
+                            "lista: puede seguir; las 2 CPU están ocupadas"),
     )
 
 
@@ -802,7 +889,7 @@ def _fichas(cx, y, nombres, estilo, flechas=False):
 
 
 def cmp_event_loop_ticks():
-    ancho, alto = ANCHO, 630
+    ancho, alto = ANCHO, 656
     cols, cpu, fin = _traza_ticks()
     aria = (
         "Traza del event loop, tick por tick, de gather con tres tareas A, B "
@@ -812,7 +899,7 @@ def cmp_event_loop_ticks():
         "1 corren A, B y C hasta su sleep; de 30 a 120 ms el loop duerme en "
         "select con la CPU libre; en 120 termina B, en 230 C y en 310 A; en "
         "320 main recibe los resultados en el orden de los argumentos. Abajo, "
-        "la fila de CPU en tiempo real."
+        "el hilo del loop en tiempo real; A fija el total: 10 + 300 + 10 = 320 ms."
     )
     p = [_marco(ancho, alto, aria)]
     p.append(texto(ancho / 2, 42, "El event loop, tick por tick: quién corre, quién está lista, quién espera",
@@ -823,9 +910,9 @@ def cmp_event_loop_ticks():
     xc0, xc1 = 210, 1060
     cw = (xc1 - xc0) / len(cols)
     carriles = (
-        ("ejecutando", "en orden", "ejecuta", 142, 52),
-        ("cola de listas", "al abrir el tick", "lista", 200, 52),
-        ("esperando", "al cerrar (vence)", "espera", 258, 104),
+        ("ejecutando", ("en el hilo del loop,", "de a una, en orden"), "ejecuta", 142, 52),
+        ("cola de listas", ("al abrir el tick;", "esperan turno del loop"), "lista", 200, 52),
+        ("esperando", ("timer: vence en (ms)", "main: espera a gather"), "espera", 258, 104),
     )
     y_top, y_bot = 92, 404
     for k, c in enumerate(cols):
@@ -840,8 +927,10 @@ def cmp_event_loop_ticks():
     for nombre, sub, estilo, y, h in carriles:
         p.append(_linea(20, y - 3, xc1, y - 3, LINEA, 0.8))
         p.append(_segmento(estilo, 20, y + 6, 18, 16, rotular=False))
-        p.append(texto(46, y + 20, nombre, TEXTO, 15, anclaje="start", peso="600"))
-        p.append(texto(46, y + 40, sub, SUAVE, 13, anclaje="start"))
+        p.append(texto(46, y + 19, nombre, TEXTO, 15, anclaje="start", peso="600"))
+        for j, s in enumerate(sub):
+            assert 46 + _ancho(s) <= xc0, s
+            p.append(texto(46, y + 35 + j * 15, s, SUAVE, 13, anclaje="start"))
 
     for k, c in enumerate(cols):
         cx = xc0 + (k + 0.5) * cw
@@ -883,17 +972,21 @@ def cmp_event_loop_ticks():
     y_cpu = 452
     for ms in range(0, eje_max + 1, paso):
         p.append(_linea(xs(ms), y_cpu - 24, xs(ms), y_cpu + 44, LINEA, 0.6, "2 6"))
-    _fila_cpu(p, y_cpu, "CPU (1 hilo)", cpu, fin + 2, xs, escala)
+    _fila_cpu(p, y_cpu, "hilo del loop", cpu, fin + 2, xs, escala)
     rotulos = ((15, "ticks 0, 1"), (125, "tick 2"), (235, "tick 3"), (316, "ticks 4, 5"))
     for ms, s in rotulos:
         p.append(texto(xs(ms), y_cpu - 8, s, ACENTO, 13))
     _eje(p, y_cpu + 44, eje_max, paso, xs)
 
-    p.append(caja(40, 540, ancho - 80, 72, TINTE, AMBAR, radio=8))
+    p.append(caja(40, 540, ancho - 80, 98, TINTE, AMBAR, radio=8))
     p.append(texto(ancho / 2, 568,
                    f"gather devuelve [rA, rB, rC] en {fin} ms: el orden de los argumentos, no el de llegada (B, C, A).",
                    AMBAR, 15, peso="600"))
     p.append(texto(ancho / 2, 594,
+                   f"A, la que más duerme, fija el total: corre 10 ms, duerme {DUERME_MS['A']} y corre 10: "
+                   f"10 + {DUERME_MS['A']} + 10 = {fin} ms.",
+                   AMBAR, 14, peso="600"))
+    p.append(texto(ancho / 2, 620,
                    f"La CPU trabaja 60 ms de {fin}: entre ticks el loop duerme en select hasta el próximo vencimiento.",
                    TEXTO, 14))
     p.append(cierre())
@@ -917,23 +1010,25 @@ def cmp_create_task():
         "20 ms, ejecuta de 20 a 30, espera 50 ms y ejecuta de 80 a 90, aunque "
         "main nunca la espera con await."
     )
-    main = [("ejecuta", 0, 20), ("espera", 20, 120, "await asyncio.sleep(0.1): cede el hilo"),
+    main = [("ejecuta", 0, 20), ("espera", 20, 120, "await asyncio.sleep(0.1): espera un timer, cede el hilo"),
             ("ejecuta", 120, 130)]
     paneles = (
         ("c = f()", "crea el objeto corrutina: no entra a la cola de listas",
          [("main", main), ("f()", [("inerte", 10, 140,
                                      "objeto inerte: nunca corre (al final Python avisa «never awaited»)")])],
          [(0, 20, "main"), (120, 130, "main")]),
-        ("t = asyncio.create_task(f())", "f entra a listas en 10 ms y corre en cuanto main cede",
+        ("t = asyncio.create_task(f())", "f queda lista de 10 a 20 ms (el loop corre main) y corre cuando main cede",
          [("main", main), ("f()", [("lista", 10, 20), ("ejecuta", 20, 30),
-                                   ("espera", 30, 80, "espera 50 ms"), ("ejecuta", 80, 90)])],
+                                   ("espera", 30, 80, "espera un timer de 50 ms"), ("ejecuta", 80, 90)])],
          [(0, 20, "main"), (20, 30, "f"), (80, 90, "f"), (120, 130, "main")]),
     )
     y_eje = 112 + 2 * 170 + 4
-    leyenda = list(LEYENDA)
-    leyenda[1] = ("espera", "espera: sleep o red, CPU libre")
-    svg_ley, _ = _leyenda(y_eje + 64, leyenda)
-    alto = y_eje + 64 + 60
+    leyenda = _leyenda_de("ejecuta: corre en el hilo del loop (usa la CPU)",
+                          "espera: un timer o la red, CPU libre",
+                          "lista: puede seguir; el loop corre a otra")
+    svg_ley, renglones = _leyenda(y_eje + 64, leyenda)
+    y_cuenta = y_eje + 100 + (renglones - 1) * 28
+    alto = y_cuenta + 28 + 24
     p = [_marco(ancho, alto, aria)]
     p.append(texto(ancho / 2, 42, "create_task agenda la corrutina; llamarla sola no la corre",
                    TEXTO, 20, peso="600"))
@@ -949,13 +1044,16 @@ def cmp_create_task():
                        anclaje="start"))
         _filas(p, filas, arriba + 18, xs, escala)
         p.append(_linea(X0 - 170, arriba + 18 + 2 * 42 + 4, X1, arriba + 18 + 2 * 42 + 4, LINEA, 1))
-        _fila_cpu(p, arriba + 18 + 2 * 42 + 12, "CPU (1 hilo)", cpu, eje_max, xs, escala)
+        _fila_cpu(p, arriba + 18 + 2 * 42 + 12, "hilo del loop", cpu, eje_max, xs, escala)
         if k:
             p.append(texto(xs(90) + 12, arriba + 18 + 42 + 18, "aunque nadie haga await t",
                            ACENTO, 13, anclaje="start"))
     _eje(p, y_eje, eje_max, paso, xs)
     p.append(svg_ley)
-    p.append(texto(ancho / 2, y_eje + 100,
+    p.append(texto(ancho / 2, y_cuenta,
+                   "main termina en 130 ms: 20 + 100 de sleep + 10; f corre entera dentro del sleep de main.",
+                   AMBAR, 14, peso="600"))
+    p.append(texto(ancho / 2, y_cuenta + 28,
                    "Sin create_task, gather ni await, una corrutina no corre: crearla no la agenda.",
                    TEXTO, 14))
     p.append(cierre())
@@ -968,36 +1066,42 @@ def cmp_gantt_gather():
     # main crea las tres Task en 10 ms y espera; cada T ejecuta 20, espera 200, ejecuta 20.
     filas = [
         ("main", [("ejecuta", 0, 10), ("espera", 10, 290, "espera a gather: no ocupa CPU"),
-                  ("ejecuta", 290, 300)]),
-        ("T1", [("ejecuta", 10, 30), ("espera", 30, 230), ("ejecuta", 230, 250)]),
-        ("T2", [("lista", 10, 30), ("ejecuta", 30, 50), ("espera", 50, 250), ("ejecuta", 250, 270)]),
-        ("T3", [("lista", 10, 50), ("ejecuta", 50, 70), ("espera", 70, 270), ("ejecuta", 270, 290)]),
+                  ("ejecuta", 290, 300)], "fan-in: termina T3 (290 ms)"),
+        ("T1", [("ejecuta", 10, 30), ("espera", 30, 230), ("ejecuta", 230, 250)],
+         "corre primero"),
+        ("T2", [("lista", 10, 30), ("ejecuta", 30, 50), ("espera", 50, 250), ("ejecuta", 250, 270)],
+         "lista: el loop corre T1"),
+        ("T3", [("lista", 10, 50), ("ejecuta", 50, 70), ("espera", 70, 270), ("ejecuta", 270, 290)],
+         "lista: corre T1, luego T2"),
     ]
-    cpu = [(0, 10, "m"), (10, 30, "1"), (30, 50, "2"), (50, 70, "3"),
-           (230, 250, "1"), (250, 270, "2"), (270, 290, "3"), (290, 300, "m")]
+    cpu = [(0, 10, "main"), (10, 30, "T1"), (30, 50, "T2"), (50, 70, "T3"),
+           (230, 250, "T1"), (250, 270, "T2"), (270, 290, "T3"), (290, 300, "main")]
     aria = (
         "Diagrama de Gantt de gather con tres tareas, eje de 0 a 400 ms. Main "
         "ejecuta 10 ms y crea T1, T2 y T3 en un solo tick: fan out. Cada tarea "
-        "ejecuta 20 ms, espera 200 ms la red y ejecuta 20 ms; T2 y T3 quedan "
-        "listas en rayado hasta su turno. Las tres esperas se solapan. Main "
-        "queda esperando sin CPU hasta que termina la ultima, en 290 ms: fan "
-        "in. Recibe los resultados y termina en 300 ms."
+        "ejecuta 20 ms, espera 200 ms la red y ejecuta 20 ms; T2 queda lista "
+        "mientras el loop corre T1, y T3 mientras corren T1 y T2. Las tres "
+        "esperas se solapan. Main espera sin CPU hasta que termina T3, la "
+        "ultima, en 290 ms: fan in. Recibe los resultados y termina en 300 ms."
     )
 
     def extra(xs, y_fila):
         p = [flecha(xs(10), y_fila(0) + 26, xs(10), y_fila(3) - 2, TEXTO, 2),
              texto(xs(10) + 8, y_fila(0) + 40, "fan-out", TEXTO, 13, anclaje="start", peso="600"),
-             flecha(xs(290), y_fila(3), xs(290), y_fila(0) + 28, TEXTO, 2),
-             texto(xs(290) + 8, y_fila(2) + 18, "fan-in: termina la última", TEXTO, 13,
-                   anclaje="start", peso="600")]
+             flecha(xs(290), y_fila(3), xs(290), y_fila(0) + 28, TEXTO, 2)]
         return "".join(p)
 
     return _gantt(
         "gather: fan-out en un tick, esperas solapadas, fan-in al terminar la última",
         "main y 3 tareas: cada una ejecuta 20 ms, espera 200 ms la red, ejecuta 20 ms",
-        aria, filas, [("CPU (1 hilo)", cpu)], 300,
+        aria, filas, [("hilo del loop", cpu)], 300,
         "El total lo pone la vida más larga, no la suma: 300 ms contra 720 en serie.",
-        eje_max=400, paso=50, extra=extra,
+        cuenta="T3 empieza en 50 ms (tras main, T1 y T2): 50 + 20 + 200 + 20 = 290; "
+               "main recibe y termina en 300 ms.",
+        eje_max=400, paso=50, extra=extra, x_notas=X0 + 300 * (X1 - X0) / 400 + 16,
+        leyenda=_leyenda_de("ejecuta: corre en el hilo del loop (usa la CPU)",
+                            "espera: la red; cedió el loop con await",
+                            "lista: puede seguir; el loop corre a otra"),
     )
 
 
@@ -1035,7 +1139,7 @@ def _simula_semaforo(n=SEM_N, k=SEM_K):
                 libres -= 1
                 tiene.add(i)
             tramos[i].append(("ejecuta", t, t + EJECUTA_MS))
-            cpu.append((t, t + EJECUTA_MS, str(i + 1)))
+            cpu.append((t, t + EJECUTA_MS, f"T{i + 1}"))
             t += EJECUTA_MS
             if fase[i] == 0:
                 fase[i] = 1
@@ -1044,7 +1148,7 @@ def _simula_semaforo(n=SEM_N, k=SEM_K):
             else:
                 if cola_sem:
                     j, desde_j = cola_sem.popleft()
-                    tramos[j].append(("permiso", desde_j, t))
+                    tramos[j].append(("permiso", desde_j, t, f"espera que T{i + 1} salga"))
                     tiene.add(j)
                     listas.append((j, t))
                 else:
@@ -1069,18 +1173,33 @@ def cmp_gantt_semaforo():
         f"tres esperas de red a la vez. Total {total} ms."
     )
     leyenda = [
-        ("ejecuta", "ejecuta: usa la CPU"),
-        ("espera", "espera: red, CPU libre"),
-        ("permiso", "espera permiso del semáforo"),
-        ("lista", "lista: puede seguir, espera turno"),
-        ("inactiva", "CPU inactiva"),
+        ("ejecuta", "ejecuta: corre en el hilo del loop"),
+        ("espera", "espera: la red, CPU libre"),
+        ("permiso", f"espera permiso del semáforo: los {SEM_K} están tomados"),
+        ("lista", "lista: puede seguir; el loop corre a otra"),
+        ("inactiva", "CPU inactiva: nadie la usa"),
     ]
+    # El porqué de cada fila (las cifras salen de la simulación con 8 y 3).
+    notas = {
+        "T1": "toma el primer permiso",
+        "T2": "lista: el loop corre T1; en 240, T4",
+        "T3": "lista: corre T1 y T2; en 260, T2",
+        "T4": "T4 a T8 listas 0–60: corren T1 a T3",
+        "T5": "lista en 280: el loop corre T3",
+        "T6": "lista: corre T5, luego T8",
+    }
+    filas = [(n, tramos, notas.get(n)) for n, tramos in filas]
+    ultima, (_, tramos_ultima) = SEM_N, filas[-1][:2]
+    entra = next(ini for tipo, ini, *_ in tramos_ultima if tipo == "ejecuta")
+    sale = next(r[0] for tipo, _, _, *r in tramos_ultima if tipo == "permiso").split()[2]
     return _gantt(
         f"Semaphore({SEM_K}): a lo más {SEM_K} tareas dentro; las demás esperan permiso",
         f"{SEM_N} tareas: ejecuta 20 ms, espera 200 ms la red, ejecuta 20 ms; un solo hilo",
-        aria, filas, [("CPU (1 hilo)", cpu)], total,
+        aria, filas, [("hilo del loop", cpu)], total,
         f"⌈{SEM_N}/{SEM_K}⌉ · (20 + 200 + 20) = {cota} ms de estimación; "
         f"los turnos del único hilo suman {total - cota}: total {total} ms.",
+        cuenta=f"T{ultima} entra cuando {sale} sale, en {entra} ms: "
+               f"{entra} + 20 + 200 + 20 = {total} ms.",
         leyenda=leyenda,
     )
 
@@ -1164,29 +1283,38 @@ def cmp_flujo_semaforo():
 
 def cmp_bloqueo_del_loop():
     filas = [
-        ("corrutina 1", [("ejecuta", 0, 20), ("espera", 20, 220),
-                         ("lista", 220, 2040), ("ejecuta", 2040, 2060)]),
-        ("corrutina 2", [("lista", 0, 20), ("ejecuta", 20, 40), ("espera", 40, 240),
-                         ("lista", 240, 2060), ("ejecuta", 2060, 2080)]),
-        ("corrutina 3", [("lista", 0, 40), ("bloquea", 40, 2040)]),
+        ("T1 · petición", [("ejecuta", 0, 20), ("espera", 20, 220),
+                           ("lista", 220, 2040, "lista: llegó la respuesta, pero el loop calcula T3"),
+                           ("ejecuta", 2040, 2060)]),
+        ("T2 · petición", [("lista", 0, 20), ("ejecuta", 20, 40), ("espera", 40, 240),
+                           ("lista", 240, 2060, "lista: llegó la respuesta; el loop sigue en T3"),
+                           ("ejecuta", 2060, 2080)]),
+        ("T3 · cálculo", [("lista", 0, 40), ("bloquea", 40, 2040)]),
     ]
-    cpu = [(0, 20, "c1"), (20, 40, "c2"), (40, 2040, "c3 calcula: el loop no atiende a nadie más"),
-           (2040, 2060, "c1"), (2060, 2080, "c2")]
+    # Los tramos de 20 ms miden 8 px: un rótulo para cada par, debajo.
+    cpu = [(0, 20, "T1, T2"), (20, 40, ""),
+           (40, 2040, "T3 calcula: el loop no atiende a nadie más"),
+           (2040, 2060, "T1, T2"), (2060, 2080, "")]
     aria = (
-        "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 2200. Dos "
-        "corrutinas lanzan una peticion y esperan 200 ms; la corrutina 3 hace "
-        "un calculo de 2000 ms dentro del loop sin ningun await. Las "
-        "respuestas llegan en 220 y 240 ms, pero las corrutinas 1 y 2 quedan "
-        "listas sin turno, en rayado, hasta 2040 y 2060 ms, porque el loop no "
-        "recupera el control hasta que el calculo termina. Total 2080 ms. Sin "
-        "la corrutina de calculo, ambas peticiones terminarian a los 260 ms."
+        "Diagrama de Gantt con eje de tiempo en milisegundos de 0 a 2200. T1 y "
+        "T2 lanzan una peticion y esperan 200 ms; T3 hace un calculo de 2000 "
+        "ms dentro del loop sin ningun await. Las respuestas llegan en 220 y "
+        "240 ms, pero T1 y T2 quedan listas, en rayado, hasta 2040 y 2060 ms, "
+        "porque el hilo del loop calcula T3 y no recupera el control hasta que "
+        "el calculo termina. Total 2080 ms: 2040 + 20 + 20. Sin T3, ambas "
+        "peticiones terminarian a los 260 ms."
     )
     return _gantt(
         "Un cálculo de 2 s dentro del loop detiene a todas las demás",
         "dos peticiones de 200 ms y un cálculo de 2000 ms sin await, en el mismo loop",
-        aria, filas, [("event loop", cpu)], 2080,
+        aria, filas, [("hilo del loop", cpu)], 2080,
         "Las respuestas llegaron a los 220 y 240 ms; nadie las atendió hasta que el cálculo soltó el loop.",
+        cuenta="El loop vuelve en 2040 ms (40 + 2000 de T3) y corre T1 y T2: 2040 + 20 + 20 = 2080 ms.",
         eje_max=2200, paso=200, bloqueo=True,
+        leyenda=[("ejecuta", "ejecuta: corre en el hilo del loop"),
+                 ("espera", "espera: la red, CPU libre"),
+                 ("lista", "lista: puede seguir; el loop está ocupado"),
+                 ("bloquea", "T3 calcula dentro del loop, sin await")],
     )
 
 

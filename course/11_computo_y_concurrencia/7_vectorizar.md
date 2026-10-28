@@ -38,7 +38,13 @@ prerequisites: [calcular-en-paralelo]
 ![Dos carriles comparados. Arriba, un bucle de Python que toma un elemento por vez de una lista de referencias, revisa su tipo, multiplica y suma, y repite cinco millones de veces dentro del intérprete. Abajo, un arreglo contiguo de float64 que una sola llamada recorre en un bucle de C, procesando varios valores por instrucción en carriles SIMD.](_assets/cmp-vectorizar.svg)
 :::
 
-**Matemática.** El tiempo de cada versión sobre $N$ elementos, con $c$ el costo por elemento y $c_0$ el costo fijo de la llamada:
+::: definition {#cmp-def-costo-elemento title="Costo por elemento"}
+**En palabras.** El costo por elemento es lo que cuesta procesar un elemento más del arreglo; el costo fijo es lo que cuesta llamar a la operación aunque el arreglo sea pequeño. Vectorizar cambia el costo por elemento, no el número de trabajadores.
+
+**Formalmente.** Sobre $N$ elementos, $T_{\text{bucle}}\approx N\cdot c_{\text{py}}$ y $T_{\text{vec}}\approx c_0+N\cdot c_{\text{C}}$; la ganancia $T_{\text{bucle}}/T_{\text{vec}}$ tiende a $c_{\text{py}}/c_{\text{C}}$ cuando $N\to\infty$. Es una comparación entre implementaciones, no un $S(N)$. Modelo completo en [[notacion-computo]].
+:::
+
+**Matemática.** El tiempo de cada versión sobre $N$ elementos:
 
 $$T_{\text{bucle}}\approx N\cdot c_{\text{py}}\qquad T_{\text{vec}}\approx c_0+N\cdot c_{\text{C}}$$
 
@@ -73,7 +79,7 @@ $$\text{ganancia}=\frac{T_{\text{bucle}}}{T_{\text{vec}}}\xrightarrow[N\to\infty
 ## Arreglo contiguo, `dtype` y vistas
 
 ::: definition {#cmp-def-arreglo-contiguo title="Arreglo contiguo y dtype"}
-Una **lista** de Python guarda referencias a objetos: cada `float` es un objeto aparte con cabecera, y para operar el intérprete sigue la referencia, revisa el tipo y despacha. Un **arreglo** de NumPy guarda los valores crudos, todos del mismo `dtype`, en un bloque contiguo. Una **vista** (`a[::2]`) comparte esa memoria y puede no ser contigua; sigue admitiendo operaciones vectorizadas.
+Una **lista** de Python guarda referencias a objetos: cada `float` es un objeto aparte con cabecera, y para operar el intérprete sigue la referencia, revisa el tipo y despacha. El **`dtype`** fija cómo se representa cada elemento (`float64`: 8 bytes de punto flotante; `int64`: 8 bytes de entero con signo). Un **arreglo** de NumPy guarda los valores crudos, todos del mismo `dtype`, en un bloque contiguo. Una **vista** (`a[::2]`) comparte esa memoria y puede no ser contigua; sigue admitiendo operaciones vectorizadas.
 :::
 
 **Otro ángulo.**

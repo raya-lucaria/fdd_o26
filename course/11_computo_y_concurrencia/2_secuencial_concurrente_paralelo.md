@@ -45,7 +45,9 @@ La definición larga de estos cuatro está en [[el-gil]]. Aquí va el resumen qu
 | **GIL** | el candado de un intérprete de CPython | no aplica | uno por intérprete | hilos que se turnan para ejecutar Python |
 
 ::: definition {#cmp-def-gil-interprete title="GIL por intérprete"}
-La ejecución de bytecode de Python es una parte de la ejecución, $\operatorname{exec}_{\mathrm{Python}}(\tau)\subseteq\operatorname{exec}(\tau)$. En un intérprete $I$ con GIL, en cada instante $t$ **a lo más una** tarea de $I$ ejecuta Python. En este curso hay un intérprete por proceso.
+**En palabras.** En un intérprete con GIL, a lo más un hilo ejecuta bytecode de Python en cada instante; en este curso hay un intérprete por proceso.
+
+**Formalmente.** Con $\operatorname{exec}_{\mathrm{Python}}(\tau)\subseteq\operatorname{exec}(\tau)$, para cada intérprete $I$ y cada $t$: $\operatorname{card}\{\tau \text{ de } I : t\in\operatorname{exec}_{\mathrm{Python}}(\tau)\}\le1$. ([[notacion-computo]])
 :::
 
 **Otro ángulo.** Dos hilos que sólo calculan, en un proceso, con $P=8$. El GIL pide al hilo que lo tiene que lo suelte cada `sys.getswitchinterval()` (5 ms por omisión); el otro lo toma. Gantt como texto (E ejecuta Python, R lista sin turno):
@@ -73,11 +75,17 @@ Eso **no** impone $P=1$: el código nativo que suelta el GIL (E/S bloqueante, `t
 ## Secuencial y concurrente: vidas que se tocan o se solapan
 
 ::: definition {#cmp-def-secuencial-formal title="Ejecución secuencial"}
-Sobre un conjunto fijo de tareas $\mathcal{T}$, la ejecución es **secuencial** si ningún par de vidas se solapa: $\forall i\ne j:\ \operatorname{vida}(\tau_i)\cap\operatorname{vida}(\tau_j)=\varnothing$.
+**En palabras.** Ningún par de vidas se solapa: cada tarea empieza cuando la anterior terminó.
+
+**Formalmente.** $\forall i\ne j:\ \operatorname{vida}(\tau_i)\cap\operatorname{vida}(\tau_j)=\varnothing$, sobre un conjunto fijo $\mathcal{T}$. ([[notacion-computo]])
 :::
 
 ::: definition {#cmp-def-concurrente title="Ejecución concurrente"}
-La ejecución es **concurrente** si al menos dos vidas se solapan un tramo de duración positiva: $\exists i\ne j:\ \operatorname{dur}(\operatorname{vida}(\tau_i)\cap\operatorname{vida}(\tau_j))>0$. No dice cuántas CPU hay ni si alguien ejecuta a la vez: sólo que una tarea empezó antes de que otra terminara.
+**En palabras.** Al menos dos vidas se solapan un tramo de duración positiva: una tarea empezó antes de que otra terminara.
+
+**Formalmente.** $\exists i\ne j:\ \operatorname{dur}(\operatorname{vida}(\tau_i)\cap\operatorname{vida}(\tau_j))>0$. ([[notacion-computo]])
+
+No dice cuántas CPU hay ni si alguien ejecuta a la vez: sólo que una tarea empezó antes de que otra terminara.
 :::
 
 **Otro ángulo.** Las vidas son intervalos semiabiertos $[\operatorname{start},\operatorname{end})$: incluyen el inicio y excluyen el fin. Dos vidas que se tocan en un borde **no** se solapan.
@@ -101,7 +109,9 @@ La ejecución es **concurrente** si al menos dos vidas se solapan un tramo de du
 ## Paralelo: dos tareas ejecutan en el mismo instante
 
 ::: definition {#cmp-def-paralelo title="Ejecución paralela"}
-Sea $\operatorname{ExecutingAt}(t)=\{\tau_i : t\in\operatorname{exec}(\tau_i)\}$, las tareas que ejecutan en el instante $t$. La ejecución es **paralela** si hay un tramo de duración positiva con al menos dos tareas en $\operatorname{ExecutingAt}$: $\exists i\ne j:\ \operatorname{dur}(\operatorname{exec}(\tau_i)\cap\operatorname{exec}(\tau_j))>0$. Siempre $\operatorname{card}(\operatorname{ExecutingAt}(t))\le P$, así que exige $P\ge2$.
+**En palabras.** Al menos dos tareas ejecutan en el mismo instante; exige al menos dos CPU.
+
+**Formalmente.** $\exists i\ne j:\ \operatorname{dur}(\operatorname{exec}(\tau_i)\cap\operatorname{exec}(\tau_j))>0$, es decir, $\operatorname{card}(\operatorname{ExecutingAt}(t))\ge2$ en un tramo de duración positiva, con $\operatorname{ExecutingAt}(t)=\{\tau_i : t\in\operatorname{exec}(\tau_i)\}$. ([[notacion-computo]]) Siempre $\operatorname{card}(\operatorname{ExecutingAt}(t))\le P$, así que exige $P\ge2$.
 :::
 
 **Otro ángulo.** Las mismas tres tareas, primero con hilos (un proceso, un GIL) y luego en tres procesos sobre dos CPU.
@@ -112,6 +122,7 @@ Sea $\operatorname{ExecutingAt}(t)=\{\tau_i : t\in\operatorname{exec}(\tau_i)\}$
 
 Lectura de la figura:
 
+- Todo ocurre en **una** CPU con un GIL: el hilo 1 ejecuta de 0 a 20 ms; el hilo 2 queda listo de 0 a 20 porque el GIL lo tiene el hilo 1, y el hilo 3 de 0 a 40 porque lo tienen el 1 y luego el 2.
 - Un trazo vertical en $t=100$ corta las tres vidas (todas en espera): **concurrente**.
 - En $t=30$ ejecuta el hilo 2 mientras el 1 espera: **solapa esperas**. Eso es todo lo que gana: 720 → 280 ms.
 - La fila de CPU tiene a lo más un tramo en cada instante: $\max_t\operatorname{card}(\operatorname{ExecutingAt}(t))=1$, **no paralelo**.
@@ -124,7 +135,7 @@ Lectura de la figura:
 Lectura de la figura:
 
 - En $t=10$ las dos filas de CPU están ocupadas: $\operatorname{ExecutingAt}(10)=\{\tau_1,\tau_2\}$, cardinal 2 $\le P=2$: **paralelo**.
-- El proceso 3 está `ready` de 0 a 20 ms: con $P=2$ el tercero espera una CPU libre, aunque sea otro proceso.
+- Los procesos 1 y 2 ejecutan de 0 a 20 ms en la CPU 1 y la CPU 2. El proceso 3 queda `ready` de 0 a 20 ms porque las dos CPU están ocupadas; en 20 el proceso 1 pasa a esperar la red, suelta la CPU 1 y el 3 ejecuta ahí de 20 a 40. En 240 el 3 vuelve a la CPU 1, que el 1 soltó al terminar.
 - **Ningún paralelismo se deduce de que el total bajó:** con hilos también bajó (a 280 ms) con una sola CPU. El paralelismo se ve en dos barras de ejecución en la misma vertical.
 
 **Matemática.** La utilización $U=C/(P\cdot T)$, con $C=3\times40=120$ ms de CPU en las tres versiones:
@@ -135,7 +146,7 @@ Lectura de la figura:
 | tres hilos | 1 | 280 | $120/280=42.9\%$ | 1 |
 | tres procesos | 2 | 260 | $120/(2\times260)\approx23.1\%$ | 2 |
 
-Pasar a procesos **baja** la utilización: se agregó una CPU que pasa casi todo el tiempo ociosa ($[40,220)$ en las dos). Con tareas que casi sólo esperan, el paralelismo rinde 20 ms; lo que rindió fue solapar esperas.
+Pasar a procesos **baja** la utilización: se agregó una CPU y las dos pasan casi todo el tiempo ociosas: la CPU 1 en $[40,220)$ y la CPU 2 en $[20,220)$ y $[240,260)$. Con tareas que casi sólo esperan, el paralelismo rinde 20 ms; lo que rindió fue solapar esperas.
 
 **Ejemplo** (medición real, celda 2.2; una corrida en la máquina del profesor, 8 CPU lógicas): 4 cálculos de `calcula` con 1, 2 y 4 procesos tardan 1.45, 0.75 y 0.54 s. Aquí sí hay paralelismo útil, porque las tareas sólo calculan ($\rho\approx1$).
 
@@ -153,8 +164,8 @@ Pasar a procesos **baja** la utilización: se agregó una CPU que pasa casi todo
 
 **El recíproco es falso:** con tres hilos las vidas se solapan (concurrente) y nunca ejecutan dos a la vez (no paralelo). El mismo argumento prueba que **solapar esperas implica concurrente**: $\operatorname{wait}(\tau)$ también está dentro de la vida.
 
-::: figure {#cmp-conjuntos title="Secuencial, concurrente, solapa esperas y paralelo como conjuntos de trazas"}
-![Diagrama de conjuntos sobre las trazas de un conjunto fijo de tareas. Un rectángulo dividido en dos regiones complementarias: secuencial, donde ninguna vida se solapa, con el ejemplo de 720 ms; y concurrente. Dentro de concurrente hay dos regiones que se cruzan: solapa esperas y paralelo. Hilos con GIL y gather caen en solapa esperas sin paralelo; dos procesos que sólo calculan caen en paralelo sin solapar esperas; tres procesos sobre dos CPU caen en la intersección. Paralelo nunca toca la región secuencial.](_assets/cmp-conjuntos.svg)
+::: figure {#cmp-conjuntos title="Secuencial, concurrente y paralelo como conjuntos de trazas"}
+![Diagrama de conjuntos de las trazas de un mismo grupo de tareas, con la misma granularidad. A la izquierda, secuencial: ningún par de vidas se solapa, con un mini Gantt de T1 y luego T2, como un for con requests o await uno tras otro. A la derecha, concurrente: algún par de vidas se solapa, con T1 y T2 intercaladas en una CPU, como hilos con GIL o asyncio con gather. Dentro de concurrente, la región paralelo: dos tareas ejecutan en el mismo instante en dos CPU, como procesos. Secuencial y concurrente no se tocan; paralelo implica concurrente; asíncrono no es una región del dibujo.](_assets/cmp-conjuntos.svg)
 :::
 
 | | No paralelo | Paralelo |
@@ -163,7 +174,7 @@ Pasar a procesos **baja** la utilización: se agregó una CPU que pasa casi todo
 | **Concurrente** | por turnos: hilos con GIL, `asyncio` (280 ms) | ejecución simultánea: procesos (260 ms) |
 
 > [!NOTE]
-> **Cambio de escala.** «Paralelo sin concurrente» sólo aparece si cuentas tareas distintas para cada propiedad. Un `A @ B` de NumPy es **una** tarea de tu programa (ni concurrente ni paralela a tu escala), pero BLAS lo reparte por dentro en hilos que, a **su** escala, son paralelos y concurrentes. SIMD es otra cosa: una instrucción opera sobre varios datos en un núcleo; es paralelismo de datos, no de tareas, y $\operatorname{card}(\operatorname{ExecutingAt}(t))$ sigue valiendo 1. Va en [[vectorizar]].
+> **Cambio de granularidad.** Un `A @ B` de NumPy parece paralelo sin ser concurrente: usa 8 CPU y tu programa tiene una tarea. Fija $\mathcal{T}$. Si $\mathcal{T}=\{$tu llamada$\}$, hay una vida, nada se solapa: secuencial. Si $\mathcal{T}$ son los hilos de BLAS, hay vidas solapadas y varias ejecutando: concurrente y paralelo. Con ningún $\mathcal{T}$ sale paralelo sin concurrente. SIMD es otra cosa: una instrucción opera sobre varios datos en un núcleo; es paralelismo de datos, no de tareas, y $\operatorname{card}(\operatorname{ExecutingAt}(t))$ sigue valiendo 1. Va en [[vectorizar]].
 
 ## Propiedades que se verifican en el Gantt
 
@@ -202,12 +213,14 @@ Hay **condición de carrera** cuando el resultado de un programa depende del ord
 
 Dos sumas, el contador subió 1: **la suma de B se perdió**. Nadie truena ni avisa. El GIL no lo evita: garantiza que cada instrucción de bytecode corra entera, no que lo hagan las tres de `+=` juntas.
 
+Desde Python 3.10 el intérprete sólo cambia de hilo en ciertos puntos: al entrar a una función y al volver al inicio de un bucle. Por eso un `contador += 1` solo, con GIL, casi nunca muestra la pérdida; sin GIL (3.14t) la muestra con facilidad. La celda 2.3 mete la llamada `suma_uno` entre leer y escribir: entrar a esa función es un punto donde el intérprete puede cambiar de hilo.
+
 **Matemática.** Con 4 hilos y 100 000 sumas cada uno, lo esperado es $4\times100\,000=400\,000$. Cada intercalado como el de la tabla pierde una suma, así que el resultado es $400\,000-(\text{sumas perdidas})\le400\,000$, y el número de pérdidas cambia de corrida a corrida.
 
 **Ejemplo** (medición real, celda 2.3): esperado 400,000, obtenido 199,769 en una corrida. Obtener 400,000 en **una** corrida **no prueba** que no haya carrera: sólo que esa vez el intercalado no la mostró.
 
 ::: definition {#cmp-def-region-critica title="Región crítica y Lock"}
-Una **región crítica** es un trozo de código que lee y escribe un dato compartido y que **sólo un hilo a la vez** puede ejecutar. Un `threading.Lock` la protege: `with candado:` entra si nadie lo tiene y, si no, deja al hilo `blocked` hasta que el otro salga; al salir lo suelta, incluso si hubo un error.
+Una **región crítica** es un trozo de código que lee y escribe un dato compartido y que **sólo un hilo a la vez** puede ejecutar. Un `threading.Lock` la protege: `with candado:` entra si nadie lo tiene y, si no, deja al hilo `blocked` (espera algo que otra tarea del mismo programa debe soltar: no es `wait`, porque no falta nada externo, ni `ready`, porque no le falta CPU) hasta que el otro salga; al salir lo suelta, incluso si hubo un error.
 :::
 
 Con el `Lock`, el paso 2 de la traza cambia: B intenta entrar, A tiene el candado, B queda `blocked` hasta que A escribe 6 y sale; entonces B lee 6 y escribe 7.
@@ -224,7 +237,7 @@ Con el `Lock`, el paso 2 de la traza cambia: B intenta entrar, A tiene el candad
 
 **La región crítica es serialización deliberada.** Mientras un hilo está dentro del `with`, los demás que la necesitan están `blocked`: ese trozo corre en serie aunque haya 32 hilos. Por eso se protege **lo mínimo** (leer y escribir el dato, no la llamada de red de 0.2 s). Un `Lock` que envuelve el cuerpo entero convierte a los hilos en una ejecución secuencial con más pasos. En la página 6 ese trozo serial tiene nombre: fracción serial $f$.
 
-**Sistema real: el servidor de la clase.** `servidor.py` cuenta las peticiones con `peticiones += 1`, y ese `+=` va dentro de `with candado:`, con un único `Lock` global que también protege el diccionario `ventas`. Sin él, dos peticiones simultáneas perderían una cuenta, exactamente como en la tabla.
+**Sistema real: el servidor de la clase.** `servidor.py` cuenta las peticiones con `peticiones += 1`, y ese `+=` va dentro de `with candado:`, con un único `Lock` global que también protege el diccionario `ventas`. Sin él, dos peticiones simultáneas pueden perder una cuenta, como en la tabla (raro con GIL, frecuente sin él); el candado lo garantiza en cualquier versión.
 
 ## Arquitectura: hilo por conexión contra prefork
 
@@ -262,7 +275,11 @@ Los dos se combinan: Gunicorn con workers de hilos (`gthread`) es prefork **y** 
 ## Speedup y eficiencia con procesos
 
 ::: definition {#cmp-def-speedup title="Speedup y eficiencia"}
-Con $T(N)$ el tiempo total repartiendo entre $N$ trabajadores, el **speedup** contra un trabajador es $S(N)=T(1)/T(N)$ y la **eficiencia** es $E(N)=S(N)/N$. $E=1$ es reparto perfecto. Todo speedup **declara su base**: aquí la base es el mismo pool con un proceso.
+**En palabras.** El speedup divide el tiempo de una versión base, que siempre se declara, entre el de la nueva; la eficiencia reparte ese speedup entre los $N$ trabajadores.
+
+**Formalmente.** $S=T_{\text{base}}/T_{\text{nueva}}$; contra un trabajador, $S(N)=T(1)/T(N)$; $E(N)=S(N)/N$. ([[notacion-computo]])
+
+ $E=1$ es reparto perfecto. Todo speedup **declara su base**: aquí la base es el mismo pool con un proceso.
 :::
 
 **Otro ángulo.** Si repartir fuera gratis, 4 procesos tardarían la cuarta parte: $1.45/4\approx0.363$ s. Tardaron 0.54 s. La diferencia es lo que **no** se repartió.
@@ -330,7 +347,7 @@ print(f"{len(codigos)} llamadas, status {set(codigos)}, {time.perf_counter() - i
 | hilos 21–32 | sin trabajo | sin trabajo |
 | GIL | casi siempre libre | un hilo a la vez |
 
-Las vidas se solapan (concurrente) y la ejecución nunca es simultánea (no paralela). Contra 4.04 s en serie, el ahorro es **espera solapada**, no cálculo repartido. Con la medición de referencia, $L=\lambda W\approx(20/0.23)\times0.202\approx17.6$ llamadas en vuelo en promedio, igual al speedup $4.04/0.23$.
+Las vidas se solapan (concurrente) y la ejecución nunca es simultánea (no paralela). Contra 4.04 s en serie, el ahorro es **espera solapada**, no cálculo repartido. Con la medición de referencia, $L=\lambda W\approx(20/0.23)\times0.202\approx17.6$ llamadas en vuelo en promedio. Coincide con el speedup sobre la serie, $4.04/0.23$, sólo porque cada llamada sigue durando $W\approx0.202$ s en las dos versiones.
 
 **Deberías ver** (tu número cambia con tu máquina y su carga):
 
@@ -409,6 +426,7 @@ sys.setswitchinterval(0.005)         # regresa al valor de fábrica para las cel
 | Qué | Qué hace | Por qué hace falta aquí |
 |---|---|---|
 | `sys.setswitchinterval(1e-6)` | cada cuánto pide el intérprete al hilo con el GIL que lo suelte | con 5 ms la carrera ocurre sólo a veces; con 1 µs se ve casi siempre. No garantiza el intercalado: depende de la versión de Python |
+| `suma_uno(actual)` | una función trivial entre leer y escribir | desde 3.10 el intérprete cambia de hilo al entrar a una función; sin esa llamada la carrera casi nunca aparece con GIL |
 | `global contador` | la función escribe la variable del módulo, no una local | es el dato compartido entre los hilos |
 | `threading.Thread(target=…, args=…)` | crea un hilo que correrá `suma(100_000)` | se quieren 4 hilos sobre el mismo dato |
 | `h.start()` / `h.join()` | arranca el hilo / espera a que termine | sin `join`, el `print` leería el contador a medias |

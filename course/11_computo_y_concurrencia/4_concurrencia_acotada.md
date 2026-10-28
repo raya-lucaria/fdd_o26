@@ -44,7 +44,7 @@ prerequisites: [asincrono-y-el-event-loop]
 **Otro ángulo.** El ejemplo único de la unidad (tres tareas de 20 ms ejecuta + 200 ms espera + 20 ms ejecuta) lanzado con `gather`:
 
 ::: figure {#cmp-gantt-gather title="gather: fan-out en un tick, esperas solapadas, fan-in en la última"}
-![Diagrama de Gantt de 0 a 300 ms con una fila para la corrutina principal y una por cada tarea del ejemplo único. En t=0 la principal llama a gather y las tres tareas nacen juntas (fan-out); cada una ejecuta 20 ms por turnos en el único hilo del loop, las tareas 2 y 3 aparecen rayadas como listas mientras esperan turno, y después las tres esperas de red de 200 ms se dibujan solapadas. Las respuestas regresan, cada tarea ejecuta sus últimos 20 ms y la principal, bloqueada desde t=0, recibe la lista de resultados en t=280 cuando termina la última (fan-in).](_assets/cmp-gantt-gather.svg)
+![Diagrama de Gantt con eje de 0 a 300 ms y vidas de 240, 260 y 280 ms, total 280 ms, con una fila para la corrutina principal y una por cada tarea del ejemplo único. En t=0 la principal llama a gather y las tres tareas nacen juntas (fan-out); cada una ejecuta 20 ms por turnos en el único hilo del loop, las tareas 2 y 3 aparecen rayadas como listas mientras esperan turno, y después las tres esperas de red de 200 ms se dibujan solapadas. Las respuestas regresan, cada tarea ejecuta sus últimos 20 ms y la principal, bloqueada desde t=0, recibe la lista de resultados en t=280 cuando termina la última (fan-in).](_assets/cmp-gantt-gather.svg)
 :::
 
 El mismo Gantt como texto (columnas no a escala; E ejecuta, W espera red, R lista, B bloqueada, — terminada):
@@ -115,6 +115,10 @@ Un **semáforo** es un contador de permisos que empieza en $k$, más una cola de
 :::
 
 ::: definition {#cmp-def-bloqueada title="Bloqueada"}
+**En palabras.** La tarea está bloqueada cuando espera algo que otra tarea del mismo programa tiene que soltar o producir: un permiso, un `Lock`, una conexión del pool, un resultado.
+
+**Formalmente.** $\operatorname{blocked}(\tau)\subseteq\operatorname{vida}(\tau)$ y $b=\operatorname{dur}(\operatorname{blocked}(\tau))$. ([[notacion-computo]])
+
 Una tarea está **bloqueada**, $t\in\operatorname{blocked}(\tau)$, si no avanzaría aunque le dieras CPU, y lo que le falta lo tiene que soltar o producir **otra tarea del mismo programa**: un permiso del semáforo, un `Lock`, una conexión del pool, el resultado de otra tarea. Se distingue de la espera de red (`wait`), que depende de algo externo, y de lista (`ready`), que sólo necesita turno. Con $b=\operatorname{dur}(\operatorname{blocked})$, la vida queda partida en cuatro: $d=e+w+r+b$.
 :::
 
@@ -203,6 +207,10 @@ Con un semáforo de $k$ permisos, **en cuanto una tarea suelta su permiso entra 
 ## La Ley de Little
 
 ::: definition {#cmp-def-ley-de-little title="Ley de Little"}
+**En palabras.** En régimen estable, las tareas en vuelo en promedio son el rendimiento por el tiempo medio que cada una pasa dentro de la frontera elegida.
+
+**Formalmente.** $L=\lambda\cdot W$; si a lo más $k$ caben dentro, $L\le k$ y $\lambda\le k/W$. ([[notacion-computo]])
+
 En un sistema en régimen estable, con una frontera que eliges, **las tareas en vuelo en promedio** ($L$) son el **rendimiento** ($\lambda$, tareas que terminan por segundo) por el **tiempo medio que cada una pasa dentro** ($W$):
 
 $$L=\lambda\cdot W$$

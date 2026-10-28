@@ -25,16 +25,18 @@ prerequisites: [concurrencia-acotada]
 
 ## En corto
 
-- **`await` libera el hilo del loop, no lo que tienes en la mano.** Una conexión prestada o un permiso tomado siguen ocupados mientras esperas; sólo vuelven cuando los sueltas.
+- **Un `await` que suspende libera el hilo del loop, y nada más.** La conexión prestada y el permiso tomado siguen ocupados mientras la tarea espera; vuelven cuando la tarea los devuelve.
 - **Hay dos concurrencias.** El event loop sube la de tareas (miles de peticiones gestionadas a la vez); los semáforos y los pools acotan la de recursos (cuántas conexiones, hilos o permisos se ocupan). 1000 peticiones HTTP no necesitan 1000 hilos ni 1000 conexiones a la BD.
 - **Un pool guarda objetos; un semáforo sólo cuenta.** El pool abre, presta, recupera, reutiliza, cierra y reemplaza conexiones rotas, y se dimensiona con Little: conexiones en uso $=\lambda\cdot W_{\text{conexión}}$.
 
 ## Recurso
 
 ::: definition {#cmp-def-recurso title="Recurso"}
-Un **recurso** es algo finito que una tarea **ocupa**: mientras lo tiene, ninguna otra tarea lo puede usar. Hay $k$ de cada tipo y una tarea que quiere uno cuando no queda ninguno pasa a `blocked` (espera algo que otra tarea del programa tiene que soltar, [[notacion-computo]]).
+**En palabras.** Un recurso es algo finito que una tarea ocupa: mientras lo tiene, ninguna otra tarea lo puede usar; si no queda ninguno, la tarea que lo pide pasa a `blocked`.
 
-La **concurrencia de tareas** es cuántas tareas están vivas a la vez. La **concurrencia de recursos** es cuántos recursos de un tipo están ocupados a la vez. La segunda nunca pasa de $k$; la primera puede ser mucho mayor.
+**Formalmente.** Un tipo de recurso tiene $k$ unidades. Si $\operatorname{Ocupa}(t)$ es el conjunto de tareas que tienen una unidad en el instante $t$, entonces $\operatorname{card}(\operatorname{Ocupa}(t))\le k$ para todo $t$. Una tarea que pide una unidad cuando $\operatorname{card}(\operatorname{Ocupa}(t))=k$ está en `blocked` hasta que otra la devuelve. Modelo completo en [[notacion-computo]].
+
+La **concurrencia de tareas** es cuántas tareas están vivas a la vez. La **concurrencia de recursos** es $\operatorname{card}(\operatorname{Ocupa}(t))$. La segunda nunca pasa de $k$; la primera puede ser mucho mayor.
 :::
 
 **Otro ángulo.** Cinco recursos que aparecen en esta unidad y si otra tarea puede usarlos mientras la dueña espera:
@@ -47,11 +49,17 @@ La **concurrencia de tareas** es cuántas tareas están vivas a la vez. La **con
 | una conexión prestada por un pool | la tarea que la pidió | **no**: lleva una petición o consulta a la vez | $k$ del pool |
 | una conexión **devuelta** al pool | nadie | **sí**: la próxima tarea que pida la toma | — |
 
-**Matemática.** Con la frontera puesta en el recurso, Little ([[concurrencia-acotada]]) dice cuántos están ocupados en promedio:
+::: definition {#cmp-def-retencion title="Tiempo de retención y Little en el recurso"}
+**En palabras.** El tiempo de retención es cuánto tiempo una tarea tiene prestado un recurso, desde que lo toma hasta que lo devuelve; no es la latencia de toda la petición. Con la frontera puesta en el recurso, Little dice cuántas unidades están ocupadas en promedio.
+
+**Formalmente.** $W_{\text{recurso}}=\operatorname{dur}([\text{toma},\text{devuelve}))$, promediado sobre las tareas. En régimen estable, $L_{\text{recurso}}=\lambda\cdot W_{\text{recurso}}$ y, como $\operatorname{card}(\operatorname{Ocupa}(t))\le k$, también $L_{\text{recurso}}\le k$. Modelo completo en [[notacion-computo]].
+:::
+
+**Matemática.** Con la frontera puesta en el recurso ([[concurrencia-acotada]]):
 
 $$L_{\text{recurso}}=\lambda\cdot W_{\text{recurso}}\le k$$
 
-$W_{\text{recurso}}$ no es la latencia de la petición: es **cuánto tiempo la tarea retiene ese recurso**. Una petición puede vivir 2 s y retener la conexión a la BD sólo 0.05 s.
+Una petición puede vivir 2 s y retener la conexión a la BD sólo 0.05 s: con $\lambda=100$ peticiones/s, $L=100\times0.05=5$ conexiones ocupadas en promedio, no $100\times2=200$.
 
 **Ejemplo.** El servidor de la clase con 20 llamadas `requests.get` sueltas, una tras otra (celda 5.1): **concurrencia de tareas 1**, pero se abrieron 20 conexiones, una por llamada, y el servidor dedicó un hilo distinto a cada una. Con una `Session`, la misma concurrencia de tareas usa 1 conexión y 1 hilo.
 
@@ -60,7 +68,11 @@ $W_{\text{recurso}}$ no es la latencia de la petición: es **cuánto tiempo la t
 ## Cuatro roles: quién corre, quién entra, qué conexión usas, quién ejecuta
 
 ::: definition {#cmp-def-pool title="Pool"}
-Un **pool** es un conjunto de $k$ objetos reales y reutilizables (conexiones, hilos, procesos) con un ciclo de vida: los **crea y mantiene**, los **presta** a una tarea, los **recupera** cuando la tarea los devuelve, los **reutiliza** para la siguiente, los **cierra** cuando sobran o caducan y **reemplaza** los que se rompen. Un pool de conexiones es, aproximadamente, un semáforo de $k$ permisos **más** los objetos **más** ese ciclo de vida.
+**En palabras.** Un pool es un conjunto de $k$ objetos reales y reutilizables (conexiones, hilos, procesos) que se crean una vez, se prestan a una tarea, se recuperan cuando la tarea los devuelve y se reutilizan para la siguiente; el pool también cierra los que sobran y reemplaza los que se rompen.
+
+**Formalmente.** Un pool es un recurso de $k$ unidades **con identidad**: $\operatorname{Libres}(t)\cup\operatorname{Prestadas}(t)$ es el conjunto de objetos abiertos, con $\operatorname{card}(\operatorname{Prestadas}(t))\le k$; `get` mueve un objeto de libres a prestadas (o deja a la tarea en `blocked` si no hay libres) y `put` lo regresa. Modelo completo en [[notacion-computo]].
+
+Un pool de conexiones es, aproximadamente, un semáforo de $k$ permisos **más** los objetos **más** ese ciclo de vida.
 :::
 
 **Otro ángulo.** Una petición recorre cuatro piezas que hacen cosas distintas:
@@ -91,15 +103,15 @@ Semáforo contra pool, rasgo por rasgo:
 > [!WARNING]
 > **No todos los pools bloquean.** `requests.Session` usa el pool de `urllib3` con `pool_maxsize=10` y `pool_block=False`: con 20 hilos sobre una sola `Session` abre 20 conexiones a la vez, al devolverlas guarda 10 y tira las otras 10 con el aviso `Connection pool is full, discarding connection` (medido en esta máquina). Ese pool es un **caché** de conexiones, no un tope. `httpx.Limits(max_connections=k)` sí hace esperar a la $(k+1)$-ésima.
 
-**Matemática.** Con $k$ conexiones y peticiones que retienen la conexión $W_{\text{conexión}}$, a lo más $k$ están en vuelo:
+::: definition {#cmp-def-cota-pool title="Cota del pool"}
+**En palabras.** Un pool de $k$ conexiones que bloquea al llenarse es un tope: a lo más $k$ peticiones están en vuelo, así que el throughput no pasa de $k$ entre lo que cada una retiene su conexión, y $n$ peticiones iguales tardan al menos $\lceil n/k\rceil$ olas.
 
-$$\lambda\le\frac{k}{W_{\text{conexión}}}$$
+**Formalmente.** $L_{\text{conexión}}\le k\ \Rightarrow\ \lambda\le k/W_{\text{conexión}}$, y $T\ge\lceil n/k\rceil\cdot W_{\text{conexión}}$. Es la cota del semáforo con $W_{\text{conexión}}$ en lugar de $e+w$. Modelo completo en [[notacion-computo]].
+:::
 
-Es la misma cota del semáforo de [[concurrencia-acotada]]: el pool **también** es un tope. La diferencia es lo que hay detrás del tope.
+**Matemática.** Pool de 5 conexiones (`httpx.Limits(max_connections=5)`), peticiones que retienen la conexión 0.2 s: $\lambda\le5/0.2=25$ peticiones/s, pase lo que pase con el número de tareas; 20 peticiones tardan al menos $\lceil20/5\rceil\times0.2=0.8$ s. El pool **también** es un tope, como el semáforo de [[concurrencia-acotada]]; la diferencia es lo que hay detrás del tope.
 
-**Ejemplo.** Pool de 5 conexiones (`httpx.Limits(max_connections=5)`), peticiones de 0.2 s: $\lambda\le5/0.2=25$ peticiones/s, pase lo que pase con el número de tareas.
-
-**Arquitectura.** *Qué es:* cada pieza en su capa; el loop no limita recursos y el pool no planifica. *Cuándo sí:* un servicio con `asyncio` que habla con una BD o una API: loop para las tareas, pool para las conexiones, semáforo si quieres un tope de entrada distinto. *Cuándo no:* poner un semáforo «por si acaso» igual al pool: no agrega nada (celda 5.4). *Qué cuesta:* tres números que configurar y documentar. *Sistema real:* `psycopg_pool.AsyncConnectionPool(min_size, max_size, timeout)`; SQLAlchemy con `pool_size=5`, `max_overflow=10`, `pool_timeout=30` y `pool_pre_ping` por omisión; `httpx.Limits(max_connections=100, max_keepalive_connections=20)` por omisión.
+**Arquitectura.** *Qué es:* cada pieza en su capa; el loop no limita recursos y el pool no planifica. *Cuándo sí:* un servicio con `asyncio` que habla con una BD o una API: loop para las tareas, pool para las conexiones, semáforo si quieres un tope de entrada distinto. *Cuándo no:* un semáforo «por si acaso» igual al pool: no baja lo que está en vuelo, sólo cambia dónde esperan las tareas (celda 5.4). *Qué cuesta:* tres números que configurar y documentar. *Sistema real:* `psycopg_pool.AsyncConnectionPool(min_size, max_size, timeout)`; SQLAlchemy con `pool_size=5`, `max_overflow=10`, `pool_timeout=30` por omisión y `pool_pre_ping=False` por omisión (con `pool_pre_ping=True` valida la conexión al prestarla); `httpx.Limits(max_connections=100, max_keepalive_connections=20)` por omisión.
 
 ## Qué libera `await`
 
@@ -117,7 +129,7 @@ Es la misma cota del semáforo de [[concurrencia-acotada]]: el pool **también**
 | un hilo bloqueado en `time.sleep` o `requests.get` | **no** (no hay `await`: es síncrono) | ese hilo no hace nada más hasta que vuelva |
 | una conexión ya devuelta al pool | **sí** | la próxima tarea que pida una la toma |
 
-**Matemática.** En la partición de la vida de una tarea ([[notacion-computo]]), el tramo en que la tarea espera la red con la conexión en la mano es `wait` para ella, **y** cuenta en $W_{\text{conexión}}$. El tramo en que espera una conexión libre es `blocked`. Para el pool, sólo importa:
+**Matemática.** En la partición de la vida de una tarea ([[notacion-computo]]), el tramo en que la tarea espera la red con la conexión prestada es `wait` para ella, **y** cuenta en $W_{\text{conexión}}$. El tramo en que espera una conexión libre es `blocked`. Para el pool, sólo importa:
 
 $$W_{\text{conexión}}=\operatorname{dur}(\text{desde get hasta put})$$
 
@@ -125,12 +137,12 @@ aunque casi todo ese tramo sea `wait`.
 
 **Ejemplo.** Cien peticiones, pool de 10 conexiones, un loop: 10 tienen conexión y esperan respuesta; 90 están `blocked` en la cola del pool **sin ocupar ninguna conexión**; el loop sigue atendiendo a todas (aceptar nuevas, parsear las que ya volvieron). Concurrencia de tareas 100; concurrencia de recursos 10.
 
-**Arquitectura.** *Qué es:* leer cada `await` preguntando qué tienes en la mano. *Cuándo sí:* en todo bloque `async with pool.connection()` o `async with sem` que contenga otro `await` lento. *Cuándo no:* un `await` corto dentro de la consulta misma (es la consulta). *Qué cuesta:* nada. *Sistema real:* una conexión de PostgreSQL ejecuta **una** consulta a la vez (el modo *pipeline* de libpq encola varias, pero el servidor las ejecuta una tras otra); otra tarea no la puede usar mientras tanto.
+**Arquitectura.** *Qué es:* leer cada `await` preguntando qué recursos tiene prestados la tarea en ese momento. *Cuándo sí:* en todo bloque `async with pool.connection()` o `async with sem` que contenga otro `await` lento. *Cuándo no:* un `await` corto dentro de la consulta misma (es la consulta). *Qué cuesta:* nada. *Sistema real:* una conexión de PostgreSQL ejecuta **una** consulta a la vez (el modo *pipeline* de libpq encola varias, pero el servidor las ejecuta una tras otra); otra tarea no la puede usar mientras tanto.
 
 ## El ciclo de una conexión y la reutilización
 
 ::: definition {#cmp-def-keep-alive title="Conexión persistente (keep-alive)"}
-Una **conexión persistente** sigue abierta después de responder y lleva la siguiente petición sin volver a conectar. En HTTP/1.1 es el comportamiento por omisión. Una conexión HTTP/1.1, igual que una conexión de BD, lleva **una petición a la vez**; HTTP/2 puede **multiplexar** varias en la misma conexión.
+Una **conexión persistente** sigue abierta después de responder y lleva la siguiente petición sin volver a conectar. En HTTP/1.1 es el comportamiento por omisión. Con los clientes de esta unidad (`requests`, `httpx`), una conexión HTTP/1.1, igual que una conexión de BD, lleva **una petición activa a la vez**; el protocolo permite *pipelining* (varias peticiones seguidas, respuestas en el mismo orden), que casi nadie usa. HTTP/2 **multiplexa** varias en la misma conexión.
 :::
 
 **Otro ángulo.**
@@ -172,7 +184,7 @@ $$\text{costo de abrir}=\begin{cases}n\cdot c_{\text{abrir}} & \text{una conexi�
 ![Gantt de 0 a 1000 ms. Cinco carriles, uno por conexión; cada conexión lleva una petición a la vez: la conexión 1 lleva p1, p6, p11 y p16 en cuatro olas de 200 ms. La petición 6 espera en la cola del pool de 0 a 200 ms y luego viaja por la conexión 1. La cola tiene 15, 10, 5 y 0 peticiones. Total 800 ms.](_assets/cmp-gantt-pool.svg)
 :::
 
-El mismo esquema como texto (E en vuelo, B esperando conexión, — terminada):
+El mismo esquema como texto (W en vuelo por una conexión, B esperando conexión, — terminada):
 
 | | 0–0.2 s | 0.2–0.4 s | 0.4–0.6 s | 0.6–0.8 s |
 |---|---|---|---|---|
@@ -181,8 +193,15 @@ El mismo esquema como texto (E en vuelo, B esperando conexión, — terminada):
 | conexión 3 | p3 | p8 | p13 | p18 |
 | conexión 4 | p4 | p9 | p14 | p19 |
 | conexión 5 | p5 | p10 | p15 | p20 |
-| p6 | B | E | — | — |
+| p6 | B | W | — | — |
 | cola del pool | 15 | 10 | 5 | 0 |
+
+Cómo leer cada tramo, con un solo hilo del loop en una CPU del cliente:
+
+- **$[0,0.2)$, conexiones 1 a 5:** p1 a p5 tomaron una conexión cada una en el instante 0 y mandaron su petición. Están en `wait`: su petición viaja por **su** conexión y el servidor la tiene 0.2 s. No ocupan el hilo del loop.
+- **$[0,0.2)$, p6 a p20:** están en `blocked`, no en `ready`. Lo que les falta no es CPU (el hilo del loop está casi siempre libre), sino una conexión, y las 5 están prestadas a tareas que esperan respuesta. Por eso la cola del pool tiene 15.
+- **En 0.2 s:** llega la respuesta de p1 por la conexión 1. p1 pasa a `ready`, el loop la ejecuta unos microsegundos (lee la respuesta) y la conexión 1 vuelve al pool. La primera de la cola, p6, la toma: pasa de `blocked` a `wait` **en la conexión 1**. Lo mismo ocurre con p2→p7 en la conexión 2, y así hasta p5→p10.
+- **Cada ola repite eso:** la conexión $j$ lleva, una tras otra, $p_j$, $p_{j+5}$, $p_{j+10}$ y $p_{j+15}$. Ninguna conexión lleva dos peticiones a la vez.
 
 **Matemática.** Con $n=20$, $k=5$ y $W_{\text{conexión}}=0.2$ s, la cota del semáforo vale igual para el pool:
 
@@ -211,7 +230,7 @@ $$L_{\text{servidor}}\le r\cdot k$$
 
 **Ejemplo.** Cuatro réplicas de una API con un pool de 10 conexiones cada una abren hasta $4\times10=40$ conexiones a la misma BD (cifras supuestas). Si la BD acepta 30, los pools locales, cada uno correcto, suman un exceso.
 
-**Arquitectura.** *Qué es:* el pool del cliente es la carga del servidor. *Cuándo sí:* dimensiona la suma de todos los pools contra lo que acepta el destino. *Cuándo no:* destinos que multiplexan (HTTP/2) o que no cobran por conexión. *Qué cuesta:* coordinar tamaños entre réplicas. *Sistema real:* PostgreSQL (un proceso por conexión); Apache con hilos por conexión.
+**Arquitectura.** *Qué es:* el pool del cliente es la carga del servidor. *Cuándo sí:* dimensiona la suma de todos los pools contra lo que acepta el destino. *Cuándo no:* destinos que multiplexan (HTTP/2) o que no cobran por conexión. *Qué cuesta:* coordinar tamaños entre réplicas. *Sistema real:* PostgreSQL (un proceso por conexión); Apache httpd con el MPM `worker` (un hilo por conexión).
 
 ## Soltar el recurso antes de la espera larga
 
@@ -231,6 +250,11 @@ $$L_{\text{servidor}}\le r\cdot k$$
 | $W_{\text{conexión}}$ por tarea (figura) | 1200 ms | 200 ms (100 + 100) |
 | total de la figura | 2400 ms | 1300 ms |
 | la conexión durante la API | prestada, sin uso | libre: otra tarea la usa |
+
+Cómo leer la figura:
+
+- **Retener, $[0,1200)$:** las tareas 1 a 3 tienen las conexiones 1 a 3. Durante su API (de 100 a 1100 ms) están en `wait` por la API, **y** su conexión de BD sigue prestada sin llevar nada. Las tareas 4 a 6 están en `blocked`: no les falta CPU, les falta una conexión que nadie usa pero nadie devolvió. En 1200 ms las tres primeras devuelven su conexión y empieza la segunda ola.
+- **Soltar:** la tarea 1 usa la conexión 1 de 0 a 100 ms y la devuelve; la tarea 4 la toma en 100 ms. Durante su API, cada tarea está en `wait` **sin conexión**. Al terminar la API pide una conexión otra vez para escribir; si las 3 están prestadas, queda en `blocked` hasta que se libere una.
 
 **Matemática.** Con $k$ conexiones, $\lambda\le k/W_{\text{conexión}}$. En la celda 5.3: $n=12$ tareas, $k=3$, 0.2 s con la conexión y 0.5 s en otra API:
 
@@ -261,14 +285,14 @@ La IA tarda lo mismo en los dos casos; lo que cambia es cuántas peticiones cabe
 | Tope | Lo pone | Si falta | Si sobra (más alto de lo útil) |
 |---|---|---|---|
 | tareas | cuántas creas | — | memoria por tarea; con hilos, una pila por hilo |
-| entrada | `Semaphore(k)` | todas llegan al pool a la vez | no limita nada: manda el pool |
+| entrada | `Semaphore(k)` | todas llegan al pool a la vez | no baja lo que está en vuelo: manda el pool |
 | recursos | `Limits`, `max_size`, `max_workers` | cada petición abre la suya | satura al destino (BD, servidor) |
 
 **Matemática.** Con un semáforo de $k_s$ permisos sobre un pool de $k_p$ conexiones, lo que está en vuelo es
 
 $$\min(k_s,k_p)$$
 
-así que un semáforo **sólo limita si es menor que el pool**. Con 20 peticiones de 0.2 s y $k_p=5$:
+si cada tarea con permiso usa una conexión exclusiva. Un semáforo **sólo baja lo que está en vuelo si es menor que el pool**. Con $k_s=k_p$, la espera queda en el semáforo y no en el pool; con $k_s>k_p$, el semáforo limita cuántas peticiones llegan a la cola del pool, pero no agrega conexiones. Con 20 peticiones de 0.2 s y $k_p=5$:
 
 | $k_s$ | $\min(k_s,5)$ | Cota $\lceil20/\min\rceil\times0.2$ | Medido (celda 5.4) |
 |---:|---:|---|---|
@@ -278,7 +302,15 @@ así que un semáforo **sólo limita si es menor que el pool**. Con 20 peticione
 
 **Ejemplo: la cola dentro del pool cuesta CPU.** Con 500 llamadas de 0.2 s, `Semaphore(100)` y un pool de 100, lo ideal serían 5 olas (≈1 s). Medido: 7.86 s, con 7.45 s de **CPU del cliente**, y 182 puertos distintos con `max_connections=100` (el pool cerró y reabrió conexiones). El perfil señala a `httpcore` (versión 1.0.9): en cada evento recorre las peticiones en cola contra todas las conexiones, un costo que crece con cola × conexiones. Con `Semaphore(32)` delante del mismo pool de 100: 3.42 s. Es una propiedad de **esta** implementación, medida en esta máquina, no una ley; la lección general sí lo es: **mide antes de subir un tope**, y un semáforo menor que el pool mantiene corta la cola del pool.
 
-**Arquitectura.** *Qué es:* dimensionar de abajo hacia arriba. 1) Recursos: el pool, con lo que acepta el destino (la BD, el servidor, el proveedor), no con el tráfico. 2) Entrada: un semáforo $\le$ pool si quieres la cola fuera del pool, o ninguno. 3) Tareas: acotadas si cada una cuesta memoria (hilos) o si llegan sin fin (usa una cola acotada, [[concurrencia-acotada]]). *Cuándo no:* tres topes iguales sin razón. *Qué cuesta:* cada tope es una cola más que vigilar. *Sistema real:* el `TCPConnector(limit=100)` de `aiohttp` y `Limits(max_connections=100)` de `httpx` son topes de recursos; el `Semaphore` lo pones tú.
+**Arquitectura.** Dimensionar de abajo hacia arriba:
+
+| Decisión | Criterio |
+|---|---|
+| 1. pool (recursos) | lo que acepta el destino (la BD, el servidor, el proveedor), no el tráfico; ejemplos: `TCPConnector(limit=100)` de `aiohttp`, `Limits(max_connections=100)` de `httpx` |
+| 2. semáforo (entrada) | opcional; $\le$ pool si quieres la espera fuera del pool; lo pones tú |
+| 3. tareas | acotadas si cada una cuesta memoria (hilos) o si llegan sin fin: cola acotada ([[concurrencia-acotada]]) |
+| cuándo no | tres topes iguales sin una razón para cada uno |
+| qué cuesta | cada tope agrega una cola que hay que vigilar |
 
 ## Pools de hilos y de procesos: el mismo patrón
 
@@ -293,7 +325,7 @@ así que un semáforo **sólo limita si es menor que el pool**. Con 20 peticione
 | de conexiones HTTP | socket abierto (TCP, TLS) | handshake | `httpx`: 100 conexiones, 20 persistentes |
 | de conexiones de BD | conexión autenticada | handshake + autenticación + un proceso del servidor | SQLAlchemy: 5 + 10 de desborde |
 | `ThreadPoolExecutor` | hilo | crear un hilo | `min(32, CPUs + 4)` hilos |
-| `ProcessPoolExecutor` | proceso con su intérprete | arrancar Python, importar | `os.cpu_count()` procesos |
+| `ProcessPoolExecutor` | proceso con su intérprete | arrancar Python, importar | `os.process_cpu_count()` procesos (3.13+; antes, `os.cpu_count()`) |
 
 **Matemática.** Si crear el pool cuesta $c_{\text{crear}}$ y lo creas en cada una de $n$ llamadas, pagas $n\cdot c_{\text{crear}}$; creado una vez, $c_{\text{crear}}$. Es la misma cuenta de abrir conexiones.
 
@@ -320,7 +352,7 @@ así que un semáforo **sólo limita si es menor que el pool**. Con 20 peticione
 
 | Dependencia | $W_{\text{conexión}}$ | Conexiones en uso $L=\lambda W$ | Con pool de 10 |
 |---|---|---|---|
-| normal | 0.2 s | $50\times0.2=10$ | justo alcanza |
+| normal | 0.2 s | $50\times0.2=10$ | 100 % de utilización nominal: con variabilidad hace falta margen; comprueba la cola y el $p_{99}$ |
 | lenta | 2 s | $50\times2=100$ | $\lambda\le10/2=5$/s: llegan 50/s y salen 5/s |
 
 **Ejemplo: qué pasa cuando la dependencia pasa de 0.2 s a 2 s.**
@@ -538,7 +570,7 @@ La versión larga y paso a paso está en el notebook, tema 5.
 - **Un `ThreadPoolExecutor`/`ProcessPoolExecutor` creado por llamada.** El mismo anti-patrón con trabajadores.
 - **Una llamada lenta (otra API, un modelo de IA) dentro de `async with pool.connection()` o de una transacción.** Retiene la conexión toda la espera; suéltala antes.
 - **Creer que `await` libera la conexión o el permiso.** Sólo libera el hilo del loop.
-- **Un `Semaphore` mayor o igual que el pool «para limitar».** No limita nada; si quieres la cola fuera del pool, hazlo menor.
+- **Un `Semaphore` mayor o igual que el pool «para limitar».** No baja lo que está en vuelo (manda el pool); si quieres la espera fuera del pool, hazlo menor o igual.
 - **Contar con que una `requests.Session` compartida por muchos hilos pone un tope.** Su pool no bloquea por omisión (`pool_block=False`): abre de más y tira conexiones.
 - **El tamaño del pool sacado del tráfico («1000 usuarios, 1000 conexiones»).** Se saca de lo que acepta el destino y de $\lambda\cdot W_{\text{conexión}}$, sumando todas las réplicas.
 - **Pools sin *timeout* de adquisición.** Cuando la dependencia se pone lenta, la cola crece sin límite.

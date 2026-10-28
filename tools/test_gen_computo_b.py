@@ -138,6 +138,20 @@ def test_gantt_pool_dibuja_olas_cola_y_la_sexta():
         assert pedazo in svg, pedazo
 
 
+def test_las_trazas_de_pool_explican_por_que_y_el_total():
+    pool = _svg("cmp-gantt-pool")
+    for pedazo in ("espera: 5 en vuelo", "las 5 están prestadas",
+                   "20 / 5 = 4 olas × 200 ms = 800 ms"):
+        assert pedazo in pool, pedazo
+    soltar = _svg("cmp-pool-soltar-antes")
+    for pedazo in ("cola del pool", "las 3 están retenidas", "(100 + 1000 + 100) = 2400 ms",
+                   "total 1300 ms"):
+        assert pedazo in soltar, pedazo
+    ejecutor = _svg("cmp-run-in-executor")
+    for pedazo in ("en otra CPU", "latido: otra corrutina", "termina en 2020 ms"):
+        assert pedazo in ejecutor, pedazo
+
+
 def test_roles_y_ciclo_dicen_lo_que_la_pagina_5_promete():
     roles = _svg("cmp-roles-recursos")
     for pedazo in ("quién corre", "quién entra", "qué conexión usas", "quién ejecuta",

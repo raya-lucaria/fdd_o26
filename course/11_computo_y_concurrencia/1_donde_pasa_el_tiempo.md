@@ -6,7 +6,7 @@ summary: "Una tarea vive en un intervalo y en cada instante ejecuta, espera o es
 status: ready
 estimated_time: 12m
 tags: [cpu-bound, io-bound, latencia, gantt, medicion, secuencial, little]
-prerequisites: [apis-y-http]
+prerequisites: [apis-y-http, notacion-computo]
 ---
 
 # Dónde pasa el tiempo
@@ -15,7 +15,7 @@ prerequisites: [apis-y-http]
 
 | Término | Definición de una línea | Símbolo |
 |---|---|---|
-| tarea | flujo secuencial de trabajo con inicio y fin, observado en una frontera fija | $\tau_i$ |
+| tarea | flujo secuencial de trabajo con inicio y fin, observado desde un sistema elegido | $\tau_i$ |
 | intervalo semiabierto | incluye su inicio y excluye su fin | $[a,b)$ |
 | vida | del inicio al fin de la tarea | $[\operatorname{start},\operatorname{end})$ |
 | latencia | lo que percibe quien pidió, incluida la cola previa | $\operatorname{end}-\operatorname{arrival}$ |
@@ -33,7 +33,11 @@ prerequisites: [apis-y-http]
 ## Tarea, instantes y latencia
 
 ::: definition {#cmp-def-tarea title="Tarea"}
-Una **tarea** $\tau_i$ es un flujo secuencial de trabajo con inicio y fin, observado en una frontera fija: una llamada a la API, un cálculo, una petición que atiende un servidor. Ocupa a lo más una CPU a la vez. Se fija el conjunto $\mathcal{T}=\{\tau_1,\dots,\tau_n\}$ y siempre se compara sobre ese mismo conjunto.
+**En palabras.** Una tarea es un flujo secuencial de trabajo con inicio y fin, observado desde un sistema elegido (casi siempre el cliente); vive desde que ese sistema la admite hasta que termina, y su latencia suma además la cola previa.
+
+**Formalmente.** Con $\mathcal{T}=\{\tau_1,\dots,\tau_n\}$ y $\operatorname{arrival}(\tau)\le\operatorname{start}(\tau)<\operatorname{end}(\tau)$: $\operatorname{vida}(\tau)=[\operatorname{start}(\tau),\operatorname{end}(\tau))$, $d(\tau)=\operatorname{end}-\operatorname{start}$, $\operatorname{latencia}(\tau)=\operatorname{end}-\operatorname{arrival}$. ([[notacion-computo]])
+
+Ejemplos: una llamada a la API, un cálculo, una petición que atiende un servidor. Ocupa a lo más una CPU a la vez y siempre se compara sobre el mismo conjunto $\mathcal{T}$.
 :::
 
 Una tarea tiene tres instantes distintos:
@@ -64,12 +68,14 @@ La **vida** de la tarea es $\operatorname{vida}(\tau)=[\operatorname{start}(\tau
 | $\tau_2$ | 0 | 240 | 480 | 240 | 240 | 480 |
 | $\tau_3$ | 0 | 480 | 720 | 240 | 480 | 720 |
 
-La latencia media es $(240+480+720)/3=480$ ms, el doble de lo que dura cualquiera: la mitad de lo que percibe $\tau_3$ es cola.
+La latencia media es $(240+480+720)/3=480$ ms, el doble de lo que dura cualquiera: dos tercios de la latencia de $\tau_3$ son cola: $480/720=2/3$.
 
 ## Intervalos semiabiertos
 
 ::: definition {#cmp-def-intervalo title="Intervalo semiabierto"}
-$[a,b)$ contiene los instantes $t$ con $a\le t<b$: incluye $a$ y excluye $b$. Dos intervalos que se **tocan** en un borde no se solapan.
+**En palabras.** Un instante es un punto del reloj; un intervalo $[a,b)$ incluye su inicio y excluye su fin, así que dos intervalos que se tocan en un borde no se solapan.
+
+**Formalmente.** $\operatorname{dur}(X)$ suma las longitudes de los intervalos disjuntos que forman $X$: $[a,b)=\{t\ge0 : a\le t<b\}$. ([[notacion-computo]])
 :::
 
 ::: figure {#cmp-intervalos title="Intervalo semiabierto: dos vidas que se tocan en 240 no se solapan"}
@@ -105,13 +111,13 @@ Los tres conjuntos son disjuntos y cubren la vida: es una partición.
 1. «Si ahora mismo le doy una CPU libre, ¿avanza?» **Sí → `ready`.**
 2. Si no avanza, ¿qué tiene que ocurrir? Algo fuera del programa (llega un paquete, vence un temporizador) → **`wait`**.
 
-(Más adelante habrá un cuarto estado, `blocked`: espera algo que otra tarea del mismo programa debe soltar. Aparece con los semáforos y se define en [[concurrencia-acotada]]; aquí vale $b=0$.)
+(Hay un cuarto estado, `blocked`: espera algo que otra tarea del mismo programa debe soltar o producir. Está en [[notacion-computo]] y se usa desde la página 2; aquí vale $b=0$.)
 
 **Matemática.** Con $e$, $w$, $r$ las duraciones de cada conjunto:
 
 $$d(\tau)=e+w+r\qquad(+\,b\text{ cuando haya bloqueo})$$
 
-La hoja [[notacion-computo]] escribe la versión completa $d=e+w+r+b$.
+El modelo de la página 0, [[notacion-computo]], escribe la versión completa $d=e+w+r+b$.
 
 **Ejemplo.** Una tarea del ejemplo único: ejecuta 20 ms, espera 200 ms la red, ejecuta 20 ms. Sola, en una CPU libre:
 
@@ -134,7 +140,11 @@ $e=20+20=40$, $w=200$, $r=0$: $d=40+200+0=240$ ms.
 ## $\rho$ y el cuello de botella
 
 ::: definition {#cmp-def-rho title="ρ, CPU-bound e I/O-bound"}
-$\rho(\tau)=e/d$ es la fracción de la vida que **ejecuta**, medida con la tarea sola (así $r=0$). Una tarea es **CPU-bound** si $\rho\approx1$: su cuello de botella es ejecutar. Es **I/O-bound** si $\rho$ es pequeño: su cuello de botella es esperar. Es una clasificación **empírica** del cuello de botella, no una propiedad eterna del código.
+**En palabras.** $\rho$ es la fracción de la vida que la tarea ejecuta, medida con la tarea sola; cerca de 1 es CPU-bound, pequeña es I/O-bound.
+
+**Formalmente.** $\rho(\tau)=e/d$ medido con $r=b=0$. ([[notacion-computo]])
+
+Una tarea es **CPU-bound** si $\rho\approx1$: su cuello de botella es ejecutar. Es **I/O-bound** si $\rho$ es pequeño: su cuello de botella es esperar. Es una clasificación **empírica** del cuello de botella, no una propiedad eterna del código.
 :::
 
 **Otro ángulo.** Lo que cambia $\rho$ sin tocar el código:
@@ -174,12 +184,14 @@ Con ellos, sobre un lote: $T$ es la diferencia de `perf_counter` y $C\approx$ la
 > [!WARNING]
 > Lo que mide `process_time` es el **proceso**, no una tarea: suma los hilos y no cuenta procesos hijos. Y $T-C$ es el **tiempo sin CPU del cliente**: en este experimento lo domina la espera de la red, pero también incluye turnos y otros efectos. No es $\sum w$. Con 20 llamadas en serie, el 99.4 % es tiempo sin CPU del cliente; no es «el 99.4 % es red».
 
-**Matemática.** Con la medición de referencia de las 20 llamadas en serie: $T=4.04$ s y $C\approx0.02$ s. $(T-C)/T=99.4\,\%$ del reloj sin CPU del cliente. Si se eliminaran por completo los 0.02 s de CPU, el speedup máximo sería $4.04/4.01\approx1.0075$ (cifras de referencia, una corrida): lo que hay que reorganizar son las esperas.
+**Matemática.** Con la medición de referencia de las 20 llamadas en serie: $T=4.04$ s y $C\approx0.02$ s. $(T-C)/T=99.4\,\%$ del reloj sin CPU del cliente. Si se eliminara por completo la CPU, el speedup máximo sería $1/0.994\approx1.006$ (cifras de referencia, una corrida; los segundos publicados se redondean por separado): lo que hay que reorganizar son las esperas.
 
 ## Secuencial y el Gantt
 
 ::: definition {#cmp-def-secuencial title="Secuencial"}
-Un programa es **secuencial** cuando ninguna vida se traslapa con otra: la tarea $k+1$ empieza cuando la $k$ terminó. Formalmente, para todo $i\ne j$, $\operatorname{vida}(\tau_i)\cap\operatorname{vida}(\tau_j)=\varnothing$. Tocarse en un borde no cuenta.
+**En palabras.** Ningún par de vidas se solapa: cada tarea empieza cuando la anterior terminó.
+
+**Formalmente.** $\forall i\ne j:\ \operatorname{vida}(\tau_i)\cap\operatorname{vida}(\tau_j)=\varnothing$. ([[notacion-computo]])
 :::
 
 ::: figure {#cmp-gantt-secuencial title="Tres tareas en secuencia: las esperas se suman y la CPU queda ociosa"}

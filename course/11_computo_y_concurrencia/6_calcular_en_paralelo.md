@@ -27,7 +27,7 @@ prerequisites: [pools-y-recursos]
 
 ## En corto
 
-- **Un cálculo dentro del loop no lo interrumpe nadie.** El loop es cooperativo: las respuestas que ya llegaron se quedan en `ready` hasta que el cálculo suelta el hilo. El GIL cambia de hilo cada 5 ms; el loop no cambia de tarea hasta un `await`.
+- **Un cálculo dentro del loop no lo interrumpe nadie.** El loop es cooperativo: las respuestas que ya llegaron se quedan en `ready` hasta que el cálculo suelta el hilo. Con hilos, el intérprete pide soltar el GIL cada 5 ms aproximadamente; el loop no cambia de tarea hasta un `await`.
 - **La salida es *offload*:** `await loop.run_in_executor(pool, calcula)` con un `ProcessPoolExecutor`. El cálculo pasa a otro proceso, con su propio GIL, y para el loop se vuelve una espera más. `to_thread` sirve para código bloqueante que **espera**, no para calcular en Python.
 - **Repartir tiene costo y techo.** Los procesos cuestan arrancar y serializar ($h(k)$); la fracción serial $f$ pone el techo $1/f$; y más procesos que CPU no agregan capacidad: $k=\min(n,P)$.
 
@@ -49,9 +49,15 @@ Una llamada bloqueante (`time.sleep`, `requests.get`) produce el mismo efecto co
 ![Diagrama de Gantt con eje en milisegundos de 0 a 2200. Las corrutinas 1 y 2 ejecutan 20 ms, lanzan una petición y esperan 200 ms; la corrutina 3 calcula 2000 ms dentro del loop sin ningún await. Las respuestas llegan a los 220 y 240 ms, pero las corrutinas 1 y 2 quedan listas sin turno, rayadas, hasta los 2040 y 2060 ms, porque el loop no recupera el control hasta que el cálculo termina. Total 2080 ms; sin el cálculo en el loop, las dos peticiones terminan a los 240 y 260 ms.](_assets/cmp-bloqueo-del-loop.svg)
 :::
 
+Cómo leer la figura. Todo ocurre en **un hilo, el del loop, en una CPU**:
+
+- **$[0,40)$:** el hilo ejecuta $\tau_1$ (0–20) y luego $\tau_2$ (20–40); cada una manda su petición y llega a un `await` que suspende. $\tau_2$ está en `ready` de 0 a 20 y $\tau_3$ de 0 a 40: pueden ejecutar, pero el único hilo está ocupado.
+- **$[40,2040)$:** el hilo ejecuta el cálculo de $\tau_3$. $\tau_1$ está en `wait` hasta 220 ms (su respuesta viaja) y $\tau_2$ hasta 240 ms. Desde ahí las dos están en `ready` (rayadas): su respuesta ya está en el socket, pero el loop no puede pasarlas a ejecutar porque $\tau_3$ no llega a ningún `await` y nadie la saca del hilo.
+- **$[2040,2080)$:** $\tau_3$ termina y suelta el hilo; el loop ejecuta $\tau_1$ (2040–2060) y después $\tau_2$ (2060–2080), en el orden en que quedaron listas.
+
 | Planificación | Quién saca a una tarea de `exec` | Cada cuánto | Efecto de un cálculo de 2 s |
 |---|---|---|---|
-| hilos con GIL (preventiva) | el intérprete obliga a soltar el GIL | cada `sys.getswitchinterval()`, 5 ms por omisión | los demás hilos reciben turnos; el cálculo no se acelera |
+| hilos con GIL (preventiva) | el intérprete pide soltar el GIL | cada `sys.getswitchinterval()`, 5 ms por omisión (orientativo: una función interna larga puede excederlo) | los demás hilos reciben turnos; el cálculo no se acelera |
 | event loop (cooperativa) | la propia tarea, en un `await` que suspende | nunca, si no hay `await` | ninguna otra tarea del loop ejecuta en 2 s |
 
 **Matemática.** Con la partición $d=e+w+r$ de cada tarea ($b=0$):
@@ -95,10 +101,16 @@ Con un `ProcessPoolExecutor`, `f` corre en **otro proceso**, con su propio inté
 ![Diagrama de Gantt con eje de 0 a 2500 ms y tres carriles. La corrutina ejecuta un instante, manda un cálculo de 2000 ms a un ProcessPoolExecutor con run_in_executor y espera el futuro con await. El carril del hilo del loop muestra un latido cada 100 ms que no se detiene durante los 2000 ms, porque el loop no calcula. El carril del proceso del pool calcula de 0 a 2000 ms en otra CPU con su propio GIL; al terminar, el resultado vuelve al loop y la corrutina se reanuda.](_assets/cmp-run-in-executor.svg)
 :::
 
+Cómo leer la figura. Hay **dos procesos en dos CPU**:
+
+- **Hilo del loop (proceso principal, CPU 1):** la corrutina ejecuta un instante, llama `run_in_executor` y llega a `await`; desde ahí está en `wait`, porque espera un futuro que otro proceso va a completar, no CPU. El hilo queda libre y ejecuta el latido cada 100 ms: el latido pasa de `wait` (su `sleep`) a `ready` y a `exec` sin demora, porque nadie más retiene el hilo.
+- **Proceso del pool (CPU 2):** ejecuta el cálculo de 0 a 2000 ms con su propio intérprete y su propio GIL; para él es `exec`. No compite con el hilo del loop porque es otro proceso en otra CPU.
+- **Al terminar:** el resultado viaja serializado al proceso principal, el futuro se completa y la corrutina pasa a `ready`; en el siguiente turno del loop se reanuda.
+
 | Desde una corrutina | Dónde corre | Sirve para | Con un cálculo en Python puro |
 |---|---|---|---|
 | `calcula()` directo | el hilo del loop | trabajo de microsegundos | **bloquea el loop** todo lo que dure |
-| `await asyncio.to_thread(f)` | un hilo del pool por omisión, mismo proceso, mismo GIL | código bloqueante que **espera**: `requests.get`, leer un archivo, un driver de BD sin versión `async` | el loop recibe turnos (el GIL cambia cada 5 ms), pero el cálculo **no se acelera**: dos cálculos en dos hilos tardan lo que dos en serie, y cada uno le disputa el GIL al hilo del loop |
+| `await asyncio.to_thread(f)` | un hilo del pool por omisión, mismo proceso, mismo GIL | código bloqueante que **espera**: `requests.get`, leer un archivo, un driver de BD sin versión `async` | el loop recibe turnos (el intérprete pide soltar el GIL cada 5 ms aproximadamente), pero el cálculo **no se acelera**: dos cálculos en dos hilos tardan lo que dos en serie, y cada uno le disputa el GIL al hilo del loop |
 | `await loop.run_in_executor(pool_de_procesos, f)` | otro proceso, otro GIL, otra CPU | **cálculo en Python** de decenas de milisegundos o más | el loop sigue libre y los cálculos corren en paralelo, hasta $\min(k,P)$ a la vez |
 
 **Matemática.** Pon la frontera en las tareas del loop. Con *offload*, el cálculo de $\tau_3$ corre fuera del hilo del loop, así que **para el loop es `wait`**, como la red:
@@ -107,7 +119,7 @@ Con un `ProcessPoolExecutor`, `f` corre en **otro proceso**, con su propio inté
 |---|---:|---:|---:|
 | $\tau_1$ | 40 | 200 | 240 |
 | $\tau_2$ | 40 | 200 | 260 (20 de `ready` al inicio) |
-| $\tau_3$ | ≈ 0 | 2000 (el cálculo, en otro proceso) | ≈ 2000 + $h$ |
+| $\tau_3$ | ≈ 0 | 2000 (el cálculo, en otro proceso) | ≈ 2040 + $h$ (40 de `ready` al inicio) |
 
 $\tau_1$ y $\tau_2$ vuelven a 240 y 260 ms. El cálculo **no se acorta**: sigue tardando sus 2000 ms más el costo $h$ de mandarlo y traer el resultado. Lo que cambia es **quién lo paga**: sólo la petición que pidió el cálculo, no todas.
 
@@ -183,12 +195,9 @@ PicklingError · Can't pickle <function <lambda> at 0x77c41e5440f0>: it's not fo
 ## Speedup y eficiencia: cuánto rinden los procesos
 
 ::: definition {#cmp-def-speedup-base title="Speedup y eficiencia, con su base declarada"}
-Con $N$ trabajadores y $T(N)$ el tiempo total del lote:
+**En palabras.** El speedup dice cuántas veces más rápido terminó el lote con la versión nueva que con una base que siempre se declara; la eficiencia dice qué parte de cada trabajador se aprovechó.
 
-- **speedup** $S=T_{\text{base}}/T_{\text{nueva}}$: siempre se dice contra qué base. $S(N)=T(1)/T(N)$ es contra un trabajador; $S<1$ significa que empeoró;
-- **eficiencia** $E(N)=S(N)/N$: qué parte de cada trabajador se aprovecha; 1 es reparto perfecto;
-- $\operatorname{speedup}_{\text{pool}}(k)=T_{\text{pool}}(1)/T_{\text{pool}}(k)$ compara **el pool contra sí mismo** y esconde el costo de tener pool;
-- $\operatorname{speedup}_{\text{aplicación}}(k)=T_{\text{secuencial}}/T_{\text{pool}}(k)$ compara contra **la versión directa, sin pool**: es lo que gana tu programa.
+**Formalmente.** $S=T_{\text{base}}/T_{\text{nueva}}$; con $N$ trabajadores, $S(N)=T(1)/T(N)$ y $E(N)=S(N)/N$. $S<1$ significa que empeoró; $E=1$ es reparto perfecto. Con un pool de $k$ procesos, $\operatorname{speedup}_{\text{pool}}(k)=T_{\text{pool}}(1)/T_{\text{pool}}(k)$ compara el pool contra sí mismo y esconde el costo de tener pool; $\operatorname{speedup}_{\text{aplicación}}(k)=T_{\text{secuencial}}/T_{\text{pool}}(k)$ compara contra la versión directa, sin pool. Modelo completo en [[notacion-computo]].
 :::
 
 **Otro ángulo.** Cuatro tareas de `calcula(5_000_000)` con un pool de 1, 2 y 4 procesos, en una máquina de 8 CPU lógicas (medición de referencia de [[notacion-computo]], una corrida; tus cifras serán otras):
@@ -224,12 +233,14 @@ CPU lógicas: 8
 
 ## Amdahl: el techo que pone la fracción serial
 
-::: definition {#cmp-def-amdahl title="Ley de Amdahl"}
-Si una fracción $f$ de $T(1)$ **no se reparte** y el resto se reparte **perfectamente** entre $N$ trabajadores:
+::: definition {#cmp-def-amdahl title="Fracción serial y ley de Amdahl"}
+**En palabras.** La fracción serial $f$ es la parte del tiempo con un trabajador que no se puede repartir. Si el resto se reparte perfectamente, el speedup queda acotado por $1/f$ aunque se agreguen trabajadores sin límite.
+
+**Formalmente.** Con $f\in[0,1]$ la fracción serial de $T(1)$:
 
 $$T(N)=T(1)\left(f+\frac{1-f}{N}\right),\qquad S(N)=\frac{1}{f+(1-f)/N},\qquad \lim_{N\to\infty}S(N)=\frac{1}{f}$$
 
-**Supuestos:** carga fija; $f$ constante; la parte repartible se divide tanto como haga falta; trabajadores equivalentes; $N\le P$; ningún costo que crezca con $N$. Si alguno falla, $T_{\text{real}}(N)=T(1)\,(f+(1-f)/N)+h(N)$.
+Modelo completo en [[notacion-computo]]. **Supuestos:** carga fija; $f$ constante; la parte repartible se divide tanto como haga falta; trabajadores equivalentes; $N\le P$; ningún costo que crezca con $N$. Si alguno falla, $T_{\text{real}}(N)=T(1)\,(f+(1-f)/N)+h(N)$.
 :::
 
 **Otro ángulo.** La curva para tres valores de $f$:
@@ -260,7 +271,13 @@ Con $f=0.25$, pasar de 4 a 8 trabajadores multiplica el speedup por $2.91/2.29\a
 
 El techo 6 **sólo vale si los 200 ms repartibles se pueden seguir partiendo**. Con $\tau_2$ y $\tau_3$ indivisibles, $S\le\min(N,P,n)$ con $n=2$ tareas repartibles: más de dos CPU no bajan de 140 ms.
 
-**Ejemplo · una ilustración con la medición, no una medición de $f$.** Si se ajusta $T(N)=a+b/N$ a la tabla de arriba: de $a+b=1.45$ y $a+b/2=0.75$ salen $b=2\times(1.45-0.75)=1.40$ y $a=0.05$. Predice $T(4)=0.05+1.40/4=0.40$ s; medido, 0.54. Leído con Amdahl, $f=a/T(1)\approx0.034$ y techo $1/f\approx29$. El modelo falla en el único punto que queda para comprobarlo. Por qué es sólo ilustración:
+**Ejemplo · ajuste ilustrativo con la medición, no una medición de $f$.** Se ajusta $T(N)=a+b/N$ a la tabla de speedup:
+
+- de $a+b=1.45$ y $a+b/2=0.75$ salen $b=2\times(1.45-0.75)=1.40$ y $a=0.05$;
+- predice $T(4)=0.05+1.40/4=0.40$ s; se midió 0.54 s;
+- leído con Amdahl, $f=a/T(1)\approx0.034$ y techo $1/f\approx29$.
+
+El punto que quedaba para comprobar el modelo lo contradice. Por qué es sólo ilustración:
 
 - son **3 puntos para 2 parámetros**: queda un solo grado de libertad para comprobar el modelo;
 - es **una corrida**: el ruido entre corridas puede mover cada $T(N)$ algunas centésimas;
@@ -279,12 +296,14 @@ El techo 6 **sólo vale si los 200 ms repartibles se pueden seguir partiendo**. 
 
 ## Cuántos procesos
 
-::: definition {#cmp-def-cuantos-procesos title="Tamaño del pool para trabajo que calcula"}
-Para $n$ tareas iguales, independientes, indivisibles y sólo de CPU, de duración $c$, con un pool de $k$ procesos y $P$ CPU lógicas:
+::: definition {#cmp-def-cuantos-procesos title="Tiempo de un pool de procesos, T_pool(k)"}
+**En palabras.** $T_{\text{pool}}(k)$ es lo que tarda un lote de tareas de cálculo en un pool de $k$ procesos: a lo más $\min(k,P)$ ejecutan a la vez, así que el lote sale en tandas, más el costo de repartir; más procesos que CPU no bajan el piso.
+
+**Formalmente.** Para $n$ tareas iguales, independientes, indivisibles y sólo de CPU, de duración $c$, con $P$ CPU lógicas:
 
 $$T_{\text{pool}}(k)\approx\left\lceil \frac{n}{\min(k,P)}\right\rceil c+h(k),\qquad T\ge\frac{n\,c}{P}$$
 
-A lo más $\min(k,P)$ procesos ejecutan a la vez. La regla práctica es $k=\min(n,P)$.
+La regla práctica es $k=\min(n,P)$. Modelo completo en [[notacion-computo]].
 :::
 
 **Otro ángulo.** $n=3$ tareas de $c=400$ ms, $h=0$ (traza ilustrativa de [[notacion-computo]]):
@@ -395,7 +414,7 @@ await asyncio.gather(latido(5), calculo())         # las dos, en el mismo loop
 1.59 s  latido 4
 ```
 
-- Entre `latido 1` y `latido 2` pasan los 1.23 s del cálculo, no 0.1 s.
+- Entre `latido 1` y `latido 2` pasan $1.38-0.10=1.28$ s, no 0.1 s: 0.05 s antes de que empiece el cálculo y 1.23 s de cálculo.
 - No hubo error ni aviso: un loop bloqueado sólo se nota en la latencia.
 
 **Haz (celda 6.2):** el mismo latido (de la celda 6.1), con el cálculo en un proceso del pool.

@@ -4,14 +4,14 @@ title: "Cómputo y concurrencia"
 nav_title: "Cómputo y concurrencia"
 summary: "Dónde pasa el tiempo de un programa, qué distingue secuencial, concurrente, paralelo y asíncrono, cómo se acota la concurrencia con semáforos y pools, cuándo repartir el cálculo en procesos o vectorizarlo, y qué arquitectura sale de cada medición."
 status: ready
-estimated_time: 123m
+estimated_time: 138m
 tags: [concurrencia, asyncio, hilos, procesos, pools, numpy, arquitectura, notebook]
 prerequisites: [apis-y-http, el-gil]
 ---
 
 # Cómputo y concurrencia
 
-**Unidad 11** · 8 páginas y un anexo de notación · unos 123 min · sesión del martes 27 de octubre, 19:00–20:30
+**Unidad 11** · el modelo matemático (página 0) y 8 páginas · unos 138 min · sesión del martes 27 de octubre, 19:00–20:30
 
 Meta: ante un trabajo que espera, calcula o hace las dos cosas, **decidir con una medición** si va en secuencia, con hilos, con `asyncio`, con un tope, con un pool, con procesos o vectorizado, y defender esa decisión con un Gantt y una cuenta.
 
@@ -38,6 +38,7 @@ Meta: ante un trabajo que espera, calcula o hace las dos cosas, **decidir con un
 
 | # | Página | Qué contesta | Min |
 |---:|---|---|---:|
+| 0 | [[notacion-computo]] | **Se lee primero.** El modelo matemático: cada concepto en palabras, en fórmula y en el Gantt, con el ejemplo de tres tareas evaluado | 15 |
 | 1 | [[donde-pasa-el-tiempo]] | Por qué 20 peticiones tardan 20 veces lo que una, y cómo se separa ejecutar de esperar | 12 |
 | 2 | [[secuencial-concurrente-paralelo]] | Qué propiedad de la traza nombra cada palabra, por qué todo lo paralelo es concurrente y qué se rompe al compartir memoria | 20 |
 | 3 | [[asincrono-y-el-event-loop]] | Cómo espera muchas peticiones un solo hilo, quién decide el turno y qué detiene al loop | 20 |
@@ -46,15 +47,14 @@ Meta: ante un trabajo que espera, calcula o hace las dos cosas, **decidir con un
 | 6 | [[calcular-en-paralelo]] | Cuándo rinden los procesos, cuántos usar y qué dice Amdahl de la medición | 15 |
 | 7 | [[vectorizar]] | Qué hacer cuando el trabajo calcula sobre muchos datos: sacar el bucle del intérprete | 8 |
 | 8 | [[arquitectura-y-estrategia]] | Los tres modelos de servidor, capacidad con Little y el árbol de decisión aplicado a tres casos | 15 |
-| A | [[notacion-computo]] | La hoja única de símbolos, con el ejemplo de tres tareas evaluado completo | — |
 
 ## Glosario breve
 
-Cada término se define en su página antes de usarse; el anexo [[notacion-computo]] tiene la versión formal.
+Todos los términos se definen primero en [[notacion-computo]] (página 0) y se repiten, con las mismas palabras, en la página donde se usan.
 
 | Término | En una línea | Pág. |
 |---|---|---:|
-| Tarea | Flujo secuencial de trabajo con inicio y fin, observado en una frontera fija | 1 |
+| Tarea | Flujo secuencial de trabajo con inicio y fin, observado desde un sistema elegido (casi siempre el cliente) | 1 |
 | Ejecuta / espera / lista | Usa la CPU / espera red, disco o un temporizador / podría seguir pero no tiene turno | 1 |
 | CPU-bound / I/O-bound | Cuello de botella en ejecutar / en esperar, medido con la tarea sola | 1 |
 | Secuencial / concurrente | Vidas disjuntas / vidas que se solapan | 2 |
@@ -103,4 +103,4 @@ FDD_SILENCIO=1 uv run python servidor.py
 - **Sistemas distribuidos**: varias máquinas, relojes que no coinciden, consenso y fallas parciales.
 - **APIs avanzadas**: polling, SSE, WebSocket, webhooks, gRPC y GraphQL, y el diseño de reintentos y colas entre servicios.
 
-Sigue con [[donde-pasa-el-tiempo]].
+Empieza por [[notacion-computo]], el modelo matemático; después, [[donde-pasa-el-tiempo]].

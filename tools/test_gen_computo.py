@@ -8,6 +8,7 @@ tools/test_svg_tamano_intrinseco.py para todo el curso, y los creditos
 tools/test_creditos.py; aqui va lo propio de esta seccion, mas una
 comprobacion local de width/height para que el fallo apunte al generador.
 """
+import html
 import importlib.util
 import re
 import subprocess
@@ -133,6 +134,70 @@ def test_los_totales_de_las_gantt():
 def test_procesos_dibuja_dos_cpu():
     svg = _svg("cmp-gantt-procesos")
     assert "CPU 1" in svg and "CPU 2" in svg
+    # Cada fila dice en qué CPU corre y la fila de CPU nombra al proceso.
+    for pedazo in ("P1 · CPU 1", "P2 · CPU 2", "P3 · CPU 1", ">P3<",
+                   "CPU 1 y 2 ocupadas", "20 + 20 + 200 + 20 = 260 ms"):
+        assert pedazo in svg, pedazo
+
+
+TRAZAS = GANTT + ("cmp-gantt-gather", "cmp-gantt-semaforo", "cmp-bloqueo-del-loop",
+                  "cmp-event-loop-ticks", "cmp-create-task")
+
+
+def test_las_filas_de_cpu_nombran_tareas_no_digitos():
+    """Un «1» suelto en la fila de CPU se lee como «CPU 1»: va T1, P1 o main."""
+    for nombre in TRAZAS:
+        sueltos = re.findall(r'font-weight="600" text-anchor="middle">(\d+)</text>', _svg(nombre))
+        assert not sueltos, f"{nombre}: rótulos sin prefijo {sueltos}"
+
+
+def test_cada_traza_explica_su_total():
+    """Bajo la figura, una línea en ámbar hace la cuenta del total."""
+    cuentas = {
+        "cmp-gantt-secuencial": "3 × (20 + 200 + 20) = 720 ms",
+        "cmp-gantt-hilos": "40 + 20 + 200 + 20 = 280 ms",
+        "cmp-gantt-asyncio": "40 + 20 + 200 + 20 = 280 ms",
+        "cmp-gantt-await-en-serie": "3 × (20 + 200 + 20) = 720 ms",
+        "cmp-gantt-procesos": "20 + 20 + 200 + 20 = 260 ms",
+        "cmp-gantt-gather": "50 + 20 + 200 + 20 = 290",
+        "cmp-gantt-semaforo": "540 + 20 + 200 + 20 = 780 ms",
+        "cmp-bloqueo-del-loop": "2040 + 20 + 20 = 2080 ms",
+        "cmp-event-loop-ticks": "10 + 300 + 10 = 320 ms",
+        "cmp-create-task": "20 + 100 de sleep + 10",
+    }
+    for nombre, cuenta in cuentas.items():
+        assert cuenta in _svg(nombre), f"{nombre}: falta la cuenta {cuenta!r}"
+
+
+def test_cada_lista_dice_por_que():
+    """El rayado solo no explica nada: cada figura nombra quién tiene el turno."""
+    porque = {
+        "cmp-gantt-hilos": "el hilo 1 tiene el GIL",
+        "cmp-gantt-asyncio": "el loop atiende a T1",
+        "cmp-gantt-procesos": "CPU 1 y 2 ocupadas",
+        "cmp-gantt-gather": "el loop corre T1",
+        "cmp-gantt-semaforo": "espera que T1 salga",
+        "cmp-bloqueo-del-loop": "el loop calcula T3",
+        "cmp-create-task": "(el loop corre main)",
+    }
+    for nombre, s in porque.items():
+        assert s in _svg(nombre), f"{nombre}: falta {s!r}"
+
+
+def test_ningun_texto_se_sale_del_viewbox():
+    """Ancho estimado de cada <text> (system-ui ~0.56 em, mono 0.6 em)."""
+    patron = re.compile(r'<text x="([\d.]+)" y="([\d.]+)"[^>]*font-family="([^"]+)" '
+                        r'font-size="([\d.]+)" font-weight="(\w+)" text-anchor="(\w+)">([^<]*)<')
+    for nombre in _cargar().DIAGRAMAS:
+        svg = _svg(nombre)
+        ancho, alto = map(float, re.search(r'viewBox="0 0 (\S+) (\S+)"', svg).groups())
+        for x, y, familia, tam, peso, anclaje, s in patron.findall(svg):
+            s = html.unescape(s)
+            k = 0.6 if "mono" in familia else (0.58 if peso == "600" else 0.54)
+            w = len(s) * float(tam) * k
+            x0 = {"start": float(x), "middle": float(x) - w / 2, "end": float(x) - w}[anclaje]
+            assert x0 >= 4 and x0 + w <= ancho - 4 and float(y) <= alto - 4, (
+                f"{nombre}: {s!r} se sale del viewBox")
 
 
 def test_la_lista_es_rayada_y_la_espera_contorno():
@@ -180,7 +245,7 @@ def test_el_semaforo_nunca_deja_entrar_a_mas_de_k():
 
 def test_la_traza_del_event_loop():
     svg = _svg("cmp-event-loop-ticks")
-    for pedazo in ("ejecutando", "cola de listas", "esperando", "select", "CPU (1 hilo)",
+    for pedazo in ("ejecutando", "cola de listas", "esperando", "select", "hilo del loop",
                    "tick 0", "tick 5", "dA = 300, dB = 100, dC = 200 ms",
                    "[rA, rB, rC]", ">310<", ">120<", ">230<", "320 ms"):
         assert pedazo in svg, pedazo
