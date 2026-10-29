@@ -15,14 +15,24 @@
 # `time.monotonic` el **total**: desde que salen las 12 hasta que todas
 # contestan.
 #
-# **El latido.** Para ver si el loop estuvo bloqueado, el servidor corre una
-# tarea de fondo que cada 10 ms se duerme con `asyncio.sleep(0.01)` y, al
-# despertar, anota cuánto tardó realmente en volver a correr. Si el loop está
-# libre, el hueco es de unos 10 ms; si una corrutina lo bloquea con
-# `time.sleep`, la tarea no vuelve a correr hasta que el loop se libera, y el
-# hueco crece. `GET /latido` devuelve el **hueco máximo** (`max_gap`) y el
-# número de ticks; `POST /reinicia` los pone a cero. La celda reinicia antes de
-# cada modalidad y lee `/latido` al terminar.
+# **El latido, paso a paso.** Para comprobar que el loop quedó bloqueado, el
+# servidor agrega al loop una tarea más, el latido:
+#
+# 1. Hace `await asyncio.sleep(0.01)` y, al despertar, anota cuánto tiempo pasó
+#    desde la vez anterior. Ese tiempo es el **hueco**.
+# 2. Con el loop libre, el latido recibe turno en cuanto vence su espera de
+#    10 ms: el hueco es de unos 10 ms.
+# 3. Con `async def`, cada petición hace `time.sleep(0.5)` sin `await`: el hilo
+#    del loop duerme y no cede el turno. El latido ya cumplió sus 10 ms, así
+#    que está **lista** (como en los Gantt: puede avanzar y no tiene turno).
+# 4. El loop pasa de una petición a la siguiente sin dejar turno al latido, que
+#    no corre hasta que terminan las 12: hueco aproximado de 12·0.5 = 6 s.
+# 5. Con `def`, el `sleep` ocurre en hilos aparte, el loop sigue libre y el
+#    latido corre cada 10 ms.
+#
+# `GET /latido` devuelve el **hueco máximo** (`max_gap`) y el número de ticks;
+# `POST /reinicia` los pone a cero. La celda reinicia antes de cada modalidad y
+# lee `/latido` al terminar.
 #
 # Cuenta aproximada: con `async def` las esperas se ejecutan una tras otra,
 # `T ≈ 12·w = 6 s`. Además el loop corre los 12 handlers **seguidos**, sin

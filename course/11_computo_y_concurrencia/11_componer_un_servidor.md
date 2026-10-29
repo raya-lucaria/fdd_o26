@@ -57,7 +57,7 @@ Decisión: suma los pools de todos los workers al dimensionar el servidor.
 | Término | Definición |
 |---|---|
 | Loop | El **loop** es el hilo que ejecuta las tareas asíncronas por turnos. |
-| Latido | El **latido** mide cada 10 ms cuánto tarda una tarea del servidor en volver a correr; un hueco largo indica bloqueo. |
+| Latido | El **latido** es una tarea de prueba del servidor: cada 10 ms pide que la despierten y anota cuánto tardó en recibir turno. |
 | AnyIO | **AnyIO** es la biblioteca que Starlette, la base de FastAPI, usa para correr funciones síncronas en hilos. |
 | Desplazar | **Desplazar** es ejecutar trabajo bloqueante fuera del loop, en un hilo. |
 | Limitador de hilos | El **limitador de hilos** topa las funciones síncronas; AnyIO ofrece $k_h=40$ **tokens** por loop, configurables y compartidos; cada token permite un hilo. |
@@ -78,7 +78,15 @@ $$T_{\text{async}} \approx n\,w, \qquad T_{\text{def}} \approx \left\lceil \frac
 
 Con $n=12$, $w=0{,}5$ s y $k_h=40$: $T_{\text{async}} \approx 12 \cdot 0{,}5 = 6$ s y $T_{\text{def}} \approx \lceil 12/40 \rceil \cdot 0{,}5 = 0{,}5$ s (calculados, aproximaciones). En `async def` se bloquea el loop, no la CPU: el hilo duerme y nada más corre allí. Esto vale solo si la espera bloquea (`time.sleep`); con `await asyncio.sleep`, el loop atendería las 12 a la vez.
 
-**Ejemplo (D1, celda 11.1).** Parámetros: un worker, 12 solicitudes simultáneas que duermen $w=0{,}5$ s con `time.sleep`, y al menos 12 tokens. Un latido cada 10 ms registra el hueco causado por el bloqueo. Medido en 8 CPU: con `async def`, las 12 tardan 6.02 s y el hueco máximo del latido es 5.51 s; con `def`, tardan 0.53 s y el hueco máximo es 0.02 s. El loop ejecutó los 12 `async def` seguidos; con `def`, siguió libre.
+**Ejemplo (D1, celda 11.1).** Parámetros: un worker, 12 solicitudes simultáneas que duermen $w=0{,}5$ s con `time.sleep`, y al menos 12 tokens. Para comprobar que el loop quedó bloqueado, el servidor usa un **latido**:
+
+1. Agrega al loop una tarea más, el latido: hace `await asyncio.sleep(0.01)` y, al despertar, anota cuánto tiempo pasó desde la vez anterior. Ese tiempo es el **hueco**.
+2. Con el loop libre, el latido recibe turno en cuanto vence su espera de 10 ms: el hueco es de unos 10 ms.
+3. Con `async def`, cada petición hace `time.sleep(0.5)` sin `await`: el hilo del loop duerme y no cede el turno. El latido ya cumplió sus 10 ms, así que está **lista** (como en los Gantt: puede avanzar y no tiene turno) y espera.
+4. El loop pasa de una petición a la siguiente sin dejar turno al latido, que no corre hasta que terminan las 12: hueco $\approx 12\cdot0{,}5=6$ s.
+5. Con `def`, el `sleep` ocurre en hilos aparte, el loop sigue libre y el latido corre cada 10 ms.
+
+El hueco máximo mide, entonces, cuánto tiempo estuvo el loop sin atender a nadie. Medido en 8 CPU: con `async def`, las 12 tardan 6.02 s y el hueco máximo es 5.51 s; con `def`, tardan 0.53 s y el hueco máximo es 0.02 s.
 
 **Arquitectura.**
 

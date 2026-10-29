@@ -55,7 +55,7 @@ Jueves 29 de octubre, 19:00–20:30. Generaliza lo anterior: quién ejecuta, cu�
 
 | # | Página | Qué contesta | Min |
 |---:|---|---|---:|
-| 10 | [[capas-de-ejecucion]] | Quién ejecuta una tarea, quién decide su turno y cuánto puede avanzar a la vez | 12 |
+| 10 | [[capas-de-ejecucion]] | Quién ejecuta una tarea, quién decide su turno, cuánto puede avanzar a la vez y qué hace cada herramienta de Python al paralelizar | 15 |
 | 11 | [[componer-un-servidor]] | De una configuración, cuántos procesos, hilos y conexiones resultan | 25 |
 | 12 | [[como-llegan-los-resultados]] | Polling, long polling, SSE, WebSocket y webhook: qué cambia en peticiones, demora y recursos | 20 |
 
