@@ -2,7 +2,7 @@
 
 Procedencia, ruta y condición de uso de cada material del directorio.
 
-Los SVG salen de `tools/gen_computo.py` y `tools/gen_computo_b.py`, que son su única fuente de verdad. No se
+Los SVG salen de `tools/gen_computo.py`, `tools/gen_computo_b.py`, `tools/gen_computo_c.py`, que son su única fuente de verdad. No se
 editan a mano, se regeneran. La guarda `tools/test_gen_computo.py` falla si un
 archivo del disco deja de coincidir con lo que produce el generador. Los
 esquemas se reconstruyeron, con tiempos constantes y no medidos, a partir de los
@@ -37,3 +37,7 @@ de la clase 16 (cómputo) del curso de primavera 2026.
 | cmp-arq-offload.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-arq-offload.svg`. Offload: proceso principal con event loop → cola interna (pickle) → pool de P procesos → Future de regreso; min(k, P), costo de IPC y la versión distribuida con cola externa y workers. | Generado por `tools/gen_computo_b.py` (catálogo `DIAGRAMAS_B`); obra propia | 2026-10-27 | Uso docente del curso |
 | cmp-arq-servidores.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-arq-servidores.svg`. Tres modelos de servidor lado a lado (hilo por conexión, event loop, prefork/multiproceso) con qué consume cada conexión, cuándo sí, cuándo no y sistemas reales; el híbrido un loop por proceso. | Generado por `tools/gen_computo_b.py` (catálogo `DIAGRAMAS_B`); obra propia | 2026-10-27 | Uso docente del curso |
 | cmp-arq-little.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-arq-little.svg`. Ley de Little L = lambda · W con 32 en vuelo, 160/s y 0.2 s; 500 llamadas en 16 tandas, cota 3.2 s contra 3.32 s medidos; 20 llamadas en 4.04 s. | Generado por `tools/gen_computo_b.py` (catálogo `DIAGRAMAS_B`); obra propia | 2026-10-27 | Uso docente del curso |
+| cmp-dist-relojes.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-dist-relojes.svg`. Dos componentes con relojes desfasados 40 ms: marcas 100 y 80 ms, latencia real 20 ms, resta −20 ms. | Generado por `tools/gen_computo_c.py` (catálogo `DIAGRAMAS_C`); obra propia | 2026-10-29 | Uso docente del curso |
+| cmp-dist-tres-causas.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-dist-tres-causas.svg`. Tres carriles (ida perdida, respuesta perdida, servidor lento) con la misma observación del cliente tras t_max. | Generado por `tools/gen_computo_c.py` (catálogo `DIAGRAMAS_C`); obra propia | 2026-10-29 | Uso docente del curso |
+| cmp-capas.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-capas.svg`. Pertenencia (máquina, proceso, hilo, tarea) frente a ejecución (SO asigna hilos a CPU, runtime reparte tareas, migración). | Generado por `tools/gen_computo_c.py` (catálogo `DIAGRAMAS_C`); obra propia | 2026-10-29 | Uso docente del curso |
+| cmp-gantt-tres-planificaciones.svg | Ruta: `course/11_computo_y_concurrencia/_assets/cmp-gantt-tres-planificaciones.svg`. Cuatro tareas de 100 ms en tres planificaciones: 400, 400 y 100 ms. | Generado por `tools/gen_computo_c.py` (catálogo `DIAGRAMAS_C`); obra propia | 2026-10-29 | Uso docente del curso |

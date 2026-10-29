@@ -11,7 +11,7 @@ prerequisites: [apis-y-http, el-gil]
 
 # Cómputo y concurrencia
 
-**Unidad 11** · el modelo matemático (página 0) y 8 páginas · unos 138 min · sesión del martes 27 de octubre, 19:00–20:30
+**Unidad 11** · tres bloques · el modelo matemático (página 0) y 10 páginas: **11.1** (páginas 1–9, martes 27 de octubre), **11.2** (jueves 29 de octubre, en publicación por entregas) y **11.3** (martes 3 de noviembre, en preparación) · cada sesión, 19:00–20:30
 
 Meta: ante un trabajo que espera, calcula o hace las dos cosas, **decidir con una medición** si va en secuencia, con hilos, con `asyncio`, con un tope, con un pool, con procesos o vectorizado, y defender esa decisión con un Gantt y una cuenta.
 
@@ -47,6 +47,19 @@ Meta: ante un trabajo que espera, calcula o hace las dos cosas, **decidir con un
 | 6 | [[calcular-en-paralelo]] | Cuándo rinden los procesos, cuántos usar y qué dice Amdahl de la medición | 15 |
 | 7 | [[vectorizar]] | Qué hacer cuando el trabajo calcula sobre muchos datos: sacar el bucle del intérprete | 8 |
 | 8 | [[arquitectura-y-estrategia]] | Los tres modelos de servidor, capacidad con Little y el árbol de decisión aplicado a tres casos | 15 |
+| 9 | [[sistemas-distribuidos]] | Por qué una petición sin respuesta no dice si falló: relojes que no coinciden y resultado desconocido | 8 |
+
+### 11.2 · Dónde corre cada cosa y cómo se conectan
+
+Jueves 29 de octubre, 19:00–20:30. Generaliza lo anterior: quién ejecuta, cuántas conexiones resultan de una configuración y cómo llegan los resultados.
+
+| # | Página | Qué contesta | Min |
+|---:|---|---|---:|
+| 10 | [[capas-de-ejecucion]] | Quién ejecuta una tarea, quién decide su turno y cuánto puede avanzar a la vez | 12 |
+
+### 11.3 · Cargas y la decisión completa
+
+Martes 3 de noviembre, 19:00–20:30. En preparación: presupuestar una carga (LLM, motor tabular, ETL), trabajos que sobreviven a la petición y elegir con números.
 
 ## Glosario breve
 
@@ -66,6 +79,8 @@ Todos los términos se definen primero en [[notacion-computo]] (página 0) y se 
 | Pool | Conjunto de objetos reales reutilizables (conexiones, hilos, procesos) que se prestan y se devuelven | 5 |
 | Speedup / Amdahl | Cociente entre un tiempo base declarado y el nuevo / techo que impone la fracción serial | 6 |
 | Vectorizar | Aplicar una operación a un arreglo entero en código compilado | 7 |
+| Precede / resultado desconocido | Orden parcial entre eventos de componentes sin reloj común / el cliente no sabe si la operación se ejecutó tras vencer el plazo | 9 |
+| Runtime / planificador | Reparte tareas entre hilos / decide qué unidad usa cada recurso en cada instante | 10 |
 
 ## Antes de la clase
 
@@ -98,9 +113,10 @@ FDD_SILENCIO=1 uv run python servidor.py
 
 **Haz 3 · abre `computo.ipynb`** en VS Code y elige como kernel el `.venv` de `11_computo`. Sus celdas llevan el número de la página: `celda 4.2` es la segunda de la página 4.
 
+
 ## Fuera de alcance
 
-- **Sistemas distribuidos**: varias máquinas, relojes que no coinciden, consenso y fallas parciales.
-- **APIs avanzadas**: polling, SSE, WebSocket, webhooks, gRPC y GraphQL, y el diseño de reintentos y colas entre servicios.
+- **Consenso y replicación**: protocolos para que varias máquinas acuerden un valor.
+- **Contratos de otro estilo**: gRPC, GraphQL y SOAP se nombran en la página 12, sin demostración.
 
 Empieza por [[notacion-computo]], el modelo matemático; después, [[donde-pasa-el-tiempo]].

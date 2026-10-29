@@ -152,17 +152,21 @@ events:
     title: "Cómputo y concurrencia: esperar, calcular y repartir"
     page: computo-y-concurrencia
 
-  - id: asueto-noviembre
-    kind: cancellation
-    date: "2026-11-03"
-    title: "Asueto — no hay clase"
-    summary: "El martes 3 de noviembre no hay sesión de Fuentes de Datos."
+  - id: session-18
+    kind: session
+    date: "2026-10-29"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Dónde corre cada cosa y cómo se conectan"
+    page: computo-y-concurrencia
 
-  - id: descanso-obligatorio-noviembre
-    kind: cancellation
-    date: "2026-11-17"
-    title: "Descanso obligatorio — no hay clase"
-    summary: "El martes 17 de noviembre no hay sesión de Fuentes de Datos."
+  - id: session-19
+    kind: session
+    date: "2026-11-03"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Cargas y la decisión completa"
+    page: computo-y-concurrencia
 
   - id: inicio-de-cursos
     kind: milestone

@@ -41,8 +41,18 @@ NOTEBOOK = PLANTILLA / "computo.ipynb"
 TRABAJO = PLANTILLA / "trabajo_computo.py"
 NOTACION = UNIDAD / "A_notacion.md"
 
-PAGINAS = sorted(p.name for p in UNIDAD.glob("[1-8]_*.md"))
+def _numero(nombre):
+    """Número de página de «10_capas.md» → 10 (no el primer carácter)."""
+    return int(nombre.split("_")[0]) if nombre.split("_")[0].isdigit() else None
+
+
 TODAS = sorted(p.name for p in UNIDAD.glob("*.md"))
+# Páginas 1–8: las del notebook antiguo (Haz, código al final, etiquetas viejas).
+PAGINAS = [n for n in TODAS if _numero(n) is not None and 1 <= _numero(n) <= 8]
+# Páginas 9+: notas sin código; las cubre test_computo_forma.py. Aquí sólo
+# ids únicos, sin analogías, sin marcadores sin sustituir y notebook nuevo.
+NUEVAS = [n for n in TODAS if (_numero(n) or 0) >= 9]
+NOTEBOOK_ARQ = PLANTILLA / "arquitectura.ipynb"
 
 _HAZ = re.compile(r"^\*\*Haz \(celda (\d+)\.(\d+)[^)]*\):\*\*")
 
@@ -146,7 +156,7 @@ def test_el_notebook_no_trae_salidas():
 
 @pytest.mark.parametrize("nombre", PAGINAS)
 def test_numeracion_de_haz_consecutiva_y_de_su_pagina(nombre):
-    pagina = int(nombre[0])
+    pagina = _numero(nombre)
     numeros = [c for c, _ in _haz(nombre)]
     assert numeros == [(pagina, k) for k in range(1, len(numeros) + 1)], (
         f"{nombre}: celdas {[f'{a}.{b}' for a, b in numeros]}; deben ser "
@@ -295,7 +305,10 @@ def test_el_proyecto_pide_sus_dependencias():
 
 @pytest.mark.parametrize("nombre", TODAS)
 def test_sin_marcadores_de_plantilla(nombre):
-    assert "{{" not in _cuerpo(nombre), f"{nombre}: quedó un marcador «{{{{»"
+    cuerpo = _cuerpo(nombre)
+    if nombre in NUEVAS:                    # {{m:clave}} lo vigila test_computo_forma
+        cuerpo = re.sub(r"\{\{m:[\w-]+\}\}", "", cuerpo)
+    assert "{{" not in cuerpo, f"{nombre}: quedó un marcador «{{{{»"
 
 
 @pytest.mark.parametrize("nombre", TODAS)
@@ -378,6 +391,84 @@ def test_figuras_referenciadas_existen(nombre):
     figuras = re.findall(r"_assets/(cmp-[\w-]+\.svg)", _cuerpo(nombre))
     faltan = [f for f in figuras if not (UNIDAD / "_assets" / f).is_file()]
     assert not faltan, f"{nombre}: figuras que no existen en _assets/: {faltan}"
+
+
+@pytest.mark.parametrize("nombre", NUEVAS)
+def test_paginas_nuevas_sin_bloques_de_codigo(nombre):
+    assert "```" not in _cuerpo(nombre), f"{nombre}: las páginas 9+ no llevan código"
+
+
+def test_ids_de_pagina_y_de_objeto_unicos_en_la_unidad():
+    ids = []
+    for n in TODAS:
+        texto = (UNIDAD / n).read_text(encoding="utf-8")
+        ids += re.findall(r"^id:\s*(\S+)", texto.split("---", 2)[1], re.M)
+        ids += re.findall(r"\{#([\w-]+)", texto)
+    repetidos = [i for i, c in Counter(ids).items() if c > 1]
+    assert not repetidos, f"ids repetidos en la unidad: {repetidos}"
+
+
+@pytest.mark.parametrize("nombre", TODAS)
+def test_wikilinks_de_la_unidad_resuelven(nombre):
+    conocidos = ids_del_repo()
+    sueltos = [i for i in re.findall(r"\[\[([^\]|#]+)", _cuerpo(nombre))
+               if i.strip() not in conocidos]
+    assert not sueltos, f"{nombre}: [[{sueltos[0]}]] no es el id de ninguna página"
+
+
+def ids_del_repo():
+    ids = set()
+    for ruta in (RAIZ / "course").rglob("*"):
+        if ruta.suffix == ".md":
+            texto = ruta.read_text(encoding="utf-8")
+            ids |= set(re.findall(r"^id:\s*(\S+)", texto.split("---", 2)[1]
+                                  if texto.startswith("---") else "", re.M))
+            ids |= set(re.findall(r"\{#([\w-]+)", texto))
+        elif ruta.suffix in (".yaml", ".yml"):
+            ids |= set(re.findall(r"^\s*(?:-\s*)?id:\s*[\"']?([\w.-]+)",
+                                  ruta.read_text(encoding="utf-8"), re.M))
+    return ids
+
+
+# ── el notebook nuevo (arquitectura.ipynb), si ya existe ──────────────────
+
+hay_arq = pytest.mark.skipif(not NOTEBOOK_ARQ.is_file(),
+                             reason="arquitectura.ipynb aún no existe")
+
+
+@hay_arq
+def test_arquitectura_sin_salidas_y_kernel_python3():
+    nb = json.loads(NOTEBOOK_ARQ.read_text(encoding="utf-8"))
+    assert nb["metadata"]["kernelspec"]["name"] == "python3"
+    for c in nb["cells"]:
+        if c["cell_type"] == "code":
+            assert c["outputs"] == [] and c["execution_count"] is None
+
+
+@hay_arq
+def test_arquitectura_rotulos_unicos_y_en_orden():
+    nb = json.loads(NOTEBOOK_ARQ.read_text(encoding="utf-8"))
+    rotulos = []
+    for c in nb["cells"]:
+        if c["cell_type"] != "code":
+            continue
+        m = re.match(r"# celda (\d+)\.(\d+)\s*$", "".join(c["source"]).split("\n", 1)[0])
+        assert m, f"celda de código sin rótulo «# celda N.M»: {''.join(c['source'])[:40]!r}"
+        rotulos.append((int(m.group(1)), int(m.group(2))))
+    assert rotulos, "arquitectura.ipynb no tiene celdas de código"
+    assert len(set(rotulos)) == len(rotulos), "rótulos repetidos"
+    assert rotulos == sorted(rotulos), f"rótulos fuera de orden: {rotulos}"
+
+
+@hay_arq
+def test_arquitectura_es_lo_que_produce_su_generador():
+    gen = RAIZ / "tools/gen_notebook_arquitectura.py"
+    if not gen.is_file():
+        pytest.skip("aún no existe tools/gen_notebook_arquitectura.py")
+    modulo = _modulo("gen_notebook_arquitectura", gen)
+    if not hasattr(modulo, "notebook"):
+        pytest.skip("el generador no expone notebook()")
+    assert NOTEBOOK_ARQ.read_text(encoding="utf-8") == modulo.notebook()
 
 
 # ── la celda 1.1, contra el servidor real ─────────────────────────────────

@@ -40,6 +40,10 @@ Cada concepto va en un bloque con tres líneas: **En palabras**, **Formalmente**
 | $L$, $\lambda$, $W$ | en vuelo, rendimiento, tiempo dentro (Little) | 1, 3–5, 8 |
 | $W_{\text{recurso}}$, $W_{\text{conexión}}$ | tiempo que una tarea retiene un recurso | 5 |
 | $\lceil n/k\rceil\cdot(e+w)$ | cota del semáforo | 4, 5 |
+| $R$ | réplicas del servicio; con $N$ y $k$, el máximo configurado de conexiones es $R\times N\times k$ | 11 |
+| $p_{\text{ef}}$ | unidades que de hecho avanzan a la vez en un ejemplo; $T_{\text{ideal}}=\lceil n/p_{\text{ef}}\rceil\,e$ | 10 |
+| $t_{\max}$ | plazo: duración máxima que el cliente espera una respuesta | 9 |
+| $\Delta$, $T_{\text{evt}}$ | intervalo de polling; instante del evento medido desde $t=0$ | 12 |
 
 ## Convenciones
 
@@ -293,6 +297,7 @@ $$\exists\, i\ne j:\quad \operatorname{hilo}(\tau_i)=\operatorname{hilo}(\tau_j)
 
 - El Gantt de tres hilos y el de `gather` son idénticos; los distingue la fila de hilo.
 - **Asíncrono no implica concurrente.** `await` uno tras otro da el Gantt secuencial de 720 ms.
+- **«Asíncrono» se dice en tres planos distintos.** *Interfaz:* la llamada regresa antes del resultado y se espera con `await` (esta definición). *Planificación:* quién cede el hilo y quién decide el turno (cooperativo o preventivo, más abajo). *Ciclo de vida:* un trabajo aceptado para ejecutarse después, que puede sobrevivir a la petición. Un plano no implica los otros.
 - Llamar una `async def` sólo crea una corrutina, que no corre hasta que se agenda (`create_task`, `gather`) o se espera con `await`; un `await` sobre algo ya terminado no suspende.
 
 **Mini-ejemplo.** Con `gather`, $\operatorname{hilo}(\tau_1)=\operatorname{hilo}(\tau_2)$ y $\operatorname{wait}(\tau_1)\cap\operatorname{exec}(\tau_2)=[20,40)$: $\tau_1$ cedió el hilo. Con tres hilos la intersección es la misma, pero entre hilos distintos.
