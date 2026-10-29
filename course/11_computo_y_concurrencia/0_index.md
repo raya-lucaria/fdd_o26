@@ -11,7 +11,7 @@ prerequisites: [apis-y-http, el-gil]
 
 # Cómputo y concurrencia
 
-**Unidad 11** · tres bloques · el modelo matemático (página 0) y 10 páginas: **11.1** (páginas 1–9, martes 27 de octubre), **11.2** (jueves 29 de octubre, en publicación por entregas) y **11.3** (martes 3 de noviembre, en preparación) · cada sesión, 19:00–20:30
+**Unidad 11** · tres bloques · el modelo matemático (página 0) y 12 páginas: **11.1** (páginas 1–9, martes 27 de octubre), **11.2** (páginas 10–12, jueves 29 de octubre) y **11.3** (martes 3 de noviembre, en preparación) · cada sesión, 19:00–20:30
 
 Meta: ante un trabajo que espera, calcula o hace las dos cosas, **decidir con una medición** si va en secuencia, con hilos, con `asyncio`, con un tope, con un pool, con procesos o vectorizado, y defender esa decisión con un Gantt y una cuenta.
 
@@ -56,6 +56,8 @@ Jueves 29 de octubre, 19:00–20:30. Generaliza lo anterior: quién ejecuta, cu�
 | # | Página | Qué contesta | Min |
 |---:|---|---|---:|
 | 10 | [[capas-de-ejecucion]] | Quién ejecuta una tarea, quién decide su turno y cuánto puede avanzar a la vez | 12 |
+| 11 | [[componer-un-servidor]] | De una configuración, cuántos procesos, hilos y conexiones resultan | 25 |
+| 12 | [[como-llegan-los-resultados]] | Polling, long polling, SSE, WebSocket y webhook: qué cambia en peticiones, demora y recursos | 20 |
 
 ### 11.3 · Cargas y la decisión completa
 
@@ -81,6 +83,8 @@ Todos los términos se definen primero en [[notacion-computo]] (página 0) y se 
 | Vectorizar | Aplicar una operación a un arreglo entero en código compilado | 7 |
 | Precede / resultado desconocido | Orden parcial entre eventos de componentes sin reloj común / el cliente no sabe si la operación se ejecutó tras vencer el plazo | 9 |
 | Runtime / planificador | Reparte tareas entre hilos / decide qué unidad usa cada recurso en cada instante | 10 |
+| Worker / réplica / pool local | Proceso que atiende peticiones / copia del servicio / conexiones que crea un worker | 11 |
+| Polling / long polling / SSE / webhook | Preguntar cada $\Delta$ / consulta con respuesta retenida / respuesta continua del servidor / el emisor llama al receptor | 12 |
 
 ## Antes de la clase
 
@@ -113,6 +117,7 @@ FDD_SILENCIO=1 uv run python servidor.py
 
 **Haz 3 · abre `computo.ipynb`** en VS Code y elige como kernel el `.venv` de `11_computo`. Sus celdas llevan el número de la página: `celda 4.2` es la segunda de la página 4.
 
+**Haz 4 · para la 11.2, abre `arquitectura.ipynb`** (mismo kernel). Trae las celdas de las páginas 9 a 12 y **lanza por su cuenta** `app_arq.py` (FastAPI con un solo worker) en un subproceso y lo cierra al terminar; no necesita el servidor del Haz 2. `uv sync` ya instaló `fastapi` y `uvicorn` al copiar la plantilla: si lo hiciste antes del 29 de octubre, vuelve a correr `uv sync` con red.
 
 ## Fuera de alcance
 

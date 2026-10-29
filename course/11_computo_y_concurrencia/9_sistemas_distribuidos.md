@@ -25,7 +25,7 @@ Recordatorio: $d$ es la duración de la vida de una tarea ([[notacion-computo]])
 
 **Definición.** **A precede a B** cuando A ocurre antes que B en el mismo componente, cuando A envía el mensaje que B recibe, o cuando hay una cadena de estas dos relaciones; es un orden parcial.
 
-Dos eventos que ninguna cadena de mensajes conecta son **concurrentes**: el modelo no les asigna orden.
+Dos eventos son **concurrentes** si ninguno precede al otro según la relación anterior: el modelo no les asigna orden.
 
 ::: figure {#cmp-dist-relojes title="Con relojes desfasados, restar marcas no da el tiempo de tránsito"}
 ![Dos componentes, A y B, con el reloj de B 40 ms atrás; A envía en su marca 100 ms, el mensaje tarda 20 ms y B lo recibe en su marca 80 ms](_assets/cmp-dist-relojes.svg)

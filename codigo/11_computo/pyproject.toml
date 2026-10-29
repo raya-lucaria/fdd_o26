@@ -3,7 +3,7 @@ name = "computo"
 version = "0.1.0"
 description = "Labs de la unidad 11: cómputo y concurrencia"
 requires-python = ">=3.13"
-dependencies = ["requests>=2.32", "httpx>=0.28", "numpy>=2.2", "matplotlib>=3.9"]
+dependencies = ["requests>=2.32", "httpx>=0.28", "numpy>=2.2", "matplotlib>=3.9", "fastapi>=0.115", "uvicorn>=0.32"]
 
 [dependency-groups]
 dev = ["ipykernel>=6"]

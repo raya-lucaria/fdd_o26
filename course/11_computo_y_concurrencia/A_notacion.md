@@ -40,6 +40,7 @@ Cada concepto va en un bloque con tres líneas: **En palabras**, **Formalmente**
 | $L$, $\lambda$, $W$ | en vuelo, rendimiento, tiempo dentro (Little) | 1, 3–5, 8 |
 | $W_{\text{recurso}}$, $W_{\text{conexión}}$ | tiempo que una tarea retiene un recurso | 5 |
 | $\lceil n/k\rceil\cdot(e+w)$ | cota del semáforo | 4, 5 |
+| $k_h$ | tokens del limitador de hilos por loop (AnyIO: 40 por omisión) | 11 |
 | $R$ | réplicas del servicio; con $N$ y $k$, el máximo configurado de conexiones es $R\times N\times k$ | 11 |
 | $p_{\text{ef}}$ | unidades que de hecho avanzan a la vez en un ejemplo; $T_{\text{ideal}}=\lceil n/p_{\text{ef}}\rceil\,e$ | 10 |
 | $t_{\max}$ | plazo: duración máxima que el cliente espera una respuesta | 9 |
@@ -286,7 +287,7 @@ El recíproco es falso: con `gather` las vidas se solapan y nunca ejecutan dos t
 ## Asíncrono: un mecanismo, no una región del Gantt
 
 ::: definition {#cmp-def-mod-asincrono title="Llamada síncrona y llamada asíncrona"}
-**En palabras.** Una llamada asíncrona regresa antes del resultado; quien lo necesita hace `await`, se suspende y cede su hilo para que corra otra tarea lista. Una síncrona retiene el hilo hasta el resultado.
+**En palabras.** Una llamada asíncrona regresa antes del resultado; quien lo necesita hace `await`, y ese `await` cede el hilo solo cuando la operación se suspende de verdad; una corrutina que bloquea (como `time.sleep`) no lo cede. Una síncrona retiene el hilo hasta el resultado.
 
 **Formalmente.** Síncrona: mientras la operación está pendiente, $\operatorname{hilo}(\tau)$ no ejecuta ninguna otra tarea. Asíncrona: hace posible
 
