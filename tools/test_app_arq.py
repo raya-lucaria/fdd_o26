@@ -125,3 +125,15 @@ def test_sse_se_limpia_al_desconectar(base):
         time.sleep(1.5)
         assert c.get("/estado").json()["sse"] == 0
         c.post("/reinicia")
+
+
+def test_contador_cuenta_en_el_proceso(base):
+    a = httpx.get(base + "/contador").json()
+    b = httpx.get(base + "/contador").json()
+    assert a["pid"] == b["pid"] and b["contador"] == a["contador"] + 1
+
+
+def test_calcula_gasta_cpu_y_responde(base):
+    t0 = time.monotonic()
+    r = httpx.get(base + "/calcula", params={"ms": 100}).json()
+    assert r["ms"] == 100 and time.monotonic() - t0 >= 0.1

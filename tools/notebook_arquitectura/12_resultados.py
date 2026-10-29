@@ -1,29 +1,56 @@
 # %% [markdown]
 # ## 12.1 · D2: cómo llegan los resultados (polling, long polling y SSE)
 #
-# **Qué se va a ver.** Un evento que ocurre en el servidor **10 s** después de
-# `POST /inicia?t=10`. Tres maneras de enterarse, con **20 clientes** en cada
-# una, cada modalidad **por separado** (reinicia el servidor y vuelve a
-# iniciar el evento):
+# **Qué vamos a ver.** Un evento que ocurre en el servidor **10 s** después de
+# `POST /inicia?t=10`. Hay tres maneras de que los clientes se enteren; se
+# prueba cada una **por separado**, con **20 clientes**, reiniciando el
+# servidor y volviendo a iniciar el evento.
 #
-# - **polling**: cada cliente pregunta a `/listo` cada **Δ = 3 s**, con
-#   reloj monotónico, y no hace consulta inicial: consulta en 3, 6, 9 y 12 s.
-#   Cuenta esperada por cliente: 4 consultas (3 sin novedades) y una demora de
-#   `Δ·⌈T/Δ⌉ − T = 2 s`; con 20 clientes, 80 consultas y 60 sin novedades;
-# - **long polling**: una sola petición a `/espera` que el servidor mantiene
-#   abierta hasta el evento; demora esperada: casi cero;
-# - **SSE**: una respuesta HTTP continua en `/eventos` (streaming) que envía
-#   latidos y el evento `listo`; demora esperada: casi cero.
+# **Las tres modalidades.**
 #
-# Se cuenta, por modalidad: las **consultas** que recibió el servidor, la
-# **demora de detección** (desde el instante del evento hasta que el cliente se
-# entera, promedio de los 20), los **long polls pendientes** (sólo cuenta las peticiones a `/espera`) y las
-# **sesiones SSE abiertas** que reporta `/estado` a mitad de la espera, y los **sockets**
-# que conserva el cliente (el polling con keep-alive también conserva
-# conexiones, aunque no tenga peticiones pendientes). Son cosas distintas.
+# - **Polling:** cada cliente pregunta a `/listo` cada Δ segundos.
+# - **Long polling:** cada cliente hace **una** petición a `/espera` y el
+#   servidor la mantiene abierta hasta que ocurre el evento.
+# - **SSE:** cada cliente abre **una** respuesta HTTP continua en `/eventos`
+#   (streaming); el servidor envía latidos y, al final, el evento `listo`.
 #
-# Cada modalidad dura ~10-12 s, así que la celda tarda cerca de 35 s. Todo el
-# bloque tiene un plazo global y el servidor se cierra en un `finally`.
+# **Las variables del polling.**
+#
+# - **T = 10 s:** cuándo ocurre el evento.
+# - **Δ = 3 s:** cada cuánto pregunta un cliente. Mide con reloj monotónico y
+#   no hace consulta inicial: pregunta en los segundos 3, 6, 9 y 12.
+# - **Clientes = 20.**
+#
+# **La cuenta esperada del polling, paso a paso.**
+#
+# 1. **Consultas por cliente.** Las que hace hasta enterarse:
+#    ⌈T/Δ⌉ = ⌈10/3⌉ = 4 (en los segundos 3, 6, 9 y 12).
+# 2. **Consultas sin novedades por cliente.** Las que llegan antes del
+#    evento: 4 − 1 = **3** (las de los segundos 3, 6 y 9).
+# 3. **Demora por cliente.** Desde el evento hasta la consulta que lo
+#    descubre: Δ·⌈T/Δ⌉ − T = 3·4 − 10 = **2 s**.
+# 4. **Con 20 clientes.** Consultas: 20 × 4 = **80**. Sin novedades:
+#    20 × 3 = **60**.
+#
+# **Qué esperamos de las otras dos.** Long polling y SSE no preguntan una y
+# otra vez: **20 peticiones** en total (una por cliente) y una demora **casi
+# cero**, porque el servidor avisa en cuanto ocurre el evento.
+#
+# **Qué se mide, por modalidad.** Son cosas distintas, no las confundas:
+#
+# - **consultas:** las peticiones que recibió el servidor.
+# - **demora de detección:** desde el instante del evento hasta que el
+#   cliente se entera (promedio de los 20).
+# - **long polls pendientes:** peticiones a `/espera` que el servidor retiene
+#   abiertas a mitad de la espera (sólo cuenta esas).
+# - **sesiones SSE abiertas:** las que reporta `/estado` a mitad de la espera.
+# - **sockets del cliente:** conexiones que conserva el cliente (el polling
+#   con keep-alive también las conserva entre consultas, aunque no tenga
+#   peticiones pendientes).
+#
+# **Duración.** Cada modalidad dura ~10-12 s, así que la celda tarda cerca de
+# 35 s. Todo el bloque tiene un plazo global y el servidor se cierra en un
+# `finally`.
 
 # %%
 # celda 12.1

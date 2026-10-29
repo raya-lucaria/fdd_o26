@@ -1,23 +1,39 @@
 # %% [markdown]
 # ## 9.1 · Relojes locales: restar marcas no mide la latencia
 #
-# **Qué se va a ver.** Dos componentes, A y B, tienen cada uno su propio reloj
-# local. El reloj de B marca **40 ms menos** que el tiempo real (está atrasado).
-# A envía un mensaje a B; el mensaje tarda **20 ms** en llegar (valor supuesto
-# del ejemplo). Cada componente anota la hora de **su** reloj: A al enviar, B
-# al recibir.
+# **Qué vamos a ver.** Dos componentes, **A** y **B**, cada uno con su propio
+# reloj local. A envía un mensaje a B; cada uno anota la hora de **su** reloj:
+# A al enviar, B al recibir. Es una simulación con números enteros en
+# milisegundos: no usa el reloj real de tu máquina, y por eso la cuenta es
+# exacta.
 #
-# Es una simulación con enteros en milisegundos, no una medición: no usa el
-# reloj real de tu máquina. Lo que importa es la cuenta, y es exacta:
+# **Las variables (todas en ms).**
 #
-# - envío en A: tiempo real 100 ms, marca de A = 100
-# - llegada a B: tiempo real 120 ms, marca de B = 120 − 40 = 80
-# - resta de marcas: 80 − 100 = **−20 ms**
+# - **`LATENCIA_MS` = 20:** lo que tarda el mensaje en llegar, en tiempo real
+#   (valor supuesto del ejemplo).
+# - **`DESFASE_B_MS` = −40:** el reloj de B marca 40 ms **menos** que el
+#   tiempo real (está atrasado). El de A no tiene desfase (0).
+# - **marca de un componente** = tiempo real + su desfase.
 #
-# La resta es negativa: «el mensaje llegó antes de enviarse». No es un error
-# del programa; es que la resta mezcla dos relojes. Vale
-# `latencia + desfase = 20 + (−40) = −20`. Sin conocer el desfase (y su
-# incertidumbre) la resta no dice cuánto tardó el mensaje.
+# **La cuenta, paso a paso.**
+#
+# 1. **Envío.** A envía en el tiempo real **100**. Su marca es
+#    100 + 0 = **100**.
+# 2. **Llegada.** El mensaje llega en el tiempo real
+#    100 + `LATENCIA_MS` = 100 + 20 = **120**.
+# 3. **Marca de B.** B anota 120 + `DESFASE_B_MS` = 120 + (−40) = **80**.
+# 4. **Resta de marcas.** marca de B − marca de A = 80 − 100 = **−20**.
+# 5. **Por qué sale −20.** La resta mezcla dos relojes, así que es
+#    `LATENCIA_MS` + `DESFASE_B_MS` = 20 + (−40) = **−20**. La latencia real
+#    (20) queda tapada por el desfase (−40).
+#
+# **Qué significa.**
+#
+# - La resta es **negativa**: parece que el mensaje llegó antes de enviarse.
+# - No es un error del programa: es que **restar marcas de dos relojes
+#   distintos no mide la latencia**.
+# - Sin conocer el desfase (y su incertidumbre), la resta no dice cuánto tardó
+#   el mensaje.
 
 # %%
 # celda 9.1

@@ -36,7 +36,7 @@ MAX_PALABRAS, MAX_DEFINICION, MAX_FRASE = 800, 25, 22
 
 ESPERADAS = {"sistemas-distribuidos", "capas-de-ejecucion",
              "componer-un-servidor", "como-llegan-los-resultados"}
-EXENTAS = ("si hay tiempo", "notebook", "prerrequisitos", "recordatorio", "en corto")
+EXENTAS = ("si hay tiempo", "notebook", "prerrequisitos", "recordatorio", "en corto", "katas")
 PARTES = ("Definición", "Figura", "Cuenta", "Ejemplo", "Arquitectura")
 _PARTE = re.compile(r"^\*\*(" + "|".join(PARTES) + r")(?: \([^)]*\))?\.\*\*")
 PROHIBIDAS = ("otro ángulo", "como vimos", "vale la pena notar",
@@ -131,8 +131,11 @@ def test_partes_por_concepto_en_orden(nombre):
         assert vistas == sorted(vistas), (
             f"{nombre}, «{titulo}»: partes fuera de orden; el orden es "
             f"{' → '.join(PARTES)}")
-        assert PARTES.index("Definición") in vistas, (
-            f"{nombre}, «{titulo}»: falta **Definición.**")
+        # Una caja `::: definition` (regla con variables y su porqué) también
+        # es la definición del concepto.
+        hay_caja = any(l.startswith("**Qué dice.**") for l in lineas)
+        assert PARTES.index("Definición") in vistas or hay_caja, (
+            f"{nombre}, «{titulo}»: falta **Definición.** o una caja definition")
 
 
 @pytest.mark.parametrize("nombre", PAGINAS)

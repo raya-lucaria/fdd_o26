@@ -144,3 +144,24 @@ async def reinicia():
     """Pone todo a cero (el contador de abiertos lo llevan las conexiones)."""
     E.update(evento=None, consultas=0, max_gap=0.0, ticks=0)
     return {"ok": True}
+
+
+# Contador propio de cada proceso (no se comparte entre workers).
+_CONTADOR = {"n": 0}
+
+
+@app.get("/contador")
+async def contador():
+    """Incrementa un contador en la memoria de ESTE proceso y lo devuelve."""
+    _CONTADOR["n"] += 1
+    return {"pid": os.getpid(), "contador": _CONTADOR["n"]}
+
+
+@app.get("/calcula")
+def calcula(ms: int = 300):
+    """Cálculo puro de CPU: gasta `ms` milisegundos de CPU del hilo (`def`)."""
+    fin = time.thread_time() + ms / 1000
+    n = 0
+    while time.thread_time() < fin:
+        n += 1
+    return _quien(ms=ms)
