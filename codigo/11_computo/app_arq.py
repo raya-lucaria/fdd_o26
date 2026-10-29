@@ -68,6 +68,13 @@ async def async_bloqueante(s: float = 0.5):
     return _quien(s=s)
 
 
+@app.get("/async-await")
+async def async_await(s: float = 0.5):
+    """`async def` que cede el loop con await asyncio.sleep(s)."""
+    await asyncio.sleep(s)
+    return _quien(s=s)
+
+
 @app.post("/inicia")
 async def inicia(t: float = 10):
     """Fija el evento para dentro de t segundos y reinicia contadores."""

@@ -283,3 +283,12 @@ def test_figuras_con_alt_archivo_y_credito(nombre):
         assert archivo.is_file(), f"{nombre}: no existe {ruta}"
         assert f"| {archivo.name} |" in creditos, (
             f"{nombre}: {archivo.name} no tiene fila en _assets/CREDITOS.md")
+
+
+def test_sin_caracteres_de_control_en_las_paginas():
+    """Un `\\approx` o `\\frac` escrito en un literal de Python normal se vuelve
+    BEL o salto de página dentro de la fórmula: la guarda lo atrapa."""
+    import re
+    for pagina in sorted(UNIDAD.glob("*.md")):
+        malos = re.findall(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", pagina.read_text(encoding="utf-8"))
+        assert not malos, f"{pagina.name}: caracteres de control {sorted(set(map(repr, malos)))}"

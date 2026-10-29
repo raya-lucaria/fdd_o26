@@ -70,6 +70,13 @@ def test_def_vs_async_bloqueante(base):
     assert len({r["pid"] for r in rd + ra}) == 1  # un solo proceso
 
 
+def test_async_await_no_bloquea(base):
+    t, rs = asyncio.run(_doce(base, "/async-await", 0.2))
+    print(f"async-await={t:.2f}s")
+    assert 0.2 <= t < 0.5
+    assert all(r["s"] == 0.2 and r["hilo"] == "MainThread" for r in rs)
+
+
 def test_latido_muestra_el_bloqueo_del_loop(base):
     s = 0.2
     huecos = {}

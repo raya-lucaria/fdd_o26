@@ -6,7 +6,7 @@ gen_computo.py (que mezcla DIAGRAMAS_D en su catálogo). Estilo de barra de la
 unidad: ejecuta relleno, espera con contorno discontinuo, lista rayada,
 bloqueada en ámbar. Sin letras griegas: el intervalo de consulta se escribe
 «cada 3 s» y la tasa «lambda». Las cifras son las del contrato de la unidad
-(w = 0.5 s, 12 peticiones, latido cada 10 ms, evento en 10 s, consulta cada 3 s, R x N x k = 120).
+(w = 0.5 s, 12 peticiones, evento en 10 s, consulta cada 3 s, R x N x k = 120).
 """
 from svg_base import (
     ACENTO, AMBAR, CIAN, FONDO, LINEA, PANEL, ROJO, SUAVE, TEXTO, TINTE,
@@ -19,7 +19,6 @@ X1 = 1040
 
 W_S = 0.5          # espera bloqueante de cada petición (s)
 PETICIONES = 12
-LATIDO_MS = 10     # el latido del loop corre cada 10 ms
 
 EVENTO_S = 10      # instante del evento (s)
 CADA_S = 3         # intervalo de consulta del polling (s)
@@ -199,101 +198,120 @@ def cmp_ancla_servidor():
 
 
 # ---------------------------------------------------------------------------
-# Página 11: async def con espera bloqueante contra def, medido con el latido
+# Página 11: tres formas de esperar 0.5 s en 12 peticiones
 # ---------------------------------------------------------------------------
+LATIDO_MS = 10     # un tic del latido cada 10 ms
+PASO = 15          # alto de cada fila de petición (px)
+
+
 def _latido(xs, y, h, desde, hasta):
-    """Marcas finas (ejecuta): una por cada LATIDO_MS entre desde y hasta (s)."""
-    p = []
+    """Tics finos (ejecuta): uno cada LATIDO_MS entre desde y hasta (s), a escala."""
     n = round((hasta - desde) * 1000 / LATIDO_MS)
-    for i in range(n):
-        x = xs(desde + i * LATIDO_MS / 1000)
-        p.append(f'<line x1="{x:.1f}" y1="{y}" x2="{x:.1f}" y2="{y + h}" '
-                 f'stroke="{ACENTO}" stroke-width="0.8"/>')
-    return "".join(p)
+    return "".join(
+        f'<line x1="{xs(desde + i * LATIDO_MS / 1000):.1f}" y1="{y}" '
+        f'x2="{xs(desde + i * LATIDO_MS / 1000):.1f}" y2="{y + h}" '
+        f'stroke="{ACENTO}" stroke-width="0.8"/>' for i in range(n))
+
+
+def _panel(p, xs, y0, titulo, color, modo, pie):
+    """Un panel: fila del loop, 12 filas de petición, eje y pie con la cuenta."""
+    eje_max = 7
+    p.append(texto(24, y0, titulo, color, 16, anclaje="start", peso="600"))
+    yl = y0 + 14
+    yt = yl + 30
+    yr = y0 + 84
+    fin = PETICIONES * W_S if modo == "a" else W_S
+    p.append(_rejilla(xs, yl - 4, yr + PASO * PETICIONES + 2, eje_max))
+    p.append(texto(X0 - 16, yl + 17, "loop (1 hilo)", TEXTO, 14, anclaje="end", peso="600"))
+    if modo == "a":
+        p.append(_barra("espera", xs(0), yl, xs(fin) - X0, 24,
+                        "dormido de 0 a 6 s: el loop no atiende a nadie"))
+        p.append(_barra("libre", xs(fin), yl, xs(eje_max) - xs(fin), 24, "libre"))
+    elif modo == "b":
+        p.append(_barra("libre", xs(0), yl, xs(eje_max) - X0, 24,
+                        "libre: sólo reparte cada petición a un hilo"))
+    else:
+        p.append(_barra("libre", xs(0), yl, xs(eje_max) - X0, 24,
+                        "libre mientras esperan: await le devuelve el hilo"))
+    p.append(texto(X0 - 16, yt + 11, "latido", TEXTO, 14, anclaje="end", peso="600"))
+    p.append(texto(X0 - 16, yt + 27, "un tic cada 10 ms", SUAVE, 13, anclaje="end"))
+    if modo == "a":
+        p.append(_latido(xs, yt, 16, 0, 0.02))
+        p.append(_latido(xs, yt, 16, fin, eje_max))
+        p.append(texto(xs(fin / 2), yt + 13, "sin tics: el loop estuvo bloqueado 6 s", AMBAR, 13,
+                       peso="600"))
+    else:
+        p.append(_latido(xs, yt, 16, 0, eje_max))
+        p.append(_rect(xs(3.5) - 80, yt - 1, 160, 18, FONDO, radio=4))
+        p.append(texto(xs(3.5), yt + 13, "el loop sigue vivo", ACENTO, 13, peso="600"))
+    for i in range(PETICIONES):
+        y = yr + i * PASO
+        ini = i * W_S if modo == "a" else 0
+        etiqueta = f"hilo {i + 1}: p{i + 1}" if modo == "b" else f"p{i + 1}"
+        p.append(texto(X0 - 16, y + 11, etiqueta, SUAVE, 13, anclaje="end"))
+        if ini > 0:
+            p.append(_rect(xs(0) + 1, y, xs(ini) - X0 - 2, 12, "url(#rayado)", VIOLETA, 1.2))
+        p.append(_rect(xs(ini) + 1, y, xs(ini + W_S) - xs(ini) - 2, 12, "none", CIAN, 1.4, "5 3"))
+    ym = yr + PASO * PETICIONES
+    p.append(_linea(xs(fin), yl - 4, xs(fin), ym + 2, AMBAR, 2, "6 4"))
+    p.append(_eje(xs, ym + 6, eje_max))
+    p.append(texto(ANCHO / 2, ym + 56, pie, AMBAR, 15, peso="600"))
+    return yr
 
 
 def cmp_async_vs_def():
-    eje_max = 7
-    xs = _escala(eje_max)
-    alto = 740
-    total_async = PETICIONES * W_S
+    xs = _escala(7)
+    alto = 1170
     aria = (
-        "Dos paneles con la misma escala de tiempo y un latido del loop: una "
-        "tarea del servidor que corre cada 10 ms y deja una marca verde. Arriba, "
-        "async def con time.sleep: las 12 peticiones de 0.5 s duermen el hilo del "
-        "loop una tras otra, 12 por 0.5 s son 6 s,  "
-        "Abajo, def: las 12 duermen a la vez en 12 hilos del limitador de hilos "
-        "y terminan en 0.5 s, y el latido sigue sin huecos, con hueco máximo "
-        "menor de 0.1 s."
+        "Tres paneles apilados con el mismo eje de tiempo de 0 a 7 s y 12 "
+        "peticiones de 0.5 s cada uno. Arriba, async def con time.sleep: el loop "
+        "es un solo hilo y sleep lo bloquea, así que las peticiones duermen una "
+        "tras otra en escalera, las que no han empezado quedan listas esperando "
+        "al loop, y el total es 12 por 0.5 s, 6 s. En medio, def con time.sleep: "
+        "cada petición va a su propio hilo y las 12 duermen a la vez, total 0.5 s. "
+        "Abajo, async def con await asyncio.sleep: await cede el hilo y las 12 "
+        "esperan a la vez en el mismo hilo, total 0.5 s. En cada panel una fila de "
+        "latido con un tic cada 10 ms: se detiene 6 s en el primero, donde el "
+        "loop estuvo bloqueado, y sigue continuo en los otros dos."
     )
     p = [_marco(ANCHO, alto, aria)]
     p.append(texto(ANCHO / 2, 40,
-                   "Con async def, dormir dentro del endpoint deja al loop sin latido; "
-                   "con def, el loop sigue corriendo",
-                   TEXTO, 17, peso="600"))
-    p.append(texto(ANCHO / 2, 66,
-                   "12 peticiones de w = 0.5 s; el latido es una tarea que corre cada 10 ms",
-                   SUAVE, 14))
-    p.append(_leyenda(94, [("espera", "espera (time.sleep): el hilo duerme, la CPU está libre"),
-                           ("ejecuta", "latido: una marca cada 10 ms (a escala)")], x=24))
+                   "Lo que cuenta no es async o def, sino si la espera bloquea el hilo o lo cede",
+                   TEXTO, 18, peso="600"))
+    p.append(texto(ANCHO / 2, 66, "12 peticiones, cada una espera w = 0.5 s", SUAVE, 14))
+    p.append(_leyenda(94, [("espera", "espera: no usa CPU"),
+                           ("lista", "lista: espera su turno en el loop"),
+                           ("libre", "libre")], x=24))
+    p.append(_rect(24, 112, 2, 14, ACENTO))
+    p.append(_rect(30, 112, 2, 14, ACENTO))
+    p.append(texto(40, 124, "latido: un tic que el servidor anota cada 10 ms; "
+                   "si el loop está bloqueado, los tics se detienen", TEXTO, 13, anclaje="start"))
 
-    # Panel A.
-    p.append(texto(24, 134, "a) async def con una espera bloqueante: todo pasa por el loop",
-                   AMBAR, 16, anclaje="start", peso="600"))
-    ya = 158
-    p.append(_rejilla(xs, ya - 6, ya + 124, eje_max))
-    p.append(texto(X0 - 16, ya + 24, "peticiones", TEXTO, 14, anclaje="end", peso="600"))
-    p.append(texto(X0, ya - 8, "loop: hilo dormido, no atiende a nadie (la CPU está libre)",
-                   CIAN, 13, anclaje="start", peso="600"))
-    paso = xs(W_S) - X0
-    for i in range(PETICIONES):
-        x = xs(i * W_S)
-        p.append(_barra("espera", x, ya, paso, 40))
-        p.append(texto(x + paso / 2, ya + 17, f"p{i + 1}", CIAN, 13, peso="600"))
-        p.append(texto(x + paso / 2, ya + 33, "duerme", CIAN, 13))
-    p.append(texto(X0 - 16, ya + 74, "latido del loop", TEXTO, 14, anclaje="end", peso="600"))
-    # El loop corre los 12 handlers seguidos: el latido sólo late antes y después.
-    for t in (0, total_async):
-        p.append(_latido(xs, ya + 58, 24, t, t + 0.02))
-    p.append(_linea(xs(0.03), ya + 96, xs(total_async), ya + 96, AMBAR, 2))
-    p.append(texto(X0, ya + 118,
-                   "el latido no corre en 6 s: hueco máximo ≈ 12·w (el loop no corre mientras "
-                   "una petición duerme)",
-                   AMBAR, 14, anclaje="start", peso="600"))
-    p.append(_linea(xs(total_async), ya - 6, xs(total_async), ya + 124, AMBAR, 2, "6 4"))
-    p.append(texto(xs(total_async) - 8, ya + 76, "fin: 6 s", AMBAR, 14,
-                   anclaje="end", peso="600"))
-    p.append(_eje(xs, ya + 130, eje_max))
-    p.append(texto(ANCHO / 2, ya + 184,
-                   "12 peticiones en serie: 12 × 0.5 s = 6 s, y time.sleep no cede el control",
-                   AMBAR, 14, peso="600"))
-
-    # Panel B.
-    yb = 380
-    p.append(texto(24, yb - 18, "b) def: el servidor la manda a un hilo del limitador de hilos",
-                   CIAN, 16, anclaje="start", peso="600"))
-    p.append(_rejilla(xs, yb - 6, yb + 280, eje_max))
-    p.append(texto(X0 - 16, yb + 18, "latido del loop", TEXTO, 14, anclaje="end", peso="600"))
-    p.append(_latido(xs, yb, 26, 0, eje_max))
-    p.append(texto(X0, yb + 46,
-                   "hueco máximo < 0.1 s: el loop sigue corriendo mientras las 12 peticiones duermen",
-                   ACENTO, 14, anclaje="start", peso="600"))
-    for i in range(PETICIONES):
-        y = yb + 62 + i * 17
-        p.append(texto(X0 - 16, y + 11, f"hilo {i + 1}: p{i + 1}", SUAVE, 13, anclaje="end"))
-        p.append(_rect(xs(0) + 1, y, xs(W_S) - X0 - 2, 13, "none", CIAN, 1.4, "5 3"))
-    p.append(_linea(xs(W_S), yb + 54, xs(W_S), yb + 276, AMBAR, 2, "6 4"))
-    p.append(texto(xs(W_S) + 10, yb + 150, "las 12 terminan en 0.5 s", AMBAR, 14,
-                   anclaje="start", peso="600"))
-    p.append(texto(xs(W_S) + 10, yb + 172, "cada hilo duerme 0.5 s, a la vez", TEXTO, 13,
+    ya = 160
+    yr = _panel(p, xs, ya, "a) async def con time.sleep: el loop es UN solo hilo y sleep lo bloquea",
+                AMBAR, "a", "total: 12 × 0.5 s = 6 s, una petición a la vez")
+    p.append(texto(xs(3.1), yr + PASO * 1 + 11, "rayado: lista, espera al loop", VIOLETA, 13,
                    anclaje="start"))
-    p.append(texto(xs(W_S) + 10, yb + 196, "duermen sin usar CPU; tope: 40 hilos (limitador)",
+    p.append(texto(xs(3.1), yr + PASO * 3 + 11, "contorno: duerme 0.5 s y bloquea el hilo",
+                   CIAN, 13, anclaje="start"))
+    p.append(texto(xs(3.1), yr + PASO * 5 + 11, "sleep no cede el hilo: p2 no arranca hasta que p1 termina",
+                   TEXTO, 13, anclaje="start"))
+
+    yb = ya + 338
+    yr = _panel(p, xs, yb, "b) def con time.sleep: cada petición va a su propio hilo",
+                CIAN, "b", "total: 0.5 s, las 12 duermen a la vez")
+    p.append(texto(xs(0.5) + 12, yr + PASO * 3 + 11, "las 12 duermen a la vez, cada una en su hilo",
+                   TEXTO, 13, anclaje="start"))
+    p.append(texto(xs(0.5) + 12, yr + PASO * 5 + 11, "duermen sin usar CPU; tope: 40 hilos (limitador)",
                    SUAVE, 13, anclaje="start"))
-    p.append(_eje(xs, yb + 280, eje_max))
-    p.append(texto(ANCHO / 2, yb + 336,
-                   "los hilos duermen y no el loop: 12 peticiones caben en unos 0.5 s "
-                   "y el latido no se interrumpe",
-                   CIAN, 14, peso="600"))
+
+    yc = yb + 338
+    yr = _panel(p, xs, yc, "c) async def con await asyncio.sleep: await cede el hilo",
+                ACENTO, "c", "total: 0.5 s, las 12 esperan a la vez en el mismo hilo")
+    p.append(texto(xs(0.5) + 12, yr + PASO * 3 + 11, "las 12 esperan a la vez, todas en el mismo hilo",
+                   TEXTO, 13, anclaje="start"))
+    p.append(texto(xs(0.5) + 12, yr + PASO * 5 + 11, "await cede el hilo: el loop atiende a las demás",
+                   SUAVE, 13, anclaje="start"))
     p.append(cierre())
     return "".join(p)
 

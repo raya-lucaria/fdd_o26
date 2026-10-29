@@ -1,62 +1,57 @@
 # %% [markdown]
-# ## 11.1 · D1: `async def` frente a `def` con 12 peticiones simultáneas
+# ## 11.1 · D1: la misma espera de 0.5 s, escrita de tres maneras
 #
-# **Qué se va a ver.** El servidor tiene dos endpoints que hacen lo mismo,
-# dormir `s` segundos con `time.sleep` (una espera que **bloquea** el hilo que
-# la ejecuta), y se diferencian sólo en cómo están declarados:
+# **Qué se va a ver.** El servidor tiene tres endpoints que hacen lo mismo:
+# esperar `s = 0.5` segundos y responder. Cambia sólo **cómo** esperan. Se
+# mandan **12 peticiones simultáneas** a cada uno, contra **un solo worker**,
+# y se mide con `time.monotonic` el **total**: desde que salen las 12 hasta que
+# todas contestan. También se lee el **latido** del servidor:
 #
-# - `/async-bloqueante` es `async def`: FastAPI lo ejecuta **en el hilo del
-#   event loop**. Mientras duerme, el loop no atiende nada más.
-# - `/def-bloqueante` es `def`: FastAPI lo **desplaza** a un pool de hilos (el
-#   limitador de AnyIO admite 40 a la vez por defecto), y el loop queda libre.
+# - el servidor anota un tic cada 10 ms;
+# - si el loop está libre hay un tic cada 10 ms (hueco ≈ 0.01 s); si el loop
+#   está bloqueado, los tics se detienen;
+# - el hueco más largo entre tics es cuánto tiempo estuvo bloqueado el loop.
 #
-# La celda manda **12 peticiones simultáneas** con `w = 0.5 s` a cada endpoint,
-# una modalidad tras otra, contra un **solo worker**, y mide con
-# `time.monotonic` el **total**: desde que salen las 12 hasta que todas
-# contestan.
+# La celda llama a `POST /reinicia` (pone el latido a cero) antes de cada
+# versión y a `GET /latido` (devuelve `max_gap`, el hueco más largo) al
+# terminar.
 #
-# **El latido, paso a paso.** Para comprobar que el loop quedó bloqueado, el
-# servidor agrega al loop una tarea más, el latido:
+# 1. `/def-bloqueante` es una función `def` con `time.sleep(0.5)`. FastAPI
+#    manda cada petición a **su propio hilo**; cada hilo se duerme por su
+#    cuenta y las 12 esperas corren a la vez. Total esperado: **≈ 0.5 s**.
+# 2. `/async-bloqueante` es una función `async def` con `time.sleep(0.5)`. Una
+#    `async def` corre en el hilo del **event loop**, que es **un solo hilo**,
+#    y `time.sleep` **bloquea** ese hilo: nada más avanza hasta que termina.
+#    Las 12 esperas se hacen una tras otra: 12 × 0.5. Total esperado: **≈ 6 s**.
+# 3. `/async-await` es una función `async def` con `await asyncio.sleep(0.5)`.
+#    También corre en el hilo del loop, pero `await` **cede el turno**: el
+#    loop deja esa petición esperando y atiende las otras 11. Las 12 esperas
+#    se traslapan. Total esperado: **≈ 0.5 s**.
 #
-# 1. Hace `await asyncio.sleep(0.01)` y, al despertar, anota cuánto tiempo pasó
-#    desde la vez anterior. Ese tiempo es el **hueco**.
-# 2. Con el loop libre, el latido recibe turno en cuanto vence su espera de
-#    10 ms: el hueco es de unos 10 ms.
-# 3. Con `async def`, cada petición hace `time.sleep(0.5)` sin `await`: el hilo
-#    del loop duerme y no cede el turno. El latido ya cumplió sus 10 ms, así
-#    que está **lista** (como en los Gantt: puede avanzar y no tiene turno).
-# 4. El loop pasa de una petición a la siguiente sin dejar turno al latido, que
-#    no corre hasta que terminan las 12: hueco aproximado de 12·0.5 = 6 s.
-# 5. Con `def`, el `sleep` ocurre en hilos aparte, el loop sigue libre y el
-#    latido corre cada 10 ms.
-#
-# `GET /latido` devuelve el **hueco máximo** (`max_gap`) y el número de ticks;
-# `POST /reinicia` los pone a cero. La celda reinicia antes de cada modalidad y
-# lee `/latido` al terminar.
-#
-# Cuenta aproximada: con `async def` las esperas se ejecutan una tras otra,
-# `T ≈ 12·w = 6 s`. Además el loop corre los 12 handlers **seguidos**, sin
-# dejar correr a la tarea del latido entre uno y otro, así que el hueco máximo
-# es de **≈ 12·w ≈ 6 s**, no de `w`; con `def` corren a la vez en hilos, `T ≈ w = 0.5 s` (más
-# algo de costo fijo) y el hueco sigue siendo pequeño (< 0.1 s). Son
-# aproximaciones; lo que se verifica son rangos. Antes de medir, la celda abre
-# las 12 conexiones con una petición a `/quien` cada una (calentamiento), para
-# que el tiempo de establecerlas no se mezcle con la espera. El servidor se
-# lanza dentro de la celda y se cierra en un `finally`.
+# Antes de medir, la celda abre las 12 conexiones con una petición a `/quien`
+# cada una (calentamiento), para que el tiempo de establecerlas no se mezcle
+# con la espera. El servidor se lanza dentro de la celda y se cierra en un
+# `finally`; todo el bloque tiene un plazo de 60 s.
 
 # %%
 # celda 11.1
 import asyncio
 import httpx
 
-W = 0.5          # segundos que duerme cada petición
+W = 0.5          # segundos que espera cada petición
 N_PETICIONES = 12
 
 LIMITES = httpx.Limits(max_connections=20, max_keepalive_connections=20)
 PLAZOS = httpx.Timeout(30.0)       # lectura de 30 s: mayor que 2*12*w = 12 s
 
+VERSIONES = (
+    ("def + time.sleep", "cada petición va a su hilo", "/def-bloqueante"),
+    ("async def + time.sleep", "un hilo, el sleep lo bloquea", "/async-bloqueante"),
+    ("async def + await asyncio.sleep", "await cede el hilo", "/async-await"),
+)
 
-async def mide_modalidad(base, ruta):
+
+async def mide_version(base, ruta):
     """12 peticiones simultáneas a `ruta`; devuelve (total, hueco máximo del latido)."""
     async with httpx.AsyncClient(limits=LIMITES, timeout=PLAZOS) as cliente:
         # calienta las 12 conexiones (keep-alive) antes de medir
@@ -67,57 +62,60 @@ async def mide_modalidad(base, ruta):
         respuestas = await asyncio.gather(*(
             cliente.get(f"{base}{ruta}?s={W}") for _ in range(N_PETICIONES)))
         total = time.monotonic() - t0
-
-        latido = (await cliente.get(base + "/latido")).json()
+        hueco = (await cliente.get(base + "/latido")).json()["max_gap"]
     assert all(r.status_code == 200 for r in respuestas)
-    return total, latido["max_gap"], latido["ticks"]
+    return total, hueco
 
 
 proc = lanza_servidor()
 try:
     print(f"servidor en {proc.url} (un worker)")
-    resultados = {}
+    totales = {}
     async with asyncio.timeout(60):                      # plazo global
-        for etiqueta, ruta in (("async def", "/async-bloqueante"),
-                               ("def", "/def-bloqueante")):
-            print(f"midiendo {etiqueta} ...")
-            resultados[etiqueta] = await mide_modalidad(proc.url, ruta)
+        for nombre, _, ruta in VERSIONES:
+            print(f"midiendo {nombre} ...")
+            totales[nombre] = await mide_version(proc.url, ruta)
 finally:
     detiene_servidor(proc)
 
-print(f"\n{N_PETICIONES} peticiones simultáneas, w = {W} s")
-print(f"{'modalidad':<10} {'total (s)':>10} {'hueco máx. del latido (s)':>26}")
-for etiqueta, (total, hueco, ticks) in resultados.items():
-    print(f"{etiqueta:<10} {total:>10.2f} {hueco:>26.3f}")
-print(f"esperado: async def ~ {N_PETICIONES * W:.1f} s y hueco ~ {N_PETICIONES * W:.1f} s; "
-      f"def ~ {W:.1f} s y hueco < 0.1 s")
+print(f"\n{N_PETICIONES} peticiones simultáneas, cada una espera {W} s")
+print(f"{'versión':<33} {'qué pasa':<30} {'total (s)':>9} {'hueco máx. latido (s)':>22}")
+for nombre, que_pasa, _ in VERSIONES:
+    total, hueco = totales[nombre]
+    print(f"{nombre:<33} {que_pasa:<30} {total:>9.2f} {hueco:>22.3f}")
+print(f"esperado: total ~{W} s, ~{N_PETICIONES * W:.1f} s y ~{W} s; "
+      f"hueco < 0.1 s, ~{N_PETICIONES * W:.1f} s y < 0.1 s")
+print("\nLo que importa no es la palabra async, sino si la espera BLOQUEA el hilo "
+      "o lo CEDE.")
 
-t_async, h_async, _ = resultados["async def"]
-t_def, h_def, _ = resultados["def"]
-assert t_async >= 8 * W and t_def <= 3 * W, "los totales salen del rango esperado"
-assert h_async >= 4 * W and h_def < 0.1, "el hueco del latido sale del rango esperado"
+(t_def, h_def), (t_blq, h_blq), (t_aw, h_aw) = (totales[n] for n, _, _ in VERSIONES)
+assert t_blq >= 4 and h_blq >= 2, "la espera bloqueante debía tardar y bloquear el loop"
+assert t_def <= 1.5 and t_aw <= 1.5, "las esperas que no bloquean el loop debían traslaparse"
+assert h_def < 0.1 and h_aw < 0.1, "el loop debía seguir libre"
 
 # %% [markdown]
 # ### Salida esperada de la celda 11.1
 #
-# Una tabla con dos renglones y valores **en rangos**, no exactos:
+# Una tabla con tres renglones, total y hueco máximo del latido **en rangos**,
+# no exactos:
 #
-# - `async def`: total **cercano a 6 s** (al menos 4 s; las 12 esperas se
-#   sirvieron una tras otra) y hueco máximo del latido **también cercano a
-#   6 s** (al menos 2 s): el loop ejecutó los 12 handlers seguidos y la tarea
-#   del latido no pudo volver a correr en todo ese tiempo (no sólo durante una
-#   espera de `w = 0.5 s`).
-# - `def`: total **cercano a 0.5 s** (no más de 1.5 s) y hueco máximo
-#   **menor que 0.1 s**: las esperas corrieron en hilos y el loop siguió
-#   corriendo su latido cada ~10 ms.
+# - `def + time.sleep`: total **cerca de 0.5 s** (no más de 1.5 s) y hueco
+#   **menor que 0.1 s**. Las 12 esperas corrieron a la vez, cada una en su
+#   hilo, y el loop siguió libre.
+# - `async def + time.sleep`: total **cerca de 6 s** (al menos 4 s) y hueco
+#   **también cerca de 6 s** (al menos 2 s). Las 12 esperas se hicieron una
+#   tras otra porque `time.sleep` bloqueó el único hilo del loop, sin dejar
+#   correr los tics.
+# - `async def + await asyncio.sleep`: total **cerca de 0.5 s** (no más de
+#   1.5 s) y hueco **menor que 0.1 s**. El `await` cedió el hilo y las 12
+#   esperas se traslaparon.
 #
-# Si `async def` sale cerca de 0.5 s o `def` cerca de 6 s, revisa que el
-# servidor tenga un solo worker y que no cambiaste `time.sleep` por
-# `await asyncio.sleep` (esa versión **no** bloquea el loop). **Lectura.** No
-# se bloqueó la CPU, se bloqueó el **loop**: mientras un `async def` llama a
-# `time.sleep`, ninguna otra corrutina avanza, incluida la del latido. Un `def`
-# llamado desde dentro de un `async def` no se desplaza: corre en el hilo del
-# loop.
+# Al final, una línea con la conclusión. Si el segundo renglón sale cerca de
+# 0.5 s, revisa que el servidor tenga un solo worker. **Lectura.** Las
+# versiones 2 y 3 son las dos `async def`; la diferencia no está en esa palabra
+# sino en la línea de espera: `time.sleep` **bloquea** el hilo del loop,
+# `await asyncio.sleep` lo **cede**. Un `def` llamado desde dentro de un
+# `async def` no se desplaza a otro hilo: corre en el hilo del loop.
 
 # %% [markdown]
 # ## 11.2 · Presupuesto de conexiones: R × N × k

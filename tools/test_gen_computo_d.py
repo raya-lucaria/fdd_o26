@@ -146,21 +146,32 @@ def test_ancla_servidor_hace_la_cuenta_de_conexiones():
 
 def test_async_contra_def_sale_de_los_datos():
     d = _cargar("gen_computo_d")
-    assert (d.PETICIONES, d.W_S, d.LATIDO_MS) == (12, 0.5, 10)
+    assert (d.PETICIONES, d.W_S) == (12, 0.5)
     assert d.PETICIONES * d.W_S == 6
     svg = _svg("cmp-async-vs-def")
-    for pedazo in ("12 × 0.5 s = 6 s", "w = 0.5 s", "cada 10 ms", "latido del loop",
-                   "el latido no corre en 6 s: hueco máximo ≈ 12·w",
-                   "hueco máximo &lt; 0.1 s", "las 12 terminan en 0.5 s", "40 hilos",
-                   "loop: hilo dormido, no atiende a nadie", "con def, el loop sigue corriendo"):
+    for pedazo in ("sino si la espera bloquea el hilo o lo cede",
+                   "a) async def con time.sleep: el loop es UN solo hilo y sleep lo bloquea",
+                   "b) def con time.sleep: cada petición va a su propio hilo",
+                   "c) async def con await asyncio.sleep: await cede el hilo",
+                   "total: 12 × 0.5 s = 6 s", "total: 0.5 s, las 12 duermen a la vez",
+                   "total: 0.5 s, las 12 esperan a la vez en el mismo hilo",
+                   "loop (1 hilo)", "dormido de 0 a 6 s", "libre mientras esperan",
+                   "lista, espera al loop", "40 hilos"):
         assert pedazo in svg, pedazo
+    assert svg.count(">loop (1 hilo)<") == 3
     assert "sonda" not in svg
+    for pedazo in ("latido: un tic que el servidor anota cada 10 ms; si el loop está "
+                   "bloqueado, los tics se detienen",
+                   "sin tics: el loop estuvo bloqueado 6 s"):
+        assert pedazo in svg, pedazo
+    assert svg.count(">latido<") == 3 and svg.count("el loop sigue vivo") == 2
+    # Tics a escala: (a) 2 antes y 100 después del hueco de 6 s; (b) y (c) 700 cada uno.
+    assert len(re.findall(r'stroke-width="0.8"', svg)) == 2 + 100 + 700 + 700
     for i in range(1, 13):
-        assert f">p{i}<" in svg, f"falta la barra p{i}"
-        assert f"hilo {i}: p{i}" in svg, f"falta el hilo {i}"
-    # Latido a escala: en (b) una marca cada 10 ms durante 7 s; en (a) sólo dos ráfagas de 20 ms (antes y después de los 6 s).
-    marcas = len(re.findall(r'stroke-width="0.8"', svg))
-    assert marcas == 700 + 2 * 2, marcas
+        assert svg.count(f">p{i}<") == 2 and f"hilo {i}: p{i}" in svg, f"fila p{i}"
+    # 11 filas listas (rayado) en el panel (a): p1 arranca de inmediato.
+    assert svg.count('fill="url(#rayado)"') == 11 + 1   # 11 barras + el cuadro de la leyenda
+    assert 'id="rayado"' in svg
 
 
 def test_gantt_resultados_dice_cuando_se_entera_cada_uno():
