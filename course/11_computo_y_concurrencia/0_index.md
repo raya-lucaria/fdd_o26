@@ -63,6 +63,10 @@ Jueves 29 de octubre, 19:00–20:30. Generaliza lo anterior: quién ejecuta, cu�
 
 Martes 3 de noviembre, 19:00–20:30. En preparación: presupuestar una carga (LLM, motor tabular, ETL), trabajos que sobreviven a la petición y elegir con números.
 
+### Tarea de la unidad
+
+DataCamp *Introduction to FastAPI* (vence el 3 de noviembre) y la instalación de Antigravity, que no se entrega: están en [[entregas-computo]].
+
 ## Glosario breve
 
 Todos los términos se definen primero en [[notacion-computo]] (página 0) y se repiten, con las mismas palabras, en la página donde se usan.

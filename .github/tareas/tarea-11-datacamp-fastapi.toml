@@ -1,0 +1,83 @@
+# Ficha de la entrega de la unidad 11 (cómputo y concurrencia): DataCamp,
+# Introduction to FastAPI. El esquema está en .github/tareas/README.md.
+
+[tarea]
+branch = "tarea-11-datacamp-fastapi"
+asignacion = "datacamp-fastapi"
+carpeta = "fastapi"
+available = "2026-10-30"
+due = "2026-11-03"
+penalizacion_tarde = "1/dia"
+ia = "permitida-revisada"
+debe_explicar = [
+  "qué es una ruta en FastAPI y qué hace el decorador que la declara",
+  "qué diferencia hay entre un parámetro de ruta y uno de consulta",
+  "qué hace FastAPI cuando el cuerpo de una petición no cumple el modelo",
+  "qué cambia entre un endpoint declarado con def y uno con async def",
+  "la cosa que escribió en «Una cosa que aprendiste»: debe poder contarla sin leerla",
+]
+pagina = "Página «Las entregas de cómputo y concurrencia» (https://rayalucaria.org/fdd_o26/computo-y-concurrencia/b-entregas/)"
+
+[entregables]
+requeridos = ["certificaciones.md"]
+prohibidos = []
+
+[[capturas]]
+nombre = "introduccion-fastapi"
+extensiones = [".png", ".jpg", ".jpeg"]
+minimo_bytes = 5000
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "Quién soy"
+pide = []
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "Introduction to FastAPI"
+pide = ["fecha-iso", "url"]
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "Una cosa que aprendiste"
+pide = []
+
+[[patrones]]
+archivo = "certificaciones.md"
+seccion = "Introduction to FastAPI"
+debe = 'https?://(www\.)?datacamp\.com/(completed|statement)\S+'
+que = "la URL de la sección del curso no es la de un Statement of Accomplishment de DataCamp"
+porque = "quien revisa verifica el curso en un clic con esa URL; una dirección de otro sitio no prueba nada"
+investiga = "Página «Las entregas de cómputo y concurrencia»: ¿qué dirección te da DataCamp al terminar el curso, y cuál pegaste?"
+nivel = "aviso"
+
+[revision]
+foco = [
+  "que la captura sea la página del curso terminado al 100 % o el Statement of Accomplishment, con el nombre del alumno",
+  "que la URL abra un Statement of Accomplishment de este curso y no de otro",
+  "que la fecha sea verosímil: no futura, ni anterior al 2026-10-30 sin explicación",
+  "que «Una cosa que aprendiste» sea concreta y salga del temario del curso",
+  "si el alumno reporta que no terminó, que lo diga en el archivo: reportar el pendiente cuenta como entrega",
+]
+igual_es_normal = [
+  "el texto de la plantilla de certificaciones.md: rótulos y enlace a la captura",
+  "la composición de la captura: todos fotografían la misma página de DataCamp",
+  "fechas iguales entre entregas: casi todos terminan el fin de semana",
+]
+debe_ser_propio = [
+  "la captura, con su nombre visible",
+  "la sección «Una cosa que aprendiste»",
+]
+senales = [
+  "captura de un ejercicio suelto o del panel de inicio en vez de la página del curso o del Statement of Accomplishment",
+  "captura sin nombre visible, o con otro nombre",
+  "captura idéntica en bytes a la de otra entrega",
+  "URL de Statement of Accomplishment de otro curso",
+  "«Una cosa que aprendiste» con un tema que no está en el curso: el curso tiene tres capítulos (conceptos básicos de FastAPI, temas avanzados con parámetros y async, y una API CRUD en JSON con pruebas); colas de trabajos, WebSockets o autenticación no están",
+  "el pull request trae archivos de clase-11-computo/ o de otra carpeta: la branch nació de otra entrega y no de main",
+]
+donde_investigar = [
+  "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/b-entregas/",
+  "https://www.datacamp.com/courses/introduction-to-fastapi",
+  "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/",
+]

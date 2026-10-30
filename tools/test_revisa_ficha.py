@@ -1127,6 +1127,88 @@ def test_py_en_la_carpeta_de_la_otra_entrega_falla(monkeypatch, capsys):
 
 
 # --------------------------------------------------------------------------
+# tarea-11-datacamp-fastapi
+# --------------------------------------------------------------------------
+
+PLANTILLA_FA = (RAIZ / "codigo/fastapi/certificaciones.md").read_text(encoding="utf-8")
+CAP_FA = "estudiantes/ana/fastapi/introduccion-fastapi.png"
+CERT_FA = "estudiantes/ana/fastapi/certificaciones.md"
+
+
+def _fa(fecha="2026-10-30", url=URL_SOA,
+        aprendi="Que FastAPI valida el cuerpo con un modelo y contesta 422 si no cumple."):
+    """La plantilla llena como la llenaria un alumno. La fecha por omision es
+    la de apertura: nunca es futura, corra el test el dia que corra."""
+    t = PLANTILLA_FA
+    t = t.replace("- Usuario de GitHub:", "- Usuario de GitHub: ana")
+    t = t.replace("- Usuario de DataCamp:", "- Usuario de DataCamp: ana-dc")
+    t = t.replace("Fecha en que lo terminaste (AAAA-MM-DD):",
+                  f"Fecha en que lo terminaste (AAAA-MM-DD): {fecha}")
+    t = t.replace("URL del Statement of Accomplishment:",
+                  f"URL del Statement of Accomplishment: {url}")
+    marca = "## Una cosa que aprendiste y no sabías\n"
+    assert marca in t
+    return t.replace(marca, marca + "\n" + aprendi + "\n") if aprendi else t
+
+
+def test_fa_bien_entregada_pasa(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        CERT_FA: _fa(), CAP_FA: PNG}) == 0, capsys.readouterr().out
+
+
+def test_fa_plantilla_sin_tocar_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        CERT_FA: PLANTILLA_FA, CAP_FA: PNG}) == 1
+
+
+def test_fa_fecha_que_no_es_iso_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        CERT_FA: _fa(fecha="3 de noviembre de 2026"), CAP_FA: PNG}) == 1
+
+
+def test_fa_sin_url_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        CERT_FA: _fa(url=""), CAP_FA: PNG}) == 1
+
+
+def test_fa_sin_captura_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {CERT_FA: _fa()}) == 1
+
+
+def test_fa_sin_aprendiste_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        CERT_FA: _fa(aprendi=""), CAP_FA: PNG}) == 1
+
+
+def test_fa_url_que_no_es_de_datacamp_solo_avisa(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        CERT_FA: _fa(url="https://example.com/mi-certificado"), CAP_FA: PNG}) == 0
+    assert "AVISO" in capsys.readouterr().out
+
+
+def test_fa_en_la_carpeta_de_otra_entrega_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-datacamp-fastapi", {
+        "estudiantes/ana/python/certificaciones.md": _fa(),
+        "estudiantes/ana/python/introduccion-fastapi.png": PNG}) == 1
+
+
+TABLERO_C = RAIZ / "course/11_computo_y_concurrencia/B_entregas.md"
+
+
+def test_el_tablero_de_computo_nombra_branch_carpeta_y_fecha():
+    t = TABLERO_C.read_text(encoding="utf-8")
+    assert "`tarea-11-datacamp-fastapi`" in t and "`fastapi/`" in t
+    assert t.count("2026-11-03") >= 3
+    assert "**Acabaste cuando**" in t and "no se entrega" in t
+
+
+def test_el_aviso_de_antigravity_no_pide_evidencia():
+    y = (RAIZ / "course/11_computo_y_concurrencia/_official/assignments/"
+         "2_antigravity.yaml").read_text(encoding="utf-8")
+    assert "points: 0" in y and "no se entrega" in y.lower()
+
+
+# --------------------------------------------------------------------------
 # tarea-09-uv-docker
 # --------------------------------------------------------------------------
 

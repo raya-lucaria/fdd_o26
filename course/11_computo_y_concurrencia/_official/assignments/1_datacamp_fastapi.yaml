@@ -1,0 +1,80 @@
+id: datacamp-fastapi
+type: assignment
+authority: official
+content:
+  title: "DataCamp: Introduction to FastAPI"
+  instructions: >-
+    Termina el curso Introduction to FastAPI de DataCamp antes de la clase del
+    3 de noviembre y sube la evidencia por el flujo del curso. Son unas cuatro
+    horas, en tres capítulos: lo básico de FastAPI, parámetros y asincronía, y
+    una API CRUD con pruebas. El enlace está abajo, en los recursos, y entras
+    con la cuenta del grupo de DataCamp del ITAM, la misma de siempre. La
+    clase del 3 de noviembre da por sabido lo que el curso entrena: qué es una
+    ruta, qué hace un endpoint async y qué valida el servidor antes de
+    contestar.
+    La entrega va en una carpeta llamada fastapi, dentro de tu carpeta de
+    estudiante, y es espejo de la que publiqué en codigo. Se copia desde la
+    terminal con el comando de siempre, con la barra y el punto al final del
+    origen, y no se crea a mano ni se arrastra en el explorador de archivos.
+    Ojo con el nombre: es fastapi, a secas, en minúsculas.
+    Deben quedar dos archivos. El primero es certificaciones punto md, la
+    plantilla que copiaste, con sus tres secciones llenas: tus usuarios de
+    GitHub y de DataCamp, sin tu nombre completo ni tu correo, porque el
+    repositorio es público; la fecha en que terminaste el curso y la URL del
+    Statement of Accomplishment, que es la que se verifica en un clic; y una
+    cosa concreta que aprendiste y no sabías, en dos o tres líneas. El segundo
+    es la captura, llamada introduccion guion fastapi punto png, con ese
+    nombre exacto porque la plantilla ya la enlaza. Si te sale en jpg no pasa
+    nada, pero entonces corriges el enlace dentro del archivo. Un pdf no
+    sirve.
+    No se entrega nada más. La captura que sirve es la página del curso ya
+    terminado, donde se vean tu nombre y el cien por ciento completado, o tu
+    Statement of Accomplishment, que trae tu nombre y el curso. No sirve la de
+    un ejercicio suelto, ni la del panel de inicio, ni una donde no se
+    distinga de qué curso se trata.
+    La entrega es un pull request desde su propia branch, que se llama tarea
+    guion once guion datacamp guion fastapi, con ese nombre exacto, en
+    minúsculas y sin acentos, porque la revisión automática lo comprueba. La
+    branch nace de main, actualizado contra el repositorio del curso. Un pull
+    request toca una sola subcarpeta tuya, y éste toca fastapi y nada más.
+    Tu carpeta clase-11-computo, la de las demostraciones de la unidad, no
+    viaja en este pull request.
+    La fecha se escribe como año, guion, mes, guion, día: por ejemplo, el tres
+    de noviembre se escribe dos mil veintiséis guion once guion cero tres.
+    Otra forma, como tres de noviembre o tres diagonal once, la rechaza la
+    revisión automática, porque esa forma se lee igual en cualquier país y se
+    puede comparar con otras fechas sin adivinar.
+    Puedes usar inteligencia artificial para estudiar, pero tienes que poder
+    explicar sin ayuda qué es una ruta en FastAPI y qué hace el decorador que
+    la declara, en qué se distingue un parámetro de ruta de uno de consulta,
+    qué hace FastAPI cuando el cuerpo de una petición no cumple el modelo, qué
+    cambia entre un endpoint declarado con def y uno con async def, y la cosa
+    que escribiste en la sección de lo que aprendiste, contada sin leerla.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión
+    esté en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma
+    branch; el pull request se actualiza solo. El verde comprueba que todo
+    vive en tu carpeta, que la branch se llama como debe, que están el archivo
+    y la captura, que las tres secciones están llenas y que la fecha y la URL
+    tienen la forma pedida. No comprueba que la captura sea tuya ni de este
+    curso, ni que la URL abra tu certificado: eso lo reviso yo. Si no
+    alcanzaste a terminar el curso, sube lo que sí completaste y dilo en el
+    archivo: reportar el pendiente cuenta como entrega, presumir un avance que
+    no ocurrió no.
+  resources:
+    - title: "Unidad — Las entregas de cómputo y concurrencia"
+      url: "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/b-entregas/"
+      note: "El tablero de la unidad. Ésta es la entrega: branch tarea-11-datacamp-fastapi, carpeta fastapi/, con el ritual listo para copiar."
+    - title: "DataCamp — Introduction to FastAPI"
+      url: "https://www.datacamp.com/courses/introduction-to-fastapi"
+      note: "El curso de esta entrega. Entra con la cuenta del grupo del ITAM."
+    - title: "Unidad — El ritual"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
+      note: "Los tres bloques del flujo, con sus comandos exactos."
+    - title: "Unidad — El flujo del curso"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
+      note: "La regla del mirror y qué revisa, y qué no revisa, el check verde."
+  available: "2026-10-30"
+  due: "2026-11-03"
+  points: 20
+  status: published
+  tags: [fastapi, datacamp, certificacion, evidencia, entrega]

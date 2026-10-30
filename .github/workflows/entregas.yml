@@ -56,7 +56,8 @@ jobs:
             tarea-09-datacamp-python=python,
             tarea-09-uv-docker=09_python,
             tarea-09-por-dentro=09_python,
-            tarea-09-stack=09_python
+            tarea-09-stack=09_python,
+            tarea-11-datacamp-fastapi=fastapi
           # La regla de la branch (no entregar desde main) solo AVISA hasta
           # esta fecha, y a partir de ella rechaza. Existe porque el grupo ya
           # tenia pull requests abiertos desde main cuando la regla entro.
