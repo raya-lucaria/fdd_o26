@@ -4,7 +4,7 @@ title: "Cómo llegan los resultados"
 nav_title: "Cómo llegan los resultados"
 summary: "Cuando la respuesta no está lista, el cliente pregunta (polling, long polling) o recibe un aviso (SSE, WebSocket, webhook): cada opción cambia cuántas peticiones haces, cuánto tardas en enterarte y qué recurso retiene el servidor, con una cuenta de Little y la demostración D2."
 status: ready
-estimated_time: 20m
+estimated_time: 25m
 tags: [concurrencia, polling, long-polling, sse, websocket, webhook, little]
 prerequisites: [asincrono-y-el-event-loop, pools-y-recursos]
 ---
@@ -146,6 +146,94 @@ $$L=\lambda W$$
 Consulta [[asincrono-y-el-event-loop]] para hilos y tareas. Acota las sesiones como en [[concurrencia-acotada]].
 
 Decisión: usa SSE para servidor→cliente, WebSocket para comunicación bidireccional y webhook entre servicios con receptor accesible.
+
+## C. Elegir el canal
+
+**Definición.** Un **canal** es cómo recibes resultados; elegirlo decide quién empieza, qué queda abierto y qué retiene el servidor.
+
+**Idea y conclusión.**
+
+- Preguntar periódicamente puede demorar la detección; con avisos, el servidor envía cuando tiene novedades.
+- Polling pregunta cada cierto tiempo y no deja nada pendiente; long polling deja una petición esperando por cliente.
+- SSE y WebSocket retienen sesiones y memoria; el navegador abre primero.
+- Webhook no necesita peticiones pendientes entre avisos; debes reconocer eventos duplicados.
+- **Conclusión:** elige por quién debe empezar y cuántos clientes atenderás, no por moda.
+
+**Figura.**
+
+::: figure {#cmp-canales-eventos title="Los cinco canales para los mismos tres eventos"}
+![Diagrama temporal: eventos en 2, 5 y 9 s; polling cada 3 s responde en 3, 6 y 9. Long polling, SSE y WebSocket reciben cada evento al ocurrir; webhook muestra tres llamadas cortas.](_assets/cmp-canales-eventos.svg)
+:::
+
+Cómo leerla: compara cuándo ocurre cada evento y cuándo llega; se omiten las demoras de red y procesamiento.
+
+**Figura.** Un **balanceador** reparte conexiones entre servidores; un **endpoint** es una dirección donde un servidor recibe peticiones.
+
+::: figure {#cmp-canales-arquitectura title="Quién conecta con quién y qué retiene el servidor"}
+![Clientes → balanceador → servidores, con una conexión abierta por cliente SSE/WebSocket. Para webhook: tercero → endpoint público → cola de avisos pendientes → trabajador que los procesa.](_assets/cmp-canales-arquitectura.svg)
+:::
+
+Cómo leerla: cada sesión ocupa memoria; el dibujo supone una conexión por cliente. HTTP/2 permite compartir conexiones entre sesiones SSE del mismo navegador.
+
+| Canal | Úsalo cuando | Evítalo cuando | Ejemplo real | Frente a los otros |
+|---|---|---|---|---|
+| Polling | Buscas sencillez y toleras demora; funciona donde puedas hacer peticiones HTTP. | Muchos clientes consultan frecuentemente o casi nunca hay novedades. | Estado de una exportación. | Frente a long polling, no mantiene una consulta esperando novedades. |
+| Long polling | Necesitas baja demora sin cambiar HTTP; retiene una petición pendiente por cliente. | Los proxies, intermediarios HTTP, [cortan la espera antes de tu plazo](https://www.rfc-editor.org/rfc/rfc6202.html#section-5.5). | Llegada de mensajes. | Frente a SSE, renuevas la petición después de cada respuesta. |
+| SSE | Solo necesitas avisos del servidor por HTTP; el navegador intenta reconectar automáticamente con su receptor SSE. | Necesitas muchas pestañas en HTTP/1.1: [el navegador suele limitar a seis conexiones por dominio](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events). | Avance de una exportación. | Frente a WebSocket, simplifica recibir avisos sin enviar mensajes por ese canal. |
+| WebSocket | Ambos lados envían mensajes frecuentes. | No puedes gestionar reconexión y [configurar el balanceador para WebSocket](https://nginx.org/en/docs/http/websocket.html). | Edición colaborativa de documentos. | Frente a SSE, admite mensajes en ambos sentidos. |
+| Webhook | Otro servicio ofrece avisos hacia tu endpoint público. | No puedes responder rápido, verificar al emisor o tolerar avisos duplicados. | [Confirmación de pagos de Stripe](https://docs.stripe.com/webhooks). | Frente a polling, el proveedor avisa sin consultas periódicas. |
+
+Para webhooks, guarda el aviso antes de responder; procesa después. Sé **idempotente**: recibir dos veces el mismo aviso debe producir el mismo efecto que recibirlo una vez.
+
+**Costo.** Cada canal le cuesta algo distinto al servidor: peticiones, conexiones abiertas o llamadas.
+
+::: definition {#cmp-def-costo-canales title="Costo de cada canal con muchos clientes"}
+**Qué dice.** Polling cuesta **peticiones por segundo**, aunque no haya novedades. Long polling, SSE y WebSocket cuestan **conexiones abiertas**. Webhook cuesta **una llamada por evento** y nada abierto.
+
+**Variables.**
+
+- $n_{\text{cli}}$: clientes que esperan a la vez (clientes).
+- $\Delta$: segundos entre consultas del polling (s).
+
+**Fórmulas.**
+
+$$\text{polling}=\frac{n_{\text{cli}}}{\Delta}\ \text{consultas/s},\qquad \text{long polling, SSE, WebSocket}=n_{\text{cli}}\ \text{conexiones abiertas}$$
+
+**Por qué es así.**
+
+- En polling cada cliente consulta una vez cada $\Delta$ segundos; entre todos son $n_{\text{cli}}/\Delta$ por segundo, haya o no novedades.
+- En los otros tres cada cliente deja una conexión abierta mientras espera: son $n_{\text{cli}}$ a la vez (es la ley de Little de arriba).
+- En webhook el emisor llama solo cuando hay un evento: no hay consultas vacías ni conexiones abiertas.
+:::
+
+**Ejemplo paso a paso.**
+
+1. **Datos.** $n_{\text{cli}}=10\,000$ clientes, $\Delta=5$ s y un evento por cliente cada 10 minutos (supuestos).
+2. **Polling.** $10\,000/5=2\,000$ consultas por segundo.
+3. **Cuántas sirven.** Cada cliente hace $600/5=120$ consultas por evento: 119 llegan vacías, o sea 99 %.
+4. **SSE.** $10\,000$ conexiones abiertas y casi ninguna consulta.
+5. **Lectura.** Polling gasta peticiones; SSE gasta memoria y sesiones. Elige lo que tu servidor sostenga mejor: 2 000 consultas por segundo o 10 000 conexiones abiertas.
+
+**Mal elegido.**
+
+- Polling cada segundo, 10 000 clientes y eventos raros: miles de consultas por segundo casi siempre vacías. Usa SSE si necesitas avisos rápidos y puedes sostener esas sesiones.
+- Esperar el cobro de Stripe por WebSocket deja tu servidor sin ese aviso; usa su webhook.
+- Webhook hacia un navegador: no ofrece un endpoint público y el aviso no llega. Recíbelo en tu servidor y avisa mediante SSE.
+
+**Figura.**
+
+::: figure {#cmp-canales-decision title="¿Qué canal uso? Tres preguntas"}
+![Árbol por emisor: servidor hacia navegador lleva a WebSocket si el cliente envía seguido, o SSE si no. Tercero hacia servidor lleva a webhook; cliente que pregunta elige long polling con poca demora, o polling si tolera esperar.](_assets/cmp-canales-decision.svg)
+:::
+
+Cómo leerla: identifica quién debe enviar la novedad; después decide si necesitas enviar seguido o cuánto puedes esperar.
+
+**Resumen para decidir.**
+
+- Servidor → navegador: SSE; ambos envían seguido → WebSocket. El navegador abre primero.
+- Tercero → servidor público: webhook; cliente pregunta: long polling con poca demora, polling si toleras esperar.
+- Con SSE o WebSocket, más clientes simultáneos implican más sesiones retenidas. Cuenta las sesiones con la ley de Little de la caja anterior.
+- Si dudas, empieza con polling para pocos clientes; mide demora y consultas vacías.
 
 ## Si hay tiempo
 

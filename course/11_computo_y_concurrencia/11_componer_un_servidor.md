@@ -52,6 +52,14 @@ Decisión: suma los pools de todos los workers.
 
 ## B. `async def`, `def` y esperar sin bloquear
 
+**Idea y conclusión.**
+
+- El loop de cada worker es **un solo hilo**: ejecuta una tarea a la vez.
+- Si una petición espera **bloqueando** (`time.sleep`) dentro del loop, el hilo duerme y las demás peticiones hacen fila.
+- Si espera **cediendo** (`await asyncio.sleep`), el loop queda libre y atiende a las demás mientras tanto.
+- Con `def`, FastAPI manda cada petición a **su propio hilo**: duerme ese hilo y el loop sigue libre.
+- **Conclusión:** lo que importa no es la palabra `async`, sino si la espera **ocupa el hilo del loop** o no. Las esperas coinciden si ceden el turno o si ocurren en hilos aparte.
+
 **Términos.**
 
 | Término | Definición |
@@ -59,17 +67,16 @@ Decisión: suma los pools de todos los workers.
 | Loop | Único hilo que ejecuta, una por una, las tareas `async` de un worker. |
 | Bloquear / ceder | Bloquear duerme el hilo; ceder permite atender otras tareas durante la espera. |
 | Limitador de hilos | Restringe los hilos usados por FastAPI para funciones `def`. AnyIO ofrece $k_h=40$ tokens configurables por loop. |
-| Latido | Tic registrado cada 10 ms para comprobar que el loop sigue vivo. |
 
 **Definición.** Un **endpoint** responde a una dirección del servidor. FastAPI ejecuta `async def` en el loop y `def` mediante el limitador.
 
 **Figura.**
 
-::: figure {#cmp-async-vs-def title="Lo que cuenta no es async o def, sino si la espera bloquea el hilo o lo cede"}
-![Tres paneles con 12 peticiones de 0.5 s: async def con time.sleep tarda 6 s porque el loop se bloquea y el latido se detiene; def con time.sleep tarda 0.5 s porque cada petición usa su hilo; async def con await asyncio.sleep tarda 0.5 s porque await cede el hilo](_assets/cmp-async-vs-def.svg)
+::: figure {#cmp-async-vs-def title="El loop durante la espera"}
+![Tres paneles con 4 peticiones que esperan 0.5 s cada una: con async def y time.sleep las esperas son consecutivas y suman 2 s porque bloquean el loop; con def cada petición espera en su propio hilo y terminan en 0.5 s; con async def y await las esperas coinciden en 0.5 s porque await cede el loop](_assets/cmp-async-vs-def.svg)
 :::
 
-Cómo leerla: cada fila representa una petición. La última muestra el latido del loop.
+Cómo leerla: las barras consecutivas son esperas que se suman; las superpuestas, esperas que coinciden. En el dibujo son 4 peticiones; en la medición, 12.
 
 ::: definition {#cmp-def-srv-tiempo-espera title="Tiempo de n peticiones simultáneas que esperan"}
 **Qué dice.** El tiempo depende de bloquear el loop, ocupar tokens o ceder el hilo.
@@ -105,7 +112,7 @@ $$T_{\text{async + await}} \approx w$$
 5. **Contraste medido.** 6,02 s, 0,53 s y 0,52 s; el arranque explica las milésimas adicionales.
 6. **Lectura.** Con $n=100$, `def` requiere $\lceil 100/40\rceil=3$ rondas: 1,5 s. `await` conserva 0,5 s.
 
-**Medición (D1, celda 11.1).** Un worker recibe 12 peticiones simultáneas que esperan 0.5 s:
+**Cómo comprobarlo (D1, celda 11.1).** Un worker recibe 12 peticiones simultáneas que esperan 0.5 s. Además del tiempo total, el servidor anota un **latido**: un tic cada 10 ms. Si el loop está libre, hay un tic cada 10 ms; si está bloqueado, los tics se detienen. El **hueco máximo** es el intervalo más largo sin tics, es decir, cuánto tiempo estuvo bloqueado el loop.
 
 | Versión | Dónde corre | Qué pasa | Total medido | Hueco máximo del latido |
 |---|---|---|---|---|
@@ -113,7 +120,7 @@ $$T_{\text{async + await}} \approx w$$
 | `async def` con `time.sleep` | loop único | una petición cada vez | 6.02 s | 6.01 s |
 | `async def` con `await asyncio.sleep` | loop | `await` cede el hilo | 0.52 s | 0.01 s |
 
-El **hueco máximo** mide el intervalo sin tics. El bloqueo síncrono detuvo el loop casi todo el tiempo. Medido en 8 CPU.
+Con `async def` y `time.sleep`, el loop estuvo detenido casi todo el total: nadie más fue atendido. Medido en 8 CPU.
 
 **Arquitectura.**
 

@@ -1555,7 +1555,7 @@ DIAGRAMAS.update(DIAGRAMAS_B)
 
 # Bloques 11.2 y 11.3: páginas 9-10 en gen_computo_c.py y 11-12 en
 # gen_computo_d.py, cada uno con su catálogo; se suman igual.
-for _modulo, _nombre in (("gen_computo_c", "DIAGRAMAS_C"), ("gen_computo_d", "DIAGRAMAS_D")):
+for _modulo, _nombre in (("gen_computo_c", "DIAGRAMAS_C"), ("gen_computo_d", "DIAGRAMAS_D"), ("gen_computo_e", "DIAGRAMAS_E")):
     try:
         DIAGRAMAS.update(getattr(__import__(_modulo), _nombre))
     except ImportError:      # el módulo aún no existe
