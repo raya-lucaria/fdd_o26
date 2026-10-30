@@ -62,7 +62,7 @@ content:
     no ocurrió no.
   resources:
     - title: "Unidad — Las entregas de cómputo y concurrencia"
-      url: "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/b-entregas/"
+      url: "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/entregas/"
       note: "El tablero de la unidad. Ésta es la entrega: branch tarea-11-datacamp-fastapi, carpeta fastapi/, con el ritual listo para copiar."
     - title: "DataCamp — Introduction to FastAPI"
       url: "https://www.datacamp.com/courses/introduction-to-fastapi"

@@ -16,7 +16,7 @@ debe_explicar = [
   "qué cambia entre un endpoint declarado con def y uno con async def",
   "la cosa que escribió en «Una cosa que aprendiste»: debe poder contarla sin leerla",
 ]
-pagina = "Página «Las entregas de cómputo y concurrencia» (https://rayalucaria.org/fdd_o26/computo-y-concurrencia/b-entregas/)"
+pagina = "Página «Las entregas de cómputo y concurrencia» (https://rayalucaria.org/fdd_o26/computo-y-concurrencia/entregas/)"
 
 [entregables]
 requeridos = ["certificaciones.md"]
@@ -77,7 +77,7 @@ senales = [
   "el pull request trae archivos de clase-11-computo/ o de otra carpeta: la branch nació de otra entrega y no de main",
 ]
 donde_investigar = [
-  "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/b-entregas/",
+  "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/entregas/",
   "https://www.datacamp.com/courses/introduction-to-fastapi",
   "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/",
 ]
