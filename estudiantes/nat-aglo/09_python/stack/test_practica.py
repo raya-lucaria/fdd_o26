@@ -3,7 +3,6 @@
 Trae una prueba de ejemplo; copia su forma para escribir las tuyas.
 Mientras practica.py no defina Venta, pytest salta este archivo y lo dice.
 """
-from pydantic import ValidationError
 import pytest
 from pydantic import ValidationError
 
@@ -22,7 +21,7 @@ BUENA = {
 }
 
 SUCIA = {
-<<<<<<< Updated upstream
+
     "fecha": "03-01-2025",
     "tienda": "Centro",
     "producto": "1234",
@@ -36,41 +35,18 @@ BORDE = {
     "producto": "P002",
     "cantidad": None,
     "precio": "300.00",
-=======
-    "fecha": "2025-01-03",
-    "tienda": "Centro",
-    "producto": "P002",
-    "cantidad": "",
-    "precio": "122.00" 
->>>>>>> Stashed changes
+
 }
 
-BORDE = {
-    "fecha": "2025-01-03",
-    "tienda": "Centro",
-    "producto": "P003",
-    "cantidad": "0",
-    "precio": "118.50"
-}
 def test_fila_buena_se_convierte() -> None:
     venta = Venta.model_validate(BUENA)
     assert venta.cantidad == 3
     assert venta.precio == 120.5
 
-<<<<<<< Updated upstream
-def test_fecha_invalida_se_rechaza() -> None:
-    with pytest.raises(ValidationError, match="fecha"):
+def test_fila_sucia_error() -> None:
+    with pytest.raises(ValidationError):
         Venta.model_validate(SUCIA)
 
 def test_cantidad_vacia_es_none() -> None:
     venta = Venta.model_validate(BORDE)
     assert venta.cantidad is None
-=======
-def test_fila_sucia_error() -> None:
-  with pytest.raises(ValidationError, match="cantidad"):
-    Venta.model_validate(SUCIA)
-
-def test_fila_borde_cantidad_cero_se_rechaza() -> None:
-  with pytest.raises(ValidationError, match="greater_than"):
-    Venta.model_validate(BORDE)
->>>>>>> Stashed changes

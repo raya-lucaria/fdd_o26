@@ -26,8 +26,10 @@ $ pytest -v --no-header test_practica.py
 collected 3 items                                                                                                                               
 
 test_practica.py::test_fila_buena_se_convierte PASSED                                                                                     [ 33%]
-test_practica.py::test_fecha_invalida_se_rechaza PASSED                                                                                   [ 66%]
+test_practica.py::test_fila_sucia_error PASSED                                                                                            [ 66%]
 test_practica.py::test_cantidad_vacia_es_none PASSED                                                                                      [100%]
+
+=============================================================== 3 passed in 0.20s ===============================================================
 
 ## Salida de ruff
 
@@ -42,4 +44,3 @@ Pega la salida de `mypy practica.py`.
 
 $ mypy practica.py
 Success: no issues found in 1 source file
-
