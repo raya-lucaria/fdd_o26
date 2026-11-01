@@ -36,6 +36,7 @@ mediante pytest.raises(ValidationError).
 Una regla tuya, que salga de algo que viste en la clase o en la práctica, y
 por qué.
 
-Regla: Validar los datos de entrada una sola vez en la frontera de Pydantic y NUNCA repetir comprobaciones posteriores
-Por qué: Cada validacion consume tiempo en CPU y memoria. Centralizar las pruebas en la entrada asegura que los datos sean correctos desde el
-inicio, permitiendo que la parte analitica corra a su maxima velocidad sin frenos por pruebas redundantes.
+Regla: Manipular cualquier ruta de archivo o directorio exclusivamente a través de `pathlib.Path`.
+Por qué: (antes)Tratar rutas como strings a veces causa errores en otros SO (como diagonales / de Linux vs \ de Windows) y no valida si existe
+el archivo. Path encapsula el sistema de archivos: nos da la ruta exacta sin importar el SO (resuelve diferencias), nos da la opcion de 
+composicion de rutas por medio de '/', nos da varias opciones de metodos (como .parent para acceder a la carpeta padre), etc. 

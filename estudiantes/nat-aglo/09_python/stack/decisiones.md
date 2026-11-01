@@ -8,7 +8,13 @@ el stack escrito».
 | Qué cambié | Por qué | Qué patrón |
 |pd.Series con índices de pandas por pl.DataFrame de Polars|pandas usa su formato propio, por lo cual cuando una libreria externa necesita
 leer sus datos, ocupa reservar espacio, copiar y convertirlos para acceder a ellos. Polars guarda sus columnas usando el estandar Apache
-Arrow, por tanto si otra herramienta que comparte el estandar quieren leer los datos podran hacerlo con zero-copys (leen directamente).|Compartir vs copiar|
+Arrow, por tanto si otra herramienta que comparte el estandar quieren leer los datos podran hacerlo con zero-copys (leen directamente).|
+Compartir vs copiar|
+|df.apply(..., axis=1) por pl.col("cantidad") * pl.col("precio"|df.apply obliga al interprete de python a recorrer cada fila, construir un 
+objeto pd.Series y llamar a la funcion lambda. Polars no hace la multiplicacion fila por fila, sino define una expresion abstracta y se la
+entrega a su motor Rust, aprovechando vectorizacion y multihilo.| Fuera del intérprete es rápido|
+|Venta(**fila) por Venta.model_validate(fila)|Comprobar que un dato sea valido requiere tiempo, CPU y memoria. La solucion: validar 
+estricta y unicamente al inicio (en validar()) asegurandole al resto de las funciones la entrada de datos correctos. |Más garantías, más costo|
 
 ## Salida de pytest
 
