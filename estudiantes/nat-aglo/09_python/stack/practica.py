@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Tu versión de ventas_ia.py: la misma pregunta, con el stack de la clase.
 # Pydantic v2 en la frontera (una clase Venta) y Polars para agregar.
 # La prueba de ejemplo de test_practica.py importa Venta de este archivo.
@@ -11,6 +12,18 @@ import polars as pl
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 RUTA = pathlib.Path(__file__).resolve().parent / "ventas.csv"
+=======
+import csv
+from datetime import date
+import pathlib
+from typing import Any
+from pathlib import Path
+
+import polars as pl
+from pydantic import BaseModel, Field, ValidationError
+
+RUTA = pathlib.Path(__file__).resolve().parent / "prueba.py"
+>>>>>>> Stashed changes
 
 class Venta(BaseModel):
     model_config = ConfigDict( # otro cambio
@@ -21,11 +34,19 @@ class Venta(BaseModel):
     producto: str
     cantidad: int | None = Field(default = None, gt = 0)
     # Otra forma de agregar un valor por default y validar con v2
+<<<<<<< Updated upstream
     precio: float = Field(gt = 0)
 
 def lee_filas(ruta: str | Path) -> list[dict[str, Any]]:
     return pl.read_csv(ruta).to_dicts()
 #segun gemini, el metodo de polars es cache-friendly, es mas rapido
+=======
+    precio: float
+
+def lee_filas(ruta: str) -> list[dict[str, Any]]:
+    return pl.read_csv(ruta).to_dicts()
+#segun gemini, el metodo de polars es cache-friendly, es mas rapido (mas notorio a mayor magnitud, obvio), y su inferencia de tipos es automatica
+>>>>>>> Stashed changes
 
 def valida(filas: list[dict[str,Any]]) -> list[dict[str,Any]]:
     buenas = []
@@ -60,6 +81,7 @@ def total_por_tienda(buenas:list[dict[str, Any]]) -> pl.DataFrame: # cambio a po
     .group_by("tienda")
     .agg(pl.col("total").sum())
     .sort("total", descending = True)  
+<<<<<<< Updated upstream
     )
 
 if __name__ == "__main__":
@@ -68,3 +90,6 @@ if __name__ == "__main__":
     print(f"{len(buenas)} de {len(filas)} filas válidas")
     print(total_por_tienda(buenas))
     
+=======
+    )
+>>>>>>> Stashed changes

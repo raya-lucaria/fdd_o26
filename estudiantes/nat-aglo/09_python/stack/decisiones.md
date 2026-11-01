@@ -6,10 +6,17 @@ Al menos tres filas. El patrón es uno de los ocho de la página «Patrones y
 el stack escrito».
 
 | Qué cambié | Por qué | Qué patrón |
+<<<<<<< Updated upstream
 |pd.Series con índices de pandas por pl.DataFrame de Polars|pandas usa su formato propio, por lo cual cuando una libreria externa necesita
 leer sus datos, ocupa reservar espacio, copiar y convertirlos para acceder a ellos. Polars guarda sus columnas usando el estandar Apache
 Arrow, por tanto si otra herramienta que comparte el estandar quieren leer los datos podran hacerlo con zero-copys (leen directamente).|Compartir vs copiar|
 |Hice dos patrones, espero no este mal.|
+=======
+|Cambie la |---|---|
+| | | |
+| | | |
+| | | |
+>>>>>>> Stashed changes
 
 ## Salida de pytest
 
