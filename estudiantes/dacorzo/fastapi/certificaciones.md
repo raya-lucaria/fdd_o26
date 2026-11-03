@@ -21,3 +21,4 @@ URL del Statement of Accomplishment:https://www.datacamp.com/courses/introductio
 
 Se llena en esta entrega. Dos o tres líneas: algo concreto del curso que no
 sabías, o que tenías a medias y ahí se te acomodó.
+No sabía qué era FastAPI ni una API. Me sigue sin quedar muy claro cómo funciona FastAPI, pero creo que entiendo un poco más lo que es...
