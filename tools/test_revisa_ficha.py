@@ -1209,6 +1209,85 @@ def test_el_aviso_de_antigravity_no_pide_evidencia():
 
 
 # --------------------------------------------------------------------------
+# tarea-11-claude-code
+# --------------------------------------------------------------------------
+
+PLANTILLA_CC = (RAIZ / "codigo/claude_code/certificaciones.md").read_text(encoding="utf-8")
+CAP_CC = "estudiantes/ana/claude_code/claude-code-101.png"
+CERT_CC = "estudiantes/ana/claude_code/certificaciones.md"
+URL_BADGE = "https://academy.claude.com/courses/claude-code-101/badge"
+
+
+def _cc(fecha="2026-11-03", url=URL_BADGE,
+        aprendi="Que CLAUDE.md se carga al iniciar cada sesion y ahi van las reglas del repo."):
+    """La plantilla llena como la llenaria un alumno. La fecha por omision es
+    la de apertura: nunca es futura, corra el test el dia que corra."""
+    t = PLANTILLA_CC
+    t = t.replace("- Usuario de GitHub:", "- Usuario de GitHub: ana")
+    t = t.replace("Fecha en que lo terminaste (AAAA-MM-DD):",
+                  f"Fecha en que lo terminaste (AAAA-MM-DD): {fecha}")
+    t = t.replace("URL del badge de Claude Academy:",
+                  f"URL del badge de Claude Academy: {url}")
+    marca = "## Una cosa que aprendiste y no sabías\n"
+    assert marca in t
+    return t.replace(marca, marca + "\n" + aprendi + "\n") if aprendi else t
+
+
+def test_cc_bien_entregada_pasa(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: _cc(), CAP_CC: PNG}) == 0, capsys.readouterr().out
+
+
+def test_cc_plantilla_sin_tocar_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: PLANTILLA_CC, CAP_CC: PNG}) == 1
+
+
+def test_cc_fecha_que_no_es_iso_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: _cc(fecha="4 de noviembre de 2026"), CAP_CC: PNG}) == 1
+
+
+def test_cc_sin_url_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: _cc(url=""), CAP_CC: PNG}) == 1
+
+
+def test_cc_sin_captura_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {CERT_CC: _cc()}) == 1
+
+
+def test_cc_sin_aprendiste_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: _cc(aprendi=""), CAP_CC: PNG}) == 1
+
+
+def test_cc_url_que_no_es_de_claude_academy_solo_avisa(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: _cc(url="https://example.com/mi-badge"), CAP_CC: PNG}) == 0
+    assert "AVISO" in capsys.readouterr().out
+
+
+def test_cc_url_de_claude_academy_no_avisa(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        CERT_CC: _cc(), CAP_CC: PNG}) == 0
+    assert "AVISO" not in capsys.readouterr().out
+
+
+def test_cc_en_la_carpeta_de_fastapi_falla(monkeypatch, capsys):
+    assert _main(monkeypatch, "tarea-11-claude-code", {
+        "estudiantes/ana/fastapi/certificaciones.md": _cc(),
+        "estudiantes/ana/fastapi/claude-code-101.png": PNG}) == 1
+
+
+def test_el_tablero_de_computo_nombra_la_tarea_de_claude_code():
+    t = TABLERO_C.read_text(encoding="utf-8")
+    assert "`tarea-11-claude-code`" in t and "`claude_code/`" in t
+    assert t.count("2026-11-05") >= 2
+    assert "claude-code-101.png" in t
+
+
+# --------------------------------------------------------------------------
 # tarea-09-uv-docker
 # --------------------------------------------------------------------------
 

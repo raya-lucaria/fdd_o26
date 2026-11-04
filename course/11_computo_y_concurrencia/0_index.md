@@ -65,7 +65,7 @@ Martes 3 de noviembre, 19:00–20:30. En preparación: presupuestar una carga (L
 
 ### Tarea de la unidad
 
-DataCamp *Introduction to FastAPI* (vence el 3 de noviembre) y la instalación de Antigravity, que no se entrega: están en [[entregas-computo]].
+DataCamp *Introduction to FastAPI* (vence el 3 de noviembre), la instalación de Antigravity, que no se entrega, y Claude Academy *Claude Code 101* (vence el 5 de noviembre): están en [[entregas-computo]].
 
 ## Glosario breve
 

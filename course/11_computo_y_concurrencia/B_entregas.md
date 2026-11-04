@@ -2,10 +2,10 @@
 id: entregas-computo
 title: "Las entregas de cómputo y concurrencia"
 nav_title: "B. Entregas"
-summary: "El tablero de la unidad: la tarea de FastAPI con su branch, su carpeta y su ritual, y el aviso de instalar Antigravity, que no se entrega."
+summary: "El tablero de la unidad: las tareas de FastAPI y de Claude Code 101 con su branch, su carpeta y su ritual, y el aviso de instalar Antigravity, que no se entrega."
 status: ready
 estimated_time: 5m
-tags: [entrega, pull-request, branch, datacamp, fastapi, antigravity, tablero]
+tags: [entrega, pull-request, branch, datacamp, fastapi, antigravity, claude-code, tablero]
 prerequisites: [el-flujo-del-curso]
 ---
 
@@ -13,14 +13,15 @@ prerequisites: [el-flujo-del-curso]
 
 **Anexo B** · el tablero de la unidad
 
-Una entrega por pull request y un aviso sin entrega. Esta página es la versión en tabla de lo que dicen los objetos oficiales: **el contrato manda**.
+Dos entregas por pull request y un aviso sin entrega. Esta página es la versión en tabla de lo que dicen los objetos oficiales: **el contrato manda**.
 
-::: table {#cmp-entregas-resumen title="La tarea y el aviso de la unidad 11"}
+::: table {#cmp-entregas-resumen title="Las tareas y el aviso de la unidad 11"}
 
 | # | Qué | Vence | Vale | Branch | Carpeta |
 |---:|---|---|---:|---|---|
 | 1 | DataCamp: *Introduction to FastAPI* (≈ 4 h) | 2026-11-03 | 20 | `tarea-11-datacamp-fastapi` | `fastapi/` |
 | 2 | Instalar Antigravity y comprobar que abre | 2026-11-03 | 0 | no se entrega | no se entrega |
+| 3 | Claude Academy: *Claude Code 101* (≈ 1.5 h) | 2026-11-05 | 20 | `tarea-11-claude-code` | `claude_code/` |
 
 :::
 
@@ -95,3 +96,45 @@ Lo vamos a usar en la clase del 3 de noviembre y en el aula no hay internet: lo 
 4. Escríbele un mensaje corto al agente del programa, por ejemplo que te diga qué archivos hay en la carpeta.
 
 **Acabaste cuando** el agente contesta. Si no abre, no te deja iniciar sesión o no contesta, anota qué pasó y cómo lo reproduces, y llévalo a la clase.
+
+## 3 · Claude Academy: Claude Code 101
+
+| | |
+|---|---|
+| **Vence** | 2026-11-05 |
+| **Vale** | 20 puntos |
+| **Branch** | `tarea-11-claude-code` |
+| **Carpeta** | `estudiantes/<tu-login>/claude_code/` |
+
+Hora y media: doce lecciones en cuatro módulos (qué es Claude Code, el primer prompt, flujos diarios, personalizarlo con `CLAUDE.md`, subagentes, skills, MCP y hooks) y un quiz. **Inicia sesión antes de empezar**: sin sesión no guarda tu avance ni te da el badge.
+
+Basta con ver las lecciones y pasar el quiz. El curso dice que para practicar hace falta una cuenta de pago de Claude o una llave de la API: aquí **no** se exige instalar ni usar Claude Code.
+
+**Ojo con la carpeta:** es `claude_code`, con guion **bajo**. La branch es `tarea-11-claude-code`, con guiones **medios**.
+
+**Entregas dos archivos**
+
+- `certificaciones.md` con sus tres secciones llenas: tu usuario de GitHub (nada de nombre completo ni correo: el repo es público); la fecha en que lo terminaste, **en formato `AAAA-MM-DD`**, y la **URL de la página del badge**; y una cosa concreta que aprendiste.
+- `claude-code-101.png`: la página del badge del curso, o el curso terminado, con **tu nombre o tu cuenta visible**. Con ese nombre exacto, porque la plantilla ya lo enlaza. Si te sale en `jpg`, corrige el enlace dentro del archivo.
+
+**El ritual**
+
+```bash
+cd {tu_fork_de_la_clase}
+git switch main && git fetch upstream && git merge upstream/main
+git switch -c tarea-11-claude-code
+mkdir -p estudiantes/$GHUSER/claude_code
+cp -r codigo/claude_code/. estudiantes/$GHUSER/claude_code/
+#   ... llenas certificaciones.md y guardas la captura ...
+git add estudiantes/$GHUSER/claude_code
+git commit -m "unidad 11: Claude Code 101"
+git push -u origin tarea-11-claude-code
+```
+
+Es el mismo ritual de la entrega 1, con otra branch y otra carpeta: arriba está qué hace cada pieza.
+
+**No se entrega** la captura de una lección suelta ni la de la portada del curso. Tus carpetas `fastapi/` y `clase-11-computo/` **no** viajan en este pull request: si las ves en el PR, la branch no nació de `main`.
+
+**Debes poder explicar, sin ayuda:** qué hace un agente de programación que no hace un chat; las cuatro fases explorar → planear → programar → commit, y por qué no se salta a programar; para qué sirve `CLAUDE.md`; qué distingue un subagente, una skill, un servidor MCP y un hook; y la cosa que escribiste en «Una cosa que aprendiste», contada sin leerla. La IA vale para estudiar; la explicación es tuya.
+
+**Acabaste cuando** el pull request está abierto y su revisión en verde. Si no terminaste el curso, sube lo que sí hiciste y dilo en el archivo.
