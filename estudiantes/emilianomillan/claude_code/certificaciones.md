@@ -12,7 +12,7 @@ El repositorio es público: no escribas aquí tu nombre completo ni tu correo.
 
 Fecha en que lo terminaste (AAAA-MM-DD): 2026-11-06
 
-URL del badge de Claude Academy: No hay link o no encontré una liga que mandara directo al badge
+URL del badge de Claude Academy: https://academy.claude.com/badges/74db2d85-a454-45b6-90e6-f3c54b4ab1e0 
 
 Si no terminaste el curso, dilo aquí abajo: qué lecciones o qué parte del
 quiz te faltaron. Reportar el pendiente cuenta como entrega.
