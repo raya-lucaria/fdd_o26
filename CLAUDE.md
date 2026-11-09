@@ -12,6 +12,16 @@ Course-facing content (page prose, titles, summaries, task instructions) is writ
 
 The sibling course `~/itam/ia_o26` is the reference implementation of the same contract; when a pattern here is unclear, check how that repo does it.
 
+## Quick start
+
+```bash
+(cd ~/itam/raya_lucaria && UV_PROJECT_ENVIRONMENT=.venv-local uv run raya validate ~/itam/fdd_o26)   # fast course check
+python3 -m pytest tools/ -q                                                                         # the guards, from this repo
+python3 -m pytest tools/test_gen_git.py::test_name -q                                               # a single test
+```
+
+Units under `course/` (numeric prefix = authoring order): 1 introducción, 2 pipeline de datos, 3 arquitectura de computadoras, 4 software libre y sistemas operativos, 5 terminal y bash, 6 expresiones regulares, 7 git y github, 8 contenedores, 9 python, 10 apis, 11 cómputo y concurrencia, plus the `99_examenes` annex.
+
 ## The build toolchain lives in a sibling repository
 
 The `raya` CLI is not installed here. It lives at `~/itam/raya_lucaria` (a separate git repo) and is invoked from there with this repo's path as an argument:
