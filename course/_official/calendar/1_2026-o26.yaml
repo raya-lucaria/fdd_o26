@@ -168,6 +168,12 @@ events:
     title: "Cargas y la decisión completa"
     page: computo-y-concurrencia
 
+  - id: clase-en-linea-2026-11-10
+    kind: milestone
+    date: "2026-11-10"
+    title: "CLASE EN LÍNEA hoy, 19:00 a 20:30 — no vengas al salón"
+    summary: "La red del ITAM fue hackeada, así que la clase de este martes 10 de noviembre es en línea, en el mismo horario (19:00 a 20:30). Entra a la junta: https://meet.google.com/grp-msku-yac. Avisa a tus compañeros."
+
   - id: inicio-de-cursos
     kind: milestone
     date: "2026-08-10"

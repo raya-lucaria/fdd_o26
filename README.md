@@ -2,6 +2,8 @@
 
 **Sitio del curso: https://rayalucaria.org/fdd_o26/**
 
+**Aviso: la clase del martes 10 de noviembre, 19:00–20:30, es en línea** (la red del ITAM fue hackeada): https://meet.google.com/grp-msku-yac
+
 Este repositorio es la fuente del sitio. No es una copia de respaldo: el sitio se
 construye a partir de estos archivos en cada push a `main`, así que lo que lees en
 la web y lo que está aquí son la misma cosa vista de dos maneras.

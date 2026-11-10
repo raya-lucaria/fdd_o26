@@ -8,6 +8,9 @@ status: ready
 
 # Fuentes de Datos — Otoño 2026 (ITAM)
 
+> [!WARNING]
+> **Aviso: la clase del martes 10 de noviembre, de 19:00 a 20:30, es en línea.** La red del ITAM fue hackeada. Enlace de la junta: https://meet.google.com/grp-msku-yac. Si conoces a un compañero que no se haya enterado, avísale.
+
 Esta página reúne la información de arranque del curso: cuándo nos vemos, dónde
 vive el material, qué fechas del calendario escolar nos afectan y cómo
 contactarme.
