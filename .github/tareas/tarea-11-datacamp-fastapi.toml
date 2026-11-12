@@ -65,12 +65,12 @@ igual_es_normal = [
   "fechas iguales entre entregas: casi todos terminan el fin de semana",
 ]
 debe_ser_propio = [
-  "la captura, con su nombre visible",
+  "la captura",
   "la sección «Una cosa que aprendiste»",
 ]
 senales = [
   "captura de un ejercicio suelto o del panel de inicio en vez de la página del curso o del Statement of Accomplishment",
-  "captura sin nombre visible, o con otro nombre",
+  "captura con el nombre de otra persona, o con un correo o datos de otras personas a la vista (que no se vea el nombre no es señal: no todas las páginas lo muestran)",
   "captura idéntica en bytes a la de otra entrega",
   "URL de Statement of Accomplishment de otro curso",
   "«Una cosa que aprendiste» con un tema que no está en el curso: el curso tiene tres capítulos (conceptos básicos de FastAPI, temas avanzados con parámetros y async, y una API CRUD en JSON con pruebas); colas de trabajos, WebSockets o autenticación no están",

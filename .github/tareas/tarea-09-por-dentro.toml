@@ -142,14 +142,14 @@ igual_es_normal = [
   "los tiempos con y sin hilos del síntoma 3 cambian de máquina a máquina",
 ]
 debe_ser_propio = [
-  "la captura, con su nombre visible",
+  "la captura",
   "la sección «Una cosa que aprendiste»",
   "el «Por qué pasa» y el «Qué le pedirías a la IA» de cada error",
   "el prompt de «Mi prompt»",
 ]
 senales = [
   "captura de un ejercicio suelto o del panel de inicio en vez de la página del curso o del Statement of Accomplishment",
-  "captura sin nombre visible, o con otro nombre, o idéntica en bytes a la de otra entrega",
+  "captura con el nombre de otra persona, o con un correo o datos de otras personas a la vista (que no se vea el nombre no es señal: no todas las páginas lo muestran), o idéntica en bytes a la de otra entrega",
   "URL de Statement of Accomplishment de otro curso, en particular la de Introduction to Python for Developers",
   "revision.md que copia la tabla de síntomas de la página «Python por dentro» sin decir línea ni causa",
   "una «Línea» que no corresponde, en el revisa_esto.py de la plantilla, al síntoma que su sección describe",

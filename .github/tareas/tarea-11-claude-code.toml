@@ -53,8 +53,8 @@ nivel = "aviso"
 
 [revision]
 foco = [
-  "que la captura sea la página del badge de Claude Code 101 o el curso terminado, con el nombre del alumno visible",
-  "que la URL sea la página del badge de este curso en academy.claude.com: es la misma para todos, así que la evidencia es la captura",
+  "que la captura sea la página del badge de Claude Code 101 o el curso terminado, sin correo ni datos de otras personas; el nombre del badge lo edita el propio alumno, así que no se le exige uno",
+  "que la URL sea la del badge del alumno en academy.claude.com (`/badges/<id>` o `/verify/<id>`): es una por alumno, y cuando la captura muestra la barra de direcciones las dos deben coincidir",
   "que la fecha sea verosímil: no futura, ni anterior al 2026-11-03 sin explicación",
   "que «Una cosa que aprendiste» sea concreta y salga del temario del curso",
   "si el alumno reporta que no terminó, que lo diga en el archivo: reportar el pendiente cuenta como entrega",
@@ -62,20 +62,19 @@ foco = [
 igual_es_normal = [
   "el texto de la plantilla de certificaciones.md: rótulos y enlace a la captura",
   "la composición de la captura: todos fotografían la misma página del badge",
-  "la URL del badge: puede ser la misma para todos, porque es la página del curso",
   "fechas iguales entre entregas: el plazo es de dos días",
 ]
 debe_ser_propio = [
-  "la captura, con su nombre visible",
+  "la captura",
   "la sección «Una cosa que aprendiste»",
 ]
 senales = [
   "captura de una lección suelta o de la portada del curso en vez del badge o del curso terminado",
-  "captura sin nombre visible, o con otro nombre",
+  "captura con el nombre de otra persona, o con un correo o datos de otras personas a la vista (que no se vea el nombre no es señal: no todas las páginas lo muestran)",
   "captura idéntica en bytes a la de otra entrega",
   "URL de otro curso de Claude Academy",
   "«Una cosa que aprendiste» con un tema que no está en el curso: el curso tiene cuatro módulos (qué es Claude Code, el primer prompt, flujos diarios con contexto y revisión de código, y personalizarlo con CLAUDE.md, subagentes, skills, MCP y hooks) y un quiz; entrenar modelos o la API de mensajes no están",
-  "una URL distinta de la página del badge del curso (https://academy.claude.com/courses/claude-code-101/badge), por ejemplo con un identificador de alumno o de certificado: esa página no tiene identificador por alumno",
+  "una URL de Claude Academy que no es la de un badge (la portada del curso, una lección), o que no coincide con la de la barra de direcciones de la captura, o idéntica a la de otra entrega",
   "«Una cosa que aprendiste» que repite una pregunta de debe_explicar o la redacción del enunciado, sin nada que sólo el curso enseñe",
   "«Una cosa que aprendiste» que cuenta haber usado Claude Code en su máquina: la tarea no lo exige y practicar pide una cuenta de pago o una llave de la API; si de verdad lo usó, que lo pueda mostrar",
   "«Una cosa que aprendiste» de una o dos palabras, o que dice que no aprendió nada",
