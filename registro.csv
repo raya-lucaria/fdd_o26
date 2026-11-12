@@ -161,6 +161,7 @@ Meyer03,tarea-09-stack,162,1,2026-10-28T00:05:36Z,2026-10-27,0,mal,la captura es
 RobertoUribeClemente,tarea-11-datacamp-fastapi,164,1,2026-10-31T03:48:01Z,2026-11-03,0,bien,Statement con nombre y curso; URL coincide con la captura; mergeado,texto-de-plantilla-sin-borrar,,2026-11-12
 cristoredentor,tarea-11-datacamp-fastapi,165,1,2026-10-31T17:19:42Z,2026-11-03,0,bien,"Statement con nombre, curso y fecha coincidentes; mergeado",texto-de-plantilla-sin-borrar,,2026-11-12
 jpmedinae,tarea-11-datacamp-fastapi,166,1,2026-10-31T20:34:20Z,2026-11-03,0,bien,"Statement con nombre, curso y fecha coincidentes; mergeado",,,2026-11-12
+nat-aglo,tarea-09-stack,167,1,2026-11-01T04:38:24Z,2026-10-27,4,mal,decisiones.md describe model_validate que practica.py no ejecuta; acepta la fila sin cantidad (17 de 20 vs 16); pytest sin archivo en AGENTS.md,bitacora-no-corresponde;texto-de-plantilla-sin-borrar,,2026-11-12
 fernandalh25,tarea-11-datacamp-fastapi,168,1,2026-11-02T21:43:26Z,2026-11-03,0,bien,Statement con nombre y curso; fecha del archivo un dia antes que la del Statement (UTC); mergeado,,,2026-11-12
 nat-aglo,tarea-11-datacamp-fastapi,171,1,2026-11-03T22:41:11Z,2026-11-03,0,bien,Statement con nombre y URL coincidentes; mergeado,texto-de-plantilla-sin-borrar,,2026-11-12
 emilianomillan,tarea-11-datacamp-fastapi,174,1,2026-11-04T01:23:56Z,2026-11-03,0,bien,Statement con nombre y URL coincidentes; mergeado,,,2026-11-12
