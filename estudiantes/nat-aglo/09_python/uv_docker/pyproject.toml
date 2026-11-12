@@ -1,0 +1,9 @@
+[project]
+name = "reporte"
+version = "0.1.0"
+description = "Reporta el ambiente en el que corre"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.5.3",
+    "rich>=15",
+]
