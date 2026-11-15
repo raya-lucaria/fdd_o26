@@ -17,9 +17,6 @@ Fecha en que terminaste el capítulo 4 (2026-11-03):
 
 ## Una cosa que aprendiste y no sabías
 Las clases en python no las habia visto antes asi que me ayudo a afianzar
-eso, también me ayudo a veer los pytest y doctest
-
-
-Dos o tres líneas: algo concreto de los capítulos 3 o 4 que no sabías, o que
-tenías a medias y ahí se te acomodó. Por cierto hice también el capitulo 1 y
+eso, también me ayudo a veer los pytest y doctest.
+Por cierto hice también el capitulo 1 y
 2 por eso la foto es el certificado completo.
