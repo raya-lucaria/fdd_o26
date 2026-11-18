@@ -95,7 +95,7 @@ Every listed session carries a `page` reference: `el-curso`, `pipeline-de-datos`
 
 ## The exams annex
 
-`course/99_examenes/` is a review annex, not a unit. It has no session in the calendar. `1_parciales/` holds the in-class midterms, one subdirectory per exam with versions A and B and their answer-free PDFs in `_assets/`. `2_ejercicios_extra/` holds extra exercises in the same shape. Each question is a `::: problem {#id ...}` block followed by `::: answer {of="id"}`, which the renderer folds, so no raw HTML is needed. Problem IDs carry per-exam prefixes (`paa-`/`pab-`, `pta-`/`ptb-`, `pga-`/`pgb-`, `pda-`/`pdb-`, `xa-`, `xt-`, `xg-`, `xd-`, `xc-`) because of the course-wide ID rule above.
+`course/99_examenes/` is a review annex, not a unit. It has no session in the calendar. `1_parciales/` holds the in-class midterms, one subdirectory per exam with versions A and B and their answer-free PDFs in `_assets/`. `2_ejercicios_extra/` holds extra exercises in the same shape. Each question is a `::: problem {#id ...}` block followed by `::: answer {of="id"}`, which the renderer folds, so no raw HTML is needed. Problem IDs carry per-exam prefixes (`paa-`/`pab-`, `pta-`/`ptb-`, `pga-`/`pgb-`, `pda-`/`pdb-`, `pia-`/`pib-`, `xa-`, `xt-`, `xg-`, `xd-`, `xc-`) because of the course-wide ID rule above.
 
 The printable sources live in top-level `examenes/`, which is **gitignored** (`examenes/*`) because the repo is public. That folder holds `.docx` files and the Node scripts that generate them (`NODE_PATH=<dir with node_modules/docx> node examenes/parciales/gen_control_docker.js`). Never commit anything from it. Only the course pages and the PDFs are published.
 

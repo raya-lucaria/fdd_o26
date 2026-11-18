@@ -2,7 +2,7 @@
 id: parciales
 title: "Parciales"
 nav_title: "Parciales"
-summary: "Los cuatro exámenes parciales que se hicieron en clase, cada uno en sus versiones A y B, con cada pregunta y su respuesta explicada debajo."
+summary: "Los cinco exámenes parciales que se hicieron en clase, cada uno en sus versiones A y B, con cada pregunta y su respuesta explicada debajo."
 status: ready
 estimated_time: 2m
 tags: [examenes, parciales]
@@ -20,3 +20,4 @@ Cada versión es una página con su PDF sin respuestas. Debajo de cada pregunta 
 | [[parcial-terminal|2 · Terminal y regex]] | 5 y 6 | 15 min | [[parcial-terminal-a|A]] · [[parcial-terminal-b|B]] |
 | [[parcial-github|3 · GitHub]] | 7 | 30 min | [[parcial-github-a|A]] · [[parcial-github-b|B]] |
 | [[parcial-docker|4 · Docker]] | 8 | 25 min | [[parcial-docker-a|A]] · [[parcial-docker-b|B]] |
+| [[parcial-integrador|5 · Integrador]] | 3 a 9 | 75 min | [[parcial-integrador-a|A]] · [[parcial-integrador-b|B]] |

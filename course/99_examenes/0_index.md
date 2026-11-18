@@ -16,7 +16,7 @@ Este anexo tiene dos secciones:
 
 | Sección | Qué hay | Para qué |
 |---|---|---|
-| [[parciales|Parciales]] | Los cuatro exámenes que se hicieron en clase (arquitectura, terminal y regex, GitHub, Docker), cada uno en sus versiones A y B | Ver exactamente cómo se pregunta y cómo se califica |
+| [[parciales|Parciales]] | Los cinco exámenes que se hicieron en clase (arquitectura, terminal y regex, GitHub, Docker y el integrador), cada uno en sus versiones A y B | Ver exactamente cómo se pregunta y cómo se califica |
 | [[ejercicios-extra|Ejercicios extra]] | Ejercicios nuevos con la forma de cada parcial, uno que combina Git, bash y Docker, y dos colaborativos con tres personas a la vez | Practicar después de hacer los parciales, con pista y respuesta |
 
 En todas las páginas, cada pregunta tiene su respuesta **justo debajo y plegada**: ábrela cuando ya contestaste. En los ejercicios extra hay además una **pista** plegada, para cuando te atores. Los parciales y los ejercicios extra traen su PDF sin respuestas, para imprimir.
