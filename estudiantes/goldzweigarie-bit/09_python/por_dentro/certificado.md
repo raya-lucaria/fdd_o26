@@ -19,4 +19,4 @@ URL del Statement of Accomplishment: https://www.datacamp.com/completed/statemen
 
 ## Una cosa que aprendiste y no sabías
 
-Pendiente: la lleno cuando termine el curso.
+Aprendí a usar `*args` y `**kwargs`: con `*args` una función recibe cualquier número de argumentos posicionales como una tupla, y con `**kwargs` los argumentos con nombre como un diccionario. No sabía que así se pueden escribir funciones que aceptan entradas variables sin definir cada parámetro, y que también sirven al revés, para desempacar una lista o un diccionario al llamar una función.
