@@ -64,6 +64,7 @@ media entrega. No lo copies de ahí.
 
 ### 4.1 · La plantilla `codigo/<carpeta>/`
 
+- **Regla del curso: todo se trabaja en `estudiantes/<login>/`.** Labs, ejercicios y entregas viven en la carpeta del alumno, copiados de `codigo/` con el mirror; nunca en una carpeta fuera del repo (`~/lab-…`). Los labs viajan en el pull request de la tarea que comparte su subcarpeta. Lo generado (`.venv/`, `__pycache__/`) queda fuera por `.gitignore` y por la lista de basura.
 - **Marcadores detectables**: rótulos que terminan en `:` y quedan vacíos,
   títulos `##` con una aguja única por sección, bloques ` ```text ` vacíos,
   `<tu-usuario>` en lo que se reemplaza. `revisa_ficha.py` reconoce «sin

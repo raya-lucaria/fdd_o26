@@ -1,0 +1,81 @@
+id: claude-code-101
+type: assignment
+authority: official
+content:
+  title: "Claude Academy: Claude Code 101"
+  instructions: >-
+    Termina el curso Claude Code 101 de Claude Academy antes del 5 de
+    noviembre y sube la evidencia por el flujo del curso. Es hora y
+    media, en doce lecciones y un quiz: qué es Claude Code y cómo funciona,
+    el primer prompt, los flujos de todos los días, y cómo personalizarlo con
+    CLAUDE.md, subagentes, skills, MCP y hooks. El enlace está abajo, en los
+    recursos. Inicia sesión antes de empezar, porque sin sesión el curso no
+    guarda tu avance ni te da el badge.
+    Basta con ver las lecciones y pasar el quiz. El curso menciona que para
+    practicar hace falta una cuenta de pago de Claude o una llave de la API;
+    en esta entrega no se exige instalar ni usar Claude Code.
+    La entrega va en una carpeta llamada claude_code, dentro de tu carpeta de
+    estudiante, y es espejo de la que publiqué en codigo. Se copia desde la
+    terminal con el comando de siempre, con la barra y el punto al final del
+    origen, y no se crea a mano ni se arrastra en el explorador de archivos.
+    Ojo con el nombre: es claude_code, en minúsculas y con guion bajo, no con
+    guion medio.
+    Deben quedar dos archivos. El primero es certificaciones punto md, la
+    plantilla que copiaste, con sus tres secciones llenas: tu usuario de
+    GitHub, sin tu nombre completo ni tu correo, porque el repositorio es
+    público; la fecha en que terminaste el curso y la URL de la página del
+    badge de Claude Academy; y una cosa concreta que aprendiste y no sabías,
+    en dos o tres líneas. Si no terminaste, la plantilla trae dónde
+    decir qué te faltó. El segundo es la captura, llamada claude guion code
+    guion 101 punto png, con ese nombre exacto porque la plantilla ya la
+    enlaza. Si te sale en jpg no pasa nada, pero entonces corriges el enlace
+    dentro del archivo. Un pdf no sirve.
+    No se entrega nada más. La captura que sirve es la página del badge del
+    curso, o la del curso terminado, donde se vea tu nombre o tu cuenta. No
+    sirve la de una lección suelta, ni la portada del curso, ni una donde no
+    se distinga de qué curso se trata.
+    La entrega es un pull request desde su propia branch, que se llama tarea
+    guion once guion claude guion code, con ese nombre exacto, en minúsculas
+    y sin acentos, porque la revisión automática lo comprueba. La branch nace
+    de main, actualizado contra el repositorio del curso. Un pull request toca
+    una sola subcarpeta tuya, y éste toca claude_code y nada más. Tus carpetas
+    fastapi y clase-11-computo no viajan en este pull request.
+    La fecha se escribe como año, guion, mes, guion, día: por ejemplo, el
+    cuatro de noviembre se escribe dos mil veintiséis guion once guion cero
+    cuatro. Otra forma, como cuatro de noviembre o cuatro diagonal once, la
+    rechaza la revisión automática, porque esa forma se lee igual en
+    cualquier país y se puede comparar con otras fechas sin adivinar.
+    Puedes usar inteligencia artificial para estudiar, pero tienes que poder
+    explicar sin ayuda qué hace un agente de programación que no hace un
+    chat, las cuatro fases del flujo explorar, planear, programar y hacer
+    commit y por qué no se salta a programar, para qué sirve el archivo
+    CLAUDE.md, qué distingue un subagente, una skill, un servidor MCP y un
+    hook, y la cosa que escribiste en la sección de lo que aprendiste,
+    contada sin leerla.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión
+    esté en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma
+    branch; el pull request se actualiza solo. El verde comprueba que todo
+    vive en tu carpeta, que la branch se llama como debe, que están el archivo
+    y la captura, que las tres secciones están llenas y que la fecha y la URL
+    tienen la forma pedida. No comprueba que la captura sea tuya ni de este
+    curso: eso lo reviso yo. Si no alcanzaste a terminar el curso, sube lo
+    que sí completaste y dilo en el archivo: reportar el pendiente cuenta como
+    entrega, presumir un avance que no ocurrió no.
+  resources:
+    - title: "Unidad — Las entregas de cómputo y concurrencia"
+      url: "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/entregas/"
+      note: "El tablero de la unidad. Ésta es la entrega: branch tarea-11-claude-code, carpeta claude_code/, con el ritual listo para copiar."
+    - title: "Claude Academy — Claude Code 101"
+      url: "https://academy.claude.com/courses/claude-code-101"
+      note: "El curso de esta entrega. Inicia sesión para que guarde tu avance y te dé el badge."
+    - title: "Unidad — El ritual"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
+      note: "Los tres bloques del flujo, con sus comandos exactos."
+    - title: "Unidad — El flujo del curso"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
+      note: "La regla del mirror y qué revisa, y qué no revisa, el check verde."
+  available: "2026-11-03"
+  due: "2026-11-05"
+  points: 20
+  status: published
+  tags: [claude-code, claude-academy, certificacion, evidencia, entrega]

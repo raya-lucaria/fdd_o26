@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A **course source repository**, not an application. It holds authored Markdown/YAML for the ITAM course *Fuentes de Datos — Otoño 2026*, consumed by the Raya Lucaria framework (Glintstone static builder) to generate a static site published to GitHub Pages at **https://rayalucaria.org/fdd_o26/**.
 
-The published site comes from `raya.yaml`, `course/`, `skins/`, and `.github/workflows/pages.yml`. `tools/` holds image generators plus the pytest guards that protect them; it never renders.
+The published site comes from `raya.yaml`, `course/`, `skins/`, and `.github/workflows/pages.yml`. `tools/` holds image generators plus the pytest guards that protect them; it never renders. Other top-level directories don't render either. `codigo/` holds the per-task starter templates students copy. `estudiantes/<login>/` is where student pull requests land. `.github/tareas/` holds the task fichas, and `docs/superpowers/plans/` holds dated design plans for past unit rewrites, which are useful history when you change a unit.
 
 Course-facing content (page prose, titles, summaries, task instructions) is written in **Spanish**. Technical identifiers — `id`, `type`, `authority`, `scope`, filenames, tags, skin token names — stay in **English**.
 
@@ -64,32 +64,48 @@ A bare `![]()` renders without a "Figura N" caption. Numbered-object IDs (figure
 
 **Support directories don't render.** `_official/`, `_assets/`, `_reviewed/`, `_drafts/`, `_partials/`. Rendered Markdown may link into its own or an ancestor `_assets/`, never the others.
 
+**Mistakes `raya validate` misses.** A few authoring errors pass validation, or break it in ways that are hard to trace. Each one has a guard in `tools/`, so run `pytest tools/` as well as `validate`:
+
+- **Wikilink inside a table.** Write `[[id|label]]` with the pipe *unescaped*. The escaped form `[[id\|label]]` breaks the whole build with "Broken wikilink reference" (`test_wikilinks.py`).
+- **Callouts.** Only a line that is exactly `> [!NOTE|TIP|WARNING|CAUTION]` becomes a callout. `[!IMPORTANT]` or trailing text prints literally, and nothing fails (`test_callouts.py`).
+- **SVG root size.** Every SVG must declare `width`/`height` on its root. With only a `viewBox` it renders as a ~70 px thumbnail (`test_svg_tamano_intrinseco.py`).
+- **Unit 2 (pipeline) only.** A term must be defined before any page uses it, and it must appear in `7_glosario` (`test_vocabulario.py`). Unit prose is capped at 9500 words (`test_presupuesto.py`). A diagram must draw the terms its page teaches (`test_diagramas_terminologia.py`).
+
 ## The calendar
 
 `course/_official/calendar/1_2026-o26.yaml` is a calendar document — a separate family from official learning objects, excluded from `data/official.json`.
 
-Sessions run **Tuesday and Thursday, 19:00–20:30**, from 2026-08-11 to 2026-12-01, with a single exception: `session-10` (Thu 2026-09-17) runs **19:00–20:00**, because the opening class of the containers unit is given without computers. `course/0_index.md` and `README.md` both state the schedule and that one exception; the three move together. `calesc2026.pdf` at the repo root is the ITAM academic calendar those dates come from.
+Sessions run **Tuesday and Thursday, 19:00–20:30**, from 2026-08-11 to 2026-12-01, with two exceptions, both **19:00–20:00**: `session-10` (Thu 2026-09-17), because the opening class of the containers unit is given without computers, and `session-13` (Thu 2026-10-01), the Python environments class. `course/0_index.md` and `README.md` both state the schedule and those two exceptions; the three move together. `calesc2026.pdf` at the repo root is the ITAM academic calendar those dates come from.
 
-**The session list is incremental on purpose.** The calendar used to carry all 32 sessions pre-titled through December; the plan drifted far enough from that outline that the future entries were removed. Only sessions whose content actually exists are listed — currently `session-01` through `session-12`, ending at 2026-09-24 — plus three `cancellation` entries (Tue 2026-09-15, Tue 2026-11-03, Tue 2026-11-17 — the only three holidays that land on a class day; all three are Tuesdays) and four `milestone` entries. These dates come from `calesc2026.pdf`; verify against it before changing one. **Add the next `session-NN` when you author the unit it teaches, not before.** Keep the numbering and the Tue/Thu 19:00–20:30 slot (`session-10` is the one documented exception); an empty future is the intended state, not a gap to fill with placeholders.
+**The session list is incremental on purpose.** The calendar used to carry all 32 sessions pre-titled through December; the plan drifted far enough from that outline that the future entries were removed. Only sessions whose content actually exists are listed — currently `session-01` through `session-19`, ending at 2026-11-03 — plus one `cancellation` entry (Tue 2026-09-15, the only holiday that lands on a class day; the November holidays, 2 and 16, are Mondays and do not touch the course, so there is class on Tue 2026-11-03 and 2026-11-17) and four `milestone` entries. These dates come from `calesc2026.pdf`; verify against it before changing one. **Add the next `session-NN` when you author the unit it teaches, not before.** Keep the numbering and the Tue/Thu 19:00–20:30 slot (`session-10` and `session-13` are the two documented exceptions); an empty future is the intended state, not a gap to fill with placeholders.
 
 **Do not hand-write assignment dates as calendar events.** Every official object with `content.due` or `content.available` contributes its own occurrence automatically. Write the `assignment` once; the calendar derives it.
 
-Every listed session carries a `page` reference: `el-curso`, `pipeline-de-datos`, `arquitectura-de-computadoras`, `software-libre-y-sistemas-operativos`, `terminal-directa`, `bash-scripting`, `expresiones-regulares`, `seccion-git`, `seccion-github`, `la-idea-del-contenedor`, `contenedores-con-las-manos` and `disenar-con-contenedores`. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
+Every listed session carries a `page` reference: `el-curso`, `pipeline-de-datos`, `arquitectura-de-computadoras`, `software-libre-y-sistemas-operativos`, `terminal-directa`, `bash-scripting`, `expresiones-regulares`, `seccion-git`, `seccion-github`, `la-idea-del-contenedor`, `contenedores-con-las-manos`, `disenar-con-contenedores`, `ambientes-python`, `python-por-dentro`, `elegir-el-stack`, `apis-y-http` and `computo-y-concurrencia`. A `page` that does not resolve to a rendered stable ID fails validation, so leave it off until the target page exists.
+
+## The exams annex
+
+`course/99_examenes/` is a review annex, not a unit. It has no session in the calendar. `1_parciales/` holds the in-class midterms, one subdirectory per exam with versions A and B and their answer-free PDFs in `_assets/`. `2_ejercicios_extra/` holds extra exercises in the same shape. Each question is a `::: problem {#id ...}` block followed by `::: answer {of="id"}`, which the renderer folds, so no raw HTML is needed. Problem IDs carry per-exam prefixes (`paa-`/`pab-`, `pta-`/`ptb-`, `pga-`/`pgb-`, `pda-`/`pdb-`, `xa-`, `xt-`, `xg-`, `xd-`, `xc-`) because of the course-wide ID rule above.
+
+The printable sources live in top-level `examenes/`, which is **gitignored** (`examenes/*`) because the repo is public. That folder holds `.docx` files and the Node scripts that generate them (`NODE_PATH=<dir with node_modules/docx> node examenes/parciales/gen_control_docker.js`). Never commit anything from it. Only the course pages and the PDFs are published.
 
 ## Images
 
-Two generators, both in `tools/`, both with the generator as the source of truth:
+Diagrams come from one deterministic generator **per unit** in `tools/` (`gen_diagramas.py` for pipeline, `gen_regex.py`, `gen_git.py`, `gen_contenedores.py`, `gen_contenedores_bench.py`, `gen_python.py` (covers all sections of unit 9), `gen_ai_*` for the architecture unit's dashboards). Each one owns a `DIAGRAMAS` catalog that it shares with its tests as the single list of figures that exist: `test_gen_*.py` for most, `test_diagramas.py` + `test_diagramas_terminologia.py` for `gen_diagramas.py`, and `test_gen_contenedores.py` also covers `gen_contenedores_bench.py`. The palette lives once in `tools/svg_base.py`, mirrored from `skins/fdd-eva.yaml`. Import it from there and never repeat it. `tools/gen_notebook_por_dentro.py` generates the template notebook for 9.2; never edit it by hand. `tools/gen_notebook_apis.py` does the same for 10.1 (`codigo/10_apis/apis.ipynb`), and `tools/test_apis_curriculum.py` checks it byte for byte and starts `codigo/10_apis/servidor.py` to check that the server does what the pages show. Unit 11 (computo y concurrencia) has `tools/gen_computo.py` and `tools/gen_computo_b.py` (figures prefixed `cmp-`, into `course/11_computo_y_concurrencia/_assets/`) and `tools/gen_notebook_computo.py` (generates `codigo/11_computo/computo.ipynb` from `tools/notebook_computo/*.py`), checked by `tools/test_gen_computo.py`, `tools/test_gen_computo_b.py` and `tools/test_computo_curriculum.py`. The 9.3 notebooks (`codigo/09_python/stack/*.ipynb`) are the opposite: hand-written, denser than their pages, saved without outputs. Illustrations are the one non-deterministic generator:
 
 ```bash
-python3 tools/gen_diagramas.py                                  # los 8 SVG conceptuales
+python3 tools/gen_diagramas.py                                  # o gen_regex.py, gen_git.py, ...
 set -a && . ./.env && set +a                                    # carga OPENAI_API_KEY
 python3 tools/gen_ilustraciones.py portada viaje etl-elt        # ilustraciones gpt-image-2
 python3 -m pytest tools/ -q                                     # las guardas
+python3 -m pytest tools/test_gen_git.py::test_name -q           # una sola
 ```
+
+A few tests (`test_diagramas.py`, `test_ai_dashboard_*`) build the course with Raya and **skip** unless they find it. They look for `raya_lucaria/.worktrees/navigation-first-course-rail` among the repo's ancestors, or for `RAYA_CHECKOUT`. A green local run without that checkout has not exercised them (see `tools/raya_test_support.py`).
 
 Consequences worth internalizing:
 
-- **Editing a generated SVG by hand fails `test_diagramas.py`.** Change the entry in `DIAGRAMAS` and rerun the generator.
+- **Editing a generated SVG by hand fails its generator's test.** Change the entry in that generator's `DIAGRAMAS` and rerun it.
 - **Every image needs a row in `_assets/CREDITOS.md`** or `test_creditos.py` fails; crediting a file that does not exist fails too.
 - **Illustrations are non-deterministic** and are never regenerated in CI. Generate once, review by eye, commit.
 - Illustration prompts must never request real people or protected characters — `test_ilustraciones.py` enforces this.
@@ -116,13 +132,15 @@ Two details of the grace periods: both dates are compared against the PR's **ope
 - **Creating a task:** use the `crear_tarea` skill (ficha + official YAML + template in `codigo/` + `TAREAS` entry + board row + tests + adversarial pass).
 - **Reviewing deliveries:** use the `revisar_tarea` skill (it replaced `review_class_pr`): all-or-nothing verdict with teacher override, comparison between deliveries (`compara.py`), slop/incoherence signals stated as verifiable facts — never "copied" or "used AI".
 - **The review registry** lives on the orphan branch `registro-entregas` (`registro.csv`, one row per delivery attempt, **GitHub login only**, never real names). It is kept out of `main` on purpose because the repo is public; never merge that branch. Write to it with `.claude/skills/revisar_tarea/registro.py`.
-- The board `course/8_contenedores/7_D_entregas.md` also describes what the automatic review checks, so it moves together with the scripts and the two pages above.
+- The boards `course/8_contenedores/7_D_entregas.md`, `course/9_python/1_ambientes/12_B_entregas.md`, `course/9_python/2_por_dentro/6_A_entregas.md` (delivery `tarea-09-por-dentro`), `course/9_python/3_stack/5_A_entregas.md` (delivery `tarea-09-stack`) and `course/11_computo_y_concurrencia/B_entregas.md` (deliveries `tarea-11-datacamp-fastapi` and `tarea-11-claude-code`; its Antigravity notice has no delivery) also describe what the automatic review checks, so they move together with the scripts, the fichas and the two pages above.
 
 Deployment requires the repository to stay **public**: GitHub Pages is not available for private repos on this organization's plan.
 
 ## Content conventions
 
+- **Students work only inside their own folder.** Every lab, exercise and task is done in `estudiantes/<login>/`, copied from `codigo/` with the mirror rule, after opening their fork in VS Code and updating `main` — never in a folder outside the repo (`~/lab-*`, `~/fdd/docker-lab`). That keeps their work versioned, in one place, and reviewable. Creating the folder is the student's job; pages give the commands. Labs travel in the PR of the task that shares their **subfolder** (e.g. `09_python/ambientes/` goes with `tarea-09-uv-docker`, `09_python/por_dentro/` with `tarea-09-por-dentro`, and `09_python/stack/` with `tarea-09-stack`). Generated environments (`.venv/`) stay out of git through `.gitignore` and the `BASURA` list. Unit 8 predates this rule and still uses `~/fdd/docker-lab`. Section 10.1 (`10_apis/`) has no task: students work it on a `clase-10-apis` branch that never becomes a PR (`11_computo/` likewise, on `clase-11-computo`), so their `main` keeps fast-forwarding. `tools/test_python_curriculum.py` enforces it for unit 9, `tools/test_python_por_dentro.py` enforces section 9.2, and `tools/test_python_stack.py` enforces section 9.3.
 - Course language is Spanish; identifiers in English.
+- Commits follow the history's Conventional Commit shape scoped by unit or area: `feat(unidad-3): ...`, `fix(entregas): ...`, `docs(skills): ...`. `AGENTS.md` carries a shorter version of these rules for other agents, so keep the two consistent.
 - Prose is dense and argumentative — introduce a concept as the answer to a concrete failure, not as a standalone definition. Read `course/2_pipeline_de_datos/4_cuando_se_rompe.md` for the register.
 - Don't reuse third-party captures. Diagrams are regenerated as own-work SVG.
 - Cite dated claims with their year. The "60 % of time cleaning data" figure is a ~2016 CrowdFlower survey and is labeled as recycled industry folklore, not fresh fact.

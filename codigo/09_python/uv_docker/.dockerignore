@@ -1,0 +1,3 @@
+# Lo que nunca entra a la imagen.
+__pycache__/
+*.pyc

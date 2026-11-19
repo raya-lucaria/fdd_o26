@@ -19,7 +19,7 @@ el temario, cómo se califica y las dos primeras tareas.
 
 Las sesiones son los **martes y jueves, de 19:00 a 20:30**.
 
-Hay una sola excepción en todo el semestre: el **jueves 17 de septiembre** la sesión dura una hora, de **19:00 a 20:00**. Es la clase que abre la unidad de contenedores, se da sin computadora y no necesita más.
+Hay dos excepciones en todo el semestre, las dos de una hora, de **19:00 a 20:00**: el **jueves 17 de septiembre**, la clase que abre la unidad de contenedores, que se da sin computadora; y el **jueves 1 de octubre**, la clase de ambientes de Python.
 
 ## El repositorio del curso
 
@@ -41,15 +41,16 @@ con el flujo de [[el-ritual-del-curso|El ritual]]. Antes del 8 de septiembre de
 
 - **10 de agosto**: inicio de cursos.
 - **15 de septiembre** (martes): asueto; no hay clase.
-- **3 de noviembre** (martes): asueto; no hay clase.
-- **17 de noviembre** (martes): descanso obligatorio del ITAM; no hay clase.
+- **2 de noviembre** (lunes): asueto. Cae en lunes; no afecta al curso.
+- **16 de noviembre** (lunes): descanso obligatorio del ITAM. Cae en lunes; no afecta al curso.
 - **2 de diciembre**: fin de cursos.
 - **Del 7 al 19 de diciembre**: período de exámenes finales.
 
-Los tres días que nos quitan clase caen en martes. El descanso obligatorio del
-**16 de septiembre** es miércoles, así que a esta materia no le toca. En total
-se pierden tres sesiones en el semestre, todas de martes; los jueves salen
-completos.
+El único día que nos quita clase es el martes 15 de septiembre. El descanso
+obligatorio del **16 de septiembre** es miércoles, y el asueto del **2 de
+noviembre** y el descanso obligatorio del **16 de noviembre** son lunes, así que
+a esta materia no le tocan: hay clase los martes 3 y 17 de noviembre. En total
+se pierde una sesión en el semestre; los jueves salen completos.
 
 ## Contacto
 

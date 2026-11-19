@@ -1,0 +1,29 @@
+id: instalar-antigravity
+type: assignment
+authority: official
+content:
+  title: "Instalar Antigravity y comprobar que abre"
+  instructions: >-
+    Instala Antigravity en tu computadora y comprueba que funciona antes de la
+    clase del 3 de noviembre, porque ese día lo vamos a usar. En el aula no
+    hay internet: lo que no esté instalado y probado antes, no se puede
+    instalar ese día.
+    Descárgalo de la página oficial, que está abajo en los recursos, elige la
+    versión de tu sistema operativo e instálalo. Al abrirlo por primera vez te
+    pide iniciar sesión con una cuenta de Google; hazlo con la tuya.
+    Para comprobar que funciona, abre el programa, abre dentro de él la
+    carpeta de tu fork del curso y escríbele un mensaje corto al agente del
+    programa, por ejemplo que te diga qué archivos hay en la carpeta. Si
+    contesta, está listo. Si no abre, no deja iniciar sesión o el agente no
+    contesta, anota qué pasó y cómo lo reproduces, y llévalo a la clase: es
+    mejor descubrirlo ahora que ese día.
+    Esta tarea no se entrega: no hay pull request, no hay archivo ni captura,
+    y no tiene puntos. Sólo hay que llegar con el programa funcionando.
+  resources:
+    - title: "Antigravity — Descargar"
+      url: "https://antigravity.google/download"
+      note: "La página de descarga. Elige la versión de tu sistema operativo."
+  due: "2026-11-03"
+  points: 0
+  status: published
+  tags: [antigravity, preparacion, instalacion]

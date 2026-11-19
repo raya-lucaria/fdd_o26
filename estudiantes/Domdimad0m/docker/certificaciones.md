@@ -27,7 +27,7 @@ Se llena en la **segunda** entrega. El curso no está terminado todavía, así q
 **no hay certificado**: la captura que sirve es la página del curso con sus
 cuatro capítulos, donde se vean los dos primeros al 100 % y tu nombre.
 
-Fecha:
+Fecha:09/24/2026
 
 ![Captura de los capítulos 1 y 2 de Intermediate Docker](./intermedio-1-2.png)
 
@@ -35,14 +35,12 @@ Fecha:
 
 Se llena en la **tercera** entrega, cuando el curso ya está completo.
 
-Fecha:
+Fecha: 08/29/2026
 
-URL del Statement of Accomplishment:
+URL del Statement of Accomplishment: https://www.datacamp.com/completed/statement-of-accomplishment/course/ca553e85ffdd61e708e6b8fc4c58de584a1b2b6d
 
 ![Captura del curso Intermediate Docker terminado](./intermedio-3-4.png)
 
 ## Una cosa que aprendiste y no sabías
 
-Se llena en la **tercera** entrega. Dos o tres líneas. Algo concreto de alguno
-de los dos cursos que no habías visto en clase, o que en clase entendiste a
-medias y ahí se te acomodó.
+Algo que se me aclaró fue la diferencia entre imagen, contenedor y network. La imagen es la plantilla con los archivos y configuraciones de una aplicación, mientras que el contenedor es una instancia que se crea y ejecuta a partir de esa imagen, por lo que una misma imagen puede generar varios contenedores. La network es la que permite conectar y comunicar distintos contenedores entre sí. También entendí mejor los volúmenes, porque permiten guardar o compartir datos fuera del contenedor para que no se pierdan cuando este se elimina o se vuelve a crear.

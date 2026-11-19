@@ -1,0 +1,87 @@
+# Ficha de la entrega de la unidad 11 (cómputo y concurrencia): Claude
+# Academy, Claude Code 101. El esquema está en .github/tareas/README.md.
+
+[tarea]
+branch = "tarea-11-claude-code"
+asignacion = "claude-code-101"
+carpeta = "claude_code"
+available = "2026-11-03"
+due = "2026-11-05"
+penalizacion_tarde = "1/dia"
+ia = "permitida-revisada"
+debe_explicar = [
+  "qué hace un agente de programación como Claude Code que no hace un chat: el ciclo de leer, actuar con herramientas y observar el resultado",
+  "las cuatro fases del flujo explorar, planear, programar y hacer commit, y por qué no se salta a programar",
+  "para qué sirve el archivo CLAUDE.md y qué conviene escribir en él",
+  "qué distingue un subagente, una skill, un servidor MCP y un hook",
+  "la cosa que escribió en «Una cosa que aprendiste»: debe poder contarla sin leerla",
+]
+pagina = "Página «Las entregas de cómputo y concurrencia» (https://rayalucaria.org/fdd_o26/computo-y-concurrencia/entregas/)"
+
+[entregables]
+requeridos = ["certificaciones.md"]
+prohibidos = []
+
+[[capturas]]
+nombre = "claude-code-101"
+extensiones = [".png", ".jpg", ".jpeg"]
+minimo_bytes = 5000
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "Quién soy"
+pide = []
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "Claude Code 101"
+pide = ["fecha-iso", "url"]
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "Una cosa que aprendiste"
+pide = []
+
+[[patrones]]
+archivo = "certificaciones.md"
+seccion = "Claude Code 101"
+debe = 'https?://(www\.)?academy\.claude\.com/\S+'
+que = "la URL de la sección del curso no es una página de Claude Academy"
+porque = "quien revisa abre esa URL para ver el badge del curso; una dirección de otro sitio no prueba nada"
+investiga = "Página «Las entregas de cómputo y concurrencia»: ¿qué dirección tiene la página del badge al terminar el curso, y cuál pegaste?"
+nivel = "aviso"
+
+[revision]
+foco = [
+  "que la captura sea la página del badge de Claude Code 101 o el curso terminado, con el nombre del alumno visible",
+  "que la URL sea la página del badge de este curso en academy.claude.com: es la misma para todos, así que la evidencia es la captura",
+  "que la fecha sea verosímil: no futura, ni anterior al 2026-11-03 sin explicación",
+  "que «Una cosa que aprendiste» sea concreta y salga del temario del curso",
+  "si el alumno reporta que no terminó, que lo diga en el archivo: reportar el pendiente cuenta como entrega",
+]
+igual_es_normal = [
+  "el texto de la plantilla de certificaciones.md: rótulos y enlace a la captura",
+  "la composición de la captura: todos fotografían la misma página del badge",
+  "la URL del badge: puede ser la misma para todos, porque es la página del curso",
+  "fechas iguales entre entregas: el plazo es de dos días",
+]
+debe_ser_propio = [
+  "la captura, con su nombre visible",
+  "la sección «Una cosa que aprendiste»",
+]
+senales = [
+  "captura de una lección suelta o de la portada del curso en vez del badge o del curso terminado",
+  "captura sin nombre visible, o con otro nombre",
+  "captura idéntica en bytes a la de otra entrega",
+  "URL de otro curso de Claude Academy",
+  "«Una cosa que aprendiste» con un tema que no está en el curso: el curso tiene cuatro módulos (qué es Claude Code, el primer prompt, flujos diarios con contexto y revisión de código, y personalizarlo con CLAUDE.md, subagentes, skills, MCP y hooks) y un quiz; entrenar modelos o la API de mensajes no están",
+  "una URL distinta de la página del badge del curso (https://academy.claude.com/courses/claude-code-101/badge), por ejemplo con un identificador de alumno o de certificado: esa página no tiene identificador por alumno",
+  "«Una cosa que aprendiste» que repite una pregunta de debe_explicar o la redacción del enunciado, sin nada que sólo el curso enseñe",
+  "«Una cosa que aprendiste» que cuenta haber usado Claude Code en su máquina: la tarea no lo exige y practicar pide una cuenta de pago o una llave de la API; si de verdad lo usó, que lo pueda mostrar",
+  "«Una cosa que aprendiste» de una o dos palabras, o que dice que no aprendió nada",
+]
+donde_investigar = [
+  "https://rayalucaria.org/fdd_o26/computo-y-concurrencia/entregas/",
+  "https://academy.claude.com/courses/claude-code-101",
+  "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/",
+]

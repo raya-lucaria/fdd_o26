@@ -464,7 +464,14 @@ def tiene_fecha(cuerpo):
 
 
 def tiene_fecha_iso(cuerpo):
-    return bool(RE_ISO.search(_sin_imagenes(cuerpo)))
+    """Una fecha AAAA-MM-DD que exista: 2026-13-45 tiene la forma y no es fecha."""
+    for m in RE_ISO.finditer(_sin_imagenes(cuerpo)):
+        try:
+            datetime.date(*map(int, m.groups()))
+            return True
+        except ValueError:
+            continue
+    return False
 
 
 def tiene_url(cuerpo):

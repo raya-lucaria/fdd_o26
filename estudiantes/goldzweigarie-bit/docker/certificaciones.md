@@ -35,9 +35,9 @@ Fecha: 24/09/2026
 
 Se llena en la **tercera** entrega, cuando el curso ya está completo.
 
-Fecha:
+Fecha: 29/09/2026
 
-URL del Statement of Accomplishment:
+URL del Statement of Accomplishment: https://www.datacamp.com/completed/statement-of-accomplishment/course/aba21b6646ca34450f6a22e09c6c6f2dcf1a154d?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa 
 
 ![Captura del curso Intermediate Docker terminado](./intermedio-3-4.png)
 
@@ -46,3 +46,5 @@ URL del Statement of Accomplishment:
 Se llena en la **tercera** entrega. Dos o tres líneas. Algo concreto de alguno
 de los dos cursos que no habías visto en clase, o que en clase entendiste a
 medias y ahí se te acomodó.
+
+Yo aprendí lo que eran las dependencias. Se me hizo muy interesante como se define el orden de los recursos y como esos recursos pueden requerir otros recursos. También aprendí como definir esas dependencias.Por otro lado no sabía que en un dockerfile multi-stage podía usar COPY --from builder para traer solo el binario compilado de una etapa a otra descartando todo el código fuente y las herramientas de compilación, haciendo el tamaño final de la imagen mucha más chica. 

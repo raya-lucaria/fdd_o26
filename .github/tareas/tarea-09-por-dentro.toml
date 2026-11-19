@@ -1,0 +1,175 @@
+# Ficha de la entrega de la sección 9.2 (Python por dentro): DataCamp,
+# Intermediate Python for Developers, la revisión de revisa_esto.py y un
+# prompt-especificación. El esquema está en .github/tareas/README.md.
+#
+# Los tres .md siempre vienen en el pull request (el ritual de la página 0
+# hace commit de la plantilla), así que «falta X» nunca se dispara: lo que
+# atrapa la plantilla sin llenar son las [[secciones]], todas con sin_tocar
+# en "falla" (el valor por omisión).
+
+[tarea]
+branch = "tarea-09-por-dentro"
+asignacion = "python-por-dentro-entrega"
+carpeta = "09_python/por_dentro"
+available = "2026-10-06"
+due = "2026-10-13"
+penalizacion_tarde = "1/dia"
+ia = "permitida-revisada"
+debe_explicar = [
+  "por qué b = a no copia una lista, y qué pasa con b cuando cambia a",
+  "por qué cuatro hilos no aceleran un cálculo puro en Python con GIL, y qué sí lo acelera",
+  "qué pasa con un argumento por defecto log=[] entre una llamada y la siguiente",
+  "por qué 0.1 + 0.2 != 0.3, y qué usar para dinero",
+  "qué esconde un except que no hace nada",
+  "qué hacen *args y **kwargs (del curso de DataCamp)",
+  "cada error de su revision.md: la línea, por qué pasa y qué le pediría a la IA, contado sin leerlo",
+]
+pagina = "Página «Las entregas de Python por dentro» (https://rayalucaria.org/fdd_o26/python/por-dentro/a-entregas/)"
+
+[entregables]
+requeridos = ["certificado.md", "revision.md", "prompt.md", "por_dentro.ipynb"]
+prohibidos = []
+# El notebook ya trae el código: corrido y limpio de salidas queda igual a
+# la plantilla. Eso sólo avisa; los .md los atrapan sus [[secciones]].
+identica = "aviso"
+
+[[capturas]]
+nombre = "intermedio-python-developers"
+extensiones = [".png", ".jpg", ".jpeg"]
+minimo_bytes = 5000
+
+[[secciones]]
+archivo = "certificado.md"
+aguja = "Quién soy"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "certificado.md"
+aguja = "Intermediate Python for Developers"
+pide = ["fecha-iso", "url"]
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "certificado.md"
+aguja = "Una cosa que aprendiste"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "revision.md"
+aguja = "Error 1"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "revision.md"
+aguja = "Error 2"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "revision.md"
+aguja = "Error 3"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "revision.md"
+aguja = "Error 4"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "revision.md"
+aguja = "Error 5"
+pide = []
+sin_tocar = "falla"
+
+[[secciones]]
+archivo = "prompt.md"
+aguja = "Mi prompt"
+pide = []
+sin_tocar = "falla"
+
+[[patrones]]
+archivo = "certificado.md"
+seccion = "Intermediate Python for Developers"
+debe = 'https?://(www\.|app\.)?datacamp\.com/(completed|statement)\S+'
+que = "la URL de la sección del curso no es la de un Statement of Accomplishment de DataCamp"
+porque = "quien revisa verifica el curso en un clic con esa URL; una dirección de otro sitio no prueba nada"
+investiga = "Página «Las entregas de Python por dentro»: ¿qué dirección te da DataCamp al terminar el curso, y cuál pegaste?"
+nivel = "aviso"
+
+[[patrones]]
+archivo = "por_dentro.ipynb"
+no_debe = '"output_type"'
+que = "el notebook por_dentro.ipynb trae las salidas de tus celdas"
+porque = "las salidas guardan rutas de tu máquina, que pueden incluir tu nombre, y el repositorio es público"
+investiga = "Página «Las entregas de Python por dentro»: ¿en qué estado debe llegar el notebook?"
+nivel = "falla"
+
+
+[[patrones]]
+archivo = "revision.md"
+no_debe = '^Línea:[ \t]*([^\d\s].*)?\r?$'
+que = "la línea de algún error de revision.md está vacía o no es un número"
+porque = "sin el número de línea quien revisa no puede comprobar que encontraste el error en revisa_esto.py"
+investiga = "Página «Trabajar con IA», paso 2: ¿qué anotas por cada síntoma?"
+nivel = "falla"
+
+[revision]
+foco = [
+  "que el notebook venga sin salidas; si llega igual a la plantilla, es el aviso de identica: pregunta en clase si lo corrió",
+  "que la captura sea la página de Intermediate Python for Developers terminado al 100 % o su Statement of Accomplishment, con el nombre del alumno",
+  "que la URL abra un Statement of Accomplishment de este curso y no de Introduction to Python for Developers",
+  "que la fecha sea verosímil: no futura, ni anterior al 2026-10-06 sin explicación",
+  "que revision.md encuentre los cinco errores plantados de revisa_esto.py: por cada uno, una línea que de verdad lo produce, la causa con la idea de la página que la explica y un pedido concreto a la IA",
+  "que prompt.md sea una especificación de la tarea de gasolina.csv: versión de Python y cómo se corre, qué entra y qué sale, qué hacer con el precio vacío y la coma de miles, y cómo se verifica",
+  "si el alumno reporta que no terminó el curso, que lo diga en el archivo: reportar el pendiente cuenta como entrega",
+]
+igual_es_normal = [
+  "por_dentro.ipynb",
+  "*.py",
+  "ventas.csv",
+  "pyproject.toml",
+  "uv.lock",
+  ".python-version",
+  "el texto de la plantilla de certificado.md, revision.md y prompt.md: rótulos, la tarea de gasolina.csv y el enlace a la captura",
+  "la composición de la captura: todos fotografían la misma página de DataCamp",
+  "los síntomas de revision.md: todos corren el mismo revisa_esto.py y ven la misma salida",
+  "números de línea iguales entre entregas: es el mismo archivo para todos",
+  "los tiempos con y sin hilos del síntoma 3 cambian de máquina a máquina",
+]
+debe_ser_propio = [
+  "la captura, con su nombre visible",
+  "la sección «Una cosa que aprendiste»",
+  "el «Por qué pasa» y el «Qué le pedirías a la IA» de cada error",
+  "el prompt de «Mi prompt»",
+]
+senales = [
+  "captura de un ejercicio suelto o del panel de inicio en vez de la página del curso o del Statement of Accomplishment",
+  "captura sin nombre visible, o con otro nombre, o idéntica en bytes a la de otra entrega",
+  "URL de Statement of Accomplishment de otro curso, en particular la de Introduction to Python for Developers",
+  "revision.md que copia la tabla de síntomas de la página «Python por dentro» sin decir línea ni causa",
+  "una «Línea» que no corresponde, en el revisa_esto.py de la plantilla, al síntoma que su sección describe",
+  "errores de revision.md que no están en revisa_esto.py, o que señalan resume_ventas.py",
+  "revision.md que cita líneas de respuesta_original.py antes del 2026-10-13: ese archivo no está en la carpeta, se publica el 2026-10-13",
+  "prompt.md sin versión de Python, sin casos borde (precio vacío, coma de miles) o sin cómo verificar",
+  "prompt.md que trae un script en lugar de un prompt: la tarea pide el pedido, no el código",
+  "notebook de más de 1 MB: la API no manda su contenido y el patrón de salidas no lo pudo leer; ábrelo a mano",
+  "rótulos de revision.md de una o dos palabras",
+  "Qué le pedirías a la IA de menos de cinco palabras",
+  "usuario de DataCamp vacío o igual al de GitHub",
+  "captura de más de 5000 bytes que no es una imagen",
+  "línea y causa correctas sin ninguna frase propia sobre el síntoma",
+  "el pull request trae archivos de 09_python/uv_docker/ o 09_python/ambientes/: la revisión automática no lo distingue porque las dos entregas comparten 09_python/",
+  "el certificado en python/ en vez de 09_python/por_dentro/: es la carpeta de la entrega de Introduction to Python",
+  "«Una cosa que aprendiste» con un tema que no está en el curso intermedio (funciones, argumentos, docstrings, *args y **kwargs, lambda, módulos y paquetes, try/except y raise)",
+]
+donde_investigar = [
+  "https://rayalucaria.org/fdd_o26/python/por-dentro/a-entregas/",
+  "https://rayalucaria.org/fdd_o26/python/por-dentro/trabajar-con-ia/",
+  "https://app.datacamp.com/learn/courses/intermediate-python-for-developers",
+  "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/",
+]

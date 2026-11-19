@@ -41,3 +41,7 @@ Todo esto está explicado en la unidad: https://rayalucaria.org/fdd_o26/git-y-gi
 | `github/` | 07 — GitHub | Certificaciones de Git y GitHub, de acumulación por entrega. |
 | `08_contenedores/` | 08 — Contenedores | Laboratorios e imagen propia de la unidad. Ojo: el nombre lleva el cero adelante. |
 | `docker/` | 08 — Contenedores | Certificaciones de Docker, de acumulación por entrega. |
+| `09_python/` | 09 — Python | `ambientes/` (labs de clase), `uv_docker/` (entrega), `por_dentro/` (labs y entrega de la 9.2) y `stack/` (notebooks y entrega de la 9.3). Todo se trabaja en `estudiantes/<tu-login>/`. Ojo: el nombre lleva el cero adelante. |
+| `python/` | 09 — Python | Certificaciones de Python, de acumulación por entrega. |
+| `fastapi/` | 11 — Cómputo y concurrencia | Certificaciones de FastAPI (`certificaciones.md` y su captura). |
+| `claude_code/` | 11 — Cómputo y concurrencia | Certificación de Claude Code 101 (`certificaciones.md` y la captura del badge). |
