@@ -11,9 +11,9 @@ El repositorio es público: no escribas aquí tu nombre completo ni tu correo.
 
 ## Software Engineering Principles in Python, capítulos 3 y 4
 
-Fecha en que terminaste el capítulo 4 (AAAA-MM-DD): no he terminado los capítulos 3 y 4. Reporto el pendiente el 2026-11-19.
+Fecha en que terminaste el capítulo 4 (AAAA-MM-DD): 2026-11-19
 
-Pendiente: los capítulos 3 y 4 y su captura. Cuando los termine, actualizo esta sección con la fecha y la captura, en este mismo pull request.
+![Captura del curso con los capítulos 3 y 4 al 100 %](./software-engineering.png)
 
 ## Una cosa que aprendiste y no sabías
 
