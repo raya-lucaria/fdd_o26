@@ -11,11 +11,11 @@ El repositorio es público: no escribas aquí tu nombre completo ni tu correo.
 
 ## Intermediate Python for Developers
 
-Fecha en que lo terminaste (AAAA-MM-DD): no lo he terminado. Reporto el pendiente el 2026-11-19.
+Fecha en que lo terminaste (AAAA-MM-DD): 2026-11-19
 
-URL del Statement of Accomplishment: todavía no existe porque el curso no está terminado. El curso es https://app.datacamp.com/learn/courses/intermediate-python-for-developers
+URL del Statement of Accomplishment: https://www.datacamp.com/completed/statement-of-accomplishment/course/d4f9d826bc8ad44f56b82eaf44da6c1bbd0228a6
 
-Pendiente: el curso completo y su captura. Cuando lo termine, actualizo esta sección con la fecha, la URL del Statement of Accomplishment y la captura, en este mismo pull request.
+![Captura del curso Intermediate Python for Developers terminado](./intermedio-python-developers.png)
 
 ## Una cosa que aprendiste y no sabías
 
