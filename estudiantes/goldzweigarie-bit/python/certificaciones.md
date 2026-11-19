@@ -5,7 +5,7 @@ Llena este archivo en **tu copia**, dentro de `estudiantes/<tu-login>/python/`.
 ## Quién soy
 
 - Usuario de GitHub: goldzweigarie-bit
-- Usuario de DataCamp: 
+- Usuario de DataCamp: Arie G
 
 El repositorio es público: no escribas aquí tu nombre completo ni tu correo.
 
@@ -13,7 +13,7 @@ El repositorio es público: no escribas aquí tu nombre completo ni tu correo.
 
 Fecha en que lo terminaste (AAAA-MM-DD): 2026-10-06
 
-URL del Statement of Accomplishment:https://www.datacamp.com/courses/ 
+URL del Statement of Accomplishment: https://www.datacamp.com/completed/statement-of-accomplishment/course/faa0ee89850ab477e74b7c6ffc6f80b15a0b01f3
 
 ![Captura del curso Introduction to Python for Developers terminado](./introduccion-python-developers.png)
 
