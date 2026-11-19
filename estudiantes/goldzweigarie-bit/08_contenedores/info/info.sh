@@ -15,3 +15,6 @@ echo ""
 echo "=== Disco ==="
 
 df -h /
+echo "GitHub: goldzweigarie-bit"
+echo "Fecha de build: $(cat /app/fecha_build)"
+echo "Dato extra: arquitectura $(uname -m), $(nproc) CPUs"
