@@ -17,4 +17,4 @@ Fecha en que terminaste el capítulo 4 (AAAA-MM-DD): 2026-11-19
 
 ## Una cosa que aprendiste y no sabías
 
-Pendiente: la lleno cuando termine los capítulos 3 y 4.
+Aprendí que un docstring no sólo documenta: si trae ejemplos escritos como en la consola (`>>>` y el resultado esperado), `doctest` los corre y avisa si la función ya no da ese resultado. También entendí mejor la herencia: una clase hija llama a `super().__init__()` para reusar lo que ya hace la clase padre y sólo agrega lo nuevo.
