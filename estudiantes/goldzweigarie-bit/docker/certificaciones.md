@@ -15,7 +15,7 @@ partes, por eso hay tres secciones.
 
 Se llena en la **primera** entrega.
 
-Fecha en que lo terminaste: 22/10/2026
+Fecha en que lo terminaste: 22/09/2026
 
 URL del Statement of Accomplishment: https://www.datacamp.com/statement-of-accomplishment/course/415add39089b7d71d52fb3d900e8845a795a7ffb?raw=1
 
@@ -27,7 +27,7 @@ Se llena en la **segunda** entrega. El curso no está terminado todavía, así q
 **no hay certificado**: la captura que sirve es la página del curso con sus
 cuatro capítulos, donde se vean los dos primeros al 100 % y tu nombre.
 
-Fecha: 24/10/2026
+Fecha: 24/09/2026
 
 ![Captura de los capítulos 1 y 2 de Intermediate Docker](./intermedio-1-2.png)
 
