@@ -50,23 +50,33 @@ La salida completa del reporte corrido con uv en tu máquina.
 La salida completa del reporte corrido desde tu imagen.
 
 ```text
-
+$ docker run --rm --platform linux/amd64 goldz177/uv-docker:latest
 Unable to find image 'goldz177/uv-docker:latest' locally
 latest: Pulling from goldz177/uv-docker
-b9a2dbd7c8c7: Pull complete 
-3c7dd35fd5c6: Pull complete 
-3bc819c10bcd: Pull complete 
-f27ecdf90668: Pull complete 
-3f59dd987f58: Pull complete 
-44136fa355b3: Already exists 
-c9272815eca4: Download complete 
-Digest: sha256:5022ac346eb9d71bcf40a203b181ed94ffb1dcf7e2fb18f97e6fe16c7cfd4d90
+249a9df70e11: Pulling fs layer
+fc1e8eeca2cf: Pulling fs layer
+d95e0d70fbf5: Pulling fs layer
+12024e149fed: Pulling fs layer
+a6f982dec778: Pulling fs layer
+249a9df70e11: Already exists
+fc1e8eeca2cf: Already exists
+d95e0d70fbf5: Already exists
+12024e149fed: Already exists
+a6f982dec778: Already exists
+44136fa355b3: Already exists
+fc1e8eeca2cf: Pull complete
+d95e0d70fbf5: Pull complete
+12024e149fed: Pull complete
+249a9df70e11: Pull complete
+a6f982dec778: Pull complete
+e4eec744c1fb: Download complete
+Digest: sha256:d689fdc8adeb651f65da5d491636e9dac40a771723a37b1b49336936c0829d13
 Status: Downloaded newer image for goldz177/uv-docker:latest
                   Mi ambiente                  
 ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ Qué                 ┃ Valor                 ┃
 ┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
-│ Python              │ 3.13.16               │
+│ Python              │ 3.13.18               │
 │ Intérprete          │ /app/.venv/bin/python │
 │ sys.prefix          │ /app/.venv            │
 │ ¿En un ambiente?    │ sí                    │
@@ -86,8 +96,7 @@ Status: Downloaded newer image for goldz177/uv-docker:latest
 │ requests           │ 2.34.2    │
 │ rich               │ 15.0.0    │
 │ urllib3            │ 2.8.0     │
-└────────────────────┴────────
-
+└────────────────────┴───────────┘
 ```
 
 ## Qué cambió y qué no
@@ -97,13 +106,13 @@ distinto, y por qué.
 
 Las versiones de los paquetes (rich 15.0.0, requests 2.34.2 y todas sus dependencias) son exactamente las mismas gracias a que uv.lock fija las versiones precisas.
 La ruta del "Intérprete" y el valor de "sys.prefix". En mi máquina (Mac Apple Silicon) apunta a /Users/ariegoldzweig/.../.venv y muestra Darwin arm64, mientras que en el contenedor apunta a /app/.venv y muestra Linux x86_64.
-Porque uv sync --frozen crea un ambiente virtual aislado dentro del contenedor, independiente del sistema operativo anfitrión, pero el lock file garantiza que las versiones de los paquetes sean idénticas en ambos ambientes.
+Porque uv sync --locked crea un ambiente virtual aislado dentro del contenedor, independiente del sistema operativo anfitrión, pero el lock file garantiza que las versiones de los paquetes sean idénticas en ambos ambientes.
 
 ## Tu imagen en Docker Hub
 
 URL pública:https://hub.docker.com/r/goldz177/uv-docker 
 
-Digest:sha256:5022ac346eb9d71bcf40a203b181ed94ffb1dcf7e2fb18f97e6fe16c7cfd4d90
+Digest: sha256:d689fdc8adeb651f65da5d491636e9dac40a771723a37b1b49336936c0829d13
 
 Comando para correrla: docker run --rm --platform linux/amd64 goldz177/uv-docker:latest
 
@@ -118,25 +127,35 @@ Removing login credentials for https://index.docker.io/v1/
 
 $ docker rmi -f goldz177/uv-docker:latest
 Untagged: goldz177/uv-docker:latest
-Deleted: sha256:5022ac346eb9d71bcf40a203b181ed94ffb1dcf7e2fb18f97e6fe16c7cfd4d90
+Deleted: sha256:d689fdc8adeb651f65da5d491636e9dac40a771723a37b1b49336936c0829d13
 
 $ docker run --rm --platform linux/amd64 goldz177/uv-docker:latest
 Unable to find image 'goldz177/uv-docker:latest' locally
 latest: Pulling from goldz177/uv-docker
-b9a2dbd7c8c7: Pull complete 
-3c7dd35fd5c6: Pull complete 
-3bc819c10bcd: Pull complete 
-f27ecdf90668: Pull complete 
-3f59dd987f58: Pull complete 
-44136fa355b3: Already exists 
-c9272815eca4: Download complete 
-Digest: sha256:5022ac346eb9d71bcf40a203b181ed94ffb1dcf7e2fb18f97e6fe16c7cfd4d90
+249a9df70e11: Pulling fs layer
+fc1e8eeca2cf: Pulling fs layer
+d95e0d70fbf5: Pulling fs layer
+12024e149fed: Pulling fs layer
+a6f982dec778: Pulling fs layer
+249a9df70e11: Already exists
+fc1e8eeca2cf: Already exists
+d95e0d70fbf5: Already exists
+12024e149fed: Already exists
+a6f982dec778: Already exists
+44136fa355b3: Already exists
+fc1e8eeca2cf: Pull complete
+d95e0d70fbf5: Pull complete
+12024e149fed: Pull complete
+249a9df70e11: Pull complete
+a6f982dec778: Pull complete
+e4eec744c1fb: Download complete
+Digest: sha256:d689fdc8adeb651f65da5d491636e9dac40a771723a37b1b49336936c0829d13
 Status: Downloaded newer image for goldz177/uv-docker:latest
                   Mi ambiente                  
 ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ Qué                 ┃ Valor                 ┃
 ┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
-│ Python              │ 3.13.16               │
+│ Python              │ 3.13.18               │
 │ Intérprete          │ /app/.venv/bin/python │
 │ sys.prefix          │ /app/.venv            │
 │ ¿En un ambiente?    │ sí                    │
