@@ -57,9 +57,9 @@ sha256:4f2bb0ecd65ff4d51a3adc34ae8204bd24e30249de1a6913ef3f263d6dac5596   38 sec
 
 ## Los tres defectos de `roto/Dockerfile`
 
-1. Imagen base python:latest (>900MB) → cambié a python:3.12-slim
-2. pip install sin --no-cache-dir → agregué la bandera
-3. Falta USER (corre como root) → agregué useradd y USER appuser
+1. `FROM python:latest`: `latest` es una etiqueta que se mueve, así que la imagen de hoy no es la de mañana (otro Python, otro digest) y además pesa cerca de un giga. Se comprueba con `docker images python`. Lo cambié por `FROM python:3.12-slim`, una versión fija y varias veces más chica.
+2. `COPY . .` antes del `RUN pip install`: como copia también `app.py`, cualquier cambio de una línea de código invalida esa capa y vuelve a correr todo el `pip install`. Se comprueba tocando `app.py` y reconstruyendo: el paso de `pip install` corre otra vez, sin `CACHED`. Lo partí en dos: primero `COPY requirements.txt .` y `RUN pip install`, y después `COPY . .`, así la capa de dependencias se queda en caché.
+3. No había ninguna instrucción `USER`: el proceso corría como `root`, y lo que escribiera en un volumen montado quedaría de `root`. Se comprueba con `docker run --rm` y la línea `Corriendo como: root` que imprime `app.py`. Agregué `RUN useradd -m appuser` y `USER appuser` después de instalar y copiar, para que la app corra sin privilegios.
 
 ## Una cosa que se me rompió
 
