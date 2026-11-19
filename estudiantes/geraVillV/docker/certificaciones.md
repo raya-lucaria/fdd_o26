@@ -23,26 +23,21 @@ URL del Statement of Accomplishment: https://www.datacamp.com/completed/statemen
 
 ## Intermediate Docker · capítulos 1 y 2
 
-Se llena en la **segunda** entrega. El curso no está terminado todavía, así que
-**no hay certificado**: la captura que sirve es la página del curso con sus
-cuatro capítulos, donde se vean los dos primeros al 100 % y tu nombre.
-
-Fecha:
+Fecha:24 de Septiembre de 2026.
 
 ![Captura de los capítulos 1 y 2 de Intermediate Docker](./intermedio-1-2.png)
 
 ## Intermediate Docker · capítulos 3 y 4
 
-Se llena en la **tercera** entrega, cuando el curso ya está completo.
+Fecha:26 de septiembre de 2026.
 
-Fecha:
-
-URL del Statement of Accomplishment:
+URL del Statement of Accomplishment: https://www.datacamp.com/completed/statement-of-accomplishment/course/6678d1404e9999d7d6bbecda4e73287ea772fd52
 
 ![Captura del curso Intermediate Docker terminado](./intermedio-3-4.png)
 
 ## Una cosa que aprendiste y no sabías
 
-Se llena en la **tercera** entrega. Dos o tres líneas. Algo concreto de alguno
-de los dos cursos que no habías visto en clase, o que en clase entendiste a
-medias y ahí se te acomodó.
+No había pensado en cómo Docker Compose permite definir y levantar varios
+servicios que se comunican entre sí desde un solo archivo. También entendí
+mejor el papel de los puertos y de las dependencias entre servicios al trabajar
+con el ejercicio final de una aplicación completa.

@@ -1,0 +1,9 @@
+[project]
+name = "apis"
+version = "0.1.0"
+description = "Labs de la sección 10.1 APIs y HTTP"
+requires-python = ">=3.13"
+dependencies = ["requests>=2.32"]
+
+[dependency-groups]
+dev = ["ipykernel>=6"]

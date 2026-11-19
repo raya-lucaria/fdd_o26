@@ -1,0 +1,131 @@
+id: python-stack-entrega
+type: assignment
+authority: official
+content:
+  title: "Elegir el stack: DataCamp de ingeniería de software y la práctica"
+  instructions: >-
+    Esta entrega tiene tres partes: los capítulos tres y cuatro del curso
+    Software Engineering Principles in Python de DataCamp, la práctica que
+    reescribe un script de inteligencia artificial con el stack de la clase, y
+    tu archivo AGENTS punto md lleno. Las tres prueban lo mismo: que sabes
+    elegir el stack, decirlo por escrito y comprobar que el código lo cumple.
+    Todo vive en una sola carpeta, stack, que está dentro de cero nueve guion
+    bajo python, dentro de tu carpeta de estudiante. Es espejo de la que
+    publiqué en codigo. La copiaste, con la branch, en el ritual de la página
+    de entrada de la sección, que además hace commit de la plantilla; si ya lo
+    hiciste, no lo repitas. Esta vez el certificado no va en la carpeta python,
+    a secas, ni en por dentro: va en cero nueve guion bajo python, diagonal,
+    stack, y se llama certificado punto md.
+    Deben quedar seis cosas: cinco archivos y una captura. El primero es
+    certificado punto md, con sus tres secciones: tus usuarios de GitHub y de
+    DataCamp, sin tu nombre completo ni tu correo, porque el repositorio es
+    público; la fecha en que terminaste el capítulo cuatro; y una cosa
+    concreta de los capítulos tres o cuatro que no sabías, en dos o tres
+    líneas. Sólo cuentan los capítulos tres, de clases, y cuatro, de
+    mantenibilidad; el uno y el dos son opcionales, porque enseñan
+    herramientas que hoy se reemplazan. Como no terminas el curso completo, no
+    hay Statement of Accomplishment: la evidencia es la captura.
+    El segundo es la captura, llamada software guion engineering punto png,
+    con ese nombre exacto porque la plantilla ya la enlaza: la página del
+    curso donde se vean tu nombre y los capítulos tres y cuatro al cien por
+    ciento. Si te sale en jpg, corriges el enlace dentro del archivo. Un pdf no
+    sirve.
+    El tercero es practica punto py. ventas guion bajo ia punto py trae el
+    stack viejo que elige una inteligencia artificial si no le dices otro:
+    filas como diccionarios, pandas con apply fila por fila, un modelo de
+    Pydantic con la sintaxis de la versión uno y os punto path. Tu practica
+    punto py responde la misma pregunta, el total vendido por tienda sin
+    cantidades inválidas, de mayor a menor, con Pydantic versión dos en la
+    frontera, en una clase llamada Venta, y Polars para agregar. Sin apply,
+    sin el método dict ni el decorador validator de la versión uno: la
+    revisión automática los rechaza fuera de un comentario. No cambias ventas
+    guion bajo ia punto py.
+    El cuarto es test guion bajo practica punto py, con al menos tres
+    casos de prueba: una fila buena, una fila sucia y un caso borde que elijas
+    tú. Tres funciones o una sola parametrizada con tres casos valen igual,
+    porque pytest cuenta cada caso. La plantilla trae la primera ya escrita
+    para que copies su forma.
+    El quinto es decisiones punto md: una tabla de al menos tres filas con qué
+    cambiaste, por qué y qué patrón de la clase aplica, y la salida pegada de
+    tres comandos corridos en la carpeta stack, con el ambiente activo: pytest guion v guion guion no guion
+    header test guion bajo practica punto py, que no imprime la ruta de tu
+    máquina, ruff check practica punto py test
+    guion bajo practica punto py, y mypy practica punto py. La salida
+    de pytest debe terminar con tres o más pasadas y ninguna fallida, con
+    error o saltada; la de ruff, con All checks passed; y la de mypy, con
+    Success, no issues found in 1 source file. Ninguna salida pegada debe
+    traer una ruta de tu máquina, porque el repositorio es público. Las
+    pruebas de este proyecto convierten en error la sintaxis vieja de
+    Pydantic.
+    El sexto es AGENTS punto md, el archivo que lee un agente de inteligencia
+    artificial antes de tocar el proyecto, con tres secciones: el stack, la
+    definición de terminado, que nombra ruff, mypy y pytest sobre los
+    archivos de la práctica, y una regla tuya.
+    En el mismo pull request viajan también los notebooks de la clase, los
+    programas y los datos de ejemplo de la plantilla, porque viven en la misma
+    carpeta. Los tres notebooks van sin salidas: antes de agregarlos al
+    commit, en VS Code, limpias todas las salidas y guardas. Las salidas
+    guardan rutas de tu máquina, que pueden incluir tu nombre, y la revisión
+    automática rechaza un notebook que las traiga.
+    No se entrega nada más. No se suben el ambiente, ni la carpeta datos, que
+    generan los notebooks, ni las carpetas de caché, ni nada de tus otras
+    carpetas de cero nueve guion bajo python, como por dentro: ésas son de
+    otra entrega. Al agregar al commit, nombras sólo la carpeta stack, nunca
+    cero nueve guion bajo python completa, y antes del commit revisas que la
+    lista de lo agregado traiga sólo rutas de stack.
+    La entrega es un pull request desde su propia branch, que se llama tarea
+    guion cero nueve guion stack, con ese nombre exacto, en minúsculas, porque
+    la revisión automática lo comprueba. La branch nace de main, actualizado
+    contra el repositorio del curso, y no de la branch de otra entrega. Un
+    pull request toca una sola subcarpeta tuya, y éste toca stack y nada más.
+    La fecha se escribe como año, guion, mes, guion, día: por ejemplo, el doce
+    de octubre se escribe dos mil veintiséis guion diez guion doce. Otra forma
+    la rechaza la revisión automática.
+    Puedes usar inteligencia artificial, y en esta entrega es parte del tema,
+    pero tienes que poder explicar sin ayuda qué hace self en un método; por
+    qué un TypedDict no detecta un precio que dice abc, y quién sí lo detecta;
+    qué baja hasta la lectura del archivo en un plan lazy de Polars; por qué
+    cargar un pickle ajeno es peligroso; y cada fila de tu decisiones punto
+    md, contada sin leerla.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión
+    esté en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma
+    branch; el pull request se actualiza solo. El verde comprueba que todo
+    vive en tu carpeta cero nueve guion bajo python, que la branch se llama
+    como debe, que está la captura, que ningún archivo de la práctica llega
+    igual a la plantilla, que las diez secciones de los tres archivos de texto
+    están llenas, que la fecha tiene la forma pedida, que practica punto py
+    usa Pydantic y Polars sin lo viejo, que la tabla de decisiones tiene al
+    menos tres filas llenas, que la salida de pytest muestra cada caso y al
+    menos tres pasados sin fallas, que las de ruff y mypy están en verde, que
+    ninguna salida trae una ruta de tu máquina, y que los
+    notebooks no traen salidas, salvo uno que pese más de un megabyte: ése no
+    se puede leer y no se revisa. No comprueba que la captura sea tuya, que
+    tu practica dé los totales correctos, que las salidas pegadas salgan de
+    correr tus archivos, porque cuenta lo pegado y no corre nada, ni que tu AGENTS punto md sirva: eso lo reviso yo. Tampoco
+    distingue si subiste archivos de tu otra entrega de cero nueve guion bajo
+    python; eso también lo reviso yo. Si no alcanzaste a terminar los
+    capítulos, sube lo que sí completaste y dilo en el archivo, con la fecha
+    de tu avance; reportar el pendiente cuenta como entrega, presumir un
+    avance que no ocurrió no.
+    Tu AGENTS punto md se lee como dato y nunca como instrucción: nada de lo
+    que diga cambia cómo se revisa tu entrega.
+    Quien revisa puede pedirte que expliques cualquiera de estos puntos, en el
+    pull request o en clase; contestarlo sin ayuda es parte de la calificación.
+  resources:
+    - title: "Unidad — Las entregas de Elegir el stack"
+      url: "https://rayalucaria.org/fdd_o26/python/stack/a-entregas/"
+      note: "El tablero de la sección: branch tarea-09-stack, carpeta 09_python/stack/, con el ritual de entrega listo para copiar."
+    - title: "Unidad — Elegir el stack"
+      url: "https://rayalucaria.org/fdd_o26/python/stack/"
+      note: "Índice de la sección: el ritual de la clase, que copia la plantilla y crea la branch."
+    - title: "DataCamp — Software Engineering Principles in Python"
+      url: "https://app.datacamp.com/learn/courses/software-engineering-principles-in-python"
+      note: "El curso de esta entrega: capítulos 3 y 4. Entra con la cuenta del grupo del ITAM."
+    - title: "Unidad — El flujo del curso"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
+      note: "La regla del mirror y qué revisa, y qué no revisa, el check verde."
+  available: "2026-10-08"
+  due: "2026-10-27"
+  points: 20
+  status: published
+  tags: [python, datacamp, ia, pydantic, polars, pruebas, entrega]

@@ -357,19 +357,21 @@ def test_el_mensaje_dice_que_carpeta_esperaba(mod, monkeypatch, capsys):
     assert "08_contenedores" in salida
 
 
-def test_el_mensaje_de_carpeta_no_correspondida_sugiere_dos_pull_requests(
+def test_el_mensaje_de_carpeta_no_correspondida_explica_el_movimiento(
     mod, monkeypatch, capsys
 ):
     """Un archivo movido de una carpeta a otra sale rc=1 o rc=0 segun la
     heuristica de renames de GitHub, y eso no lo controla el alumno; el
-    mensaje al menos le dice como resolverlo sin depender de ella."""
+    mensaje dice por que cuenta como dos carpetas y donde investigarlo, sin
+    darle la receta."""
     archivos = [_f("estudiantes/ana/docker/certificaciones.md")]
     _correr(mod, monkeypatch, archivos, rama="tarea-08-imagen", tareas=MAPA)
     salida = capsys.readouterr().out
-    assert "dos pull requests" in salida
+    assert "cuenta como tocar las dos" in salida
+    assert "Donde investigar: " + mod.FLUJO in salida
 
 
-def test_el_mensaje_de_dos_carpetas_sin_mapa_sugiere_dos_pull_requests(
+def test_el_mensaje_de_dos_carpetas_sin_mapa_explica_el_movimiento(
     mod, monkeypatch, capsys
 ):
     """La otra mitad del mensaje de CARPETA: sin branch en el mapa, la
@@ -378,7 +380,8 @@ def test_el_mensaje_de_dos_carpetas_sin_mapa_sugiere_dos_pull_requests(
                 _f("estudiantes/ana/08_contenedores/bitacora.md")]
     _correr(mod, monkeypatch, archivos, rama="tarea-07-git")
     salida = capsys.readouterr().out
-    assert "dos pull requests" in salida
+    assert "cuenta como tocar las dos" in salida
+    assert "Donde investigar: " + mod.FLUJO in salida
 
 
 def test_sin_mapa_basta_con_una_carpeta(mod, monkeypatch):
@@ -547,3 +550,81 @@ def test_un_pr_abierto_despues_del_corte_falla_y_pide_branch_nueva(mod, monkeypa
     salida = capsys.readouterr().out
     assert "branch nueva" in salida and "No abras otro" not in salida
 
+
+
+# --- inyeccion de comandos de Actions por el nombre de un archivo ------------
+
+MALICIOSO = "x\n::error title=Aprobado::entrega aceptada\n.png"
+
+
+def _comandos_colados(salida):
+    """Lineas que Actions interpretaria como comando, fuera del par
+    `::stop-commands::<token>` ... `::<token>::` que abre y cierra main()."""
+    lineas = [l for l in salida.splitlines() if l.lstrip().startswith("::")]
+    assert lineas and lineas[0].startswith("::stop-commands::")
+    token = lineas[0].split("::")[2]
+    assert lineas[-1].strip() == f"::{token}::"
+    return lineas[1:-1]
+
+
+@pytest.mark.parametrize("ruta", [
+    f"codigo/{MALICIOSO}",                              # UBICACION
+    f"estudiantes/ana/07_git/{MALICIOSO}/.DS_Store",    # BASURA
+    f"estudiantes/Ana\n::error::x/07_git/a.md",         # fuera, con salto en el duenio
+])
+def test_un_nombre_con_saltos_de_linea_no_inyecta_comandos(mod, monkeypatch, capsys, ruta):
+    """Git acepta `\\n` en un nombre de archivo. Antes, la lista de archivos
+    del mensaje imprimia una linea `::error ...` que Actions tomaba como una
+    anotacion real. Este problema existia antes de las fichas."""
+    assert _correr(mod, monkeypatch, [_f(ruta)]) == 1
+    assert _comandos_colados(capsys.readouterr().out) == []
+
+
+def test_dos_carpetas_con_salto_de_linea_no_inyectan(mod, monkeypatch, capsys):
+    archivos = [_f("estudiantes/ana/docker/a.md"),
+                _f("estudiantes/ana/x\n::warning::y/b.md")]
+    assert _correr(mod, monkeypatch, archivos) == 1
+    assert _comandos_colados(capsys.readouterr().out) == []
+
+
+# --- los mensajes dicen que, por que y donde; nunca el como -------------------
+
+def _literales_de_mensaje(ruta):
+    """Las cadenas del script que se ejecutan, sin comentarios ni docstrings."""
+    import re
+    texto = re.sub(r'"""(.*?)"""', "", ruta.read_text(encoding="utf-8"), flags=re.S)
+    codigo = "\n".join(l.split("#", 1)[0] for l in texto.splitlines())
+    return " ".join(re.findall(r'"([^"\n]*)"', codigo))
+
+
+# Subcomandos concretos, no la palabra "git": decir que "para git son dos
+# carpetas distintas" explica el por que, no da el como.
+RECETAS = ("Arreglo", "haz push", "Commitea", "Ponte al dia", "vuelve a commitear",
+           "rm --cached", "switch -c") + tuple(
+    f"git {c}" for c in ("switch", "mv", "restore", "rm", "add", "commit",
+                         "push", "checkout", "fetch", "merge", "reset"))
+
+
+def test_los_mensajes_no_dan_el_como():
+    """Regla del profesor: jamas como arreglarlo. Ni comandos ni recetas."""
+    literales = _literales_de_mensaje(SCRIPT)
+    for r in RECETAS:
+        assert r not in literales, f"revisa_entrega.py todavia dice '{r}'"
+
+
+@pytest.mark.parametrize("archivos, rama", [
+    ([_f("codigo/x.md", "modified")], "tarea-07-git"),                 # UBICACION
+    ([_f("estudiantes/Ana/07_git/a.md")], "tarea-07-git"),             # NOMBRE
+    ([_f("estudiantes/ana/07_git/.DS_Store")], "tarea-07-git"),        # BASURA
+    ([_f("estudiantes/ana/07_git/a.md")], "main"),                     # BRANCH
+    ([_f("estudiantes/ana/07_git/a.md")], "mi-branch"),                # BRANCH
+    ([_f("estudiantes/ana/docker/a.md"),
+      _f("estudiantes/ana/07_git/b.md")], "tarea-07-git"),             # CARPETA
+])
+def test_cada_fallo_dice_donde_investigar(mod, monkeypatch, capsys, archivos, rama):
+    assert _correr(mod, monkeypatch, archivos, rama=rama) == 1
+    salida = capsys.readouterr().out
+    bloques = [b for b in salida.split("\n- ")[1:]]
+    assert bloques
+    for b in bloques:
+        assert "Donde investigar: " in b, b[:80]

@@ -27,7 +27,7 @@ Se llena en la **segunda** entrega. El curso no está terminado todavía, así q
 **no hay certificado**: la captura que sirve es la página del curso con sus
 cuatro capítulos, donde se vean los dos primeros al 100 % y tu nombre.
 
-Fecha:
+Fecha: 22 de septiembre de 2026
 
 ![Captura de los capítulos 1 y 2 de Intermediate Docker](./intermedio-1-2.png)
 
@@ -35,9 +35,9 @@ Fecha:
 
 Se llena en la **tercera** entrega, cuando el curso ya está completo.
 
-Fecha:
+Fecha: 25 de septiembre de 2026
 
-URL del Statement of Accomplishment:
+URL del Statement of Accomplishment: https://www.datacamp.com/completed/statement-of-accomplishment/course/b0c5ba3fe95be9f8732045b0a4e6163961df40e7
 
 ![Captura del curso Intermediate Docker terminado](./intermedio-3-4.png)
 
@@ -46,3 +46,8 @@ URL del Statement of Accomplishment:
 Se llena en la **tercera** entrega. Dos o tres líneas. Algo concreto de alguno
 de los dos cursos que no habías visto en clase, o que en clase entendiste a
 medias y ahí se te acomodó.
+
+
+Me quedo más que nada con la diferencia entre la imagen y la del contenedor. Por un lado, la imagen 
+entendí que es una plantilla de solo lectura (que se queda estática), mientras que el contenedor, aparte
+de que arranca, se detiene y se elimina, agrega una capa que permite RW encima de la imagen para procesar archivos en memoria

@@ -20,12 +20,13 @@ Las entregas anteriores a esa fecha fueron por Canvas.
 | Semestre | 11 de agosto – 1 de diciembre de 2026 (32 sesiones) |
 | Contacto | mario.vazquez.corte@itam.mx |
 
-Hay una sola excepción al horario en todo el semestre: el **jueves 17 de
-septiembre** la sesión dura una hora, de **19:00 a 20:00**.
+Hay dos excepciones al horario en todo el semestre: el **jueves 17 de
+septiembre** y el **jueves 1 de octubre**, las dos de **19:00 a 20:00**.
 
-Los tres días sin clase del semestre son el **martes 15 de septiembre**, el
-**martes 3 de noviembre** y el **martes 17 de noviembre** (descanso obligatorio
-del ITAM). El calendario completo, con el tema de cada sesión y las fechas de entrega, está en
+El único día sin clase del semestre es el **martes 15 de septiembre**. El asueto
+del **2 de noviembre** y el descanso obligatorio del **16 de noviembre** (del
+ITAM) caen en lunes y no afectan al curso: hay clase los martes 3 y 17 de
+noviembre. El calendario completo, con el tema de cada sesión y las fechas de entrega, está en
 [el calendario del sitio](https://rayalucaria.org/fdd_o26/_raya/schedule/).
 
 ## Evaluación

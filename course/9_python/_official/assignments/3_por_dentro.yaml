@@ -1,0 +1,120 @@
+id: python-por-dentro-entrega
+type: assignment
+authority: official
+content:
+  title: "Python por dentro: DataCamp intermedio y revisión de código de IA"
+  instructions: >-
+    Esta entrega tiene tres partes: terminar el curso Intermediate Python for
+    Developers de DataCamp, encontrar los cinco errores de revisa esto punto
+    py, y escribir el prompt con el que le pedirías a una inteligencia
+    artificial un script nuevo. Las tres prueban lo mismo: que sabes qué hace
+    Python cuando el código corre, para pedirle bien a la inteligencia
+    artificial y revisar lo que te entrega.
+    Todo vive en una sola carpeta, por dentro, que está dentro de cero nueve
+    guion bajo python, dentro de tu carpeta de estudiante. Es espejo de la que
+    publiqué en codigo. La copiaste, con la branch, en el ritual de la página
+    de entrada de la sección, que además hace commit de la plantilla; si ya lo
+    hiciste, no lo repitas. Ojo, porque es el error que más se va a repetir:
+    esta vez el certificado no va en la carpeta python, a secas, donde quedó el
+    de la entrega anterior. Va en cero nueve guion bajo python, diagonal, por
+    dentro, y se llama certificado punto md.
+    La entrega tiene tres partes: el curso, el ejercicio y el notebook de la
+    clase terminado. Todo se trabaja en la branch tarea guion cero nueve guion
+    por guion dentro, la misma que creas al copiar la plantilla en la página de
+    entrada: ahí haces la clase y ahí haces la tarea, y ésa es la que subes.
+    Deben quedar cinco cosas: cuatro archivos y una captura. El primero es certificado
+    punto md, con sus tres secciones: tus usuarios de GitHub y de DataCamp, sin
+    tu nombre completo ni tu correo, porque el repositorio es público; la fecha
+    en que terminaste el curso y la URL del Statement of Accomplishment, que es
+    la que se verifica en un clic; y una cosa concreta del curso que no sabías,
+    en dos o tres líneas. El segundo es la captura, llamada intermedio guion
+    python guion developers punto png, con ese nombre exacto porque la
+    plantilla ya la enlaza: la página del curso terminado, donde se vean tu
+    nombre y el cien por ciento completado, o tu Statement of Accomplishment,
+    que trae tu nombre y el curso. Si te sale en jpg, corriges el
+    enlace dentro del archivo. Un pdf no sirve.
+    El tercero es revision punto md. Corres revisa esto punto py con uv run y
+    su salida muestra cinco síntomas. Por cada uno, en su sección, del error
+    uno al error cinco, escribes cuatro cosas: el síntoma de la tabla de la
+    página, la línea del archivo que lo produce, por qué pasa, con la idea de
+    la página que lo explica, y qué le pedirías a la inteligencia artificial
+    para que no lo vuelva a escribir. La clase te da los síntomas; la línea y
+    la causa las encuentras tú.
+    El cuarto es prompt punto md. Su primera sección describe un script que
+    lee un archivo de precios de gasolina y da el precio promedio por estado.
+    No escribes el script: en la sección mi prompt escribes el prompt que le
+    darías a una inteligencia artificial para que lo escriba bien a la
+    primera. Debe decir, como mínimo, la versión de Python y cómo se corre,
+    qué entra y qué sale, qué hacer con los casos borde, y cómo vas a
+    verificar que funciona. El archivo de gasolina no existe y no se entrega.
+    El quinto es el notebook, por dentro punto ipynb, corrido de principio a
+    fin: ya trae la explicación y el código de cada celda, lo corres en orden y
+    puedes agregar tus notas o tus pruebas. En el mismo pull request viajan también los
+    programas de los labs, porque viven en la misma carpeta. El notebook va
+    sin salidas: antes
+    de agregarlo al commit, en VS Code, limpias todas las salidas y guardas. Las
+    salidas guardan rutas de tu máquina, que pueden incluir tu nombre, y la
+    revisión automática rechaza un notebook que las traiga.
+    No se entrega nada más. No se suben el ambiente, ni las carpetas de caché
+    de Python o del notebook, ni nada de tus otras carpetas de cero nueve guion
+    bajo python, como la de uv y Docker o la de ambientes: ésas son de otra
+    entrega. Al agregar al commit, nombras sólo la carpeta por dentro, nunca
+    cero nueve guion bajo python completa, y antes del commit revisas que la
+    lista de lo agregado traiga sólo rutas de por dentro.
+    La entrega es un pull request desde su propia branch, que se llama tarea
+    guion cero nueve guion por guion dentro, con ese nombre exacto, en
+    minúsculas y sin acentos, porque la revisión automática lo comprueba. La
+    branch nace de main, actualizado contra el repositorio del curso, y no de
+    la branch de otra entrega. Un pull request toca una sola subcarpeta tuya, y
+    éste toca por dentro y nada más.
+    La fecha se escribe como año, guion, mes, guion, día: por ejemplo, el ocho
+    de octubre se escribe dos mil veintiséis guion diez guion cero ocho. Otra
+    forma, como ocho de octubre u ocho diagonal diez, la rechaza la revisión
+    automática, porque esa forma se lee igual en cualquier país y se puede
+    comparar con otras fechas sin adivinar.
+    Puedes usar inteligencia artificial, y en esta entrega es parte del tema,
+    pero tienes que poder explicar sin ayuda por qué b igual a a no copia una
+    lista; por qué cuatro hilos no aceleran un cálculo con el GIL, y qué sí lo
+    acelera; qué pasa con un argumento por defecto que es una lista vacía; por
+    qué cero punto uno más cero punto dos no da cero punto tres, y qué usar
+    para dinero; qué esconde un except que no hace nada; qué hacen asterisco
+    args y doble asterisco kwargs, que vienen del curso; y cada error de tu
+    revisión, contado sin leerlo.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión
+    esté en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma
+    branch; el pull request se actualiza solo. El verde comprueba que todo
+    vive en tu carpeta 09 guion bajo python, que la branch se llama como debe, que está
+    la captura, que las nueve secciones de los tres archivos están llenas,
+    que la fecha y la URL tienen la forma pedida y que el notebook no trae
+    salidas, salvo que pese más de un megabyte: ese notebook no se puede leer
+    y no se revisa. También comprueba que el número de línea de cada error
+    sea un número. No comprueba que la captura sea tuya ni de este curso, que las
+    líneas y las causas de tu revisión sean las correctas, ni que tu prompt
+    sirva: eso lo reviso yo. Tampoco distingue si subiste archivos de tu otra
+    entrega de cero nueve guion bajo python; eso también lo reviso yo. Si no
+    alcanzaste a terminar el curso, sube lo que sí completaste y dilo en el
+    archivo: pon la fecha de tu avance y la URL del curso; la revisión sólo
+    avisa, y reportar el pendiente cuenta como entrega, presumir un avance que
+    no ocurrió no.
+    Si ya subiste un commit con las salidas del notebook, avísalo en el pull
+    request antes de pedir revisión: el historial de tu fork es público.
+    Quien revisa puede pedirte que expliques cualquiera de estos puntos, en el
+    pull request o en clase; contestarlo sin ayuda es parte de la calificación.
+  resources:
+    - title: "Unidad — Las entregas de Python por dentro"
+      url: "https://rayalucaria.org/fdd_o26/python/por-dentro/a-entregas/"
+      note: "El tablero de la sección: branch tarea-09-por-dentro, carpeta 09_python/por_dentro/, con el ritual de entrega listo para copiar."
+    - title: "Unidad — Python por dentro"
+      url: "https://rayalucaria.org/fdd_o26/python/por-dentro/"
+      note: "Índice de la sección: la tabla de síntomas de revisa_esto.py y el ritual de la entrega."
+    - title: "DataCamp — Intermediate Python for Developers"
+      url: "https://app.datacamp.com/learn/courses/intermediate-python-for-developers"
+      note: "El curso de esta entrega. Entra con la cuenta del grupo del ITAM."
+    - title: "Unidad — El flujo del curso"
+      url: "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
+      note: "La regla del mirror y qué revisa, y qué no revisa, el check verde."
+  available: "2026-10-06"
+  due: "2026-10-13"
+  points: 20
+  status: published
+  tags: [python, datacamp, ia, revision-de-codigo, prompt, entrega]

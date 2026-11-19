@@ -112,17 +112,61 @@ events:
     title: "Contenedores: diseño, servicios y dónde se rompe el aislamiento"
     page: disenar-con-contenedores
 
-  - id: asueto-noviembre
-    kind: cancellation
-    date: "2026-11-03"
-    title: "Asueto — no hay clase"
-    summary: "El martes 3 de noviembre no hay sesión de Fuentes de Datos."
+  - id: session-13
+    kind: session
+    date: "2026-10-01"
+    start_time: "19:00"
+    end_time: "20:00"
+    title: "Python: ambientes con uv, y qué hay dentro de un .venv"
+    page: ambientes-python
 
-  - id: descanso-obligatorio-noviembre
-    kind: cancellation
-    date: "2026-11-17"
-    title: "Descanso obligatorio — no hay clase"
-    summary: "El martes 17 de noviembre no hay sesión de Fuentes de Datos."
+  - id: session-14
+    kind: session
+    date: "2026-10-06"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Python por dentro: el intérprete, los nombres y el GIL"
+    page: python-por-dentro
+
+  - id: session-15
+    kind: session
+    date: "2026-10-08"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Elegir el stack: contratos, motores de tablas y formatos"
+    page: elegir-el-stack
+
+  - id: session-16
+    kind: session
+    date: "2026-10-20"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "APIs y HTTP: el contrato, el mensaje, los métodos y REST"
+    page: apis-y-http
+
+  - id: session-17
+    kind: session
+    date: "2026-10-27"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Cómputo y concurrencia: esperar, calcular y repartir"
+    page: computo-y-concurrencia
+
+  - id: session-18
+    kind: session
+    date: "2026-10-29"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Dónde corre cada cosa y cómo se conectan"
+    page: computo-y-concurrencia
+
+  - id: session-19
+    kind: session
+    date: "2026-11-03"
+    start_time: "19:00"
+    end_time: "20:30"
+    title: "Cargas y la decisión completa"
+    page: computo-y-concurrencia
 
   - id: inicio-de-cursos
     kind: milestone

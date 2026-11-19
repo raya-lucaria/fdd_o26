@@ -239,13 +239,32 @@ def test_el_encabezado_legitimo_de_disco_no_dispara():
 # Los mensajes
 # --------------------------------------------------------------------------
 
-def test_todo_mensaje_de_fallo_dice_que_hacer():
-    """Un mensaje que solo dice 'incorrecto' obliga a adivinar."""
+def test_todo_mensaje_de_fallo_dice_donde_investigar():
+    """Un mensaje que solo dice 'incorrecto' obliga a adivinar; uno que da el
+    comando le quita al alumno lo que tenia que entender. Cada fallo dice
+    que, por que y donde investigar."""
     texto = SCRIPT.read_text(encoding="utf-8")
     bloques = re.findall(r'fallos\.append\(\s*(.*?)\s*\)\n', texto, re.S)
     assert len(bloques) >= 6, "esperaba mas mensajes de fallo; revisa el patron"
     for b in bloques:
-        assert "\\n" in b, f"mensaje de una sola linea, sin instruccion: {b[:60]}"
+        assert "Donde investigar: " in b, f"mensaje sin donde investigar: {b[:60]}"
+
+
+def test_los_mensajes_no_dan_el_como():
+    """Regla del profesor: jamas como arreglarlo. Ni comandos ni recetas."""
+    texto = re.sub(r'"""(.*?)"""', "", SCRIPT.read_text(encoding="utf-8"), flags=re.S)
+    codigo = "\n".join(l.split("#", 1)[0] for l in texto.splitlines())
+    literales = " ".join(re.findall(r'"([^"\n]*)"', codigo))
+    for r in ("Arreglo", "git ", "haz push", "Vuelve a subir", "vuelve a copiar",
+              "Llena esa", "fija una version", "comando del ritual", "Escribela"):
+        assert r not in literales, f"revisa_contenido.py todavia dice '{r}'"
+
+
+def test_el_catalogo_ya_no_crece():
+    """Las tareas nuevas van en una ficha (.github/tareas/) y las revisa
+    revisa_ficha.py. Aqui se quedan solo las dos que tenian entregas en curso
+    cuando entraron las fichas; inter-1 e inter-2 migraron."""
+    assert set(rc.CATALOGO) == {"tarea-08-datacamp-intro", "tarea-08-imagen"}
 
 
 def test_una_branch_fuera_del_catalogo_no_se_revisa():
@@ -295,3 +314,42 @@ def test_la_seccion_extra_existe_en_la_plantilla():
             assert rc.cuerpo_de_seccion(texto, extra) is not None, (
                 f"'{rama}': la seccion extra «{extra}» no existe en la plantilla"
             )
+
+
+# --------------------------------------------------------------------------
+# Inyeccion de comandos de Actions por el nombre de un archivo
+# --------------------------------------------------------------------------
+
+MALICIOSO = "x\n::error title=Aprobado::entrega aceptada\n.png"
+
+
+def test_un_nombre_con_saltos_de_linea_no_inyecta_comandos(monkeypatch, capsys):
+    """Git acepta `\\n` en un nombre de archivo. La pista «Encontre esto en su
+    lugar» imprimia el nombre tal cual, y Actions tomaba la linea
+    `::error ...` como una anotacion real."""
+    lleno = PLANTILLA.replace(
+        "Fecha en que lo terminaste:", "Fecha en que lo terminaste: 2026-09-21"
+    ).replace(
+        "URL del Statement of Accomplishment:",
+        "URL del Statement of Accomplishment: https://www.datacamp.com/x/abc123abc",
+    )
+    datos = {
+        "estudiantes/ana/docker/certificaciones.md": lleno.encode(),
+        f"estudiantes/ana/docker/{MALICIOSO}": b"x" * 20_000,
+    }
+    monkeypatch.setenv("RAMA", "tarea-08-datacamp-intro")
+    monkeypatch.setenv("AUTOR", "ana")
+    monkeypatch.setenv("PR", "1")
+    monkeypatch.setenv("MANTENEDORES", "uumami")
+    monkeypatch.setattr(rc, "_pr_json", lambda pr: {
+        "head": {"repo": {"full_name": "ana/fdd_o26"}, "sha": "abc"}})
+    monkeypatch.setattr(rc, "archivos_del_pr", lambda pr: [
+        {"path": p, "status": "added"} for p in datos])
+    monkeypatch.setattr(rc, "contenido", lambda repo, sha, ruta: (
+        datos[ruta].decode("utf-8", "replace"), len(datos[ruta])))
+    assert rc.main() == 1
+    salida = capsys.readouterr().out
+    assert "x?::error" in salida, "la pista debe mostrar el nombre, neutralizado"
+    lineas = [l for l in salida.splitlines() if l.lstrip().startswith("::")]
+    token = lineas[0].removeprefix("::stop-commands::")
+    assert lineas == [f"::stop-commands::{token}", f"::{token}::"], lineas

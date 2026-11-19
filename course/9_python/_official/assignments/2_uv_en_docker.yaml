@@ -1,0 +1,102 @@
+id: uv-en-docker
+type: assignment
+authority: official
+content:
+  title: "Tu ambiente uv dentro de Docker"
+  instructions: >-
+    Haz que un programa corra igual en tu máquina y dentro de un contenedor, y
+    publica la imagen en Docker Hub. El programa ya está escrito: reporta el
+    ambiente en el que corre, qué intérprete usa, dónde está su ambiente y qué
+    paquetes tiene, cada uno con su versión. El punto de la entrega es comparar
+    las dos salidas y explicar qué fijó el lock y qué no.
+    Todo se trabaja en tu carpeta de estudiante. De la carpeta cero nueve guion
+    bajo python que publiqué en codigo se copian dos subcarpetas por nombre,
+    ambientes y uv guion bajo docker, a la misma ruta dentro de tu carpeta; la
+    subcarpeta por guion bajo dentro es de otra entrega y no se copia. Si ya las
+    copiaste en clase, no las vuelvas a copiar, porque pisarías tus cambios. La
+    entrega va en la subcarpeta uv guion bajo docker. Los laboratorios de
+    clase, en la subcarpeta ambientes, se suben en este mismo pull request: los
+    dos viven en cero nueve guion bajo python. Los punto venv que crean no se
+    suben, porque el gitignore del curso los deja fuera.
+    Deben quedar seis archivos tuyos dentro de uv guion bajo docker. Uno,
+    reporte punto py, con tu fila: la plantilla trae una fila de ejemplo que
+    reemplazas por una que use un paquete que tú elijas, importado arriba con
+    los demás. Dos, pyproject punto toml, con rich y tu paquete, agregado con
+    uv y no a mano. Tres, uv punto lock, que genera uv y que nunca se escribe a
+    mano; no corras uv init, la plantilla ya es el proyecto. Cuatro, el
+    Dockerfile, con sus tres huecos llenos, cada instrucción debajo de su
+    comentario, que puede quedarse: los dos archivos que describen el ambiente,
+    crear el ambiente desde el lock de modo que la construcción falle si el
+    lock ya no coincide con el proyecto, y el programa, en ese orden. Cinco, punto dockerignore, que deja
+    fuera de la imagen el ambiente de tu máquina; la plantilla no trae esa
+    línea a propósito. Y seis, bitacora punto md, llena.
+    La bitácora lleva tus dos usuarios, el de GitHub y el de Docker Hub, que no
+    tienen por qué ser el mismo; el paquete que elegiste y para qué lo usa tu
+    fila; la salida completa del reporte en tu máquina y dentro del
+    contenedor; tres líneas de qué salió igual, qué salió distinto y por qué;
+    la URL pública de tu imagen, el digest y el comando para correrla; y la
+    prueba de que se baja del registro. La URL que sirve empieza con https,
+    dos puntos, diagonal, diagonal, hub punto docker punto com diagonal r
+    diagonal tu usuario de Docker Hub diagonal tu imagen. La que
+    te da el navegador con tu sesión abierta empieza con hub punto docker punto
+    com diagonal repository, y a cualquiera más le da error cuatrocientos
+    cuatro. Ábrela en una ventana privada antes de entregar. El digest es la
+    cadena sha256 completa que imprime docker push; con Podman, la que guarda
+    podman push con la bandera digestfile. Para publicar necesitas haber
+    iniciado sesión. La prueba es la salida completa de cerrar sesión, borrar
+    tu imagen local con rmi y la bandera f, y correrla otra vez: con Docker
+    trae las líneas Unable to find image locally y Pulling from; con Podman,
+    Trying to pull y Copying blob. Las dos herramientas valen.
+    No se entrega tu carpeta punto venv, ni pycache, ni la imagen como archivo,
+    ni la salida de docker login: cada semestre alguien sube su credencial ahí.
+    La entrega es un pull request desde su propia branch, que se llama tarea
+    guion cero nueve guion uv guion docker, con ese nombre exacto, en
+    minúsculas y sin acentos. La branch nace de main, actualizado contra el
+    repositorio del curso. Vence el mismo día que la entrega de DataCamp y son
+    dos entregas distintas: dos branches y dos pull requests, las dos nacidas
+    de main y ninguna de la otra. Este pull request toca sólo cero nueve guion
+    bajo python; la carpeta python es de la otra entrega.
+    Tres cosas que se rompen. Si tu laptop es Apple Silicon, construye con
+    docker buildx build y la bandera platform en linux diagonal amd sesenta y
+    cuatro, y córrela con la misma bandera, o publicas una imagen que sólo
+    corre en máquinas como la tuya. Si
+    copias todo el proyecto a la imagen y no excluiste tu ambiente local, viaja
+    con él y truena al correr. Y si cambias pyproject punto toml y no
+    regeneras el lock, la construcción falla, que es justo lo que pediste al no
+    dejar que el lock cambie.
+    Puedes usar inteligencia artificial, pero tienes que poder explicar sin
+    ayuda qué fija uv punto lock que pyproject punto toml no fija; por qué el
+    Dockerfile copia los archivos del ambiente antes que el código y qué se
+    reusa de la caché cuando sólo cambia el programa; qué pasa si el lock no
+    coincide con el proyecto; por qué tu ambiente local no debe entrar a la
+    imagen; por qué las versiones de los paquetes salen iguales dentro y fuera
+    del contenedor y el intérprete no; y qué muestra tu fila.
+    Sabrás que terminaste cuando el pull request esté abierto y su revisión
+    esté en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma
+    branch, sin volver a crearla. El verde comprueba que están los seis
+    archivos, que hay imagen base y los huecos tienen instrucciones y no
+    comentarios, que el ambiente se crea exigiendo que el lock coincida, que tu
+    ambiente local queda fuera, que tu fila importa un paquete, que hay una
+    dependencia además de rich, que el lock tiene la forma que genera uv, que
+    la URL es la pública, que el digest está completo, que la prueba muestra la
+    descarga y que no pegaste la salida de docker login. No comprueba que la
+    imagen exista, que corra ni que salga de tus archivos: eso lo reviso yo,
+    bajándola y construyéndola.
+  resources:
+    - title: "Unidad — Las entregas de ambientes"
+      url: "https://rayalucaria.org/fdd_o26/python/ambientes/b-entregas/"
+      note: "El tablero de la sección. Ésta es la entrega 2: branch tarea-09-uv-docker, carpeta 09_python/uv_docker/, con el ritual listo para copiar."
+    - title: "Unidad — Lab: uv"
+      url: "https://rayalucaria.org/fdd_o26/python/ambientes/lab-uv/"
+      note: "uv add, uv.lock y uv run, paso por paso."
+    - title: "Unidad 8 — Las cinco entregas"
+      url: "https://rayalucaria.org/fdd_o26/contenedores/d-entregas/"
+      note: "La entrega de imagen en Docker Hub de la unidad anterior: misma URL pública y misma prueba de descarga."
+    - title: "uv — Using uv in Docker"
+      url: "https://docs.astral.sh/uv/guides/integration/docker/"
+      note: "La guía oficial de uv dentro de Docker."
+  available: "2026-10-01"
+  due: "2026-10-06"
+  points: 10
+  status: published
+  tags: [python, uv, docker, docker-hub, ambiente, entrega]

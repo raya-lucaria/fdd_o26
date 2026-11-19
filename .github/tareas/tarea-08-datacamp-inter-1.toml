@@ -1,0 +1,94 @@
+# Ficha de la entrega 4 de la unidad 8: Intermediate Docker, capítulos 1 y 2.
+# Migrada del CATALOGO de .github/scripts/revisa_contenido.py con los mismos
+# requisitos: certificaciones.md en el pull request, la sección de capítulos
+# 1 y 2 llena y con fecha (sin URL: a medio curso no hay certificado) y la
+# captura intermedio-1-2 de al menos 5000 bytes. Lo nuevo sólo avisa.
+# El esquema está en .github/tareas/README.md.
+
+[tarea]
+branch = "tarea-08-datacamp-inter-1"
+asignacion = "datacamp-docker-intermedio-1"
+carpeta = "docker"
+available = "2026-09-22"
+due = "2026-09-24"
+penalizacion_tarde = "a-decidir"
+ia = "permitida-revisada"
+debe_explicar = [
+  "qué diferencia hay entre un bind mount y un volumen con nombre, y cuál sobrevive a docker rm",
+  "qué hace docker cp y en qué dirección copia según el orden de sus argumentos",
+  "qué declara EXPOSE y qué no hace por sí solo",
+  "qué significa -p 8080:80 y cuál número es del host",
+  "por qué dos contenedores en la misma red de usuario se encuentran por nombre",
+]
+pagina = "Página «Las cinco entregas» (https://rayalucaria.org/fdd_o26/contenedores/d-entregas/)"
+
+[entregables]
+requeridos = ["certificaciones.md"]
+prohibidos = []
+# El catálogo viejo dejaba pasar la plantilla idéntica en esta tarea (su regla
+# de fecha casaba con el texto de la imagen). Aquí sólo avisa: endurecer es
+# decisión del profesor.
+identica = "aviso"
+
+[[capturas]]
+nombre = "intermedio-1-2"
+extensiones = [".png", ".jpg", ".jpeg", ".pdf"]
+minimo_bytes = 5000
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "capítulos 1 y 2"
+pide = ["fecha"]
+# Lo que el catálogo viejo exigía de verdad sigue fallando: el archivo, la
+# captura y una sección que sólo trae rótulos. Tres cosas que el catálogo, por
+# un defecto de su regla de fecha, dejaba pasar en esta tarea, aquí sólo
+# avisan: la sección sin fecha, la sección con nada más que la prosa de la
+# plantilla y la fecha futura. Endurecer es decisión del profesor.
+falta = "aviso"
+sin_tocar = "aviso"
+fecha_futura = "aviso"
+
+[[patrones]]
+archivo = "certificaciones.md"
+seccion = "capítulos 1 y 2"
+no_debe = 'https?://\S+'
+que = "la sección «capítulos 1 y 2» de certificaciones.md trae una URL"
+porque = "a medio curso DataCamp no emite Statement of Accomplishment, así que quien revisa no sabe qué debe verificar con esa URL"
+investiga = "Página «Las cinco entregas», entrega 4: ¿qué evidencia vale para medio curso, y cuál es la URL que pegaste?"
+nivel = "aviso"
+
+[revision]
+foco = [
+  "que la captura sea la página del curso con sus cuatro capítulos, los dos primeros completados y el nombre del alumno visible",
+  "que la fecha de la sección sea verosímil: no futura, y coherente con cuándo se abrió la tarea (22 de septiembre) y el pull request",
+  "que el diff toque sólo la sección de capítulos 1 y 2 y la captura: la sección de Introduction to Docker ya está mergeada y no se reescribe",
+  "que no se llenen secciones de más (capítulos 3 y 4, la de lo que aprendiste) con un avance que todavía no ocurrió",
+  "si el alumno reporta que no terminó, que lo diga en el archivo: reportar el pendiente cuenta como entrega",
+]
+igual_es_normal = [
+  "el texto de la plantilla de certificaciones.md: rótulos, instrucciones y enlaces a las capturas",
+  "la sección «Quién soy» y la de Introduction to Docker, que vienen de la entrega anterior",
+  "la misma fecha en muchas entregas: casi todos terminan el 23 o el 24",
+  "la composición de la captura: todos fotografían la misma página de DataCamp",
+]
+debe_ser_propio = [
+  "la captura: el nombre visible y el avance son del alumno",
+  "la fecha en que terminó los dos capítulos",
+]
+senales = [
+  "captura de un ejercicio suelto, del dashboard o de un video en vez de la página del curso con sus cuatro capítulos",
+  "captura sin nombre visible, o con un nombre que no es el del alumno",
+  "captura idéntica en bytes o en recorte a la de otra entrega actual",
+  "una URL de Statement of Accomplishment en la sección de capítulos 1 y 2, que a medio curso no existe",
+  "la captura muestra capítulos 3 y 4 sin empezar pero el archivo afirma el curso completo, o al revés",
+  "fecha posterior a la apertura del pull request o anterior a la apertura de la tarea sin explicación",
+  "certificaciones.md recreado desde cero: se pierden la sección «Quién soy» o la de Introduction to Docker ya mergeada",
+  "el pull request arrastra commits de tarea-08-datacamp-intro porque la branch nació de la entrega anterior y no de main",
+]
+donde_investigar = [
+  "https://rayalucaria.org/fdd_o26/contenedores/d-entregas/",
+  "https://app.datacamp.com/learn/courses/intermediate-docker",
+  "https://rayalucaria.org/fdd_o26/contenedores/manos-a-la-obra/lab-con-volumen/",
+  "https://rayalucaria.org/fdd_o26/contenedores/diseno-y-seguridad/la-red-y-el-nombre/",
+  "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/",
+]

@@ -1,0 +1,101 @@
+# Ficha de la entrega 5 de la unidad 8: Intermediate Docker, capítulos 3 y 4.
+# Migrada del CATALOGO de .github/scripts/revisa_contenido.py con los mismos
+# requisitos: certificaciones.md en el pull request, la sección de capítulos
+# 3 y 4 llena con fecha y URL, la sección de lo que aprendiste llena, y la
+# captura intermedio-3-4 de al menos 5000 bytes. Lo nuevo sólo avisa.
+# El esquema está en .github/tareas/README.md.
+
+[tarea]
+branch = "tarea-08-datacamp-inter-2"
+asignacion = "datacamp-docker-intermedio-2"
+carpeta = "docker"
+available = "2026-09-24"
+due = "2026-09-29"
+penalizacion_tarde = "a-decidir"
+ia = "permitida-revisada"
+debe_explicar = [
+  "qué es una capa y por qué el orden de las instrucciones del Dockerfile cambia lo que se reusa de la caché",
+  "qué gana un build multi-stage y qué queda fuera de la imagen final",
+  "para qué sirve --platform y qué pasa si publicas una imagen construida sólo para tu arquitectura",
+  "qué levanta docker compose up y cómo se encuentran entre sí los servicios de un mismo compose",
+  "la cosa que escribió en «Una cosa que aprendiste»: debe poder contarla sin leerla",
+]
+pagina = "Página «Las cinco entregas» (https://rayalucaria.org/fdd_o26/contenedores/d-entregas/)"
+
+[entregables]
+requeridos = ["certificaciones.md"]
+prohibidos = []
+
+[[capturas]]
+nombre = "intermedio-3-4"
+extensiones = [".png", ".jpg", ".jpeg", ".pdf"]
+minimo_bytes = 5000
+
+[[secciones]]
+archivo = "certificaciones.md"
+aguja = "capítulos 3 y 4"
+pide = ["fecha", "url"]
+# El catálogo exigía fecha y URL, y eso sigue fallando. Las fechas futuras no
+# las revisaba: aquí sólo avisan. Endurecer es decisión del profesor.
+fecha_futura = "aviso"
+
+[[secciones]]
+# La última entrega cierra también la sección de reflexión. Si sólo trae
+# rótulos o está vacía, falla, como con el catálogo. Si trae nada más que la
+# prosa de la plantilla, el catálogo la dejaba pasar: aquí sólo avisa.
+# Endurecer es decisión del profesor.
+archivo = "certificaciones.md"
+aguja = "aprendiste"
+pide = []
+sin_tocar = "aviso"
+fecha_futura = "aviso"
+
+[[patrones]]
+archivo = "certificaciones.md"
+seccion = "capítulos 3 y 4"
+# Avisa por cada URL fuera de ([a-z0-9-]+\.)*datacamp\.com/. Sin ninguna URL
+# no dice nada: eso ya lo reporta `pide = ["url"]`, y afirmar que "la URL no
+# es de DataCamp" cuando no hay URL seria afirmar algo que no es cierto.
+no_debe = 'https?://(?!([a-z0-9-]+\.)*datacamp\.com/)\S+'
+que = "la sección «capítulos 3 y 4» de certificaciones.md trae una URL que no es de datacamp.com"
+porque = "el Statement of Accomplishment lo emite DataCamp en su propio dominio; con una URL de otro dominio, quien revisa no puede confirmar en un clic que sea ese certificado"
+investiga = "Página «Las cinco entregas», entrega 5: ¿quién emite el Statement of Accomplishment, y qué abre tu URL en una ventana privada?"
+nivel = "aviso"
+
+[revision]
+foco = [
+  "que la URL abra en una ventana privada un Statement of Accomplishment de Intermediate Docker a nombre del alumno",
+  "que la captura muestre el curso al 100 % con el nombre visible, y que concuerde con la URL",
+  "que «Una cosa que aprendiste» sea concreta y propia: un concepto de los cursos con algo del alumno, no un resumen del temario",
+  "que el diff toque sólo la sección de capítulos 3 y 4, la de lo que aprendiste y la captura",
+  "si el alumno reporta que no terminó, que lo diga en el archivo: reportar el pendiente cuenta como entrega",
+]
+igual_es_normal = [
+  "el texto de la plantilla de certificaciones.md: rótulos, instrucciones y enlaces a las capturas",
+  "las secciones ya mergeadas de las entregas 2 y 4",
+  "el prefijo de la URL del Statement of Accomplishment: todas empiezan igual y sólo cambia el identificador",
+  "la composición de la captura: todos fotografían la misma pantalla de curso terminado",
+  "que varios elijan el mismo tema en «Una cosa que aprendiste» (multi-stage y compose son los obvios)",
+]
+debe_ser_propio = [
+  "la sección «Una cosa que aprendiste y no sabías»: redacción, ejemplo y conexión con la clase",
+  "la URL del Statement of Accomplishment y la captura",
+  "la fecha en que terminó el curso",
+]
+senales = [
+  "URL de Statement of Accomplishment repetida entre dos entregas, o que abre a nombre de otra persona o de otro curso",
+  "URL que no abre, pide iniciar sesión o lleva a la página del curso en vez del certificado",
+  "«Una cosa que aprendiste» con el mismo texto, o la misma estructura frase a frase, que otra entrega actual",
+  "«Una cosa que aprendiste» que parafrasea la descripción oficial del capítulo sin nada del alumno",
+  "prosa con marcas de salida de modelo sin revisar: listas genéricas, «en resumen», tono de folleto, términos que no aparecen en el curso",
+  "captura sin 100 % o sin nombre, o idéntica en bytes a la de otra entrega actual",
+  "fecha posterior a la apertura del pull request",
+  "el pull request arrastra commits de tarea-08-datacamp-inter-1 porque la branch nació de la entrega anterior",
+]
+donde_investigar = [
+  "https://rayalucaria.org/fdd_o26/contenedores/d-entregas/",
+  "https://app.datacamp.com/learn/courses/intermediate-docker",
+  "https://rayalucaria.org/fdd_o26/contenedores/la-idea/capas-y-cache/",
+  "https://rayalucaria.org/fdd_o26/contenedores/diseno-y-seguridad/la-red-y-el-nombre/",
+  "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/",
+]

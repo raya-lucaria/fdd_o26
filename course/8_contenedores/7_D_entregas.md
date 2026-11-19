@@ -182,24 +182,32 @@ git push -u origin tarea-08-datacamp-inter-2
 
 **Acabaste cuando** el pull request está abierto y su revisión en verde. Con ésta cierras los cuarenta puntos de la unidad.
 
-## Qué NO comprueba la revisión automática
+## Qué comprueba, y qué no, la revisión automática
 
-El check verde significa **«no rompiste las reglas del repositorio»**, no «tu tarea está completa». Lo que sí comprueba, y rechaza, es esto: que todo lo que tocaste viva en `estudiantes/<tu-login>/`, que esa carpeta se llame exactamente como tu login, que el pull request toque **una sola** subcarpeta tuya y que sea la que su branch tiene asignada, que no subiste basura, que no vienes de la branch default de tu fork, y que tu branch tenga la forma `tarea-NN-nombre`.
+Corren **tres** revisiones en cada pull request:
 
-Lo que **no** comprueba, y por eso hay que decirlo aquí:
+| Revisión | Qué comprueba |
+|---|---|
+| **Forma** | Que todo lo que tocaste viva en `estudiantes/<tu-login>/`, con tu login exacto; **una sola** subcarpeta, la que tu branch tiene asignada; sin basura; no desde la branch default; branch con forma `tarea-NN-nombre` |
+| **Contenido mínimo** | Que estén los archivos que pide la tarea, con su nombre exacto; que las secciones no sigan como la plantilla; que traigan fecha, y URL cuando se pide; que la captura no esté vacía |
+| **Reglas de la tarea** | Desde las entregas de *Intermediate Docker*, cada tarea trae su propia ficha con comprobaciones propias. Sus mensajes dicen **qué** está mal, **por qué** y **dónde investigar**; el cómo te toca a ti |
 
-- **Que los archivos que te pedí existan**, ni cuántos son, ni cómo se llaman. Puedes entregar una carpeta vacía en verde.
-- **Qué dice cada archivo.** Si `mi-imagen.md` está en blanco, la revisión no se entera.
-- **El resto de la regla del espejo.** La revisión sólo mira la carpeta de **primer nivel**; que la subcarpeta más profunda se llame igual que en `codigo/` **no está comprobado por ninguna máquina**. Eso lo reviso yo.
+Lo que **ninguna** comprueba, y por eso hay que decirlo aquí:
+
+- **Si lo que dicen tus archivos es cierto o está bien hecho.** Una bitácora puede estar llena y describir otra cosa.
+- **Qué muestra tu captura.**
+- **El resto de la regla del espejo**: que la subcarpeta más profunda se llame igual que en `codigo/`.
 - **Que tu imagen se baje de verdad.** Eso lo corro yo, con el comando que tú me escribiste.
+
+Por eso el verde **no es la aprobación**: la aprobación es mía, y la ves como la etiqueta `entrega-aceptada` en tu pull request.
 
 Tres fechas que conviene tener claras, porque dos reglas dejan de avisar y empiezan a rechazar justo en esta unidad:
 
 - **Desde el 18 de septiembre**, entregar desde la branch default de tu fork se **rechaza**; antes sólo avisaba.
-- **Desde el 22 de septiembre** —el día de tus dos primeras entregas—, un nombre de branch que no tenga la forma `tarea-NN-nombre` se **rechaza**; antes sólo avisaba.
+- **Desde el 22 de septiembre** —el día de tus dos primeras entregas—, un pull request **abierto** con un nombre de branch que no tenga la forma `tarea-NN-nombre` se **rechaza**; a uno abierto antes sólo le avisa.
 - La regla de **una sola carpeta** no tiene periodo de gracia: rechaza desde el primer día. Es la que impide que los tres pull requests de DataCamp se peleen por el mismo `certificaciones.md`.
 
-Y el reflejo que ahorra la mitad de los sustos: **un pull request rechazado se corrige haciendo `push` a la misma branch.** No abras otro; el pull request se actualiza solo y la revisión vuelve a correr.
+Y el reflejo que ahorra la mitad de los sustos: **un pull request rechazado se corrige haciendo `push` a la misma branch.** No abras otro; el pull request se actualiza solo y la revisión vuelve a correr. La única excepción es que lo rechazado sea la branch misma: ahí la entrega va en una branch nueva y cierras el viejo.
 
 > [!NOTE]
 > **Si sólo recuerdas una cosa:** una branch por tarea, una carpeta por pull request, y el verde sólo dice que no rompiste el repositorio — no que entregaste.

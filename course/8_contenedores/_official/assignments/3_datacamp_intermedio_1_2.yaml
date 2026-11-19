@@ -39,8 +39,10 @@ content:
     en verde. Si sale roja, lee el mensaje, corrige y haz push a la misma branch.
     El verde significa que no rompiste las reglas del repositorio, es decir que
     todo lo que tocaste vive en tu carpeta, que la branch se llama como debe y
-    que no subiste basura; no comprueba que los archivos existan ni qué dicen ni
-    que hayas respetado la regla del espejo. Eso lo reviso yo.
+    que no subiste basura; también comprueba que estén los archivos de la tarea,
+    que no sigan como la plantilla y las reglas propias de esta entrega. No
+    comprueba si lo que dicen es cierto, ni el resto de la regla del espejo. Eso
+    lo reviso yo, y la aprobación es la etiqueta entrega aceptada.
     Los cursos se hacen, no se simulan. Si no alcanzaste a terminar los dos
     capítulos, sube lo que sí completaste y dilo en el archivo. Reportar el
     pendiente cuenta como entrega; presumir un avance que no ocurrió, no.

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Revision automatica de las entregas del curso.
 
-Seis reglas, todas bloqueantes. El mensaje de cada fallo dice que archivo y
-que hacer, porque el punto es que el estudiante se corrija solo en treinta
-segundos y no que adivine.
+Seis reglas, todas bloqueantes. El mensaje de cada fallo dice QUE esta mal,
+POR QUE es un error y DONDE INVESTIGAR, nunca el como: el punto es que el
+estudiante entienda el error y se corrija solo, no que copie un comando.
 
 1. La branch: un pull request no puede salir de la rama default del fork.
 2. Ubicacion: solo se puede escribir dentro de la carpeta propia.
@@ -31,6 +31,7 @@ import datetime
 import json
 import os
 import re
+import secrets
 import subprocess
 import sys
 
@@ -71,7 +72,25 @@ def _mapa_tareas():
 
 
 RAIZ_ESTUDIANTES = "estudiantes/"
+
+# A donde se manda a investigar. Los mensajes dicen QUE esta mal, POR QUE es
+# un error y DONDE INVESTIGAR; nunca el como (ni comandos ni recetas): el
+# como es parte de lo que el curso ensena, y darlo resuelto lo salta.
+FLUJO = "https://rayalucaria.org/fdd_o26/git-y-github/github/el-flujo-del-curso/"
+RITUAL = "https://rayalucaria.org/fdd_o26/git-y-github/github/el-ritual/"
 TOPE_LISTA = 20
+
+
+def limpio(texto):
+    """Neutraliza los caracteres de control de algo que viene del pull request.
+
+    Git acepta un salto de linea dentro de un nombre de archivo, y una linea
+    que empieza con `::` es un comando para Actions: un archivo llamado
+    `x\n::error title=Aprobado::entrega aceptada` fingia una anotacion en el
+    log. Toda ruta, nombre o branch que venga del alumno pasa por aqui antes
+    de imprimirse; el `::stop-commands::` de main() es la segunda barrera.
+    """
+    return re.sub(r"[\x00-\x1f\x7f]", "?", str(texto))
 
 
 def _gh(*args):
@@ -164,15 +183,17 @@ def _estricto_en_nombre(abierto):
 
 
 def _lista(rutas):
-    filas = "".join(f"    - {r}\n" for r in sorted(rutas)[:TOPE_LISTA])
+    filas = "".join(f"    - {limpio(r)}\n" for r in sorted(rutas)[:TOPE_LISTA])
     if len(rutas) > TOPE_LISTA:
         filas += f"    ... y {len(rutas) - TOPE_LISTA} mas.\n"
     return filas
 
 
-def main():
+def _revisa():
     autor = os.environ["AUTOR"]
     rama = os.environ["RAMA"]
+    # `rama_` es la que se imprime: `rama` se usa tal cual para comparar.
+    rama_ = limpio(rama)
     rama_default = os.environ.get("RAMA_DEFAULT") or "main"
     mantenedores = {
         m.strip().lower()
@@ -196,7 +217,9 @@ def main():
     if not archivos:
         print(
             "Este pull request no cambia ningun archivo, asi que no hay nada\n"
-            "que entregar. Commitea tu trabajo y haz push a esta misma branch."
+            "que entregar.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿que tiene que traer un pull request para contar como entrega?"
         )
         return 1
 
@@ -208,8 +231,9 @@ def main():
             f"No pude revisar la entrega completa: el pull request declara\n"
             f"{declarado} archivos y la API me devolvio {len(archivos)}.\n"
             "  Casi siempre significa que el pull request es enorme porque\n"
-            "  arrastra cambios que no son tuyos. Ponte al dia con el bloque A\n"
-            "  y vuelve a intentarlo, o partelo en entregas mas chicas."
+            "  arrastra cambios que no son tuyos.\n"
+            f"  Donde investigar: {RITUAL}\n"
+            "  ¿de que commit nace tu branch, y esta al dia con el curso?"
         )
         return 1
 
@@ -222,11 +246,11 @@ def main():
     # esa variable.
     if rama == rama_default:
         texto = (
-            f"BRANCH: este pull request sale de '{rama}', la branch default de\n"
+            f"BRANCH: este pull request sale de '{rama_}', la branch default de\n"
             "  tu fork. Cada tarea se entrega desde su propia branch, porque\n"
             "  desde main solo puedes tener un pull request abierto a la vez.\n"
-            "  Arreglo: git switch -c tarea-NN-nombre, vuelve a commitear ahi,\n"
-            "  haz push y abre otro pull request desde esa branch."
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿desde que branch se entrega cada tarea, y de donde nace?"
         )
         if _estricto_en_branch(abierto):
             fallos.append(texto)
@@ -249,15 +273,15 @@ def main():
     if rama != rama_default and not PATRON_RAMA.match(rama):
         asignados = ", ".join(sorted(mapa)) or "tarea-NN-nombre"
         texto = (
-            f"BRANCH: '{rama}' no es el nombre de una entrega.\n"
+            f"BRANCH: '{rama_}' no es el nombre de una entrega.\n"
             "  Una branch de entrega se llama tarea-NN-nombre, en minusculas y\n"
             "  con guiones, nunca guiones bajos.\n"
             "  Si tu tarea ya trae nombre asignado, usalo tal cual. Los\n"
             f"  asignados ahora mismo son: {asignados}.\n"
-            "  Si la tuya no esta en esa lista, usa tarea-NN-<algo-corto> con\n"
-            "  el numero de tu unidad.\n"
-            "  Arreglo: git switch -c <el nombre>, vuelve a commitear ahi, haz\n"
-            "  push y abre el pull request desde esa branch."
+            "  Si la tuya no esta en esa lista, la forma es tarea-NN-<algo-corto>\n"
+            "  con el numero de tu unidad.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿como se llama la branch de tu tarea, y que revisa ese nombre?"
         )
         if _estricto_en_nombre(abierto):
             fallos.append(texto)
@@ -304,33 +328,37 @@ def main():
             "UBICACION: tocaste archivos fuera de tu carpeta.\n"
             f"  Solo puedes escribir dentro de {mio}\n"
             + _lista(fuera)
-            + "  Arreglo: git restore <archivo> para los de la zona roja, o mueve\n"
-            "  tu trabajo a tu carpeta. Despues commit y push a esta misma branch.\n"
-            "  Ojo: mover un archivo del curso a tu carpeta tambien cuenta, porque\n"
-            "  lo borra de donde estaba."
+            + "  Lo que esta fuera de tu carpeta es la zona roja: al mergear, tu\n"
+            "  pull request cambiaria el material del curso para todo el grupo.\n"
+            "  Mover un archivo del curso a tu carpeta tambien cuenta, porque lo\n"
+            "  borra de donde estaba.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿que parte del repositorio es tuya y cual es la zona roja?"
         )
 
     if mal_nombre:
-        malo = mal_nombre[0][1]
+        malo = limpio(mal_nombre[0][1])
         fallos.append(
             "NOMBRE: tu carpeta no se llama exactamente como tu login.\n"
             f"  Esperaba: estudiantes/{autor}/\n"
             f"  Encontre: estudiantes/{malo}/\n"
-            "  Las mayusculas cuentan. Se arregla en dos pasos, porque en macOS y\n"
-            "  en Windows un rename que solo cambia mayusculas falla si se hace\n"
-            "  de golpe:\n"
-            f"    git mv estudiantes/{malo} estudiantes/_tmp_entrega\n"
-            f"    git mv estudiantes/_tmp_entrega estudiantes/{autor}\n"
-            "  Despues commit y push a esta misma branch."
+            "  Las mayusculas cuentan: para git son dos carpetas distintas, y la\n"
+            "  revision busca la tuya por tu login exacto. Ojo: macOS y Windows\n"
+            "  no distinguen mayusculas en disco, asi que tu maquina puede\n"
+            "  mostrarte bien un nombre que en git esta mal.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿como se llama exactamente tu carpeta, letra por letra?"
         )
 
     if basura:
         fallos.append(
             "BASURA: agregaste archivos que nunca se suben.\n"
             + _lista(basura)
-            + "  Arreglo: git rm --cached <archivo>, agregalo a .gitignore,\n"
-            "  commit y push. Si es una credencial, cambiala: este repositorio\n"
-            "  es publico y ya quedo en la historia."
+            + "  Son archivos de tu maquina, no de tu trabajo. Si alguno es una\n"
+            "  credencial, ya es publica: este repositorio es publico y lo que\n"
+            "  entra queda en la historia aunque despues se borre.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿que archivos nunca viajan al repositorio, y por que?"
         )
 
     # 6. Una entrega, una carpeta. Cierra tres cosas de un golpe: dos entregas
@@ -342,22 +370,23 @@ def main():
     esperada = mapa.get(rama)
     if esperada and carpetas and carpetas != {esperada}:
         fallos.append(
-            f"CARPETA: la branch '{rama}' entrega en {mio}{esperada}/\n"
-            f"  y este pull request toca: {', '.join(sorted(carpetas))}\n"
-            "  Cada entrega vive en una sola carpeta. Si juntaste dos tareas,\n"
-            "  separalas: una branch y un pull request por cada una, las dos\n"
-            "  nacidas de main y no una de la otra.\n"
-            "  Si lo que hiciste fue mover un archivo de una carpeta a otra,\n"
-            "  hazlo en dos pull requests: uno que lo borre y otro que lo cree."
+            f"CARPETA: la branch '{rama_}' entrega en {mio}{esperada}/\n"
+            f"  y este pull request toca: {', '.join(sorted(map(limpio, carpetas)))}\n"
+            "  Cada entrega vive en una sola carpeta y en su propio pull request:\n"
+            "  dos entregas juntas se pisan al mergear. Mover un archivo de una\n"
+            "  carpeta a otra cuenta como tocar las dos.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿cuantas carpetas y cuantas tareas caben en un pull request?"
         )
     elif len(carpetas) > 1:
         fallos.append(
             "CARPETA: este pull request toca mas de una carpeta de entrega.\n"
-            f"  Encontre: {', '.join(sorted(carpetas))}\n"
-            "  Cada entrega vive en una sola carpeta. Separalas en dos branches\n"
-            "  y dos pull requests, las dos nacidas de main.\n"
-            "  Si lo que hiciste fue mover un archivo de una carpeta a otra,\n"
-            "  hazlo en dos pull requests: uno que lo borre y otro que lo cree."
+            f"  Encontre: {', '.join(sorted(map(limpio, carpetas)))}\n"
+            "  Cada entrega vive en una sola carpeta y en su propio pull request:\n"
+            "  dos entregas juntas se pisan al mergear. Mover un archivo de una\n"
+            "  carpeta a otra cuenta como tocar las dos.\n"
+            f"  Donde investigar: {FLUJO}\n"
+            "  ¿cuantas carpetas y cuantas tareas caben en un pull request?"
         )
 
     for a in avisos:
@@ -370,19 +399,36 @@ def main():
         if branch_nueva:
             # La unica correccion que no cabe en la misma branch: su nombre.
             print(
-                "El problema es la branch misma, y una branch no se renombra\n"
-                "dentro de un pull request: la entrega va en una branch nueva,\n"
-                "con su propio pull request. Cierra este cuando abras el nuevo."
+                "El problema es la branch misma, y la branch de un pull request\n"
+                "no cambia con mas cambios: esta entrega necesita una branch nueva\n"
+                "con su propio pull request, y este ya no se puede corregir.\n"
+                f"  Donde investigar: {FLUJO}"
             )
         else:
             print(
-                "Corrige y haz push a ESTA MISMA branch: el pull request se actualiza\n"
+                "Sube los cambios a ESTA MISMA branch: el pull request se actualiza\n"
                 "solo y la revision se vuelve a correr. No abras otro."
             )
         return 1
 
     print(f"Entrega correcta: {len(archivos)} archivo(s), todos dentro de {mio}")
     return 0
+
+
+def main():
+    """La revision, entre `::stop-commands::` y su token de cierre.
+
+    Mientras esta activo, Actions no interpreta ninguna linea `::comando::`:
+    si algo del pull request se colara sin pasar por limpio(), no podria
+    fingir una anotacion. El token es aleatorio para que el pull request no
+    pueda adivinarlo y reactivar los comandos.
+    """
+    token = secrets.token_hex(16)
+    print(f"::stop-commands::{token}")
+    try:
+        return _revisa()
+    finally:
+        print(f"::{token}::")
 
 
 if __name__ == "__main__":
