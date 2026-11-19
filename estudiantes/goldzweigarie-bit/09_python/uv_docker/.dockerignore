@@ -1,0 +1,4 @@
+# Lo que nunca entra a la imagen.
+.venv
+__pycache__/
+*.pyc
